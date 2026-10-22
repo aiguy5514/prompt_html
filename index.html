@@ -28,6 +28,25 @@
 .fine-tune-drawer[open] .fine-tune-chevron{transform:rotate(180deg)}
 
 /* Contextual Ponytail Architecture & Fall Controls */
+/* Category Hierarchy & Pill Navigation */
+.category-strip{margin:4px 0 10px 0;width:100%;overflow:hidden}
+.category-pills{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 6px 2px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.category-pills::-webkit-scrollbar{height:4px}
+.category-pills::-webkit-scrollbar-thumb{background:var(--line,#3a3040);border-radius:999px}
+.category-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--line,#3a3040);color:var(--muted,#b8adbd);font-size:11px;font-weight:700;padding:6px 11px;border-radius:999px;white-space:nowrap;cursor:pointer;transition:all .15s ease;user-select:none;flex-shrink:0}
+.category-pill:hover{background:rgba(255,255,255,.09);color:var(--text,#fff8fc);border-color:rgba(255,92,146,.4)}
+.category-pill.active{background:linear-gradient(115deg,var(--pink,#ff5c92),var(--pink2,#ff9cbd));color:#24101a;border-color:transparent;font-weight:850;box-shadow:0 2px 10px rgba(255,92,146,.35)}
+.category-pill .cat-icon{font-size:13px;line-height:1}
+.category-pill .cat-count{font-size:10px;opacity:.75;background:rgba(0,0,0,.2);padding:1px 5px;border-radius:999px}
+.category-pill.active .cat-count{background:rgba(36,16,26,.25);color:#24101a;opacity:.9}
+.menu-category-tabs{display:flex;gap:4px;overflow-x:auto;padding:6px 10px;background:rgba(0,0,0,.35);border-bottom:1px solid var(--line,#3a3040);scrollbar-width:none}
+.menu-category-tabs::-webkit-scrollbar{display:none}
+.menu-cat-tab{display:inline-flex;align-items:center;gap:4px;background:transparent;border:1px solid transparent;color:var(--muted,#b8adbd);font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;white-space:nowrap;cursor:pointer;transition:all .12s;flex-shrink:0}
+.menu-cat-tab:hover{background:rgba(255,255,255,.06);color:var(--text,#fff8fc)}
+.menu-cat-tab.active{background:rgba(255,92,146,.2);color:var(--pink2,#ff9cbd);border-color:rgba(255,92,146,.4);font-weight:800}
+.cat-no-match{padding:14px 12px;font-size:12px;color:var(--muted,#b8adbd);text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.cat-selected-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,92,146,.15);color:var(--pink2);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:750;margin-right:6px}
+
 .ponytail-callout-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,92,146,.09) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(255,92,146,.38);border-radius:16px;padding:16px;margin:8px 0 16px 0;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);animation:fadeIn .2s ease-out}
 .ponytail-callout-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .pony-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,92,146,.18);color:var(--pink2);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,92,146,.42)}
@@ -1022,6 +1041,70 @@ save();
 renderFields();
 }
 
+const FIELD_CATEGORIES = {
+  hair: [
+    { id: 'all', label: 'All Styles', icon: '✦' },
+    { id: 'bob', label: 'Bobs & Lobs', icon: '💇‍♀️' },
+    { id: 'shag', label: 'Shags & Mullets', icon: '🐺' },
+    { id: 'layer', label: 'Layers & Blowout', icon: '🦋' },
+    { id: 'pony', label: 'Ponytails & Updos', icon: '🐎' },
+    { id: 'wet', label: 'Wet-Look & Aquatic', icon: '💧' },
+    { id: 'wave', label: 'Waves & Lengths', icon: '🌊' },
+    { id: 'curl', label: 'Curls & Afro', icon: '🌀' },
+    { id: 'pixie', label: 'Pixies & Crops', icon: '✂️' },
+    { id: 'braid', label: 'Braids & Buns', icon: '👑' }
+  ],
+  outfit: [
+    { id: 'all', label: 'All Outfits', icon: '✦' },
+    { id: 'gown', label: 'Evening Gowns', icon: '👗' },
+    { id: 'suit', label: 'Suits & Tailoring', icon: '🕴️' },
+    { id: 'swim', label: 'Monokinis & Swim', icon: '🩱' },
+    { id: 'saree', label: 'Sarees & Fusion', icon: '🥻' },
+    { id: 'cocktail', label: 'Cocktail & Mini', icon: '🦹' },
+    { id: 'leather', label: 'Leather, Vinyl & Trench', icon: '🧥' },
+    { id: 'separates', label: 'Tops, Denim & Separates', icon: '👚' },
+    { id: 'jumpsuit', label: 'Jumpsuits & Bodysuits', icon: '🩲' }
+  ]
+};
+
+const activeCategory = {
+  hair: 'all',
+  outfit: 'all'
+};
+
+function getItemCategory(id, item) {
+  if (!item) return 'all';
+  const text = ((item.label || '') + ' ' + (item.text || '')).toLowerCase();
+  if (id === 'hair') {
+    if (/wet|hydro|drenched|slicked|ocean-soaked|post-swim|finger wave/i.test(text)) return 'wet';
+    if (/pony|ponytail/i.test(text)) return 'pony';
+    if (/bob|lob|tassel/i.test(text)) return 'bob';
+    if (/shag|wolf|mullet|mixie|octopus/i.test(text)) return 'shag';
+    if (/pixie|crop|bixie|buzz/i.test(text)) return 'pixie';
+    if (/curl|curls|curly|coily|afro|ringlet/i.test(text)) return 'curl';
+    if (/braid|braided|crown braid|twist|chignon|updo|bun/i.test(text)) return 'braid';
+    if (/butterfly|hush|feather|rachel|layer|blowout|flip/i.test(text)) return 'layer';
+    if (/wave|waves|mermaid|straight|glass hair/i.test(text)) return 'wave';
+    return 'layer';
+  } else if (id === 'outfit') {
+    if (/monokini|swimsuit|bikini|swimwear|neoprene|bathing|sarong/i.test(text)) return 'swim';
+    if (/saree|sari|nauvari|dhoti|fusion|kurti/i.test(text)) return 'saree';
+    if (/suit|blazer|waistcoat|tailored suit|tuxedo|power suit|trousers/i.test(text)) return 'suit';
+    if (/gown|slip gown|evening dress|column dress|illusion gown|origami|cowl gown|slip dress/i.test(text)) return 'gown';
+    if (/leather|vinyl|latex|trench|jacket|moto|leatherette/i.test(text)) return 'leather';
+    if (/jumpsuit|bodysuit|catsuit|romper|one-piece/i.test(text)) return 'jumpsuit';
+    if (/cocktail|mini dress|wrap dress|knit dress|bandage|midi dress/i.test(text)) return 'cocktail';
+    if (/shirt|top|denim|corset|blouse|knit|breastplate|jeans|skirt|vest/i.test(text)) return 'separates';
+    return 'gown';
+  }
+  return 'all';
+}
+
+function getCategoryMeta(id, catId) {
+  const cats = FIELD_CATEGORIES[id] || [];
+  return cats.find(c => c.id === catId) || cats[0] || { id: 'all', label: 'All', icon: '✦' };
+}
+
 function createFieldElement(id, f) {
 const wrap=document.createElement('div');
 wrap.className='field'+(['pose','background'].includes(id)?' full':'');
@@ -1069,20 +1152,103 @@ lab.append(titleWrap,count);
 const custom=document.createElement('div');
 custom.className='custom-select';
 custom.dataset.id=id;
+
+const hasCategories = Boolean(FIELD_CATEGORIES[id]);
+const cats = hasCategories ? FIELD_CATEGORIES[id] : [];
+
+// Sync category with current selected item if not set or if preset changed
+if(hasCategories && activeCategory[id] === 'all' && values[id]){
+  const itemCat = getItemCategory(id, values[id]);
+  if(itemCat && itemCat !== 'all'){
+    // keep 'all' or show item category
+  }
+}
+
+// Category Pills Bar above trigger
+let catStrip = null;
+let catPillsContainer = null;
+let menuCatTabs = null;
+
+if(hasCategories){
+  catStrip = document.createElement('div');
+  catStrip.className = 'category-strip';
+  catPillsContainer = document.createElement('div');
+  catPillsContainer.className = 'category-pills';
+
+  // Count items per category
+  const catCounts = {};
+  cats.forEach(c => catCounts[c.id] = 0);
+  f.opts.forEach(o => {
+    const cId = getItemCategory(id, o);
+    if(catCounts[cId] !== undefined) catCounts[cId]++;
+    catCounts['all']++;
+  });
+
+  cats.forEach(cat => {
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'category-pill' + (activeCategory[id] === cat.id ? ' active' : '');
+    pill.dataset.cat = cat.id;
+    pill.innerHTML = `<span class="cat-icon">${cat.icon}</span><span class="cat-name">${cat.label}</span><span class="cat-count">${catCounts[cat.id]||0}</span>`;
+    pill.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setFieldCategory(id, cat.id, custom, menu, f);
+      if(!custom.classList.contains('open')){
+        openCustomSelect(custom, menu, trigger);
+      }
+    });
+    catPillsContainer.appendChild(pill);
+  });
+  catStrip.appendChild(catPillsContainer);
+}
+
 const trigger=document.createElement('button');
 trigger.type='button';
 trigger.className='select-trigger';
 trigger.setAttribute('aria-expanded','false');
 trigger.innerHTML=`<span class="current"></span><span class="chevron">⌄</span>`;
+
 const menu=document.createElement('div');
 menu.className='select-menu';
-menu.innerHTML=`<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;
+
+let menuHeaderHtml = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}">`;
+if(hasCategories){
+  menuHeaderHtml += `<div class="menu-category-tabs">`;
+  cats.forEach(cat => {
+    menuHeaderHtml += `<button type="button" class="menu-cat-tab${activeCategory[id]===cat.id?' active':''}" data-cat="${cat.id}"><span class="cat-icon">${cat.icon}</span> ${cat.label}</button>`;
+  });
+  menuHeaderHtml += `</div>`;
+}
+menuHeaderHtml += `<div class="option-list"></div><div class="cat-no-match hidden"><span>No options match in this category.</span><button type="button" class="btn btn-quiet btn-small show-all-cats-btn">Search All Styles</button></div>`;
+menu.innerHTML = menuHeaderHtml;
+
+if(hasCategories){
+  menu.querySelectorAll('.menu-cat-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setFieldCategory(id, tab.dataset.cat, custom, menu, f);
+      menu.querySelector('input').focus();
+    });
+  });
+  const showAllBtn = menu.querySelector('.show-all-cats-btn');
+  if(showAllBtn){
+    showAllBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setFieldCategory(id, 'all', custom, menu, f);
+      menu.querySelector('input').focus();
+    });
+  }
+}
+
 const list=menu.querySelector('.option-list');
 f.opts.forEach((o,index)=>{
   const b=document.createElement('button');
   b.type='button';
   b.className='choice';
   b.dataset.index=index;
+  if(hasCategories){
+    b.dataset.cat = getItemCategory(id, o);
+  }
   b.textContent=o.label;
   b.addEventListener('click',()=>{
     values[id]=o;
@@ -1097,7 +1263,10 @@ f.opts.forEach((o,index)=>{
   });
   list.appendChild(b);
 });
-trigger.querySelector('.current').textContent=values[id].label;
+
+// Update trigger label
+updateTriggerLabel(trigger, id, values[id]);
+
 trigger.addEventListener('click',()=>{
   const was=custom.classList.contains('open');
   document.querySelectorAll('.custom-select.open').forEach(x=>{
@@ -1105,16 +1274,14 @@ trigger.addEventListener('click',()=>{
     x.querySelector('.select-trigger').setAttribute('aria-expanded','false');
   });
   if(!was){
-    custom.classList.add('open');
-    trigger.setAttribute('aria-expanded','true');
-    menu.querySelector('input').value='';
-    filterChoices(menu,'');
-    menu.querySelector('input').focus({preventScroll:true});
-    const sel=menu.querySelector('.choice.selected');
-    if(sel)sel.scrollIntoView({block:'nearest'});
+    openCustomSelect(custom, menu, trigger);
   }
 });
-menu.querySelector('input').addEventListener('input',e=>filterChoices(menu,e.target.value));
+
+menu.querySelector('input').addEventListener('input',e=>{
+  filterCategorizedChoices(id, menu, e.target.value);
+});
+
 menu.querySelector('input').addEventListener('keydown',e=>{
   if(e.key==='Enter'){
     e.preventDefault();
@@ -1122,10 +1289,113 @@ menu.querySelector('input').addEventListener('keydown',e=>{
     if(f)f.click();
   }
 });
+
 custom.append(trigger,menu);
-wrap.append(lab,custom);
+
+if(catStrip){
+  wrap.append(lab, catStrip, custom);
+}else{
+  wrap.append(lab, custom);
+}
+
+// Initial filter for categorized fields
+if(hasCategories){
+  applyCategoryFilter(id, menu, activeCategory[id], '');
+}
+
 updateCustom(custom,id);
 return wrap;
+}
+
+function updateTriggerLabel(trigger, id, item){
+  if(!trigger || !item) return;
+  const currEl = trigger.querySelector('.current');
+  if(!currEl) return;
+  const hasCategories = Boolean(FIELD_CATEGORIES[id]);
+  if(hasCategories && item.label){
+    const catId = getItemCategory(id, item);
+    const meta = getCategoryMeta(id, catId);
+    currEl.innerHTML = `<span class="cat-selected-badge">${meta.icon} ${meta.label}</span> ${item.label}`;
+  } else {
+    currEl.textContent = item.label;
+  }
+}
+
+function openCustomSelect(custom, menu, trigger){
+  custom.classList.add('open');
+  trigger.setAttribute('aria-expanded','true');
+  const inp = menu.querySelector('input');
+  inp.value = '';
+  const id = custom.dataset.id;
+  if(FIELD_CATEGORIES[id]){
+    applyCategoryFilter(id, menu, activeCategory[id] || 'all', '');
+  } else {
+    filterChoices(menu, '');
+  }
+  inp.focus({preventScroll:true});
+  const sel=menu.querySelector('.choice.selected:not(.hidden)');
+  if(sel)sel.scrollIntoView({block:'nearest'});
+}
+
+function setFieldCategory(id, catId, custom, menu, f){
+  activeCategory[id] = catId;
+  const wrap = custom.closest('.field');
+  if(wrap){
+    wrap.querySelectorAll('.category-pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.cat === catId);
+    });
+    // Scroll active pill into view smoothly
+    const activePill = wrap.querySelector(`.category-pill[data-cat="${catId}"]`);
+    if(activePill) activePill.scrollIntoView({inline:'nearest', behavior:'smooth'});
+  }
+  menu.querySelectorAll('.menu-cat-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.cat === catId);
+  });
+  const inp = menu.querySelector('input');
+  const q = inp ? inp.value.trim() : '';
+  const meta = getCategoryMeta(id, catId);
+  if(inp){
+    inp.placeholder = catId === 'all' ? `Search ${f.label.toLowerCase()}…` : `Search ${meta.label}…`;
+  }
+  applyCategoryFilter(id, menu, catId, q);
+}
+
+function applyCategoryFilter(id, menu, catId, query){
+  const choices = menu.querySelectorAll('.choice');
+  const q = (query || '').toLowerCase().trim();
+  let visibleCount = 0;
+  choices.forEach(c => {
+    const itemCat = c.dataset.cat;
+    const catMatch = (catId === 'all') || (itemCat === catId);
+    const textMatch = !q || c.textContent.toLowerCase().includes(q);
+    if(catMatch && textMatch){
+      c.classList.remove('hidden');
+      visibleCount++;
+    } else {
+      c.classList.add('hidden');
+    }
+  });
+  const noMatchBox = menu.querySelector('.cat-no-match');
+  if(noMatchBox){
+    if(visibleCount === 0){
+      noMatchBox.classList.remove('hidden');
+      const span = noMatchBox.querySelector('span');
+      if(span){
+        const meta = getCategoryMeta(id, catId);
+        span.textContent = q ? `No ${meta.label} match “${q}”.` : `No options found in ${meta.label}.`;
+      }
+    } else {
+      noMatchBox.classList.add('hidden');
+    }
+  }
+}
+
+function filterCategorizedChoices(id, menu, query){
+  if(FIELD_CATEGORIES[id]){
+    applyCategoryFilter(id, menu, activeCategory[id] || 'all', query);
+  } else {
+    filterChoices(menu, query);
+  }
 }
 
 function updateFineTuneBadge(){
@@ -1243,7 +1513,7 @@ if(!shown){
 }
 
 function updateCustom(custom,id){
-custom.querySelector('.current').textContent=values[id].label;
+updateTriggerLabel(custom.querySelector('.select-trigger'), id, values[id]);
 custom.querySelectorAll('.choice').forEach(b=>{
   const active=fields[id].opts[Number(b.dataset.index)]===values[id];
   b.classList.toggle('selected',active);
