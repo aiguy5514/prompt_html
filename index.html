@@ -26,6 +26,22 @@
 .fine-tune-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#ff5c9224;border:1px solid #ff5c924d;color:var(--pink2)}
 .fine-tune-chevron{color:var(--muted);font-size:15px;transition:transform .2s ease}
 .fine-tune-drawer[open] .fine-tune-chevron{transform:rotate(180deg)}
+
+/* Contextual Ponytail Architecture & Fall Controls */
+.ponytail-callout-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,92,146,.09) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(255,92,146,.38);border-radius:16px;padding:16px;margin:8px 0 16px 0;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);animation:fadeIn .2s ease-out}
+.ponytail-callout-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.pony-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,92,146,.18);color:var(--pink2);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,92,146,.42)}
+.pony-subtext{font-size:12px;color:var(--muted);margin:0}
+.pony-quick-section{display:flex;flex-direction:column;gap:10px;background:rgba(0,0,0,.18);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.05)}
+.pony-quick-row{display:flex;flex-direction:column;gap:7px}
+.pony-quick-label{font-size:11px;font-weight:750;color:var(--cream);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:5px}
+.pony-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pony-chip{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s ease;user-select:none}
+.pony-chip:hover{background:rgba(255,255,255,.12);border-color:rgba(255,92,146,.45)}
+.pony-chip.active{background:linear-gradient(115deg,var(--pink),var(--pink2));color:#24101a;border-color:transparent;font-weight:800;box-shadow:0 2px 10px rgba(255,92,146,.4)}
+.ponytail-subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.pony-toggle-btn{background:rgba(255,92,146,.12);border:1px solid rgba(255,92,146,.32);color:var(--pink2);font-size:10px;font-weight:750;padding:3px 9px;border-radius:999px;margin-left:7px;cursor:pointer;transition:all .15s}
+.pony-toggle-btn:hover{background:rgba(255,92,146,.25);border-color:var(--pink2)}
 .fine-tune-grid{padding:14px 16px 18px;border-top:1px solid var(--line)}
 .ref-card{margin-bottom:14px;border:1px solid var(--line);background:#17141bd4;border-radius:16px;overflow:hidden}
 .ref-head{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:#ffffff05;border-bottom:1px solid var(--line)}
@@ -420,7 +436,66 @@ focusDetail:{label:'Focus priority',section:'camera',opts:focusDetail,def:1},fil
 setProps:{label:'Props / set dressing',section:'scene',opts:setProps,def:0},timeOfDay:{label:'Time of day',section:'scene',opts:timeOfDay,def:0},weather:{label:'Outdoor atmosphere',section:'scene',opts:weather,def:0},depth:{label:'Background depth',section:'scene',opts:depth,def:0}
 };
 
+const ponyTailFallOpts = [
+  O('Auto · natural fall', ''),
+  O('Falling straight down the back', 'falling straight down the back along the spine'),
+  O('Draped forward over left shoulder (front)', 'draped forward over the left shoulder, falling in front across the chest'),
+  O('Draped forward over right shoulder (front)', 'draped forward over the right shoulder, falling in front across the chest'),
+  O('Split over both shoulders to the front', 'split into two sections draped forward over both shoulders onto the chest'),
+  O('Swept over one shoulder to the front', 'swept forward over one shoulder to rest on the front'),
+  O('Falling behind one shoulder', 'resting behind one shoulder, leaving the neck and collarbone exposed'),
+  O('Floating in motion behind her', 'caught in dynamic mid-air motion floating behind her from a quick turn'),
+  O('Resting flush against neck hollow', 'resting flush and flat against the hollow of the neck'),
+  O('High arching cascade down the back', 'arching outward from the crown before cascading down the center of the back')
+];
+
+const ponyTailEndOpts = [
+  O('Auto · natural length for cut', ''),
+  O('Ending around the neck (short & sleek)', 'ending around the middle of the neck with a clean cropped tail'),
+  O('Ending at base of neck / nape', 'ending right at the base of the neck / nape'),
+  O('Ending at upper nape (ultra-cropped)', 'ultra-cropped micro-tail ending at the upper nape above the collar'),
+  O('Ending at collarbone', 'ending neatly at the collarbone level'),
+  O('Ending at shoulder blades / mid-back', 'falling to the shoulder blades / mid-back'),
+  O('Ending at waist / lower back (dramatic)', 'cascading long down to the waist and lower back'),
+  O('Cropped micro-tail (jawline focus)', 'a cropped micro-tail barely grazing jawline level')
+];
+
+const ponyBaseHeightOpts = [
+  O('Auto · standard height', ''),
+  O('Snatched ultra-high crown apex', 'snatched ultra-high crown placement with smooth upward tension'),
+  O('High crown with slight tilt', 'high crown anchor with a subtle playful tilt'),
+  O('Mid-occipital height', 'mid-height placement at the back curve of the skull'),
+  O('Low sleek nape anchor', 'low sleek anchor snug at the nape of the neck'),
+  O('Asymmetric high side pony', 'anchored high and to the side for an editorial look')
+];
+
+const ponyBaseWrapOpts = [
+  O('Auto · clean finish', ''),
+  O('Hair strand wrapped around elastic', 'with a smooth strand of hair wrapped around the base to conceal the elastic'),
+  O('Sleek metallic cuff (gold/silver)', 'with a polished metallic cuff encircling the base of the ponytail'),
+  O('Minimal black silk ribbon wrap', 'with a narrow black silk ribbon tied cleanly around the base'),
+  O('Architectural cord wrap (2-3 inches)', 'with black or metallic cord wrapped two inches down the tail'),
+  O('Invisible clear band (no wrap)', 'with an invisible seamless band and zero added hardware')
+];
+
+const ponyTailStyleOpts = [
+  O('Auto · smooth straight', ''),
+  O('Pin-straight razor-sharp glass tail', 'pin-straight razor-cut tail with mirror glass shine'),
+  O('Playful 90s outward flick', 'with a soft 90s outward flick at the ends'),
+  O('Inward curved neck sweep', 'with an inward-curving blowout bend that hugs the neck curve'),
+  O('Wet-look saturated strand clumps', 'wet-lacquered clumps with aquatic shine and droplet cling'),
+  O('Defined glossy Hollywood waves', 'defined glossy Hollywood waves running through the tail'),
+  O('Tight polished 3-strand braid', 'woven into a tight, glossy three-strand plait'),
+  O('Compact structured bubble segments', 'styled into compact structured bubble sections'),
+  O('Textured piecey lived-in tail', 'piecey, separated texture through the tail with soft movement')
+];
+
 const fields={
+ponyTailFall:{label:'Where ponytail falls (front / back)',section:'look',opts:ponyTailFallOpts,def:0},
+ponyTailEnd:{label:'Where ponytail ends',section:'look',opts:ponyTailEndOpts,def:0},
+ponyBaseHeight:{label:'Ponytail base height',section:'look',opts:ponyBaseHeightOpts,def:0},
+ponyBaseWrap:{label:'Ponytail base wrap & hardware',section:'look',opts:ponyBaseWrapOpts,def:0},
+ponyTailStyle:{label:'Ponytail tail texture & finish',section:'look',opts:ponyTailStyleOpts,def:0},
 makeover:{label:'Makeover moment',section:'look',opts:[O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Final stylist touch-up','a stylist has finished the final hair touch-up just before the shoot'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves')],def:0},
 mode:{label:'Reference workflow',section:'look',opts:[O('Edit the supplied reference','Edit the supplied reference image, preserving the same adult woman and making only the requested styling and photoshoot changes'),O('New image using reference identity','Create a new photograph using the supplied reference image as identity guidance for the same adult woman')],def:0},hair:{label:'Haircut / hairstyle',section:'look',opts:hair,def:0},hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
 outfit:{label:'Outfit / wardrobe',section:'wardrobe',opts:outfit,def:0},outfitFit:{label:'Fabric and fit',section:'wardrobe',opts:outfitFit,def:0},accessories:{label:'Accessories',section:'wardrobe',opts:accessories,def:12},makeup:{label:'Makeup direction',section:'wardrobe',opts:makeup,def:0},
@@ -969,6 +1044,22 @@ lockBtn.innerHTML=isLocked?'🔒':'🔓';
 lockBtn.addEventListener('click',()=>toggleLock(id));
 
 titleWrap.append(label, lockBtn);
+if(id==='hair'){
+  const ponyBtn=document.createElement('button');
+  ponyBtn.type='button';
+  ponyBtn.className='pony-toggle-btn';
+  ponyBtn.title='Click to switch to a ponytail and customize fall (front/back) and length';
+  ponyBtn.textContent='✨ Ponytail fall & length';
+  ponyBtn.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    const ponyOpt=fields.hair.opts.find(o=>o.label.includes('Short sleek high ponytail ending at neck'))||fields.hair.opts.find(o=>o.label.toLowerCase().includes('ponytail'));
+    if(ponyOpt) values.hair=ponyOpt;
+    renderFields();
+    buildPrompt();
+    toast('Switched to ponytail. Customize fall & length below!');
+  });
+  titleWrap.appendChild(ponyBtn);
+}
 
 const count=document.createElement('span');
 count.className='option-count';
@@ -998,6 +1089,9 @@ f.opts.forEach((o,index)=>{
     updateCustom(custom,id);
     custom.classList.remove('open');
     trigger.setAttribute('aria-expanded','false');
+    if(id==='hair'||id==='ponyTailFall'||id==='ponyTailEnd'){
+      renderFields();
+    }
     buildPrompt();
     updateFineTuneBadge();
   });
@@ -1070,7 +1164,7 @@ allOrdered.forEach(([id,f])=>{
   if(coreSet.has(id)||activeSection==='finish'){
     primaryFields.push([id,f]);
   }else{
-    secondaryFields.push([id,f]);
+    if(!PONY_FIELD_IDS.has(id)) secondaryFields.push([id,f]);
   }
 });
 
@@ -1084,6 +1178,9 @@ primaryFields.forEach(([id,f])=>{
     host.appendChild(g);
   }
   host.appendChild(createFieldElement(id, f));
+  if(id==='hair' && activeSection==='look'){
+    host.appendChild(createPonytailCard());
+  }
 });
 
 if(secondaryFields.length>0 && fineArea){
@@ -1217,12 +1314,139 @@ buildPrompt();
 toast(lockedFields.size>0?`Fresh combination generated (${lockedFields.size} locked).`:'A fresh combination is ready.');
 }
 
+function isPonySelected(){
+  const h = values.hair ? values.hair.label.toLowerCase() : '';
+  const isPonyInHair = h.includes('pony') || h.includes('ponytail');
+  const hasPonyDetail = Boolean((values.ponyTailEnd && values.ponyTailEnd.text) || 
+                                (values.ponyTailFall && values.ponyTailFall.text) || 
+                                (values.ponyBaseHeight && values.ponyBaseHeight.text));
+  return isPonyInHair || hasPonyDetail;
+}
+
+function getFullHairDescription(){
+  const baseHair = val('hair');
+  const details = [];
+  
+  const fall = val('ponyTailFall');
+  const end = val('ponyTailEnd');
+  const height = val('ponyBaseHeight');
+  const wrap = val('ponyBaseWrap');
+  const tail = val('ponyTailStyle');
+  const updo = val('ponyStyle');
+
+  if(fall) details.push(`ponytail falls ${fall}`);
+  if(end) details.push(`tail ${end}`);
+  if(height) details.push(`anchored at ${height}`);
+  if(wrap) details.push(`base ${wrap}`);
+  if(tail) details.push(`tail texture: ${tail}`);
+  if(updo) details.push(updo);
+
+  if(details.length > 0){
+    return `${baseHair} (${details.join(', ')})`;
+  }
+  return baseHair;
+}
+
+const PONY_FIELD_IDS = new Set(['ponyTailFall','ponyTailEnd','ponyBaseHeight','ponyBaseWrap','ponyTailStyle']);
+
+function createPonytailCard(){
+  const card = document.createElement('div');
+  card.className = 'ponytail-callout-card';
+  card.id = 'ponytailCalloutCard';
+  
+  if(!isPonySelected()) card.style.display = 'none';
+
+  const head = document.createElement('div');
+  head.className = 'ponytail-callout-head';
+  head.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span class="pony-badge">✨ Ponytail Architecture</span>
+      <p class="pony-subtext">Direct whether tail falls on front or back, where it ends & base styling</p>
+    </div>
+  `;
+
+  const quickBox = document.createElement('div');
+  quickBox.className = 'pony-quick-section';
+
+  // Fall chips row
+  const fallRow = document.createElement('div');
+  fallRow.className = 'pony-quick-row';
+  fallRow.innerHTML = `<span class="pony-quick-label">⚡ Quick Placement: Fall on Front vs Back</span>`;
+  const fallChips = document.createElement('div');
+  fallChips.className = 'pony-chips';
+
+  const fallMap = [
+    { label: '⤹ Falling Down Back', match: 'Falling straight down the back' },
+    { label: '↷ Front (Left Shoulder)', match: 'Draped forward over left shoulder (front)' },
+    { label: '↶ Front (Right Shoulder)', match: 'Draped forward over right shoulder (front)' },
+    { label: '⤸ Front (Both Shoulders)', match: 'Split over both shoulders to the front' },
+    { label: '💨 Floating in Motion', match: 'Floating in motion behind her' }
+  ];
+
+  fallMap.forEach(item => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'pony-chip' + (values.ponyTailFall?.label === item.match ? ' active' : '');
+    chip.textContent = item.label;
+    chip.addEventListener('click', () => {
+      const opt = fields.ponyTailFall.opts.find(o => o.label === item.match) || fields.ponyTailFall.opts[0];
+      values.ponyTailFall = (values.ponyTailFall === opt) ? fields.ponyTailFall.opts[0] : opt;
+      renderFields();
+      buildPrompt();
+    });
+    fallChips.appendChild(chip);
+  });
+  fallRow.appendChild(fallChips);
+
+  // Length chips row
+  const endRow = document.createElement('div');
+  endRow.className = 'pony-quick-row';
+  endRow.innerHTML = `<span class="pony-quick-label">⚡ Quick Length: Where The Ponytail Ends</span>`;
+  const endChips = document.createElement('div');
+  endChips.className = 'pony-chips';
+
+  const endMap = [
+    { label: 'Neck (Short & Sleek)', match: 'Ending around the neck (short & sleek)' },
+    { label: 'Nape (Ultra-cropped)', match: 'Ending at upper nape (ultra-cropped)' },
+    { label: 'Collarbone', match: 'Ending at collarbone' },
+    { label: 'Mid-Back', match: 'Ending at shoulder blades / mid-back' },
+    { label: 'Waist (Dramatic Long)', match: 'Ending at waist / lower back (dramatic)' }
+  ];
+
+  endMap.forEach(item => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'pony-chip' + (values.ponyTailEnd?.label === item.match ? ' active' : '');
+    chip.textContent = item.label;
+    chip.addEventListener('click', () => {
+      const opt = fields.ponyTailEnd.opts.find(o => o.label === item.match) || fields.ponyTailEnd.opts[0];
+      values.ponyTailEnd = (values.ponyTailEnd === opt) ? fields.ponyTailEnd.opts[0] : opt;
+      renderFields();
+      buildPrompt();
+    });
+    endChips.appendChild(chip);
+  });
+  endRow.appendChild(endChips);
+
+  quickBox.append(fallRow, endRow);
+
+  const subgrid = document.createElement('div');
+  subgrid.className = 'ponytail-subgrid';
+
+  ['ponyTailFall', 'ponyTailEnd', 'ponyBaseHeight', 'ponyBaseWrap', 'ponyTailStyle'].forEach(fId => {
+    if (fields[fId]) {
+      subgrid.appendChild(createFieldElement(fId, fields[fId]));
+    }
+  });
+
+  card.append(head, quickBox, subgrid);
+  return card;
+}
+
 function val(id){return values[id]?.text||''}
 
 function buildLookbookSeries(checks, negatives, extraLines){
-  const hairBase = val('hair');
-  const ponyDetail = val('ponyStyle');
-  const hairDesc = [hairBase, ponyDetail].filter(Boolean).join('. ');
+  const hairDesc = getFullHairDescription();
   const hairCol = val('hairColor');
   const hairFin = val('hairFinish');
   const makeupDesc = val('makeup');
@@ -1409,7 +1633,7 @@ lines.push('MAKEOVER MOMENT');
 lines.push(val('makeover')+'.');
 lines.push('');
 lines.push('HAIR AND BEAUTY');
-lines.push(`Hairstyle: ${val('hair')}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
+lines.push(`Hairstyle: ${getFullHairDescription()}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
 lines.push('');
 lines.push('WARDROBE AND STYLING');
 lines.push(`Outfit: ${val('outfit')}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
