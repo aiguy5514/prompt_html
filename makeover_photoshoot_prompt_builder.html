@@ -8,19 +8,89 @@
 <style>
 :root{--bg:#100e13;--panel:#19161e;--panel2:#211c27;--panel3:#2a2331;--text:#fff8fc;--muted:#b8adbd;--muted2:#8f8495;--line:#3a3040;--pink:#ff5c92;--pink2:#ff9cbd;--cream:#f9dfe8;--green:#9fe4c1;--yellow:#f3d49a;--shadow:0 22px 70px #0005;--radius:22px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(950px 550px at -8% -8%,#55203b55,transparent 65%),radial-gradient(820px 530px at 110% 0%,#39265744,transparent 63%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--pink2);outline-offset:3px}.shell{max-width:1480px;margin:auto;padding:24px clamp(13px,2.8vw,40px) 48px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:850;letter-spacing:.11em;text-transform:uppercase}.brand-mark{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),#bb70c6);color:#24101a;font-size:21px;box-shadow:0 6px 26px #ff5c922c}.top-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#ffffff06;color:var(--muted);padding:7px 11px;border-radius:999px;font-size:12px;font-weight:700}.pill-dot{width:7px;height:7px;border-radius:50%;background:var(--green)}.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(230px,.6fr);gap:20px;padding:clamp(23px,4vw,48px);border:1px solid #76506570;border-radius:28px;background:linear-gradient(118deg,#301a2aee,#201923f0 58%,#292037ef);box-shadow:var(--shadow);margin-bottom:20px}.hero:after{content:"✦";position:absolute;right:5%;top:-65px;font-size:260px;line-height:1;color:#ff93bb0b;pointer-events:none}.eyebrow{color:var(--pink2);font-size:11px;letter-spacing:.18em;font-weight:900;text-transform:uppercase}.hero h1{font-size:clamp(36px,5vw,66px);letter-spacing:-.065em;line-height:.99;margin:12px 0 16px;max-width:740px}.hero h1 span{color:var(--pink2)}.hero p{color:#d0c2d1;font-size:clamp(14px,1.4vw,17px);max-width:760px;margin:0}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}.hero-note{align-self:stretch;z-index:1;display:flex;flex-direction:column;justify-content:space-between;gap:18px;border:1px solid #ffffff12;border-radius:20px;padding:21px;background:linear-gradient(145deg,#ffffff0a,#ffffff03)}.hero-note .sparkle{font-size:40px;color:var(--pink2);line-height:1}.hero-note strong{font-size:16px}.hero-note p{font-size:13px;margin-top:6px;color:var(--muted)}.tags{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:11px;padding:5px 9px;border-radius:999px;background:#ffffff0a;border:1px solid #ffffff12;color:#eadce9}.btn{border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:800;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,filter .15s,background .15s}.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}.btn-primary{color:#2a101b;background:linear-gradient(115deg,var(--pink),var(--pink2));border-color:transparent}.btn-secondary{background:#ffffff08;color:var(--text)}.btn-quiet{background:transparent;color:var(--muted)}.btn-small{font-size:12px;padding:7px 10px;border-radius:10px}.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:20px;align-items:start}.builder{min-width:0}.preset-strip{border:1px solid var(--line);background:#19161edb;border-radius:20px;padding:17px;margin-bottom:15px}.strip-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}.strip-head h2{font-size:14px;margin:0}.strip-head p{font-size:12px;color:var(--muted);margin:0}.preset-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.preset{min-height:76px;text-align:left;padding:11px;border:1px solid var(--line);border-radius:13px;background:#ffffff04;color:var(--text);display:flex;flex-direction:column;gap:5px;transition:.15s}.preset:hover,.preset.active{border-color:#f66d9ba8;background:#ff5c9212}.preset .preset-icon{font-size:20px}.preset strong{font-size:12px}.preset small{font-size:10px;color:var(--muted);line-height:1.3}.section-tabs{display:flex;gap:7px;overflow:auto;padding:3px 1px 12px;margin-bottom:3px;scrollbar-width:thin}.tab{border:1px solid var(--line);color:var(--muted);background:#17141b;border-radius:12px;padding:10px 13px;white-space:nowrap;font-size:12px;font-weight:850}.tab .tab-no{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:7px;margin-right:6px;background:#ffffff0c;font-size:10px}.tab.active{color:#fff;background:#432538;border-color:#a64f75}.tab.active .tab-no{background:var(--pink);color:#2a101a}.step-card{border:1px solid var(--line);background:linear-gradient(145deg,#1b1720,#17141b);border-radius:22px;padding:clamp(17px,2.4vw,27px);box-shadow:0 10px 35px #0002}.step-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:21px}.step-head h2{margin:0;font-size:22px;letter-spacing:-.035em}.step-head p{margin:5px 0 0;color:var(--muted);font-size:13px;max-width:520px}.step-icon{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;background:#ff5c9215;border:1px solid #ff5c9233;border-radius:15px;font-size:22px}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.field{min-width:0}.field.full{grid-column:1/-1}.label-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}.label-row label,.field>label{font-size:12px;font-weight:850;color:#f2e7f1}.option-count{font-size:10px;color:var(--muted2);font-weight:750;white-space:nowrap}.select-wrap{position:relative}.select-wrap:after{content:"⌄";position:absolute;right:14px;top:50%;transform:translateY(-58%);font-size:18px;color:var(--pink2);pointer-events:none}.field select,.field input[type=text],.field textarea{width:100%;min-width:0;appearance:none;background:#25202b;color:var(--text);border:1px solid #453a4b;border-radius:12px;padding:12px 38px 12px 13px;min-height:48px;outline:none}.field select{cursor:pointer}.field select:hover,.field input:hover,.field textarea:hover{border-color:#655168}.field select option,.field select optgroup{background:#211c27;color:#fff}.field textarea{resize:vertical;padding:12px;min-height:88px}.field input[type=text]{padding-right:13px}.field .help{color:var(--muted2);font-size:11px;margin:6px 0 0}.select-search{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#111016;color:var(--text);margin-bottom:8px}.custom-select{position:relative}.custom-select button.select-trigger{width:100%;min-height:48px;display:flex;justify-content:space-between;gap:12px;align-items:center;text-align:left;padding:11px 13px;background:#25202b;color:var(--text);border:1px solid #453a4b;border-radius:12px}.select-trigger .current{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}.select-trigger .chevron{color:var(--pink2);font-size:17px}.select-menu{display:none;position:absolute;z-index:20;top:calc(100% + 7px);left:0;right:0;padding:10px;border:1px solid #59475f;border-radius:14px;background:#201b26;box-shadow:0 18px 40px #0009;max-height:330px;overflow:auto}.custom-select.open .select-menu{display:block}.option-list{display:grid;gap:4px}.choice{border:1px solid transparent;text-align:left;border-radius:9px;padding:9px 10px;background:transparent;color:#e8dfe9;font-size:12px;line-height:1.35}.choice:hover{background:#ffffff09;border-color:#544657}.choice.selected{background:#ff5c9217;border-color:#b94b78;color:#fff}.choice .checkmark{float:right;color:var(--pink2);font-weight:900;margin-left:8px}.no-results{color:var(--muted);font-size:12px;padding:10px}.chip-group{display:flex;gap:7px;flex-wrap:wrap}.chip{background:#25202b;border:1px solid #463a4b;color:#dcd1e0;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:750}.chip:hover{border-color:#846078}.chip.active{color:#2a101a;background:var(--pink2);border-color:var(--pink2)}.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.check{display:flex;align-items:flex-start;gap:9px;padding:11px 12px;border:1px solid var(--line);background:#ffffff04;border-radius:12px;font-size:12px;color:#dfd5e2;cursor:pointer}.check:hover{border-color:#685267}.check input{accent-color:var(--pink);margin-top:3px;flex:0 0 auto}.check small{display:block;color:var(--muted2);font-size:10px;margin-top:2px}.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px;border:1px solid var(--line);background:#ffffff04;border-radius:12px}.toggle-row strong{display:block;font-size:12px}.toggle-row p{font-size:11px;color:var(--muted);margin:3px 0 0}.switch{appearance:none;width:41px;height:24px;border-radius:999px;background:#514654;position:relative;flex:0 0 auto;cursor:pointer;transition:.18s}.switch:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:50%;transition:.18s}.switch:checked{background:var(--pink)}.switch:checked:after{transform:translateX(17px);background:#2a101a}.step-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:22px;padding-top:17px;border-top:1px solid var(--line)}.step-count{font-size:12px;color:var(--muted)}.step-buttons{display:flex;gap:8px}.preview{position:sticky;top:14px;min-width:0;border:1px solid #634456;background:#19151d;border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}.preview-head{padding:20px 21px 17px;background:linear-gradient(125deg,#3a2032,#231a2b);border-bottom:1px solid var(--line)}.preview-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.preview-head h2{font-size:20px;letter-spacing:-.03em;margin:5px 0}.preview-head p{margin:0;color:#cab9cc;font-size:12px}.live{display:inline-flex;align-items:center;gap:6px;border:1px solid #43896a61;background:#7bd9a512;color:var(--green);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;padding:6px 8px;border-radius:999px}.live:before{content:"";width:6px;height:6px;border-radius:100%;background:var(--green);box-shadow:0 0 8px #9fe4c1a0}.summary{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px}.summary-tag{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:#f3dce9;border:1px solid #ffffff1a;background:#ffffff08;border-radius:999px;padding:5px 8px}.preview-body{padding:15px}.prompt-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px;color:var(--muted);font-size:11px}.prompt-area{display:block;width:100%;min-height:450px;resize:vertical;padding:14px;border-radius:14px;border:1px solid #443847;background:#100e13;color:#f8eefa;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;outline:none}.preview-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.preview-buttons .span2{grid-column:1/-1}.toast{min-height:20px;color:var(--green);font-size:11px;margin-top:8px}.preview-help{font-size:11px;line-height:1.55;color:var(--muted2);padding:0 15px 17px}.preview-help strong{color:#d9cbdc}.advanced-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px;padding:13px 15px;border:1px solid var(--line);border-radius:14px;background:#ffffff04}.advanced-bar strong{font-size:12px}.advanced-bar small{display:block;color:var(--muted);font-size:11px}.fineprint{font-size:11px;text-align:center;color:var(--muted2);margin-top:24px}.hidden{display:none!important}.toast.flash{animation:flash 1.4s ease}@keyframes flash{0%{opacity:0;transform:translateY(3px)}20%{opacity:1;transform:translateY(0)}100%{opacity:1}}@media(max-width:1060px){.layout{grid-template-columns:minmax(0,1fr) minmax(300px,.8fr)}.preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr .55fr}}@media(max-width:850px){.hero{grid-template-columns:1fr}.hero-note{display:none}.layout{grid-template-columns:1fr}.preview{position:static;order:2}.preview-area{min-height:340px}.builder{order:1}.prompt-area{min-height:340px}}@media(max-width:560px){.shell{padding:14px 10px 32px}.topbar{align-items:flex-start;flex-direction:column}.hero{padding:22px;border-radius:21px}.hero h1{font-size:39px}.hero-actions .btn{flex:1}.field-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.checks{grid-template-columns:1fr}.preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.preset{min-height:72px}.step-card{padding:16px}.step-head h2{font-size:19px}.step-foot{align-items:flex-start;flex-direction:column}.step-buttons{width:100%}.step-buttons .btn{flex:1}.preview-buttons{grid-template-columns:1fr 1fr}.prompt-area{min-height:350px}}
-.fab{display:none}@media(max-width:850px){.fab{display:inline-flex;position:fixed;right:14px;bottom:14px;z-index:30;box-shadow:var(--shadow)}}.grp{grid-column:1/-1;margin:14px 0 -6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink2);border-bottom:1px solid var(--line);padding-bottom:7px}.grp:first-child{margin-top:0}.preset.fresh{animation:pin .6s ease}@keyframes pin{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){.preset.fresh{animation:none}}.preset small{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}</style>
+.fab{display:none}@media(max-width:850px){.fab{display:inline-flex;position:fixed;right:14px;bottom:14px;z-index:30;box-shadow:var(--shadow)}}.grp{grid-column:1/-1;margin:14px 0 -6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink2);border-bottom:1px solid var(--line);padding-bottom:7px}.grp:first-child{margin-top:0}.preset.fresh{animation:pin .6s ease}@keyframes pin{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){.preset.fresh{animation:none}}.preset small{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+/* Progressive disclosure, locks, reference photo & mobile drawer */
+.label-title-wrap{display:flex;align-items:center;gap:7px}
+.lock-btn{background:transparent;border:none;padding:2px 4px;font-size:12px;opacity:.35;cursor:pointer;border-radius:6px;transition:opacity .15s,transform .15s;line-height:1}
+.lock-btn:hover{opacity:.85;transform:scale(1.1)}
+.lock-btn.locked{opacity:1;background:#ff5c922a;border:1px solid #ff5c9266;box-shadow:0 0 8px #ff5c9226}
+.fine-tune-drawer{margin-top:16px;border:1px solid var(--line);background:#ffffff03;border-radius:16px;overflow:hidden;transition:border-color .2s}
+.fine-tune-drawer[open]{border-color:#ff5c924d;background:#ffffff05}
+.fine-tune-summary{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none;list-style:none}
+.fine-tune-summary::-webkit-details-marker{display:none}
+.fine-tune-title{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:800;color:var(--cream)}
+.fine-tune-icon{color:var(--pink2);font-size:13px}
+.fine-tune-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:800;background:#ff5c9224;border:1px solid #ff5c924d;color:var(--pink2)}
+.fine-tune-chevron{color:var(--muted);font-size:15px;transition:transform .2s ease}
+.fine-tune-drawer[open] .fine-tune-chevron{transform:rotate(180deg)}
+.fine-tune-grid{padding:14px 16px 18px;border-top:1px solid var(--line)}
+.ref-card{margin-bottom:14px;border:1px solid var(--line);background:#17141bd4;border-radius:16px;overflow:hidden}
+.ref-head{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:#ffffff05;border-bottom:1px solid var(--line)}
+.ref-title{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800}
+.ref-icon{font-size:13px}
+.ref-privacy{font-size:9px;color:var(--green);border:1px solid #9fe4c14d;padding:2px 6px;border-radius:999px;background:#9fe4c10f}
+.ref-body{padding:12px}
+.ref-dropzone{border:1.5px dashed var(--line);border-radius:12px;padding:15px 10px;text-align:center;cursor:pointer;background:#ffffff03;transition:border-color .2s,background .2s}
+.ref-dropzone:hover,.ref-dropzone.dragover{border-color:var(--pink2);background:#ff5c920f}
+.ref-upload-icon{font-size:18px;color:var(--pink2);display:block;margin-bottom:3px}
+.ref-dropzone p{margin:0;font-size:11px;color:var(--text)}
+.ref-dropzone small{display:block;font-size:9px;color:var(--muted);margin-top:3px}
+.ref-preview-area{display:flex;flex-direction:column;gap:9px}
+.ref-thumb-wrap{position:relative;border-radius:10px;overflow:hidden;max-height:140px;background:#0d0b0f;display:flex;justify-content:center}
+.ref-img{width:100%;max-height:140px;object-fit:cover}
+.ref-pills{display:flex;gap:5px;flex-wrap:wrap}
+.ref-action-pill{flex:1;min-width:70px;border:1px solid var(--line);background:#ffffff08;color:var(--cream);padding:5px 7px;border-radius:7px;font-size:10px;font-weight:750;cursor:pointer;white-space:nowrap;text-align:center;transition:.15s}
+.ref-action-pill:hover{background:#ff5c9226;border-color:var(--pink2);color:#fff}
+.drawer-backdrop{display:none;position:fixed;inset:0;background:#000000aa;backdrop-filter:blur(4px);z-index:55;opacity:0;transition:opacity .3s ease}
+.drawer-backdrop.active{display:block;opacity:1}
+.mobile-bar{display:none}
+.sheet-handle{width:40px;height:4px;background:#ffffff33;border-radius:999px;margin:8px auto 6px}
+.close-sheet{display:none}
+.preset.custom-preset{border-color:#f3d49a55;background:#f3d49a0d}
+.preset-del{margin-left:auto;font-size:11px;color:var(--muted);background:transparent;border:none;padding:1px 4px;border-radius:4px;cursor:pointer}
+.preset-del:hover{color:#ff5c92;background:#ff5c9222}
+.strip-actions{display:flex;gap:7px}
+@media(min-width:851px){.hidden-desktop{display:none!important}}
+@media(max-width:850px){
+.mobile-bar{display:flex;position:fixed;bottom:0;left:0;right:0;height:62px;background:#18141ee8;backdrop-filter:blur(14px);border-top:1px solid #4a3a4e;z-index:50;align-items:center;justify-content:space-between;padding:0 14px;box-shadow:0 -8px 24px #0007}
+.mobile-bar-info{display:flex;flex-direction:column;gap:1px;overflow:hidden;padding-right:8px}
+.mobile-stat{font-size:11px;font-weight:800;color:var(--pink2)}
+.mobile-sub{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px}
+.mobile-bar-actions{display:flex;gap:7px;flex-shrink:0}
+.preview{position:fixed!important;bottom:0;left:0;right:0;max-height:88vh;border-radius:24px 24px 0 0!important;z-index:60;transform:translateY(105%);transition:transform .35s cubic-bezier(.16,1,.3,1);box-shadow:0 -12px 50px #000c!important;overflow-y:auto}
+.preview.drawer-open{transform:translateY(0)}
+.close-sheet{display:inline-flex}
+.preset-grid{display:flex!important;overflow-x:auto!important;scroll-snap-type:x mandatory;gap:9px;padding-bottom:8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.preset-grid::-webkit-scrollbar{display:none}
+.preset{flex:0 0 185px!important;scroll-snap-align:start;min-height:70px}
+.shell{padding-bottom:85px!important}
+.fab{display:none!important}
+}
+
+</style>
 </head>
 <body>
 <div class="shell">
 <header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div><div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">1,500+ searchable choices</span><span class="pill">Offline · No uploads</span></div></header>
 <section class="hero"><div><div class="eyebrow">Reference-led creative direction</div><h1>Makeover <span>Photoshoot</span><br>Prompt Studio</h1><p>Build a confident, candid, bold fashion-editorial prompt after the makeover. Mix hairstyles, statement looks, expressive poses, camera direction, lighting and realism controls—then copy a finished prompt ready for your image editor.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">Expanded hair library</span><span class="tag">Hundreds of looks</span><span class="tag">Searchable menus</span><span class="tag">Identity controls</span></div></div></aside></section>
 <div class="layout"><main class="builder">
-<section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div><div class="preset-grid" id="presets"></div></section>
+<section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div></div><div class="preset-grid" id="presets"></div></section>
 <nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
-<section class="step-card" id="stepCard"><div class="step-head"><div><div class="eyebrow" id="stepEyebrow">Creative direction · 01</div><h2 id="stepTitle">Hair & makeover</h2><p id="stepDescription">Choose the signature post-makeover look.</p></div><div class="step-icon" id="stepIcon">✂</div></div><div class="field-grid" id="fields"></div><div id="specialContent"></div><div class="step-foot"><span class="step-count" id="stepCount">Step 1 of 6</span><div class="step-buttons"><button class="btn btn-secondary" id="prevStep">← Previous</button><button class="btn btn-primary" id="nextStep">Next step →</button></div></div></section>
+<section class="step-card" id="stepCard"><div class="step-head"><div><div class="eyebrow" id="stepEyebrow">Creative direction · 01</div><h2 id="stepTitle">Hair & makeover</h2><p id="stepDescription">Choose the signature post-makeover look.</p></div><div class="step-icon" id="stepIcon">✂</div></div><div class="field-grid" id="fields"></div><div id="fineTuneArea"></div><div id="specialContent"></div><div class="step-foot"><span class="step-count" id="stepCount">Step 1 of 6</span><div class="step-buttons"><button class="btn btn-secondary" id="prevStep">← Previous</button><button class="btn btn-primary" id="nextStep">Next step →</button></div></div></section>
 <section class="advanced-bar"><div><strong>Want a more specific result?</strong><small>Add your own direction or exclusions in the Finish & controls step.</small></div><button class="btn btn-secondary btn-small" id="finishJump">Open finish controls ↗</button></section>
 </main>
-<aside class="preview"><div class="preview-head"><div class="preview-top"><div class="eyebrow">Live output</div><span class="live">Updating</span></div><h2>Your prompt, assembled</h2><p>Change any choice. The prompt is rebuilt instantly.</p><div class="summary" id="summary"></div></div><div class="preview-body"><div class="prompt-meta"><span id="wordCount">Prompt ready</span><button class="btn btn-quiet btn-small" id="selectPrompt">Select all text</button></div><textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated prompt"></textarea><div class="preview-buttons"><button class="btn btn-primary" id="copy">▣ Copy prompt</button><button class="btn btn-secondary" id="download">↓ Download .txt</button><button class="btn btn-secondary span2" id="copyNegative">Copy exclusions only</button></div><div class="toast" id="toast" role="status" aria-live="polite"></div></div><div class="preview-help"><strong>Use it:</strong> attach your reference photo in your image editor, copy this prompt, and paste it into the editor. This page runs locally; it never uploads or stores your photo.</div></aside></div>
+<aside class="preview"><div class="sheet-handle hidden-desktop" id="sheetHandle"></div><div class="preview-head"><div class="preview-top"><div class="eyebrow">Live output</div><div style="display:flex;align-items:center;gap:8px"><span class="live">Updating</span><button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button></div></div><h2>Your prompt, assembled</h2><p>Change any choice. The prompt is rebuilt instantly.</p><div class="summary" id="summary"></div></div><div class="preview-body"><div class="ref-card" id="refCard"><div class="ref-head"><div class="ref-title"><span class="ref-icon">📷</span><strong>Reference Photo</strong><span class="ref-privacy">Private · In-Browser</span></div><button class="btn-quiet btn-small ref-clear hidden" id="refClear" type="button" title="Remove reference">✕ Clear</button></div><div class="ref-body"><input type="file" id="refFileInput" accept="image/*" class="hidden"><div class="ref-dropzone" id="refDropzone"><span class="ref-upload-icon">✦</span><p><strong>Drop reference photo</strong> or <u>browse</u></p><small>Never uploaded · Stays private on your device</small></div><div class="ref-preview-area hidden" id="refPreviewArea"><div class="ref-thumb-wrap"><img id="refThumbnail" alt="Reference photo preview" class="ref-img"></div><div class="ref-pills"><button type="button" class="ref-action-pill" data-ref-action="hair" title="Keep reference hair color + strands safeguard">Sync Hair</button><button type="button" class="ref-action-pill" data-ref-action="skin" title="Lock natural skin tone and pores">Match Skin</button><button type="button" class="ref-action-pill" data-ref-action="acc" title="Retain jewelry / glasses / nose ring">Retain Jewelry</button></div></div></div></div><div class="prompt-meta"><span id="wordCount">Prompt ready</span><button class="btn btn-quiet btn-small" id="selectPrompt">Select all text</button></div><textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated prompt"></textarea><div class="preview-buttons"><button class="btn btn-primary" id="copy">▣ Copy prompt</button><button class="btn btn-secondary" id="download">↓ Download .txt</button><button class="btn btn-secondary span2" id="copyNegative">Copy exclusions only</button></div><div class="toast" id="toast" role="status" aria-live="polite"></div></div><div class="preview-help"><strong>Use it:</strong> attach your reference photo in your image editor, copy this prompt, and paste it into the editor. This page runs locally; it never uploads or stores your photo.</div></aside></div>
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-bar" id="mobileBar">
+  <div class="mobile-bar-info">
+    <span class="mobile-stat" id="mobileWordCount">Prompt ready</span>
+    <span class="mobile-sub" id="mobileSummaryMini">Afterglow</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="btn btn-secondary btn-small" id="openDrawerBtn" type="button">Preview prompt ↗</button>
+    <button class="btn btn-primary btn-small" id="mobileCopyBtn" type="button">▣ Copy</button>
+  </div>
+</div>
 <button class="btn btn-primary fab" id="fab" type="button">▣ Copy prompt</button>
 <p class="fineprint">AFTERGLOW STUDIO · Made for reference-based image editing · Your choices are saved only in this browser</p>
 </div>
@@ -249,38 +319,809 @@ const GROUPS=[
 ['pose','Body',['pose','stance','gesture','motion']],['pose','Face & energy',['expression','gaze','mood','shotEnergy']],['pose','Story',['interaction']],
 ['camera','Framing',['framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
 ['scene','Location',['background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
-function orderedFields(){const list=[];GROUPS.forEach(([sec,g,ids])=>{if(sec!==activeSection)return;ids.forEach(id=>{if(fields[id]){fields[id]._grp=g;list.push([id,fields[id]])}})});Object.entries(fields).forEach(([id,f])=>{if(f.section===activeSection&&!list.some(x=>x[0]===id)){f._grp='More detail';list.push([id,f])}});return list}
-const el=id=>document.getElementById(id);let activeSection='look';let activePreset='';let customDirection='';let extraNegative='';let outputType='single';let detailLevel='full';let values={};Object.entries(fields).forEach(([id,f])=>values[id]=f.opts[f.def]);let checkState={};finishChecks.forEach(c=>checkState[c.id]=c.checked);
-const totalOptions=Object.values(fields).reduce((sum,f)=>sum+f.opts.length,0);el('totalOptionCount').textContent=totalOptions.toLocaleString()+' searchable choices';
-const tabs=el('tabs');sections.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='tab'+(i===0?' active':'');b.dataset.section=s.id;b.innerHTML=`<span class="tab-no">${String(i+1).padStart(2,'0')}</span>${s.name}`;b.addEventListener('click',()=>goSection(s.id));tabs.appendChild(b)});
-const presetHost=el('presets');let hoverP=false;
-function pickThemes(n,cur){const out=[];for(let i=0;i<n;i++)out.push(genLook());return out}
-function renderPresets(){presetHost.innerHTML='';presets.forEach(p=>{const b=document.createElement('button');b.type='button';b.className='preset'+(p.id===activePreset?' active':'')+(p._new?' fresh':'');p._new=false;b.dataset.preset=p.id;b.innerHTML=`<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;b.addEventListener('click',()=>applyPreset(p.id));presetHost.appendChild(b)})}
-function rotatePresets(all){if(all||!presets.length){presets=pickThemes(8,[]);presets.forEach(p=>p._new=true)}else{const idx=presets.map((p,i)=>i).filter(i=>presets[i].id!==activePreset).sort(()=>Math.random()-.5).slice(0,3);const fresh=pickThemes(idx.length,presets);idx.forEach((i,j)=>{if(fresh[j]){fresh[j]._new=true;presets[i]=fresh[j]}})}renderPresets()}
-function startRotation(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const strip=document.querySelector('.preset-strip');strip.addEventListener('mouseenter',()=>hoverP=true);strip.addEventListener('mouseleave',()=>hoverP=false);setInterval(()=>{if(!hoverP&&!document.hidden&&!document.querySelector('.custom-select.open'))rotatePresets()},6000);el('shuffleLooks').addEventListener('click',()=>rotatePresets(true))}
-function rollTheme(p){Object.entries(p.set).forEach(([id,o])=>{values[id]=o})}
-function renderFields(){const host=el('fields');host.innerHTML='';let lastGrp='';orderedFields().forEach(([id,f])=>{if(f._grp!==lastGrp){lastGrp=f._grp;const g=document.createElement('h3');g.className='grp';g.textContent=lastGrp;host.appendChild(g)}const wrap=document.createElement('div');wrap.className='field'+(['pose','background'].includes(id)?' full':'');const lab=document.createElement('div');lab.className='label-row';const label=document.createElement('label');label.textContent=f.label;label.htmlFor='field-'+id;const count=document.createElement('span');count.className='option-count';count.textContent=f.opts.length+' options';lab.append(label,count);const custom=document.createElement('div');custom.className='custom-select';custom.dataset.id=id;const trigger=document.createElement('button');trigger.type='button';trigger.className='select-trigger';trigger.setAttribute('aria-expanded','false');trigger.innerHTML=`<span class="current"></span><span class="chevron">⌄</span>`;const menu=document.createElement('div');menu.className='select-menu';menu.innerHTML=`<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;const list=menu.querySelector('.option-list');f.opts.forEach((o,index)=>{const b=document.createElement('button');b.type='button';b.className='choice';b.dataset.index=index;b.textContent=o.label;b.addEventListener('click',()=>{values[id]=o;updateCustom(custom,id);custom.classList.remove('open');trigger.setAttribute('aria-expanded','false');buildPrompt()});list.appendChild(b)});trigger.querySelector('.current').textContent=values[id].label;trigger.addEventListener('click',()=>{const was=custom.classList.contains('open');document.querySelectorAll('.custom-select.open').forEach(x=>{x.classList.remove('open');x.querySelector('.select-trigger').setAttribute('aria-expanded','false')});if(!was){custom.classList.add('open');trigger.setAttribute('aria-expanded','true');menu.querySelector('input').value='';filterChoices(menu,'');menu.querySelector('input').focus({preventScroll:true});const sel=menu.querySelector('.choice.selected');if(sel)sel.scrollIntoView({block:'center'})}});menu.querySelector('input').addEventListener('input',e=>filterChoices(menu,e.target.value));menu.querySelector('input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const f=menu.querySelector('.choice:not(.hidden)');if(f)f.click()}});custom.append(trigger,menu);wrap.append(lab,custom);const help=document.createElement('p');help.className='help';help.textContent=`Choose from ${f.opts.length} directions · Search by typing`;wrap.appendChild(help);host.appendChild(wrap);updateCustom(custom,id)});el('specialContent').innerHTML=activeSection==='finish'?finishMarkup():'';if(activeSection==='finish')bindFinish();}
-function filterChoices(menu,q){let shown=0;const list=menu.querySelector('.option-list');[...list.querySelectorAll('.choice')].forEach(b=>{const ok=b.textContent.toLowerCase().includes(q.toLowerCase());b.classList.toggle('hidden',!ok);if(ok)shown++});let no=menu.querySelector('.no-results');if(!shown){if(!no){no=document.createElement('div');no.className='no-results';no.textContent='No matching options. Try another search.';list.appendChild(no)}}else if(no)no.remove()}
-function updateCustom(custom,id){custom.querySelector('.current').textContent=values[id].label;custom.querySelectorAll('.choice').forEach(b=>{const active=fields[id].opts[Number(b.dataset.index)]===values[id];b.classList.toggle('selected',active);const old=b.querySelector('.checkmark');if(old)old.remove();if(active){const span=document.createElement('span');span.className='checkmark';span.textContent='✓';b.appendChild(span)}})}
-function finishMarkup(){return `<div class="field-grid" style="margin-top:22px"><div class="field full"><div class="label-row"><label for="customDirection">Your own creative direction</label><span class="option-count">Optional</span></div><textarea id="customDirection" placeholder="Add details: hairstyle length, jewelry to retain, room details, exact outfit color, pose adjustments…"></textarea><p class="help">This text is added to the generated prompt as your custom instructions.</p></div><div class="field full"><div class="label-row"><label for="negative">Extra exclusions / negative prompt</label><span class="option-count">Optional</span></div><textarea id="negative" placeholder="e.g. no mirror, no blurry face, no extra fingers, no artificial hair…"></textarea><p class="help">Additional things the image model should avoid.</p></div><div class="field full"><label>Identity, realism and output safeguards</label><div class="checks" id="finishChecks">${finishChecks.map(c=>`<label class="check"><input type="checkbox" data-check="${c.id}" ${checkState[c.id]?'checked':''}><span>${c.label}<small>${c.detail}</small></span></label>`).join('')}</div></div><div class="field"><div class="label-row"><label for="numImages">Output format</label></div><div class="select-wrap"><select id="numImages"><option value="single">One final image</option><option value="collage">One 2×2 collage · 4 poses</option><option value="set">Four separate images</option><option value="triptych">Three-panel editorial triptych</option><option value="contact">Six-frame contact sheet</option></select></div></div><div class="field"><div class="label-row"><label for="detailLevel">Prompt detail</label></div><div class="select-wrap"><select id="detailLevel"><option value="full">Highly detailed</option><option value="balanced">Balanced detail</option><option value="compact">Compact prompt</option></select></div></div></div>`}
-function bindFinish(){el('customDirection').value=customDirection;el('negative').value=extraNegative;el('numImages').value=outputType;el('detailLevel').value=detailLevel;el('customDirection').addEventListener('input',e=>{customDirection=e.target.value;buildPrompt()});el('negative').addEventListener('input',e=>{extraNegative=e.target.value;buildPrompt()});el('numImages').addEventListener('change',e=>{outputType=e.target.value;buildPrompt()});el('detailLevel').addEventListener('change',e=>{detailLevel=e.target.value;buildPrompt()});el('finishChecks').querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{checkState[i.dataset.check]=i.checked;buildPrompt()}))}
-function goSection(id,shouldScroll=true){activeSection=id;const section=sections.find(s=>s.id===id);tabs.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.section===id));el('stepEyebrow').textContent='Creative direction · '+String(sections.indexOf(section)+1).padStart(2,'0');el('stepTitle').textContent=section.name;el('stepDescription').textContent=section.desc;el('stepIcon').textContent=section.icon;el('stepCount').textContent=`Step ${sections.indexOf(section)+1} of ${sections.length}`;el('prevStep').disabled=sections.indexOf(section)===0;el('prevStep').style.opacity=el('prevStep').disabled?'.42':'1';el('nextStep').textContent=sections.indexOf(section)===sections.length-1?'Back to look ↺':'Next step →';renderFields();if(shouldScroll)window.scrollTo({top:Math.max(0,el('stepCard').getBoundingClientRect().top+window.scrollY-12),behavior:'smooth'});}
-function applyPreset(id){const p=presets.find(x=>x.id===id);if(!p)return;activePreset=id;document.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active',b.dataset.preset===id));rollTheme(p);goSection('look');buildPrompt();toast(`Applied “${p.title}”. Customize any option now.`)}
-function chooseRandom(){Object.entries(fields).forEach(([id,f])=>{values[id]=f.opts[Math.floor(Math.random()*f.opts.length)]});activePreset='';document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));goSection('look');buildPrompt();toast('A fresh combination is ready. Keep what you like and change the rest.')}
+const CORE_FIELD_IDS = {
+look: new Set(['mode', 'hair', 'hairLength', 'hairColor', 'hairFinish']),
+wardrobe: new Set(['outfit', 'outfitFit', 'palette', 'makeup', 'accessories']),
+pose: new Set(['pose', 'expression', 'gesture', 'mood']),
+camera: new Set(['framing', 'angle', 'lens', 'aspect']),
+scene: new Set(['background', 'lighting', 'style', 'grade'])
+};
+
+function orderedFields(){
+const list=[];
+GROUPS.forEach(([sec,g,ids])=>{
+  if(sec!==activeSection)return;
+  ids.forEach(id=>{
+    if(fields[id]){
+      fields[id]._grp=g;
+      list.push([id,fields[id]]);
+    }
+  });
+});
+Object.entries(fields).forEach(([id,f])=>{
+  if(f.section===activeSection&&!list.some(x=>x[0]===id)){
+    f._grp='More detail';
+    list.push([id,f]);
+  }
+});
+return list;
+}
+
+const el=id=>document.getElementById(id);
+let activeSection='look';
+let activePreset='';
+let customDirection='';
+let extraNegative='';
+let outputType='single';
+let detailLevel='full';
+let values={};
+Object.entries(fields).forEach(([id,f])=>values[id]=f.opts[f.def]);
+let checkState={};
+finishChecks.forEach(c=>checkState[c.id]=c.checked);
+let lockedFields=new Set();
+let customPresets=[];
+
+const totalOptions=Object.values(fields).reduce((sum,f)=>sum+f.opts.length,0);
+el('totalOptionCount').textContent=totalOptions.toLocaleString()+' searchable choices';
+const tabs=el('tabs');
+sections.forEach((s,i)=>{
+const b=document.createElement('button');
+b.type='button';
+b.className='tab'+(i===0?' active':'');
+b.dataset.section=s.id;
+b.innerHTML=`<span class="tab-no">${String(i+1).padStart(2,'0')}</span>${s.name}`;
+b.addEventListener('click',()=>goSection(s.id));
+tabs.appendChild(b);
+});
+
+const presetHost=el('presets');
+let hoverP=false;
+
+function pickThemes(n,cur){
+const out=[];
+for(let i=0;i<n;i++)out.push(genLook());
+return out;
+}
+
+function renderPresets(){
+presetHost.innerHTML='';
+customPresets.forEach(p=>{
+  const b=document.createElement('button');
+  b.type='button';
+  b.className='preset custom-preset'+(p.id===activePreset?' active':'');
+  b.dataset.preset=p.id;
+  b.innerHTML=`<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon||'⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${p.id}">✕</button></div><small>${p.sub||'Custom look'}</small>`;
+  b.addEventListener('click',(e)=>{
+    if(e.target.closest('.preset-del')){
+      deleteCustomPreset(p.id,e);
+    }else{
+      applyPreset(p.id,p);
+    }
+  });
+  presetHost.appendChild(b);
+});
+
+presets.forEach(p=>{
+  const b=document.createElement('button');
+  b.type='button';
+  b.className='preset'+(p.id===activePreset?' active':'')+(p._new?' fresh':'');
+  p._new=false;
+  b.dataset.preset=p.id;
+  b.innerHTML=`<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
+  b.addEventListener('click',()=>applyPreset(p.id));
+  presetHost.appendChild(b);
+});
+}
+
+function rotatePresets(all){
+if(all||!presets.length){
+  presets=pickThemes(8,[]);
+  presets.forEach(p=>p._new=true);
+}else{
+  const idx=presets.map((p,i)=>i).filter(i=>presets[i].id!==activePreset).sort(()=>Math.random()-.5).slice(0,3);
+  const fresh=pickThemes(idx.length,presets);
+  idx.forEach((i,j)=>{
+    if(fresh[j]){
+      fresh[j]._new=true;
+      presets[i]=fresh[j];
+    }
+  });
+}
+renderPresets();
+}
+
+function startRotation(){
+if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+const strip=document.querySelector('.preset-strip');
+strip.addEventListener('mouseenter',()=>hoverP=true);
+strip.addEventListener('mouseleave',()=>hoverP=false);
+setInterval(()=>{
+  if(!hoverP&&!document.hidden&&!document.querySelector('.custom-select.open'))rotatePresets();
+},6000);
+el('shuffleLooks').addEventListener('click',()=>rotatePresets(true));
+if(el('saveCustomLook')) el('saveCustomLook').addEventListener('click',saveCustomPreset);
+}
+
+function saveCustomPreset(){
+const name=prompt('Enter a name for this custom look:','My Look '+(customPresets.length+1));
+if(!name||!name.trim())return;
+const curSet={};
+Object.entries(values).forEach(([k,v])=>{curSet[k]=v});
+const newPreset={
+  id:'user_'+Date.now(),
+  title:name.trim(),
+  sub:[values.hair?.label,values.outfit?.label].filter(Boolean).join(' · '),
+  icon:'⭐',
+  isCustom:true,
+  set:curSet
+};
+customPresets.unshift(newPreset);
+save();
+renderPresets();
+toast(`Saved “${name.trim()}” to presets.`);
+}
+
+function deleteCustomPreset(id,e){
+e.stopPropagation();
+customPresets=customPresets.filter(p=>p.id!==id);
+if(activePreset===id)activePreset='';
+save();
+renderPresets();
+toast('Custom preset removed.');
+}
+
+function rollTheme(p){
+Object.entries(p.set).forEach(([id,o])=>{
+  if(lockedFields.has(id))return;
+  if(fields[id])values[id]=o;
+});
+}
+
+function toggleLock(id){
+if(lockedFields.has(id)){
+  lockedFields.delete(id);
+  toast(`Unlocked ${fields[id]?.label||id}`);
+}else{
+  lockedFields.add(id);
+  toast(`Locked ${fields[id]?.label||id} (won't change during shuffle)`);
+}
+save();
+renderFields();
+}
+
+function createFieldElement(id, f) {
+const wrap=document.createElement('div');
+wrap.className='field'+(['pose','background'].includes(id)?' full':'');
+const lab=document.createElement('div');
+lab.className='label-row';
+
+const titleWrap=document.createElement('div');
+titleWrap.className='label-title-wrap';
+
+const label=document.createElement('label');
+label.textContent=f.label;
+label.htmlFor='field-'+id;
+
+const isLocked = lockedFields.has(id);
+const lockBtn=document.createElement('button');
+lockBtn.type='button';
+lockBtn.className='lock-btn'+(isLocked?' locked':'');
+lockBtn.title=isLocked?'Locked (will not change during shuffle). Click to unlock.':'Lock this choice during shuffle';
+lockBtn.innerHTML=isLocked?'🔒':'🔓';
+lockBtn.addEventListener('click',()=>toggleLock(id));
+
+titleWrap.append(label, lockBtn);
+
+const count=document.createElement('span');
+count.className='option-count';
+count.textContent=f.opts.length+' options';
+lab.append(titleWrap,count);
+
+const custom=document.createElement('div');
+custom.className='custom-select';
+custom.dataset.id=id;
+const trigger=document.createElement('button');
+trigger.type='button';
+trigger.className='select-trigger';
+trigger.setAttribute('aria-expanded','false');
+trigger.innerHTML=`<span class="current"></span><span class="chevron">⌄</span>`;
+const menu=document.createElement('div');
+menu.className='select-menu';
+menu.innerHTML=`<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;
+const list=menu.querySelector('.option-list');
+f.opts.forEach((o,index)=>{
+  const b=document.createElement('button');
+  b.type='button';
+  b.className='choice';
+  b.dataset.index=index;
+  b.textContent=o.label;
+  b.addEventListener('click',()=>{
+    values[id]=o;
+    updateCustom(custom,id);
+    custom.classList.remove('open');
+    trigger.setAttribute('aria-expanded','false');
+    buildPrompt();
+    updateFineTuneBadge();
+  });
+  list.appendChild(b);
+});
+trigger.querySelector('.current').textContent=values[id].label;
+trigger.addEventListener('click',()=>{
+  const was=custom.classList.contains('open');
+  document.querySelectorAll('.custom-select.open').forEach(x=>{
+    x.classList.remove('open');
+    x.querySelector('.select-trigger').setAttribute('aria-expanded','false');
+  });
+  if(!was){
+    custom.classList.add('open');
+    trigger.setAttribute('aria-expanded','true');
+    menu.querySelector('input').value='';
+    filterChoices(menu,'');
+    menu.querySelector('input').focus({preventScroll:true});
+    const sel=menu.querySelector('.choice.selected');
+    if(sel)sel.scrollIntoView({block:'center'});
+  }
+});
+menu.querySelector('input').addEventListener('input',e=>filterChoices(menu,e.target.value));
+menu.querySelector('input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    const f=menu.querySelector('.choice:not(.hidden)');
+    if(f)f.click();
+  }
+});
+custom.append(trigger,menu);
+wrap.append(lab,custom);
+updateCustom(custom,id);
+return wrap;
+}
+
+function updateFineTuneBadge(){
+const countEl=el('fineTuneActiveCount');
+if(!countEl)return;
+const coreSet=CORE_FIELD_IDS[activeSection]||new Set();
+const allOrdered=orderedFields();
+let customized=0;
+allOrdered.forEach(([id,f])=>{
+  if(!coreSet.has(id)){
+    if(values[id]&&values[id]!==f.opts[f.def])customized++;
+  }
+});
+if(customized>0){
+  countEl.textContent=`${customized} custom`;
+  countEl.className='fine-tune-badge';
+}else{
+  countEl.textContent='';
+  countEl.className='';
+}
+}
+
+function renderFields(){
+const host=el('fields');
+const fineArea=el('fineTuneArea');
+host.innerHTML='';
+if(fineArea) fineArea.innerHTML='';
+
+const allOrdered=orderedFields();
+const coreSet=CORE_FIELD_IDS[activeSection]||new Set();
+
+const primaryFields=[];
+const secondaryFields=[];
+
+allOrdered.forEach(([id,f])=>{
+  if(coreSet.has(id)||activeSection==='finish'){
+    primaryFields.push([id,f]);
+  }else{
+    secondaryFields.push([id,f]);
+  }
+});
+
+let lastGrp='';
+primaryFields.forEach(([id,f])=>{
+  if(f._grp!==lastGrp){
+    lastGrp=f._grp;
+    const g=document.createElement('h3');
+    g.className='grp';
+    g.textContent=lastGrp;
+    host.appendChild(g);
+  }
+  host.appendChild(createFieldElement(id, f));
+});
+
+if(secondaryFields.length>0 && fineArea){
+  const details=document.createElement('details');
+  details.className='fine-tune-drawer';
+  details.id='fineTuneDrawer';
+
+  const summary=document.createElement('summary');
+  summary.className='fine-tune-summary';
+  summary.innerHTML=`
+    <div class="fine-tune-title">
+      <span class="fine-tune-icon">✦</span>
+      <strong>Fine-tune & micro-controls (${secondaryFields.length} options)</strong>
+      <span id="fineTuneActiveCount"></span>
+    </div>
+    <span class="fine-tune-chevron">⌄</span>
+  `;
+
+  const grid=document.createElement('div');
+  grid.className='field-grid fine-tune-grid';
+
+  let secLastGrp='';
+  secondaryFields.forEach(([id,f])=>{
+    if(f._grp!==secLastGrp){
+      secLastGrp=f._grp;
+      const g=document.createElement('h3');
+      g.className='grp';
+      g.textContent=secLastGrp;
+      grid.appendChild(g);
+    }
+    grid.appendChild(createFieldElement(id, f));
+  });
+
+  details.append(summary, grid);
+  fineArea.appendChild(details);
+  updateFineTuneBadge();
+}
+
+el('specialContent').innerHTML=activeSection==='finish'?finishMarkup():'';
+if(activeSection==='finish')bindFinish();
+}
+
+function filterChoices(menu,q){
+let shown=0;
+const list=menu.querySelector('.option-list');
+[...list.querySelectorAll('.choice')].forEach(b=>{
+  const ok=b.textContent.toLowerCase().includes(q.toLowerCase());
+  b.classList.toggle('hidden',!ok);
+  if(ok)shown++;
+});
+let no=menu.querySelector('.no-results');
+if(!shown){
+  if(!no){
+    no=document.createElement('div');
+    no.className='no-results';
+    no.textContent='No matching options. Try another search.';
+    list.appendChild(no);
+  }
+}else if(no)no.remove();
+}
+
+function updateCustom(custom,id){
+custom.querySelector('.current').textContent=values[id].label;
+custom.querySelectorAll('.choice').forEach(b=>{
+  const active=fields[id].opts[Number(b.dataset.index)]===values[id];
+  b.classList.toggle('selected',active);
+  const old=b.querySelector('.checkmark');
+  if(old)old.remove();
+  if(active){
+    const span=document.createElement('span');
+    span.className='checkmark';
+    span.textContent='✓';
+    b.appendChild(span);
+  }
+});
+}
+
+function finishMarkup(){
+return `<div class="field-grid" style="margin-top:22px"><div class="field full"><div class="label-row"><label for="customDirection">Your own creative direction</label><span class="option-count">Optional</span></div><textarea id="customDirection" placeholder="Add details: hairstyle length, jewelry to retain, room details, exact outfit color, pose adjustments…"></textarea><p class="help">This text is added to the generated prompt as your custom instructions.</p></div><div class="field full"><div class="label-row"><label for="negative">Extra exclusions / negative prompt</label><span class="option-count">Optional</span></div><textarea id="negative" placeholder="e.g. no mirror, no blurry face, no extra fingers, no artificial hair…"></textarea><p class="help">Additional things the image model should avoid.</p></div><div class="field full"><label>Identity, realism and output safeguards</label><div class="checks" id="finishChecks">${finishChecks.map(c=>`<label class="check"><input type="checkbox" data-check="${c.id}" ${checkState[c.id]?'checked':''}><span>${c.label}<small>${c.detail}</small></span></label>`).join('')}</div></div><div class="field"><div class="label-row"><label for="numImages">Output format</label></div><div class="select-wrap"><select id="numImages"><option value="single">One final image</option><option value="collage">One 2×2 collage · 4 poses</option><option value="set">Four separate images</option><option value="triptych">Three-panel editorial triptych</option><option value="contact">Six-frame contact sheet</option></select></div></div><div class="field"><div class="label-row"><label for="detailLevel">Prompt detail</label></div><div class="select-wrap"><select id="detailLevel"><option value="full">Highly detailed</option><option value="balanced">Balanced detail</option><option value="compact">Compact prompt</option></select></div></div></div>`;
+}
+
+function bindFinish(){
+el('customDirection').value=customDirection;
+el('negative').value=extraNegative;
+el('numImages').value=outputType;
+el('detailLevel').value=detailLevel;
+el('customDirection').addEventListener('input',e=>{customDirection=e.target.value;buildPrompt()});
+el('negative').addEventListener('input',e=>{extraNegative=e.target.value;buildPrompt()});
+el('numImages').addEventListener('change',e=>{outputType=e.target.value;buildPrompt()});
+el('detailLevel').addEventListener('change',e=>{detailLevel=e.target.value;buildPrompt()});
+el('finishChecks').querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{checkState[i.dataset.check]=i.checked;buildPrompt()}));
+}
+
+function goSection(id,shouldScroll=true){
+activeSection=id;
+const section=sections.find(s=>s.id===id);
+tabs.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.section===id));
+el('stepEyebrow').textContent='Creative direction · '+String(sections.indexOf(section)+1).padStart(2,'0');
+el('stepTitle').textContent=section.name;
+el('stepDescription').textContent=section.desc;
+el('stepIcon').textContent=section.icon;
+el('stepCount').textContent=`Step ${sections.indexOf(section)+1} of ${sections.length}`;
+el('prevStep').disabled=sections.indexOf(section)===0;
+el('prevStep').style.opacity=el('prevStep').disabled?'.42':'1';
+el('nextStep').textContent=sections.indexOf(section)===sections.length-1?'Back to look ↺':'Next step →';
+renderFields();
+if(shouldScroll)window.scrollTo({top:Math.max(0,el('stepCard').getBoundingClientRect().top+window.scrollY-12),behavior:'smooth'});
+}
+
+function applyPreset(id,presetObj){
+const p=presetObj||presets.find(x=>x.id===id)||customPresets.find(x=>x.id===id);
+if(!p)return;
+activePreset=id;
+document.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active',b.dataset.preset===id));
+rollTheme(p);
+goSection('look');
+buildPrompt();
+toast(`Applied “${p.title}”. Customize any option now.`);
+}
+
+function chooseRandom(){
+Object.entries(fields).forEach(([id,f])=>{
+  if(lockedFields.has(id))return;
+  values[id]=f.opts[Math.floor(Math.random()*f.opts.length)];
+});
+activePreset='';
+document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
+goSection(activeSection,false);
+buildPrompt();
+toast(lockedFields.size>0?`Fresh combination generated (${lockedFields.size} locked).`:'A fresh combination is ready.');
+}
+
 function val(id){return values[id]?.text||''}
-function buildPrompt(){const selected=Object.values(values);const checks=[];if(checkState.identity)checks.push('Preserve the same adult woman from the supplied reference, retaining her recognizable facial identity and features; do not replace her with another person or introduce identity drift.');if(checkState.skin)checks.push('Keep natural skin texture, visible pores, realistic facial asymmetry and fine details; no waxy or airbrushed skin.');if(checkState.body)checks.push('Preserve her natural body proportions; do not slim, reshape or exaggerate anatomy.');if(checkState.skinTone)checks.push('Keep skin tone consistent with the reference image and maintain believable colors.');if(checkState.hairStrands)checks.push('Render individual hair strands, believable volume, natural movement and subtle flyaways.');if(checkState.fabric)checks.push('Render realistic fabric weight, stitching, folds, seams, fit and garment behavior.');if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with natural hand placement.');if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');if(checkState.retouch)checks.push('Avoid excessive beauty retouching, plastic skin, synthetic gloss and artificial filters.');if(checkState.accessoryKeep)checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');if(checkState.backgroundReal)checks.push('Use plausible environmental details and a lived-in scene rather than generic or artificial background elements.');if(checkState.noMirror)checks.push('Avoid mirrors and reflection-heavy surfaces; do not create duplicate or inaccurate reflections.');if(checkState.noText)checks.push('No text overlays, logos, graphic labels or watermarks.');if(checkState.candid)checks.push('Keep body language and facial expression candid, natural and spontaneous rather than stiffly staged.');
-const mode=val('mode');const outputText={single:'Create one finished photorealistic image.',collage:'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same woman, haircut, outfit, color grade and overall scene consistent across all four panels.',set:'Create four separate photorealistic images with different poses and expressions. Keep the same woman, haircut, outfit and overall visual styling consistent across the set.',triptych:'Create one three-panel editorial triptych with three distinct candid poses; maintain continuity of identity, hairstyle, outfit and setting across panels.',contact:'Create one six-frame contact sheet with varied candid poses and facial expressions; maintain the same identity, hairstyle, outfit and setting in every frame.'}[outputType];
-const detail=detailLevel||'full';const lines=[];lines.push(mode.startsWith('Edit')?'REFERENCE-IMAGE EDIT — BOLD POST-MAKEOVER PHOTOSHOOT':'REFERENCE-GUIDED PORTRAIT — BOLD POST-MAKEOVER PHOTOSHOOT');lines.push('');lines.push('CREATIVE INTENT');lines.push(`${mode}. Capture the same adult woman just after her makeover, during a bold, confident, candid fashion photoshoot. Overall attitude: ${val('mood')}. Make it feel like a genuine moment between poses, with confident energy and natural personality.`);lines.push('');lines.push('MAKEOVER MOMENT');lines.push(val('makeover')+'.');lines.push('');lines.push('HAIR AND BEAUTY');lines.push(`Hairstyle: ${val('hair')}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);lines.push('');lines.push('WARDROBE AND STYLING');lines.push(`Outfit: ${val('outfit')}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);lines.push('');lines.push('POSE AND EXPRESSION');lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Keep the body language open, believable and relaxed; capture a specific spontaneous moment rather than a generic stock pose.`);lines.push('');lines.push('CAMERA AND FRAMING');lines.push(`Framing: ${val('framing')}. Camera angle: ${val('angle')}. Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements—especially the haircut, outfit and facial expression—without awkward cropping or distorted perspective.`);lines.push('');lines.push('SCENE, LIGHT AND FINISH');lines.push(`Location: ${val('background')}. Lighting: ${val('lighting')}. Photography style: ${val('style')}. Color grade: ${val('grade')}. Image quality: ${val('quality')}. Aim for believable depth, balanced colors, coherent shadows, authentic photographic texture and realistic environment details.`);lines.push('');const extraLines=detail==='compact'?[]:Object.entries(extraFields).filter(([id])=>val(id)).map(([id,f])=>`${f.label}: ${val(id)}.`);if(extraLines.length){lines.push('ADDITIONAL CREATIVE DETAILS');lines.push(extraLines.join('\n'))}lines.push('');lines.push('IDENTITY AND REALISM CHECKLIST');lines.push(checks.length?checks.map(x=>'• '+x).join('\n'):'Use a natural photographic look, consistent identity, realistic anatomy and believable materials.');if(customDirection.trim()){lines.push('');lines.push('ADDITIONAL CREATIVE DIRECTION');lines.push(customDirection.trim())}lines.push('');lines.push('AVOID / NEGATIVE GUIDANCE');let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');if(checkState.noText)negatives.push('text overlays, logos and watermarks');if(extraNegative.trim())negatives.push(extraNegative.trim());lines.push(negatives.map(x=>'• '+x).join('\n'));if(detail==='full'){lines.push('');lines.push('OUTPUT INSTRUCTIONS');lines.push(`${outputText} ${val('quality')}. Keep the face and hairstyle in clear focus, with photographic detail and natural imperfections.`)}else if(detail==='balanced'){lines.push('');lines.push('OUTPUT');lines.push(outputText)}else{lines.push('');lines.push('OUTPUT');lines.push(`${outputText} Preserve identity, keep the bold styling and pose, and prioritize natural photorealism.`)}
-save();let text=lines.join('\n').replace(/\n{3,}/g,'\n\n');el('prompt').value=text;const words=text.trim().split(/\s+/).length;el('wordCount').textContent=`${words.toLocaleString()} words · ${text.length.toLocaleString()} characters`;const summaryIds=['hair','outfit','pose','expression','background','lighting'];el('summary').innerHTML=summaryIds.map(id=>`<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`).join('');}
-function toast(msg){const t=el('toast');t.textContent=msg;t.classList.remove('flash');void t.offsetWidth;t.classList.add('flash')}
-function copy(text){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard.')).catch(()=>fallbackCopy(text))}else fallbackCopy(text)}function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{const ok=document.execCommand('copy');toast(ok?'Copied to clipboard.':'Copy was blocked—select the text box and use Ctrl+C.')}catch(e){toast('Select the text and use Ctrl+C.')}ta.remove()}
-function resetAll(){Object.entries(fields).forEach(([id,f])=>values[id]=f.opts[f.def]);finishChecks.forEach(c=>checkState[c.id]=c.checked);customDirection='';extraNegative='';outputType='single';detailLevel='full';activePreset='';document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));goSection('look');buildPrompt();toast('Builder reset to its original defaults.')}
-function download(){const blob=new Blob([el('prompt').value],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');const url=URL.createObjectURL(blob);a.href=url;a.download='afterglow-makeover-photoshoot-prompt.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Prompt saved as a text file.')}
-el('randomTop').addEventListener('click',chooseRandom);el('copyTop').addEventListener('click',()=>copy(el('prompt').value));el('resetTop').addEventListener('click',resetAll);el('copy').addEventListener('click',()=>copy(el('prompt').value));el('copyNegative').addEventListener('click',()=>{let n='AVOID / NEGATIVE GUIDANCE\n'+['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric or wardrobe artifacts','stiff posing and generic AI styling','obvious AI artifacts',...(extraNegative.trim()?[extraNegative.trim()]:[])].map(x=>'• '+x).join('\n');copy(n)});el('download').addEventListener('click',download);el('selectPrompt').addEventListener('click',()=>{el('prompt').focus();el('prompt').select();toast('Prompt selected. Press Ctrl+C to copy.')});el('prevStep').addEventListener('click',()=>{const i=sections.findIndex(s=>s.id===activeSection);goSection(sections[Math.max(0,i-1)].id)});el('nextStep').addEventListener('click',()=>{const i=sections.findIndex(s=>s.id===activeSection);goSection(sections[(i+1)%sections.length].id)});el('finishJump').addEventListener('click',()=>goSection('finish'));document.addEventListener('click',e=>{if(!e.target.closest('.custom-select'))document.querySelectorAll('.custom-select.open').forEach(c=>{c.classList.remove('open');c.querySelector('.select-trigger').setAttribute('aria-expanded','false')})});document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.custom-select.open').forEach(c=>{c.classList.remove('open');c.querySelector('.select-trigger').setAttribute('aria-expanded','false')})});const KEY='afterglow-prompt-studio-v2';
-function save(){try{const o={v:{},c:checkState,d:customDirection,n:extraNegative,o:outputType,l:detailLevel};Object.entries(values).forEach(([k,x])=>o.v[k]=x.label);localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
-function load(){try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(!o)return;Object.entries(o.v||{}).forEach(([k,l])=>{const m=fields[k]&&fields[k].opts.find(x=>x.label===l);if(m)values[k]=m});Object.assign(checkState,o.c||{});customDirection=o.d||'';extraNegative=o.n||'';outputType=o.o||'single';detailLevel=o.l||'full'}catch(e){}}
-el('fab').addEventListener('click',()=>{copy(el('prompt').value);const b=el('fab');b.textContent='✓ Copied';setTimeout(()=>b.textContent='▣ Copy prompt',1500)});
-load();goSection('look',false);buildPrompt();rotatePresets(true);startRotation();
+
+function buildPrompt(){
+const selected=Object.values(values);
+const checks=[];
+if(checkState.identity)checks.push('Preserve the same adult woman from the supplied reference, retaining her recognizable facial identity and features; do not replace her with another person or introduce identity drift.');
+if(checkState.skin)checks.push('Keep natural skin texture, visible pores, realistic facial asymmetry and fine details; no waxy or airbrushed skin.');
+if(checkState.body)checks.push('Preserve her natural body proportions; do not slim, reshape or exaggerate anatomy.');
+if(checkState.skinTone)checks.push('Keep skin tone consistent with the reference image and maintain believable colors.');
+if(checkState.hairStrands)checks.push('Render individual hair strands, believable volume, natural movement and subtle flyaways.');
+if(checkState.fabric)checks.push('Render realistic fabric weight, stitching, folds, seams, fit and garment behavior.');
+if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with natural hand placement.');
+if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');
+if(checkState.retouch)checks.push('Avoid excessive beauty retouching, plastic skin, synthetic gloss and artificial filters.');
+if(checkState.accessoryKeep)checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');
+if(checkState.backgroundReal)checks.push('Use plausible environmental details and a lived-in scene rather than generic or artificial background elements.');
+if(checkState.noMirror)checks.push('Avoid mirrors and reflection-heavy surfaces; do not create duplicate or inaccurate reflections.');
+if(checkState.noText)checks.push('No text overlays, logos, graphic labels or watermarks.');
+if(checkState.candid)checks.push('Keep body language and facial expression candid, natural and spontaneous rather than stiffly staged.');
+
+const mode=val('mode');
+const outputText={
+  single:'Create one finished photorealistic image.',
+  collage:'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same woman, haircut, outfit, color grade and overall scene consistent across all four panels.',
+  set:'Create four separate photorealistic images with different poses and expressions. Keep the same woman, haircut, outfit and overall visual styling consistent across the set.',
+  triptych:'Create one three-panel editorial triptych with three distinct candid poses; maintain continuity of identity, hairstyle, outfit and setting across panels.',
+  contact:'Create one six-frame contact sheet with varied candid poses and facial expressions; maintain the same identity, hairstyle, outfit and setting in every frame.'
+}[outputType];
+
+const detail=detailLevel||'full';
+const lines=[];
+lines.push(mode.startsWith('Edit')?'REFERENCE-IMAGE EDIT — BOLD POST-MAKEOVER PHOTOSHOOT':'REFERENCE-GUIDED PORTRAIT — BOLD POST-MAKEOVER PHOTOSHOOT');
+lines.push('');
+lines.push('CREATIVE INTENT');
+lines.push(`${mode}. Capture the same adult woman just after her makeover, during a bold, confident, candid fashion photoshoot. Overall attitude: ${val('mood')}. Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
+lines.push('');
+lines.push('MAKEOVER MOMENT');
+lines.push(val('makeover')+'.');
+lines.push('');
+lines.push('HAIR AND BEAUTY');
+lines.push(`Hairstyle: ${val('hair')}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
+lines.push('');
+lines.push('WARDROBE AND STYLING');
+lines.push(`Outfit: ${val('outfit')}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
+lines.push('');
+lines.push('POSE AND EXPRESSION');
+lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Keep the body language open, believable and relaxed; capture a specific spontaneous moment rather than a generic stock pose.`);
+lines.push('');
+lines.push('CAMERA AND FRAMING');
+lines.push(`Framing: ${val('framing')}. Camera angle: ${val('angle')}. Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements—especially the haircut, outfit and facial expression—without awkward cropping or distorted perspective.`);
+lines.push('');
+lines.push('SCENE, LIGHT AND FINISH');
+lines.push(`Location: ${val('background')}. Lighting: ${val('lighting')}. Photography style: ${val('style')}. Color grade: ${val('grade')}. Image quality: ${val('quality')}. Aim for believable depth, balanced colors, coherent shadows, authentic photographic texture and realistic environment details.`);
+lines.push('');
+const extraLines=detail==='compact'?[]:Object.entries(extraFields).filter(([id])=>val(id)).map(([id,f])=>`${f.label}: ${val(id)}.`);
+if(extraLines.length){
+  lines.push('ADDITIONAL CREATIVE DETAILS');
+  lines.push(extraLines.join('\n'));
+}
+lines.push('');
+lines.push('IDENTITY AND REALISM CHECKLIST');
+lines.push(checks.length?checks.map(x=>'• '+x).join('\n'):'Use a natural photographic look, consistent identity, realistic anatomy and believable materials.');
+if(customDirection.trim()){
+  lines.push('');
+  lines.push('ADDITIONAL CREATIVE DIRECTION');
+  lines.push(customDirection.trim());
+}
+lines.push('');
+lines.push('AVOID / NEGATIVE GUIDANCE');
+let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
+if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
+if(checkState.noText)negatives.push('text overlays, logos and watermarks');
+if(extraNegative.trim())negatives.push(extraNegative.trim());
+lines.push(negatives.map(x=>'• '+x).join('\n'));
+
+if(detail==='full'){
+  lines.push('');
+  lines.push('OUTPUT INSTRUCTIONS');
+  lines.push(`${outputText} ${val('quality')}. Keep the face and hairstyle in clear focus, with photographic detail and natural imperfections.`);
+}else if(detail==='balanced'){
+  lines.push('');
+  lines.push('OUTPUT');
+  lines.push(outputText);
+}else{
+  lines.push('');
+  lines.push('OUTPUT');
+  lines.push(`${outputText} Preserve identity, keep the bold styling and pose, and prioritize natural photorealism.`);
+}
+
+save();
+let text=lines.join('\n').replace(/\n{3,}/g,'\n\n');
+el('prompt').value=text;
+const words=text.trim().split(/\s+/).length;
+el('wordCount').textContent=`${words.toLocaleString()} words · ${text.length.toLocaleString()} characters`;
+
+if(el('mobileWordCount')) el('mobileWordCount').textContent=`${words} words`;
+if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent=`${values.hair?.label||''} · ${values.outfit?.label||''}`;
+
+const summaryIds=['hair','outfit','pose','expression','background','lighting'];
+el('summary').innerHTML=summaryIds.map(id=>`<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`).join('');
+}
+
+function toast(msg){
+const t=el('toast');
+t.textContent=msg;
+t.classList.remove('flash');
+void t.offsetWidth;
+t.classList.add('flash');
+}
+
+function copy(text){
+if(navigator.clipboard&&window.isSecureContext){
+  navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard.')).catch(()=>fallbackCopy(text));
+}else fallbackCopy(text);
+}
+
+function fallbackCopy(text){
+const ta=document.createElement('textarea');
+ta.value=text;
+ta.style.position='fixed';
+ta.style.opacity='0';
+document.body.appendChild(ta);
+ta.select();
+try{
+  const ok=document.execCommand('copy');
+  toast(ok?'Copied to clipboard.':'Copy was blocked—select the text box and use Ctrl+C.');
+}catch(e){
+  toast('Select the text and use Ctrl+C.');
+}
+ta.remove();
+}
+
+function resetAll(){
+Object.entries(fields).forEach(([id,f])=>{
+  if(!lockedFields.has(id)) values[id]=f.opts[f.def];
+});
+finishChecks.forEach(c=>checkState[c.id]=c.checked);
+customDirection='';
+extraNegative='';
+outputType='single';
+detailLevel='full';
+activePreset='';
+document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
+goSection('look');
+buildPrompt();
+toast(lockedFields.size>0?'Reset choices to defaults (locked choices kept).':'Builder reset to defaults.');
+}
+
+function download(){
+const blob=new Blob([el('prompt').value],{type:'text/plain;charset=utf-8'});
+const a=document.createElement('a');
+const url=URL.createObjectURL(blob);
+a.href=url;
+a.download='afterglow-makeover-photoshoot-prompt.txt';
+document.body.appendChild(a);
+a.click();
+a.remove();
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+toast('Prompt saved as a text file.');
+}
+
+function initRefViewer(){
+const dropzone=el('refDropzone');
+const fileInput=el('refFileInput');
+const clearBtn=el('refClear');
+if(!dropzone||!fileInput)return;
+
+dropzone.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>{
+  if(e.target.files&&e.target.files[0])loadRefImage(e.target.files[0]);
+});
+dropzone.addEventListener('dragover',e=>{
+  e.preventDefault();
+  dropzone.classList.add('dragover');
+});
+dropzone.addEventListener('dragleave',()=>dropzone.classList.remove('dragover'));
+dropzone.addEventListener('drop',e=>{
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  if(e.dataTransfer.files&&e.dataTransfer.files[0])loadRefImage(e.dataTransfer.files[0]);
+});
+
+if(clearBtn){
+  clearBtn.addEventListener('click',()=>{
+    el('refThumbnail').src='';
+    el('refPreviewArea').classList.add('hidden');
+    el('refDropzone').classList.remove('hidden');
+    clearBtn.classList.add('hidden');
+    fileInput.value='';
+    toast('Reference photo removed.');
+  });
+}
+
+document.querySelectorAll('.ref-action-pill').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const act=btn.dataset.refAction;
+    if(act==='hair'){
+      const match=fields.hairColor.opts.find(o=>o.label.toLowerCase().includes('reference'));
+      if(match)values.hairColor=match;
+      checkState.hairStrands=true;
+      toast('Synced: Keep reference hair color + strands safeguard');
+    }else if(act==='skin'){
+      checkState.skinTone=true;
+      checkState.skin=true;
+      checkState.body=true;
+      toast('Synced: Natural skin tone, pores & body proportions');
+    }else if(act==='acc'){
+      const match=fields.accessories.opts.find(o=>o.label.toLowerCase().includes('reference'));
+      if(match)values.accessories=match;
+      checkState.accessoryKeep=true;
+      toast('Synced: Retain reference jewelry & accessories');
+    }
+    buildPrompt();
+    renderFields();
+  });
+});
+}
+
+function loadRefImage(file){
+if(!file.type.startsWith('image/')){
+  toast('Please select an image file (JPG, PNG, WebP).');
+  return;
+}
+const reader=new FileReader();
+reader.onload=e=>{
+  el('refThumbnail').src=e.target.result;
+  el('refDropzone').classList.add('hidden');
+  el('refPreviewArea').classList.remove('hidden');
+  el('refClear').classList.remove('hidden');
+  toast('Reference photo loaded in browser.');
+};
+reader.readAsDataURL(file);
+}
+
+function initMobileDrawer(){
+const drawerBtn=el('openDrawerBtn');
+const closeBtn=el('closeDrawer');
+const backdrop=el('drawerBackdrop');
+const preview=document.querySelector('.preview');
+const mobileCopy=el('mobileCopyBtn');
+
+function openDrawer(){
+  preview.classList.add('drawer-open');
+  backdrop.classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function closeDrawer(){
+  preview.classList.remove('drawer-open');
+  backdrop.classList.remove('active');
+  document.body.style.overflow='';
+}
+
+if(drawerBtn)drawerBtn.addEventListener('click',openDrawer);
+if(closeBtn)closeBtn.addEventListener('click',closeDrawer);
+if(backdrop)backdrop.addEventListener('click',closeDrawer);
+if(mobileCopy){
+  mobileCopy.addEventListener('click',()=>{
+    copy(el('prompt').value);
+    mobileCopy.textContent='✓ Copied';
+    setTimeout(()=>mobileCopy.textContent='▣ Copy',1500);
+  });
+}
+}
+
+el('randomTop').addEventListener('click',chooseRandom);
+el('copyTop').addEventListener('click',()=>copy(el('prompt').value));
+el('resetTop').addEventListener('click',resetAll);
+el('copy').addEventListener('click',()=>copy(el('prompt').value));
+el('copyNegative').addEventListener('click',()=>{
+let n='AVOID / NEGATIVE GUIDANCE\n'+['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric or wardrobe artifacts','stiff posing and generic AI styling','obvious AI artifacts',...(extraNegative.trim()?[extraNegative.trim()]:[])].map(x=>'• '+x).join('\n');
+copy(n);
+});
+el('download').addEventListener('click',download);
+el('selectPrompt').addEventListener('click',()=>{
+el('prompt').focus();
+el('prompt').select();
+toast('Prompt selected. Press Ctrl+C to copy.');
+});
+el('prevStep').addEventListener('click',()=>{
+const i=sections.findIndex(s=>s.id===activeSection);
+goSection(sections[Math.max(0,i-1)].id);
+});
+el('nextStep').addEventListener('click',()=>{
+const i=sections.findIndex(s=>s.id===activeSection);
+goSection(sections[(i+1)%sections.length].id);
+});
+el('finishJump').addEventListener('click',()=>goSection('finish'));
+
+document.addEventListener('click',e=>{
+if(!e.target.closest('.custom-select'))document.querySelectorAll('.custom-select.open').forEach(c=>{
+  c.classList.remove('open');
+  c.querySelector('.select-trigger').setAttribute('aria-expanded','false');
+});
+});
+document.addEventListener('keydown',e=>{
+if(e.key==='Escape')document.querySelectorAll('.custom-select.open').forEach(c=>{
+  c.classList.remove('open');
+  c.querySelector('.select-trigger').setAttribute('aria-expanded','false');
+});
+});
+
+const KEY='afterglow-prompt-studio-v2';
+
+function save(){
+try{
+  const o={
+    v:{},
+    c:checkState,
+    d:customDirection,
+    n:extraNegative,
+    o:outputType,
+    l:detailLevel,
+    k:[...lockedFields],
+    u:customPresets.map(p=>({id:p.id,title:p.title,sub:p.sub,icon:p.icon,set:Object.fromEntries(Object.entries(p.set).map(([k,v])=>[k,v.label]))}))
+  };
+  Object.entries(values).forEach(([k,x])=>o.v[k]=x.label);
+  localStorage.setItem(KEY,JSON.stringify(o));
+}catch(e){}
+}
+
+function load(){
+try{
+  const o=JSON.parse(localStorage.getItem(KEY)||'null');
+  if(!o)return;
+  Object.entries(o.v||{}).forEach(([k,l])=>{
+    const m=fields[k]&&fields[k].opts.find(x=>x.label===l);
+    if(m)values[k]=m;
+  });
+  Object.assign(checkState,o.c||{});
+  customDirection=o.d||'';
+  extraNegative=o.n||'';
+  outputType=o.o||'single';
+  detailLevel=o.l||'full';
+  if(Array.isArray(o.k)) lockedFields=new Set(o.k);
+  if(Array.isArray(o.u)){
+    customPresets=o.u.map(p=>{
+      const reconstructedSet={};
+      Object.entries(p.set||{}).forEach(([k,l])=>{
+        const m=fields[k]&&fields[k].opts.find(x=>x.label===l);
+        if(m) reconstructedSet[k]=m;
+      });
+      return {id:p.id,title:p.title,sub:p.sub,icon:p.icon||'⭐',isCustom:true,set:reconstructedSet};
+    });
+  }
+}catch(e){}
+}
+
+if(el('fab')){
+el('fab').addEventListener('click',()=>{
+  copy(el('prompt').value);
+  const b=el('fab');
+  b.textContent='✓ Copied';
+  setTimeout(()=>b.textContent='▣ Copy prompt',1500);
+});
+}
+
+load();
+goSection('look',false);
+buildPrompt();
+initRefViewer();
+initMobileDrawer();
+rotatePresets(true);
+startRotation();
 })();
 </script>
 </body>
