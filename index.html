@@ -137,7 +137,7 @@
 </head>
 <body>
 <div class="shell">
-<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div><div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">2,200+ searchable choices</span><span class="pill">Offline · No uploads</span></div></header>
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div><div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">2,500+ searchable choices</span><span class="pill">Offline · No uploads</span></div></header>
 <section class="hero"><div><div class="eyebrow">Reference-led creative direction</div><h1>Makeover <span>Photoshoot</span><br>Prompt Studio</h1><p>Build a confident, candid, bold fashion-editorial prompt after the makeover. Mix hairstyles, statement looks, expressive poses, camera direction, lighting and realism controls—then copy a finished prompt ready for your image editor.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">Expanded hair library</span><span class="tag">Hundreds of looks</span><span class="tag">Searchable menus</span><span class="tag">Identity controls</span></div></div></aside></section>
 <div class="layout"><main class="builder">
 <section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div></div><div class="preset-grid" id="presets"></div></section>
@@ -492,8 +492,160 @@ season:{label:'Season / occasion',section:'scene',opts:P("Summer|a summer feel;M
 });
 Object.values(extraFields).forEach(f=>{f.opts=[O('Auto · follow my other choices',''),...f.opts];f.def=0});
 Object.assign(fields,extraFields);
+
+// ==========================================
+// AQUATIC & WET-LOOK EDITORIAL EXPANSION
+// ==========================================
+addOptions(hair, makeOpts([
+  ['Wet-look slicked comb-back', 'a high-editorial slicked-back comb-back with visible comb ridges, high-gloss wet finish and clinging damp temple strands'],
+  ['Damp ocean-soaked wavy lob', 'a damp ocean-soaked long bob with tousled salty waves, realistic strand separation and clinging collarbone ends'],
+  ['Wet-look sculpted finger waves', 'sculpted 1920s-inspired wet finger waves lacquered close to the scalp with high-shine aquatic gloss'],
+  ['Slicked high wet ponytail with dripping tail', 'a tight slicked-back high ponytail with high sheen, saturated clumping and a dripping glossy tail'],
+  ['Dripping mermaid waves with center part', 'drenched cascading mermaid waves falling past the chest with water-saturated strand separation and a clean center part'],
+  ['Wet-look razor micro bob with lacquered fringe', 'a razor-sharp wet-look micro bob with liquid-lacquered baby fringe clinging softly to the brow'],
+  ['Damp textured wolf shag with piecey ends', 'a damp shaggy wolf cut with tousled wet layers, separated dripping ends and forehead-skimming wisps'],
+  ['Wet curtain bangs + damp low chignon', 'delicate wet curtain bangs parted over the forehead paired with a neat damp low chignon at the nape'],
+  ['Post-swim swept-back crop with damp flyaways', 'an effortless post-swim swept-back crop with damp texture and clinging flyaway strands framing the jawline'],
+  ['Slicked side-part wet lob tucked behind ears', 'a sleek wet-finish lob with a sharp deep side part, both sides smoothly tucked behind ears revealing cheekbones'],
+  ['Drenched half-up knot with saturated lengths', 'a casual drenched half-up top knot with the lower lengths falling in glossy saturated ribbons'],
+  ['Wet-look baroque bob with curved ends', 'a voluminous yet wet-look baroque bob with saturated curl clumps and liquid luster'],
+  ['Air-dried post-swim beach waves', 'air-dried post-swim beach waves with natural salt texture, clumping ribbons and touchable dampness'],
+  ['Wet-look asymmetric pixie with comb lines', 'an asymmetric editorial pixie styled with glossy wet-look lacquer and fine comb texture']
+]));
+
+addOptions(hairFinish, makeOpts([
+  ['Drenched fresh-from-water texture', 'drenched fresh-from-water texture with fine droplets and naturally grouped wet strands'],
+  ['High-gloss wet lacquer glaze', 'a high-gloss wet lacquer glaze with liquid reflections and clean strand definition'],
+  ['Damp post-swim air-dried texture', 'a damp post-swim air-dried texture with subtle natural wave clumping and delicate temple flyaways'],
+  ['Rain-slicked sheen with droplet trails', 'a glistening rain-slicked sheen with fine water droplet trails clinging to individual hair strands'],
+  ['Ocean-mist salt texture with wet root separation', 'an ocean-mist salty damp texture with defined root separation and soft saturated movement']
+]));
+
+addOptions(hairVolume, makeOpts([
+  ['Wet-look compressed crown with clinging lengths', 'wet-look compressed crown sculpted flat with saturated lengths clinging naturally to shoulders'],
+  ['Saturated heavy strand separation', 'heavy saturated strand separation with realistic aquatic weight and zero dry frizz'],
+  ['Damp air-dried piecey volume', 'damp air-dried piecey volume with touchable clumping and natural movement']
+]));
+
+addOptions(fringeDetail, makeOpts([
+  ['Wet clinging curtain bangs', 'wet curtain bangs clinging delicately to the forehead with fine water bead accents'],
+  ['Separated damp brow strands', 'piecey separated damp strands skimming the eyebrows with high-gloss sheen'],
+  ['Slicked-back hairline with baby-hair swirls', 'a slicked-back hairline with delicate damp baby hairs swirled along the temples']
+]));
+
+addOptions(outfit, makeOpts([
+  ['Drenched champagne liquid-silk slip dress', 'a drenched champagne liquid-silk slip dress clinging closely to the silhouette with delicate wet fabric folds and thigh slit'],
+  ['Wet-look black liquid vinyl mini dress', 'a high-fashion wet-look black liquid vinyl mini dress with sculptural contour lines and mirror-like sheen'],
+  ['Plunging metallic bronze liquid-lamé monokini', 'a daring metallic bronze liquid-lamé monokini with a plunging neckline, high-cut leg and wet-look sheen'],
+  ['Sheer damp white ribbed tank dress', 'a semi-sheer damp white ribbed knit tank dress adhering naturally to the body contours'],
+  ['Liquid-patent belted trench worn bare', 'a rain-slicked liquid-patent black trench coat belted firmly at the waist with an open plunge neckline'],
+  ['Sheer damp emerald chiffon cowl gown', 'a sheer damp emerald chiffon cowl gown draping organically over wet skin with translucent water cling'],
+  ['Asymmetric cobalt neoprene aquatic swimsuit', 'an architectural cobalt-blue neoprene one-piece swimsuit with an asymmetric cutout and clean aquatic lines'],
+  ['Unbuttoned damp linen shirt + black bikini', 'an oversized unbuttoned damp white linen shirt billowing over a minimalist matte black bikini'],
+  ['Drenched ruby sheer organza wrap gown', 'a dramatic ruby-red sheer organza wrap gown with soaked clinging hems and fluid water-weight drape'],
+  ['Liquid-chrome metallic breastplate + wet sarong', 'a futuristic sculpted liquid-chrome breastplate paired with a draped black wet-look sarong skirt'],
+  ['Deep-V midnight-blue aquatic lycra bodysuit', 'a deep-V midnight-blue aquatic lycra bodysuit with sleek contrast piping and wet high-gloss finish'],
+  ['Wet-look corseted latex midi gown in oxblood', 'an oxblood wet-look corseted latex midi gown with high-shine highlights and clean tailored panels'],
+  ['High-neck halter cutout monokini in gold', 'a shimmering molten-gold high-neck halter monokini with geometric midriff cutouts and high-cut hips'],
+  ['Drenched ivory silk georgette open-back gown', 'a drenched ivory silk georgette evening gown with a plunging open back clinging to the spine'],
+  ['Translucent damp organza trench + liquid swimsuit', 'a translucent damp smoke-grey organza trench coat layered over a high-gloss black one-piece'],
+  ['Liquid-silver backless monokini with body chain', 'a liquid-silver backless monokini styled with a fine gold body chain resting on wet skin'],
+  ['Wet-look ruched halter mini in crimson', 'a wet-look ruched crimson mini dress with an asymmetric halter neckline and water-sheen finish']
+]));
+
+addOptions(fabric, makeOpts([
+  ['Wet-look liquid vinyl / latex', 'wet-look liquid vinyl with reflective mirror highlights and clean form-fitting drape'],
+  ['Liquid metallic lamé', 'liquid metallic lamé with fluid water-like shimmer and heavy drape'],
+  ['Drenched silk chiffon (water cling)', 'drenched semi-translucent silk chiffon clinging naturally to skin with visible water saturation'],
+  ['Rain-slicked patent leather', 'rain-slicked patent leather with realistic water beading on the surface'],
+  ['Aquatic high-stretch neoprene', 'aquatic high-stretch neoprene with smooth matte-satin density and clean bonded seams'],
+  ['Damp soaked ribbed cotton', 'damp soaked ribbed cotton jersey with natural water darkening and body contouring'],
+  ['Saturated liquid satin', 'saturated liquid satin with deep color richness and weighted organic folds']
+]));
+
+addOptions(neckline, makeOpts([
+  ['Plunging aquatic halter plunge', 'a plunging aquatic halter neckline accentuating collarbones'],
+  ['Draped wet cowl neckline', 'a draped wet cowl neckline with water-weighted fabric folds'],
+  ['High-cut swimwear scoop neckline', 'a sleek high-cut swimwear scoop neckline with clean edges'],
+  ['Strapless liquid bandeau neckline', 'a structured strapless liquid bandeau neckline with reflective sheen']
+]));
+
+addOptions(complexion, makeOpts([
+  ['Glistening glass-skin with fine water droplets', 'glistening dewy glass-skin with realistic tiny water beads resting along collarbones and shoulders'],
+  ['Sun-drenched post-swim dewy glow', 'a sun-drenched post-swim dewy glow with natural skin sheen and authentic micro-droplets on the cheeks'],
+  ['Luminous wet skin sheen with water trails', 'luminous wet skin sheen with delicate water droplet trails tracing down the neck and collarbone'],
+  ['Fresh post-shower flush with dewy hydration', 'a fresh post-shower flush with natural skin texture, visible pores and hydration sheen']
+]));
+
+addOptions(makeup, makeOpts([
+  ['Wet-look glossy editorial makeup', 'wet-look glossy editorial makeup with luminous dewy lids, glass skin and water-resistant kohl liner'],
+  ['Post-swim bare beauty with glossy sheen', 'post-swim bare beauty with hydrated glowing skin, fine water beads and a sheer tinted balm'],
+  ['Waterproof smudged smoky liner + dewy skin', 'waterproof smudged kohl smoky eyeliner paired with glistening wet skin and nude lips'],
+  ['High-gloss vinyl lip and droplet skin', 'a high-gloss vinyl berry lip paired with dewy skin and fine water droplets on the temples']
+]));
+
+addOptions(lipLook, makeOpts([
+  ['High-shine vinyl gloss lip', 'a high-shine vinyl gloss lip with mirror-like reflection and natural shape'],
+  ['Post-swim hydrated bare lip balm', 'a hydrated bare lip with sheer wet balm sheen and natural tone']
+]));
+
+addOptions(eyeLook, makeOpts([
+  ['Wet-look glossy eyelid wash', 'a wet-look glossy eyelid wash catching specular light highlights'],
+  ['Waterproof smudged kohl liner', 'waterproof smudged kohl eyeliner with clean water-resistant definition']
+]));
+
+addOptions(pose, makeOpts([
+  ['Emerging from pool brushing hair back', 'emerging from swimming pool water while sweeping wet hair back off her face with both hands'],
+  ['Resting forearms on wet pool edge', 'resting her forearms on the wet stone pool edge, chin slightly lifted with confident direct gaze'],
+  ['Rain-soaked stance under city streetlight', 'standing rain-soaked under a warm city streetlight, water glistening on skin and clothes'],
+  ['Leaning back against wet poolside tiles', 'leaning back against wet poolside mosaic tiles with one knee raised and relaxed shoulders'],
+  ['Sitting on pool steps half-submerged', 'sitting on marble pool steps half-submerged in clear water, looking toward the camera'],
+  ['Stepping out of outdoor rain shower', 'stepping out of an outdoor teakwood rain shower with eyes softly closed and head tilted back'],
+  ['Reclining on wet sun lounger', 'reclining gracefully on a poolside sun lounger with wet hair swept over one shoulder'],
+  ['Wiping water droplet from cheekbone', 'lightly brushing a single water droplet away from her cheekbone with confident eye contact'],
+  ['Arching neck under water droplets', 'arching her neck gracefully as fine water droplets fall across her collarbones and shoulders']
+]));
+
+addOptions(gesture, makeOpts([
+  ['Sweeping wet hair off face', 'sweeping wet hair back away from the face with natural finger separation'],
+  ['Fingers grazing water surface', 'resting one hand with fingertips grazing the calm water surface'],
+  ['Lightly touching wet collarbone', 'lightly resting fingers on her wet collarbone as water droplets glisten'],
+  ['Tucking damp strand behind ear', 'tucking a single damp hair strand behind her ear']
+]));
+
+addOptions(stance, makeOpts([
+  ['Wet poolside lean with arched back', 'a relaxed poolside lean with natural spine curvature and water reflections'],
+  ['Planted pool-step posture with arms rested', 'a confident planted posture on pool steps with arms resting casually on knees'],
+  ['Rain-swept street stance with head high', 'a strong rain-swept stance with head held high and relaxed posture']
+]));
+
+addOptions(background, makeOpts([
+  ['Luxury infinity pool overlooking ocean', 'a luxury cliffside infinity pool with still turquoise water blending into the open ocean at sunset'],
+  ['Rain-slicked hotel rooftop terrace', 'a rain-slicked luxury hotel rooftop terrace with reflective wet marble and city lights in puddles'],
+  ['Outdoor tropical teakwood rain shower', 'an outdoor tropical rain shower surrounded by dark teakwood slats and lush monstera foliage'],
+  ['Steamy thermal spa pool with volcanic stone', 'a steamy natural thermal spa pool with mist rising off warm water against dark volcanic stone'],
+  ['Private yacht swim platform', 'a sun-drenched teak swim platform of a private yacht with crystal-clear turquoise sea caustics'],
+  ['Architectural indoor lap pool with limestone', 'a minimalist architectural indoor lap pool with smooth grey limestone and still water reflections'],
+  ['Drenched seaside rocky cove at dusk', 'a dramatic seaside rocky cove with ocean spray and wet dark basalt boulders at dusk']
+]));
+
+addOptions(lighting, makeOpts([
+  ['Pool water caustics ripple lighting', 'shimmering pool water light caustics dancing organically across wet skin, hair and outfit'],
+  ['Rain-backlit flash with water droplets', 'direct on-camera flash backlit against falling rain, freezing glistening water droplets in sharp bokeh'],
+  ['Wet specular highlight key light', 'a high-contrast key light sculpting wet skin and hair with bright specular pin-highlights'],
+  ['Warm sunset glancing off wet surfaces', 'warm low-angle sunset rays glancing off wet skin, damp fabrics and pool ripples with golden sheen'],
+  ['Steamy spa backlight with diffused glow', 'diffused warm backlight through rising pool steam, creating a soft ethereal glow around wet contours']
+]));
+
+addOptions(weather, makeOpts([
+  ['Warm tropical rain shower', 'a warm tropical rain shower with gentle falling droplets and damp humid ambience'],
+  ['Post-swim poolside humidity', 'fresh post-swim poolside humidity with glistening moisture in the air'],
+  ['Steamy thermal mist', 'soft rising thermal steam creating gentle atmospheric mist without obscuring the subject'],
+  ['Rain-slicked urban evening', 'rain-slicked urban conditions with wet asphalt and reflective damp surfaces']
+]));
 const sections=[{id:'look',name:'Look & hair',short:'LOOK',icon:'✂',desc:'Lock in the makeover reveal and build her new hairstyle from cut to finish.'},{id:'wardrobe',name:'Wardrobe & glam',short:'STYLE',icon:'✧',desc:'Choose a bold fashion direction, outfit fit, makeup and accessories.'},{id:'pose',name:'Pose & attitude',short:'POSE',icon:'↗',desc:'Direct the body language and the energy of the moment.'},{id:'camera',name:'Camera & crop',short:'CAMERA',icon:'◎',desc:'Fine-tune framing, perspective, lens feel and image ratio.'},{id:'scene',name:'Scene & lighting',short:'SCENE',icon:'☼',desc:'Set the location, lighting approach, color character and photo style.'},{id:'finish',name:'Finish & controls',short:'FINISH',icon:'✦',desc:'Control identity preservation, realism, exclusions, and custom instructions.'}];
 const ENERGIES={
+aquatic:{name:'wet-look editorial',icon:'💧',settings:['outdoor','studio','night'],pick:{hair:/wet|slicked|hydro|soaked|damp|mermaid/i,outfit:/monokini|swimsuit|slip|liquid|latex|wet-look|sheer|vinyl|drenched/i,makeup:/dewy|glossy|droplet|waterproof|glistening/i,pose:/pool|water|emerging|rain|leaning|hair|collarbone/i,expression:/fierce|intense|calm|smirk|direct/i,mood:/fearless|mysterious|high-fashion/i}},
 power:{name:'power',icon:'⬡',settings:['studio','urban','night'],pick:{hair:/bob|wolf|shag|asymmetric|blunt|pixie|sleek/i,outfit:/suit|jumpsuit|blazer|structured|power|leather|statement|tailored/i,makeup:/liner|red lip|graphic|bold|berry|sculpted/i,pose:/stance|hip|folded|commanding|over-the-shoulder|straight-on|power/i,expression:/fierce|serious|confident|direct|determined/i,mood:/fearless|high-fashion|powerful/i}},
 soft:{name:'soft candid',icon:'☼',settings:['indoor','outdoor'],pick:{hair:/wave|curl|layer|butterfly|curtain|natural|beach|half-up/i,outfit:/white|ivory|knit|shirt|satin|slip|wrap|midi|champagne|soft|dress/i,makeup:/soft|dewy|natural|minimal|rose|fresh|clean/i,pose:/laugh|looking|candid|window|walking|tuck|hair/i,expression:/smile|laugh|warm|soft|candid|grin/i,mood:/relaxed|warm|fresh|celebrat/i}},
 glam:{name:'glam',icon:'◇',settings:['indoor','night','studio'],pick:{hair:/hollywood|wave|blowout|sleek|ponytail|flip|voluminous/i,outfit:/gown|satin|velvet|evening|sequin|dress|saree/i,makeup:/glam|red lip|smoky|berry|shimmer|bronze|wing/i,pose:/seated|over|profile|chin|stool|hand/i,expression:/poised|elegant|composed|confident|smirk/i,mood:/glamorous|mysterious|composed/i}},
@@ -526,6 +678,7 @@ const finishChecks=[
 {id:'fabric',label:'Realistic fabric and tailoring',detail:'Natural folds, seams, texture, weight and garment fit.',checked:true},
 {id:'hands',label:'Believable hands and anatomy',detail:'Natural finger positions and plausible body structure.',checked:true},
 {id:'lightingReal',label:'Physically believable lighting',detail:'Consistent shadows, highlights and reflected light.',checked:true},
+{id:'waterReal',label:'Aquatic & wet physics',detail:'Authentic water droplets, wet hair physics and damp fabric weight; no plastic textures.',checked:true},
 {id:'retouch',label:'No excessive beauty retouching',detail:'Avoid airbrushed, waxy, plastic or filtered skin.',checked:true},
 {id:'accessoryKeep',label:'Retain signature reference accessories',detail:'Keep visible nose ring, glasses or jewelry when requested.',checked:true},
 {id:'backgroundReal',label:'Natural environmental details',detail:'Lived-in details instead of a generic artificial set.',checked:false},
@@ -1149,6 +1302,7 @@ if(checkState.hairStrands)checks.push('Render individual hair strands, believabl
 if(checkState.fabric)checks.push('Render realistic fabric weight, stitching, folds, seams, fit and garment behavior.');
 if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with natural hand placement.');
 if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');
+if(checkState.waterReal)checks.push('Authentic water droplets, believable wet hair clumping, and damp fabric saturation; realistic physics without artificial plastic gloss.');
 if(checkState.retouch)checks.push('Avoid excessive beauty retouching, plastic skin, synthetic gloss and artificial filters.');
 if(checkState.accessoryKeep)checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');
 if(checkState.backgroundReal)checks.push('Use plausible environmental details and a lived-in scene rather than generic or artificial background elements.');
