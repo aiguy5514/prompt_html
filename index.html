@@ -518,6 +518,43 @@ const OUTFIT_FAMILIES = [
   O('🥻 Sarees & Fusion (26 variations)', 'saree')
 ];
 
+const POSE_FAMILIES = [
+  O('✦ All Poses (107 options)', 'all'),
+  O('🧍‍♀️ Standing & Power Stances (31 variations)', 'standing'),
+  O('💆‍♀️ Hair-Touch & Beauty Gestures (22 variations)', 'beauty'),
+  O('🚶‍♀️ Motion, Walking & Turns (18 variations)', 'motion'),
+  O('🧱 Leaning & Architectural (12 variations)', 'leaning'),
+  O('💫 Candid & In-Between Takes (9 variations)', 'candid'),
+  O('🪑 Seated & Floor Lounging (8 variations)', 'seated'),
+  O('💧 Wet-Look & Aquatic Action (7 variations)', 'wet')
+];
+
+const SHOT_FAMILIES = [
+  O('✦ All Framings (10 options)', 'all'),
+  O('💄 Close-Up & Beauty Portraits (4 variations)', 'close'),
+  O('👗 Medium & Half-Length (3 variations)', 'medium'),
+  O('💃 Full-Length & Environmental (3 variations)', 'full')
+];
+
+const SCENE_FAMILIES = [
+  O('✦ All Locations (97 options)', 'all'),
+  O('🌆 Urban, Rooftops & Walls (29 variations)', 'urban'),
+  O('📸 Studio Backdrops & Cycs (28 variations)', 'studio'),
+  O('🛋️ Luxury Interiors & Suites (22 variations)', 'luxury'),
+  O('✂️ Salons & Makeover Backstages (11 variations)', 'salon'),
+  O('🌊 Aquatic Pools & Coastal (7 variations)', 'aquatic')
+];
+
+const LIGHTING_FAMILIES = [
+  O('✦ All Lighting (62 options)', 'all'),
+  O('💡 Studio Key & Beauty Dish (25 variations)', 'studio'),
+  O('☀️ Natural Window & Daylight (11 variations)', 'daylight'),
+  O('🌅 Golden Hour & Warm Tungsten (9 variations)', 'warm'),
+  O('⚡ Direct Flash & Hard Sunlight (7 variations)', 'flash'),
+  O('🎬 Cinematic, Low-Key & Cool (6 variations)', 'moody'),
+  O('💧 Aquatic Caustics & Water Rim (4 variations)', 'aquatic')
+];
+
 function getItemCategory(id, item) {
   if (!item) return 'all';
   const text = ((item.label || '') + ' ' + (item.text || '')).toLowerCase();
@@ -542,14 +579,42 @@ function getItemCategory(id, item) {
     if (/cocktail|mini dress|wrap dress|knit dress|bandage|midi dress/i.test(text)) return 'cocktail';
     if (/shirt|top|denim|corset|blouse|knit|breastplate|jeans|skirt|vest/i.test(text)) return 'separates';
     return 'gown';
+  } else if (id === 'pose') {
+    if (/pool|water|emerging|aquatic|drenched|shower|swim|ocean|wave|splash|sun-drench/i.test(text)) return 'wet';
+    if (/hair|earring|cuff|collar|chin|touching|jewelry|tuck|bracelet|lapel|sleeve/i.test(text)) return 'beauty';
+    if (/lean|leaning|wall|counter|railing|doorway|table|platform/i.test(text)) return 'leaning';
+    if (/seated|sitting|chair|stool|floor|couch|cross-legged|ankles crossed/i.test(text)) return 'seated';
+    if (/walk|walking|turn|turning|mid-step|pivot|stride|swinging|stepping|glance|profile|head turn/i.test(text)) return 'motion';
+    if (/candid|laugh|laughing|breath|reset|conversation|between|looking away|unscripted|reaction|cue/i.test(text)) return 'candid';
+    return 'standing';
+  } else if (id === 'framing') {
+    if (/close-up|head-and-shoulders|detail crop|tight side-profile/i.test(text)) return 'close';
+    if (/waist-up|candid medium|three-quarter/i.test(text)) return 'medium';
+    return 'full';
+  } else if (id === 'background') {
+    if (/pool|water|ocean|cliffside|beach|cove|aqua|terrace pool|shower|lagoon/i.test(text)) return 'aquatic';
+    if (/salon|styling station|dressing room|waiting area|backstage|hairdresser|barber/i.test(text)) return 'salon';
+    if (/studio|backdrop|cyclorama|paper|seamless|grey studio|white studio|taupe studio|burgundy backdrop/i.test(text)) return 'studio';
+    if (/hotel|suite|apartment|living room|loft|bedroom|interior|corridor|penthouse/i.test(text)) return 'luxury';
+    return 'urban';
+  } else if (id === 'lighting') {
+    if (/pool|water|caustic|specular|aquatic|dusk backlighting|ocean/i.test(text)) return 'aquatic';
+    if (/flash|direct|sunlight|hard shadow|on-camera/i.test(text)) return 'flash';
+    if (/window|daylight|salon daylight|ambient|overcast/i.test(text)) return 'daylight';
+    if (/golden|warm|tungsten|sunset|dusk/i.test(text)) return 'warm';
+    if (/moody|low-key|low-contrast|cool editorial|cinematic side|practical/i.test(text)) return 'moody';
+    return 'studio';
   }
   return 'all';
 }
 
-
 const fields={
 hairCategory:{label:'Haircut category',section:'look',opts:HAIR_FAMILIES,def:0},
 outfitCategory:{label:'Wardrobe category',section:'wardrobe',opts:OUTFIT_FAMILIES,def:0},
+poseCategory:{label:'Pose category',section:'pose',opts:POSE_FAMILIES,def:0},
+shotCategory:{label:'Shot category',section:'camera',opts:SHOT_FAMILIES,def:0},
+sceneCategory:{label:'Location category',section:'scene',opts:SCENE_FAMILIES,def:0},
+lightingCategory:{label:'Lighting category',section:'scene',opts:LIGHTING_FAMILIES,def:0},
 ponyTailFall:{label:'Where ponytail falls (front / back)',section:'look',opts:ponyTailFallOpts,def:0},
 ponyTailEnd:{label:'Where ponytail ends',section:'look',opts:ponyTailEndOpts,def:0},
 ponyBaseHeight:{label:'Ponytail base height',section:'look',opts:ponyBaseHeightOpts,def:0},
@@ -558,9 +623,9 @@ ponyTailStyle:{label:'Ponytail tail texture & finish',section:'look',opts:ponyTa
 makeover:{label:'Makeover moment',section:'look',opts:[O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Final stylist touch-up','a stylist has finished the final hair touch-up just before the shoot'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves')],def:0},
 mode:{label:'Reference workflow',section:'look',opts:[O('Edit the supplied reference','Edit the supplied reference image, preserving the same adult woman and making only the requested styling and photoshoot changes'),O('New image using reference identity','Create a new photograph using the supplied reference image as identity guidance for the same adult woman')],def:0},hair:{label:'Specific haircut',section:'look',opts:hair,def:0},hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
 outfit:{label:'Specific outfit',section:'wardrobe',opts:outfit,def:0},outfitFit:{label:'Fabric and fit',section:'wardrobe',opts:outfitFit,def:0},accessories:{label:'Accessories',section:'wardrobe',opts:accessories,def:12},makeup:{label:'Makeup direction',section:'wardrobe',opts:makeup,def:0},
-pose:{label:'Pose / body language',section:'pose',opts:pose,def:0},expression:{label:'Expression',section:'pose',opts:expression,def:0},gesture:{label:'Hand / gesture detail',section:'pose',opts:gesture,def:0},mood:{label:'Overall attitude',section:'pose',opts:mood,def:0},
-framing:{label:'Framing',section:'camera',opts:framing,def:3},angle:{label:'Camera angle',section:'camera',opts:angle,def:0},lens:{label:'Lens / perspective',section:'camera',opts:lens,def:1},composition:{label:'Composition',section:'camera',opts:composition,def:2},aspect:{label:'Image ratio',section:'camera',opts:aspect,def:0},
-background:{label:'Background / location',section:'scene',opts:background,def:0},lighting:{label:'Lighting',section:'scene',opts:lighting,def:0},style:{label:'Photography style',section:'scene',opts:style,def:0},grade:{label:'Color grade',section:'scene',opts:grade,def:0},quality:{label:'Output quality',section:'scene',opts:quality,def:0}
+pose:{label:'Specific pose',section:'pose',opts:pose,def:0},expression:{label:'Expression',section:'pose',opts:expression,def:0},gesture:{label:'Hand / gesture detail',section:'pose',opts:gesture,def:0},mood:{label:'Overall attitude',section:'pose',opts:mood,def:0},
+framing:{label:'Specific framing',section:'camera',opts:framing,def:3},angle:{label:'Camera angle',section:'camera',opts:angle,def:0},lens:{label:'Lens / perspective',section:'camera',opts:lens,def:1},composition:{label:'Composition',section:'camera',opts:composition,def:2},aspect:{label:'Image ratio',section:'camera',opts:aspect,def:0},
+background:{label:'Specific location',section:'scene',opts:background,def:0},lighting:{label:'Specific lighting',section:'scene',opts:lighting,def:0},style:{label:'Photography style',section:'scene',opts:style,def:0},grade:{label:'Color grade',section:'scene',opts:grade,def:0},quality:{label:'Output quality',section:'scene',opts:quality,def:0}
 };
 
 // SECOND EXPANSION: another substantial layer of distinct variants and detailed controls.
@@ -900,15 +965,15 @@ const finishChecks=[
 const GROUPS=[
 ['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairLength','hairVolume','fringe','parting','hairTexture']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
 ['wardrobe','Outfit',['outfitCategory','outfit','outfitFit','palette','fabric','neckline','sleeves','layering','garmentDetail']],['wardrobe','Colour story',['palette','accentColors']],['wardrobe','Accessories',['accessories','eyewear','bag','footwear','nailStyle']],['wardrobe','Makeup & skin',['makeup','lipLook','eyeLook','browStyle','complexion']],
-['pose','Body',['pose','stance','gesture','motion']],['pose','Face & energy',['expression','gaze','mood','shotEnergy']],['pose','Story',['interaction']],
-['camera','Framing',['framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
-['scene','Location',['background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
+['pose','Body',['poseCategory','pose','stance','gesture','motion']],['pose','Face & energy',['expression','gaze','mood','shotEnergy']],['pose','Story',['interaction']],
+['camera','Framing',['shotCategory','framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
+['scene','Location',['sceneCategory','background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lightingCategory','lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
 look: new Set(['mode', 'hairCategory', 'hair', 'hairLength', 'hairColor', 'hairFinish']),
 wardrobe: new Set(['outfitCategory', 'outfit', 'outfitFit', 'palette', 'makeup', 'accessories']),
-pose: new Set(['pose', 'expression', 'gesture', 'mood']),
-camera: new Set(['framing', 'angle', 'lens', 'aspect']),
-scene: new Set(['background', 'lighting', 'style', 'grade'])
+pose: new Set(['poseCategory', 'pose', 'expression', 'gesture', 'mood']),
+camera: new Set(['shotCategory', 'framing', 'angle', 'lens', 'aspect']),
+scene: new Set(['sceneCategory', 'background', 'lightingCategory', 'lighting', 'style', 'grade'])
 };
 
 function orderedFields(){
@@ -1077,6 +1142,26 @@ if(values.outfit){
   const match = fields.outfitCategory.opts.find(c => c.text === oCat);
   if(match) values.outfitCategory = match;
 }
+if(values.pose){
+  const pCat = getItemCategory('pose', values.pose);
+  const match = fields.poseCategory.opts.find(c => c.text === pCat);
+  if(match) values.poseCategory = match;
+}
+if(values.framing){
+  const sCat = getItemCategory('framing', values.framing);
+  const match = fields.shotCategory.opts.find(c => c.text === sCat);
+  if(match) values.shotCategory = match;
+}
+if(values.background){
+  const bCat = getItemCategory('background', values.background);
+  const match = fields.sceneCategory.opts.find(c => c.text === bCat);
+  if(match) values.sceneCategory = match;
+}
+if(values.lighting){
+  const lCat = getItemCategory('lighting', values.lighting);
+  const match = fields.lightingCategory.opts.find(c => c.text === lCat);
+  if(match) values.lightingCategory = match;
+}
 }
 
 function toggleLock(id){
@@ -1122,6 +1207,18 @@ if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.h
 } else if (id === 'outfit' && values.outfitCategory && values.outfitCategory.text && values.outfitCategory.text !== 'all') {
   const cat = values.outfitCategory.text;
   visibleOpts = f.opts.filter(o => getItemCategory('outfit', o) === cat);
+} else if (id === 'pose' && values.poseCategory && values.poseCategory.text && values.poseCategory.text !== 'all') {
+  const cat = values.poseCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('pose', o) === cat);
+} else if (id === 'framing' && values.shotCategory && values.shotCategory.text && values.shotCategory.text !== 'all') {
+  const cat = values.shotCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('framing', o) === cat);
+} else if (id === 'background' && values.sceneCategory && values.sceneCategory.text && values.sceneCategory.text !== 'all') {
+  const cat = values.sceneCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('background', o) === cat);
+} else if (id === 'lighting' && values.lightingCategory && values.lightingCategory.text && values.lightingCategory.text !== 'all') {
+  const cat = values.lightingCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('lighting', o) === cat);
 }
 
 const count=document.createElement('span');
@@ -1159,30 +1256,62 @@ visibleOpts.forEach((o)=>{
     if (id === 'hair') {
       const itemCat = getItemCategory('hair', o);
       const matchCat = fields.hairCategory.opts.find(c => c.text === itemCat);
-      if (matchCat && values.hairCategory.text !== 'all') {
-        values.hairCategory = matchCat;
-      }
+      if (matchCat && values.hairCategory.text !== 'all') values.hairCategory = matchCat;
     } else if (id === 'outfit') {
       const itemCat = getItemCategory('outfit', o);
       const matchCat = fields.outfitCategory.opts.find(c => c.text === itemCat);
-      if (matchCat && values.outfitCategory.text !== 'all') {
-        values.outfitCategory = matchCat;
-      }
+      if (matchCat && values.outfitCategory.text !== 'all') values.outfitCategory = matchCat;
+    } else if (id === 'pose') {
+      const itemCat = getItemCategory('pose', o);
+      const matchCat = fields.poseCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.poseCategory.text !== 'all') values.poseCategory = matchCat;
+    } else if (id === 'framing') {
+      const itemCat = getItemCategory('framing', o);
+      const matchCat = fields.shotCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.shotCategory.text !== 'all') values.shotCategory = matchCat;
+    } else if (id === 'background') {
+      const itemCat = getItemCategory('background', o);
+      const matchCat = fields.sceneCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.sceneCategory.text !== 'all') values.sceneCategory = matchCat;
+    } else if (id === 'lighting') {
+      const itemCat = getItemCategory('lighting', o);
+      const matchCat = fields.lightingCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.lightingCategory.text !== 'all') values.lightingCategory = matchCat;
     } else if (id === 'hairCategory') {
       const cat = o.text || 'all';
       if (cat !== 'all') {
         const firstInCat = fields.hair.opts.find(opt => getItemCategory('hair', opt) === cat);
-        if (firstInCat && getItemCategory('hair', values.hair) !== cat) {
-          values.hair = firstInCat;
-        }
+        if (firstInCat && getItemCategory('hair', values.hair) !== cat) values.hair = firstInCat;
       }
     } else if (id === 'outfitCategory') {
       const cat = o.text || 'all';
       if (cat !== 'all') {
         const firstInCat = fields.outfit.opts.find(opt => getItemCategory('outfit', opt) === cat);
-        if (firstInCat && getItemCategory('outfit', values.outfit) !== cat) {
-          values.outfit = firstInCat;
-        }
+        if (firstInCat && getItemCategory('outfit', values.outfit) !== cat) values.outfit = firstInCat;
+      }
+    } else if (id === 'poseCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.pose.opts.find(opt => getItemCategory('pose', opt) === cat);
+        if (firstInCat && getItemCategory('pose', values.pose) !== cat) values.pose = firstInCat;
+      }
+    } else if (id === 'shotCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.framing.opts.find(opt => getItemCategory('framing', opt) === cat);
+        if (firstInCat && getItemCategory('framing', values.framing) !== cat) values.framing = firstInCat;
+      }
+    } else if (id === 'sceneCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.background.opts.find(opt => getItemCategory('background', opt) === cat);
+        if (firstInCat && getItemCategory('background', values.background) !== cat) values.background = firstInCat;
+      }
+    } else if (id === 'lightingCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.lighting.opts.find(opt => getItemCategory('lighting', opt) === cat);
+        if (firstInCat && getItemCategory('lighting', values.lighting) !== cat) values.lighting = firstInCat;
       }
     }
 
@@ -1190,7 +1319,8 @@ visibleOpts.forEach((o)=>{
     custom.classList.remove('open');
     trigger.setAttribute('aria-expanded','false');
 
-    if (id === 'hairCategory' || id === 'hair' || id === 'outfitCategory' || id === 'outfit' || id === 'ponyTailFall' || id === 'ponyTailEnd') {
+    const RE_RENDER_IDS = new Set(['hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd']);
+    if (RE_RENDER_IDS.has(id)) {
       renderFields();
     }
     buildPrompt();
@@ -1422,6 +1552,26 @@ if(!lockedFields.has('outfitCategory') && values.outfit){
   const oCat = getItemCategory('outfit', values.outfit);
   const match = fields.outfitCategory.opts.find(c => c.text === oCat);
   if(match) values.outfitCategory = match;
+}
+if(!lockedFields.has('poseCategory') && values.pose){
+  const pCat = getItemCategory('pose', values.pose);
+  const match = fields.poseCategory.opts.find(c => c.text === pCat);
+  if(match) values.poseCategory = match;
+}
+if(!lockedFields.has('shotCategory') && values.framing){
+  const sCat = getItemCategory('framing', values.framing);
+  const match = fields.shotCategory.opts.find(c => c.text === sCat);
+  if(match) values.shotCategory = match;
+}
+if(!lockedFields.has('sceneCategory') && values.background){
+  const bCat = getItemCategory('background', values.background);
+  const match = fields.sceneCategory.opts.find(c => c.text === bCat);
+  if(match) values.sceneCategory = match;
+}
+if(!lockedFields.has('lightingCategory') && values.lighting){
+  const lCat = getItemCategory('lighting', values.lighting);
+  const match = fields.lightingCategory.opts.find(c => c.text === lCat);
+  if(match) values.lightingCategory = match;
 }
 activePreset='';
 document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
