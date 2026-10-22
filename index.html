@@ -28,24 +28,9 @@
 .fine-tune-drawer[open] .fine-tune-chevron{transform:rotate(180deg)}
 
 /* Contextual Ponytail Architecture & Fall Controls */
-/* Category Hierarchy & Pill Navigation */
-.category-strip{margin:4px 0 10px 0;width:100%;overflow:hidden}
-.category-pills{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 6px 2px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-.category-pills::-webkit-scrollbar{height:4px}
-.category-pills::-webkit-scrollbar-thumb{background:var(--line,#3a3040);border-radius:999px}
-.category-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--line,#3a3040);color:var(--muted,#b8adbd);font-size:11px;font-weight:700;padding:6px 11px;border-radius:999px;white-space:nowrap;cursor:pointer;transition:all .15s ease;user-select:none;flex-shrink:0}
-.category-pill:hover{background:rgba(255,255,255,.09);color:var(--text,#fff8fc);border-color:rgba(255,92,146,.4)}
-.category-pill.active{background:linear-gradient(115deg,var(--pink,#ff5c92),var(--pink2,#ff9cbd));color:#24101a;border-color:transparent;font-weight:850;box-shadow:0 2px 10px rgba(255,92,146,.35)}
-.category-pill .cat-icon{font-size:13px;line-height:1}
-.category-pill .cat-count{font-size:10px;opacity:.75;background:rgba(0,0,0,.2);padding:1px 5px;border-radius:999px}
-.category-pill.active .cat-count{background:rgba(36,16,26,.25);color:#24101a;opacity:.9}
-.menu-category-tabs{display:flex;gap:4px;overflow-x:auto;padding:6px 10px;background:rgba(0,0,0,.35);border-bottom:1px solid var(--line,#3a3040);scrollbar-width:none}
-.menu-category-tabs::-webkit-scrollbar{display:none}
-.menu-cat-tab{display:inline-flex;align-items:center;gap:4px;background:transparent;border:1px solid transparent;color:var(--muted,#b8adbd);font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;white-space:nowrap;cursor:pointer;transition:all .12s;flex-shrink:0}
-.menu-cat-tab:hover{background:rgba(255,255,255,.06);color:var(--text,#fff8fc)}
-.menu-cat-tab.active{background:rgba(255,92,146,.2);color:var(--pink2,#ff9cbd);border-color:rgba(255,92,146,.4);font-weight:800}
-.cat-no-match{padding:14px 12px;font-size:12px;color:var(--muted,#b8adbd);text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
-.cat-selected-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,92,146,.15);color:var(--pink2);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:750;margin-right:6px}
+/* Clean Group Header in Option Lists */
+.choice-group-header{padding:8px 12px 4px;font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--pink2,#ff9cbd);background:rgba(255,92,146,.06);border-bottom:1px solid var(--line,#3a3040);border-top:1px solid var(--line,#3a3040);pointer-events:none;user-select:none;display:flex;align-items:center;justify-content:space-between}
+.choice-group-header:first-child{border-top:none}
 
 .ponytail-callout-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,92,146,.09) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(255,92,146,.38);border-radius:16px;padding:16px;margin:8px 0 16px 0;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);animation:fadeIn .2s ease-out}
 .ponytail-callout-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
@@ -59,8 +44,7 @@
 .pony-chip:hover{background:rgba(255,255,255,.12);border-color:rgba(255,92,146,.45)}
 .pony-chip.active{background:linear-gradient(115deg,var(--pink),var(--pink2));color:#24101a;border-color:transparent;font-weight:800;box-shadow:0 2px 10px rgba(255,92,146,.4)}
 .ponytail-subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
-.pony-toggle-btn{background:rgba(255,92,146,.12);border:1px solid rgba(255,92,146,.32);color:var(--pink2);font-size:10px;font-weight:750;padding:3px 9px;border-radius:999px;margin-left:7px;cursor:pointer;transition:all .15s}
-.pony-toggle-btn:hover{background:rgba(255,92,146,.25);border-color:var(--pink2)}
+
 .fine-tune-grid{padding:14px 16px 18px;border-top:1px solid var(--line)}
 .ref-card{margin-bottom:14px;border:1px solid var(--line);background:#17141bd4;border-radius:16px;overflow:hidden}
 .ref-head{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:#ffffff05;border-bottom:1px solid var(--line)}
@@ -510,14 +494,16 @@ const ponyTailStyleOpts = [
 ];
 
 const fields={
+hairCategory:{label:'Haircut category',section:'look',opts:HAIR_FAMILIES,def:0},
+outfitCategory:{label:'Wardrobe category',section:'wardrobe',opts:OUTFIT_FAMILIES,def:0},
 ponyTailFall:{label:'Where ponytail falls (front / back)',section:'look',opts:ponyTailFallOpts,def:0},
 ponyTailEnd:{label:'Where ponytail ends',section:'look',opts:ponyTailEndOpts,def:0},
 ponyBaseHeight:{label:'Ponytail base height',section:'look',opts:ponyBaseHeightOpts,def:0},
 ponyBaseWrap:{label:'Ponytail base wrap & hardware',section:'look',opts:ponyBaseWrapOpts,def:0},
 ponyTailStyle:{label:'Ponytail tail texture & finish',section:'look',opts:ponyTailStyleOpts,def:0},
 makeover:{label:'Makeover moment',section:'look',opts:[O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Final stylist touch-up','a stylist has finished the final hair touch-up just before the shoot'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves')],def:0},
-mode:{label:'Reference workflow',section:'look',opts:[O('Edit the supplied reference','Edit the supplied reference image, preserving the same adult woman and making only the requested styling and photoshoot changes'),O('New image using reference identity','Create a new photograph using the supplied reference image as identity guidance for the same adult woman')],def:0},hair:{label:'Haircut / hairstyle',section:'look',opts:hair,def:0},hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
-outfit:{label:'Outfit / wardrobe',section:'wardrobe',opts:outfit,def:0},outfitFit:{label:'Fabric and fit',section:'wardrobe',opts:outfitFit,def:0},accessories:{label:'Accessories',section:'wardrobe',opts:accessories,def:12},makeup:{label:'Makeup direction',section:'wardrobe',opts:makeup,def:0},
+mode:{label:'Reference workflow',section:'look',opts:[O('Edit the supplied reference','Edit the supplied reference image, preserving the same adult woman and making only the requested styling and photoshoot changes'),O('New image using reference identity','Create a new photograph using the supplied reference image as identity guidance for the same adult woman')],def:0},hair:{label:'Specific haircut',section:'look',opts:hair,def:0},hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
+outfit:{label:'Specific outfit',section:'wardrobe',opts:outfit,def:0},outfitFit:{label:'Fabric and fit',section:'wardrobe',opts:outfitFit,def:0},accessories:{label:'Accessories',section:'wardrobe',opts:accessories,def:12},makeup:{label:'Makeup direction',section:'wardrobe',opts:makeup,def:0},
 pose:{label:'Pose / body language',section:'pose',opts:pose,def:0},expression:{label:'Expression',section:'pose',opts:expression,def:0},gesture:{label:'Hand / gesture detail',section:'pose',opts:gesture,def:0},mood:{label:'Overall attitude',section:'pose',opts:mood,def:0},
 framing:{label:'Framing',section:'camera',opts:framing,def:3},angle:{label:'Camera angle',section:'camera',opts:angle,def:0},lens:{label:'Lens / perspective',section:'camera',opts:lens,def:1},composition:{label:'Composition',section:'camera',opts:composition,def:2},aspect:{label:'Image ratio',section:'camera',opts:aspect,def:0},
 background:{label:'Background / location',section:'scene',opts:background,def:0},lighting:{label:'Lighting',section:'scene',opts:lighting,def:0},style:{label:'Photography style',section:'scene',opts:style,def:0},grade:{label:'Color grade',section:'scene',opts:grade,def:0},quality:{label:'Output quality',section:'scene',opts:quality,def:0}
@@ -858,14 +844,14 @@ const finishChecks=[
 {id:'candid',label:'Candid, not overly staged',detail:'Natural posture, unforced expression and imperfect timing.',checked:true}
 ];
 const GROUPS=[
-['look','The moment',['makeover','mode']],['look','Cut & shape',['hair','hairLength','ponyStyle','fringe','parting','hairVolume','hairTexture']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
-['wardrobe','Outfit',['outfit','outfitFit','styleEra','neckline','sleeves','layering','fabric','garmentDetail']],['wardrobe','Colour story',['palette','accentColors']],['wardrobe','Accessories',['accessories','eyewear','bag','footwear','nailStyle']],['wardrobe','Makeup & skin',['makeup','lipLook','eyeLook','browStyle','complexion']],
+['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairLength','hairVolume','fringe','parting','hairTexture']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
+['wardrobe','Outfit',['outfitCategory','outfit','outfitFit','palette','fabric','neckline','sleeves','layering','garmentDetail']],['wardrobe','Colour story',['palette','accentColors']],['wardrobe','Accessories',['accessories','eyewear','bag','footwear','nailStyle']],['wardrobe','Makeup & skin',['makeup','lipLook','eyeLook','browStyle','complexion']],
 ['pose','Body',['pose','stance','gesture','motion']],['pose','Face & energy',['expression','gaze','mood','shotEnergy']],['pose','Story',['interaction']],
 ['camera','Framing',['framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
 ['scene','Location',['background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
-look: new Set(['mode', 'hair', 'hairLength', 'hairColor', 'hairFinish']),
-wardrobe: new Set(['outfit', 'outfitFit', 'palette', 'makeup', 'accessories']),
+look: new Set(['mode', 'hairCategory', 'hair', 'hairLength', 'hairColor', 'hairFinish']),
+wardrobe: new Set(['outfitCategory', 'outfit', 'outfitFit', 'palette', 'makeup', 'accessories']),
 pose: new Set(['pose', 'expression', 'gesture', 'mood']),
 camera: new Set(['framing', 'angle', 'lens', 'aspect']),
 scene: new Set(['background', 'lighting', 'style', 'grade'])
@@ -1027,6 +1013,16 @@ Object.entries(p.set).forEach(([id,o])=>{
   if(lockedFields.has(id))return;
   if(fields[id])values[id]=o;
 });
+if(values.hair){
+  const hCat = getItemCategory('hair', values.hair);
+  const match = fields.hairCategory.opts.find(c => c.text === hCat);
+  if(match) values.hairCategory = match;
+}
+if(values.outfit){
+  const oCat = getItemCategory('outfit', values.outfit);
+  const match = fields.outfitCategory.opts.find(c => c.text === oCat);
+  if(match) values.outfitCategory = match;
+}
 }
 
 function toggleLock(id){
@@ -1041,36 +1037,30 @@ save();
 renderFields();
 }
 
-const FIELD_CATEGORIES = {
-  hair: [
-    { id: 'all', label: 'All Styles', icon: '✦' },
-    { id: 'bob', label: 'Bobs & Lobs', icon: '💇‍♀️' },
-    { id: 'shag', label: 'Shags & Mullets', icon: '🐺' },
-    { id: 'layer', label: 'Layers & Blowout', icon: '🦋' },
-    { id: 'pony', label: 'Ponytails & Updos', icon: '🐎' },
-    { id: 'wet', label: 'Wet-Look & Aquatic', icon: '💧' },
-    { id: 'wave', label: 'Waves & Lengths', icon: '🌊' },
-    { id: 'curl', label: 'Curls & Afro', icon: '🌀' },
-    { id: 'pixie', label: 'Pixies & Crops', icon: '✂️' },
-    { id: 'braid', label: 'Braids & Buns', icon: '👑' }
-  ],
-  outfit: [
-    { id: 'all', label: 'All Outfits', icon: '✦' },
-    { id: 'gown', label: 'Evening Gowns', icon: '👗' },
-    { id: 'suit', label: 'Suits & Tailoring', icon: '🕴️' },
-    { id: 'swim', label: 'Monokinis & Swim', icon: '🩱' },
-    { id: 'saree', label: 'Sarees & Fusion', icon: '🥻' },
-    { id: 'cocktail', label: 'Cocktail & Mini', icon: '🦹' },
-    { id: 'leather', label: 'Leather, Vinyl & Trench', icon: '🧥' },
-    { id: 'separates', label: 'Tops, Denim & Separates', icon: '👚' },
-    { id: 'jumpsuit', label: 'Jumpsuits & Bodysuits', icon: '🩲' }
-  ]
-};
+const HAIR_FAMILIES = [
+  O('✦ All Styles (224 options)', 'all'),
+  O('💇‍♀️ Bobs & Lobs (49 variations)', 'bob'),
+  O('🦋 Layers & Blowouts (48 variations)', 'layer'),
+  O('🐎 Ponytails & Updos (34 variations)', 'pony'),
+  O('🐺 Shags & Mullets (24 variations)', 'shag'),
+  O('💧 Wet-Look & Aquatic (18 variations)', 'wet'),
+  O('👑 Braids & Buns (16 variations)', 'braid'),
+  O('🌀 Curls, Coils & Afro (15 variations)', 'curl'),
+  O('✂️ Pixies & Crops (12 variations)', 'pixie'),
+  O('🌊 Waves & Lengths (8 variations)', 'wave')
+];
 
-const activeCategory = {
-  hair: 'all',
-  outfit: 'all'
-};
+const OUTFIT_FAMILIES = [
+  O('✦ All Outfits (374 options)', 'all'),
+  O('👗 Evening Gowns (84 variations)', 'gown'),
+  O('🕴️ Suits & Tailoring (72 variations)', 'suit'),
+  O('🦹 Cocktail & Party (54 variations)', 'cocktail'),
+  O('👚 Tops, Denim & Separates (46 variations)', 'separates'),
+  O('🩲 Jumpsuits & Bodysuits (38 variations)', 'jumpsuit'),
+  O('🩱 Monokinis & Swimwear (28 variations)', 'swim'),
+  O('🧥 Leather, Vinyl & Trench (26 variations)', 'leather'),
+  O('🥻 Sarees & Fusion (26 variations)', 'saree')
+];
 
 function getItemCategory(id, item) {
   if (!item) return 'all';
@@ -1100,11 +1090,6 @@ function getItemCategory(id, item) {
   return 'all';
 }
 
-function getCategoryMeta(id, catId) {
-  const cats = FIELD_CATEGORIES[id] || [];
-  return cats.find(c => c.id === catId) || cats[0] || { id: 'all', label: 'All', icon: '✦' };
-}
-
 function createFieldElement(id, f) {
 const wrap=document.createElement('div');
 wrap.className='field'+(['pose','background'].includes(id)?' full':'');
@@ -1127,80 +1112,25 @@ lockBtn.innerHTML=isLocked?'🔒':'🔓';
 lockBtn.addEventListener('click',()=>toggleLock(id));
 
 titleWrap.append(label, lockBtn);
-if(id==='hair'){
-  const ponyBtn=document.createElement('button');
-  ponyBtn.type='button';
-  ponyBtn.className='pony-toggle-btn';
-  ponyBtn.title='Click to switch to a ponytail and customize fall (front/back) and length';
-  ponyBtn.textContent='✨ Ponytail fall & length';
-  ponyBtn.addEventListener('click',(e)=>{
-    e.stopPropagation();
-    const ponyOpt=fields.hair.opts.find(o=>o.label.includes('Short sleek high ponytail ending at neck'))||fields.hair.opts.find(o=>o.label.toLowerCase().includes('ponytail'));
-    if(ponyOpt) values.hair=ponyOpt;
-    renderFields();
-    buildPrompt();
-    toast('Switched to ponytail. Customize fall & length below!');
-  });
-  titleWrap.appendChild(ponyBtn);
+
+// Determine options to display (filtered by category if applicable)
+let visibleOpts = f.opts;
+if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.hairCategory.text !== 'all') {
+  const cat = values.hairCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('hair', o) === cat);
+} else if (id === 'outfit' && values.outfitCategory && values.outfitCategory.text && values.outfitCategory.text !== 'all') {
+  const cat = values.outfitCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('outfit', o) === cat);
 }
 
 const count=document.createElement('span');
 count.className='option-count';
-count.textContent=f.opts.length+' options';
+count.textContent=visibleOpts.length+' options';
 lab.append(titleWrap,count);
 
 const custom=document.createElement('div');
 custom.className='custom-select';
 custom.dataset.id=id;
-
-const hasCategories = Boolean(FIELD_CATEGORIES[id]);
-const cats = hasCategories ? FIELD_CATEGORIES[id] : [];
-
-// Sync category with current selected item if not set or if preset changed
-if(hasCategories && activeCategory[id] === 'all' && values[id]){
-  const itemCat = getItemCategory(id, values[id]);
-  if(itemCat && itemCat !== 'all'){
-    // keep 'all' or show item category
-  }
-}
-
-// Category Pills Bar above trigger
-let catStrip = null;
-let catPillsContainer = null;
-let menuCatTabs = null;
-
-if(hasCategories){
-  catStrip = document.createElement('div');
-  catStrip.className = 'category-strip';
-  catPillsContainer = document.createElement('div');
-  catPillsContainer.className = 'category-pills';
-
-  // Count items per category
-  const catCounts = {};
-  cats.forEach(c => catCounts[c.id] = 0);
-  f.opts.forEach(o => {
-    const cId = getItemCategory(id, o);
-    if(catCounts[cId] !== undefined) catCounts[cId]++;
-    catCounts['all']++;
-  });
-
-  cats.forEach(cat => {
-    const pill = document.createElement('button');
-    pill.type = 'button';
-    pill.className = 'category-pill' + (activeCategory[id] === cat.id ? ' active' : '');
-    pill.dataset.cat = cat.id;
-    pill.innerHTML = `<span class="cat-icon">${cat.icon}</span><span class="cat-name">${cat.label}</span><span class="cat-count">${catCounts[cat.id]||0}</span>`;
-    pill.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setFieldCategory(id, cat.id, custom, menu, f);
-      if(!custom.classList.contains('open')){
-        openCustomSelect(custom, menu, trigger);
-      }
-    });
-    catPillsContainer.appendChild(pill);
-  });
-  catStrip.appendChild(catPillsContainer);
-}
 
 const trigger=document.createElement('button');
 trigger.type='button';
@@ -1210,52 +1140,56 @@ trigger.innerHTML=`<span class="current"></span><span class="chevron">⌄</span>
 
 const menu=document.createElement('div');
 menu.className='select-menu';
-
-let menuHeaderHtml = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}">`;
-if(hasCategories){
-  menuHeaderHtml += `<div class="menu-category-tabs">`;
-  cats.forEach(cat => {
-    menuHeaderHtml += `<button type="button" class="menu-cat-tab${activeCategory[id]===cat.id?' active':''}" data-cat="${cat.id}"><span class="cat-icon">${cat.icon}</span> ${cat.label}</button>`;
-  });
-  menuHeaderHtml += `</div>`;
-}
-menuHeaderHtml += `<div class="option-list"></div><div class="cat-no-match hidden"><span>No options match in this category.</span><button type="button" class="btn btn-quiet btn-small show-all-cats-btn">Search All Styles</button></div>`;
-menu.innerHTML = menuHeaderHtml;
-
-if(hasCategories){
-  menu.querySelectorAll('.menu-cat-tab').forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setFieldCategory(id, tab.dataset.cat, custom, menu, f);
-      menu.querySelector('input').focus();
-    });
-  });
-  const showAllBtn = menu.querySelector('.show-all-cats-btn');
-  if(showAllBtn){
-    showAllBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setFieldCategory(id, 'all', custom, menu, f);
-      menu.querySelector('input').focus();
-    });
-  }
-}
+menu.innerHTML=`<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;
 
 const list=menu.querySelector('.option-list');
-f.opts.forEach((o,index)=>{
+
+// Populate choices
+visibleOpts.forEach((o)=>{
   const b=document.createElement('button');
   b.type='button';
-  b.className='choice';
-  b.dataset.index=index;
-  if(hasCategories){
-    b.dataset.cat = getItemCategory(id, o);
-  }
+  b.className='choice' + (values[id] === o ? ' selected' : '');
+  b.dataset.index=fields[id].opts.indexOf(o);
   b.textContent=o.label;
   b.addEventListener('click',()=>{
     values[id]=o;
+    
+    // Auto-sync parent category if a specific style was selected directly
+    if (id === 'hair') {
+      const itemCat = getItemCategory('hair', o);
+      const matchCat = fields.hairCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.hairCategory.text !== 'all') {
+        values.hairCategory = matchCat;
+      }
+    } else if (id === 'outfit') {
+      const itemCat = getItemCategory('outfit', o);
+      const matchCat = fields.outfitCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.outfitCategory.text !== 'all') {
+        values.outfitCategory = matchCat;
+      }
+    } else if (id === 'hairCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.hair.opts.find(opt => getItemCategory('hair', opt) === cat);
+        if (firstInCat && getItemCategory('hair', values.hair) !== cat) {
+          values.hair = firstInCat;
+        }
+      }
+    } else if (id === 'outfitCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.outfit.opts.find(opt => getItemCategory('outfit', opt) === cat);
+        if (firstInCat && getItemCategory('outfit', values.outfit) !== cat) {
+          values.outfit = firstInCat;
+        }
+      }
+    }
+
     updateCustom(custom,id);
     custom.classList.remove('open');
     trigger.setAttribute('aria-expanded','false');
-    if(id==='hair'||id==='ponyTailFall'||id==='ponyTailEnd'){
+
+    if (id === 'hairCategory' || id === 'hair' || id === 'outfitCategory' || id === 'outfit' || id === 'ponyTailFall' || id === 'ponyTailEnd') {
       renderFields();
     }
     buildPrompt();
@@ -1264,8 +1198,7 @@ f.opts.forEach((o,index)=>{
   list.appendChild(b);
 });
 
-// Update trigger label
-updateTriggerLabel(trigger, id, values[id]);
+trigger.querySelector('.current').textContent = values[id]?.label || '';
 
 trigger.addEventListener('click',()=>{
   const was=custom.classList.contains('open');
@@ -1274,14 +1207,18 @@ trigger.addEventListener('click',()=>{
     x.querySelector('.select-trigger').setAttribute('aria-expanded','false');
   });
   if(!was){
-    openCustomSelect(custom, menu, trigger);
+    custom.classList.add('open');
+    trigger.setAttribute('aria-expanded','true');
+    const inp = menu.querySelector('input');
+    inp.value = '';
+    filterChoices(menu, '');
+    inp.focus({preventScroll:true});
+    const sel=menu.querySelector('.choice.selected:not(.hidden)');
+    if(sel)sel.scrollIntoView({block:'nearest'});
   }
 });
 
-menu.querySelector('input').addEventListener('input',e=>{
-  filterCategorizedChoices(id, menu, e.target.value);
-});
-
+menu.querySelector('input').addEventListener('input',e=>filterChoices(menu,e.target.value));
 menu.querySelector('input').addEventListener('keydown',e=>{
   if(e.key==='Enter'){
     e.preventDefault();
@@ -1291,113 +1228,10 @@ menu.querySelector('input').addEventListener('keydown',e=>{
 });
 
 custom.append(trigger,menu);
-
-if(catStrip){
-  wrap.append(lab, catStrip, custom);
-}else{
-  wrap.append(lab, custom);
-}
-
-// Initial filter for categorized fields
-if(hasCategories){
-  applyCategoryFilter(id, menu, activeCategory[id], '');
-}
-
+wrap.append(lab,custom);
 updateCustom(custom,id);
 return wrap;
 }
-
-function updateTriggerLabel(trigger, id, item){
-  if(!trigger || !item) return;
-  const currEl = trigger.querySelector('.current');
-  if(!currEl) return;
-  const hasCategories = Boolean(FIELD_CATEGORIES[id]);
-  if(hasCategories && item.label){
-    const catId = getItemCategory(id, item);
-    const meta = getCategoryMeta(id, catId);
-    currEl.innerHTML = `<span class="cat-selected-badge">${meta.icon} ${meta.label}</span> ${item.label}`;
-  } else {
-    currEl.textContent = item.label;
-  }
-}
-
-function openCustomSelect(custom, menu, trigger){
-  custom.classList.add('open');
-  trigger.setAttribute('aria-expanded','true');
-  const inp = menu.querySelector('input');
-  inp.value = '';
-  const id = custom.dataset.id;
-  if(FIELD_CATEGORIES[id]){
-    applyCategoryFilter(id, menu, activeCategory[id] || 'all', '');
-  } else {
-    filterChoices(menu, '');
-  }
-  inp.focus({preventScroll:true});
-  const sel=menu.querySelector('.choice.selected:not(.hidden)');
-  if(sel)sel.scrollIntoView({block:'nearest'});
-}
-
-function setFieldCategory(id, catId, custom, menu, f){
-  activeCategory[id] = catId;
-  const wrap = custom.closest('.field');
-  if(wrap){
-    wrap.querySelectorAll('.category-pill').forEach(p => {
-      p.classList.toggle('active', p.dataset.cat === catId);
-    });
-    // Scroll active pill into view smoothly
-    const activePill = wrap.querySelector(`.category-pill[data-cat="${catId}"]`);
-    if(activePill) activePill.scrollIntoView({inline:'nearest', behavior:'smooth'});
-  }
-  menu.querySelectorAll('.menu-cat-tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.cat === catId);
-  });
-  const inp = menu.querySelector('input');
-  const q = inp ? inp.value.trim() : '';
-  const meta = getCategoryMeta(id, catId);
-  if(inp){
-    inp.placeholder = catId === 'all' ? `Search ${f.label.toLowerCase()}…` : `Search ${meta.label}…`;
-  }
-  applyCategoryFilter(id, menu, catId, q);
-}
-
-function applyCategoryFilter(id, menu, catId, query){
-  const choices = menu.querySelectorAll('.choice');
-  const q = (query || '').toLowerCase().trim();
-  let visibleCount = 0;
-  choices.forEach(c => {
-    const itemCat = c.dataset.cat;
-    const catMatch = (catId === 'all') || (itemCat === catId);
-    const textMatch = !q || c.textContent.toLowerCase().includes(q);
-    if(catMatch && textMatch){
-      c.classList.remove('hidden');
-      visibleCount++;
-    } else {
-      c.classList.add('hidden');
-    }
-  });
-  const noMatchBox = menu.querySelector('.cat-no-match');
-  if(noMatchBox){
-    if(visibleCount === 0){
-      noMatchBox.classList.remove('hidden');
-      const span = noMatchBox.querySelector('span');
-      if(span){
-        const meta = getCategoryMeta(id, catId);
-        span.textContent = q ? `No ${meta.label} match “${q}”.` : `No options found in ${meta.label}.`;
-      }
-    } else {
-      noMatchBox.classList.add('hidden');
-    }
-  }
-}
-
-function filterCategorizedChoices(id, menu, query){
-  if(FIELD_CATEGORIES[id]){
-    applyCategoryFilter(id, menu, activeCategory[id] || 'all', query);
-  } else {
-    filterChoices(menu, query);
-  }
-}
-
 function updateFineTuneBadge(){
 const countEl=el('fineTuneActiveCount');
 if(!countEl)return;
@@ -1513,7 +1347,8 @@ if(!shown){
 }
 
 function updateCustom(custom,id){
-updateTriggerLabel(custom.querySelector('.select-trigger'), id, values[id]);
+const curr=custom.querySelector('.current');
+if(curr && values[id])curr.textContent=values[id].label;
 custom.querySelectorAll('.choice').forEach(b=>{
   const active=fields[id].opts[Number(b.dataset.index)]===values[id];
   b.classList.toggle('selected',active);
@@ -1577,6 +1412,16 @@ Object.entries(fields).forEach(([id,f])=>{
   if(lockedFields.has(id))return;
   values[id]=f.opts[Math.floor(Math.random()*f.opts.length)];
 });
+if(!lockedFields.has('hairCategory') && values.hair){
+  const hCat = getItemCategory('hair', values.hair);
+  const match = fields.hairCategory.opts.find(c => c.text === hCat);
+  if(match) values.hairCategory = match;
+}
+if(!lockedFields.has('outfitCategory') && values.outfit){
+  const oCat = getItemCategory('outfit', values.outfit);
+  const match = fields.outfitCategory.opts.find(c => c.text === oCat);
+  if(match) values.outfitCategory = match;
+}
 activePreset='';
 document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
 goSection(activeSection,false);
