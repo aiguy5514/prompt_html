@@ -493,6 +493,60 @@ const ponyTailStyleOpts = [
   O('Textured piecey lived-in tail', 'piecey, separated texture through the tail with soft movement')
 ];
 
+const HAIR_FAMILIES = [
+  O('✦ All Styles (224 options)', 'all'),
+  O('💇‍♀️ Bobs & Lobs (49 variations)', 'bob'),
+  O('🦋 Layers & Blowouts (48 variations)', 'layer'),
+  O('🐎 Ponytails & Updos (34 variations)', 'pony'),
+  O('🐺 Shags & Mullets (24 variations)', 'shag'),
+  O('💧 Wet-Look & Aquatic (18 variations)', 'wet'),
+  O('👑 Braids & Buns (16 variations)', 'braid'),
+  O('🌀 Curls, Coils & Afro (15 variations)', 'curl'),
+  O('✂️ Pixies & Crops (12 variations)', 'pixie'),
+  O('🌊 Waves & Lengths (8 variations)', 'wave')
+];
+
+const OUTFIT_FAMILIES = [
+  O('✦ All Outfits (374 options)', 'all'),
+  O('👗 Evening Gowns (84 variations)', 'gown'),
+  O('🕴️ Suits & Tailoring (72 variations)', 'suit'),
+  O('🦹 Cocktail & Party (54 variations)', 'cocktail'),
+  O('👚 Tops, Denim & Separates (46 variations)', 'separates'),
+  O('🩲 Jumpsuits & Bodysuits (38 variations)', 'jumpsuit'),
+  O('🩱 Monokinis & Swimwear (28 variations)', 'swim'),
+  O('🧥 Leather, Vinyl & Trench (26 variations)', 'leather'),
+  O('🥻 Sarees & Fusion (26 variations)', 'saree')
+];
+
+function getItemCategory(id, item) {
+  if (!item) return 'all';
+  const text = ((item.label || '') + ' ' + (item.text || '')).toLowerCase();
+  if (id === 'hair') {
+    if (/wet|hydro|drenched|slicked|ocean-soaked|post-swim|finger wave/i.test(text)) return 'wet';
+    if (/pony|ponytail/i.test(text)) return 'pony';
+    if (/bob|lob|tassel/i.test(text)) return 'bob';
+    if (/shag|wolf|mullet|mixie|octopus/i.test(text)) return 'shag';
+    if (/pixie|crop|bixie|buzz/i.test(text)) return 'pixie';
+    if (/curl|curls|curly|coily|afro|ringlet/i.test(text)) return 'curl';
+    if (/braid|braided|crown braid|twist|chignon|updo|bun/i.test(text)) return 'braid';
+    if (/butterfly|hush|feather|rachel|layer|blowout|flip/i.test(text)) return 'layer';
+    if (/wave|waves|mermaid|straight|glass hair/i.test(text)) return 'wave';
+    return 'layer';
+  } else if (id === 'outfit') {
+    if (/monokini|swimsuit|bikini|swimwear|neoprene|bathing|sarong/i.test(text)) return 'swim';
+    if (/saree|sari|nauvari|dhoti|fusion|kurti/i.test(text)) return 'saree';
+    if (/suit|blazer|waistcoat|tailored suit|tuxedo|power suit|trousers/i.test(text)) return 'suit';
+    if (/gown|slip gown|evening dress|column dress|illusion gown|origami|cowl gown|slip dress/i.test(text)) return 'gown';
+    if (/leather|vinyl|latex|trench|jacket|moto|leatherette/i.test(text)) return 'leather';
+    if (/jumpsuit|bodysuit|catsuit|romper|one-piece/i.test(text)) return 'jumpsuit';
+    if (/cocktail|mini dress|wrap dress|knit dress|bandage|midi dress/i.test(text)) return 'cocktail';
+    if (/shirt|top|denim|corset|blouse|knit|breastplate|jeans|skirt|vest/i.test(text)) return 'separates';
+    return 'gown';
+  }
+  return 'all';
+}
+
+
 const fields={
 hairCategory:{label:'Haircut category',section:'look',opts:HAIR_FAMILIES,def:0},
 outfitCategory:{label:'Wardrobe category',section:'wardrobe',opts:OUTFIT_FAMILIES,def:0},
@@ -1035,59 +1089,6 @@ if(lockedFields.has(id)){
 }
 save();
 renderFields();
-}
-
-const HAIR_FAMILIES = [
-  O('✦ All Styles (224 options)', 'all'),
-  O('💇‍♀️ Bobs & Lobs (49 variations)', 'bob'),
-  O('🦋 Layers & Blowouts (48 variations)', 'layer'),
-  O('🐎 Ponytails & Updos (34 variations)', 'pony'),
-  O('🐺 Shags & Mullets (24 variations)', 'shag'),
-  O('💧 Wet-Look & Aquatic (18 variations)', 'wet'),
-  O('👑 Braids & Buns (16 variations)', 'braid'),
-  O('🌀 Curls, Coils & Afro (15 variations)', 'curl'),
-  O('✂️ Pixies & Crops (12 variations)', 'pixie'),
-  O('🌊 Waves & Lengths (8 variations)', 'wave')
-];
-
-const OUTFIT_FAMILIES = [
-  O('✦ All Outfits (374 options)', 'all'),
-  O('👗 Evening Gowns (84 variations)', 'gown'),
-  O('🕴️ Suits & Tailoring (72 variations)', 'suit'),
-  O('🦹 Cocktail & Party (54 variations)', 'cocktail'),
-  O('👚 Tops, Denim & Separates (46 variations)', 'separates'),
-  O('🩲 Jumpsuits & Bodysuits (38 variations)', 'jumpsuit'),
-  O('🩱 Monokinis & Swimwear (28 variations)', 'swim'),
-  O('🧥 Leather, Vinyl & Trench (26 variations)', 'leather'),
-  O('🥻 Sarees & Fusion (26 variations)', 'saree')
-];
-
-function getItemCategory(id, item) {
-  if (!item) return 'all';
-  const text = ((item.label || '') + ' ' + (item.text || '')).toLowerCase();
-  if (id === 'hair') {
-    if (/wet|hydro|drenched|slicked|ocean-soaked|post-swim|finger wave/i.test(text)) return 'wet';
-    if (/pony|ponytail/i.test(text)) return 'pony';
-    if (/bob|lob|tassel/i.test(text)) return 'bob';
-    if (/shag|wolf|mullet|mixie|octopus/i.test(text)) return 'shag';
-    if (/pixie|crop|bixie|buzz/i.test(text)) return 'pixie';
-    if (/curl|curls|curly|coily|afro|ringlet/i.test(text)) return 'curl';
-    if (/braid|braided|crown braid|twist|chignon|updo|bun/i.test(text)) return 'braid';
-    if (/butterfly|hush|feather|rachel|layer|blowout|flip/i.test(text)) return 'layer';
-    if (/wave|waves|mermaid|straight|glass hair/i.test(text)) return 'wave';
-    return 'layer';
-  } else if (id === 'outfit') {
-    if (/monokini|swimsuit|bikini|swimwear|neoprene|bathing|sarong/i.test(text)) return 'swim';
-    if (/saree|sari|nauvari|dhoti|fusion|kurti/i.test(text)) return 'saree';
-    if (/suit|blazer|waistcoat|tailored suit|tuxedo|power suit|trousers/i.test(text)) return 'suit';
-    if (/gown|slip gown|evening dress|column dress|illusion gown|origami|cowl gown|slip dress/i.test(text)) return 'gown';
-    if (/leather|vinyl|latex|trench|jacket|moto|leatherette/i.test(text)) return 'leather';
-    if (/jumpsuit|bodysuit|catsuit|romper|one-piece/i.test(text)) return 'jumpsuit';
-    if (/cocktail|mini dress|wrap dress|knit dress|bandage|midi dress/i.test(text)) return 'cocktail';
-    if (/shirt|top|denim|corset|blouse|knit|breastplate|jeans|skirt|vest/i.test(text)) return 'separates';
-    return 'gown';
-  }
-  return 'all';
 }
 
 function createFieldElement(id, f) {
