@@ -137,7 +137,7 @@
 </head>
 <body>
 <div class="shell">
-<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div><div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">2,500+ searchable choices</span><span class="pill">Offline · No uploads</span></div></header>
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div><div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">2,600+ searchable choices</span><span class="pill">Offline · No uploads</span></div></header>
 <section class="hero"><div><div class="eyebrow">Reference-led creative direction</div><h1>Makeover <span>Photoshoot</span><br>Prompt Studio</h1><p>Build a confident, candid, bold fashion-editorial prompt after the makeover. Mix hairstyles, statement looks, expressive poses, camera direction, lighting and realism controls—then copy a finished prompt ready for your image editor.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">Expanded hair library</span><span class="tag">Hundreds of looks</span><span class="tag">Searchable menus</span><span class="tag">Identity controls</span></div></div></aside></section>
 <div class="layout"><main class="builder">
 <section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div></div><div class="preset-grid" id="presets"></div></section>
@@ -483,6 +483,33 @@ sceneActivity:{label:'What is happening around her',section:'scene',opts:sceneAc
 
 const P=t=>makeOpts(t.split(';').map(x=>x.split('|')));
 Object.assign(extraFields,{
+ponyStyle:{label:'Ponytail & updo styling',section:'look',opts:makeOpts([
+  ['Short sleek high pony ending at nape / neck', 'a snatched high ponytail anchored at the crown with a short straight tail dropping cleanly to the base of the neck'],
+  ['Short blunt high pony with flipped ends', 'a high crown ponytail with a short blunt tail flicked playfully outward at the upper neck'],
+  ['Short micro-tail high pony (jawline level)', 'an ultra-high snatched ponytail with a cropped micro-tail grazing the upper nape, putting full focus on jawline and neck'],
+  ['Short sleek mid-height pony', 'a mid-height ponytail with clean horizontal tension and a straight tail falling flush to the neck curve'],
+  ['Short wet-look high pony', 'a high-gloss wet-lacquered high ponytail with a saturated short tail resting lightly at the neck'],
+  ['Short bouncy ponytail with rounded neck sweep', 'a high ponytail with soft blowout volume and inward-curved ends skimming the upper neck'],
+  ['Short high pony with hair-wrapped base', 'a high-tension crown ponytail with a section of hair wrapped smoothly around the elastic and a short tail ending at the nape'],
+  ['Short low sleek pony flat against neck hollow', 'a low sleek ponytail anchored tight at the nape, tail laying flush against the neck hollow'],
+  ['Short high pony with two compact bubbles', 'a high ponytail styled into two compact structured bubble sections ending at neck level'],
+  ['Short textured high pony with piecey separation', 'a high ponytail with a piecey, separated short tail and relaxed movement around the neck'],
+  ['Short high pony with wispy curtain bangs', 'a snatched high crown ponytail with a short neck-length tail contrasted by soft airy curtain bangs'],
+  ['Short blunt low pony with razor-sharp ends', 'a low ponytail secured tight at the nape with a blunt razor-cut tail resting against the neck'],
+  ['Snatched ultra-high crown pony (Ariana-style)', 'an ultra-high snatched ponytail anchored at the apex of the crown with dramatic upward tension'],
+  ['Two delicate face-framing temple tendrils', 'a snatched high ponytail contrasted with two delicate, wispy tendrils framing the cheekbones'],
+  ['Clean snatched hairline with zero flyaways', 'a completely sleek, mirror-smooth hairline brushed back with zero loose hairs'],
+  ['Soft feathered baby hairs along temples', 'artfully arranged feathered baby hairs brushed gently along the forehead and sideburns'],
+  ['Hair-wrapped elastic base', 'a clean section of hair wrapped smoothly around the base to completely conceal the elastic'],
+  ['Minimalist metallic cuff at ponytail base', 'a sleek metallic gold or silver cuff encircling the base of the ponytail'],
+  ['Black silk ribbon wrap on ponytail', 'a black silk ribbon tied in a neat minimal wrap around the ponytail base'],
+  ['Leather cord wrapped 2 inches down base', 'a black leather cord wrapped down the base of the ponytail for an architectural fashion silhouette'],
+  ['Straight razor-cut glass tail', 'a pin-straight razor-sharp glass tail with clean strand separation'],
+  ['Braided high tail with smooth glass crown', 'a smooth glass-finish crown transitioning into a tight, glossy braided ponytail'],
+  ['Soft blowout bend through ponytail tail', 'a ponytail tail with soft blowout bounce and subtle outward bend'],
+  ['Slight side-tilt high pony', 'a high ponytail angled slightly off-center for a playful fashion-editorial silhouette'],
+  ['Textured messy high pony with undone crown', 'a casually undone high ponytail with textured crown lift and natural wisps']
+]),def:0},
 hairLength:{label:'Hair length',section:'look',opts:P("Ear-length crop|ear-length hair;Jawline length|jaw-length hair;Chin length|chin-length hair;Shoulder length|shoulder-length hair;Collarbone length|collarbone-length hair;Mid-back length|mid-back-length hair;Waist length|waist-length hair;Length from reference|hair length consistent with the reference, only reshaped by the new cut"),def:0},
 styleEra:{label:'Fashion era influence',section:'wardrobe',opts:P("1960s mod|a 1960s mod influence with clean graphic lines;1970s glam|a 1970s glam influence with fluid fabrics;1980s power dressing|a 1980s power-dressing influence with strong shoulders;1990s minimalism|1990s minimalism with sleek understated lines;Y2K revival|a refined Y2K-inspired influence;Art-deco evening|an art-deco evening influence with elegant geometry;Bollywood retro|a retro Bollywood-inspired glamour;Contemporary runway|a contemporary runway sensibility;Timeless classic|timeless classic styling"),def:0},
 eyewear:{label:'Eyewear',section:'wardrobe',opts:P("No eyewear|no eyewear;Oversized sunglasses worn|oversized black sunglasses worn;Thin-frame glasses|thin-frame glasses;Cat-eye sunglasses|cat-eye sunglasses;Tinted aviators|lightly tinted aviators;Sunglasses pushed into hair|sunglasses pushed up into the hair without hiding the cut;Keep reference glasses|the same glasses as the reference image"),def:0},
@@ -643,6 +670,56 @@ addOptions(weather, makeOpts([
   ['Steamy thermal mist', 'soft rising thermal steam creating gentle atmospheric mist without obscuring the subject'],
   ['Rain-slicked urban evening', 'rain-slicked urban conditions with wet asphalt and reflective damp surfaces']
 ]));
+
+// ==========================================
+// PONYTAIL & UPDO GRANULAR EXPANSION
+// ==========================================
+addOptions(hair, makeOpts([
+  ['Short sleek high ponytail ending at neck', 'a snatched high ponytail secured high at the crown with mirror-like shine and a sleek razor-cut tail ending cleanly at the base of the neck'],
+  ['Short blunt high ponytail with flipped ends', 'a high crown ponytail with a short blunt tail flicked playfully outward around the upper neck in a 90s editorial style'],
+  ['Short micro-tail high pony (jawline focus)', 'an ultra-high snatched ponytail with a cropped micro-tail barely grazing the upper nape, highlighting the neck and jawline'],
+  ['Short sleek mid-height ponytail at neck curve', 'a polished mid-height ponytail with clean horizontal tension and a straight tail falling to the neck curve'],
+  ['Short wet-look slicked high ponytail', 'a high-gloss wet-lacquered snatched high ponytail with a saturated short tail resting lightly against the nape'],
+  ['Short bouncy high pony with rounded neck sweep', 'a high ponytail with soft blowout bounce and layered inward-curved ends sweeping across the upper neck'],
+  ['Short wrapped-base high ponytail at nape', 'a snatched crown ponytail with a thick hair strand wrapping the elastic and a short straight tail ending at the nape'],
+  ['Short sleek low ponytail tucked at neck hollow', 'a low sleek ponytail anchored tight at the nape, tail laying flush against the neck hollow'],
+  ['Short bubble high ponytail (two compact spheres)', 'a high crown ponytail styled into two compact structured bubble sections ending crisply at neck level'],
+  ['Short high pony with wispy curtain bangs', 'a snatched high crown ponytail with a short neck-length tail contrasted by soft airy curtain bangs'],
+  ['Short blunt low ponytail with center part', 'a sharp center-parted low ponytail with a blunt razor-cut tail resting at the nape of the neck'],
+  ['Short textured high ponytail with soft baby hairs', 'a short high ponytail with piecey textured ends and artfully styled baby hairs along the temples'],
+  ['Snatched 90s supermodel high ponytail with tendrils', 'a voluminous high ponytail with sleek crown tension, lifted base and two delicate face-framing tendrils'],
+  ['Sleek braided high ponytail with glass finish', 'an ultra-sleek high ponytail woven into a tight, glossy three-strand braid with mirror shine'],
+  ['Baroque wavy high ponytail with sculpted flick', 'a high ponytail with sculpted glossy Hollywood waves and a dramatic flick at the ends'],
+  ['Half-up snatched high ponytail with flowing base', 'a high half-up ponytail with dramatic upward tension at the temples and loose flowing lengths beneath'],
+  ['Messy textured high ponytail with undone crown lift', 'a lived-in textured high ponytail with casual crown volume, soft flyaways and effortless movement'],
+  ['Architectural cord-wrapped high ponytail', 'a high snatched ponytail with black cord wrapped two inches down the base for a structural silhouette'],
+  ['Sleek high ponytail with deep side swoop fringe', 'a sleek high ponytail paired with a polished side-swept swoop fringe framing the forehead'],
+  ['Side-swept low ponytail with soft waves', 'a romantic low ponytail swept over one shoulder with glossy, relaxed waves'],
+  ['High ponytail with metallic cuff accent', 'a high snatched ponytail featuring a polished metallic cuff accentuating the base'],
+  ['Flipped-out retro high ponytail with bangs', 'a retro high ponytail with outward flipped ends brushing the upper neck and full brow bangs']
+]));
+
+addOptions(hairAccessories, makeOpts([
+  ['Minimalist metallic ponytail cuff', 'a sleek brushed gold or silver metallic cuff encircling the base of the ponytail'],
+  ['Black silk ribbon wrap on ponytail', 'a black silk ribbon tied in a neat minimal wrap around the ponytail base'],
+  ['Architectural cord-wrapped base', 'an architectural leather or metallic cord wrapped down the base of the ponytail']
+]));
+
+addOptions(hairVolume, makeOpts([
+  ['Snatched crown tension with compact neck tail', 'snatched high-tension crown styling with a short, compact tail at the neck'],
+  ['Full voluminous ponytail body with root lift', 'full airy ponytail volume with bouncy movement and lifted base']
+]));
+
+addOptions(fringeDetail, makeOpts([
+  ['Snatched open forehead with high pony', 'a clean snatched open forehead pulling back smoothly into a high ponytail'],
+  ['Wispy 90s antenna bangs with high pony', 'two fine 90s antenna bangs framing the bridge of the nose with a high ponytail']
+]));
+
+addOptions(hairFinish, makeOpts([
+  ['Snatched mirror-lacquer finish', 'ultra-sleek mirror-lacquer finish along the scalp with clean tension lines'],
+  ['Textured piecey ponytail tail', 'piecey, separated texture through the tail with soft movement']
+]));
+
 const sections=[{id:'look',name:'Look & hair',short:'LOOK',icon:'✂',desc:'Lock in the makeover reveal and build her new hairstyle from cut to finish.'},{id:'wardrobe',name:'Wardrobe & glam',short:'STYLE',icon:'✧',desc:'Choose a bold fashion direction, outfit fit, makeup and accessories.'},{id:'pose',name:'Pose & attitude',short:'POSE',icon:'↗',desc:'Direct the body language and the energy of the moment.'},{id:'camera',name:'Camera & crop',short:'CAMERA',icon:'◎',desc:'Fine-tune framing, perspective, lens feel and image ratio.'},{id:'scene',name:'Scene & lighting',short:'SCENE',icon:'☼',desc:'Set the location, lighting approach, color character and photo style.'},{id:'finish',name:'Finish & controls',short:'FINISH',icon:'✦',desc:'Control identity preservation, realism, exclusions, and custom instructions.'}];
 const ENERGIES={
 aquatic:{name:'wet-look editorial',icon:'💧',settings:['outdoor','studio','night'],pick:{hair:/wet|slicked|hydro|soaked|damp|mermaid/i,outfit:/monokini|swimsuit|slip|liquid|latex|wet-look|sheer|vinyl|drenched/i,makeup:/dewy|glossy|droplet|waterproof|glistening/i,pose:/pool|water|emerging|rain|leaning|hair|collarbone/i,expression:/fierce|intense|calm|smirk|direct/i,mood:/fearless|mysterious|high-fashion/i}},
@@ -687,7 +764,7 @@ const finishChecks=[
 {id:'candid',label:'Candid, not overly staged',detail:'Natural posture, unforced expression and imperfect timing.',checked:true}
 ];
 const GROUPS=[
-['look','The moment',['makeover','mode']],['look','Cut & shape',['hair','hairLength','fringe','parting','hairVolume','hairTexture']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
+['look','The moment',['makeover','mode']],['look','Cut & shape',['hair','hairLength','ponyStyle','fringe','parting','hairVolume','hairTexture']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
 ['wardrobe','Outfit',['outfit','outfitFit','styleEra','neckline','sleeves','layering','fabric','garmentDetail']],['wardrobe','Colour story',['palette','accentColors']],['wardrobe','Accessories',['accessories','eyewear','bag','footwear','nailStyle']],['wardrobe','Makeup & skin',['makeup','lipLook','eyeLook','browStyle','complexion']],
 ['pose','Body',['pose','stance','gesture','motion']],['pose','Face & energy',['expression','gaze','mood','shotEnergy']],['pose','Story',['interaction']],
 ['camera','Framing',['framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
@@ -1143,7 +1220,9 @@ toast(lockedFields.size>0?`Fresh combination generated (${lockedFields.size} loc
 function val(id){return values[id]?.text||''}
 
 function buildLookbookSeries(checks, negatives, extraLines){
-  const hairDesc = val('hair');
+  const hairBase = val('hair');
+  const ponyDetail = val('ponyStyle');
+  const hairDesc = [hairBase, ponyDetail].filter(Boolean).join('. ');
   const hairCol = val('hairColor');
   const hairFin = val('hairFinish');
   const makeupDesc = val('makeup');
