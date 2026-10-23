@@ -231,7 +231,7 @@
 <section class="step-card" id="stepCard"><div class="step-head"><div><div class="eyebrow" id="stepEyebrow">Creative direction · 01</div><h2 id="stepTitle">Hair & makeover</h2><p id="stepDescription">Choose the signature post-makeover look.</p></div><div class="step-icon" id="stepIcon">✂</div></div><div class="field-grid" id="fields"></div><div id="fineTuneArea"></div><div id="specialContent"></div><div class="step-foot"><span class="step-count" id="stepCount">Step 1 of 6</span><div class="step-buttons"><button class="btn btn-secondary" id="prevStep">← Previous</button><button class="btn btn-primary" id="nextStep">Next step →</button></div></div></section>
 <section class="advanced-bar"><div><strong>Want a more specific result?</strong><small>Add your own direction or exclusions in the Finish & controls step.</small></div><button class="btn btn-secondary btn-small" id="finishJump">Open finish controls ↗</button></section>
 </main>
-<aside class="preview"><div class="sheet-handle hidden-desktop" id="sheetHandle"></div><div class="preview-head"><div class="preview-top"><div class="eyebrow">Live output</div><div class="preview-top-actions"><button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button><button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button><span class="live">Updating</span><button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button></div></div><h2>Your prompt, assembled</h2><p>Change any choice. The prompt is rebuilt instantly.</p><div class="summary" id="summary"></div></div><div class="preview-body"><details class="ref-card dual-ref-card" id="refCard" open><summary class="ref-head"><div class="ref-title"><span class="ref-icon">⚡</span><strong>Dual-Image Style Transfer & AI Advisor</strong><span class="ref-privacy">100% In-Browser · Private</span></div><div style="display:flex;align-items:center;gap:6px"><button class="btn-quiet btn-small hidden" id="clearAllRefsBtn" type="button" title="Remove both references">✕ Clear Both</button><span class="ref-chevron">⌄</span></div></summary><div class="ref-body"><div class="dual-ref-grid"><div class="ref-slot" id="slotSubject"><div class="slot-head"><span class="slot-badge badge-subject">👤 Subject (To Edit)</span><button class="btn-slot-clear hidden" id="clearSubjectBtn" type="button" title="Remove subject photo">✕</button></div><input type="file" id="subjectFileInput" accept="image/*" class="hidden"><div class="slot-dropzone" id="dropzoneSubject"><span class="slot-icon">👤</span><p><strong>Drop Subject Photo</strong></p><small>Face, skin & identity to preserve</small></div><div class="slot-preview hidden" id="previewSubject"><div class="slot-thumb-wrap"><img id="thumbSubject" class="slot-img" alt="Subject preview"></div><div class="slot-diagnostics" id="diagSubject"></div></div></div><div class="ref-slot" id="slotStyle"><div class="slot-head"><span class="slot-badge badge-style">✨ Style Reference</span><button class="btn-slot-clear hidden" id="clearStyleBtn" type="button" title="Remove style photo">✕</button></div><input type="file" id="styleFileInput" accept="image/*" class="hidden"><div class="slot-dropzone" id="dropzoneStyle"><span class="slot-icon">✨</span><p><strong>Drop Style Ref</strong></p><small>Haircut, clothes or vibe to borrow</small></div><div class="slot-preview hidden" id="previewStyle"><div class="slot-thumb-wrap"><img id="thumbStyle" class="slot-img" alt="Style preview"></div><div class="slot-diagnostics" id="diagStyle"></div></div></div></div><div class="transfer-toggles-bar" id="transferTogglesBar"><div class="transfer-label-row"><span class="transfer-label">Transfer from Style Reference:</span></div><div class="transfer-chips"><button type="button" class="transfer-chip active" data-transfer="hair">💇‍♀️ Hairstyle</button><button type="button" class="transfer-chip active" data-transfer="outfit">👗 Wardrobe</button><button type="button" class="transfer-chip" data-transfer="palette">🎨 Color Palette</button><button type="button" class="transfer-chip" data-transfer="scene">📸 Scene & Mood</button></div></div><div class="fusion-advisor-card" id="fusionAdvisorCard"><div class="advisor-head"><div class="advisor-title-row"><span class="advisor-sparkle">✦</span><strong>AI Integration Advisor</strong></div><span class="advisor-mode-tag" id="advisorEngineTag">On-Device Canvas CV</span></div><p class="advisor-text" id="advisorRecommendationText">Upload <b>Subject Photo</b> to preserve identity, and <b>Style Reference</b> to borrow a haircut or outfit.</p><div class="advisor-actions"><button type="button" class="btn-fusion-apply" id="applyFusionBtn">Apply Style Integration ✦</button></div></div><div class="ref-palette hidden" id="refPalette"><div class="ref-palette-head"><span>Extracted Palette</span><small>Tap color to copy</small></div><div class="ref-swatches" id="refSwatches"></div><button type="button" class="ref-harmonize-pill" id="refHarmonizeBtn">✦ Harmonize shoot with palette</button></div></div></details><div class="preview-toolbar">
+<aside class="preview"><div class="sheet-handle hidden-desktop" id="sheetHandle"></div><div class="preview-head"><div class="preview-top"><div class="eyebrow">Live output</div><div class="preview-top-actions"><button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button><button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button><span class="live">Updating</span><button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button></div></div><h2>Your prompt, assembled</h2><p>Change any choice. The prompt is rebuilt instantly.</p><div class="summary" id="summary"></div></div><div class="preview-body"><details class="ref-card dual-ref-card" id="refCard" open><summary class="ref-head"><div class="ref-title"><span class="ref-icon">⚡</span><strong>Dual-Image Style Transfer & AI Advisor</strong><span class="ref-privacy">100% In-Browser · Private</span></div><div style="display:flex;align-items:center;gap:6px"><button class="btn-quiet btn-small hidden" id="clearAllRefsBtn" type="button" title="Remove both references">✕ Clear Both</button><span class="ref-chevron">⌄</span></div></summary><div class="ref-body"><div class="dual-ref-grid"><div class="ref-slot" id="slotSubject"><div class="slot-head"><span class="slot-badge badge-subject">👤 Subject (To Edit)</span><button class="btn-slot-clear hidden" id="clearSubjectBtn" type="button" title="Remove subject photo">✕</button></div><input type="file" id="subjectFileInput" accept="image/*" class="hidden"><div class="slot-dropzone" id="dropzoneSubject"><span class="slot-icon">👤</span><p><strong>Drop Subject Photo</strong></p><small>Face, skin & identity to preserve</small></div><div class="slot-preview hidden" id="previewSubject"><div class="slot-thumb-wrap"><img id="thumbSubject" class="slot-img" alt="Subject preview"></div><div class="slot-diagnostics" id="diagSubject"></div></div></div><div class="ref-slot" id="slotStyle"><div class="slot-head"><span class="slot-badge badge-style">✨ Style Reference</span><button class="btn-slot-clear hidden" id="clearStyleBtn" type="button" title="Remove style photo">✕</button></div><input type="file" id="styleFileInput" accept="image/*" class="hidden"><div class="slot-dropzone" id="dropzoneStyle"><span class="slot-icon">✨</span><p><strong>Drop Style Ref</strong></p><small>Haircut, clothes or vibe to borrow</small></div><div class="slot-preview hidden" id="previewStyle"><div class="slot-thumb-wrap"><img id="thumbStyle" class="slot-img" alt="Style preview"></div><div class="slot-diagnostics" id="diagStyle"></div></div></div></div><div class="transfer-toggles-bar" id="transferTogglesBar"><div class="transfer-label-row"><span class="transfer-label">Transfer from Style Reference:</span></div><div class="transfer-chips"><button type="button" class="transfer-chip active" data-transfer="hair">💇‍♀️ Hairstyle (Only Hair)</button><button type="button" class="transfer-chip" data-transfer="outfit">👗 Wardrobe</button><button type="button" class="transfer-chip" data-transfer="palette">🎨 Color Palette</button><button type="button" class="transfer-chip" data-transfer="scene">📸 Scene & Mood</button></div></div><div class="fusion-advisor-card" id="fusionAdvisorCard"><div class="advisor-head"><div class="advisor-title-row"><span class="advisor-sparkle">✦</span><strong>AI Integration Advisor</strong></div><span class="advisor-mode-tag" id="advisorEngineTag">On-Device Canvas CV</span></div><p class="advisor-text" id="advisorRecommendationText">Upload <b>Subject Photo</b> to preserve identity, and <b>Style Reference</b> to borrow a haircut or outfit.</p><div class="advisor-actions"><button type="button" class="btn-fusion-apply" id="applyFusionBtn">Apply Style Integration ✦</button></div></div><div class="ref-palette hidden" id="refPalette"><div class="ref-palette-head"><span>Extracted Palette</span><small>Tap color to copy</small></div><div class="ref-swatches" id="refSwatches"></div><button type="button" class="ref-harmonize-pill" id="refHarmonizeBtn">✦ Harmonize shoot with palette</button></div></div></details><div class="preview-toolbar">
   <div class="toolbar-row">
     <div class="seg-control" id="modeSegControl">
       <button type="button" class="seg-btn active" id="btnSingleMode">Single shot</button>
@@ -1201,7 +1201,7 @@ let lockedFields=new Set();
 let preserveHairTexture=true;
 let subjectRef = null;
 let styleRef = null;
-let transferToggles = { hair: true, outfit: true, palette: false, scene: false };
+let transferToggles = { hair: true, outfit: false, palette: false, scene: false };
 let customPresets=[];
 
 const totalOptions=Object.values(fields).reduce((sum,f)=>sum+f.opts.length,0);
@@ -2422,10 +2422,16 @@ if(transferToggles.hair) lines.push('  - Transferred Hairstyle: Exact hairstyle 
 if(transferToggles.outfit) lines.push(`  - Transferred Wardrobe: ${val('outfit')} (garment fit: ${val('outfitFit')}, accessories: ${val('accessories')})`);
 if(transferToggles.palette) lines.push('  - Transferred Color Palette: harmonize overall wardrobe and environmental tones with Image 2');
 if(transferToggles.scene) lines.push(`  - Transferred Scene & Atmosphere: ${val('background')} with ${val('lighting')}`);
+if(!transferToggles.outfit) lines.push('  - Wardrobe Specification: Do NOT copy clothes from Image 2; use the exact wardrobe specified in WARDROBE AND STYLING below');
 lines.push('');
 lines.push('INTEGRATION & HARMONIZATION:');
+if(transferToggles.hair && !transferToggles.outfit){
+lines.push('• Naturally fit and adapt the transferred hairstyle from Image 2 to the subject\'s head, face shape, and natural hair density.');
+lines.push('• Maintain the subject\'s selected wardrobe, pose, and background exactly as specified below, with physically believable lighting, natural strand movement, and zero identity drift.');
+} else {
 lines.push('• Naturally fit the transferred hairstyle and garment tailoring to the subject\'s body proportions and skin undertone.');
 lines.push('• Render unified, physically believable lighting and cast shadows across face, hair, and clothing with zero compositing seams, no plastic skin, and no identity drift.');
+}
 lines.push('');
 } else if(subjectRef){
 lines.push('REFERENCE-IMAGE EDIT · IDENTITY PRESERVATION MAKEOVER');
@@ -2433,7 +2439,12 @@ lines.push('• Strictly preserve the adult woman from the reference photo, main
 lines.push('');
 } else if(styleRef){
 lines.push('STYLE-REFERENCE MAKEOVER PHOTOSHOOT');
+if(transferToggles.hair && !transferToggles.outfit){
+lines.push('• Adopt ONLY the signature hairstyle from the reference photo onto the makeover portrait.');
+lines.push('• Maintain the chosen wardrobe, pose, and background exactly as specified below, with no outfit borrowing from the reference photo.');
+} else {
 lines.push('• Adopt the signature hairstyle, styling aesthetic, and wardrobe silhouette from the reference photo onto the makeover portrait.');
+}
 lines.push('');
 } else {
 lines.push(mode.startsWith('Edit')?'REFERENCE-IMAGE EDIT — BOLD POST-MAKEOVER PHOTOSHOOT':'REFERENCE-GUIDED PORTRAIT — BOLD POST-MAKEOVER PHOTOSHOOT');
@@ -2892,12 +2903,26 @@ function updateDualRefAdvisor(){
 
   if(window.ai && window.ai.languageModel && tag) tag.textContent = 'Chrome On-Device AI (Nano)';
 
+  const applyBtn = el('applyFusionBtn');
   if(subjectRef && styleRef){
-    advText.innerHTML = `
-      <strong>✨ Integration Ready:</strong> Subject identity & natural <strong>${subjectRef.diag.hairShade}</strong> texture locked from Image 1. 
-      Style Reference provides <strong>${transferToggles.hair ? 'Haircut' : ''}${transferToggles.hair&&transferToggles.outfit ? ' + ' : ''}${transferToggles.outfit ? 'Wardrobe' : ''}</strong>. 
-      Click below to apply the complete style fusion into your prompt.
-    `;
+    if(transferToggles.hair && !transferToggles.outfit && !transferToggles.palette && !transferToggles.scene){
+      advText.innerHTML = `
+        <strong>✨ Hairstyle Transfer Only:</strong> Transferring <strong>Hairstyle from Image 2</strong> onto Subject (Image 1). 
+        All other choices (wardrobe, pose, scene) remain 100% controlled by your builder.
+      `;
+      if(applyBtn) applyBtn.textContent = 'Apply Hairstyle from Image 2 Only ✦';
+    } else {
+      const parts = [];
+      if(transferToggles.hair) parts.push('Haircut');
+      if(transferToggles.outfit) parts.push('Wardrobe');
+      if(transferToggles.palette) parts.push('Palette');
+      if(transferToggles.scene) parts.push('Scene');
+      advText.innerHTML = `
+        <strong>✨ Integration Ready:</strong> Subject identity & natural <strong>${subjectRef.diag.hairShade}</strong> texture locked from Image 1. 
+        Style Reference provides <strong>${parts.join(' + ') || 'None'}</strong>.
+      `;
+      if(applyBtn) applyBtn.textContent = 'Apply Style Integration ✦';
+    }
   } else if(subjectRef){
     advText.innerHTML = `
       <strong>👤 Subject Loaded:</strong> Identity locked (Undertone: <b>${subjectRef.diag.undertone}</b> · Hair: <b>${subjectRef.diag.hairShade}</b>). 
@@ -2998,7 +3023,11 @@ function initRefViewer(){
 
         renderFields();
         buildPrompt();
-        toast('✦ Applied Style Transfer & Makeover Fusion!');
+        if(transferToggles.hair && !transferToggles.outfit){
+          toast('✦ Applied Hairstyle ONLY from Image 2! Wardrobe, pose & scene untouched.');
+        } else {
+          toast('✦ Applied Style Transfer & Makeover Fusion!');
+        }
       } else {
         toast('Please upload Subject and Style reference images first.');
       }
