@@ -37,6 +37,13 @@
 .sweep-chip{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:650;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s ease}
 .sweep-chip:hover{background:rgba(255,255,255,.12);border-color:rgba(156,120,255,.45)}
 .sweep-chip.active{background:linear-gradient(115deg,#9c78ff,#caa8ff);color:#1c132c;border-color:transparent;font-weight:800;box-shadow:0 2px 10px rgba(156,120,255,.4)}
+.image2-hair-notice{grid-column:1/-1;background:rgba(255,92,146,.12);border:1px solid rgba(255,92,146,.38);border-radius:12px;padding:10px 14px;margin:2px 0 10px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.image2-hair-notice .notice-left{display:flex;align-items:center;gap:10px}
+.image2-hair-notice .notice-icon{font-size:20px}
+.image2-hair-notice strong{color:var(--text,#fff8fc);font-size:12px;display:block}
+.image2-hair-notice small{color:var(--muted,#b8adbd);font-size:11px}
+.btn-use-builder-hair{background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);font-size:11px;font-weight:750;padding:5px 12px;border-radius:999px;cursor:pointer;transition:all .15s}
+.btn-use-builder-hair:hover{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,92,146,.4)}
 .hair-texture-protect-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(159,228,193,.09) 0%,rgba(23,20,27,.82) 100%);border:1px solid rgba(159,228,193,.35);border-radius:14px;padding:12px 16px;margin:4px 0 12px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 4px 16px rgba(0,0,0,.25)}
 .texture-protect-left{display:flex;flex-direction:column;gap:3px;max-width:620px}
 .texture-protect-title-row{display:flex;align-items:center;gap:8px}
@@ -1596,6 +1603,30 @@ primaryFields.forEach(([id,f])=>{
     host.appendChild(g);
     if(lastGrp==='Cut & shape' && activeSection==='look'){
       host.appendChild(createHairTextureProtectionCard());
+      if(styleRef && transferToggles && transferToggles.hair){
+        const notice = document.createElement('div');
+        notice.className = 'image2-hair-notice';
+        notice.innerHTML = `
+          <div class="notice-left">
+            <span class="notice-icon">✨</span>
+            <div>
+              <strong>Hairstyle Transferred from Style Reference (Image 2)</strong>
+              <small>The text haircut below is nullified in the prompt so Image 2 dictates the hairstyle directly.</small>
+            </div>
+          </div>
+          <button type="button" class="btn-use-builder-hair" id="btnOverrideImage2Hair">Use builder haircut instead</button>
+        `;
+        notice.querySelector('#btnOverrideImage2Hair').addEventListener('click', () => {
+          transferToggles.hair = false;
+          const chip = document.querySelector('.transfer-chip[data-transfer="hair"]');
+          if(chip) chip.classList.remove('active');
+          updateDualRefAdvisor();
+          renderFields();
+          buildPrompt();
+          toast('Nullification lifted: Using builder haircut in prompt.');
+        });
+        host.appendChild(notice);
+      }
     }
   }
   host.appendChild(createFieldElement(id, f));
@@ -1827,6 +1858,13 @@ function getFullHairDescription(){
     return `${baseHair} (${details.join(', ')})`;
   }
   return baseHair;
+}
+
+function getEffectiveHairstyle(){
+  if(styleRef && transferToggles && transferToggles.hair){
+    return 'exact hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2)';
+  }
+  return getFullHairDescription();
 }
 
 const PONY_FIELD_IDS = new Set(['ponyTailFall','ponyTailEnd','ponyBaseHeight','ponyBaseWrap','ponyTailStyle']);
@@ -2190,7 +2228,7 @@ function createSideSweepCard(){
 function val(id){return values[id]?.text||''}
 
 function buildLookbookSeries(checks, negatives, extraLines){
-  const hairDesc = getFullHairDescription();
+  const hairDesc = getEffectiveHairstyle();
   const hairCol = val('hairColor');
   const hairFin = val('hairFinish');
   const makeupDesc = val('makeup');
@@ -2380,7 +2418,7 @@ lines.push('• Strictly preserve her natural organic hair strand texture, stran
 lines.push('');
 lines.push('STYLE REFERENCE (IMAGE 2):');
 lines.push('• Seamlessly transfer and integrate the selected styling elements from Image 2 onto the subject from Image 1:');
-if(transferToggles.hair) lines.push(`  - Transferred Hairstyle: ${getFullHairDescription()}`);
+if(transferToggles.hair) lines.push('  - Transferred Hairstyle: Exact hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut silhouette, bangs/fringe, parting, and tail placement seen in Image 2 onto the subject in Image 1)');
 if(transferToggles.outfit) lines.push(`  - Transferred Wardrobe: ${val('outfit')} (garment fit: ${val('outfitFit')}, accessories: ${val('accessories')})`);
 if(transferToggles.palette) lines.push('  - Transferred Color Palette: harmonize overall wardrobe and environmental tones with Image 2');
 if(transferToggles.scene) lines.push(`  - Transferred Scene & Atmosphere: ${val('background')} with ${val('lighting')}`);
@@ -2411,7 +2449,12 @@ lines.push('HAIR AND BEAUTY');
 const textureDirective = (preserveHairTexture || (values.hairTexture && values.hairTexture.label.includes('Preserve original')))
   ? "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)"
   : (val('hairTexture') || "natural hair texture with realistic strand separation");
-lines.push(`Hairstyle: ${getFullHairDescription()}. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
+
+if(styleRef && transferToggles && transferToggles.hair){
+  lines.push(`Hairstyle: Exact hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2). Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}.`);
+} else {
+  lines.push(`Hairstyle: ${getFullHairDescription()}. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
+}
 lines.push('');
 lines.push('WARDROBE AND STYLING');
 lines.push(`Outfit: ${val('outfit')}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
