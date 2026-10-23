@@ -454,6 +454,7 @@ const ponyTailFallOpts = [
 
 const ponyTailEndOpts = [
   O('Auto · natural length for cut', ''),
+  O('Ending at nape of neck just above shoulders', 'ending at the nape of the neck just above the shoulders'),
   O('Ending around the neck (short & sleek)', 'ending around the middle of the neck with a clean cropped tail'),
   O('Ending at base of neck / nape', 'ending right at the base of the neck / nape'),
   O('Ending at upper nape (ultra-cropped)', 'ultra-cropped micro-tail ending at the upper nape above the collar'),
@@ -483,6 +484,7 @@ const ponyBaseWrapOpts = [
 
 const ponyTailStyleOpts = [
   O('Auto · smooth straight', ''),
+  O('Short wavy tail with softly tousled ends', 'a short wavy tail with softly tousled ends'),
   O('Pin-straight razor-sharp glass tail', 'pin-straight razor-cut tail with mirror glass shine'),
   O('Playful 90s outward flick', 'with a soft 90s outward flick at the ends'),
   O('Inward curved neck sweep', 'with an inward-curving blowout bend that hugs the neck curve'),
@@ -494,10 +496,10 @@ const ponyTailStyleOpts = [
 ];
 
 const HAIR_FAMILIES = [
-  O('✦ All Styles (224 options)', 'all'),
+  O('✦ All Styles (225 options)', 'all'),
   O('💇‍♀️ Bobs & Lobs (49 variations)', 'bob'),
   O('🦋 Layers & Blowouts (48 variations)', 'layer'),
-  O('🐎 Ponytails & Updos (34 variations)', 'pony'),
+  O('🐎 Ponytails & Updos (35 variations)', 'pony'),
   O('🐺 Shags & Mullets (24 variations)', 'shag'),
   O('💧 Wet-Look & Aquatic (18 variations)', 'wet'),
   O('👑 Braids & Buns (16 variations)', 'braid'),
@@ -683,6 +685,7 @@ sceneActivity:{label:'What is happening around her',section:'scene',opts:sceneAc
 const P=t=>makeOpts(t.split(';').map(x=>x.split('|')));
 Object.assign(extraFields,{
 ponyStyle:{label:'Ponytail & updo styling',section:'look',opts:makeOpts([
+  ['Sleek high ponytail, side part & short wavy nape tail', 'a sleek high ponytail with a subtle deep side part, smoothly swept-back crown, and a short wavy tail ending at the nape of the neck just above the shoulders with softly tousled ends'],
   ['Short sleek high pony ending at nape / neck', 'a snatched high ponytail anchored at the crown with a short straight tail dropping cleanly to the base of the neck'],
   ['Short blunt high pony with flipped ends', 'a high crown ponytail with a short blunt tail flicked playfully outward at the upper neck'],
   ['Short micro-tail high pony (jawline level)', 'an ultra-high snatched ponytail with a cropped micro-tail grazing the upper nape, putting full focus on jawline and neck'],
@@ -874,6 +877,7 @@ addOptions(weather, makeOpts([
 // PONYTAIL & UPDO GRANULAR EXPANSION
 // ==========================================
 addOptions(hair, makeOpts([
+  ['Sleek high ponytail + deep side part & short wavy nape tail', 'a sleek high ponytail with a subtle deep side part and smoothly swept-back crown, leading to a short wavy tail ending at the nape of the neck just above the shoulders, with softly tousled ends'],
   ['Short sleek high ponytail ending at neck', 'a snatched high ponytail secured high at the crown with mirror-like shine and a sleek razor-cut tail ending cleanly at the base of the neck'],
   ['Short blunt high ponytail with flipped ends', 'a high crown ponytail with a short blunt tail flicked playfully outward around the upper neck in a 90s editorial style'],
   ['Short micro-tail high pony (jawline focus)', 'an ultra-high snatched ponytail with a cropped micro-tail barely grazing the upper nape, highlighting the neck and jawline'],
@@ -1673,6 +1677,7 @@ function createPonytailCard(){
 
   const endMap = [
     { label: 'Neck (Short & Sleek)', match: 'Ending around the neck (short & sleek)' },
+    { label: 'Nape (Above Shoulders)', match: 'Ending at nape of neck just above shoulders' },
     { label: 'Nape (Ultra-cropped)', match: 'Ending at upper nape (ultra-cropped)' },
     { label: 'Collarbone', match: 'Ending at collarbone' },
     { label: 'Mid-Back', match: 'Ending at shoulder blades / mid-back' },
