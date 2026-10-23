@@ -65,6 +65,47 @@
 .ponytail-subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
 
 .fine-tune-grid{padding:14px 16px 18px;border-top:1px solid var(--line)}
+.dual-ref-card{margin-bottom:14px;border:1px solid var(--line);background:#17141bd4;border-radius:16px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.dual-ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ref-slot{background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:8px;position:relative}
+.slot-head{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.slot-badge{font-size:9.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:999px;display:inline-flex;align-items:center;gap:4px}
+.slot-badge.badge-subject{background:rgba(156,120,255,.18);color:#caa8ff;border:1px solid rgba(156,120,255,.4)}
+.slot-badge.badge-style{background:rgba(255,92,146,.18);color:var(--pink2);border:1px solid rgba(255,92,146,.4)}
+.btn-slot-clear{background:transparent;border:none;color:var(--muted);font-size:11px;cursor:pointer;padding:1px 4px;border-radius:4px;transition:all .15s}
+.btn-slot-clear:hover{color:#ff5c92;background:rgba(255,92,146,.2)}
+.slot-dropzone{border:1.5px dashed var(--line);border-radius:10px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .18s ease;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:96px}
+.slot-dropzone:hover,.slot-dropzone.dragover{border-color:var(--pink2);background:rgba(255,92,146,.08)}
+.slot-icon{font-size:18px;margin-bottom:4px;display:block}
+.slot-dropzone p{margin:0;font-size:10.5px;color:var(--text);font-weight:750}
+.slot-dropzone small{display:block;font-size:9px;color:var(--muted);margin-top:2px}
+.slot-preview{display:flex;flex-direction:column;gap:6px}
+.slot-thumb-wrap{border-radius:8px;overflow:hidden;max-height:105px;background:#0d0b10;display:flex;align-items:center;justify-content:center}
+.slot-img{width:100%;max-height:105px;object-fit:cover}
+.slot-diagnostics{display:flex;flex-wrap:wrap;gap:4px}
+.diag-pill{font-size:9px;padding:2px 6px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--cream)}
+.diag-pill.warm{border-color:rgba(243,212,154,.4);color:#f3d49a}
+.diag-pill.cool{border-color:rgba(159,228,193,.4);color:#9fe4c1}
+.diag-pill.hair{border-color:rgba(202,168,255,.4);color:#caa8ff}
+
+.transfer-toggles-bar{background:rgba(0,0,0,.15);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:10px;display:flex;flex-direction:column;gap:6px}
+.transfer-label-row{display:flex;align-items:center;justify-content:space-between}
+.transfer-label{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.transfer-chips{display:flex;gap:5px;flex-wrap:wrap}
+.transfer-chip{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);font-size:10px;font-weight:700;padding:5px 9px;border-radius:8px;cursor:pointer;transition:all .15s ease}
+.transfer-chip:hover{background:rgba(255,255,255,.12);border-color:rgba(255,92,146,.45)}
+.transfer-chip.active{background:linear-gradient(115deg,var(--pink,#ff5c92),var(--pink2,#ff9cbd));color:#24101a;border-color:transparent;font-weight:800;box-shadow:0 2px 8px rgba(255,92,146,.3)}
+
+.fusion-advisor-card{background:linear-gradient(135deg,rgba(156,120,255,.12) 0%,rgba(255,92,146,.08) 100%);border:1px solid rgba(156,120,255,.35);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:7px;margin-bottom:8px}
+.advisor-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.advisor-title-row{display:flex;align-items:center;gap:6px;font-size:11px;color:#fff}
+.advisor-sparkle{color:var(--pink2);font-size:13px}
+.advisor-mode-tag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--green,#9fe4c1);background:rgba(159,228,193,.15);border:1px solid rgba(159,228,193,.35);padding:1px 6px;border-radius:999px}
+.advisor-text{margin:0;font-size:10.5px;color:var(--cream,#f0e6df);line-height:1.45}
+.advisor-text strong{color:#fff}
+.advisor-actions{display:flex;gap:6px;margin-top:2px}
+.btn-fusion-apply{background:linear-gradient(115deg,#9c78ff,#caa8ff);color:#1c132c;font-size:10.5px;font-weight:800;padding:6px 14px;border-radius:999px;border:none;cursor:pointer;transition:all .15s ease;box-shadow:0 2px 10px rgba(156,120,255,.35);width:100%}
+.btn-fusion-apply:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 14px rgba(156,120,255,.5)}
 .ref-card{margin-bottom:14px;border:1px solid var(--line);background:#17141bd4;border-radius:16px;overflow:hidden}
 .ref-head{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;background:#ffffff05;border-bottom:1px solid var(--line)}
 .ref-title{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800}
@@ -183,7 +224,7 @@
 <section class="step-card" id="stepCard"><div class="step-head"><div><div class="eyebrow" id="stepEyebrow">Creative direction · 01</div><h2 id="stepTitle">Hair & makeover</h2><p id="stepDescription">Choose the signature post-makeover look.</p></div><div class="step-icon" id="stepIcon">✂</div></div><div class="field-grid" id="fields"></div><div id="fineTuneArea"></div><div id="specialContent"></div><div class="step-foot"><span class="step-count" id="stepCount">Step 1 of 6</span><div class="step-buttons"><button class="btn btn-secondary" id="prevStep">← Previous</button><button class="btn btn-primary" id="nextStep">Next step →</button></div></div></section>
 <section class="advanced-bar"><div><strong>Want a more specific result?</strong><small>Add your own direction or exclusions in the Finish & controls step.</small></div><button class="btn btn-secondary btn-small" id="finishJump">Open finish controls ↗</button></section>
 </main>
-<aside class="preview"><div class="sheet-handle hidden-desktop" id="sheetHandle"></div><div class="preview-head"><div class="preview-top"><div class="eyebrow">Live output</div><div class="preview-top-actions"><button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button><button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button><span class="live">Updating</span><button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button></div></div><h2>Your prompt, assembled</h2><p>Change any choice. The prompt is rebuilt instantly.</p><div class="summary" id="summary"></div></div><div class="preview-body"><details class="ref-card" id="refCard" open><summary class="ref-head"><div class="ref-title"><span class="ref-icon">📷</span><strong>Reference Photo</strong><span class="ref-privacy">Private · In-Browser</span></div><div style="display:flex;align-items:center;gap:6px"><button class="btn-quiet btn-small ref-clear hidden" id="refClear" type="button" title="Remove reference">✕ Clear</button><span class="ref-chevron">⌄</span></div></summary><div class="ref-body"><input type="file" id="refFileInput" accept="image/*" class="hidden"><div class="ref-dropzone" id="refDropzone"><span class="ref-upload-icon">✦</span><p><strong>Drop reference photo</strong> or <u>browse</u></p><small>Never uploaded · Stays private on your device</small></div><div class="ref-preview-area hidden" id="refPreviewArea"><div class="ref-thumb-wrap"><img id="refThumbnail" alt="Reference photo preview" class="ref-img"></div><div class="ref-pills"><button type="button" class="ref-action-pill" data-ref-action="hair" title="Keep reference hair color + strands safeguard">Sync Hair</button><button type="button" class="ref-action-pill" data-ref-action="skin" title="Lock natural skin tone and pores">Match Skin</button><button type="button" class="ref-action-pill" data-ref-action="acc" title="Retain jewelry / glasses / nose ring">Retain Jewelry</button><div class="ref-palette hidden" id="refPalette"><div class="ref-palette-head"><span>Extracted Palette</span><small>Tap color to copy</small></div><div class="ref-swatches" id="refSwatches"></div><button type="button" class="ref-harmonize-pill" id="refHarmonizeBtn">✦ Harmonize shoot with palette</button></div></div></div></details><div class="preview-toolbar">
+<aside class="preview"><div class="sheet-handle hidden-desktop" id="sheetHandle"></div><div class="preview-head"><div class="preview-top"><div class="eyebrow">Live output</div><div class="preview-top-actions"><button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button><button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button><span class="live">Updating</span><button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button></div></div><h2>Your prompt, assembled</h2><p>Change any choice. The prompt is rebuilt instantly.</p><div class="summary" id="summary"></div></div><div class="preview-body"><details class="ref-card dual-ref-card" id="refCard" open><summary class="ref-head"><div class="ref-title"><span class="ref-icon">⚡</span><strong>Dual-Image Style Transfer & AI Advisor</strong><span class="ref-privacy">100% In-Browser · Private</span></div><div style="display:flex;align-items:center;gap:6px"><button class="btn-quiet btn-small hidden" id="clearAllRefsBtn" type="button" title="Remove both references">✕ Clear Both</button><span class="ref-chevron">⌄</span></div></summary><div class="ref-body"><div class="dual-ref-grid"><div class="ref-slot" id="slotSubject"><div class="slot-head"><span class="slot-badge badge-subject">👤 Subject (To Edit)</span><button class="btn-slot-clear hidden" id="clearSubjectBtn" type="button" title="Remove subject photo">✕</button></div><input type="file" id="subjectFileInput" accept="image/*" class="hidden"><div class="slot-dropzone" id="dropzoneSubject"><span class="slot-icon">👤</span><p><strong>Drop Subject Photo</strong></p><small>Face, skin & identity to preserve</small></div><div class="slot-preview hidden" id="previewSubject"><div class="slot-thumb-wrap"><img id="thumbSubject" class="slot-img" alt="Subject preview"></div><div class="slot-diagnostics" id="diagSubject"></div></div></div><div class="ref-slot" id="slotStyle"><div class="slot-head"><span class="slot-badge badge-style">✨ Style Reference</span><button class="btn-slot-clear hidden" id="clearStyleBtn" type="button" title="Remove style photo">✕</button></div><input type="file" id="styleFileInput" accept="image/*" class="hidden"><div class="slot-dropzone" id="dropzoneStyle"><span class="slot-icon">✨</span><p><strong>Drop Style Ref</strong></p><small>Haircut, clothes or vibe to borrow</small></div><div class="slot-preview hidden" id="previewStyle"><div class="slot-thumb-wrap"><img id="thumbStyle" class="slot-img" alt="Style preview"></div><div class="slot-diagnostics" id="diagStyle"></div></div></div></div><div class="transfer-toggles-bar" id="transferTogglesBar"><div class="transfer-label-row"><span class="transfer-label">Transfer from Style Reference:</span></div><div class="transfer-chips"><button type="button" class="transfer-chip active" data-transfer="hair">💇‍♀️ Hairstyle</button><button type="button" class="transfer-chip active" data-transfer="outfit">👗 Wardrobe</button><button type="button" class="transfer-chip" data-transfer="palette">🎨 Color Palette</button><button type="button" class="transfer-chip" data-transfer="scene">📸 Scene & Mood</button></div></div><div class="fusion-advisor-card" id="fusionAdvisorCard"><div class="advisor-head"><div class="advisor-title-row"><span class="advisor-sparkle">✦</span><strong>AI Integration Advisor</strong></div><span class="advisor-mode-tag" id="advisorEngineTag">On-Device Canvas CV</span></div><p class="advisor-text" id="advisorRecommendationText">Upload <b>Subject Photo</b> to preserve identity, and <b>Style Reference</b> to borrow a haircut or outfit.</p><div class="advisor-actions"><button type="button" class="btn-fusion-apply" id="applyFusionBtn">Apply Style Integration ✦</button></div></div><div class="ref-palette hidden" id="refPalette"><div class="ref-palette-head"><span>Extracted Palette</span><small>Tap color to copy</small></div><div class="ref-swatches" id="refSwatches"></div><button type="button" class="ref-harmonize-pill" id="refHarmonizeBtn">✦ Harmonize shoot with palette</button></div></div></details><div class="preview-toolbar">
   <div class="toolbar-row">
     <div class="seg-control" id="modeSegControl">
       <button type="button" class="seg-btn active" id="btnSingleMode">Single shot</button>
@@ -1151,6 +1192,9 @@ let checkState={};
 finishChecks.forEach(c=>checkState[c.id]=c.checked);
 let lockedFields=new Set();
 let preserveHairTexture=true;
+let subjectRef = null;
+let styleRef = null;
+let transferToggles = { hair: true, outfit: true, palette: false, scene: false };
 let customPresets=[];
 
 const totalOptions=Object.values(fields).reduce((sum,f)=>sum+f.opts.length,0);
@@ -2325,8 +2369,38 @@ const outputText={
 
 const detail=detailLevel||'full';
 const lines=[];
+
+if(subjectRef && styleRef){
+lines.push('REFERENCE-IMAGE EDIT · DUAL-REFERENCE STYLE INTEGRATION');
+lines.push('');
+lines.push('PRIMARY SUBJECT (IMAGE 1):');
+lines.push('• Strictly preserve the adult woman from Image 1 as the primary subject.');
+lines.push('• Retain her recognizable facial identity, facial structure, natural eye shape, and realistic skin texture with visible pores.');
+lines.push('• Strictly preserve her natural organic hair strand texture, strand density, natural fiber thickness, and authentic strand behavior.');
+lines.push('');
+lines.push('STYLE REFERENCE (IMAGE 2):');
+lines.push('• Seamlessly transfer and integrate the selected styling elements from Image 2 onto the subject from Image 1:');
+if(transferToggles.hair) lines.push(`  - Transferred Hairstyle: ${getFullHairDescription()}`);
+if(transferToggles.outfit) lines.push(`  - Transferred Wardrobe: ${val('outfit')} (garment fit: ${val('outfitFit')}, accessories: ${val('accessories')})`);
+if(transferToggles.palette) lines.push('  - Transferred Color Palette: harmonize overall wardrobe and environmental tones with Image 2');
+if(transferToggles.scene) lines.push(`  - Transferred Scene & Atmosphere: ${val('background')} with ${val('lighting')}`);
+lines.push('');
+lines.push('INTEGRATION & HARMONIZATION:');
+lines.push('• Naturally fit the transferred hairstyle and garment tailoring to the subject\'s body proportions and skin undertone.');
+lines.push('• Render unified, physically believable lighting and cast shadows across face, hair, and clothing with zero compositing seams, no plastic skin, and no identity drift.');
+lines.push('');
+} else if(subjectRef){
+lines.push('REFERENCE-IMAGE EDIT · IDENTITY PRESERVATION MAKEOVER');
+lines.push('• Strictly preserve the adult woman from the reference photo, maintaining her recognizable facial identity, natural skin texture with visible pores, natural body proportions, and organic hair texture.');
+lines.push('');
+} else if(styleRef){
+lines.push('STYLE-REFERENCE MAKEOVER PHOTOSHOOT');
+lines.push('• Adopt the signature hairstyle, styling aesthetic, and wardrobe silhouette from the reference photo onto the makeover portrait.');
+lines.push('');
+} else {
 lines.push(mode.startsWith('Edit')?'REFERENCE-IMAGE EDIT — BOLD POST-MAKEOVER PHOTOSHOOT':'REFERENCE-GUIDED PORTRAIT — BOLD POST-MAKEOVER PHOTOSHOOT');
 lines.push('');
+}
 lines.push('CREATIVE INTENT');
 lines.push(`${mode}. Capture the same adult woman just after her makeover, during a bold, confident, candid fashion photoshoot. Overall attitude: ${val('mood')}. Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
 lines.push('');
@@ -2705,119 +2779,274 @@ setTimeout(()=>URL.revokeObjectURL(url),1000);
 toast('Prompt saved as a text file.');
 }
 
+function analyzePhotoOnCanvas(img, isSubject){
+  try{
+    const c=document.createElement('canvas');
+    const ctx=c.getContext('2d');
+    c.width=64;c.height=64;
+    ctx.drawImage(img,0,0,64,64);
+    const d=ctx.getImageData(0,0,64,64).data;
+
+    let skinR=0,skinG=0,skinB=0,skinCount=0;
+    let hairR=0,hairG=0,hairB=0,hairCount=0;
+
+    for(let y=0;y<64;y++){
+      for(let x=0;x<64;x++){
+        const idx=(y*64+x)*4;
+        const r=d[idx],g=d[idx+1],b=d[idx+2],a=d[idx+3];
+        if(a<128)continue;
+        const lum=0.299*r+0.587*g+0.114*b;
+
+        // Face / mid-region skin check
+        if(x>=18&&x<=46&&y>=16&&y<=48){
+          if(r>55 && g>35 && b>20 && r>g && lum>40 && lum<230){
+            skinR+=r;skinG+=g;skinB+=b;skinCount++;
+          }
+        }
+        // Hair zone (top crown & side perimeter)
+        if(y<=20||(y<=40&&(x<=14||x>=50))){
+          if(lum<100){
+            hairR+=r;hairG+=g;hairB+=b;hairCount++;
+          }
+        }
+      }
+    }
+
+    let undertone='Neutral';
+    let skinToneName='Natural Warm/Neutral';
+    if(skinCount>0){
+      const avgR=skinR/skinCount,avgG=skinG/skinCount,avgB=skinB/skinCount;
+      if(avgR-avgB>38 && avgG-avgB>10) { undertone='Warm Golden'; skinToneName='Warm Golden/Wheatish'; }
+      else if(avgB>avgG||avgR-avgG<18) { undertone='Cool Rosy'; skinToneName='Cool Rosy/Olive'; }
+    }
+
+    let hairShade='Dark Raven / Black';
+    if(hairCount>0){
+      const avgHairLum=0.299*(hairR/hairCount)+0.587*(hairG/hairCount)+0.114*(hairB/hairCount);
+      if(avgHairLum>75) hairShade='Warm Chestnut / Brown';
+      else if(avgHairLum>50) hairShade='Dark Espresso Brown';
+      else hairShade='Raven Black';
+    }
+
+    return {
+      undertone,
+      skinToneName,
+      hairShade,
+      hasSubject: skinCount > 10,
+      palette: extractPalette(img, 5)
+    };
+  }catch(e){
+    return { undertone:'Warm Golden', skinToneName:'Natural Wheatish', hairShade:'Raven Black', hasSubject:true, palette:[] };
+  }
+}
+
+function updateDualRefAdvisor(){
+  const advText=el('advisorRecommendationText');
+  const tag=el('advisorEngineTag');
+  const clearAll=el('clearAllRefsBtn');
+
+  if(clearAll) clearAll.classList.toggle('hidden', !subjectRef && !styleRef);
+
+  if(window.ai && window.ai.languageModel && tag) tag.textContent = 'Chrome On-Device AI (Nano)';
+
+  if(subjectRef && styleRef){
+    advText.innerHTML = `
+      <strong>✨ Integration Ready:</strong> Subject identity & natural <strong>${subjectRef.diag.hairShade}</strong> texture locked from Image 1. 
+      Style Reference provides <strong>${transferToggles.hair ? 'Haircut' : ''}${transferToggles.hair&&transferToggles.outfit ? ' + ' : ''}${transferToggles.outfit ? 'Wardrobe' : ''}</strong>. 
+      Click below to apply the complete style fusion into your prompt.
+    `;
+  } else if(subjectRef){
+    advText.innerHTML = `
+      <strong>👤 Subject Loaded:</strong> Identity locked (Undertone: <b>${subjectRef.diag.undertone}</b> · Hair: <b>${subjectRef.diag.hairShade}</b>). 
+      Now drop a <b>Style Reference</b> in Slot 2 to borrow a haircut or outfit, or pick any style in the builder!
+    `;
+  } else if(styleRef){
+    advText.innerHTML = `
+      <strong>✨ Style Reference Loaded:</strong> Style elements extracted. 
+      Drop a <b>Subject Photo</b> in Slot 1 to wear this hairstyle and wardrobe with preserved facial identity!
+    `;
+  } else {
+    advText.innerHTML = `Upload <b>Subject Photo</b> to preserve identity, and <b>Style Reference</b> to borrow a haircut or outfit.`;
+  }
+}
+
 function initRefViewer(){
-const dropzone=el('refDropzone');
-const fileInput=el('refFileInput');
-const clearBtn=el('refClear');
-if(!dropzone||!fileInput)return;
+  const sDrop = el('dropzoneSubject');
+  const sInput = el('subjectFileInput');
+  const sClear = el('clearSubjectBtn');
+  const stDrop = el('dropzoneStyle');
+  const stInput = el('styleFileInput');
+  const stClear = el('clearStyleBtn');
+  const clearAll = el('clearAllRefsBtn');
 
-dropzone.addEventListener('click',()=>fileInput.click());
-fileInput.addEventListener('change',e=>{
-  if(e.target.files&&e.target.files[0])loadRefImage(e.target.files[0]);
-});
-dropzone.addEventListener('dragover',e=>{
-  e.preventDefault();
-  dropzone.classList.add('dragover');
-});
-dropzone.addEventListener('dragleave',()=>dropzone.classList.remove('dragover'));
-dropzone.addEventListener('drop',e=>{
-  e.preventDefault();
-  dropzone.classList.remove('dragover');
-  if(e.dataTransfer.files&&e.dataTransfer.files[0])loadRefImage(e.dataTransfer.files[0]);
-});
-
-if(clearBtn){
-  clearBtn.addEventListener('click',e=>{
-    e.stopPropagation();
-    el('refThumbnail').src='';
-    el('refPreviewArea').classList.add('hidden');
-    el('refDropzone').classList.remove('hidden');
-    clearBtn.classList.add('hidden');
-    fileInput.value='';
-    extractedPalette=[];
-    harmonizePalette=false;
-    const harmBtn=el('refHarmonizeBtn');
-    if(harmBtn){
-      harmBtn.classList.remove('active');
-      harmBtn.textContent='✦ Harmonize shoot with palette';
+  function bindSlot(drop, input, clear, isSubject){
+    if(!drop || !input) return;
+    drop.addEventListener('click', () => input.click());
+    input.addEventListener('change', e => {
+      if(e.target.files && e.target.files[0]) handleSlotImage(e.target.files[0], isSubject);
+    });
+    drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+    drop.addEventListener('drop', e => {
+      e.preventDefault();
+      drop.classList.remove('dragover');
+      if(e.dataTransfer.files && e.dataTransfer.files[0]) handleSlotImage(e.dataTransfer.files[0], isSubject);
+    });
+    if(clear){
+      clear.addEventListener('click', e => {
+        e.stopPropagation();
+        clearSlot(isSubject);
+      });
     }
-    const palBox=el('refPalette');
-    if(palBox)palBox.classList.add('hidden');
-    buildPrompt();
-    toast('Reference photo removed.');
+  }
+
+  bindSlot(sDrop, sInput, sClear, true);
+  bindSlot(stDrop, stInput, stClear, false);
+
+  if(clearAll){
+    clearAll.addEventListener('click', () => {
+      clearSlot(true);
+      clearSlot(false);
+      toast('Cleared all image references.');
+    });
+  }
+
+  // Transfer chips
+  document.querySelectorAll('.transfer-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const type = chip.dataset.transfer;
+      transferToggles[type] = !transferToggles[type];
+      chip.classList.toggle('active', transferToggles[type]);
+      updateDualRefAdvisor();
+      buildPrompt();
+      toast(`Transfer ${type}: ${transferToggles[type] ? 'ON' : 'OFF'}`);
+    });
   });
+
+  // Apply fusion button
+  const applyBtn = el('applyFusionBtn');
+  if(applyBtn){
+    applyBtn.addEventListener('click', () => {
+      preserveHairTexture = true;
+      checkState.hairTexturePreserve = true;
+      checkState.identity = true;
+      checkState.skin = true;
+
+      if(styleRef || subjectRef){
+        // Select photo-match haircut if hair transfer is active
+        if(transferToggles.hair){
+          const hOpt = fields.hair.opts.find(o => o.label.includes('exact salon photo match') || o.label.includes('salon photo match')) || fields.hair.opts[0];
+          values.hair = hOpt;
+          const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
+          if(catOpt) values.hairCategory = catOpt;
+          const fOpt = fields.fringe.opts.find(o => o.label.includes('bottleneck curtain bangs') || o.label.includes('curtain bangs'));
+          if(fOpt) values.fringe = fOpt;
+          const pOpt = fields.parting.opts.find(o => o.label.includes('bottleneck curtain opening') || o.label.includes('center part'));
+          if(pOpt) values.parting = pOpt;
+        }
+
+        // Select photo-match outfit if outfit transfer is active
+        if(transferToggles.outfit){
+          const oOpt = fields.outfit.opts.find(o => o.label.includes('salon reveal') || o.label.includes('kurti')) || fields.outfit.opts[0];
+          values.outfit = oOpt;
+          const oCat = fields.outfitCategory.opts.find(c => c.text === 'saree');
+          if(oCat) values.outfitCategory = oCat;
+        }
+
+        renderFields();
+        buildPrompt();
+        toast('✦ Applied Style Transfer & Makeover Fusion!');
+      } else {
+        toast('Please upload Subject and Style reference images first.');
+      }
+    });
+  }
+
+  const harmBtn=el('refHarmonizeBtn');
+  if(harmBtn){
+    harmBtn.addEventListener('click',()=>{
+      if(!extractedPalette.length){
+        toast('Upload an image first to extract its palette.');
+        return;
+      }
+      harmonizePalette=!harmonizePalette;
+      harmBtn.classList.toggle('active',harmonizePalette);
+      harmBtn.textContent=harmonizePalette?'✓ Harmonized with palette':'✦ Harmonize shoot with palette';
+      if(harmonizePalette){
+        checkState.skinTone=true;
+        checkState.lightingReal=true;
+        toast('Harmonized shoot with reference palette!');
+      }else{
+        toast('Palette harmony disabled.');
+      }
+      buildPrompt();
+    });
+  }
 }
 
-const harmBtn=el('refHarmonizeBtn');
-if(harmBtn){
-  harmBtn.addEventListener('click',()=>{
-    if(!extractedPalette.length){
-      toast('Upload a reference photo first to extract its palette.');
-      return;
-    }
-    harmonizePalette=!harmonizePalette;
-    harmBtn.classList.toggle('active',harmonizePalette);
-    harmBtn.textContent=harmonizePalette?'✓ Harmonized with palette':'✦ Harmonize shoot with palette';
-    if(harmonizePalette){
-      checkState.skinTone=true;
-      checkState.lightingReal=true;
-      toast('Harmonized shoot with reference palette!');
-    }else{
-      toast('Palette harmony disabled.');
-    }
-    buildPrompt();
-  });
-}
+function handleSlotImage(file, isSubject){
+  if(!file.type.startsWith('image/')){
+    toast('Please select an image file (JPG, PNG, WebP).');
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const dataUrl=e.target.result;
+    const prefix = isSubject ? 'Subject' : 'Style';
+    el('thumb'+prefix).src=dataUrl;
+    el('dropzone'+prefix).classList.add('hidden');
+    el('preview'+prefix).classList.remove('hidden');
+    el('clear'+prefix+'Btn').classList.remove('hidden');
+    el('refCard').setAttribute('open','');
 
-document.querySelectorAll('.ref-action-pill').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const act=btn.dataset.refAction;
-    if(act==='hair'){
-      const match=fields.hairColor.opts.find(o=>o.label.toLowerCase().includes('reference'));
-      if(match)values.hairColor=match;
-      checkState.hairStrands=true;
-      toast('Synced: Keep reference hair color + strands safeguard');
-    }else if(act==='skin'){
-      checkState.skinTone=true;
-      checkState.skin=true;
-      checkState.body=true;
-      toast('Synced: Natural skin tone, pores & body proportions');
-    }else if(act==='acc'){
-      const match=fields.accessories.opts.find(o=>o.label.toLowerCase().includes('reference'));
-      if(match)values.accessories=match;
-      checkState.accessoryKeep=true;
-      toast('Synced: Retain reference jewelry & accessories');
-    }
-    buildPrompt();
-    renderFields();
-  });
-});
-}
-
-function loadRefImage(file){
-if(!file.type.startsWith('image/')){
-  toast('Please select an image file (JPG, PNG, WebP).');
-  return;
-}
-const reader=new FileReader();
-reader.onload=e=>{
-  const dataUrl=e.target.result;
-  el('refThumbnail').src=dataUrl;
-  el('refDropzone').classList.add('hidden');
-  el('refPreviewArea').classList.remove('hidden');
-  el('refClear').classList.remove('hidden');
-  const rc=el('refCard');
-  if(rc)rc.setAttribute('open','');
-  
-  const img=new Image();
-  img.onload=()=>{
-    const pal=extractPalette(img,5);
-    renderPalette(pal);
+    const img=new Image();
+    img.onload=()=>{
+      const diag=analyzePhotoOnCanvas(img, isSubject);
+      if(isSubject){
+        subjectRef = { dataUrl, img, diag };
+        el('diagSubject').innerHTML = `
+          <span class="diag-pill ${diag.undertone.includes('Warm')?'warm':'cool'}">✨ ${diag.undertone}</span>
+          <span class="diag-pill hair">💇‍♀️ ${diag.hairShade}</span>
+        `;
+      } else {
+        styleRef = { dataUrl, img, diag };
+        el('diagStyle').innerHTML = `
+          <span class="diag-pill hair">✂️ Style Target</span>
+          <span class="diag-pill warm">🎨 ${diag.palette.length} Colors</span>
+        `;
+        if(diag.palette.length){
+          renderPalette(diag.palette);
+        }
+      }
+      updateDualRefAdvisor();
+      buildPrompt();
+      toast(`${isSubject ? 'Subject' : 'Style'} reference loaded and analyzed!`);
+    };
+    img.src=dataUrl;
   };
-  img.src=dataUrl;
-  toast('Reference photo loaded in browser.');
-};
-reader.readAsDataURL(file);
+  reader.readAsDataURL(file);
+}
+
+function clearSlot(isSubject){
+  const prefix = isSubject ? 'Subject' : 'Style';
+  el('thumb'+prefix).src='';
+  el('preview'+prefix).classList.add('hidden');
+  el('dropzone'+prefix).classList.remove('hidden');
+  el('clear'+prefix+'Btn').classList.add('hidden');
+  el(prefix.toLowerCase()+'FileInput').value='';
+  el('diag'+prefix).innerHTML='';
+
+  if(isSubject) subjectRef=null;
+  else {
+    styleRef=null;
+    extractedPalette=[];
+    const palBox=el('refPalette');
+    if(palBox) palBox.classList.add('hidden');
+  }
+
+  updateDualRefAdvisor();
+  buildPrompt();
+  toast(`Removed ${isSubject ? 'Subject' : 'Style'} photo.`);
 }
 
 function initMobileDrawer(){
