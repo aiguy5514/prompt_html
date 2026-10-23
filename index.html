@@ -37,6 +37,17 @@
 .sweep-chip{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:650;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s ease}
 .sweep-chip:hover{background:rgba(255,255,255,.12);border-color:rgba(156,120,255,.45)}
 .sweep-chip.active{background:linear-gradient(115deg,#9c78ff,#caa8ff);color:#1c132c;border-color:transparent;font-weight:800;box-shadow:0 2px 10px rgba(156,120,255,.4)}
+.hair-texture-protect-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(159,228,193,.09) 0%,rgba(23,20,27,.82) 100%);border:1px solid rgba(159,228,193,.35);border-radius:14px;padding:12px 16px;margin:4px 0 12px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.texture-protect-left{display:flex;flex-direction:column;gap:3px;max-width:620px}
+.texture-protect-title-row{display:flex;align-items:center;gap:8px}
+.texture-protect-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(159,228,193,.15);color:var(--green,#9fe4c1);font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid rgba(159,228,193,.35)}
+.texture-protect-title{font-size:13px;font-weight:800;color:var(--text,#fff8fc)}
+.texture-protect-desc{margin:0;font-size:11px;color:var(--muted,#b8adbd);line-height:1.4}
+.texture-protect-desc strong{color:var(--green,#9fe4c1)}
+.texture-protect-actions{display:flex;align-items:center;gap:8px}
+.texture-protect-toggle-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;border:1px solid rgba(159,228,193,.4);background:rgba(159,228,193,.12);color:var(--green,#9fe4c1);font-size:11px;font-weight:800;cursor:pointer;transition:all .15s ease}
+.texture-protect-toggle-btn:hover{filter:brightness(1.15);transform:translateY(-1px);box-shadow:0 3px 12px rgba(159,228,193,.25)}
+.texture-protect-toggle-btn.active{background:linear-gradient(115deg,#48bb78,#38a169);color:#0a1e12;border-color:transparent;box-shadow:0 3px 14px rgba(72,187,120,.4)}
 .pony-photo-match-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,92,146,.12);border:1px solid rgba(255,92,146,.35);padding:10px 14px;border-radius:12px;margin-bottom:6px;flex-wrap:wrap}
 .pony-match-apply-btn{background:linear-gradient(115deg,var(--pink,#ff5c92),var(--pink2,#ff9cbd));color:#24101a;font-size:11px;font-weight:800;padding:6px 14px;border-radius:999px;border:none;cursor:pointer;transition:all .15s ease;box-shadow:0 2px 10px rgba(255,92,146,.3)}
 .pony-match-apply-btn:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 14px rgba(255,92,146,.45)}
@@ -233,7 +244,7 @@ const O=(label,text=label)=>({label,text});
 const hair=[
 O('Shoulder-length bob + wispy bangs','a freshly cut shoulder-length bob with soft wispy bangs, a deep side part and naturally feathered ends'),O('Chin-length French bob','a chic chin-length French bob with airy texture and subtly tucked ends'),O('Long bob / lob','a polished long bob falling around the collarbones with relaxed movement'),O('Feather cut + dramatic flip','a voluminous feather cut with face-framing layers and a natural dramatic hair flip'),O('Butterfly layers + curtain fringe','a flowing butterfly cut with cheekbone-framing layers and wispy curtain bangs'),O('Textured wolf cut','a bold shaggy wolf cut with textured layers, soft fringe and lived-in movement'),O('Modern soft wolf shag','a modern soft wolf shag with airy crown volume and piecey ends'),O('Layered Rockstar shag','a rock-inspired shag cut with choppy layers, textured fringe and effortless movement'),O('Long layers + face framing','long layered hair with cascading face-framing pieces and realistic movement'),O('Bouncy 90s blowout','a bouncy 1990s-inspired blowout with layered ends and soft lift'),O('Sleek high ponytail','a sleek high ponytail with natural tension, a wrapped base and loose face-framing strands'),O('Voluminous high ponytail','a voluminous high ponytail with flowing feathered ends and a few flyaways'),O('Low sleek bun','a refined low bun with clean lines and wispy strands around the face'),O('Messy textured bun','a casually undone textured bun with fine loose tendrils and realistic stray strands'),O('Hollywood side waves','deep-side-part Hollywood waves with glossy but realistic definition'),O('Tousled beach waves','effortless tousled waves with natural irregularity and soft movement'),O('Sleek straight glass hair','sleek straight hair with a clean shine, natural strand separation and a deep side part'),O('Side-swept blowout','a bouncy side-swept blowout with a bold hair flip and feathered movement'),O('Pixie-bob with side fringe','a textured pixie-bob with an asymmetric side fringe and softly tapered ends'),O('Long shag with curtain bangs','a long shag cut with airy curtain bangs and relaxed face-framing layers'),O('Asymmetric angled bob','a sharp asymmetric bob with a clean angled silhouette and side-swept fringe'),O('Blunt collarbone cut','a blunt collarbone-length cut with a full outline and minimal, natural movement'),O('Wispy bangs + ponytail','a naturally voluminous ponytail paired with wispy bangs and loose temple strands'),O('Half-up, half-down waves','a half-up hairstyle with soft flowing waves and delicately loose front pieces'),O('Braided high ponytail','a high ponytail incorporating a clean braid detail and loose flowing ends'),O('Sculpted French twist','a sculpted French twist with soft flyaways and understated elegance'),O('Wet-look slicked-back style','a fashion-editorial slicked-back wet-look style with realistic separated strands'),O('Curly layered cut','a naturally curly layered cut with defined individual curls and balanced volume'),O('Soft natural curls','soft, defined natural curls with a side part and airy face-framing pieces'),O('Voluminous blowout + curtain bangs','a full salon blowout with curtain bangs, feathered layers and a pronounced hair flip'),O('Short textured crop','a bold short textured crop with a soft fringe and a modern editorial silhouette'),O('Shoulder-length shaggy bob','a relaxed shoulder-length shaggy bob with wispy ends and a deep side part'),O('Braided crown with loose lengths','a delicate braided crown with the rest of the hair worn loose and natural'),O('High ponytail with curled ends','a high ponytail with softly curled ends, realistic strands and face-framing wisps'),O('Classic layered V-cut','long hair shaped in a soft V-cut with airy layers and a natural finish')];
 const hairColor=[O('Keep reference hair color','the original hair color from the reference image'),O('Deep natural black','deep natural black with subtle realistic highlights'),O('Espresso brunette','rich espresso brunette'),O('Chocolate brown','warm chocolate brown'),O('Soft chestnut','soft chestnut brown'),O('Caramel ribbons','subtle caramel ribbons blended naturally through the hair'),O('Cool ash brown','cool ash brown with restrained dimension'),O('Copper auburn','rich copper auburn'),O('Burgundy tint','deep burgundy-tinted hair'),O('Blue-black sheen','blue-black hair with a subtle cool sheen'),O('Dark roots + balayage','dark roots blended into soft balayage ends'),O('Honey blonde balayage','honey-blonde balayage with natural-looking dimension'),O('Platinum blonde','platinum blonde with believable root depth'),O('Rose-brown tint','subtle rose-brown tint'),O('Warm mahogany','warm mahogany brown')];
-const hairFinish=[O('Fresh salon finish','freshly salon-styled but still natural'),O('Lived-in candid texture','lived-in, touchable texture with a few imperfect strands'),O('Wind-touched movement','slightly wind-touched movement and fine flyaways'),O('Glossy editorial finish','glossy editorial finish without plastic shine'),O('Soft volume and bounce','soft root lift, airy volume and natural bounce'),O('Piecey textured definition','piecey texture with defined strand separation'),O('Minimal styling','lightly styled, natural hair with subtle imperfections'),O('Movement captured mid-turn','hair caught mid-movement as she turns')];
+const hairFinish=[O('Fresh salon blow-dry finish (natural soft sheen)','freshly blown-out salon finish with natural soft silkiness, healthy organic sheen, and realistic flyaways without heavy wax or stiff spray'),O('Fresh salon finish','freshly salon-styled but still natural'),O('Lived-in candid texture','lived-in, touchable texture with a few imperfect strands'),O('Wind-touched movement','slightly wind-touched movement and fine flyaways'),O('Glossy editorial finish','glossy editorial finish without plastic shine'),O('Soft volume and bounce','soft root lift, airy volume and natural bounce'),O('Piecey textured definition','piecey texture with defined strand separation'),O('Minimal styling','lightly styled, natural hair with subtle imperfections'),O('Movement captured mid-turn','hair caught mid-movement as she turns')];
 const outfit=[
 O('Red asymmetrical off-shoulder one-piece','a bold red asymmetrical off-shoulder one-piece with a clean fashion silhouette'),O('Black sculptural evening dress','a striking black sculptural evening dress with confident, architectural lines'),O('Burgundy satin gown','a dramatic burgundy satin gown with elegant draping and natural fabric highlights'),O('Tailored black power suit','a sharply tailored black power suit with a fitted blazer and clean, confident lines'),O('Black fitted jumpsuit','a sleek black fitted jumpsuit with a defined waist and modern styling'),O('White shirt + dark jeans','a relaxed white button-up shirt with dark fitted jeans and a confident, effortless styling'),O('Metallic statement dress','a bold metallic statement dress with modern editorial detailing'),O('Modern red saree','a striking modern red saree with an elegant, dramatic drape and tasteful styling'),O('Leather-look jacket + monochrome','a leather-look jacket with a bold monochrome outfit and an edgy editorial feel'),O('Structured fashion top + trousers','a structured corset-inspired fashion top paired with tailored trousers'),O('Jewel-tone cocktail dress','a fitted jewel-toned cocktail dress with sculptural details'),O('One-shoulder top + trousers','a modern one-shoulder top paired with high-waisted tailored trousers'),O('Black velvet evening dress','a black velvet evening dress with clean lines and refined texture'),O('Emerald satin midi dress','an emerald satin midi dress with a bold neckline and polished drape'),O('Ivory blazer dress','an ivory blazer dress with sharp tailoring and understated statement styling'),O('Cobalt-blue statement dress','a vivid cobalt-blue statement dress with a confident editorial silhouette'),O('Crimson tailored jumpsuit','a crimson tailored jumpsuit with a sharp waistline and sleek finish'),O('Champagne satin slip dress','a champagne satin slip dress styled with a sophisticated, editorial layer'),O('White sculptural one-piece','a crisp white sculptural one-piece with an asymmetric modern cut'),O('Black off-shoulder fitted dress','a black off-shoulder fitted dress with a clean silhouette and elegant structure'),O('Red blazer + black trousers','a red statement blazer layered over a simple black top with tailored black trousers'),O('Denim-on-denim fashion set','a coordinated dark denim fashion set with a sharply styled jacket'),O('Modern nauvari saree','a modern nauvari saree with a confident drape and tasteful contemporary styling'),O('Classic silk saree','a richly colored silk saree with a clean blouse silhouette and sophisticated draping'),O('Satin co-ord set','a satin two-piece co-ord set with polished, fluid lines'),O('Wide-leg tailored suit','a fashion-forward wide-leg suit with a defined shoulder and relaxed tailoring'),O('Statement blazer + fitted dress','an oversized statement blazer layered over a fitted minimalist dress'),O('Asymmetric knit dress','a sculptural asymmetric knit dress with a clean silhouette'),O('Modern jumpsuit + belt','a modern tailored jumpsuit with a statement belt'),O('Black sequin editorial look','a black sequin fashion look with tasteful sparkle and strong styling'),O('Plum velvet blazer + trousers','a deep plum velvet blazer and tailored trousers'),O('Soft pink power suit','a structured soft-pink power suit with confident tailoring'),O('Graphic monochrome outfit','a graphic monochrome outfit with contrasting tailored pieces'),O('Leather-look skirt + jacket','a black leather-look skirt with a fitted top and tailored jacket'),O('Satin blouse + tailored pants','a satin blouse with tailored high-waisted pants and statement styling'),O('Red wrap dress','a sophisticated red wrap dress with a defined waist and graceful movement'),O('Midnight-blue evening outfit','a midnight-blue evening outfit with sleek lines and subtle metallic accents'),O('Minimal black column dress','a minimalist black column dress with refined shape and bold simplicity'),O('Contemporary fusion outfit','a contemporary Indo-western fusion outfit with structured layering'),O('Off-shoulder knit + wide-leg pants','an off-shoulder knit top with wide-leg tailored pants'),O('Crisp shirt + statement belt','a crisp button-up shirt styled with a statement belt and tailored trousers'),O('Dramatic cape-style evening look','a modern cape-style evening look with clean, dramatic movement'),O('Fashion-forward jumpsuit','a fashion-forward jumpsuit with asymmetric details and refined tailoring'),O('Sculptural top + satin skirt','a sculptural modern top paired with a flowing satin skirt'),O('Bold color-block ensemble','a bold color-block ensemble with confident, fashion-editorial styling')];
 const outfitFit=[O('Keep believable garment fit','natural garment fit with realistic tailoring and fabric tension'),O('Relaxed editorial fit','relaxed editorial fit with believable folds and movement'),O('Structured polished fit','structured polished fit with clear seams and realistic fabric behavior'),O('Flowing movement','flowing fabric movement captured naturally'),O('Crisp tailored finish','crisp tailored finish with defined but believable lines')];
@@ -393,8 +404,8 @@ addOptions(accessories, makeOpts([
 
 
 // New micro-controls with large, searchable option banks.
-const fringeDetail=makeOpts([['Arched center-parted curtain bangs framing cheekbones','arched center-parted curtain bangs softly framing the forehead, eyebrow arches and cheekbones with curved outward ends'],['No fringe / open forehead','no fringe, with the forehead naturally open'],['Wispy curtain fringe','soft, wispy curtain bangs'],['Long curtain fringe','long curtain fringe that blends into face-framing layers'],['Brow-skimming fringe','light fringe skimming the eyebrows'],['Airy see-through fringe','an airy, see-through fringe with separated strands'],['Side-swept fringe','a deep side-swept fringe'],['Long cheekbone fringe','long cheekbone-length fringe pieces'],['Piecey textured fringe','piecey textured fringe with realistic separation'],['Soft rounded fringe','a soft rounded fringe with feathered edges'],['Asymmetric fringe','an asymmetric fringe swept gently to one side'],['Micro fringe','a short micro fringe styled with a modern editorial attitude'],['Bottleneck fringe','a bottleneck fringe that opens at the center and curves at the temples'],['Feathered curtain bangs','feathered curtain bangs with soft outward movement'],['Full brow fringe','a full brow-length fringe with natural texture'],['Loose strands across forehead','a few soft loose strands falling naturally across the forehead'],['Wispy side pieces only','wispy side pieces without a full fringe'],['Parted long fringe','a long fringe parted loosely at the center'],['Soft diagonal fringe','a softly diagonal fringe swept across the forehead'],['Layered fringe','a layered fringe with varied lengths'],['No bangs, face-framing only','no bangs, only long face-framing layers']]);
-const parting=makeOpts([['Clean center part with curtain fringe opening','a clean short center part at the hairline opening into curtain bangs'],['Deep left side part','a deep left-side part'],['Deep right side part','a deep right-side part'],['Soft center part','a soft center part'],['Loose off-center part','a relaxed off-center part'],['Natural part matching reference','a natural part consistent with the reference image'],['Slight zigzag part','a subtle, realistic zigzag part'],['Slicked-back no visible part','a slicked-back style with no prominent part'],['Side part with lifted roots','a side part with softly lifted roots'],['Center part with curtain opening','a center part opening naturally into curtain bangs'],['Part softened by flyaways','a subtle part softened by natural flyaways']]);
+const fringeDetail=makeOpts([['Arched bottleneck curtain bangs grazing brows & cheekbones (photo match)','soft arched bottleneck curtain bangs parted slightly at the center hairline with wispy brow-grazing center strands that curve naturally outward to cheekbone level with delicate strand separation'],['Arched center-parted curtain bangs framing cheekbones','arched center-parted curtain bangs softly framing the forehead, eyebrow arches and cheekbones with curved outward ends'],['No fringe / open forehead','no fringe, with the forehead naturally open'],['Wispy curtain fringe','soft, wispy curtain bangs'],['Long curtain fringe','long curtain fringe that blends into face-framing layers'],['Brow-skimming fringe','light fringe skimming the eyebrows'],['Airy see-through fringe','an airy, see-through fringe with separated strands'],['Side-swept fringe','a deep side-swept fringe'],['Long cheekbone fringe','long cheekbone-length fringe pieces'],['Piecey textured fringe','piecey textured fringe with realistic separation'],['Soft rounded fringe','a soft rounded fringe with feathered edges'],['Asymmetric fringe','an asymmetric fringe swept gently to one side'],['Micro fringe','a short micro fringe styled with a modern editorial attitude'],['Bottleneck fringe','a bottleneck fringe that opens at the center and curves at the temples'],['Feathered curtain bangs','feathered curtain bangs with soft outward movement'],['Full brow fringe','a full brow-length fringe with natural texture'],['Loose strands across forehead','a few soft loose strands falling naturally across the forehead'],['Wispy side pieces only','wispy side pieces without a full fringe'],['Parted long fringe','a long fringe parted loosely at the center'],['Soft diagonal fringe','a softly diagonal fringe swept across the forehead'],['Layered fringe','a layered fringe with varied lengths'],['No bangs, face-framing only','no bangs, only long face-framing layers']]);
+const parting=makeOpts([['Clean center part with bottleneck curtain opening','a clean short center part at the hairline opening into arched bottleneck curtain bangs'],['Clean center part with curtain fringe opening','a clean short center part at the hairline opening into curtain bangs'],['Deep left side part','a deep left-side part'],['Deep right side part','a deep right-side part'],['Soft center part','a soft center part'],['Loose off-center part','a relaxed off-center part'],['Natural part matching reference','a natural part consistent with the reference image'],['Slight zigzag part','a subtle, realistic zigzag part'],['Slicked-back no visible part','a slicked-back style with no prominent part'],['Side part with lifted roots','a side part with softly lifted roots'],['Center part with curtain opening','a center part opening naturally into curtain bangs'],['Part softened by flyaways','a subtle part softened by natural flyaways']]);
 const hairVolume=makeOpts([['Natural low volume','natural low volume with a close-to-head silhouette'],['Airy crown lift','airy crown lift without exaggerated height'],['Soft rounded volume','soft rounded volume with a balanced outline'],['Full salon blowout volume','full salon blowout volume with realistic bounce'],['Piecey separated layers','piecey, separated layers with natural space between strands'],['Controlled sleek finish','a controlled sleek finish without helmet-like hair'],['Loose airy texture','loose airy texture with subtle strand variation'],['Defined curls with natural expansion','defined curls with natural expansion and believable volume'],['Undone volume','slightly undone volume as the hair settles after styling'],['Wind-touched lightness','light wind-touched movement and fine flyaways'],['Root lift, smooth lengths','soft root lift with smoother lengths'],['Softly compressed crown','a softly compressed crown with volume through the ends']]);
 
 addOptions(fringeDetail, makeOpts([
@@ -538,10 +549,10 @@ const ponyTailStyleOpts = [
 ];
 
 const HAIR_FAMILIES = [
-  O('✦ All Styles (230 options)', 'all'),
+  O('✦ All Styles (231 options)', 'all'),
   O('🦋 Layers & Blowouts (50 variations)', 'layer'),
   O('💇‍♀️ Bobs & Lobs (49 variations)', 'bob'),
-  O('🐎 Ponytails & Updos (37 variations)', 'pony'),
+  O('🐎 Ponytails & Updos (38 variations)', 'pony'),
   O('🐺 Shags & Mullets (24 variations)', 'shag'),
   O('💧 Wet-Look & Aquatic (19 variations)', 'wet'),
   O('👑 Braids & Buns (16 variations)', 'braid'),
@@ -551,25 +562,25 @@ const HAIR_FAMILIES = [
 ];
 
 const OUTFIT_FAMILIES = [
-  O('✦ All Outfits (415 options)', 'all'),
+  O('✦ All Outfits (416 options)', 'all'),
   O('👗 Evening Gowns (81 variations)', 'gown'),
   O('🕴️ Suits & Tailoring (76 variations)', 'suit'),
   O('👚 Tops, Denim & Separates (71 variations)', 'separates'),
   O('🩲 Jumpsuits & Bodysuits (60 variations)', 'jumpsuit'),
   O('🦹 Cocktail & Party (51 variations)', 'cocktail'),
-  O('🥻 Sarees & Fusion (44 variations)', 'saree'),
+  O('🥻 Sarees & Fusion (45 variations)', 'saree'),
   O('🩱 Monokinis & Swimwear (20 variations)', 'swim'),
   O('🧥 Leather, Vinyl & Trench (12 variations)', 'leather')
 ];
 
 const POSE_FAMILIES = [
-  O('✦ All Poses (107 options)', 'all'),
+  O('✦ All Poses (108 options)', 'all'),
   O('🧍‍♀️ Standing & Power Stances (31 variations)', 'standing'),
   O('💆‍♀️ Hair-Touch & Beauty Gestures (22 variations)', 'beauty'),
   O('🚶‍♀️ Motion, Walking & Turns (18 variations)', 'motion'),
   O('🧱 Leaning & Architectural (12 variations)', 'leaning'),
   O('💫 Candid & In-Between Takes (9 variations)', 'candid'),
-  O('🪑 Seated & Floor Lounging (8 variations)', 'seated'),
+  O('🪑 Seated & Floor Lounging (9 variations)', 'seated'),
   O('💧 Wet-Look & Aquatic Action (7 variations)', 'wet')
 ];
 
@@ -581,11 +592,11 @@ const SHOT_FAMILIES = [
 ];
 
 const SCENE_FAMILIES = [
-  O('✦ All Locations (97 options)', 'all'),
+  O('✦ All Locations (98 options)', 'all'),
   O('🌆 Urban, Rooftops & Walls (29 variations)', 'urban'),
   O('📸 Studio Backdrops & Cycs (28 variations)', 'studio'),
   O('🛋️ Luxury Interiors & Suites (22 variations)', 'luxury'),
-  O('✂️ Salons & Makeover Backstages (11 variations)', 'salon'),
+  O('✂️ Salons & Makeover Backstages (12 variations)', 'salon'),
   O('🌊 Aquatic Pools & Coastal (7 variations)', 'aquatic')
 ];
 
@@ -668,7 +679,7 @@ ponyTailEnd:{label:'Where ponytail ends',section:'look',opts:ponyTailEndOpts,def
 ponyBaseHeight:{label:'Ponytail base height',section:'look',opts:ponyBaseHeightOpts,def:0},
 ponyBaseWrap:{label:'Ponytail base wrap & hardware',section:'look',opts:ponyBaseWrapOpts,def:0},
 ponyTailStyle:{label:'Ponytail tail texture & finish',section:'look',opts:ponyTailStyleOpts,def:0},
-makeover:{label:'Makeover moment',section:'look',opts:[O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Final stylist touch-up','a stylist has finished the final hair touch-up just before the shoot'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves')],def:0},
+makeover:{label:'Makeover moment',section:'look',opts:[O('Salon reveal in styling chair with stylist finishing crown','the haircut has just been completed in the salon chair, with the male stylist gently touching and finishing the rounded crown and curtain bangs, capturing her candid, calm in-chair reaction'),O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Final stylist touch-up','a stylist has finished the final hair touch-up just before the shoot'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves')],def:0},
 mode:{label:'Reference workflow',section:'look',opts:[O('Edit the supplied reference','Edit the supplied reference image, preserving the same adult woman and making only the requested styling and photoshoot changes'),O('New image using reference identity','Create a new photograph using the supplied reference image as identity guidance for the same adult woman')],def:0},hair:{label:'Specific haircut',section:'look',opts:hair,def:0},hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
 outfit:{label:'Specific outfit',section:'wardrobe',opts:outfit,def:0},outfitFit:{label:'Fabric and fit',section:'wardrobe',opts:outfitFit,def:0},accessories:{label:'Accessories',section:'wardrobe',opts:accessories,def:12},makeup:{label:'Makeup direction',section:'wardrobe',opts:makeup,def:0},
 pose:{label:'Specific pose',section:'pose',opts:pose,def:0},expression:{label:'Expression',section:'pose',opts:expression,def:0},gesture:{label:'Hand / gesture detail',section:'pose',opts:gesture,def:0},mood:{label:'Overall attitude',section:'pose',opts:mood,def:0},
@@ -722,7 +733,7 @@ const blurControl=makeOpts([['No artificial motion blur','no artificial motion b
 const cropRules=makeOpts([['Keep full hairstyle inside frame','keep the complete hairstyle inside the frame'],['Do not cut off chin or forehead','avoid cutting off the chin or forehead awkwardly'],['Show neckline and hairstyle','show both the neckline and the full hairstyle where the selected crop allows'],['Hands remain inside crop if active','keep active hands inside the frame when the pose depends on them'],['Keep outfit silhouette readable','keep the selected outfit silhouette readable'],['Give breathing room above hair','leave breathing room above the top of the hairstyle'],['Avoid accidental limb cropping','avoid accidental limb cropping in medium and full-body shots'],['Frame naturally, not perfectly centered','frame naturally rather than forcing perfect center alignment'],['Respect vertical composition','respect the selected vertical composition'],['Do not crop shoes in full-body shot','keep shoes visible when a full-body framing is selected']]);
 const photoTexture=makeOpts([['Natural fine image grain','natural fine image grain'],['Crisp clean digital image','a crisp, clean digital image with no excessive sharpening'],['Subtle documentary grain','subtle documentary-style grain'],['Soft highlight roll-off','soft highlight roll-off with preserved texture'],['Realistic lens contrast','realistic lens contrast and natural edge detail'],['No synthetic skin blur','no synthetic blur over skin'],['Keep fabric microtexture','preserve fine fabric microtexture'],['Keep hair strand separation','preserve fine hair-strand separation'],['Natural color noise only','only subtle, natural-looking color noise'],['Authentic candid photo texture','authentic candid-photograph texture with small imperfections']]);
 Object.assign(extraFields,{
-hairTexture:{label:'Hair texture pattern',section:'look',opts:makeOpts([['Smooth straight strands','smooth straight strands with believable separation'],['Loose S-waves','loose S-waves with natural variation'],['Defined soft curls','defined soft curls'],['Natural ringlets','natural ringlets with individual curl definition'],['Soft bends through lengths','soft bends through the lengths'],['Piecey feathered ends','piecey feathered ends'],['Airy shag texture','airy shag texture with irregular layers'],['Blowout bend at ends','a blowout bend concentrated at the ends'],['Natural curl and flyaway mix','a natural curl and flyaway mix'],['Sleek crown with textured lengths','a sleek crown with lightly textured lengths'],['Brushed-out curls','brushed-out curls with a soft outline'],['Soft waves with a deep part','soft waves with a deep part'],['Texture stays close to reference','texture consistent with the reference image']]),def:12},
+hairTexture:{label:'Hair texture pattern',section:'look',opts:makeOpts([['🔒 Preserve original reference hair texture','strictly preserve the exact natural hair texture, fine-to-medium strand thickness, natural organic straight-to-subtle-wave behavior, and realistic strand separation of the reference photo without artificial curling, straightening, or heat-styling'],['Smooth straight strands','smooth straight strands with believable separation'],['Natural silky straight with soft blowout bend','natural silky straight hair with a soft blow-dry bend at the ends'],['Loose S-waves','loose S-waves with natural variation'],['Defined soft curls','defined soft curls'],['Natural ringlets','natural ringlets with individual curl definition'],['Soft bends through lengths','soft bends through the lengths'],['Piecey feathered ends','piecey feathered ends'],['Airy shag texture','airy shag texture with irregular layers'],['Blowout bend at ends','a blowout bend concentrated at the ends'],['Natural curl and flyaway mix','a natural curl and flyaway mix'],['Sleek crown with textured lengths','a sleek crown with lightly textured lengths'],['Brushed-out curls','brushed-out curls with a soft outline'],['Soft waves with a deep part','soft waves with a deep part']]),def:0},
 hairColorTechnique:{label:'Color technique',section:'look',opts:makeOpts([['No color change','no color change; preserve the reference hair color'],['Subtle face-framing highlights','subtle face-framing highlights'],['Soft balayage blend','a soft balayage blend with realistic transitions'],['Natural root shadow','a natural root shadow'],['Fine babylights','fine babylights with restrained contrast'],['Gloss refresh only','a gloss refresh without changing the overall color'],['Single-tone salon color','a single-tone salon color with believable depth'],['Low-contrast dimensional color','low-contrast dimensional color'],['Subtle ombre ends','subtle ombre ends with a natural blend'],['Hidden underlayer accent','a restrained hidden underlayer color accent'],['No visible color demarcation','no visible color demarcation or artificial stripe'],['Keep roots realistic','keep root color and growth realistic']]),def:0},
 garmentDetail:{label:'Garment construction details',section:'wardrobe',opts:garmentDetail,def:0},accentColors:{label:'Accent color details',section:'wardrobe',opts:accentColors,def:0},browStyle:{label:'Brow styling',section:'wardrobe',opts:browStyle,def:0},complexion:{label:'Complexion finish',section:'wardrobe',opts:complexion,def:0},
 sceneActivity:{label:'What is happening around her',section:'scene',opts:sceneActivity,def:0},cameraDistance:{label:'Camera distance',section:'camera',opts:cameraDistance,def:1},blurControl:{label:'Motion blur control',section:'camera',opts:blurControl,def:0},cropRules:{label:'Cropping safeguards',section:'camera',opts:cropRules,def:0},photoTexture:{label:'Photo texture finish',section:'scene',opts:photoTexture,def:9}
@@ -871,6 +882,7 @@ addOptions(eyeLook, makeOpts([
 ]));
 
 addOptions(pose, makeOpts([
+  ['Sitting upright in salon styling chair with calm candid expression', 'seated upright in the black leather salon styling chair with relaxed shoulders, looking forward with a calm, gentle, candid expression as the stylist finishes her hair'],
   ['Emerging from pool brushing hair back', 'emerging from swimming pool water while sweeping wet hair back off her face with both hands'],
   ['Resting forearms on wet pool edge', 'resting her forearms on the wet stone pool edge, chin slightly lifted with confident direct gaze'],
   ['Rain-soaked stance under city streetlight', 'standing rain-soaked under a warm city streetlight, water glistening on skin and clothes'],
@@ -896,6 +908,7 @@ addOptions(stance, makeOpts([
 ]));
 
 addOptions(background, makeOpts([
+  ['Indian salon with styling mirrors & barber chair', 'an authentic Indian hair salon interior with wide mirrors, glass shelves with hair products, a black leather hydraulic styling chair, and bright salon ceiling lighting'],
   ['Luxury infinity pool overlooking ocean', 'a luxury cliffside infinity pool with still turquoise water blending into the open ocean at sunset'],
   ['Rain-slicked hotel rooftop terrace', 'a rain-slicked luxury hotel rooftop terrace with reflective wet marble and city lights in puddles'],
   ['Outdoor tropical teakwood rain shower', 'an outdoor tropical rain shower surrounded by dark teakwood slats and lush monstera foliage'],
@@ -917,6 +930,7 @@ addOptions(lighting, makeOpts([
 // CUTOUT & PLUNGING V-CUT WARDROBE EXPANSION
 // ==========================================
 addOptions(outfit, makeOpts([
+  ['Rose-pink split-neck cotton kurti with cut hair fragments (salon reveal)', 'a relaxed dusty rose-pink split-neck Indian cotton kurti with small scattered cut hair fragments on the collar, shoulders and chest from her fresh haircut, in a natural candid salon moment'],
   // Monokinis & Swimwear Cutouts
   ['Deep plunging V-cut monokini with side slash cutouts', 'a bold deep plunging V-cut monokini with geometric side slash cutouts, a high-leg Brazilian cut, and sleek supportive strapping'],
   ['Asymmetric one-shoulder cutout swimsuit with V-wire notch', 'an asymmetric one-shoulder swimsuit featuring a structured V-wire notch at the bust, architectural ribcage cutout, and a high-cut hip silhouette'],
@@ -986,7 +1000,8 @@ addOptions(weather, makeOpts([
 // PONYTAIL & UPDO GRANULAR EXPANSION
 // ==========================================
 addOptions(hair, makeOpts([
-  ['Mid ponytail + arched center curtain bangs (salon photo match)', 'a salon-styled mid-height ponytail tied at the mid-occipital back of head, featuring smoothly brushed-back crown and sides pulled cleanly over the ears to leave the ears and jawline exposed, paired with distinct arched center-parted curtain bangs that frame the forehead and taper gently outwards to cheekbone level with soft natural separation, and a compact natural wavy tail falling to the nape and resting just above the shoulders'],
+  ['Mid ponytail + arched bottleneck curtain bangs (exact salon photo match)', 'an authentic salon-styled mid-height ponytail with soft naturally rounded crown and gentle scalp volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to the upper cheekbones with delicate piecey strand separation, side hair combed smoothly back and gently tucked behind the ears, anchored at the mid-occipital back of the head into a relaxed mid ponytail with a smooth natural straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders, strictly preserving her original natural silky-fine Indian hair texture, strand density, and organic healthy sheen without heat curls or synthetic styling'],
+  ['Salon reveal mid ponytail with stylist hands finishing crown', 'an authentic candid salon-reveal mid ponytail, where the subject sits in a black leather salon styling chair with the stylist\'s hands gently lifting and finishing the crown volume above soft arched bottleneck curtain bangs skimming her eyebrows and cheekbones, side hair tucked neatly behind ears, with a soft straight mid-height ponytail resting at the nape, wearing a pink split-neck kurta with tiny cut hair fragments scattered across the chest, strictly preserving her original natural silky black Indian hair texture and realistic facial expression'],
   ['Sleek low-to-mid ponytail + near-center part & curtain bangs', 'a sleek low-to-mid ponytail with a clean near-center part and long, wispy curtain bangs softly framing the forehead and cheekbones, with the ponytail ending around the nape to upper shoulders'],
   ['All hair swept to one side (dramatic shoulder drape)', 'a dramatic asymmetric hairstyle with all hair swept entirely over one shoulder, leaving the opposite neck and collarbone exposed'],
   ['Voluminous side-swept blowout with deep root flip', 'a voluminous side-swept blowout with all hair thrown dramatically over one shoulder, featuring a bold lifted root flip and soft cascading waves'],
@@ -1065,6 +1080,7 @@ return{id:'gen'+(++lookN),icon:E.icon,title:t.charAt(0).toUpperCase()+t.slice(1)
 let presets=[];
 const finishChecks=[
 {id:'identity',label:'Preserve recognizable facial identity',detail:'Keep the same adult woman; no face replacement or identity drift.',checked:true},
+{id:'hairTexturePreserve',label:'Preserve original reference hair texture',detail:'Strictly preserve original natural hair strand texture, thickness, density and organic movement across all haircuts.',checked:true},
 {id:'skin',label:'Natural skin texture',detail:'Visible pores, natural texture and facial asymmetry.',checked:true},
 {id:'body',label:'Preserve natural body proportions',detail:'No slimming, reshaping or exaggerated anatomy.',checked:true},
 {id:'skinTone',label:'Preserve the reference skin tone',detail:'Keep skin color believable and consistent.',checked:true},
@@ -1081,13 +1097,13 @@ const finishChecks=[
 {id:'candid',label:'Candid, not overly staged',detail:'Natural posture, unforced expression and imperfect timing.',checked:true}
 ];
 const GROUPS=[
-['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairLength','hairVolume','fringe','parting','hairTexture']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
+['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairTexture','hairLength','hairVolume','fringe','parting']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
 ['wardrobe','Outfit',['outfitCategory','outfit','outfitFit','palette','fabric','neckline','sleeves','layering','garmentDetail']],['wardrobe','Colour story',['palette','accentColors']],['wardrobe','Accessories',['accessories','eyewear','bag','footwear','nailStyle']],['wardrobe','Makeup & skin',['makeup','lipLook','eyeLook','browStyle','complexion']],
 ['pose','Body',['poseCategory','pose','stance','gesture','motion']],['pose','Face & energy',['expression','gaze','mood','shotEnergy']],['pose','Story',['interaction']],
 ['camera','Framing',['shotCategory','framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
 ['scene','Location',['sceneCategory','background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lightingCategory','lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
-look: new Set(['mode', 'hairCategory', 'hair', 'hairLength', 'hairColor', 'hairFinish']),
+look: new Set(['mode', 'hairCategory', 'hair', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
 wardrobe: new Set(['outfitCategory', 'outfit', 'outfitFit', 'palette', 'makeup', 'accessories']),
 pose: new Set(['poseCategory', 'pose', 'expression', 'gesture', 'mood']),
 camera: new Set(['shotCategory', 'framing', 'angle', 'lens', 'aspect']),
@@ -1134,6 +1150,7 @@ Object.entries(fields).forEach(([id,f])=>values[id]=f.opts[f.def]);
 let checkState={};
 finishChecks.forEach(c=>checkState[c.id]=c.checked);
 let lockedFields=new Set();
+let preserveHairTexture=true;
 let customPresets=[];
 
 const totalOptions=Object.values(fields).reduce((sum,f)=>sum+f.opts.length,0);
@@ -1254,6 +1271,10 @@ if(values.hair){
   const hCat = getItemCategory('hair', values.hair);
   const match = fields.hairCategory.opts.find(c => c.text === hCat);
   if(match) values.hairCategory = match;
+}
+if(preserveHairTexture && fields.hairTexture){
+  const pOpt = fields.hairTexture.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture.opts[0];
+  values.hairTexture = pOpt;
 }
 if(values.outfit){
   const oCat = getItemCategory('outfit', values.outfit);
@@ -1529,6 +1550,9 @@ primaryFields.forEach(([id,f])=>{
     g.className='grp';
     g.textContent=lastGrp;
     host.appendChild(g);
+    if(lastGrp==='Cut & shape' && activeSection==='look'){
+      host.appendChild(createHairTextureProtectionCard());
+    }
   }
   host.appendChild(createFieldElement(id, f));
   if(id==='hair' && activeSection==='look'){
@@ -1667,6 +1691,10 @@ if(!lockedFields.has('hairCategory') && values.hair){
   const match = fields.hairCategory.opts.find(c => c.text === hCat);
   if(match) values.hairCategory = match;
 }
+if(preserveHairTexture && fields.hairTexture){
+  const pOpt = fields.hairTexture.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture.opts[0];
+  values.hairTexture = pOpt;
+}
 if(!lockedFields.has('outfitCategory') && values.outfit){
   const oCat = getItemCategory('outfit', values.outfit);
   const match = fields.outfitCategory.opts.find(c => c.text === oCat);
@@ -1760,6 +1788,43 @@ function getFullHairDescription(){
 const PONY_FIELD_IDS = new Set(['ponyTailFall','ponyTailEnd','ponyBaseHeight','ponyBaseWrap','ponyTailStyle']);
 const SWEEP_FIELD_IDS = new Set(['sideSweepSide','sideSweepFlip','sideSweepEnd','sideSweepFinish']);
 
+function createHairTextureProtectionCard(){
+  const card = document.createElement('div');
+  card.className = 'hair-texture-protect-card';
+  card.innerHTML = `
+    <div class="texture-protect-left">
+      <div class="texture-protect-title-row">
+        <span class="texture-protect-badge">🔒 1-Click Universal Lock</span>
+        <strong class="texture-protect-title">Preserve Original Hair Texture</strong>
+      </div>
+      <p class="texture-protect-desc">
+        Strictly preserves the subject's authentic organic hair texture, natural strand thickness, density, and realistic strand behavior across <strong>every haircut</strong> (no artificial curls, synthetic straightener or texture drift).
+      </p>
+    </div>
+    <div class="texture-protect-actions">
+      <button type="button" class="texture-protect-toggle-btn ${preserveHairTexture ? 'active' : ''}" id="preserveTextureToggleBtn">
+        <span class="lock-state-icon">${preserveHairTexture ? '🔒' : '🔓'}</span>
+        <span>Original Texture: <b>${preserveHairTexture ? 'LOCKED (ON)' : 'CUSTOM (OFF)'}</b></span>
+      </button>
+    </div>
+  `;
+
+  card.querySelector('#preserveTextureToggleBtn').addEventListener('click', () => {
+    preserveHairTexture = !preserveHairTexture;
+    checkState.hairTexturePreserve = preserveHairTexture;
+    if(preserveHairTexture){
+      if(fields.hairTexture) values.hairTexture = fields.hairTexture.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture.opts[0];
+      toast('🔒 Hair Texture Locked: Strictly preserving original hair texture in every haircut!');
+    } else {
+      toast('🔓 Hair Texture Unlocked: Custom hair textures enabled.');
+    }
+    renderFields();
+    buildPrompt();
+  });
+
+  return card;
+}
+
 function createPonytailCard(){
   const card = document.createElement('div');
   card.className = 'ponytail-callout-card';
@@ -1794,24 +1859,30 @@ function createPonytailCard(){
   `;
 
   photoBanner.querySelector('.pony-match-apply-btn').addEventListener('click', () => {
-    const hairOpt = fields.hair.opts.find(o => o.label.includes('salon photo match')) || fields.hair.opts.find(o => o.label.includes('curtain bangs'));
+    preserveHairTexture = true;
+    checkState.hairTexturePreserve = true;
+    const hairOpt = fields.hair.opts.find(o => o.label.includes('bottleneck curtain bangs (exact salon photo match)')) || fields.hair.opts.find(o => o.label.includes('salon photo match'));
     if (hairOpt) values.hair = hairOpt;
     const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
     if (catOpt) values.hairCategory = catOpt;
+    const texOpt = fields.hairTexture?.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture?.opts[0];
+    if (texOpt) values.hairTexture = texOpt;
     const heightOpt = fields.ponyBaseHeight.opts.find(o => o.label.includes('Mid-occipital'));
     if (heightOpt) values.ponyBaseHeight = heightOpt;
     const endOpt = fields.ponyTailEnd.opts.find(o => o.label.includes('nape of neck just above shoulders') || o.label.includes('nape to upper shoulders'));
     if (endOpt) values.ponyTailEnd = endOpt;
     const fallOpt = fields.ponyTailFall.opts.find(o => o.label.includes('down the back'));
     if (fallOpt) values.ponyTailFall = fallOpt;
-    const fringeOpt = fields.fringe.opts.find(o => o.label.includes('curtain bangs') || o.label.includes('Curtain bangs'));
+    const fringeOpt = fields.fringe.opts.find(o => o.label.includes('bottleneck curtain bangs') || o.label.includes('curtain bangs'));
     if (fringeOpt) values.fringe = fringeOpt;
-    const partingOpt = fields.parting.opts.find(o => o.label.includes('center part') || o.label.includes('Center part'));
+    const partingOpt = fields.parting.opts.find(o => o.label.includes('bottleneck curtain opening') || o.label.includes('center part'));
     if (partingOpt) values.parting = partingOpt;
+    const finOpt = fields.hairFinish.opts.find(o => o.label.includes('Fresh salon blow-dry') || o.label.includes('Fresh salon'));
+    if (finOpt) values.hairFinish = finOpt;
 
     renderFields();
     buildPrompt();
-    toast('Applied Exact Photo Match: Mid ponytail with center curtain bangs!');
+    toast('Applied Exact Photo Match: Mid ponytail + bottleneck curtain bangs & locked natural texture!');
   });
 
   // Front curtain bangs row
@@ -1822,7 +1893,7 @@ function createPonytailCard(){
   frontChips.className = 'pony-chips';
 
   const frontMap = [
-    { label: '💇‍♀️ Center Curtain Bangs (Photo Match)', fringeMatch: 'Arched center-parted curtain bangs framing cheekbones', partMatch: 'Clean center part with curtain fringe opening' },
+    { label: '💇‍♀️ Bottleneck Bangs (Photo Match)', fringeMatch: 'Arched bottleneck curtain bangs grazing brows & cheekbones (photo match)', partMatch: 'Clean center part with bottleneck curtain opening' },
     { label: '✨ Wispy Curtain Fringe', fringeMatch: 'Wispy curtain fringe', partMatch: 'Soft center part' },
     { label: '💫 Long Cheekbone Fringe', fringeMatch: 'Long cheekbone fringe', partMatch: 'Center part with curtain opening' },
     { label: '⚡ Clean Forehead (No Fringe)', fringeMatch: 'No fringe / open forehead', partMatch: 'Slicked-back no visible part' }
@@ -2231,6 +2302,7 @@ if(checkState.skin)checks.push('Keep natural skin texture, visible pores, realis
 if(checkState.body)checks.push('Preserve her natural body proportions; do not slim, reshape or exaggerate anatomy.');
 if(checkState.skinTone)checks.push('Keep skin tone consistent with the reference image and maintain believable colors.');
 if(checkState.hairStrands)checks.push('Render individual hair strands, believable volume, natural movement and subtle flyaways.');
+if(checkState.hairTexturePreserve || preserveHairTexture)checks.push('Strictly preserve the reference subject\'s natural organic hair texture, authentic strand density, natural fiber thickness, and organic straight-to-subtle-wave behavior; do not alter her natural hair texture into synthetic curls, artificial waves, or heavy blowout distortion.');
 if(checkState.fabric)checks.push('Render realistic fabric weight, stitching, folds, seams, fit and garment behavior.');
 if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with natural hand placement.');
 if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');
@@ -2262,7 +2334,10 @@ lines.push('MAKEOVER MOMENT');
 lines.push(val('makeover')+'.');
 lines.push('');
 lines.push('HAIR AND BEAUTY');
-lines.push(`Hairstyle: ${getFullHairDescription()}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
+const textureDirective = (preserveHairTexture || (values.hairTexture && values.hairTexture.label.includes('Preserve original')))
+  ? "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)"
+  : (val('hairTexture') || "natural hair texture with realistic strand separation");
+lines.push(`Hairstyle: ${getFullHairDescription()}. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
 lines.push('');
 lines.push('WARDROBE AND STYLING');
 lines.push(`Outfit: ${val('outfit')}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
@@ -2292,6 +2367,7 @@ if(customDirection.trim()){
 lines.push('');
 lines.push('AVOID / NEGATIVE GUIDANCE');
 let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
+if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered hair texture, artificial curls, synthetic perm, heat-damaged hair texture, unnatural straightener sheen or mismatched ethnic hair texture');
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
 if(checkState.noText)negatives.push('text overlays, logos and watermarks');
 if(extraNegative.trim())negatives.push(extraNegative.trim());
