@@ -1128,6 +1128,7 @@ return{id:'gen'+(++lookN),icon:E.icon,title:t.charAt(0).toUpperCase()+t.slice(1)
 let presets=[];
 const finishChecks=[
 {id:'identity',label:'Preserve recognizable facial identity',detail:'Keep the same adult woman; no face replacement or identity drift.',checked:true},
+{id:'soloSubject',label:'Solo subject only (exclude stylist & extra people)',detail:'Strictly omit any hairdresser, stylist, man in background, hands touching hair, or secondary person from reference photos.',checked:true},
 {id:'hairTexturePreserve',label:'Preserve original reference hair texture',detail:'Strictly preserve original natural hair strand texture, thickness, density and organic movement across all haircuts.',checked:true},
 {id:'skin',label:'Natural skin texture',detail:'Visible pores, natural texture and facial asymmetry.',checked:true},
 {id:'body',label:'Preserve natural body proportions',detail:'No slimming, reshaping or exaggerated anatomy.',checked:true},
@@ -1608,10 +1609,10 @@ primaryFields.forEach(([id,f])=>{
         notice.className = 'image2-hair-notice';
         notice.innerHTML = `
           <div class="notice-left">
-            <span class="notice-icon">✨</span>
+            <span class="notice-icon">✂️</span>
             <div>
-              <strong>Hairstyle Transferred from Style Reference (Image 2)</strong>
-              <small>The text haircut below is nullified in the prompt so Image 2 dictates the hairstyle directly.</small>
+              <strong>Hairstyle Transferred from Image 2 · Solo Subject Mode</strong>
+              <small>Haircut below is nullified. Hair copied from Image 2 with stylist/man & hands strictly excluded.</small>
             </div>
           </div>
           <button type="button" class="btn-use-builder-hair" id="btnOverrideImage2Hair">Use builder haircut instead</button>
@@ -1862,7 +1863,7 @@ function getFullHairDescription(){
 
 function getEffectiveHairstyle(){
   if(styleRef && transferToggles && transferToggles.hair){
-    return 'exact hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2)';
+    return 'exact finished hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2; solo finished look with zero hairdresser, stylist, or hands touching hair)';
   }
   return getFullHairDescription();
 }
@@ -2380,6 +2381,7 @@ function buildPrompt(){
 const selected=Object.values(values);
 const checks=[];
 if(checkState.identity)checks.push('Preserve the same adult woman from the supplied reference, retaining her recognizable facial identity and features; do not replace her with another person or introduce identity drift.');
+if(checkState.soloSubject || (styleRef && transferToggles && transferToggles.hair) || styleRef)checks.push('Strictly feature ONLY the single solo female subject in the image; completely exclude any hairdresser, hair stylist, man working on hair, salon staff, stylist hands touching hair, or secondary person from reference photos.');
 if(checkState.skin)checks.push('Keep natural skin texture, visible pores, realistic facial asymmetry and fine details; no waxy or airbrushed skin.');
 if(checkState.body)checks.push('Preserve her natural body proportions; do not slim, reshape or exaggerate anatomy.');
 if(checkState.skinTone)checks.push('Keep skin tone consistent with the reference image and maintain believable colors.');
@@ -2398,11 +2400,13 @@ if(checkState.candid)checks.push('Keep body language and facial expression candi
 
 const mode=val('mode');
 const outputText={
-  single:'Create one finished photorealistic image.',
-  collage:'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same woman, haircut, outfit, color grade and overall scene consistent across all four panels.',
-  set:'Create four separate photorealistic images with different poses and expressions. Keep the same woman, haircut, outfit and overall visual styling consistent across the set.',
-  triptych:'Create one three-panel editorial triptych with three distinct candid poses; maintain continuity of identity, hairstyle, outfit and setting across panels.',
-  contact:'Create one six-frame contact sheet with varied candid poses and facial expressions; maintain the same identity, hairstyle, outfit and setting in every frame.'
+  single:(checkState.soloSubject || styleRef)
+    ? 'Create one finished photorealistic image featuring strictly one solo female subject with zero other people, no hairstylist, and no hands in her hair.'
+    : 'Create one finished photorealistic image.',
+  collage:'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same single woman, haircut, outfit, color grade and overall scene consistent across all four panels (strictly solo female subject in all frames, no secondary person or stylist).',
+  set:'Create four separate photorealistic images with different poses and expressions. Keep the same single woman, haircut, outfit and overall visual styling consistent across the set (solo female subject only).',
+  triptych:'Create one three-panel editorial triptych with three distinct candid poses; maintain continuity of identity, hairstyle, outfit and setting across panels (solo female subject only).',
+  contact:'Create one six-frame contact sheet with varied candid poses and facial expressions; maintain the same identity, hairstyle, outfit and setting in every frame (solo female subject only).'
 }[outputType];
 
 const detail=detailLevel||'full';
@@ -2418,7 +2422,11 @@ lines.push('• Strictly preserve her natural organic hair strand texture, stran
 lines.push('');
 lines.push('STYLE REFERENCE (IMAGE 2):');
 lines.push('• Seamlessly transfer and integrate the selected styling elements from Image 2 onto the subject from Image 1:');
-if(transferToggles.hair) lines.push('  - Transferred Hairstyle: Exact hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut silhouette, bangs/fringe, parting, and tail placement seen in Image 2 onto the subject in Image 1)');
+if(transferToggles.hair){
+  lines.push('  - Transferred Hairstyle: Exact finished hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut silhouette, bangs/fringe, parting, and tail placement seen in Image 2 onto the subject in Image 1)');
+  lines.push('  - Subject & Hair Isolation: Extract ONLY the woman\'s finished hairstyle. Strictly omit and exclude any other person, male hairstylist, barber, salon staff, stylist hands touching hair, tools, or salon equipment from Image 2.');
+  lines.push('  - Finished Hair State: Render the hairstyle as completely finished, styled, and freely resting—not actively being worked on, held, combed, or touched by any hands.');
+}
 if(transferToggles.outfit) lines.push(`  - Transferred Wardrobe: ${val('outfit')} (garment fit: ${val('outfitFit')}, accessories: ${val('accessories')})`);
 if(transferToggles.palette) lines.push('  - Transferred Color Palette: harmonize overall wardrobe and environmental tones with Image 2');
 if(transferToggles.scene) lines.push(`  - Transferred Scene & Atmosphere: ${val('background')} with ${val('lighting')}`);
@@ -2427,9 +2435,11 @@ lines.push('');
 lines.push('INTEGRATION & HARMONIZATION:');
 if(transferToggles.hair && !transferToggles.outfit){
 lines.push('• Naturally fit and adapt the transferred hairstyle from Image 2 to the subject\'s head, face shape, and natural hair density.');
+lines.push('• Solo subject only: Render the adult woman completely alone as the sole person in the frame (solo female portrait). Zero secondary individuals, no hairdresser in the background or foreground, no hands touching or styling her hair, and no male figure.');
 lines.push('• Maintain the subject\'s selected wardrobe, pose, and background exactly as specified below, with physically believable lighting, natural strand movement, and zero identity drift.');
 } else {
 lines.push('• Naturally fit the transferred hairstyle and garment tailoring to the subject\'s body proportions and skin undertone.');
+lines.push('• Solo subject only: Feature strictly one solo individual with zero secondary people, stylists, or hands in hair.');
 lines.push('• Render unified, physically believable lighting and cast shadows across face, hair, and clothing with zero compositing seams, no plastic skin, and no identity drift.');
 }
 lines.push('');
@@ -2440,10 +2450,13 @@ lines.push('');
 } else if(styleRef){
 lines.push('STYLE-REFERENCE MAKEOVER PHOTOSHOOT');
 if(transferToggles.hair && !transferToggles.outfit){
-lines.push('• Adopt ONLY the signature hairstyle from the reference photo onto the makeover portrait.');
+lines.push('• Adopt ONLY the signature finished hairstyle from the reference photo onto the makeover portrait.');
+lines.push('• Subject Isolation: Extract only the finished hairstyle; strictly exclude any hairdresser, stylist, man in background, stylist hands touching hair, salon cape, or scissors.');
+lines.push('• Solo subject only: Feature strictly one solo female subject, with her finished hair resting naturally.');
 lines.push('• Maintain the chosen wardrobe, pose, and background exactly as specified below, with no outfit borrowing from the reference photo.');
 } else {
 lines.push('• Adopt the signature hairstyle, styling aesthetic, and wardrobe silhouette from the reference photo onto the makeover portrait.');
+lines.push('• Solo subject only: Strictly feature only the woman, excluding any stylist, hairdresser, or secondary person.');
 }
 lines.push('');
 } else {
@@ -2462,7 +2475,7 @@ const textureDirective = (preserveHairTexture || (values.hairTexture && values.h
   : (val('hairTexture') || "natural hair texture with realistic strand separation");
 
 if(styleRef && transferToggles && transferToggles.hair){
-  lines.push(`Hairstyle: Exact hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2). Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}.`);
+  lines.push(`Hairstyle: Exact finished hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2; finished solo hairstyle with zero hairdresser, stylist, or third-party hands touching her hair). Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}.`);
 } else {
   lines.push(`Hairstyle: ${getFullHairDescription()}. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
 }
@@ -2471,7 +2484,11 @@ lines.push('WARDROBE AND STYLING');
 lines.push(`Outfit: ${val('outfit')}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
 lines.push('');
 lines.push('POSE AND EXPRESSION');
-lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Keep the body language open, believable and relaxed; capture a specific spontaneous moment rather than a generic stock pose.`);
+if(styleRef && transferToggles && transferToggles.hair){
+  lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Solo subject composition: The adult woman is completely alone in the frame with her finished hair resting naturally; strictly no hairdresser standing beside or behind her, no man in the background, and zero stylist hands touching, holding, or styling her hair.`);
+} else {
+  lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Keep the body language open, believable and relaxed; capture a specific spontaneous moment rather than a generic stock pose.`);
+}
 lines.push('');
 lines.push('CAMERA AND FRAMING');
 lines.push(`Framing: ${val('framing')}. Camera angle: ${val('angle')}. Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements—especially the haircut, outfit and facial expression—without awkward cropping or distorted perspective.`);
@@ -2495,6 +2512,9 @@ if(customDirection.trim()){
 lines.push('');
 lines.push('AVOID / NEGATIVE GUIDANCE');
 let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
+if(checkState.soloSubject || (styleRef && transferToggles && transferToggles.hair) || styleRef){
+  negatives.push('hairdresser, hair stylist, barber, salon staff, man working on hair, secondary person, extra person, man in background, stylist hands, hands touching hair, hands holding hair, hands styling hair, scissors, comb in hair, salon cape, two people, multiple people, male figure, companion, bystander, photobomb');
+}
 if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered hair texture, artificial curls, synthetic perm, heat-damaged hair texture, unnatural straightener sheen or mismatched ethnic hair texture');
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
 if(checkState.noText)negatives.push('text overlays, logos and watermarks');
@@ -2907,8 +2927,8 @@ function updateDualRefAdvisor(){
   if(subjectRef && styleRef){
     if(transferToggles.hair && !transferToggles.outfit && !transferToggles.palette && !transferToggles.scene){
       advText.innerHTML = `
-        <strong>✨ Hairstyle Transfer Only:</strong> Transferring <strong>Hairstyle from Image 2</strong> onto Subject (Image 1). 
-        All other choices (wardrobe, pose, scene) remain 100% controlled by your builder.
+        <strong>✨ Hairstyle Transfer Only (Solo Subject):</strong> Transferring <strong>Hairstyle from Image 2</strong> onto Subject (Image 1). 
+        <strong>Stylist / man & hands strictly excluded</strong>; wardrobe, pose & scene remain 100% controlled by your builder.
       `;
       if(applyBtn) applyBtn.textContent = 'Apply Hairstyle from Image 2 Only ✦';
     } else {
