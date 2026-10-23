@@ -32,6 +32,11 @@
 .choice-group-header{padding:8px 12px 4px;font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--pink2,#ff9cbd);background:rgba(255,92,146,.06);border-bottom:1px solid var(--line,#3a3040);border-top:1px solid var(--line,#3a3040);pointer-events:none;user-select:none;display:flex;align-items:center;justify-content:space-between}
 .choice-group-header:first-child{border-top:none}
 
+.side-swept-callout-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(156,120,255,.09) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(156,120,255,.38);border-radius:16px;padding:16px;margin:8px 0 16px 0;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);animation:fadeIn .2s ease-out}
+.sweep-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(156,120,255,.18);color:#d0b8ff;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid rgba(156,120,255,.42)}
+.sweep-chip{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:650;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s ease}
+.sweep-chip:hover{background:rgba(255,255,255,.12);border-color:rgba(156,120,255,.45)}
+.sweep-chip.active{background:linear-gradient(115deg,#9c78ff,#caa8ff);color:#1c132c;border-color:transparent;font-weight:800;box-shadow:0 2px 10px rgba(156,120,255,.4)}
 .ponytail-callout-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,92,146,.09) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(255,92,146,.38);border-radius:16px;padding:16px;margin:8px 0 16px 0;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);animation:fadeIn .2s ease-out}
 .ponytail-callout-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .pony-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,92,146,.18);color:var(--pink2);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,92,146,.42)}
@@ -454,6 +459,7 @@ const ponyTailFallOpts = [
 
 const ponyTailEndOpts = [
   O('Auto · natural length for cut', ''),
+  O('Ending around nape to upper shoulders', 'ending around the nape to upper shoulders with soft movement'),
   O('Ending at nape of neck just above shoulders', 'ending at the nape of the neck just above the shoulders'),
   O('Ending around the neck (short & sleek)', 'ending around the middle of the neck with a clean cropped tail'),
   O('Ending at base of neck / nape', 'ending right at the base of the neck / nape'),
@@ -482,6 +488,39 @@ const ponyBaseWrapOpts = [
   O('Invisible clear band (no wrap)', 'with an invisible seamless band and zero added hardware')
 ];
 
+const sideSweepSideOpts = [
+  O('Auto · natural side sweep', ''),
+  O('Swept completely over left shoulder', 'with all hair swept completely over the left shoulder, leaving the right neck and collarbone elegantly exposed'),
+  O('Swept completely over right shoulder', 'with all hair swept completely over the right shoulder, leaving the left neck and collarbone elegantly exposed'),
+  O('Tossed forward over left shoulder in motion', 'casually tossed forward over the left shoulder with natural movement as she turns'),
+  O('Tossed forward over right shoulder in motion', 'casually tossed forward over the right shoulder with natural movement as she turns'),
+  O('Draped over one shoulder with back pieces', 'with the main body of hair draped forward over one shoulder while a few soft pieces trail behind')
+];
+
+const sideSweepFlipOpts = [
+  O('Auto · natural crown line', ''),
+  O('Dramatic voluminous hair flip at roots', 'with a dramatic, voluminous hair flip at the roots providing high-fashion lift and body'),
+  O('Soft natural hair flip with airy volume', 'with a soft natural hair flip and airy lift along the deep part'),
+  O('Smooth sleek transition (no flip, flat-ironed)', 'with a smooth sleek transition across the crown with zero flip, lying sleek and close to the scalp'),
+  O('Tousled textured flip with loose flyaways', 'with a piecey, tousled flip featuring effortless texture and natural flyaways')
+];
+
+const sideSweepEndOpts = [
+  O('Auto · natural length for cut', ''),
+  O('Ending at collarbone / upper chest', 'with the cascading lengths ending cleanly at the collarbone and upper chest'),
+  O('Ending at mid-chest / breast level', 'with the side-swept lengths cascading down across mid-chest level'),
+  O('Ending at ribs / waist level (dramatic long)', 'with the hair flowing dramatically long down to ribcage and waist level'),
+  O('Grazing shoulder tops (medium lob length)', 'with the ends softly grazing the shoulder tops in a relaxed lob silhouette')
+];
+
+const sideSweepFinishOpts = [
+  O('Auto · match global hair finish', ''),
+  O('Dry, soft & touchable with airy volume', 'dry, soft and touchable with airy blowout bounce and natural strand separation'),
+  O('High-gloss wet-look saturated clumps', 'high-gloss wet-lacquered texture with saturated clumped strands and liquid reflections'),
+  O('Damp post-swim salty beach texture', 'damp post-swim texture with soft piecey clumping and subtle beach wave separation'),
+  O('Glossy glass-shine editorial finish', 'sleek mirror glass shine with razor-clean strand definition')
+];
+
 const ponyTailStyleOpts = [
   O('Auto · smooth straight', ''),
   O('Short wavy tail with softly tousled ends', 'a short wavy tail with softly tousled ends'),
@@ -496,12 +535,12 @@ const ponyTailStyleOpts = [
 ];
 
 const HAIR_FAMILIES = [
-  O('✦ All Styles (225 options)', 'all'),
+  O('✦ All Styles (229 options)', 'all'),
+  O('🦋 Layers & Blowouts (50 variations)', 'layer'),
   O('💇‍♀️ Bobs & Lobs (49 variations)', 'bob'),
-  O('🦋 Layers & Blowouts (48 variations)', 'layer'),
-  O('🐎 Ponytails & Updos (35 variations)', 'pony'),
+  O('🐎 Ponytails & Updos (36 variations)', 'pony'),
   O('🐺 Shags & Mullets (24 variations)', 'shag'),
-  O('💧 Wet-Look & Aquatic (18 variations)', 'wet'),
+  O('💧 Wet-Look & Aquatic (19 variations)', 'wet'),
   O('👑 Braids & Buns (16 variations)', 'braid'),
   O('🌀 Curls, Coils & Afro (15 variations)', 'curl'),
   O('✂️ Pixies & Crops (12 variations)', 'pixie'),
@@ -617,6 +656,10 @@ poseCategory:{label:'Pose category',section:'pose',opts:POSE_FAMILIES,def:0},
 shotCategory:{label:'Shot category',section:'camera',opts:SHOT_FAMILIES,def:0},
 sceneCategory:{label:'Location category',section:'scene',opts:SCENE_FAMILIES,def:0},
 lightingCategory:{label:'Lighting category',section:'scene',opts:LIGHTING_FAMILIES,def:0},
+sideSweepSide:{label:'Which shoulder hair is swept to',section:'look',opts:sideSweepSideOpts,def:0},
+sideSweepFlip:{label:'Root hair flip & crown lift',section:'look',opts:sideSweepFlipOpts,def:0},
+sideSweepEnd:{label:'Where side-swept hair ends',section:'look',opts:sideSweepEndOpts,def:0},
+sideSweepFinish:{label:'Side-swept finish (wet or dry)',section:'look',opts:sideSweepFinishOpts,def:0},
 ponyTailFall:{label:'Where ponytail falls (front / back)',section:'look',opts:ponyTailFallOpts,def:0},
 ponyTailEnd:{label:'Where ponytail ends',section:'look',opts:ponyTailEndOpts,def:0},
 ponyBaseHeight:{label:'Ponytail base height',section:'look',opts:ponyBaseHeightOpts,def:0},
@@ -685,6 +728,7 @@ sceneActivity:{label:'What is happening around her',section:'scene',opts:sceneAc
 const P=t=>makeOpts(t.split(';').map(x=>x.split('|')));
 Object.assign(extraFields,{
 ponyStyle:{label:'Ponytail & updo styling',section:'look',opts:makeOpts([
+  ['Sleek low-to-mid pony with curtain bangs (nape to upper shoulders)', 'a sleek low-to-mid ponytail with a clean near-center part and long, wispy curtain bangs softly framing the forehead and cheekbones, with the ponytail ending around the nape to upper shoulders'],
   ['Sleek high ponytail, side part & short wavy nape tail', 'a sleek high ponytail with a subtle deep side part, smoothly swept-back crown, and a short wavy tail ending at the nape of the neck just above the shoulders with softly tousled ends'],
   ['Short sleek high pony ending at nape / neck', 'a snatched high ponytail anchored at the crown with a short straight tail dropping cleanly to the base of the neck'],
   ['Short blunt high pony with flipped ends', 'a high crown ponytail with a short blunt tail flicked playfully outward at the upper neck'],
@@ -877,6 +921,10 @@ addOptions(weather, makeOpts([
 // PONYTAIL & UPDO GRANULAR EXPANSION
 // ==========================================
 addOptions(hair, makeOpts([
+  ['Sleek low-to-mid ponytail + near-center part & curtain bangs', 'a sleek low-to-mid ponytail with a clean near-center part and long, wispy curtain bangs softly framing the forehead and cheekbones, with the ponytail ending around the nape to upper shoulders'],
+  ['All hair swept to one side (dramatic shoulder drape)', 'a dramatic asymmetric hairstyle with all hair swept entirely over one shoulder, leaving the opposite neck and collarbone exposed'],
+  ['Voluminous side-swept blowout with deep root flip', 'a voluminous side-swept blowout with all hair thrown dramatically over one shoulder, featuring a bold lifted root flip and soft cascading waves'],
+  ['Wet-look slicked side-swept hair draped over shoulder', 'a high-fashion wet-look hairstyle with all hair slicked sleekly across the scalp and cascading over one shoulder in liquid-gloss saturated clumps'],
   ['Sleek high ponytail + deep side part & short wavy nape tail', 'a sleek high ponytail with a subtle deep side part and smoothly swept-back crown, leading to a short wavy tail ending at the nape of the neck just above the shoulders, with softly tousled ends'],
   ['Short sleek high ponytail ending at neck', 'a snatched high ponytail secured high at the crown with mirror-like shine and a sleek razor-cut tail ending cleanly at the base of the neck'],
   ['Short blunt high ponytail with flipped ends', 'a high crown ponytail with a short blunt tail flicked playfully outward around the upper neck in a 90s editorial style'],
@@ -1323,7 +1371,7 @@ visibleOpts.forEach((o)=>{
     custom.classList.remove('open');
     trigger.setAttribute('aria-expanded','false');
 
-    const RE_RENDER_IDS = new Set(['hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd']);
+    const RE_RENDER_IDS = new Set(['hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
     if (RE_RENDER_IDS.has(id)) {
       renderFields();
     }
@@ -1403,7 +1451,7 @@ allOrdered.forEach(([id,f])=>{
   if(coreSet.has(id)||activeSection==='finish'){
     primaryFields.push([id,f]);
   }else{
-    if(!PONY_FIELD_IDS.has(id)) secondaryFields.push([id,f]);
+    if(!PONY_FIELD_IDS.has(id) && !SWEEP_FIELD_IDS.has(id)) secondaryFields.push([id,f]);
   }
 });
 
@@ -1419,6 +1467,7 @@ primaryFields.forEach(([id,f])=>{
   host.appendChild(createFieldElement(id, f));
   if(id==='hair' && activeSection==='look'){
     host.appendChild(createPonytailCard());
+    host.appendChild(createSideSweepCard());
   }
 });
 
@@ -1593,6 +1642,16 @@ function isPonySelected(){
   return isPonyInHair || hasPonyDetail;
 }
 
+function isSideSweepSelected(){
+  const h = values.hair ? values.hair.label.toLowerCase() : '';
+  const isSweepInHair = h.includes('side-swept') || h.includes('swept to one side') || h.includes('side sweep') || h.includes('one shoulder') || h.includes('side waves') || h.includes('side-part layers') || h.includes('swept-back');
+  const hasSweepDetail = Boolean((values.sideSweepSide && values.sideSweepSide.text) || 
+                                 (values.sideSweepFlip && values.sideSweepFlip.text) || 
+                                 (values.sideSweepEnd && values.sideSweepEnd.text) ||
+                                 (values.sideSweepFinish && values.sideSweepFinish.text));
+  return isSweepInHair || hasSweepDetail;
+}
+
 function getFullHairDescription(){
   const baseHair = val('hair');
   const details = [];
@@ -1611,6 +1670,16 @@ function getFullHairDescription(){
   if(tail) details.push(`tail texture: ${tail}`);
   if(updo) details.push(updo);
 
+  const sweepSide = val('sideSweepSide');
+  const sweepFlip = val('sideSweepFlip');
+  const sweepEnd = val('sideSweepEnd');
+  const sweepFinish = val('sideSweepFinish');
+
+  if(sweepSide) details.push(sweepSide);
+  if(sweepFlip) details.push(sweepFlip);
+  if(sweepEnd) details.push(sweepEnd);
+  if(sweepFinish) details.push(sweepFinish);
+
   if(details.length > 0){
     return `${baseHair} (${details.join(', ')})`;
   }
@@ -1618,6 +1687,7 @@ function getFullHairDescription(){
 }
 
 const PONY_FIELD_IDS = new Set(['ponyTailFall','ponyTailEnd','ponyBaseHeight','ponyBaseWrap','ponyTailStyle']);
+const SWEEP_FIELD_IDS = new Set(['sideSweepSide','sideSweepFlip','sideSweepEnd','sideSweepFinish']);
 
 function createPonytailCard(){
   const card = document.createElement('div');
@@ -1705,6 +1775,156 @@ function createPonytailCard(){
   subgrid.className = 'ponytail-subgrid';
 
   ['ponyTailFall', 'ponyTailEnd', 'ponyBaseHeight', 'ponyBaseWrap', 'ponyTailStyle'].forEach(fId => {
+    if (fields[fId]) {
+      subgrid.appendChild(createFieldElement(fId, fields[fId]));
+    }
+  });
+
+  card.append(head, quickBox, subgrid);
+  return card;
+}
+
+function createSideSweepCard(){
+  const card = document.createElement('div');
+  card.className = 'side-swept-callout-card';
+  card.id = 'sideSweptCalloutCard';
+  
+  if(!isSideSweepSelected()) card.style.display = 'none';
+
+  const head = document.createElement('div');
+  head.className = 'ponytail-callout-head';
+  head.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span class="sweep-badge">✦ Side-Swept Architecture</span>
+      <p class="pony-subtext">Direct shoulder drape direction (left vs right), root flip, length & wet/dry finish</p>
+    </div>
+  `;
+
+  const quickBox = document.createElement('div');
+  quickBox.className = 'pony-quick-section';
+
+  // 1. Shoulder placement row
+  const sideRow = document.createElement('div');
+  sideRow.className = 'pony-quick-row';
+  sideRow.innerHTML = `<span class="pony-quick-label">✦ Shoulder Placement (Left vs Right)</span>`;
+  const sideChips = document.createElement('div');
+  sideChips.className = 'pony-chips';
+
+  const sideMap = [
+    { label: '👈 Left Shoulder', match: 'Swept completely over left shoulder' },
+    { label: '👉 Right Shoulder', match: 'Swept completely over right shoulder' },
+    { label: '💨 Tossed in Motion (Left)', match: 'Tossed forward over left shoulder in motion' },
+    { label: '💨 Tossed in Motion (Right)', match: 'Tossed forward over right shoulder in motion' }
+  ];
+
+  sideMap.forEach(item => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'sweep-chip' + (values.sideSweepSide?.label === item.match ? ' active' : '');
+    chip.textContent = item.label;
+    chip.addEventListener('click', () => {
+      const opt = fields.sideSweepSide.opts.find(o => o.label === item.match) || fields.sideSweepSide.opts[0];
+      values.sideSweepSide = (values.sideSweepSide === opt) ? fields.sideSweepSide.opts[0] : opt;
+      renderFields();
+      buildPrompt();
+    });
+    sideChips.appendChild(chip);
+  });
+  sideRow.appendChild(sideChips);
+
+  // 2. Hair flip row
+  const flipRow = document.createElement('div');
+  flipRow.className = 'pony-quick-row';
+  flipRow.innerHTML = `<span class="pony-quick-label">✦ Hair Flip & Crown Lift</span>`;
+  const flipChips = document.createElement('div');
+  flipChips.className = 'pony-chips';
+
+  const flipMap = [
+    { label: '✨ Dramatic Root Flip', match: 'Dramatic voluminous hair flip at roots' },
+    { label: '💨 Soft Natural Flip', match: 'Soft natural hair flip with airy volume' },
+    { label: '⚡ Sleek (No Flip)', match: 'Smooth sleek transition (no flip, flat-ironed)' },
+    { label: '🌪️ Tousled Texture Flip', match: 'Tousled textured flip with loose flyaways' }
+  ];
+
+  flipMap.forEach(item => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'sweep-chip' + (values.sideSweepFlip?.label === item.match ? ' active' : '');
+    chip.textContent = item.label;
+    chip.addEventListener('click', () => {
+      const opt = fields.sideSweepFlip.opts.find(o => o.label === item.match) || fields.sideSweepFlip.opts[0];
+      values.sideSweepFlip = (values.sideSweepFlip === opt) ? fields.sideSweepFlip.opts[0] : opt;
+      renderFields();
+      buildPrompt();
+    });
+    flipChips.appendChild(chip);
+  });
+  flipRow.appendChild(flipChips);
+
+  // 3. Length termination row
+  const endRow = document.createElement('div');
+  endRow.className = 'pony-quick-row';
+  endRow.innerHTML = `<span class="pony-quick-label">✦ Where Side-Swept Hair Ends</span>`;
+  const endChips = document.createElement('div');
+  endChips.className = 'pony-chips';
+
+  const endMap = [
+    { label: 'Collarbone / Upper Chest', match: 'Ending at collarbone / upper chest' },
+    { label: 'Mid-Chest Cascade', match: 'Ending at mid-chest / breast level' },
+    { label: 'Ribs / Waist (Dramatic)', match: 'Ending at ribs / waist level (dramatic long)' },
+    { label: 'Shoulder Tops (Lob)', match: 'Grazing shoulder tops (medium lob length)' }
+  ];
+
+  endMap.forEach(item => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'sweep-chip' + (values.sideSweepEnd?.label === item.match ? ' active' : '');
+    chip.textContent = item.label;
+    chip.addEventListener('click', () => {
+      const opt = fields.sideSweepEnd.opts.find(o => o.label === item.match) || fields.sideSweepEnd.opts[0];
+      values.sideSweepEnd = (values.sideSweepEnd === opt) ? fields.sideSweepEnd.opts[0] : opt;
+      renderFields();
+      buildPrompt();
+    });
+    endChips.appendChild(chip);
+  });
+  endRow.appendChild(endChips);
+
+  // 4. Finish (Wet or Dry) row
+  const finRow = document.createElement('div');
+  finRow.className = 'pony-quick-row';
+  finRow.innerHTML = `<span class="pony-quick-label">✦ Finish: Wet vs Dry</span>`;
+  const finChips = document.createElement('div');
+  finChips.className = 'pony-chips';
+
+  const finMap = [
+    { label: '🌬️ Dry & Airy Bounce', match: 'Dry, soft & touchable with airy volume' },
+    { label: '💧 High-Gloss Wet Clumps', match: 'High-gloss wet-look saturated clumps' },
+    { label: '🌊 Damp Beachy Waves', match: 'Damp post-swim salty beach texture' },
+    { label: '✨ Mirror Glass Shine', match: 'Glossy glass-shine editorial finish' }
+  ];
+
+  finMap.forEach(item => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'sweep-chip' + (values.sideSweepFinish?.label === item.match ? ' active' : '');
+    chip.textContent = item.label;
+    chip.addEventListener('click', () => {
+      const opt = fields.sideSweepFinish.opts.find(o => o.label === item.match) || fields.sideSweepFinish.opts[0];
+      values.sideSweepFinish = (values.sideSweepFinish === opt) ? fields.sideSweepFinish.opts[0] : opt;
+      renderFields();
+      buildPrompt();
+    });
+    finChips.appendChild(chip);
+  });
+  finRow.appendChild(finChips);
+
+  quickBox.append(sideRow, flipRow, endRow, finRow);
+
+  const subgrid = document.createElement('div');
+  subgrid.className = 'ponytail-subgrid';
+
+  ['sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish'].forEach(fId => {
     if (fields[fId]) {
       subgrid.appendChild(createFieldElement(fId, fields[fId]));
     }
