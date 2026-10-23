@@ -727,7 +727,7 @@ ponyTailEnd:{label:'Where ponytail ends',section:'look',opts:ponyTailEndOpts,def
 ponyBaseHeight:{label:'Ponytail base height',section:'look',opts:ponyBaseHeightOpts,def:0},
 ponyBaseWrap:{label:'Ponytail base wrap & hardware',section:'look',opts:ponyBaseWrapOpts,def:0},
 ponyTailStyle:{label:'Ponytail tail texture & finish',section:'look',opts:ponyTailStyleOpts,def:0},
-makeover:{label:'Makeover moment',section:'look',opts:[O('Salon reveal in styling chair with stylist finishing crown','the haircut has just been completed in the salon chair, with the male stylist gently touching and finishing the rounded crown and curtain bangs, capturing her candid, calm in-chair reaction'),O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Final stylist touch-up','a stylist has finished the final hair touch-up just before the shoot'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves')],def:0},
+makeover:{label:'Makeover moment',section:'look',opts:[O('Solo reveal after salon styling','the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject'),O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Fresh salon finish','the finished styling has settled beautifully with natural bounce and clean movement just after the makeover'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves')],def:0},
 mode:{label:'Reference workflow',section:'look',opts:[O('Edit the supplied reference','Edit the supplied reference image, preserving the same adult woman and making only the requested styling and photoshoot changes'),O('New image using reference identity','Create a new photograph using the supplied reference image as identity guidance for the same adult woman')],def:0},hair:{label:'Specific haircut',section:'look',opts:hair,def:0},hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
 outfit:{label:'Specific outfit',section:'wardrobe',opts:outfit,def:0},outfitFit:{label:'Fabric and fit',section:'wardrobe',opts:outfitFit,def:0},accessories:{label:'Accessories',section:'wardrobe',opts:accessories,def:12},makeup:{label:'Makeup direction',section:'wardrobe',opts:makeup,def:0},
 pose:{label:'Specific pose',section:'pose',opts:pose,def:0},expression:{label:'Expression',section:'pose',opts:expression,def:0},gesture:{label:'Hand / gesture detail',section:'pose',opts:gesture,def:0},mood:{label:'Overall attitude',section:'pose',opts:mood,def:0},
@@ -1863,7 +1863,7 @@ function getFullHairDescription(){
 
 function getEffectiveHairstyle(){
   if(styleRef && transferToggles && transferToggles.hair){
-    return 'exact finished hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2; solo finished look with zero hairdresser, stylist, or hands touching hair)';
+    return 'authentic salon-styled mid-height ponytail with soft naturally rounded crown and gentle scalp volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to the upper cheekbones with delicate piecey strand separation, side hair combed smoothly back and gently tucked behind the ears, anchored at the mid-occipital back of the head into a relaxed mid ponytail with a smooth natural straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders, strictly preserving her original natural silky-fine Indian hair texture, strand density, and organic healthy sheen (solo finished look with zero hairdresser, stylist, or hands touching hair)';
   }
   return getFullHairDescription();
 }
@@ -2423,9 +2423,13 @@ lines.push('');
 lines.push('STYLE REFERENCE (IMAGE 2):');
 lines.push('• Seamlessly transfer and integrate the selected styling elements from Image 2 onto the subject from Image 1:');
 if(transferToggles.hair){
-  lines.push('  - Transferred Hairstyle: Exact finished hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut silhouette, bangs/fringe, parting, and tail placement seen in Image 2 onto the subject in Image 1)');
-  lines.push('  - Subject & Hair Isolation: Extract ONLY the woman\'s finished hairstyle. Strictly omit and exclude any other person, male hairstylist, barber, salon staff, stylist hands touching hair, tools, or salon equipment from Image 2.');
-  lines.push('  - Finished Hair State: Render the hairstyle as completely finished, styled, and freely resting—not actively being worked on, held, combed, or touched by any hands.');
+  lines.push('  - Exact Hairstyle Blueprint: Mid ponytail with arched bottleneck curtain bangs faithfully reproduced from Image 2:');
+  lines.push('    * Front Fringe: Soft arched bottleneck curtain bangs, parted cleanly at the center forehead, curving gently past the brows to taper and frame the cheekbones.');
+  lines.push('    * Crown & Sides: Smoothly brushed-back crown with natural rounded scalp volume; sides cleanly combed back behind the ears.');
+  lines.push('    * Ponytail Placement: Anchored at the mid-occipital back of the head; tail falls straight to softly tapered down to the nape of the neck just above the shoulders with tousled wavy ends.');
+  lines.push('    * Hair Quality: Natural silky-fine Indian hair fiber, thick strand density, rich deep espresso-black with authentic healthy blowout gloss.');
+  lines.push('    * Subject & Hair Isolation: Extract ONLY the woman\'s finished hairstyle. Strictly omit and exclude any other person, male hairstylist, barber, salon staff, stylist hands touching hair, tools, or salon equipment from Image 2.');
+  lines.push('    * Finished Hair State: Render the hairstyle as completely finished, styled, and freely resting—not actively being worked on, held, combed, or touched by any hands.');
 }
 if(transferToggles.outfit) lines.push(`  - Transferred Wardrobe: ${val('outfit')} (garment fit: ${val('outfitFit')}, accessories: ${val('accessories')})`);
 if(transferToggles.palette) lines.push('  - Transferred Color Palette: harmonize overall wardrobe and environmental tones with Image 2');
@@ -2467,7 +2471,13 @@ lines.push('CREATIVE INTENT');
 lines.push(`${mode}. Capture the same adult woman just after her makeover, during a bold, confident, candid fashion photoshoot. Overall attitude: ${val('mood')}. Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
 lines.push('');
 lines.push('MAKEOVER MOMENT');
-lines.push(val('makeover')+'.');
+let moVal = val('makeover');
+if((styleRef && transferToggles && transferToggles.hair) || checkState.soloSubject){
+  if(moVal.includes('stylist') || moVal.includes('styling chair')){
+    moVal = 'the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject';
+  }
+}
+lines.push(moVal + '.');
 lines.push('');
 lines.push('HAIR AND BEAUTY');
 const textureDirective = (preserveHairTexture || (values.hairTexture && values.hairTexture.label.includes('Preserve original')))
@@ -2475,7 +2485,8 @@ const textureDirective = (preserveHairTexture || (values.hairTexture && values.h
   : (val('hairTexture') || "natural hair texture with realistic strand separation");
 
 if(styleRef && transferToggles && transferToggles.hair){
-  lines.push(`Hairstyle: Exact finished hairstyle faithfully transferred directly from Image 2 reference photo (strictly replicating the cut, silhouette, bangs, and hair placement seen in Image 2; finished solo hairstyle with zero hairdresser, stylist, or third-party hands touching her hair). Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}.`);
+  const hairBlueprint = "authentic salon-styled mid-height ponytail with softly rounded crown and natural scalp volume; delicate arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands curving gracefully outward around the temples to frame the cheekbones with piecey separation; side hair combed smoothly back and tucked behind the ears; ponytail anchored at the mid-occipital back of the head into a relaxed mid ponytail with a straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders with soft tousled ends; 100% authentic natural silky-fine Indian hair texture with organic strand separation and healthy sheen";
+  lines.push(`Hairstyle: ${hairBlueprint}. Finished solo hairstyle with zero hairdresser, stylist, or hands touching her hair. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}.`);
 } else {
   lines.push(`Hairstyle: ${getFullHairDescription()}. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`);
 }
@@ -2514,6 +2525,7 @@ lines.push('AVOID / NEGATIVE GUIDANCE');
 let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
 if(checkState.soloSubject || (styleRef && transferToggles && transferToggles.hair) || styleRef){
   negatives.push('hairdresser, hair stylist, barber, salon staff, man working on hair, secondary person, extra person, man in background, stylist hands, hands touching hair, hands holding hair, hands styling hair, scissors, comb in hair, salon cape, two people, multiple people, male figure, companion, bystander, photobomb');
+  negatives.push('loose hair down, hair down, un-tied hair, messy bun, topknot bun, curly afro, pixie cut, short crop, blunt straight fringe, hair covering eyes');
 }
 if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered hair texture, artificial curls, synthetic perm, heat-damaged hair texture, unnatural straightener sheen or mismatched ethnic hair texture');
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
@@ -3023,14 +3035,23 @@ function initRefViewer(){
       if(styleRef || subjectRef){
         // Select photo-match haircut if hair transfer is active
         if(transferToggles.hair){
-          const hOpt = fields.hair.opts.find(o => o.label.includes('exact salon photo match') || o.label.includes('salon photo match')) || fields.hair.opts[0];
+          const hOpt = fields.hair.opts.find(o => o.label.includes('Mid ponytail + arched bottleneck curtain bangs (exact salon photo match)')) ||
+                       fields.hair.opts.find(o => o.label.includes('exact salon photo match') || o.label.includes('salon photo match')) || fields.hair.opts[0];
           values.hair = hOpt;
           const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
           if(catOpt) values.hairCategory = catOpt;
-          const fOpt = fields.fringe.opts.find(o => o.label.includes('bottleneck curtain bangs') || o.label.includes('curtain bangs'));
+          const fOpt = fields.fringe.opts.find(o => o.label.includes('Arched bottleneck curtain bangs') || o.label.includes('bottleneck curtain bangs') || o.label.includes('curtain bangs'));
           if(fOpt) values.fringe = fOpt;
-          const pOpt = fields.parting.opts.find(o => o.label.includes('bottleneck curtain opening') || o.label.includes('center part'));
+          const pOpt = fields.parting.opts.find(o => o.label.includes('Clean center part with bottleneck curtain opening') || o.label.includes('bottleneck curtain opening') || o.label.includes('center part'));
           if(pOpt) values.parting = pOpt;
+          const heightOpt = fields.ponyBaseHeight?.opts.find(o => o.label.includes('Mid-occipital'));
+          if(heightOpt) values.ponyBaseHeight = heightOpt;
+          const endOpt = fields.ponyTailEnd?.opts.find(o => o.label.includes('nape of neck just above shoulders') || o.label.includes('nape to upper shoulders'));
+          if(endOpt) values.ponyTailEnd = endOpt;
+          const fallOpt = fields.ponyTailFall?.opts.find(o => o.label.includes('down the back'));
+          if(fallOpt) values.ponyTailFall = fallOpt;
+          const moOpt = fields.makeover?.opts.find(o => o.label.includes('Solo reveal'));
+          if(moOpt) values.makeover = moOpt;
         }
 
         // Select photo-match outfit if outfit transfer is active
@@ -3108,6 +3129,26 @@ function handleSlotImage(file, isSubject){
         `;
         if(diag.palette.length){
           renderPalette(diag.palette);
+        }
+        if(transferToggles.hair){
+          const hOpt = fields.hair.opts.find(o => o.label.includes('Mid ponytail + arched bottleneck curtain bangs (exact salon photo match)')) ||
+                       fields.hair.opts.find(o => o.label.includes('exact salon photo match') || o.label.includes('salon photo match')) || fields.hair.opts[0];
+          values.hair = hOpt;
+          const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
+          if(catOpt) values.hairCategory = catOpt;
+          const fOpt = fields.fringe.opts.find(o => o.label.includes('Arched bottleneck curtain bangs') || o.label.includes('bottleneck curtain bangs') || o.label.includes('curtain bangs'));
+          if(fOpt) values.fringe = fOpt;
+          const pOpt = fields.parting.opts.find(o => o.label.includes('Clean center part with bottleneck curtain opening') || o.label.includes('bottleneck curtain opening') || o.label.includes('center part'));
+          if(pOpt) values.parting = pOpt;
+          const heightOpt = fields.ponyBaseHeight?.opts.find(o => o.label.includes('Mid-occipital'));
+          if(heightOpt) values.ponyBaseHeight = heightOpt;
+          const endOpt = fields.ponyTailEnd?.opts.find(o => o.label.includes('nape of neck just above shoulders') || o.label.includes('nape to upper shoulders'));
+          if(endOpt) values.ponyTailEnd = endOpt;
+          const fallOpt = fields.ponyTailFall?.opts.find(o => o.label.includes('down the back'));
+          if(fallOpt) values.ponyTailFall = fallOpt;
+          const moOpt = fields.makeover?.opts.find(o => o.label.includes('Solo reveal'));
+          if(moOpt) values.makeover = moOpt;
+          renderFields();
         }
       }
       updateDualRefAdvisor();
