@@ -1322,7 +1322,7 @@ const finishChecks=[
 {id:'candid',label:'Candid, not overly staged',detail:'Natural posture, unforced expression and imperfect timing.',checked:true}
 ];
 const GROUPS=[
-['salonVenueSec','Salon Venue & Setting',['salonVenue','salonBustle','salonStationProps']],
+['salonVenueSec','Reference & Salon Setting',['mode','salonVenue','salonBustle','salonStationProps']],
 ['salonStageSec','Haircut Progress & Stage',['salonStage','salonActionDetail']],
 ['salonStylistSec','Stylist Presence & Role',['salonStylist','salonStylistAttire']],
 ['salonHairSec','Haircut Blueprint & State',['salonHaircut','salonHairCategory','salonHairState','salonHairTexture']],
@@ -1334,7 +1334,7 @@ const GROUPS=[
 ['camera','Framing',['shotCategory','framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
 ['scene','Location',['sceneCategory','background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lightingCategory','lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
-salonVenueSec: new Set(['salonVenue', 'salonBustle', 'salonStationProps']),
+salonVenueSec: new Set(['mode', 'salonVenue', 'salonBustle', 'salonStationProps']),
 salonStageSec: new Set(['salonStage', 'salonActionDetail']),
 salonStylistSec: new Set(['salonStylist', 'salonStylistAttire']),
 salonHairSec: new Set(['salonHaircut', 'salonHairCategory', 'salonHairState', 'salonHairTexture']),
@@ -2627,9 +2627,10 @@ function buildLookbookSeries(checks, negatives, extraLines){
 
 
 function buildSalonPrompt(){
+  const mode = val('mode');
   const lines = [];
   if(subjectRef && styleRef){
-    lines.push('REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE');
+    lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE');
     lines.push('');
     lines.push('PRIMARY SUBJECT (IMAGE 1):');
     lines.push('• Strictly preserve the adult woman from Image 1 as the client in the barber chair.');
@@ -2638,15 +2639,20 @@ function buildSalonPrompt(){
     lines.push('');
     lines.push('STYLE REFERENCE (IMAGE 2):');
     lines.push(`• Haircut Goal: Faithfully replicate the signature haircut from Image 2 (${val('salonHaircut') || 'mid ponytail with arched bottleneck curtain bangs'}).`);
+    lines.push("• Subject & Haircut Extraction: Extract ONLY the haircut geometry and styling from Image 2. The client is strictly the woman from Image 1.");
     lines.push('');
   } else if(subjectRef){
-    lines.push('REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE');
+    lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
     lines.push('• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her recognizable facial identity and realistic skin texture.');
     lines.push('');
   } else {
-    lines.push('AUTHENTIC SALON & BARBERSHOP SCENE · REALISTIC HAIRCUT EXPERIENCE');
+    lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'AUTHENTIC SALON & BARBERSHOP SCENE · REALISTIC HAIRCUT EXPERIENCE');
     lines.push('');
   }
+
+  lines.push('CREATIVE INTENT');
+  lines.push(`${mode}. Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
+  lines.push('');
 
   lines.push('VENUE & ATMOSPHERE');
   lines.push(`${val('salonVenue')}. Atmosphere & crowd: ${val('salonBustle')}.`);
@@ -2695,7 +2701,7 @@ function buildSalonPrompt(){
   const words = text.trim().split(/\s+/).length;
   el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · Salon Mode`;
 
-  const summaryIds = ['salonVenue', 'salonStage', 'salonStylist', 'salonHaircut', 'salonCape', 'salonCamera'];
+  const summaryIds = ['mode', 'salonVenue', 'salonStage', 'salonStylist', 'salonHaircut', 'salonCape', 'salonCamera'];
   el('summary').innerHTML = summaryIds
     .filter(id => fields[id] && values[id])
     .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`)
@@ -3365,6 +3371,7 @@ function initRefViewer(){
           const hOpt = fields.hair.opts.find(o => o.label.includes('Mid ponytail + arched bottleneck curtain bangs (exact salon photo match)')) ||
                        fields.hair.opts.find(o => o.label.includes('exact salon photo match') || o.label.includes('salon photo match')) || fields.hair.opts[0];
           values.hair = hOpt;
+          if(fields.salonHaircut) values.salonHaircut = hOpt;
           const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
           if(catOpt) values.hairCategory = catOpt;
           const fOpt = fields.fringe.opts.find(o => o.label.includes('Arched bottleneck curtain bangs') || o.label.includes('bottleneck curtain bangs') || o.label.includes('curtain bangs'));
