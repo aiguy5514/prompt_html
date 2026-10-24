@@ -64,9 +64,6 @@
 .texture-protect-toggle-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;border:1px solid rgba(159,228,193,.4);background:rgba(159,228,193,.12);color:var(--green,#9fe4c1);font-size:11px;font-weight:800;cursor:pointer;transition:all .15s ease}
 .texture-protect-toggle-btn:hover{filter:brightness(1.15);transform:translateY(-1px);box-shadow:0 3px 12px rgba(159,228,193,.25)}
 .texture-protect-toggle-btn.active{background:linear-gradient(115deg,#48bb78,#38a169);color:#0a1e12;border-color:transparent;box-shadow:0 3px 14px rgba(72,187,120,.4)}
-.pony-photo-match-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,92,146,.12);border:1px solid rgba(255,92,146,.35);padding:10px 14px;border-radius:12px;margin-bottom:6px;flex-wrap:wrap}
-.pony-match-apply-btn{background:linear-gradient(115deg,var(--pink,#ff5c92),var(--pink2,#ff9cbd));color:#24101a;font-size:11px;font-weight:800;padding:6px 14px;border-radius:999px;border:none;cursor:pointer;transition:all .15s ease;box-shadow:0 2px 10px rgba(255,92,146,.3)}
-.pony-match-apply-btn:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 14px rgba(255,92,146,.45)}
 .ponytail-callout-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,92,146,.09) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(255,92,146,.38);border-radius:16px;padding:16px;margin:8px 0 16px 0;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);animation:fadeIn .2s ease-out}
 .ponytail-callout-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .pony-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,92,146,.18);color:var(--pink2);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,92,146,.42)}
@@ -473,7 +470,7 @@ addOptions(accessories, makeOpts([
 
 
 // New micro-controls with large, searchable option banks.
-const fringeDetail=makeOpts([['Arched bottleneck curtain bangs grazing brows & cheekbones (photo match)','soft arched bottleneck curtain bangs parted slightly at the center hairline with wispy brow-grazing center strands that curve naturally outward to cheekbone level with delicate strand separation'],['Arched center-parted curtain bangs framing cheekbones','arched center-parted curtain bangs softly framing the forehead, eyebrow arches and cheekbones with curved outward ends'],['No fringe / open forehead','no fringe, with the forehead naturally open'],['Wispy curtain fringe','soft, wispy curtain bangs'],['Long curtain fringe','long curtain fringe that blends into face-framing layers'],['Brow-skimming fringe','light fringe skimming the eyebrows'],['Airy see-through fringe','an airy, see-through fringe with separated strands'],['Side-swept fringe','a deep side-swept fringe'],['Long cheekbone fringe','long cheekbone-length fringe pieces'],['Piecey textured fringe','piecey textured fringe with realistic separation'],['Soft rounded fringe','a soft rounded fringe with feathered edges'],['Asymmetric fringe','an asymmetric fringe swept gently to one side'],['Micro fringe','a short micro fringe styled with a modern editorial attitude'],['Bottleneck fringe','a bottleneck fringe that opens at the center and curves at the temples'],['Feathered curtain bangs','feathered curtain bangs with soft outward movement'],['Full brow fringe','a full brow-length fringe with natural texture'],['Loose strands across forehead','a few soft loose strands falling naturally across the forehead'],['Wispy side pieces only','wispy side pieces without a full fringe'],['Parted long fringe','a long fringe parted loosely at the center'],['Soft diagonal fringe','a softly diagonal fringe swept across the forehead'],['Layered fringe','a layered fringe with varied lengths'],['No bangs, face-framing only','no bangs, only long face-framing layers']]);
+const fringeDetail=makeOpts([['Arched bottleneck curtain bangs grazing brows & cheekbones','soft arched bottleneck curtain bangs parted slightly at the center hairline with wispy brow-grazing center strands that curve naturally outward to cheekbone level with delicate strand separation'],['Arched center-parted curtain bangs framing cheekbones','arched center-parted curtain bangs softly framing the forehead, eyebrow arches and cheekbones with curved outward ends'],['No fringe / open forehead','no fringe, with the forehead naturally open'],['Wispy curtain fringe','soft, wispy curtain bangs'],['Long curtain fringe','long curtain fringe that blends into face-framing layers'],['Brow-skimming fringe','light fringe skimming the eyebrows'],['Airy see-through fringe','an airy, see-through fringe with separated strands'],['Side-swept fringe','a deep side-swept fringe'],['Long cheekbone fringe','long cheekbone-length fringe pieces'],['Piecey textured fringe','piecey textured fringe with realistic separation'],['Soft rounded fringe','a soft rounded fringe with feathered edges'],['Asymmetric fringe','an asymmetric fringe swept gently to one side'],['Micro fringe','a short micro fringe styled with a modern editorial attitude'],['Bottleneck fringe','a bottleneck fringe that opens at the center and curves at the temples'],['Feathered curtain bangs','feathered curtain bangs with soft outward movement'],['Full brow fringe','a full brow-length fringe with natural texture'],['Loose strands across forehead','a few soft loose strands falling naturally across the forehead'],['Wispy side pieces only','wispy side pieces without a full fringe'],['Parted long fringe','a long fringe parted loosely at the center'],['Soft diagonal fringe','a softly diagonal fringe swept across the forehead'],['Layered fringe','a layered fringe with varied lengths'],['No bangs, face-framing only','no bangs, only long face-framing layers']]);
 const parting=makeOpts([['Clean center part with bottleneck curtain opening','a clean short center part at the hairline opening into arched bottleneck curtain bangs'],['Clean center part with curtain fringe opening','a clean short center part at the hairline opening into curtain bangs'],['Deep left side part','a deep left-side part'],['Deep right side part','a deep right-side part'],['Soft center part','a soft center part'],['Loose off-center part','a relaxed off-center part'],['Natural part matching reference','a natural part consistent with the reference image'],['Slight zigzag part','a subtle, realistic zigzag part'],['Slicked-back no visible part','a slicked-back style with no prominent part'],['Side part with lifted roots','a side part with softly lifted roots'],['Center part with curtain opening','a center part opening naturally into curtain bangs'],['Part softened by flyaways','a subtle part softened by natural flyaways']]);
 const hairVolume=makeOpts([['Natural low volume','natural low volume with a close-to-head silhouette'],['Airy crown lift','airy crown lift without exaggerated height'],['Soft rounded volume','soft rounded volume with a balanced outline'],['Full salon blowout volume','full salon blowout volume with realistic bounce'],['Piecey separated layers','piecey, separated layers with natural space between strands'],['Controlled sleek finish','a controlled sleek finish without helmet-like hair'],['Loose airy texture','loose airy texture with subtle strand variation'],['Defined curls with natural expansion','defined curls with natural expansion and believable volume'],['Undone volume','slightly undone volume as the hair settles after styling'],['Wind-touched lightness','light wind-touched movement and fine flyaways'],['Root lift, smooth lengths','soft root lift with smoother lengths'],['Softly compressed crown','a softly compressed crown with volume through the ends']]);
 
@@ -1177,7 +1174,7 @@ addOptions(weather, makeOpts([
 // PONYTAIL & UPDO GRANULAR EXPANSION
 // ==========================================
 addOptions(hair, makeOpts([
-  ['Mid ponytail + arched bottleneck curtain bangs (exact salon photo match)', 'an authentic salon-styled mid-height ponytail with soft naturally rounded crown and gentle scalp volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to the upper cheekbones with delicate piecey strand separation, side hair combed smoothly back and gently tucked behind the ears, anchored at the mid-occipital back of the head into a relaxed mid ponytail with a smooth natural straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders, strictly preserving her original natural silky-fine Indian hair texture, strand density, and organic healthy sheen without heat curls or synthetic styling'],
+  ['Mid ponytail with arched bottleneck curtain bangs', 'an authentic salon-styled mid-height ponytail with soft naturally rounded crown and gentle scalp volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to the upper cheekbones with delicate piecey strand separation, side hair combed smoothly back and gently tucked behind the ears, anchored at the mid-occipital back of the head into a relaxed mid ponytail with a smooth natural straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders, strictly preserving her original natural silky-fine Indian hair texture, strand density, and organic healthy sheen without heat curls or synthetic styling'],
   ['Salon reveal mid ponytail with stylist hands finishing crown', 'an authentic candid salon-reveal mid ponytail, where the subject sits in a black leather salon styling chair with the stylist\'s hands gently lifting and finishing the crown volume above soft arched bottleneck curtain bangs skimming her eyebrows and cheekbones, side hair tucked neatly behind ears, with a soft straight mid-height ponytail resting at the nape, wearing a pink split-neck kurta with tiny cut hair fragments scattered across the chest, strictly preserving her original natural silky black Indian hair texture and realistic facial expression'],
   ['Sleek low-to-mid ponytail + near-center part & curtain bangs', 'a sleek low-to-mid ponytail with a clean near-center part and long, wispy curtain bangs softly framing the forehead and cheekbones, with the ponytail ending around the nape to upper shoulders'],
   ['All hair swept to one side (dramatic shoulder drape)', 'a dramatic asymmetric hairstyle with all hair swept entirely over one shoulder, leaving the opposite neck and collarbone exposed'],
@@ -2143,46 +2140,6 @@ function createPonytailCard(){
   const quickBox = document.createElement('div');
   quickBox.className = 'pony-quick-section';
 
-  // 0. Photo match 1-click apply banner
-  const photoBanner = document.createElement('div');
-  photoBanner.className = 'pony-photo-match-banner';
-  photoBanner.innerHTML = `
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:22px">📸</span>
-      <div>
-        <strong style="color:var(--text,#fff8fc);font-size:12px;display:block">Salon Curtain Ponytail (Exact Photo Match)</strong>
-        <small style="color:var(--muted,#b8adbd);font-size:11px">Center curtain bangs + sides pulled over ears + mid ponytail at nape</small>
-      </div>
-    </div>
-    <button type="button" class="pony-match-apply-btn">Apply this exact look ✦</button>
-  `;
-
-  photoBanner.querySelector('.pony-match-apply-btn').addEventListener('click', () => {
-    preserveHairTexture = true;
-    checkState.hairTexturePreserve = true;
-    const hairOpt = fields.hair.opts.find(o => o.label.includes('bottleneck curtain bangs (exact salon photo match)')) || fields.hair.opts.find(o => o.label.includes('salon photo match'));
-    if (hairOpt) values.hair = hairOpt;
-    const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
-    if (catOpt) values.hairCategory = catOpt;
-    const texOpt = fields.hairTexture?.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture?.opts[0];
-    if (texOpt) values.hairTexture = texOpt;
-    const heightOpt = fields.ponyBaseHeight.opts.find(o => o.label.includes('Mid-occipital'));
-    if (heightOpt) values.ponyBaseHeight = heightOpt;
-    const endOpt = fields.ponyTailEnd.opts.find(o => o.label.includes('nape of neck just above shoulders') || o.label.includes('nape to upper shoulders'));
-    if (endOpt) values.ponyTailEnd = endOpt;
-    const fallOpt = fields.ponyTailFall.opts.find(o => o.label.includes('down the back'));
-    if (fallOpt) values.ponyTailFall = fallOpt;
-    const fringeOpt = fields.fringe.opts.find(o => o.label.includes('bottleneck curtain bangs') || o.label.includes('curtain bangs'));
-    if (fringeOpt) values.fringe = fringeOpt;
-    const partingOpt = fields.parting.opts.find(o => o.label.includes('bottleneck curtain opening') || o.label.includes('center part'));
-    if (partingOpt) values.parting = partingOpt;
-    const finOpt = fields.hairFinish.opts.find(o => o.label.includes('Fresh salon blow-dry') || o.label.includes('Fresh salon'));
-    if (finOpt) values.hairFinish = finOpt;
-
-    renderFields();
-    buildPrompt();
-    toast('Applied Exact Photo Match: Mid ponytail + bottleneck curtain bangs & locked natural texture!');
-  });
 
   // Front curtain bangs row
   const frontRow = document.createElement('div');
@@ -2192,7 +2149,7 @@ function createPonytailCard(){
   frontChips.className = 'pony-chips';
 
   const frontMap = [
-    { label: '💇‍♀️ Bottleneck Bangs (Photo Match)', fringeMatch: 'Arched bottleneck curtain bangs grazing brows & cheekbones (photo match)', partMatch: 'Clean center part with bottleneck curtain opening' },
+    { label: '💇‍♀️ Bottleneck Bangs', fringeMatch: 'Arched bottleneck curtain bangs grazing brows & cheekbones', partMatch: 'Clean center part with bottleneck curtain opening' },
     { label: '✨ Wispy Curtain Fringe', fringeMatch: 'Wispy curtain fringe', partMatch: 'Soft center part' },
     { label: '💫 Long Cheekbone Fringe', fringeMatch: 'Long cheekbone fringe', partMatch: 'Center part with curtain opening' },
     { label: '⚡ Clean Forehead (No Fringe)', fringeMatch: 'No fringe / open forehead', partMatch: 'Slicked-back no visible part' }
@@ -2277,7 +2234,7 @@ function createPonytailCard(){
   });
   endRow.appendChild(endChips);
 
-  quickBox.append(photoBanner, frontRow, fallRow, endRow);
+  quickBox.append(frontRow, fallRow, endRow);
 
   const subgrid = document.createElement('div');
   subgrid.className = 'ponytail-subgrid';
@@ -3338,8 +3295,7 @@ function initRefViewer(){
       if(styleRef || subjectRef){
         // Select photo-match haircut if hair transfer is active
         if(transferToggles.hair){
-          const hOpt = fields.hair.opts.find(o => o.label.includes('Mid ponytail + arched bottleneck curtain bangs (exact salon photo match)')) ||
-                       fields.hair.opts.find(o => o.label.includes('exact salon photo match') || o.label.includes('salon photo match')) || fields.hair.opts[0];
+          const hOpt = fields.hair.opts.find(o => o.label.includes('Mid ponytail with arched bottleneck curtain bangs')) || fields.hair.opts[0];
           values.hair = hOpt;
           if(fields.salonHaircut) values.salonHaircut = hOpt;
           const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
@@ -3435,8 +3391,7 @@ function handleSlotImage(file, isSubject){
           renderPalette(diag.palette);
         }
         if(transferToggles.hair){
-          const hOpt = fields.hair.opts.find(o => o.label.includes('Mid ponytail + arched bottleneck curtain bangs (exact salon photo match)')) ||
-                       fields.hair.opts.find(o => o.label.includes('exact salon photo match') || o.label.includes('salon photo match')) || fields.hair.opts[0];
+          const hOpt = fields.hair.opts.find(o => o.label.includes('Mid ponytail with arched bottleneck curtain bangs')) || fields.hair.opts[0];
           values.hair = hOpt;
           const catOpt = fields.hairCategory.opts.find(c => c.text === 'pony');
           if(catOpt) values.hairCategory = catOpt;
