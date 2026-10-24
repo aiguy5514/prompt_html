@@ -808,33 +808,9 @@ const salonBustle = makeOpts([
   ['Early morning fresh start', 'early morning salon atmosphere with fresh clean towels, quiet street outside, and peaceful mood']
 ]);
 
-const salonActionDetail = makeOpts([
-  ['Cutting shears snip with hair tension', 'the shears actively snip through wet hair held taut between the barber\'s fingers, with realistic micro-droplets and falling hair fibers'],
-  ['Combing bangs straight before the snip', 'the comb lifts and aligns the arched curtain bangs against the forehead right before the cut'],
-  ['Hairdryer blowing hair with round brush tension', 'the hairdryer nozzle directs concentrated airflow while the round brush rolls through the ponytail crown'],
-  ['Relaxed candid glance into the mirror', 'the client watches their reflection calmly as the haircut progresses, with a subtle candid expression']
-]);
 
-const salonStylistAttire = makeOpts([
-  ['Casual short-sleeve collared shirt & waist apron', 'the barber wears a clean short-sleeve collared shirt and black canvas utility waist apron with comb pockets'],
-  ['Professional black salon button-down', 'a sharp black short-sleeve salon shirt with neat collar'],
-  ['Traditional white barber coat', 'a classic short-sleeve white barber jacket with pocket pens'],
-  ['Casual t-shirt and jeans', 'casual everyday Indian salon attire with rolled-up sleeves']
-]);
 
-const salonHairState = makeOpts([
-  ['Damp glistening strands with water spray droplets', 'hair is freshly dampened with fine water droplets glistening on the dark strands, combed into clean tension'],
-  ['Dry freshly blow-dried with natural bounce', 'hair is completely dry, silky and blown-out with natural movement and healthy salon shine'],
-  ['Sectioned with upper butterfly clips and damp lower perimeter', 'upper crown pinned with clips while lower ponytail and fringe are damp and being cut'],
-  ['Lived-in texture with fallen cut hair dust', 'natural hair with a few stray cut hairs resting naturally on the surface']
-]);
 
-const salonClippings = makeOpts([
-  ['Scattered cut hair fragments across cape shoulders', 'fine dark cut hair fragments and clippings scattered naturally across the black nylon cape shoulders and chest'],
-  ['Subtle stray hair strands on cape collar', 'a few realistic stray cut hair fibers resting along the white neck paper strip and cape collar'],
-  ['Heavy hair clippings on cape and floor', 'visible scattered cut hair pieces across the cape and on the floor around the chair base from a major haircut'],
-  ['Clean cape without cut hair (just starting)', 'clean freshly placed cape with zero hair clippings yet']
-]);
 
 const salonQuality = makeOpts([
   ['Photorealistic 35mm documentary salon photography', 'raw documentary salon photo, 35mm lens, natural film grain, authentic skin texture with visible pores, realistic stray hair physics, zero plastic smoothing, zero artificial AI sheen'],
@@ -855,16 +831,12 @@ const fields={
 salonVenue:{label:'Salon type & interior',section:'salonVenueSec',opts:salonVenue,def:0},
 salonBustle:{label:'Shop activity & crowd',section:'salonVenueSec',opts:salonBustle,def:0},
 salonStationProps:{label:'Counter & station props',section:'salonVenueSec',opts:salonStationProps,def:0},
-salonStage:{label:'Haircut stage & action',section:'salonStageSec',opts:salonStage,def:0},
-salonActionDetail:{label:'Precision scissor/tool action',section:'salonStageSec',opts:salonActionDetail,def:0},
-salonStylist:{label:'Barber / Stylist presence',section:'salonStylistSec',opts:salonStylist,def:0},
-salonStylistAttire:{label:'Stylist attire & grooming',section:'salonStylistSec',opts:salonStylistAttire,def:0},
+salonStage:{label:'Haircut progress & moment',section:'salonStageSec',opts:salonStage,def:0},
+salonStylist:{label:'Barber / Stylist presence',section:'salonStageSec',opts:salonStylist,def:0},
 salonHairCategory:{label:'Haircut style family',section:'salonHairSec',opts:HAIR_FAMILIES,def:2},
 salonHaircut:{label:'Haircut being cut',section:'salonHairSec',opts:hair,def:0},
-salonHairState:{label:'Hair strand condition (wet/dry)',section:'salonHairSec',opts:salonHairState,def:0},
 salonHairTexture:{label:'Hair texture & density',section:'salonHairSec',opts:salonHairTexture,def:0},
-salonCape:{label:'Cutting cape & drape',section:'salonCapeSec',opts:salonCape,def:0},
-salonClippings:{label:'Cut hair fragments & clippings',section:'salonCapeSec',opts:salonClippings,def:0},
+salonCape:{label:'Cutting cape & drape',section:'salonCameraSec',opts:salonCape,def:0},
 salonCamera:{label:'Camera angle & mirror POV',section:'salonCameraSec',opts:salonCamera,def:0},
 salonLighting:{label:'Salon lighting & practicals',section:'salonCameraSec',opts:salonLighting,def:0},
 salonQuality:{label:'Photography style & texture',section:'salonCameraSec',opts:salonQuality,def:0},
@@ -1267,12 +1239,10 @@ const photoshootSections=[
 ];
 
 const salonSections=[
-  {id:'salonVenueSec',name:'Salon & Vibe',short:'VENUE',icon:'💈',desc:'Choose the salon venue, neighborhood vibe, and shop bustle level.'},
-  {id:'salonStageSec',name:'Haircut Stage',short:'STAGE',icon:'✂',desc:'Pick the in-progress cutting moment: prep, mid-cut snip, bangs, or reveal.'},
-  {id:'salonStylistSec',name:'Barber & Hands',short:'STYLIST',icon:'👤',desc:'Define the barber presence: active cutting, POV hands, or solo in chair.'},
-  {id:'salonHairSec',name:'Haircut Target',short:'HAIR',icon:'💇‍♀️',desc:'Specify the haircut being styled, wet/dry strand state, and texture.'},
-  {id:'salonCapeSec',name:'Capes & Props',short:'CAPE',icon:'🧴',desc:'Select draped cutting capes, cut hair clippings, and barber station items.'},
-  {id:'salonCameraSec',name:'Mirror & Lens',short:'CAMERA',icon:'📸',desc:'Set mirror reflection POV, over-the-shoulder angle, and salon practicals.'}
+  {id:'salonVenueSec',name:'Salon & Vibe',short:'VENUE',icon:'💈',desc:'Reference workflow, authentic salon venue, and neighborhood bustle.'},
+  {id:'salonStageSec',name:'Haircut & Barber',short:'STAGE',icon:'✂',desc:'Pick the in-progress cutting moment and barber presence in frame.'},
+  {id:'salonHairSec',name:'Haircut Style',short:'HAIR',icon:'💇‍♀️',desc:'Specify the haircut being cut from 230 styles and authentic hair texture.'},
+  {id:'salonCameraSec',name:'Cape & Camera',short:'CAMERA',icon:'📸',desc:'Set the draped cutting cape, mirror perspective POV, and salon lighting.'}
 ];
 
 let currentStudioMode = 'photoshoot';
@@ -1322,11 +1292,11 @@ const finishChecks=[
 {id:'candid',label:'Candid, not overly staged',detail:'Natural posture, unforced expression and imperfect timing.',checked:true}
 ];
 const GROUPS=[
-['salonVenueSec','Reference & Salon Setting',['mode','salonVenue','salonBustle','salonStationProps']],
-['salonStageSec','Haircut Progress & Stage',['salonStage','salonActionDetail']],
-['salonStylistSec','Stylist Presence & Role',['salonStylist','salonStylistAttire']],
-['salonHairSec','Haircut Blueprint & State',['salonHaircut','salonHairCategory','salonHairState','salonHairTexture']],
-['salonCapeSec','Cutting Cape & Station Details',['salonCape','salonClippings']],
+['salonVenueSec','Reference & Salon Setting',['mode','salonVenue','salonBustle']],
+['salonVenueSec','Counter & Station Details',['salonStationProps']],
+['salonStageSec','Haircut Progress & Barber',['salonStage','salonStylist']],
+['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonHairTexture']],
+['salonCameraSec','Cutting Cape & Realism',['salonCape']],
 ['salonCameraSec','Mirror Angle & Lighting',['salonCamera','salonLighting','salonQuality']],
 ['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairTexture','hairLength','hairVolume','fringe','parting']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
 ['wardrobe','Outfit',['outfitCategory','outfit','outfitFit','palette','fabric','neckline','sleeves','layering','garmentDetail']],['wardrobe','Colour story',['palette','accentColors']],['wardrobe','Accessories',['accessories','eyewear','bag','footwear','nailStyle']],['wardrobe','Makeup & skin',['makeup','lipLook','eyeLook','browStyle','complexion']],
@@ -1334,12 +1304,10 @@ const GROUPS=[
 ['camera','Framing',['shotCategory','framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
 ['scene','Location',['sceneCategory','background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lightingCategory','lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
-salonVenueSec: new Set(['mode', 'salonVenue', 'salonBustle', 'salonStationProps']),
-salonStageSec: new Set(['salonStage', 'salonActionDetail']),
-salonStylistSec: new Set(['salonStylist', 'salonStylistAttire']),
-salonHairSec: new Set(['salonHaircut', 'salonHairCategory', 'salonHairState', 'salonHairTexture']),
-salonCapeSec: new Set(['salonCape', 'salonClippings']),
-salonCameraSec: new Set(['salonCamera', 'salonLighting', 'salonQuality']),
+salonVenueSec: new Set(['mode', 'salonVenue', 'salonBustle']),
+salonStageSec: new Set(['salonStage', 'salonStylist']),
+salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonHairTexture']),
+salonCameraSec: new Set(['salonCape', 'salonCamera', 'salonLighting', 'salonQuality']),
 look: new Set(['mode', 'hairCategory', 'hair', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
 wardrobe: new Set(['outfitCategory', 'outfit', 'outfitFit', 'palette', 'makeup', 'accessories']),
 pose: new Set(['poseCategory', 'pose', 'expression', 'gesture', 'mood']),
@@ -2655,27 +2623,29 @@ function buildSalonPrompt(){
   lines.push('');
 
   lines.push('VENUE & ATMOSPHERE');
-  lines.push(`${val('salonVenue')}. Atmosphere & crowd: ${val('salonBustle')}.`);
+  let venueLine = `${val('salonVenue')}. Atmosphere & crowd: ${val('salonBustle')}.`;
+  if(val('salonStationProps')) venueLine += ` Station detail: ${val('salonStationProps')}.`;
+  lines.push(venueLine);
   lines.push('');
 
   lines.push('HAIRCUT STAGE & ACTIVE ACTION');
-  lines.push(`Haircut stage: ${val('salonStage')}. Action detail: ${val('salonActionDetail')}.`);
+  lines.push(`Haircut progress: ${val('salonStage')}.`);
   lines.push('');
 
-  lines.push('BARBER / STYLIST & INTERACTION');
-  lines.push(`Stylist: ${val('salonStylist')}. Stylist attire: ${val('salonStylistAttire')}.`);
+  lines.push('BARBER / STYLIST PRESENCE');
+  lines.push(`Stylist presence: ${val('salonStylist')}.`);
   lines.push('');
 
   lines.push('HAIRSTYLE BEING CUT');
-  lines.push(`Haircut: ${val('salonHaircut')}. Strand condition: ${val('salonHairState')}. Hair texture: ${val('salonHairTexture')}.`);
+  lines.push(`Haircut: ${val('salonHaircut')}. Hair texture: ${val('salonHairTexture')}.`);
   lines.push('');
 
-  lines.push('CUTTING CAPE & SALON PROPS');
-  lines.push(`Draped cape: ${val('salonCape')}. Cut hair clippings: ${val('salonClippings')}. Station props: ${val('salonStationProps')}.`);
+  lines.push('CUTTING CAPE & SALON DETAILS');
+  lines.push(`Draped cape: ${val('salonCape')}.`);
   lines.push('');
 
   lines.push('CAMERA, MIRROR PERSPECTIVE & LIGHTING');
-  lines.push(`Camera angle: ${val('salonCamera')}. Lighting: ${val('salonLighting')}. Quality & texture: ${val('salonQuality')}.`);
+  lines.push(`Camera angle: ${val('salonCamera')}. Lighting: ${val('salonLighting')}. Quality: ${val('salonQuality')}.`);
   lines.push('');
 
   lines.push('REALISM & PHYSICAL AUTHENTICITY');
