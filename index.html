@@ -1334,7 +1334,7 @@ function getCollageSceneDirective(sceneId, ctx){
   const shopCrowdDesc = isBustleEmpty ? 'peaceful quiet atmosphere with zero other customers in neighboring chairs' : `${b}. Barber staffing: ${staff}`;
 
   const templates = {
-    consultation_chair: `Wide-medium in-chair consultation at the styling station in ${v} (${d}). The female client sits comfortably in the hydraulic chair draped in ${c}. The male barber (${st}) stands beside her, gently lifting a section of ${h} with his fingers while discussing the desired silhouette ${noMirror ? `in ${v} under ${l}` : `in the station mirror under ${l}`}.${pStr}`,
+    consultation_chair: `Wide-medium in-chair consultation at the styling station in ${v} (${d}). The female client sits comfortably in the hydraulic chair draped in ${c}. The male barber (${st}) stands beside her, gently lifting a section of ${h} with his fingers while discussing the desired silhouette ${noMirror ? `under ${l}` : `in the station mirror under ${l}`}.${pStr}`,
     consultation_chai: isSoloClient
       ? `Relaxed candid consultation moment: the female client holds a steaming brass cup of chai/coffee at the station counter in ${v}, relaxing and contemplating her haircut direction before cutting. Shop atmosphere: ${shopCrowdDesc}.${pStr}`
       : `Relaxed candid consultation moment at the station in ${v}. The female client holds a steaming brass cup of chai/coffee while conversing with ${st} about her haircut direction. Shop atmosphere: ${shopCrowdDesc}. Vintage Belmont chair and counter props in ${l}.${pStr}`,
@@ -2350,14 +2350,21 @@ visibleOpts.forEach((o)=>{
     trigger.setAttribute('aria-expanded','false');
 
     const RE_RENDER_IDS = new Set(['salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonHairCategory', 'salonHaircut', 'salonCollageFlow', 'salonCollageFrame1', 'salonCollageFrame2', 'salonCollageFrame3', 'salonCollageFrame4', 'hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
-    if (id === 'salonStage') {
-      const newStageScene = getStageMatchingSceneId(values.salonStage?.label, values.salonStage?.text);
-      const matchSceneObj = salonCollageScenes.find(s => s.text === newStageScene);
-      if (matchSceneObj && values.salonCollageFrame2?.text !== newStageScene) {
-        values.salonCollageFrame2 = matchSceneObj;
-        markCollageCustom();
-        syncCollageDirectorCardUI();
+    if (id === 'salonStage' && currentStudioMode === 'salon' && outputType === 'collage') {
+      const curFlow = values.salonCollageFlow?.text || 'journey';
+      if (curFlow === 'journey') {
+        const newStageScene = getStageMatchingSceneId(values.salonStage?.label, values.salonStage?.text);
+        const matchSceneObj = salonCollageScenes.find(s => s.text === newStageScene);
+        if (matchSceneObj && values.salonCollageFrame2?.text !== newStageScene) {
+          values.salonCollageFrame2 = matchSceneObj;
+          markCollageCustom();
+          syncCollageDirectorCardUI();
+          toast('Panel 2 updated to match chosen haircut stage.');
+        }
       }
+    }
+    if (id === 'salonStylist') {
+      syncCollageDirectorCardUI();
     }
     if (RE_RENDER_IDS.has(id)) {
       renderFields();
@@ -2842,15 +2849,34 @@ function syncCollageDirectorCardUI(){
     sel4.value = values.salonCollageFrame4.text;
     if(desc4) desc4.textContent = values.salonCollageFrame4.desc || values.salonCollageFrame4.label;
   }
+  const hintsEl = card.querySelector('#collageDirectorHints');
+  if(hintsEl){
+    let hintsHtml = '';
+    const isSolo = (values.salonStylist?.label || '').toLowerCase().includes('solo client');
+    if(isSolo){
+      hintsHtml += '<div style="font-size:11px; color:#cbd5e1; background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:5px; border:1px solid rgba(255,255,255,0.1);">👤 <strong>Solo Client Mode:</strong> Preparatory & reveal panels feature the client alone; cutting panels focus tightly on hands and tools while keeping the client as the solitary primary subject.</div>';
+    }
+    const hasWash = [values.salonCollageFrame1?.text, values.salonCollageFrame2?.text, values.salonCollageFrame3?.text, values.salonCollageFrame4?.text].some(s => 
+      ['shampoo_basin', 'scalp_massage_rinse', 'towel_turban_dry', 'spray_misting'].includes(s)
+    );
+    if(salonHairMoisture === 'dry' && hasWash){
+      hintsHtml += '<div style="font-size:11px; color:var(--pink2); background:rgba(244,114,182,0.08); padding:4px 8px; border-radius:5px; border:1px solid rgba(244,114,182,0.2);">💡 <strong>Dry Hair Mode:</strong> Wash and misting preparatory panels describe pre-drying blowout prep, harmonizing with dry haircut physics.</div>';
+    }
+    hintsEl.innerHTML = hintsHtml;
+  }
 }
 
 function applyCollagePreset(presetKey){
   const p = COLLAGE_PRESETS[presetKey];
   if(p){
-    values.salonCollageFrame1 = salonCollageScenes.find(s => s.text === p[0]) || salonCollageScenes[0];
-    values.salonCollageFrame2 = salonCollageScenes.find(s => s.text === p[1]) || salonCollageScenes[0];
-    values.salonCollageFrame3 = salonCollageScenes.find(s => s.text === p[2]) || salonCollageScenes[0];
-    values.salonCollageFrame4 = salonCollageScenes.find(s => s.text === p[3]) || salonCollageScenes[0];
+    const f1 = salonCollageScenes.find(s => s.text === p[0]);
+    const f2 = salonCollageScenes.find(s => s.text === p[1]);
+    const f3 = salonCollageScenes.find(s => s.text === p[2]);
+    const f4 = salonCollageScenes.find(s => s.text === p[3]);
+    if(f1) values.salonCollageFrame1 = f1; else console.warn(`Scene ${p[0]} not found in salonCollageScenes`);
+    if(f2) values.salonCollageFrame2 = f2; else console.warn(`Scene ${p[1]} not found in salonCollageScenes`);
+    if(f3) values.salonCollageFrame3 = f3; else console.warn(`Scene ${p[2]} not found in salonCollageScenes`);
+    if(f4) values.salonCollageFrame4 = f4; else console.warn(`Scene ${p[3]} not found in salonCollageScenes`);
     const flowOpt = salonCollageFlow.find(f => f.text === presetKey);
     if(flowOpt) values.salonCollageFlow = flowOpt;
     syncCollageDirectorCardUI();
@@ -2907,6 +2933,7 @@ function createCollageDirectorCard(){
         <span class="collage-director-badge">🎬 2×2 Storyboard Grid</span>
         <h4 class="collage-director-title">Direct Individual Scenes for All 4 Collage Panels</h4>
         <p class="collage-director-subtitle">Choose from 32 authentic salon moments or quick-load curated storyboards. Fully synced with your haircut, cape, and lighting.</p>
+        <div id="collageDirectorHints" style="display:flex; flex-direction:column; gap:4px; margin-top:4px;"></div>
       </div>
       <div class="collage-director-actions">
         <button type="button" class="btn-director-sync" id="btnSyncStageToCollage" title="Set Panel 2 to match your chosen haircut stage">↺ Sync Panel 2 with Haircut Stage</button>
@@ -3066,6 +3093,7 @@ function createMoisturePillsCard(){
         b.classList.toggle('active', isAct);
         b.setAttribute('aria-checked', isAct ? 'true' : 'false');
       });
+      syncCollageDirectorCardUI();
       buildPrompt();
       toast(`💧 Hair moisture set to: ${opt.label}`);
     });
@@ -3559,8 +3587,22 @@ function buildSalonPrompt(){
   lines.push(venueLine);
   lines.push('');
 
+  let stageDisplay = val('salonStage');
+  let cameraDisplay = val('salonCamera');
+  if(checkState.noMirror){
+    stageDisplay = stageDisplay.replace(/in the mirror/gi, 'from styling chair perspective');
+    cameraDisplay = cameraDisplay.replace(/direct mirror reflection pov[^.]*/i, 'direct portrait perspective looking toward client in chair (mirror-free framing)')
+                                 .replace(/mirror reflection with blurred barber shoulder/i, 'portrait crop with blurred barber shoulder in foreground (mirror-free framing)')
+                                 .replace(/infinite reflection through opposing dual mirrors/i, 'atmospheric depth across salon floor (mirror-free framing)')
+                                 .replace(/straight-on symmetrical vanity mirror portrait/i, 'straight-on symmetrical portrait of client in chair (mirror-free framing)')
+                                 .replace(/mirror/gi, 'mirror-free styling chair angle');
+    if(!cameraDisplay.toLowerCase().includes('mirror-free')){
+      cameraDisplay += ' (mirror-free framing)';
+    }
+  }
+
   lines.push('HAIRCUT STAGE & ACTIVE ACTION');
-  lines.push(`Haircut progress: ${val('salonStage')}.`);
+  lines.push(`Haircut progress: ${stageDisplay}.`);
   lines.push('');
 
   lines.push('BARBER / STYLIST PRESENCE');
@@ -3581,8 +3623,8 @@ function buildSalonPrompt(){
   lines.push(`Draped cape: ${val('salonCape')}.`);
   lines.push('');
 
-  lines.push('CAMERA, MIRROR PERSPECTIVE & LIGHTING');
-  lines.push(`Camera angle: ${val('salonCamera')}. Lighting: ${val('salonLighting')}. Quality: ${val('salonQuality')}.`);
+  lines.push(checkState.noMirror ? 'CAMERA PERSPECTIVE & LIGHTING' : 'CAMERA, MIRROR PERSPECTIVE & LIGHTING');
+  lines.push(`Camera angle: ${cameraDisplay}. Lighting: ${val('salonLighting')}. Quality: ${val('salonQuality')}.`);
   lines.push('');
 
   const stageText = val('salonStage');
@@ -3643,13 +3685,29 @@ function buildSalonPrompt(){
     lines.push(`2×2 EDITORIAL COLLAGE COMPOSITION & PANEL BLUEPRINT (${flowLabel.toUpperCase()})`);
     lines.push(`Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female client (solitary female in the shop), identical male barber, consistent styling cape or wash draping, and identical salon station:`);
     lines.push('');
-    lines.push(`• FRAME 1 (TOP-LEFT) — ${f1Label.toUpperCase()}:\n${getCollageSceneDirective(f1Val, collageCtx)}`);
+    const formatFrameHeader = (frameLabel) => {
+      let lbl = frameLabel || 'Salon Scene';
+      if(checkState.noMirror){
+        lbl = lbl.replace(/client smiling at front wall mirror admiring cut/gi, 'Client Smiling in Styling Chair Admiring Cut')
+                 .replace(/front wall mirror\s*/gi, 'styling station ')
+                 .replace(/dual-mirror reveal: barber holding oval handheld mirror/gi, 'Rear Silhouette Reveal: Client Evaluating Cut')
+                 .replace(/dual-mirror reveal:?/gi, 'Rear Reveal:')
+                 .replace(/over-the-shoulder pov mirror reflection of client/gi, 'Over-the-Shoulder Angle Framing Client')
+                 .replace(/pov mirror reflection/gi, 'POV Camera Framing')
+                 .replace(/mirror reflection/gi, 'direct perspective')
+                 .replace(/\bmirror\b/gi, 'styling chair angle')
+                 .replace(/\s+/g, ' ').trim();
+      }
+      return lbl.toUpperCase();
+    };
+
+    lines.push(`• FRAME 1 (TOP-LEFT) — ${formatFrameHeader(f1Label)}:\n${getCollageSceneDirective(f1Val, collageCtx)}`);
     lines.push('');
-    lines.push(`• FRAME 2 (TOP-RIGHT) — ${f2Label.toUpperCase()}:\n${getCollageSceneDirective(f2Val, collageCtx)}`);
+    lines.push(`• FRAME 2 (TOP-RIGHT) — ${formatFrameHeader(f2Label)}:\n${getCollageSceneDirective(f2Val, collageCtx)}`);
     lines.push('');
-    lines.push(`• FRAME 3 (BOTTOM-LEFT) — ${f3Label.toUpperCase()}:\n${getCollageSceneDirective(f3Val, collageCtx)}`);
+    lines.push(`• FRAME 3 (BOTTOM-LEFT) — ${formatFrameHeader(f3Label)}:\n${getCollageSceneDirective(f3Val, collageCtx)}`);
     lines.push('');
-    lines.push(`• FRAME 4 (BOTTOM-RIGHT) — ${f4Label.toUpperCase()}:\n${getCollageSceneDirective(f4Val, collageCtx)}`);
+    lines.push(`• FRAME 4 (BOTTOM-RIGHT) — ${formatFrameHeader(f4Label)}:\n${getCollageSceneDirective(f4Val, collageCtx)}`);
     lines.push('');
   } else if(outputType === 'triptych'){
     lines.push('THREE-PANEL EDITORIAL TRIPTYCH PROGRESSION (DYNAMIC 3-FRAME SEQUENCE)');
@@ -3727,8 +3785,16 @@ function buildSalonPrompt(){
     salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between haircut moment, authentic client-barber eye contact and posture.');
   }
 
+  const hasWashOrSprayPanel = (outputType === 'collage') && [f1Val, f2Val, f3Val, f4Val].some(s => 
+    ['shampoo_basin', 'scalp_massage_rinse', 'towel_turban_dry', 'spray_misting'].includes(s)
+  );
+
   if(salonHairMoisture === 'dry') {
-    salonChecks.push('• Dry Hair Physics: Lightweight individual hair strand movement, airy crown volume, soft natural flyaways, and zero moisture clumping.');
+    if(hasWashOrSprayPanel) {
+      salonChecks.push('• Dry Hair Styling Progression: Finished haircut and reveal panels feature completely dry blowout styling and bounce, with preparatory panels realistically chronicling the initial wash basin and misting steps.');
+    } else {
+      salonChecks.push('• Dry Hair Physics: Lightweight individual hair strand movement, airy crown volume, soft natural flyaways, and zero moisture clumping.');
+    }
   } else {
     salonChecks.push("• Water Spray & Wet Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between barber's fingers, and authentic non-plastic water reflection.");
   }
@@ -3765,7 +3831,11 @@ function buildSalonPrompt(){
   if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair');
   if(checkState.hands) salonNegatives.push('extra fingers, malformed hands, floating scissors, distorted barber grip, disembodied hands');
   if(salonHairMoisture === 'dry') {
-    salonNegatives.push('wet hair, damp hair, dripping hair, greasy hair, oily sheen, clumping strands');
+    if(hasWashOrSprayPanel) {
+      salonNegatives.push('greasy hair, artificial oily sheen, dripping water in cutting chair, soaking wet hair in finished reveal');
+    } else {
+      salonNegatives.push('wet hair, damp hair, dripping hair, greasy hair, oily sheen, clumping strands');
+    }
   } else {
     salonNegatives.push('completely dry fluffy hair, static flyaways, dry blown-out volume, frizzy dryness');
   }
