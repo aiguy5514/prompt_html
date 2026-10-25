@@ -1372,9 +1372,9 @@ function sanitizeMirrorProse(text){
   let t = text;
   t = t
     // Specific full-phrase / contextual rewrites for handheld mirror:
-    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror reflecting the back view of the client(?:\x27s)?/gi, "presenting the rear silhouette and perimeter of the client's haircut")
+    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror reflecting the back view of the client(?:\x27s)?(?:\s+(?:new )?(?:ponytail|haircut))?/gi, "presenting the rear silhouette and perimeter of the client's haircut")
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror reflecting [^,.]+/gi, 'presenting the finished rear silhouette and perimeter lines')
-    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror framing the back of the client(?:\x27s)? new haircut/gi, "presenting the back silhouette and perimeter lines of the client's new haircut")
+    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror framing the back of the client(?:\x27s)?(?:\s+(?:new )?(?:ponytail|haircut))?/gi, "presenting the back silhouette and perimeter lines of the client's new haircut")
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror so the client can inspect [^,.]+/gi, 'presenting the rear silhouette and perimeter lines for client inspection')
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror to show her [^,.]+/gi, 'presenting the rear silhouette to show her the neckline and perimeter')
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror/gi, 'presenting the finished haircut silhouette')
@@ -1411,6 +1411,8 @@ function sanitizeMirrorProse(text){
     .replace(/Rear Mirror/gi, 'Rear Angle')
 
     // Venue architecture & interior wall panels (avoiding awkward 'styling stations' for wall features):
+    .replace(/dark wood mirror moldings/gi, 'dark wood wall moldings')
+    .replace(/mirror moldings/gi, 'wall moldings')
     .replace(/large wooden-framed mirrors/gi, 'wooden wall panels')
     .replace(/large mirrored wall/gi, 'expansive architectural feature wall')
     .replace(/mirrored counter/gi, 'styling counter')
@@ -1440,15 +1442,16 @@ function sanitizeMirrorProse(text){
     .replace(/leather strop hanging beside the mirror/gi, 'leather strop hanging beside the station wall')
     .replace(/fresh marigold garland on the mirror frame/gi, 'fresh marigold garland on the station frame')
     .replace(/on the mirror frame/gi, 'on the station frame')
+    .replace(/round LED vanity bulbs framing the mirror/gi, 'round LED vanity bulbs framing the station')
     .replace(/framing the mirror/gi, 'framing the vanity')
-    .replace(/in front of the mirror/gi, 'in the styling chair')
+    .replace(/positioned in front of the mirror/gi, 'positioned in front of the client')
+    .replace(/in front of the mirror/gi, 'in front of the client')
 
     // Time of day, lighting, and reflections:
     .replace(/soft vanity mirror glow/gi, 'soft vanity bulb glow')
     .replace(/cool damp reflections/gi, 'cool damp sheen')
     .replace(/warm mirror bulb lighting/gi, 'warm vanity bulb lighting')
     .replace(/bright mirror vanity bulbs/gi, 'bright vanity bulbs')
-    .replace(/round LED vanity bulbs framing the mirror/gi, 'round LED vanity bulbs framing the station')
     .replace(/warm vanity mirror practical lights/gi, 'warm vanity practical lights')
     .replace(/mirror practical lights/gi, 'vanity practical lights')
     .replace(/mirror practicals/gi, 'vanity practicals')
@@ -1576,11 +1579,11 @@ function getCollageSceneDirective(sceneId, ctx){
       ? `Joyful reveal: the client gazes ${noMirror ? 'forward toward the camera' : 'directly into the station mirror'} with an authentic, delighted smile, running her fingers through the silky bounce and weightless layers of her completed ${h} under ${l}, seated alone in the chair with the male stylist having stepped out of frame.`
       : `${noMirror ? 'Joyful reveal:' : 'Joyful mirror reveal:'} the client gazes ${noMirror ? 'forward with delighted expression' : 'directly into the station mirror with an authentic, delighted smile'}, running her fingers through the silky bounce and weightless layers of her completed ${h} under ${l}, while the male barber watches approvingly.`,
     side_profile_check: isSoloClient
-      ? `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, ${noMirror ? 'showcasing' : 'admiring'} the side silhouette, jawline frame, and clean movement of ${h} ${noMirror ? '' : 'in the mirror '}while seated comfortably alone in the styling chair.`
-      : `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, ${noMirror ? 'showcasing' : 'admiring'} the side silhouette, jawline frame, and clean movement of ${h} ${noMirror ? '' : 'in the mirror'}. Barber (${sl}) stands by with hands relaxed, pleased with the result.`,
+      ? `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, ${noMirror ? 'showcasing' : 'admiring'} the side silhouette, jawline frame, and clean movement of ${h}${noMirror ? '' : ' in the mirror'} while seated comfortably alone in the styling chair.`
+      : `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, ${noMirror ? 'showcasing' : 'admiring'} the side silhouette, jawline frame, and clean movement of ${h}${noMirror ? '' : ' in the mirror'}. Barber (${sl}) stands by with hands relaxed, pleased with the result.`,
     barber_satisfied_finish: isSoloClient
-      ? `Craftsman satisfaction: the female client sits alone in the styling chair smiling and admiring her completed haircut ${noMirror ? '' : 'in the mirror'}, while the male barber in the background tidies tools on the counter. Atmospheric depth of ${v} and ${shopCrowdDesc}.`
-      : `Craftsman satisfaction: the male barber steps back slightly with a proud, warm smile, wiping his shears on a clean station towel while the client admires her completed haircut ${noMirror ? '' : 'in the mirror'}. Atmospheric depth of ${v} and ${shopCrowdDesc}.`,
+      ? `Craftsman satisfaction: the female client sits alone in the styling chair smiling and admiring her completed haircut${noMirror ? '' : ' in the mirror'}, while the male barber in the background tidies tools on the counter. Atmospheric depth of ${v} and ${shopCrowdDesc}.`
+      : `Craftsman satisfaction: the male barber steps back slightly with a proud, warm smile, wiping his shears on a clean station towel while the client admires her completed haircut${noMirror ? '' : ' in the mirror'}. Atmospheric depth of ${v} and ${shopCrowdDesc}.`,
     macro_hands_tools: `Cinematic macro insert: tight macro focus on the male barber's fingers clamping a section of hair taut alongside gleaming Japanese shears pivot screw and carbon comb teeth on the seated female client. Micro-droplets glistening on strand fibers, hyper-detailed texture, shallow depth of field.`,
     over_shoulder_mirror: noMirror
       ? `Cinematic perspective (${cam}): over-the-shoulder angle from behind the male barber looking toward the seated female client, framing her calm, engaged eyes and the silhouette of ${h} under warm ${l}.`
