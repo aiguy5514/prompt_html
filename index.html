@@ -1372,9 +1372,9 @@ function sanitizeMirrorProse(text){
   let t = text;
   t = t
     // Specific full-phrase / contextual rewrites for handheld mirror:
-    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror reflecting the back view of the client(?:\x27s)?(?:\s+(?:new )?(?:ponytail|haircut))?/gi, "presenting the rear silhouette and perimeter of the client's haircut")
+    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror reflecting the back view of the client(?:[\x27\u2019]s)?(?:\s+(?:new )?(?:ponytail|haircut))?/gi, "presenting the rear silhouette and perimeter of the client's haircut")
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror reflecting [^,.]+/gi, 'presenting the finished rear silhouette and perimeter lines')
-    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror framing the back of the client(?:\x27s)?(?:\s+(?:new )?(?:ponytail|haircut))?/gi, "presenting the back silhouette and perimeter lines of the client's new haircut")
+    .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror framing the back of the client(?:[\x27\u2019]s)?(?:\s+(?:new )?(?:ponytail|haircut))?/gi, "presenting the back silhouette and perimeter lines of the client's new haircut")
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror so the client can inspect [^,.]+/gi, 'presenting the rear silhouette and perimeter lines for client inspection')
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror to show her [^,.]+/gi, 'presenting the rear silhouette to show her the neckline and perimeter')
     .replace(/holding (?:up )?(?:an oval|a small|a secondary)?\s*(?:black-rimmed )?(?:handheld )?mirror/gi, 'presenting the finished haircut silhouette')
