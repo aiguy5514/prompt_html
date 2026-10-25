@@ -2839,7 +2839,7 @@ function buildSalonPrompt(){
   if(checkState.noText) salonNegatives.push('text overlays, salon logos, graphic watermarks, typography');
   if(extraNegative.trim()) salonNegatives.push(extraNegative.trim());
 
-  lines.push(salonNegatives.map(x=>'• '+x).join('\n'));ines.push(salonNegatives.map(x=>'• '+x).join('\n'));
+  lines.push(salonNegatives.map(x=>'• '+x).join('\n'));
 
   save();
   const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
