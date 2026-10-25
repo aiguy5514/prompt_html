@@ -64,6 +64,14 @@
 .texture-protect-toggle-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;border:1px solid rgba(159,228,193,.4);background:rgba(159,228,193,.12);color:var(--green,#9fe4c1);font-size:11px;font-weight:800;cursor:pointer;transition:all .15s ease}
 .texture-protect-toggle-btn:hover{filter:brightness(1.15);transform:translateY(-1px);box-shadow:0 3px 12px rgba(159,228,193,.25)}
 .texture-protect-toggle-btn.active{background:linear-gradient(115deg,#48bb78,#38a169);color:#0a1e12;border-color:transparent;box-shadow:0 3px 14px rgba(72,187,120,.4)}
+.moisture-toggle-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(159,228,193,.07) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(159,228,193,.32);border-radius:16px;padding:14px 16px;margin:8px 0 14px 0;display:flex;flex-direction:column;gap:10px;box-shadow:0 6px 20px rgba(0,0,0,.22)}
+.moisture-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.moisture-label{display:inline-flex;align-items:center;gap:6px;color:var(--green,#9fe4c1);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.moisture-hint{font-size:11px;color:var(--muted);font-weight:500}
+.moisture-pills{display:flex;gap:8px;flex-wrap:wrap}
+.moisture-pill{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:var(--muted);border-radius:999px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;transition:all .18s ease;display:inline-flex;align-items:center;gap:6px}
+.moisture-pill:hover{color:#fff;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.24)}
+.moisture-pill.active{background:linear-gradient(115deg,#48bb78,#38a169);color:#0a1e12;border-color:transparent;font-weight:850;box-shadow:0 3px 12px rgba(72,187,120,.35)}
 .ponytail-callout-card{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,92,146,.09) 0%,rgba(33,28,39,.78) 100%);border:1px solid rgba(255,92,146,.38);border-radius:16px;padding:16px;margin:8px 0 16px 0;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);animation:fadeIn .2s ease-out}
 .ponytail-callout-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .pony-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,92,146,.18);color:var(--pink2);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,92,146,.42)}
@@ -1365,6 +1373,7 @@ const salonSections=[
 ];
 
 let currentStudioMode = 'photoshoot';
+let salonHairMoisture = 'damp';
 let sections = photoshootSections;
 const ENERGIES={
 aquatic:{name:'wet-look editorial',icon:'💧',settings:['outdoor','studio','night'],pick:{hair:/wet|slicked|hydro|soaked|damp|mermaid/i,outfit:/monokini|swimsuit|slip|liquid|latex|wet-look|sheer|vinyl|drenched/i,makeup:/dewy|glossy|droplet|waterproof|glistening/i,pose:/pool|water|emerging|rain|leaning|hair|collarbone/i,expression:/fierce|intense|calm|smirk|direct/i,mood:/fearless|mysterious|high-fashion/i}},
@@ -1980,6 +1989,9 @@ primaryFields.forEach(([id,f])=>{
     }
   }
   host.appendChild(createFieldElement(id, f));
+  if(id==='salonHaircut' && activeSection==='salonHairSec'){
+    host.appendChild(createMoisturePillsCard());
+  }
   if((id==='hair' && activeSection==='look') || (id==='salonHaircut' && activeSection==='salonHairSec')){
     host.appendChild(createPonytailCard());
     host.appendChild(createSideSweepCard());
@@ -2266,6 +2278,56 @@ function createHairTextureProtectionCard(){
     buildPrompt();
   });
 
+  return card;
+}
+
+function createMoisturePillsCard(){
+  const card = document.createElement('div');
+  card.className = 'moisture-toggle-card';
+  card.id = 'moistureToggleCard';
+
+  const head = document.createElement('div');
+  head.className = 'moisture-header';
+  head.innerHTML = `
+    <span class="moisture-label">💧 Hair Moisture State</span>
+    <span class="moisture-hint">Direct spray-bottle misting, strand clumping & blowout physics</span>
+  `;
+
+  const pillsWrap = document.createElement('div');
+  pillsWrap.className = 'moisture-pills';
+  pillsWrap.setAttribute('role', 'radiogroup');
+  pillsWrap.setAttribute('aria-label', 'Hair moisture state');
+
+  const options = [
+    { id: 'dry', label: '💨 Dry & Blown-out', desc: 'bone-dry blowout with natural bounce and airy volume' },
+    { id: 'damp', label: '💦 Damp / Spray-Misted', desc: 'spray-bottle water mist with glistening droplets and clumped cutting tension' },
+    { id: 'wet', label: '🌊 Soaked / Wet-Look', desc: 'deeply saturated wet look slicked to scalp with heavy drape' }
+  ];
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'moisture-pill' + (salonHairMoisture === opt.id ? ' active' : '');
+    btn.dataset.moisture = opt.id;
+    btn.textContent = opt.label;
+    btn.title = opt.desc;
+    btn.setAttribute('aria-checked', salonHairMoisture === opt.id ? 'true' : 'false');
+
+    btn.addEventListener('click', () => {
+      salonHairMoisture = opt.id;
+      pillsWrap.querySelectorAll('.moisture-pill').forEach(b => {
+        const isAct = b.dataset.moisture === opt.id;
+        b.classList.toggle('active', isAct);
+        b.setAttribute('aria-checked', isAct ? 'true' : 'false');
+      });
+      buildPrompt();
+      toast(`💧 Hair moisture set to: ${opt.label}`);
+    });
+
+    pillsWrap.appendChild(btn);
+  });
+
+  card.append(head, pillsWrap);
   return card;
 }
 
@@ -2749,8 +2811,14 @@ function buildSalonPrompt(){
   lines.push(`Stylist presence: ${val('salonStylist')}.`);
   lines.push('');
 
+  const moistureDescriptions = {
+    dry: 'completely dry and styled with natural bounce, airy volume, smooth strand separation, and zero wetness',
+    damp: 'damp hair with authentic spray-bottle water misting, fine glistening water droplets on dark hair fibers, realistic damp strand clumping held taut for haircutting',
+    wet: 'fully saturated wet hair with glossy water sheen, hair clinging to the scalp and nape, heavy aquatic drape'
+  };
+
   lines.push('HAIRSTYLE BEING CUT');
-  lines.push(`Haircut: ${val('salonHaircut')}. Hair texture: ${val('salonHairTexture')}.`);
+  lines.push(`Haircut: ${val('salonHaircut')}. Hair texture: ${val('salonHairTexture')}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
   lines.push('');
 
   lines.push('CUTTING CAPE & SALON DETAILS');
@@ -2809,6 +2877,12 @@ function buildSalonPrompt(){
     salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between haircut moment, authentic client-barber eye contact and posture.');
   }
 
+  if(salonHairMoisture === 'dry') {
+    salonChecks.push('• Dry Hair Physics: Lightweight individual hair strand movement, airy crown volume, soft natural flyaways, and zero moisture clumping.');
+  } else {
+    salonChecks.push('• Water Spray & Wet Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between barber\'s fingers, and authentic non-plastic water reflection.');
+  }
+
   lines.push('REALISM, IDENTITY & PHYSICAL SAFEGUARDS');
   if(salonChecks.length){
     lines.push(salonChecks.join('\n'));
@@ -2835,6 +2909,11 @@ function buildSalonPrompt(){
   if(checkState.retouch) salonNegatives.push('airbrushed skin, waxy skin, heavy beauty filters, CGI plastic sheen');
   if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair');
   if(checkState.hands) salonNegatives.push('extra fingers, malformed hands, floating scissors, distorted barber grip');
+  if(salonHairMoisture === 'dry') {
+    salonNegatives.push('wet hair, damp hair, dripping hair, greasy hair, oily sheen, clumping strands');
+  } else {
+    salonNegatives.push('completely dry fluffy hair, static flyaways, dry blown-out volume, frizzy dryness');
+  }
   if(checkState.waterReal) salonNegatives.push('artificial plastic gloss, greasy shine, floating water blobs');
   if(checkState.noText) salonNegatives.push('text overlays, salon logos, graphic watermarks, typography');
   if(extraNegative.trim()) salonNegatives.push(extraNegative.trim());
@@ -2848,10 +2927,12 @@ function buildSalonPrompt(){
   el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · Salon Mode`;
 
   const summaryIds = ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonHaircut', 'salonCape', 'salonCamera'];
-  el('summary').innerHTML = summaryIds
+  const summaryTags = summaryIds
     .filter(id => fields[id] && values[id])
-    .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`)
-    .join('');
+    .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`);
+  const moistureLabels = { dry: 'Dry & Blown-out', damp: 'Damp / Misted', wet: 'Soaked Wet' };
+  summaryTags.splice(6, 0, `<span class="summary-tag" title="Hair moisture state: ${moistureLabels[salonHairMoisture] || 'Damp'}">Moisture: ${moistureLabels[salonHairMoisture] || 'Damp'}</span>`);
+  el('summary').innerHTML = summaryTags.join('');
   return text;
 }
 
@@ -3324,6 +3405,7 @@ customDirection='';
 extraNegative='';
 outputType='single';
 detailLevel='full';
+salonHairMoisture='damp';
 activePreset='';
 document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
 goSection(currentStudioMode==='salon'?'salonVenueSec':'look');
@@ -3820,6 +3902,7 @@ try{
     n:extraNegative,
     o:outputType,
     l:detailLevel,
+    m:salonHairMoisture,
     k:[...lockedFields],
     u:customPresets.map(p=>({id:p.id,title:p.title,sub:p.sub,icon:p.icon,set:Object.fromEntries(Object.entries(p.set).map(([k,v])=>[k,v.label]))}))
   };
@@ -3841,6 +3924,7 @@ try{
   extraNegative=o.n||'';
   outputType=o.o||'single';
   detailLevel=o.l||'full';
+  if(o.m) salonHairMoisture=o.m;
   if(Array.isArray(o.k)) lockedFields=new Set(o.k);
   if(Array.isArray(o.u)){
     customPresets=o.u.map(p=>{
