@@ -679,7 +679,7 @@ const LIGHTING_FAMILIES = [
 function getItemCategory(id, item) {
   if (!item) return 'all';
   const text = ((item.label || '') + ' ' + (item.text || '')).toLowerCase();
-  if (id === 'hair') {
+  if (id === 'hair' || id === 'salonHaircut') {
     if (/wet|hydro|drenched|slicked|ocean-soaked|post-swim|finger wave/i.test(text)) return 'wet';
     if (/pony|ponytail/i.test(text)) return 'pony';
     if (/bob|lob|tassel/i.test(text)) return 'bob';
@@ -889,7 +889,7 @@ salonBustle:{label:'Shop activity & crowd',section:'salonVenueSec',opts:salonBus
 salonStationProps:{label:'Counter & station props',section:'salonVenueSec',opts:salonStationProps,def:0},
 salonStage:{label:'Haircut progress & moment',section:'salonStageSec',opts:salonStage,def:0},
 salonStylist:{label:'Barber / Stylist presence',section:'salonStageSec',opts:salonStylist,def:0},
-salonHairCategory:{label:'Haircut style family',section:'salonHairSec',opts:HAIR_FAMILIES,def:2},
+salonHairCategory:{label:'Haircut style family',section:'salonHairSec',opts:HAIR_FAMILIES,def:0},
 salonHaircut:{label:'Haircut being cut',section:'salonHairSec',opts:hair,def:0},
 salonHairTexture:{label:'Hair texture & density',section:'salonHairSec',opts:salonHairTexture,def:0},
 salonCape:{label:'Cutting cape & drape',section:'salonCameraSec',opts:salonCape,def:0},
@@ -1662,6 +1662,15 @@ let visibleOpts = f.opts;
 if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.hairCategory.text !== 'all') {
   const cat = values.hairCategory.text;
   visibleOpts = f.opts.filter(o => getItemCategory('hair', o) === cat);
+  if (!visibleOpts.includes(values.hair)) {
+    values.hair = visibleOpts[0] || f.opts[0];
+  }
+} else if (id === 'salonHaircut' && values.salonHairCategory && values.salonHairCategory.text && values.salonHairCategory.text !== 'all') {
+  const cat = values.salonHairCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('hair', o) === cat);
+  if (!visibleOpts.includes(values.salonHaircut)) {
+    values.salonHaircut = visibleOpts[0] || f.opts[0];
+  }
 } else if (id === 'outfit' && values.outfitCategory && values.outfitCategory.text && values.outfitCategory.text !== 'all') {
   const cat = values.outfitCategory.text;
   visibleOpts = f.opts.filter(o => getItemCategory('outfit', o) === cat);
@@ -1715,6 +1724,10 @@ visibleOpts.forEach((o)=>{
       const itemCat = getItemCategory('hair', o);
       const matchCat = fields.hairCategory.opts.find(c => c.text === itemCat);
       if (matchCat && values.hairCategory.text !== 'all') values.hairCategory = matchCat;
+    } else if (id === 'salonHaircut') {
+      const itemCat = getItemCategory('hair', o);
+      const matchCat = fields.salonHairCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.salonHairCategory.text !== 'all') values.salonHairCategory = matchCat;
     } else if (id === 'outfit') {
       const itemCat = getItemCategory('outfit', o);
       const matchCat = fields.outfitCategory.opts.find(c => c.text === itemCat);
@@ -1740,6 +1753,12 @@ visibleOpts.forEach((o)=>{
       if (cat !== 'all') {
         const firstInCat = fields.hair.opts.find(opt => getItemCategory('hair', opt) === cat);
         if (firstInCat && getItemCategory('hair', values.hair) !== cat) values.hair = firstInCat;
+      }
+    } else if (id === 'salonHairCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.salonHaircut.opts.find(opt => getItemCategory('hair', opt) === cat);
+        if (firstInCat && getItemCategory('hair', values.salonHaircut) !== cat) values.salonHaircut = firstInCat;
       }
     } else if (id === 'outfitCategory') {
       const cat = o.text || 'all';
@@ -1777,7 +1796,7 @@ visibleOpts.forEach((o)=>{
     custom.classList.remove('open');
     trigger.setAttribute('aria-expanded','false');
 
-    const RE_RENDER_IDS = new Set(['hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
+    const RE_RENDER_IDS = new Set(['salonHairCategory', 'salonHaircut', 'hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
     if (RE_RENDER_IDS.has(id)) {
       renderFields();
     }
@@ -2033,6 +2052,11 @@ if(!lockedFields.has('hairCategory') && values.hair){
   const hCat = getItemCategory('hair', values.hair);
   const match = fields.hairCategory.opts.find(c => c.text === hCat);
   if(match) values.hairCategory = match;
+}
+if(!lockedFields.has('salonHairCategory') && values.salonHaircut && fields.salonHairCategory){
+  const hCat = getItemCategory('hair', values.salonHaircut);
+  const match = fields.salonHairCategory.opts.find(c => c.text === hCat);
+  if(match) values.salonHairCategory = match;
 }
 if(preserveHairTexture && fields.hairTexture){
   const pOpt = fields.hairTexture.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture.opts[0];
