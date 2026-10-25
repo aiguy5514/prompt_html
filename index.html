@@ -2761,11 +2761,60 @@ function buildSalonPrompt(){
   lines.push(`Camera angle: ${val('salonCamera')}. Lighting: ${val('salonLighting')}. Quality: ${val('salonQuality')}.`);
   lines.push('');
 
-  lines.push('REALISM & PHYSICAL AUTHENTICITY');
-  lines.push('• Believable salon physics: fine cut hair clippings realistically clinging to the draped nylon cape and scattered on the floor around the chair base.');
-  lines.push('• Authentic hair strand behavior: glistening water droplets from spray bottle, realistic damp hair clumping, and clean separation.');
-  lines.push('• Natural skin texture with visible pores, authentic expressions without artificial smile or overly posed stiff posture.');
-  lines.push('• Seamless mirror perspective with physically accurate reflection geometry and zero AI duplication artifacts.');
+    const salonChecks = [];
+
+  if(checkState.identity) {
+    salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
+  }
+  if(checkState.skin) {
+    salonChecks.push('• Authentic Skin Texture: Visible micro-pores, natural skin luster, authentic facial asymmetry; zero plastic airbrushing or digital doll smoothing.');
+  }
+  if(checkState.body) {
+    salonChecks.push('• Natural Seated Posture: Realistic seated posture in the hydraulic barber chair, natural shoulder slope, and believable body proportions.');
+  }
+  if(checkState.skinTone) {
+    salonChecks.push('• Consistent Skin Tone: Authentic skin undertones consistent with the reference image under the venue ambient lighting.');
+  }
+  if(checkState.hairStrands) {
+    salonChecks.push('• Fine Hair Strand Physics: Distinct individual hair strands, natural parting line, delicate micro-flyaways at the temples and hairline, organic volume.');
+  }
+  if(checkState.hairTexturePreserve || preserveHairTexture) {
+    salonChecks.push('• Hair Texture Integrity: Maintain the client\'s authentic natural Indian hair fiber, natural density, and organic behavior without artificial smoothing or mismatched texture.');
+  }
+  if(checkState.fabric) {
+    salonChecks.push('• Realistic Cape & Fabric Behavior: Authentic draping folds of the cutting cape, crisp crêpe paper neck strip, snap fasteners, and believable fabric tension across shoulders.');
+  }
+  if(checkState.hands) {
+    salonChecks.push('• Anatomically Correct Barber Hands: Physically accurate male barber hand grip holding professional stainless steel shears and carbon cutting comb, realistic knuckles and hand posture.');
+  }
+  if(checkState.lightingReal) {
+    salonChecks.push('• Physically Believable Lighting Physics: Balanced indoor illumination, authentic mirror reflections, realistic shadow depth, and warm practical light falloff.');
+  }
+  if(checkState.waterReal) {
+    salonChecks.push('• Authentic Water & Wet Hair Physics: Fine mist droplets clinging to strands, realistic damp clumping, authentic spray bottle water tension, and natural damp hair weight.');
+  }
+  if(checkState.retouch) {
+    salonChecks.push('• Zero Artificial Retouching: Raw unpolished documentary realism, no CGI sheen, no excessive beauty retouching or unnatural skin bloom.');
+  }
+  if(checkState.accessoryKeep) {
+    salonChecks.push('• Retain Reference Accessories: Keep visible jewelry, nose stud, earrings peeking through parted hair, or glasses if visible in reference.');
+  }
+  if(checkState.backgroundReal) {
+    salonChecks.push('• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.');
+  }
+  if(checkState.noMirror) {
+    salonChecks.push('• Direct Chair Perspective: Frame the client directly in the styling chair without secondary reflective glass surfaces.');
+  }
+  if(checkState.candid) {
+    salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between haircut moment, authentic client-barber eye contact and posture.');
+  }
+
+  lines.push('REALISM, IDENTITY & PHYSICAL SAFEGUARDS');
+  if(salonChecks.length){
+    lines.push(salonChecks.join('\n'));
+  } else {
+    lines.push('• Maintain natural salon realism, consistent identity, and believable physical haircut behavior.');
+  }
   lines.push('');
 
   if(customDirection.trim()){
@@ -2781,9 +2830,16 @@ function buildSalonPrompt(){
     'over-airbrushed skin, missing cape, floating hair clips',
     'fake studio glamour lighting, red carpet attire under cape'
   ];
-  if(checkState.noText) salonNegatives.push('text overlays, logos and watermarks');
+
+  if(checkState.noMirror) salonNegatives.push('mirrors, mirror reflections, duplicated faces, reflective glass distortion');
+  if(checkState.retouch) salonNegatives.push('airbrushed skin, waxy skin, heavy beauty filters, CGI plastic sheen');
+  if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair');
+  if(checkState.hands) salonNegatives.push('extra fingers, malformed hands, floating scissors, distorted barber grip');
+  if(checkState.waterReal) salonNegatives.push('artificial plastic gloss, greasy shine, floating water blobs');
+  if(checkState.noText) salonNegatives.push('text overlays, salon logos, graphic watermarks, typography');
   if(extraNegative.trim()) salonNegatives.push(extraNegative.trim());
-  lines.push(salonNegatives.map(x=>'• '+x).join('\n'));
+
+  lines.push(salonNegatives.map(x=>'• '+x).join('\n'));ines.push(salonNegatives.map(x=>'• '+x).join('\n'));
 
   save();
   const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
