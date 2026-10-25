@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="dark">
 <title>Afterglow — Makeover Photoshoot Prompt Studio</title>
 <style>
-:root{--bg:#100e13;--panel:#19161e;--panel2:#211c27;--panel3:#2a2331;--text:#fff8fc;--muted:#b8adbd;--muted2:#8f8495;--line:#3a3040;--pink:#ff5c92;--pink2:#ff9cbd;--cream:#f9dfe8;--green:#9fe4c1;--yellow:#f3d49a;--shadow:0 22px 70px #0005;--radius:22px}
+:root{--bg:#100e13;--panel:#19161e;--panel2:#211c27;--panel3:#2a2331;--text:#fff8fc;--muted:#b8adbd;--muted2:#8f8495;--line:#3a3040;--pink:#ff5c92;--pink2:#ff9cbd;--pink-glow:rgba(255,92,146,0.18);--cream:#f9dfe8;--green:#9fe4c1;--yellow:#f3d49a;--shadow:0 22px 70px #0005;--radius:22px;--radius-sm:8px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(950px 550px at -8% -8%,#55203b55,transparent 65%),radial-gradient(820px 530px at 110% 0%,#39265744,transparent 63%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--pink2);outline-offset:3px}.shell{max-width:1480px;margin:auto;padding:24px clamp(13px,2.8vw,40px) 48px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:850;letter-spacing:.11em;text-transform:uppercase}.brand-mark{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),#bb70c6);color:#24101a;font-size:21px;box-shadow:0 6px 26px #ff5c922c}.top-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
 /* Studio Mode Switcher */
@@ -300,20 +300,20 @@
   font-size: 11px;
   line-height: 1.4;
   padding: 6px 10px;
-  border-radius: var(--radius-sm, 6px);
-  border: 1px solid var(--line, rgba(255, 255, 255, 0.1));
-  background: var(--panel, rgba(255, 255, 255, 0.04));
-  color: var(--text, #cbd5e1);
+  border-radius: var(--radius-sm, 8px);
+  border: 1px solid var(--line);
+  background: var(--panel2);
+  color: var(--text);
 }
 .collage-director-hint.solo-hint {
-  border-color: var(--line, rgba(255, 255, 255, 0.12));
-  background: var(--panel, rgba(255, 255, 255, 0.04));
-  color: var(--text, #cbd5e1);
+  border-color: rgba(184, 173, 189, 0.25);
+  background: rgba(42, 35, 49, 0.4);
+  color: var(--muted);
 }
 .collage-director-hint.dry-hint {
-  border-color: var(--pink-glow, rgba(244, 114, 182, 0.25));
-  background: var(--pink-glow, rgba(244, 114, 182, 0.08));
-  color: var(--pink2, #f472b6);
+  border-color: var(--pink-glow, rgba(255, 92, 146, 0.25));
+  background: rgba(255, 92, 146, 0.08);
+  color: var(--pink2);
 }
 .btn-director-sync {
   font-size: 12px;
@@ -1370,17 +1370,30 @@ const SALON_CAMERA_MIRROR_FREE = {
 function sanitizeMirrorProse(text){
   if(!text) return text;
   let t = text;
-  t = t.replace(/handheld mirror rear ponytail reveal/gi, 'rear ponytail reveal of silhouette and perimeter')
-       .replace(/oval handheld mirror reflecting the back view of the client(?:\x27s)?/gi, 'rear view presenting the back silhouette and perimeter')
-       .replace(/oval handheld mirror framing the back of the client(?:\x27s)? new haircut/gi, "rear view presenting the back of the client's new haircut")
-       .replace(/holding up (?:an oval|a small)?\s*handheld mirror/gi, 'evaluating the finished haircut silhouette')
-       .replace(/intimate mirror perspective/gi, 'intimate direct perspective')
-       .replace(/evaluating balance in the mirror/gi, 'evaluating balance from the styling chair perspective')
-       .replace(/consult with the client in the mirror/gi, 'consult with the client in the styling chair')
+  t = t.replace(/holding (?:up )?(?:an oval|a small)?\s*handheld mirror reflecting the back view of the client(?:\x27s)?/gi, "presenting the rear silhouette and perimeter of the client's haircut")
+       .replace(/holding (?:up )?(?:an oval|a small)?\s*handheld mirror reflecting [^,.]+/gi, 'presenting the finished rear silhouette and perimeter lines')
+       .replace(/holding (?:up )?(?:an oval|a small)?\s*handheld mirror framing the back of the client(?:\x27s)? new haircut/gi, "presenting the back silhouette and perimeter lines of the client's new haircut")
+       .replace(/holding (?:up )?(?:an oval|a small)?\s*handheld mirror/gi, 'presenting the finished haircut silhouette')
+       .replace(/Barber standing behind holding secondary mirror/gi, 'Barber standing behind presenting rear silhouette')
+       .replace(/holding a secondary mirror/gi, 'inspecting the rear silhouette')
+       .replace(/tilts the vanity lamp and holds a secondary mirror to showcase/gi, 'tilts the vanity lamp to showcase rear silhouette,')
+       .replace(/lifting them toward the mirror to demonstrate/gi, 'lifting them gently to demonstrate')
+       .replace(/Solo client checking finished hair in the mirror/gi, 'Solo client checking finished hair in the styling chair')
        .replace(/checking finished hair in the mirror/gi, 'checking finished hair from the styling chair')
+       .replace(/evaluating balance in the mirror/gi, 'evaluating balance from styling chair perspective')
+       .replace(/consult with the client in the mirror/gi, 'consult with the client in the styling chair')
        .replace(/facial reaction in the mirror/gi, 'facial expression in the styling chair')
        .replace(/drape in the mirror/gi, 'drape from the front chair angle')
+       .replace(/in the station mirror/gi, 'at the styling station')
        .replace(/in the mirror/gi, 'from styling chair perspective')
+       .replace(/handheld mirror rear ponytail reveal/gi, 'rear ponytail reveal of silhouette and perimeter')
+       .replace(/Dual-Mirror Reveal & Aftercare/gi, 'Rear Silhouette Reveal & Aftercare')
+       .replace(/dual-mirror reveal: barber holding oval handheld mirror/gi, 'Rear Silhouette Reveal: Client Evaluating Cut')
+       .replace(/dual-mirror reveal:?/gi, 'Rear Reveal:')
+       .replace(/client smiling at front wall mirror admiring cut/gi, 'Client Smiling in Styling Chair Admiring Cut')
+       .replace(/over-the-shoulder pov mirror reflection of client/gi, 'Over-the-Shoulder Angle Framing Client')
+       .replace(/intimate mirror perspective/gi, 'intimate direct perspective')
+       .replace(/Rear Mirror/gi, 'Rear Angle')
        .replace(/large wooden-framed mirrors/gi, 'wooden styling stations')
        .replace(/large mirrored wall/gi, 'expansive styling wall')
        .replace(/mirrored counter/gi, 'styling counter')
@@ -1399,7 +1412,7 @@ function sanitizeMirrorProse(text){
        .replace(/custom halo-lit mirror/gi, 'custom halo-lit styling station')
        .replace(/leafy palm fronds reflecting in mirrors/gi, 'leafy palm fronds decorating the station')
        .replace(/antique mirrors/gi, 'antique styling stations')
-       .replace(/soft vanity mirror glow/gi, 'soft vanity station glow')
+       .replace(/soft vanity mirror glow/gi, 'soft vanity bulb glow')
        .replace(/warm mirror bulb lighting/gi, 'warm vanity bulb lighting')
        .replace(/mirror practicals/gi, 'vanity practicals')
        .replace(/mirror practical lights/gi, 'vanity practical lights')
@@ -1409,7 +1422,16 @@ function sanitizeMirrorProse(text){
        .replace(/single vanity fixture/gi, 'single station fixture')
        .replace(/warm salon mirrors and atmospheric reflections/gi, 'warm salon fixtures and atmospheric lighting')
        .replace(/only the central styling mirror vanity glowing brightly/gi, 'only the central styling vanity glowing brightly')
+       .replace(/sleek mirror glass shine/gi, 'sleek high-gloss glass shine')
+       .replace(/mirror glass shine/gi, 'high-gloss glass shine')
        .replace(/mirror-like shine/gi, 'glass-like shine')
+       .replace(/ultra-reflective/gi, 'ultra-glossy')
+       .replace(/modern reflective silver/gi, 'modern lustrous silver')
+       .replace(/reflective downward glance/gi, 'downward glance')
+       .replace(/cool damp reflections/gi, 'cool damp sheen')
+       .replace(/rendering salon reflections into soft bokeh circles/gi, 'rendering salon ambient lighting into soft bokeh circles')
+       .replace(/authentic mirror reflections/gi, 'authentic directional highlights')
+       .replace(/liquid reflections/gi, 'liquid highlights')
        .replace(/on the mirror frame/gi, 'on the station frame')
        .replace(/bright mirror vanity bulbs/gi, 'bright vanity bulbs')
        .replace(/leather strop hanging beside the mirror/gi, 'leather strop hanging beside the station')
@@ -1417,6 +1439,15 @@ function sanitizeMirrorProse(text){
        .replace(/wall-mounted mirror islands/gi, 'wall-mounted styling stations')
        .replace(/background mirrors/gi, 'background styling stations')
        .replace(/client and mirror behind/gi, 'client in the chair behind')
+       .replace(/dressing room without mirrors/gi, 'dressing room with soft practical lights')
+       .replace(/dressing room mirrorless setup/gi, 'dressing room with wardrobe textures')
+       .replace(/no visible mirrors or reflection-heavy set pieces/gi, 'clean non-reflective set pieces and textured background')
+       .replace(/no visible mirrors/gi, 'clean non-reflective surfaces')
+       .replace(/reflecting naturally off the room/gi, 'illuminating the room naturally')
+       .replace(/light caustics light reflection/gi, 'light caustics illumination')
+       .replace(/realistic reflections/gi, 'realistic surface highlights')
+       .replace(/reflector fill/gi, 'diffuse ambient fill')
+       .replace(/Mirrored salon suite with zero reflections/gi, 'Architectural salon suite with clean matte styling')
        .replace(/\bhandheld mirror\b/gi, 'styling chair angle')
        .replace(/\bvanity mirror\b/gi, 'styling station')
        .replace(/\bwall mirror\b/gi, 'station wall')
@@ -1425,12 +1456,14 @@ function sanitizeMirrorProse(text){
        .replace(/\bmirror\b/gi, 'styling station')
        .replace(/\brecursive reflections\b/gi, 'atmospheric depth')
        .replace(/\boptical reflections\b/gi, 'lighting highlights')
+       .replace(/\blight reflections\b/gi, 'lighting highlights')
        .replace(/\breflections\b/gi, 'highlights')
        .replace(/\breflection\b/gi, 'direct perspective')
+       .replace(/\breflective\b/gi, 'lustrous')
        .replace(/\breflected\b/gi, 'framed')
-       .replace(/\breflecting\b/gi, 'presenting')
-       .replace(/\s+/g, ' ').trim();
-  return t;
+       .replace(/\breflecting\b/gi, 'illuminating')
+       .replace(/\breflects\b/gi, 'highlights');
+  return t.trim();
 }
 
 function getCollageSceneDirective(sceneId, ctx){
@@ -3054,16 +3087,7 @@ function createCollageDirectorCard(){
         <span class="collage-director-badge">🎬 2×2 Storyboard Grid</span>
         <h4 class="collage-director-title">Direct Individual Scenes for All 4 Collage Panels</h4>
         <p class="collage-director-subtitle">Choose from 32 authentic salon moments or quick-load curated storyboards. Fully synced with your haircut, cape, and lighting.</p>
-        <div id="collageDirectorHints" class="collage-director-hints">
-          ${(() => {
-            let h = '';
-            const isSolo = (values.salonStylist?.label || '').toLowerCase().includes('solo client');
-            if(isSolo) h += '<div class="collage-director-hint solo-hint">👤 <strong>Solo Client Mode:</strong> Preparatory & reveal panels adapt to feature the client alone; active cutting panels still depict the barber\'s hands and tools.</div>';
-            const hasWash = [f1Val, f2Val, f3Val, f4Val].some(s => ['shampoo_basin', 'scalp_massage_rinse', 'towel_turban_dry', 'spray_misting'].includes(s));
-            if(salonHairMoisture === 'dry' && hasWash) h += '<div class="collage-director-hint dry-hint">💡 <strong>Dry Hair Mode:</strong> Wash and misting preparatory panels describe pre-drying blowout prep, harmonizing with dry haircut physics.</div>';
-            return h;
-          })()}
-        </div>
+        <div id="collageDirectorHints" class="collage-director-hints"></div>
       </div>
       <div class="collage-director-actions">
         <button type="button" class="btn-director-sync" id="btnSyncStageToCollage" title="Set Panel 2 to match your chosen haircut stage">↺ Sync Panel 2 with Haircut Stage</button>
@@ -3758,8 +3782,13 @@ function buildSalonPrompt(){
     wet: 'fully saturated wet hair with glossy water sheen, hair clinging to the scalp and nape, heavy aquatic drape'
   };
 
+  const rawHaircut = val('salonHaircut');
+  const haircutText = checkState.noMirror ? sanitizeMirrorProse(rawHaircut) : rawHaircut;
+  const rawTexture = val('salonHairTexture');
+  const hairTextureText = checkState.noMirror ? sanitizeMirrorProse(rawTexture) : rawTexture;
+
   lines.push('HAIRSTYLE BEING CUT');
-  lines.push(`Haircut: ${val('salonHaircut')}. Hair texture: ${val('salonHairTexture')}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
+  lines.push(`Haircut: ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
   lines.push('');
 
   lines.push('CUTTING CAPE & SALON DETAILS');
@@ -3773,9 +3802,9 @@ function buildSalonPrompt(){
   const stageText = checkState.noMirror ? sanitizeMirrorProse(val('salonStage')) : val('salonStage');
   const stageLabel = (checkState.noMirror ? sanitizeMirrorProse(values['salonStage']?.label || '') : values['salonStage']?.label) || 'Active haircut moment';
   const stylistText = checkState.noMirror ? sanitizeMirrorProse(val('salonStylist')) : val('salonStylist');
-  const stylistLabel = values['salonStylist']?.label || 'Male barber';
-  const capeText = val('salonCape');
-  const haircutText = val('salonHaircut');
+  const rawStylistLabel = values['salonStylist']?.label || 'Male barber';
+  const stylistLabel = checkState.noMirror ? sanitizeMirrorProse(rawStylistLabel) : rawStylistLabel;
+  const capeText = checkState.noMirror ? sanitizeMirrorProse(val('salonCape')) : val('salonCape');
   const venueText = checkState.noMirror ? sanitizeMirrorProse(val('salonVenue')) : val('salonVenue');
   const designText = (val('salonDesign') && !val('salonDesign').startsWith('Preset Default')) ? (checkState.noMirror ? sanitizeMirrorProse(val('salonDesign')) : val('salonDesign')) : 'authentic salon interior';
   const staffText = checkState.noMirror ? sanitizeMirrorProse(val('salonBarberStaff')) : val('salonBarberStaff');
@@ -3787,8 +3816,9 @@ function buildSalonPrompt(){
   const rawStationProps = checkState.noMirror ? sanitizeMirrorProse(val('salonStationProps')) : val('salonStationProps');
 
   const flowType = (values.salonCollageFlow && values.salonCollageFlow.text) ? values.salonCollageFlow.text : 'journey';
-  const flowLabel = (flowType === 'custom') ? 'Custom Storyboard'
+  let rawFlowLabel = (flowType === 'custom') ? 'Custom Storyboard'
     : (values.salonCollageFlow?.label || 'Chronological Haircut Journey').replace(/\s*\(.*\)$/, '');
+  const flowLabel = checkState.noMirror ? sanitizeMirrorProse(rawFlowLabel) : rawFlowLabel;
 
   const f1Val = (values.salonCollageFrame1 && values.salonCollageFrame1.text) ? values.salonCollageFrame1.text : 'consultation_chair';
   const f2Val = (values.salonCollageFrame2 && values.salonCollageFrame2.text) ? values.salonCollageFrame2.text : 'scissor_blunt_perimeter';
@@ -3810,7 +3840,9 @@ function buildSalonPrompt(){
   } else if(flowType === 'makeover_arc'){
     collageThemeIntro = 'chronicling the full haircut makeover journey from initial consultation to final mirror admiration';
   } else if(flowType === 'dual_mirror'){
-    collageThemeIntro = 'highlighting the meticulous haircut finish, perimeter inspection, and celebratory rear reveal';
+    collageThemeIntro = checkState.noMirror
+      ? 'highlighting the meticulous haircut finish, perimeter inspection, and celebratory rear silhouette reveal'
+      : 'highlighting the meticulous haircut finish, perimeter inspection, and celebratory rear reveal';
   } else if(flowType === 'precision_craft'){
     collageThemeIntro = 'celebrating intricate sectioning, guarded razor detailing, and geometric cutting mechanics';
   } else if(flowType === 'custom'){
@@ -3907,7 +3939,9 @@ function buildSalonPrompt(){
     salonChecks.push('• Anatomically Correct Barber Hands: Physically accurate male barber hand grip holding professional stainless steel shears and carbon cutting comb, realistic knuckles, skin folds, and authentic finger tension clamping hair flat between index and middle fingers.');
   }
   if(checkState.lightingReal) {
-    salonChecks.push('• Physically Believable Lighting Physics: Balanced indoor illumination, authentic mirror reflections, realistic shadow depth, and warm practical light falloff.');
+    salonChecks.push(checkState.noMirror
+      ? '• Physically Believable Lighting Physics: Balanced indoor illumination, authentic directional highlights, realistic shadow depth, and warm practical light falloff.'
+      : '• Physically Believable Lighting Physics: Balanced indoor illumination, authentic mirror reflections, realistic shadow depth, and warm practical light falloff.');
   }
   if(checkState.waterReal) {
     salonChecks.push('• Authentic Water & Wet Hair Physics: Fine mist droplets clinging to strands, realistic damp clumping, authentic spray bottle water tension, and natural damp hair weight.');
@@ -3922,7 +3956,7 @@ function buildSalonPrompt(){
     salonChecks.push('• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.');
   }
   if(checkState.noMirror) {
-    salonChecks.push('• Direct Chair Perspective: Frame the client directly in the styling chair without secondary reflective glass surfaces.');
+    salonChecks.push('• Direct Chair Perspective: Frame the client directly in the styling chair with direct lens framing and zero secondary glass surfaces.');
   }
   if(checkState.candid) {
     salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between haircut moment, authentic client-barber eye contact and posture.');
@@ -3939,7 +3973,7 @@ function buildSalonPrompt(){
       salonChecks.push('• Dry Hair Physics: Lightweight individual hair strand movement, airy crown volume, soft natural flyaways, and zero moisture clumping.');
     }
   } else {
-    salonChecks.push("• Water Spray & Wet Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between barber's fingers, and authentic non-plastic water reflection.");
+    salonChecks.push("• Water Spray & Wet Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between barber's fingers, and authentic non-plastic water sheen.");
   }
 
   lines.push('REALISM, IDENTITY & PHYSICAL SAFEGUARDS');
