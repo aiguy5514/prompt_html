@@ -749,7 +749,16 @@ const salonVenue = makeOpts([
   ['Industrial loft salon with exposed brick & steel pipes', 'a trendy industrial loft hair salon with exposed red brick walls, high ceilings, ductwork, reclaimed wood counters, steel-framed swivel mirrors, and Edison bulb pendants'],
   ['Artisan Japanese-inspired minimalist studio', 'a serene zen hair studio with natural cedar wood slats, washi paper pendant lights, clean uncluttered styling stations, and peaceful mindful atmosphere'],
   ['Express quick-cut barber kiosk', 'a compact, brightly lit express barber station with functional stainless steel cabinetry, blue disinfectant jar, and efficient modern urban setup'],
-  ['Private bridal & makeover vanity dressing suite', 'an opulent bridal and styling preparation suite with full-length Hollywood vanity bulbs, velvet armchair, draped satin curtains, and warm golden ambient lighting']
+  ['Private bridal & makeover vanity dressing suite', 'an opulent bridal and styling preparation suite with full-length Hollywood vanity bulbs, velvet armchair, draped satin curtains, and warm golden ambient lighting'],
+  ['Iconic Kolkata colonial-era saloon with high ceilings', 'a grand colonial-era Indian saloon with soaring 14-foot ceilings, arched doorways, distressed green walls, tall beveled mirrors, and whirring brass ceiling fans'],
+  ['Boutique salon garden veranda', 'a peaceful semi-outdoor garden veranda salon with potted palm fronds, warm terracotta pavers, natural breeze, and dappled sunlight dancing across the mirror'],
+  ['Underground speakeasy-style barber lounge', 'an intimate speakeasy-inspired barber lounge with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance'],
+  ['Exclusive penthouse hair lounge with skyline view', 'a luxurious top-floor penthouse salon with panoramic floor-to-ceiling city skyline views, white quartz styling islands, and sleek floating mirrors'],
+  ['Narrow bazaar alleyway barber alcove', 'a cozy, authentic Indian bazaar alcove barber shop tucked into a bustling market alley, colorful fabric canopies outside, and constant lively street murmur'],
+  ['Vintage 1970s Indian saloon with retro wood grain laminates', 'a charming 1970s retro Indian barber shop featuring warm faux-wood laminate walls, rounded vanity mirrors, vintage transistor radio playing old melodies, and padded vinyl styling chairs'],
+  ['Bright airy rooftop salon terrace', 'a modern rooftop salon studio bathed in 360-degree daylight, sheer white curtains billowing in the breeze, and lush rooftop planters reflecting in the mirrors'],
+  ['Heritage haveli courtyard makeover pavilion', 'a majestic heritage haveli courtyard styling setup with carved marble jali screens, ornate archways, antique brass lanterns, and tranquil heritage atmosphere'],
+  ['Suburban family salon parlor with bustling front counter', 'a warm, welcoming neighborhood family salon with polished ceramic tile floor, product display cases, comfortable armchairs, and familiar community buzz']
 ]);
 
 const salonTime = makeOpts([
@@ -760,39 +769,57 @@ const salonTime = makeOpts([
   ['Late-night busy shift under buzzing fluorescent lights', 'late-night salon hours with dark nighttime street outside, bright cool overhead fluorescent tubes buzzing overhead, lively night crowd, and vibrant shop energy'],
   ['Overcast rainy monsoon afternoon with cozy shop warmth', 'rainy monsoon afternoon with diffuse moody gray daylight through rain-streaked shop windows, cool damp reflections, and cozy sheltered shop warmth'],
   ['Afternoon tea lull with mellow ambient daylight', 'lazy mid-afternoon hours with gentle diffuse daylight, slow unhurried pace, and warm relaxed shop atmosphere'],
-  ['Nighttime street view with warm interior spotlights', 'deep night atmosphere with dark outdoor market illuminated by warm exterior shop front signage and focused interior spotlights']
+  ['Nighttime street view with warm interior spotlights', 'deep night atmosphere with dark outdoor market illuminated by warm exterior shop front signage and focused interior spotlights'],
+  ['Pre-sunset radiant golden hour glow', 'radiant pre-sunset golden hour light pouring through the salon windows, creating vivid warm rim lighting and glowing highlights across dark hair strands'],
+  ['Early dawn first-client appointment', 'quiet early dawn light with crisp cool blue daylight creeping over the horizon, peaceful undisturbed shop, and freshly prepped styling counter'],
+  ['Dramatic thunderstorm with moody dim ambient light', 'heavy monsoon storm raging outside, dark dramatic sky, rain lashing the glass, and cozy warm mirror bulb lighting inside'],
+  ['Crisp foggy winter morning with diffused sunlight', 'misty cold winter morning with soft diffused sunlight filtering through outdoor fog, steaming towel warmer on the counter, and calm quiet vibe']
 ]);
 
 const salonStage = makeOpts([
-  ['Active scissor work — mid-haircut', 'in-progress haircut action: the stylist holds a damp section of hair taut between their index and middle fingers while sharp stainless steel shears execute a clean precision snip, with freshly cut wet hair strands falling onto the draped cape'],
-  ['Precision fringe & curtain bangs trimming', 'active precision detailing: the stylist carefully point-cuts soft arched bottleneck curtain bangs at eyebrow level, using a carbon cutting comb to hold light tension as tiny hair clippings scatter onto the cape'],
+  ['Active scissor work — mid-haircut', 'in-progress haircut action: the male barber holds a damp section of hair taut between his index and middle fingers while sharp stainless steel shears execute a clean precision snip, with freshly cut wet hair strands falling onto the draped cape'],
+  ['Precision fringe & curtain bangs trimming', 'active precision detailing: the male barber carefully point-cuts soft arched bottleneck curtain bangs at eyebrow level, using a carbon cutting comb to hold light tension as tiny hair clippings scatter onto the cape'],
   ['Sectioning with butterfly clips & prep', 'haircut preparation stage: the client is draped in a cape with upper hair divided into neat sections secured by colorful salon butterfly clips, while lower layers are combed flat ready to be cut'],
-  ['Wetting with spray bottle & combing flat', 'pre-cut wetting stage: fine water mist from an aluminum spray bottle glistens across the dark hair strands, as a fine-tooth cutting comb creates a crisp center parting'],
-  ['Thinning shears & texture feathering', 'texturizing stage: the stylist works with notched thinning shears across the ends of the hair, softening weight and creating piecey feathering with light hair dust on the cape shoulders'],
-  ['Final snip & perimeter check', 'final precision stage: the haircut is nearly complete as the stylist steps back slightly, evaluating balance in the mirror before making one final deliberate micro-snip at the bangs'],
+  ['Wetting with spray bottle & combing flat', 'pre-cut wetting stage: fine water mist from an aluminum spray bottle glistens across the dark hair strands, as the male barber uses a fine-tooth cutting comb to create a crisp center parting'],
+  ['Thinning shears & texture feathering', 'texturizing stage: the male barber works with notched thinning shears across the ends of the hair, softening weight and creating piecey feathering with light hair dust on the cape shoulders'],
+  ['Final snip & perimeter check', 'final precision stage: the haircut is nearly complete as the male barber steps back slightly, evaluating balance in the mirror before making one final deliberate micro-snip at the bangs'],
   ['Round-brush blowout & crown lifting', 'styling in-chair: a round ceramic barrel brush lifts roots at the crown while a hairdryer nozzle directs warm airflow to smooth the hair and curve the curtain bangs outward'],
-  ['Handheld mirror rear ponytail reveal', 'post-cut reveal in chair: the haircut is 100% finished with cape still on, as the barber stands behind holding up an oval handheld mirror so the client can inspect the rear ponytail and nape silhouette'],
-  ['Unclipping cape & neck duster cleanup', 'cleanup stage: the haircut is finished and the barber gently dusts the client\'s neck and collarbone with a soft talcum-powdered horsehair duster brush as the cape snap is unfastened'],
-  ['Haircut consultation & initial comb-through', 'consultation stage: client seated comfortably in the barber chair, cape fastened around neck, stylist lightly combing through dry hair while discussing desired length in the mirror'],
-  ['Razor edge perimeter cleanup along the nape', 'precision razor detailing: the barber uses a straight razor with light shaving lather to clean the neckline perimeter cleanly below the finished hair'],
-  ['Vertical point-cutting texture into bang tips', 'styling texture work: the stylist vertically point-cuts scissor tips into the curtain bang ends to soften weight and create organic piecey separation'],
-  ['Towel blotting damp hair post-wash', 'prep stage: client seated in the styling chair with a soft white towel wrapped around shoulders, stylist gently blotting damp hair before initial comb-out'],
-  ['Final mirror tilt & profile check', 'evaluation stage: the barber tilts the vanity lamp and asks the client to turn her head gently to inspect the cheekbone-framing angle in the mirror']
+  ['Handheld mirror rear ponytail reveal', 'post-cut reveal in chair: the haircut is 100% finished with cape still on, as the male barber stands behind holding up an oval handheld mirror so the client can inspect the rear ponytail and nape silhouette'],
+  ['Unclipping cape & neck duster cleanup', 'cleanup stage: the haircut is finished and the male barber gently dusts the client\'s neck and collarbone with a soft talcum-powdered horsehair duster brush as the cape snap is unfastened'],
+  ['Haircut consultation & initial comb-through', 'consultation stage: client seated comfortably in the barber chair, cape fastened around neck, male barber lightly combing through dry hair while discussing desired length in the mirror'],
+  ['Razor edge perimeter cleanup along the nape', 'precision razor detailing: the male barber uses a straight razor with light shaving lather to clean the neckline perimeter cleanly below the finished hair'],
+  ['Vertical point-cutting texture into bang tips', 'styling texture work: the male barber vertically point-cuts scissor tips into the curtain bang ends to soften weight and create organic piecey separation'],
+  ['Towel blotting damp hair post-wash', 'prep stage: client seated in the styling chair with a soft white towel wrapped around shoulders, male barber gently blotting damp hair before initial comb-out'],
+  ['Final mirror tilt & profile check', 'evaluation stage: the male barber tilts the vanity lamp and asks the client to turn her head gently to inspect the cheekbone-framing angle in the mirror'],
+  ['Scissor-over-comb blending motion', 'active layering: the male barber rapidly works cutting shears over a flat barber comb to sculpt clean graduated layers along the hair perimeter'],
+  ['Slide cutting along face-framing angles', 'precision shaping: the male barber slides open scissor blades smoothly down the front curtain strands to create a seamless tapered face frame'],
+  ['Cross-checking vertical sections across the crown', 'balance check: the male barber lifts vertical sections of hair perpendicular to the scalp between his fingers, checking uniform layer lengths across the crown'],
+  ['Spray bottle misting during haircut', 'active cut maintenance: the male barber spritzes water mist directly onto damp crown strands as water droplets glisten and hair settles into clean cutting tension'],
+  ['Combing curtain bangs into crisp center part', 'parting precision: the male barber uses a black tail comb to carve a clean center parting and drape wispy arched curtain bangs symmetrically over brows'],
+  ['Twisting and point-cutting ponytail tail ends', 'tail detailing: the male barber gathers the ponytail tail, twisting the ends lightly and point-cutting into the tips to give soft natural movement'],
+  ['Hairdryer cool-shot loose hair blast', 'clearing clippings: the male barber uses the cool-shot nozzle of a hairdryer to gently blow loose cut hair fragments off the shoulders and cape collar'],
+  ['Hands cupping and checking hair bounce', 'final tactile check: the male barber gently cups the finished ends with his hands, letting the silky hair fall and bounce into place naturally in the mirror']
 ]);
 
 const salonStylist = makeOpts([
   ['Indian male barber actively cutting', 'an attentive Indian male hairstylist with neat grooming, wearing a casual short-sleeve shirt and black waist apron, focused intently on cutting the hair with professional hand posture'],
-  ['Stylist hands only (Macro POV / First-person focus)', 'first-person portrait focus: the camera frames the client\'s face and hair closely, showing only the skilled hands of the stylist holding stainless steel shears and a black carbon comb'],
-  ['Solo client in barber chair (Stylist just stepped aside)', 'the client sits alone in the center of the frame in the barber chair, cape draped, with the stylist just out of frame having stepped away to grab a styling tool'],
+  ['Stylist hands only (Macro POV / First-person focus)', 'first-person portrait focus: the camera frames the client\'s face and hair closely, showing only the skilled hands of the male barber holding stainless steel shears and a black carbon comb'],
+  ['Solo client in barber chair (Stylist just stepped aside)', 'the client sits alone in the center of the frame in the barber chair, cape draped, with the male barber just out of frame having stepped away to grab a styling tool'],
   ['Barber standing behind holding secondary mirror', 'the male barber in a casual salon apron stands slightly behind and to the side, holding up a small handheld mirror reflecting the back view of the client\'s new ponytail'],
-  ['Candid conversation with stylist', 'a natural candid moment with the client smiling and speaking with the friendly barber in a collared shirt as they discuss the front curtain bang drape in the mirror'],
-  ['Two stylists collaborating on finish', 'lead stylist in black apron detailing the front bangs while an assistant stands nearby holding round brush and hairdryer'],
-  ['Senior female hairstylist with shears & comb in hand', 'an experienced female hairstylist with stylish layered hair, wearing a sleek black salon smock, holding cutting shears with precision as she evaluates the client\'s hair profile'],
-  ['Young trendy barber with faded undercut & rolled sleeves', 'an energetic young urban barber with a sharp taper fade haircut, tattooed arms, and canvas utility apron, smiling candidly while holding comb and texturizing shears'],
-  ['Veteran elderly barber with traditional eyeglasses & white coat', 'a gentle, dignified older Indian barber with wire-rimmed glasses, wearing a traditional buttoned white barber coat, working with time-tested calm precision'],
-  ['Stylist stepping back evaluating balance in the mirror', 'the stylist in casual black attire has stepped three feet back, arms folded loosely while holding shears, squinting thoughtfully at the client\'s reflection to verify symmetry'],
-  ['Stylist dusting neck with powder duster brush', 'the barber standing beside the chair holding a soft wooden-handled talcum powder neck duster brush, gently sweeping away loose cut hair from the client\'s jawline and neck'],
-  ['Solo client checking finished hair in the mirror', 'the client sits completely alone in the chair with cape unfastened, reaching up with both hands to touch and feel the ends of her new curtain bangs with a genuine satisfied smile']
+  ['Candid conversation with stylist', 'a natural candid moment with the client smiling and speaking with the friendly Indian male barber in a collared shirt as they discuss the front curtain bang drape in the mirror'],
+  ['Two stylists collaborating on finish', 'lead Indian male barber in black apron detailing the front bangs while a junior male assistant stands nearby holding round brush and hairdryer'],
+  ['Young trendy barber with faded undercut & rolled sleeves', 'an energetic young Indian male barber with a sharp taper fade haircut, tattooed arms, and canvas utility apron, smiling candidly while holding comb and texturizing shears'],
+  ['Veteran elderly barber with traditional eyeglasses & white coat', 'a gentle, dignified older Indian male barber with wire-rimmed glasses, wearing a traditional buttoned white barber coat, working with time-tested calm precision'],
+  ['Stylist stepping back evaluating balance in the mirror', 'the Indian male barber in casual black attire has stepped three feet back, arms folded loosely while holding shears, squinting thoughtfully at the client\'s reflection to verify symmetry'],
+  ['Stylist dusting neck with powder duster brush', 'the Indian male barber standing beside the chair holding a soft wooden-handled talcum powder neck duster brush, gently sweeping away loose cut hair from the client\'s jawline and neck'],
+  ['Solo client checking finished hair in the mirror', 'the client sits completely alone in the chair with cape unfastened, reaching up with both hands to touch and feel the ends of her new curtain bangs with a genuine satisfied smile'],
+  ['Master barber with neat mustache and striped apron', 'a skilled senior Indian male barber with a neat mustache, wearing a classic pinstriped barber apron, executing deliberate precision snips with calm authority'],
+  ['Apprentice male barber observing senior master barber', 'a young apprentice Indian male barber in training standing attentively beside the styling chair, watching the master male barber execute the precision cut'],
+  ['Male barber resting hand on chair back during consultation', 'the Indian male barber resting one hand comfortably on the black hydraulic chair headrest, leaning in slightly to consult with the client in the mirror'],
+  ['Male barber spraying water with focused concentration', 'the Indian male barber holding an aluminum spray bottle with focused concentration, fine water droplets misting between his hands and the dark hair'],
+  ['Male barber applying sanitary neck strip before draping', 'the Indian male barber carefully wrapping a white crêpe paper sanitary neck collar around the client\'s neck before snapping the cape into place'],
+  ['Male barber gently unclipping crown butterfly clips', 'the Indian male barber using deft gentle hand movements to unclip colorful butterfly hair clamps from the client\'s crown as layers fall into place'],
+  ['Over-the-shoulder angle of male barber\'s focused eyes in mirror', 'an intimate mirror perspective capturing the Indian male barber\'s focused, professional gaze reflected in the glass as his hands detail the fringe']
 ]);
 
 const salonCape = makeOpts([
@@ -809,7 +836,15 @@ const salonCape = makeOpts([
   ['Forest green salon cape with white collar strip', 'a deep emerald-forest green waterproof cutting cape fastened over a fresh white neck tissue strip with fine fallen hair ends'],
   ['Sheer lightweight navy salon drape over casual t-shirt', 'a lightweight breathable dark navy cutting drape loosely fastened at the neck, with client\'s casual crew-neck t-shirt collar visible beneath'],
   ['Heavyweight black vinyl chemical & cutting cape', 'a thick glossy black vinyl waterproof salon cape draped heavily over the styling chair arms, with water droplets and cut hair clippings clinging to the surface'],
-  ['Double-towel neck wrap with classic black cape', 'thick dual white salon towels layered around the neck for maximum comfort under a snug black nylon cutting cape with scattered hair dust']
+  ['Double-towel neck wrap with classic black cape', 'thick dual white salon towels layered around the neck for maximum comfort under a snug black nylon cutting cape with scattered hair dust'],
+  ['Gold-trimmed luxury black satin cutting cape', 'an upscale luxury black satin salon cape with gold piping along the edges, draped gracefully with fine micro-hair clippings resting on the shoulders'],
+  ['Royal blue waterproof cape with snap fasteners', 'a rich royal blue waterproof barber cape snapped securely at the neck with dark fallen cut hair fragments visible against the vibrant fabric'],
+  ['Retro barber tool motif printed black cape', 'a retro black cape printed with subtle white vintage shears, combs, and barber pole graphics, dusted with realistic hair clippings'],
+  ['Sunny yellow retro vinyl barber cape', 'a cheerful vintage yellow salon cape with black edge binding, draped over the styling chair with dark cut hair dust scattered on the lap'],
+  ['Earthy terracotta cotton-blend drape over embroidered kurti', 'a warm terracotta rust-colored cotton salon drape loosely fastened, revealing an embroidered traditional Indian kurti collar at the neckline'],
+  ['Soft lavender waterproof cape with sanitary neck strip', 'a calming pastel lavender cutting cape with a clean white crêpe collar, accented by a scattering of dark hair ends across the chest'],
+  ['Black cape with sporty red contrast racing stripes', 'a contemporary sporty black salon cape featuring twin red accent stripes down the arms, dusted with fresh cut hair fragments'],
+  ['Loosened cape neckline revealing collarbone post-cut', 'the black nylon cape partially unsnapped at the throat, loosely falling open to reveal the client\'s collarbone, silver necklace, and satisfied post-makeover expression']
 ]);
 
 const salonStationProps = makeOpts([
@@ -824,20 +859,32 @@ const salonStationProps = makeOpts([
   ['Salon hair color bowls, tint brushes & foil sheets', 'a salon side table holding mixing bowls with cream tint, wide application brushes, and neatly torn silver foil sheets'],
   ['Barber clipper caddy with color-coded guard combs', 'a countertop charging station with cordless magnetic clippers and a neat rack of colorful guard combs (1/8 inch to 1 inch)'],
   ['Ceramic round blowout brushes and styling mousse', 'a wooden shelf holding ceramic thermal round brushes in varied diameters, professional nozzle hairdryer, and styling mousse foam'],
-  ['Traditional Indian brass attar perfume bottle & rosewater spritzer', 'a traditional Indian salon touch: vintage brass rosewater spray dispenser, herbal hair oil bottle, and fresh marigold garland on the mirror frame']
+  ['Traditional Indian brass attar perfume bottle & rosewater spritzer', 'a traditional Indian salon touch: vintage brass rosewater spray dispenser, herbal hair oil bottle, and fresh marigold garland on the mirror frame'],
+  ['Vintage chrome hydraulic pump lever & footrest', 'the heavy chrome-plated hydraulic foot pedal, base ring, and textured metal footrest of an authentic vintage styling chair'],
+  ['Disinfectant spray bottle, neck tissue roll & hair grips', 'a clear disinfectant spray bottle, wall-mounted dispenser roll of white crêpe neck paper, and a jar of black bobby pins and hair grips'],
+  ['Rubber station work mat with cordless clippers and fade brush', 'a heat-resistant black rubber barber station mat holding cordless gold-accented clippers, a boar bristle fade brush, and precision clipper oil'],
+  ['Vintage glass hair tonic bottles with labeled apothecary tops', 'a wooden shelf lined with vintage glass hair tonic and cologne bottles featuring retro Indian labels and chrome spouts'],
+  ['Professional ionic hairdryer resting in spiral holster', 'a matte-black professional salon hairdryer with narrow styling concentrator nozzle resting securely in a coiled metal side holster on the trolley'],
+  ['Clear acrylic station organizer with tail combs and alligator clips', 'a neat clear acrylic organizer holding assorted carbon cutting combs, sectioning alligator clips, and wide-tooth detangling combs']
 ]);
 
 const salonCamera = makeOpts([
-  ['Direct mirror reflection POV (shot through the glass)', 'photographed directly into the large salon wall mirror, capturing the client\'s front reflection, the barber\'s hands, and the full styling station reflected with optical depth'],
+  ['Direct mirror reflection POV (shot through the glass)', 'photographed directly into the large salon wall mirror, capturing the client\'s front reflection, the male barber\'s hands, and the full styling station reflected with optical depth'],
   ['Candid 3/4 styling chair portrait', 'an eye-level 3/4 candid portrait from the side, framing the client in the black leather chair with the draped cape and ponytail profile'],
-  ['Over-the-shoulder rear angle past the barber', 'an intimate over-the-shoulder perspective looking past the barber toward the client\'s facial reaction in the mirror'],
+  ['Over-the-shoulder rear angle past the barber', 'an intimate over-the-shoulder perspective looking past the male barber toward the client\'s facial reaction in the mirror'],
   ['Close-up macro on curtain bangs and shears', 'a tight beauty close-up focused on the client\'s eyes and arched bottleneck curtain bangs, with shears mid-trim in crisp focus'],
   ['Wide atmospheric salon interior composition', 'a wide horizontal frame capturing the full salon atmosphere, adjacent barber chairs, background mirrors, and the client centered in the foreground chair'],
   ['Low-angle chair portrait looking up at the mirror', 'a dramatic low-angle perspective looking slightly upward from chair armrest height, emphasizing confident posture and facial reflection in the glass'],
   ['Side profile framing nape and ponytail anchor', 'a razor-sharp side profile angle showcasing the neck curve, clean ear tuck, and ponytail base against the salon backdrop'],
-  ['Close-up mirror reflection with blurred barber shoulder', 'portrait focused sharply on client\'s face and bangs in the mirror, with blurred stylist shoulder in the foreground framing the composition'],
+  ['Close-up mirror reflection with blurred barber shoulder', 'portrait focused sharply on client\'s face and bangs in the mirror, with blurred male barber shoulder in the foreground framing the composition'],
   ['Cinematic overhead bird\'s eye chair POV', 'an artistic high-angle camera looking down at the client in the chair, draped cape fanning out, and scattered cut hair on the vinyl floor'],
-  ['Medium shot with front shop window street bokeh', 'a frontal portrait of client in chair with background window revealing warm blurred outdoor street lights and market activity']
+  ['Medium shot with front shop window street bokeh', 'a frontal portrait of client in chair with background window revealing warm blurred outdoor street lights and market activity'],
+  ['Straight-on symmetrical vanity mirror portrait', 'a centered symmetrical portrait looking square into the illuminated vanity mirror, framing the client evenly between warm bulb fixtures'],
+  ['Dutch angle candid from styling trolley perspective', 'a dynamic low-angled Dutch tilt perspective framing the corner of the tool trolley in the foreground with the client and mirror behind'],
+  ['Infinite reflection through opposing dual mirrors', 'a captivating double-mirror perspective with front and rear mirrors creating infinite recursive reflections and deep optical salon geometry'],
+  ['Extreme close-up on shears and finger cutting tension', 'a macro close-up focused exclusively on the male barber\'s fingers holding a taut wet hair strand as the scissor blades slice cleanly through'],
+  ['Behind-the-chair portrait showing handheld mirror angle', 'a candid perspective from behind the chair showing the male barber holding up an oval handheld mirror framing the back of the client\'s new haircut'],
+  ['Street-level documentary view through the shop doorway', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within']
 ]);
 
 const salonLighting = makeOpts([
@@ -848,7 +895,11 @@ const salonLighting = makeOpts([
   ['Soft warm tungsten ceiling bulbs with golden glow', 'warm ambient incandescent salon lighting giving skin tones a flattering, rich golden warmth and cozy atmosphere'],
   ['High-key white LED studio panel lighting', 'ultra-clean, even, shadowless white LED salon lighting highlighting strand definition, micro-droplets, and authentic hair gloss'],
   ['Moody cinematic chiaroscuro with single mirror spotlight', 'dramatic directional light from a single vanity fixture creating striking contrast, deep shadows, and rich tactile texture'],
-  ['Neon shop sign glow mixed with ambient practicals', 'retro red and blue neon light spill from front shop sign blending with warm salon mirrors and atmospheric reflections']
+  ['Neon shop sign glow mixed with ambient practicals', 'retro red and blue neon light spill from front shop sign blending with warm salon mirrors and atmospheric reflections'],
+  ['Golden late-afternoon sunbeam shaft through room haze', 'a visible diagonal sunbeam of warm late-afternoon sunlight cutting through ambient salon dust and hair spray haze, illuminating the chair'],
+  ['Soft diffuse north-facing window light', 'gentle, flattering natural north-facing window light creating smooth tonal roll-off, soft shadows, and painterly hair sheen'],
+  ['Low-key moody ambient lighting with illuminated mirror only', 'atmospheric low-key salon lighting with dimmed shop surroundings and only the central styling mirror vanity glowing brightly'],
+  ['Bright commercial halogen track lighting with hair glints', 'high-intensity overhead halogen track lights casting sharp, sparkling specular glints across glistening damp dark hair strands']
 ]);
 
 const salonBustle = makeOpts([
@@ -859,7 +910,11 @@ const salonBustle = makeOpts([
   ['Active evening rush with waiting bench patrons', 'an energetic evening peak hour with customers seated on the waiting bench reading magazines, background chatter, and bustling salon vibe'],
   ['Rainy day sheltered refuge with cozy warmth', 'a cozy, comforting rainy day atmosphere with clients enjoying the shelter, warm lights reflecting off rain-splattered shop windows, and relaxed chatter'],
   ['Solo appointment in empty shop', 'a quiet serene setting with no other clients in the shop, all attention and lighting focused entirely on the client in the central chair'],
-  ['Midday tea break lull (Chai & shears)', 'a relaxed authentic midday moment with a small glass cup of cutting chai resting on the ledge, peaceful ambient street murmur, and slow unhurried pace']
+  ['Midday tea break lull (Chai & shears)', 'a relaxed authentic midday moment with a small glass cup of cutting chai resting on the ledge, peaceful ambient street murmur, and slow unhurried pace'],
+  ['High-energy makeover buzz with multiple blowouts', 'a dynamic high-energy salon floor with multiple stylists working, hairdryers humming in the background, and vibrant creative energy'],
+  ['Post-lunch quiet hours with relaxed street tempo', 'a drowsy post-lunch atmosphere with barbers resting by the doorway, lazy afternoon heat, and gentle slow shop tempo'],
+  ['Festive pre-holiday rush with celebratory excitement', 'a packed pre-festival salon with vibrant communal excitement, lively music, cheerful banter, and non-stop haircut action'],
+  ['Soundproof VIP suite tranquility with soft music', 'an ultra-private soundproof VIP styling sanctuary with tranquil ambiance, soft acoustic melodies, and complete personal privacy']
 ]);
 
 const salonQuality = makeOpts([
@@ -868,7 +923,11 @@ const salonQuality = makeOpts([
   ['High-end fashion editorial documentary', 'polished editorial documentary aesthetic with rich contrast, authentic lighting balance, and believable texture'],
   ['Vintage 1990s color film snapshot', 'nostalgic 1990s 35mm film aesthetic with slightly warm color cast, gentle grain, and authentic candid imperfections'],
   ['Gritty street documentary style with deep contrast', 'gritty street documentary photo style with deep shadows, rich contrast, and unvarnished realism'],
-  ['Medium-format portrait clarity (Hasselblad feel)', 'exquisite medium-format portrait clarity with lifelike dimensional depth, pin-sharp iris detail, and natural optical falloff']
+  ['Medium-format portrait clarity (Hasselblad feel)', 'exquisite medium-format portrait clarity with lifelike dimensional depth, pin-sharp iris detail, and natural optical falloff'],
+  ['Kodak Portra 400 aesthetic with glowing skin tones', 'warm, natural skin tones inspired by Kodak Portra 400 film, soft highlight roll-off, rich dark hair shadow detail, and fine organic grain'],
+  ['Fujifilm Superia street documentary color palette', 'vivid authentic street photography tones inspired by Fujifilm Superia, punchy greens and cool blues under fluorescent tubes, and lifelike contrast'],
+  ['Monochrome high-contrast fine art salon photo', 'striking black-and-white documentary photography with deep velvety blacks, luminous silvery midtones, and graphic hair silhouettes'],
+  ['Intimate 85mm editorial portrait with creamy background bokeh', 'an intimate 85mm portrait with creamy background compression, rendering salon reflections into soft bokeh circles while keeping the haircut crisply defined']
 ]);
 
 const salonHairTexture = makeOpts([
@@ -878,7 +937,10 @@ const salonHairTexture = makeOpts([
   ['Lived-in organic texture with fine cut hair dust', 'natural lived-in strand texture with realistic hair density and fine fallen hair clippings on the surface'],
   ['Damp weighted hair texture with water sheen', 'damp weighted hair texture clinging naturally under light water spray tension'],
   ['Thick coarse natural Indian hair fiber with density', 'rich voluminous natural coarse Indian hair fiber with authentic dense strands and organic movement'],
-  ['Fine silky sleek hair texture with glass-like sheen', 'ultra-fine silky smooth hair fiber with mirror-like shine and lightweight fluid drape']
+  ['Fine silky sleek hair texture with glass-like sheen', 'ultra-fine silky smooth hair fiber with mirror-like shine and lightweight fluid drape'],
+  ['Freshly washed towel-damp wavy texture', 'naturally damp hair beginning to air-dry with subtle organic wave definition and clean strand separation'],
+  ['Soft natural frizz and delicate baby hair flyaways', 'hyper-realistic authentic hair behavior with soft micro-flyaways at the hairline and temples, completely free of artificial smoothing'],
+  ['Rich oiled traditional Indian hair luster', 'deep rich natural luster reminiscent of traditional herbal hair care, with deep strand nourishment and healthy weight']
 ]);
 
 
