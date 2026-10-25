@@ -687,7 +687,13 @@ const LIGHTING_FAMILIES = [
 function getItemCategory(id, item) {
   if (!item) return 'all';
   const text = ((item.label || '') + ' ' + (item.text || '')).toLowerCase();
-  if (id === 'hair' || id === 'salonHaircut') {
+  if (id === 'salonVenue') {
+    if (/barber\s*shop|gent\S*\s*saloon|shaving/i.test(text)) return 'barbershop';
+    if (/parlour|parlor/i.test(text)) return 'parlour';
+    if (/studio|atelier|loft/i.test(text)) return 'studio';
+    if (/salon|suite/i.test(text)) return 'salon';
+    return 'barbershop';
+  } else if (id === 'hair' || id === 'salonHaircut') {
     if (/wet|hydro|drenched|slicked|ocean-soaked|post-swim|finger wave/i.test(text)) return 'wet';
     if (/pony|ponytail/i.test(text)) return 'pony';
     if (/bob|lob|tassel/i.test(text)) return 'bob';
@@ -741,32 +747,80 @@ function getItemCategory(id, item) {
 // ==========================================
 // SALON & BARBERSHOP STUDIO DATASETS
 // ==========================================
+const SALON_VENUE_CATEGORIES = [
+  O('✦ All Establishments (36 choices)', 'all'),
+  O('💈 Barber Shop (Traditional, street & modern barbershops)', 'barbershop'),
+  O('✂️ Salon (Commercial, unisex, mall & luxury salons)', 'salon'),
+  O('🪞 Parlour (Neighborhood, air-conditioned & market parlours)', 'parlour'),
+  O('🏢 Hair Studio (Boutique, industrial, minimalist & creative studios)', 'studio')
+];
+
 const salonVenue = makeOpts([
-  ['Traditional Indian gent\'s saloon', 'an authentic neighborhood Indian male saloon with light turquoise oil-painted walls, large wooden-framed wall mirrors, classic Bollywood film posters on the wall, a vintage black ceiling fan whirling overhead, stainless steel instrument tray, and a classic chrome hydraulic barber chair'],
-  ['Local street-side Indian barber shop with open shutter', 'a compact street-side Indian barber shop with a large open roll-up shutter showing the bustling local outdoor bazaar, classic vinyl barber chair with chrome footrest, buzzing clippers, white towel draped over the chair back, and powder-scented air'],
-  ['Modern Indian unisex styling parlor', 'a contemporary Indian unisex salon interior with clean minimalist design, plush black leather styling chairs, frameless backlit LED vanity mirrors, branded salon product display shelves along the wall, pale oak wood flooring, and soft salon track lighting'],
-  ['Luxury VIP salon suite', 'an exclusive private VIP salon suite with white marble countertops, gold-trimmed architectural mirrors, deep plush reclining leather styling chair, warm designer ambient cove lighting, and private tranquil atmosphere'],
-  ['Bustling multi-station commercial salon floor', 'a busy high-energy commercial salon floor with 6 active styling stations, clients in neighboring chairs getting cuts and blowouts, mirrors reflecting background activity, and a lively creative atmosphere'],
-  ['Retro vintage barber shop with Belmont chair', 'a classic vintage barber shop with checkerboard tile flooring, antique Belmont hydraulic chair, leather strop hanging beside the mirror, blue Barbicide jar on the marble ledge, and retro barber wall decor'],
-  ['Sleek minimalist hair studio', 'an airy open-concept hair studio with polished concrete floors, matte-black steel styling stations, floor-to-ceiling mirrors, and diffuse daylight'],
-  ['Cozy boutique salon nook', 'a charming boutique salon with warm brick accents, potted indoor plants, brass vanity fixtures, and a plush emerald-green velvet styling chair'],
-  ['Heritage Old Delhi / Mumbai saloon with carved teak mirrors', 'a historic heritage Indian saloon with ornate carved dark teak mirror frames, aged mosaic tile floor, vintage brass wall lamps, glass cabinets holding glass hair tonic bottles, and deep cultural charm'],
-  ['High-end shopping mall salon studio', 'an upscale glass-fronted salon inside a modern luxury mall, polished granite flooring, recessed warm spotlighting, sleek chrome stations, and sophisticated contemporary aesthetics'],
-  ['Air-conditioned neighborhood beauty parlor', 'a cheerful air-conditioned neighborhood Indian beauty parlor with pastel pink and cream walls, floral decals, vanity mirror with warm bulb strip, and comfortable cushioned swivel chair'],
-  ['Rustic roadside semi-open barber shack under banyan tree', 'a rustic authentic open-air roadside Indian barber setup under a shady banyan tree, weathered wooden chair, rectangular mirror nailed to a wooden plank, colorful towel, and authentic rural street ambiance'],
-  ['Industrial loft salon with exposed brick & steel pipes', 'a trendy industrial loft hair salon with exposed red brick walls, high ceilings, ductwork, reclaimed wood counters, steel-framed swivel mirrors, and Edison bulb pendants'],
-  ['Artisan Japanese-inspired minimalist studio', 'a serene zen hair studio with natural cedar wood slats, washi paper pendant lights, clean uncluttered styling stations, and peaceful mindful atmosphere'],
-  ['Express quick-cut barber kiosk', 'a compact, brightly lit express barber station with functional stainless steel cabinetry, blue disinfectant jar, and efficient modern urban setup'],
-  ['Private bridal & makeover vanity dressing suite', 'an opulent bridal and styling preparation suite with full-length Hollywood vanity bulbs, velvet armchair, draped satin curtains, and warm golden ambient lighting'],
-  ['Iconic Kolkata colonial-era saloon with high ceilings', 'a grand colonial-era Indian saloon with soaring 14-foot ceilings, arched doorways, distressed green walls, tall beveled mirrors, and whirring brass ceiling fans'],
-  ['Boutique salon garden veranda', 'a peaceful semi-outdoor garden veranda salon with potted palm fronds, warm terracotta pavers, natural breeze, and dappled sunlight dancing across the mirror'],
-  ['Underground speakeasy-style barber lounge', 'an intimate speakeasy-inspired barber lounge with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance'],
-  ['Exclusive penthouse hair lounge with skyline view', 'a luxurious top-floor penthouse salon with panoramic floor-to-ceiling city skyline views, white quartz styling islands, and sleek floating mirrors'],
-  ['Narrow bazaar alleyway barber alcove', 'a cozy, authentic Indian bazaar alcove barber shop tucked into a bustling market alley, colorful fabric canopies outside, and constant lively street murmur'],
-  ['Vintage 1970s Indian saloon with retro wood grain laminates', 'a charming 1970s retro Indian barber shop featuring warm faux-wood laminate walls, rounded vanity mirrors, vintage transistor radio playing old melodies, and padded vinyl styling chairs'],
-  ['Bright airy rooftop salon terrace', 'a modern rooftop salon studio bathed in 360-degree daylight, sheer white curtains billowing in the breeze, and lush rooftop planters reflecting in the mirrors'],
-  ['Heritage haveli courtyard makeover pavilion', 'a majestic heritage haveli courtyard styling setup with carved marble jali screens, ornate archways, antique brass lanterns, and tranquil heritage atmosphere'],
-  ['Suburban family salon parlor with bustling front counter', 'a warm, welcoming neighborhood family salon with polished ceramic tile floor, product display cases, comfortable armchairs, and familiar community buzz']
+  // BARBER SHOPS
+  ['Traditional Neighborhood Barber Shop', 'an authentic neighborhood Indian male barber shop with turquoise oil-painted walls, large wooden-framed mirrors, a vintage black ceiling fan whirling overhead, and a classic chrome hydraulic barber chair'],
+  ['Local Street-Side Barber Shop with Open Shutter', 'a compact street-side Indian barber shop with a large open roll-up shutter showing the bustling outdoor bazaar, classic vinyl barber chair with chrome footrest, buzzing clippers, white towel on the chair back, and powder-scented air'],
+  ['Vintage Retro Barber Shop with Belmont Chair', 'a classic vintage barber shop with checkerboard tile flooring, antique Belmont hydraulic chair, leather strop hanging beside the mirror, blue Barbicide jar on the marble ledge, and retro wall decor'],
+  ['Modern Urban Barber Shop with Dark Wood', 'a contemporary male barber shop with matte-charcoal walls, rich dark walnut cabinetry, black leather reclining barber chairs, warm directional track spotlights, and clean masculine aesthetic'],
+  ['Local Corner Barber Shop with Shaded Canopy', 'a bustling corner street barber shop with a striped awning canopy outside, open doorway, whirring wall fan, stainless steel scissor tray, and energetic shop tempo'],
+  ['Multi-Chair Bustling Commercial Barber Shop', 'a lively high-energy barber shop with a row of five active chrome hydraulic chairs, male patrons receiving haircuts and hot towel shaves, large mirrored wall, and buzzing background chatter'],
+  ['Traditional Shaving & Haircut Barber Shop', 'a dedicated traditional men\'s grooming barbershop with hot lather machine, straight razor hone, magnetic tool bar holding precision shears, and deep tufted leather chairs'],
+  ['Express Quick-Cut Barber Shop Kiosk', 'a brightly lit, compact express barber shop with functional stainless steel cabinetry, blue disinfectant comb jar, and efficient urban layout'],
+  ['Retro 1970s Barber Shop with Faux-Wood Laminates', 'a nostalgic 1970s retro barber shop featuring warm woodgrain laminate walls, rounded vanity mirrors, vintage transistor radio playing soft melodies, and padded vinyl styling chairs'],
+
+  // SALONS
+  ['Modern Unisex Salon Floor', 'a contemporary unisex salon interior with clean minimalist design, plush black leather styling chairs, frameless backlit LED vanity mirrors, branded hair product display shelves, and pale oak wood flooring'],
+  ['Full-Service Commercial Salon Floor', 'a busy commercial salon floor with multiple styling stations, polished tile flooring, wall-mounted mirror islands, and active background energy'],
+  ['High-End Luxury Salon Suite', 'an exclusive private VIP salon suite with white marble countertops, gold-trimmed architectural mirrors, deep plush reclining leather styling chair, warm designer cove lighting, and private serene atmosphere'],
+  ['Shopping Mall Glass-Fronted Salon Studio', 'an upscale glass-fronted salon inside a modern shopping mall, polished granite flooring, recessed warm spotlighting, sleek chrome stations, and sophisticated contemporary aesthetics'],
+  ['Suburban Family Salon with Product Displays', 'a warm neighborhood family salon with polished ceramic tile floor, product display glass cases, comfortable armchairs, and familiar community buzz'],
+  ['VIP Private Haircut Suite in Salon', 'an intimate, soundproof single-station VIP room within a premier salon, featuring an oversized reclining leather chair, private vanity mirror, and tranquil personal attention'],
+  ['Open-Plan Commercial Hair Salon', 'an airy open-plan salon with high ceilings, polished concrete floors, parallel rows of hydraulic chairs, and diffuse daylight filtering through large windows'],
+  ['Exclusive Penthouse Salon with Skyline View', 'a luxurious top-floor penthouse salon with panoramic floor-to-ceiling city skyline views, white quartz styling islands, and sleek floating mirrors'],
+  ['Modern Glass & Steel Salon Studio', 'an ultra-clean contemporary salon with frosted glass partition walls, brushed stainless steel cabinetry, and cool balanced daylight illumination'],
+
+  // PARLOURS
+  ['Classic Neighborhood Hair Parlour', 'a cheerful neighborhood hair parlour with pastel cream walls, vanity mirror with warm bulb strip, clean tiled floor, and a comfortable cushioned swivel styling chair'],
+  ['Air-Conditioned Market Hair Parlour', 'a cool air-conditioned hair parlour located in a bustling market complex, tinted glass entry door, neat rows of tonic bottles, and quiet hum of the AC unit'],
+  ['Traditional Gent\'s Hair Parlour', 'an authentic classic gent\'s parlour with dark wood mirror moldings, glass display cabinets holding hair grooming tonics, vintage wall clock, and comfortable vinyl swivel chairs'],
+  ['Local High-Street Hair Parlour', 'a ground-floor high-street hair parlour with constant foot traffic outside, colorful wall trim, stainless steel instrument cart, and bright overhead lights'],
+  ['Compact Two-Chair Hair Parlour', 'an intimate two-station neighborhood parlour with two chrome hydraulic chairs, shared center mirror ledge, fresh white towels, and relaxed neighborly atmosphere'],
+  ['Busy Municipal Bazaar Hair Parlour', 'an energetic municipal bazaar hair parlour with open doorway, whirring wall-mounted fans, male customers seated on the waiting bench, and vibrant market murmurs'],
+  ['Second-Floor Balcony Hair Parlour', 'a quiet second-story hair parlour overlooking the market square below, breeze through open windows, clean mirrors, and relaxed afternoon tempo'],
+  ['Cozy Suburban AC Hair Parlour', 'a modern suburban air-conditioned parlour with beige porcelain tile flooring, chrome armchairs, and amber-lit styling station'],
+  ['Classic Street Corner Hair Parlour', 'a long-standing corner parlour with vintage tile wainscoting, large street-facing window, and classic hydraulic pump styling chair'],
+
+  // HAIR STUDIOS
+  ['Boutique Hair Studio with Warm Brick & Plants', 'a charming boutique hair studio with warm exposed red brick accents, potted indoor plants, brass vanity fixtures, and a plush emerald-green velvet styling chair'],
+  ['Industrial Loft Hair Studio with Exposed Pipes', 'a trendy industrial loft hair studio with exposed brick walls, high ceilings, dark ductwork, reclaimed wood counters, steel-framed swivel mirrors, and Edison bulb pendants'],
+  ['Clean Minimalist Monochrome Hair Studio', 'an airy open-concept hair studio with polished concrete floors, matte-black steel styling stations, floor-to-ceiling seamless mirrors, and diffuse daylight'],
+  ['Creative Atelier Hair Studio', 'an artistic open hair studio with light birch woodwork, brass pendant lighting, clean uncluttered countertops, and serene creative focus'],
+  ['Sunlit Rooftop Terrace Hair Studio', 'a modern rooftop hair studio bathed in 360-degree daylight, sheer white curtains, potted plants, and outdoor terrace breeze'],
+  ['Private One-Chair Styling Studio', 'an intimate private studio with a single bespoke leather styling chair, acoustic wall panels, custom halo-lit mirror, and zero distractions'],
+  ['Artisan Raw Concrete Hair Studio', 'a modern architectural hair studio featuring textured micro-cement walls, minimalist black iron stations, and sculptural lighting'],
+  ['Garden Veranda Hair Studio', 'a peaceful semi-outdoor veranda studio with terracotta pavers, leafy palm fronds reflecting in mirrors, and gentle warm breeze'],
+  ['Underground Speakeasy Hair Studio', 'an intimate speakeasy-inspired studio with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance']
+]);
+
+const salonDesign = makeOpts([
+  ['Preset Default (Harmonized with venue)', 'harmonized with the selected establishment architectural style and interior ambiance'],
+  ['Classic Traditional (Teal oil paint & chrome fans)', 'classic traditional aesthetic with light turquoise oil-painted plaster walls, vintage black ceiling fan, stainless steel trays, and retro Bollywood film wall art'],
+  ['Modern Minimalist (Matte black & frameless LED mirrors)', 'sleek modern minimalist interior with clean white and charcoal walls, frameless backlit LED halo mirrors, and matte-black steel accents'],
+  ['Industrial Raw (Exposed brick, steel pipes & concrete)', 'gritty industrial aesthetic with exposed red brick walls, overhead steel ductwork, polished concrete floor, and warm amber Edison bulb pendants'],
+  ['Vintage Retro (Faux-wood laminates & checkerboard floor)', 'warm vintage retro aesthetic with 1970s woodgrain laminate wall panels, black-and-white checkerboard floor tiles, and chrome trim'],
+  ['Upscale Luxury (White marble, gold trim & cove lighting)', 'luxurious high-end interior with polished white Calacatta marble counters, brushed brass architectural mirror trim, and warm recessed cove lighting'],
+  ['Cozy Boutique (Warm painted brick & indoor plants)', 'intimate boutique atmosphere with warm painted brick, lush potted indoor ficus and palm plants, brass vanity sconces, and pale oak flooring'],
+  ['Clean Commercial (White subway tiles & bright studio lights)', 'crisp commercial aesthetic with glossy white subway tile walls, dark grout lines, bright 5000K balanced daylight tubes, and organized product shelves'],
+  ['Distressed Rustic (Aged plaster walls & weathered wood)', 'authentic lived-in rustic atmosphere with weathered plaster walls showing aged patina, reclaimed wood countertops, and antique mirrors'],
+  ['High-Tech Contemporary (Polished granite & cool daylight LEDs)', 'high-tech contemporary interior with polished dark granite surfaces, frosted glass partition screens, and cool daylight vanity light bars']
+]);
+
+const salonBarberStaff = makeOpts([
+  ['Solo male barber only (Private 1-on-1 focus)', 'strictly one solo male barber in the shop giving complete, undivided professional attention to the female client in the chair with zero other staff'],
+  ['Lead male barber with junior male apprentice standing by', 'two male barbers present: an experienced lead male barber actively cutting the female client\'s hair, while a junior male apprentice stands nearby observing attentively and holding clean styling tools'],
+  ['Two active male barbers working at adjacent chairs', 'two male barbers actively working in the shop: one male barber cutting our female client, and a second male barber cutting another male patron\'s hair at the neighboring station'],
+  ['Three active male barbers in a bustling shop', 'three male barbers working simultaneously along the mirrored counter: the lead male barber detailing our female client\'s haircut, while two other male barbers attend to male clients in adjacent chairs'],
+  ['Full multi-station floor with 4–5 male barbers working', 'a full commercial shop floor with four to five male barbers actively working across multiple stations, executing haircuts, beard trims, and blowouts for male clients in the background'],
+  ['Lead master barber with waiting male patrons watching', 'one skilled master male barber actively styling the female client in the central chair, while several male patrons wait patiently on the wooden bench watching the haircut progression']
 ]);
 
 const salonTime = makeOpts([
@@ -911,18 +965,12 @@ const salonLighting = makeOpts([
 ]);
 
 const salonBustle = makeOpts([
-  ['Busy weekend bustle with neighboring customers', 'a lively, bustling salon atmosphere with other customers in adjacent chairs, barbers chatting, and active shop energy in the background'],
-  ['Quiet peaceful afternoon lull', 'a calm and tranquil afternoon lull in the salon, quiet relaxed mood with the gentle hum of a ceiling fan and distant street sounds'],
-  ['Intimate private one-on-one session', 'an exclusive private one-on-one session with focused quiet attention on the client in the chair'],
-  ['Early morning fresh start', 'early morning salon atmosphere with fresh clean towels, quiet street outside, and peaceful mood'],
-  ['Active evening rush with waiting bench patrons', 'an energetic evening peak hour with customers seated on the waiting bench reading magazines, background chatter, and bustling salon vibe'],
-  ['Rainy day sheltered refuge with cozy warmth', 'a cozy, comforting rainy day atmosphere with clients enjoying the shelter, warm lights reflecting off rain-splattered shop windows, and relaxed chatter'],
-  ['Solo appointment in empty shop', 'a quiet serene setting with no other clients in the shop, all attention and lighting focused entirely on the client in the central chair'],
-  ['Midday tea break lull (Chai & shears)', 'a relaxed authentic midday moment with a small glass cup of cutting chai resting on the ledge, peaceful ambient street murmur, and slow unhurried pace'],
-  ['High-energy makeover buzz with multiple blowouts', 'a dynamic high-energy salon floor with multiple stylists working, hairdryers humming in the background, and vibrant creative energy'],
-  ['Post-lunch quiet hours with relaxed street tempo', 'a drowsy post-lunch atmosphere with barbers resting by the doorway, lazy afternoon heat, and gentle slow shop tempo'],
-  ['Festive pre-holiday rush with celebratory excitement', 'a packed pre-festival salon with vibrant communal excitement, lively music, cheerful banter, and non-stop haircut action'],
-  ['Soundproof VIP suite tranquility with soft music', 'an ultra-private soundproof VIP styling sanctuary with tranquil ambiance, soft acoustic melodies, and complete personal privacy']
+  ['Empty shop — completely quiet, serene & private', 'an empty shop with zero other customers; serene, peaceful atmosphere where the female model is the sole client in the room'],
+  ['Sparse — 1 other male customer waiting quietly on bench', 'a calm, quiet shop atmosphere with only one other male customer seated on the wooden waiting bench reading a newspaper'],
+  ['Moderate — 2–3 male customers in background', 'a typical calm afternoon with two to three male customers in the shop—one paying at the counter and two seated on the waiting bench'],
+  ['Bustling — all neighboring chairs occupied by male clients', 'a lively, bustling salon atmosphere with all neighboring hydraulic chairs occupied by male clients receiving cuts and shaves from male barbers'],
+  ['Heavily crowded / Packed — waiting bench full of male patrons', 'a packed rush-hour shop with a full bench of waiting male patrons engaged in lively banter, clippers buzzing, and energetic neighborhood buzz'],
+  ['Quiet closing time — last appointment with street darkening', 'a quiet late-evening atmosphere near closing time with the outdoor street darkening, shop shutters half-drawn, and warm interior lights focused on the final client']
 ]);
 
 const salonQuality = makeOpts([
@@ -953,9 +1001,12 @@ const salonHairTexture = makeOpts([
 
 
 const fields={
-salonVenue:{label:'Salon type & interior',section:'salonVenueSec',opts:salonVenue,def:0},
-salonTime:{label:'Time of day & atmosphere',section:'salonVenueSec',opts:salonTime,def:0},
-salonBustle:{label:'Shop activity & crowd',section:'salonVenueSec',opts:salonBustle,def:0},
+salonVenueCategory:{label:'Establishment category',section:'salonVenueSec',opts:SALON_VENUE_CATEGORIES,def:0},
+salonVenue:{label:'Establishment type',section:'salonVenueSec',opts:salonVenue,def:0},
+salonDesign:{label:'Shop design & interior style',section:'salonVenueSec',opts:salonDesign,def:0},
+salonBarberStaff:{label:'Barber staff count',section:'salonVenueSec',opts:salonBarberStaff,def:0},
+salonBustle:{label:'Crowd density & bustle',section:'salonVenueSec',opts:salonBustle,def:0},
+salonTime:{label:'Time of day & light',section:'salonVenueSec',opts:salonTime,def:0},
 salonStationProps:{label:'Counter & station props',section:'salonVenueSec',opts:salonStationProps,def:0},
 salonStage:{label:'Haircut progress & moment',section:'salonStageSec',opts:salonStage,def:0},
 salonStylist:{label:'Barber / Stylist presence',section:'salonStageSec',opts:salonStylist,def:0},
@@ -1420,7 +1471,8 @@ const finishChecks=[
 {id:'candid',label:'Candid, not overly staged',detail:'Natural posture, unforced expression and imperfect timing.',checked:true}
 ];
 const GROUPS=[
-['salonVenueSec','Reference & Salon Setting',['mode','salonVenue','salonTime','salonBustle','salonStationProps']],
+['salonVenueSec','Establishment & Design',['mode','salonVenueCategory','salonVenue','salonDesign']],
+['salonVenueSec','Staffing, Crowd & Atmosphere',['salonBarberStaff','salonBustle','salonTime','salonStationProps']],
 ['salonStageSec','Haircut Progress & Barber',['salonStage','salonStylist']],
 ['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonHairTexture']],
 ['salonCameraSec','Cutting Cape & Realism',['salonCape']],
@@ -1431,7 +1483,7 @@ const GROUPS=[
 ['camera','Framing',['shotCategory','framing','cameraDistance','angle','composition','aspect','cropRules']],['camera','Optics',['lens','focusDetail','blurControl','filmFeel']],
 ['scene','Location',['sceneCategory','background','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lightingCategory','lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
-salonVenueSec: new Set(['mode', 'salonVenue', 'salonTime', 'salonBustle', 'salonStationProps']),
+salonVenueSec: new Set(['mode', 'salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonTime', 'salonStationProps']),
 salonStageSec: new Set(['salonStage', 'salonStylist']),
 salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonHairTexture']),
 salonCameraSec: new Set(['salonCape', 'salonCamera', 'salonLighting', 'salonQuality']),
@@ -1741,6 +1793,12 @@ if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.h
   if (!visibleOpts.includes(values.hair)) {
     values.hair = visibleOpts[0] || f.opts[0];
   }
+} else if (id === 'salonVenue' && values.salonVenueCategory && values.salonVenueCategory.text && values.salonVenueCategory.text !== 'all') {
+  const cat = values.salonVenueCategory.text;
+  visibleOpts = f.opts.filter(o => getItemCategory('salonVenue', o) === cat);
+  if (!visibleOpts.includes(values.salonVenue)) {
+    values.salonVenue = visibleOpts[0] || f.opts[0];
+  }
 } else if (id === 'salonHaircut' && values.salonHairCategory && values.salonHairCategory.text && values.salonHairCategory.text !== 'all') {
   const cat = values.salonHairCategory.text;
   visibleOpts = f.opts.filter(o => getItemCategory('hair', o) === cat);
@@ -1830,6 +1888,16 @@ visibleOpts.forEach((o)=>{
         const firstInCat = fields.hair.opts.find(opt => getItemCategory('hair', opt) === cat);
         if (firstInCat && getItemCategory('hair', values.hair) !== cat) values.hair = firstInCat;
       }
+    } else if (id === 'salonVenue') {
+      const itemCat = getItemCategory('salonVenue', o);
+      const matchCat = fields.salonVenueCategory.opts.find(c => c.text === itemCat);
+      if (matchCat && values.salonVenueCategory.text !== 'all') values.salonVenueCategory = matchCat;
+    } else if (id === 'salonVenueCategory') {
+      const cat = o.text || 'all';
+      if (cat !== 'all') {
+        const firstInCat = fields.salonVenue.opts.find(opt => getItemCategory('salonVenue', opt) === cat);
+        if (firstInCat && getItemCategory('salonVenue', values.salonVenue) !== cat) values.salonVenue = firstInCat;
+      }
     } else if (id === 'salonHairCategory') {
       const cat = o.text || 'all';
       if (cat !== 'all') {
@@ -1872,7 +1940,7 @@ visibleOpts.forEach((o)=>{
     custom.classList.remove('open');
     trigger.setAttribute('aria-expanded','false');
 
-    const RE_RENDER_IDS = new Set(['salonHairCategory', 'salonHaircut', 'hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
+    const RE_RENDER_IDS = new Set(['salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonHairCategory', 'salonHaircut', 'hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
     if (RE_RENDER_IDS.has(id)) {
       renderFields();
     }
@@ -2789,6 +2857,12 @@ function buildSalonPrompt(){
     lines.push('');
   }
 
+  lines.push('SOLITARY FEMALE SUBJECT & ALL-MALE ENVIRONMENT:');
+  lines.push('• Solitary Female Model: The female client seated in the styling chair (our model) is strictly and exclusively the ONLY woman/girl in the entire image.');
+  lines.push('• All-Male Staff & Patrons: All barbers, hair stylists, apprentices, and secondary shop customers in neighboring chairs or waiting on benches must strictly be male.');
+  lines.push('• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the background or mirrors.');
+  lines.push('');
+
   const outputText = {
     single: 'Create one finished photorealistic image.',
     collage: 'Generate one single high-resolution 2×2 editorial collage with four distinct, non-identical frames of the salon scene.',
@@ -2802,7 +2876,11 @@ function buildSalonPrompt(){
   lines.push('');
 
   lines.push('VENUE & ATMOSPHERE');
-  let venueLine = `${val('salonVenue')}. Time of day & ambient light: ${val('salonTime')}. Shop bustle: ${val('salonBustle')}.`;
+  let venueLine = `${val('salonVenue')}.`;
+  if(val('salonDesign') && !val('salonDesign').startsWith('Preset Default')) {
+    venueLine += ` Shop interior design: ${val('salonDesign')}.`;
+  }
+  venueLine += ` Barber staffing: ${val('salonBarberStaff')}. Crowd density: ${val('salonBustle')}. Time & ambient light: ${val('salonTime')}.`;
   if(val('salonStationProps')) venueLine += ` Station props: ${val('salonStationProps')}.`;
   lines.push(venueLine);
   lines.push('');
@@ -2840,6 +2918,9 @@ function buildSalonPrompt(){
   const capeText = val('salonCape');
   const haircutText = val('salonHaircut');
   const venueText = val('salonVenue');
+  const designText = (val('salonDesign') && !val('salonDesign').startsWith('Preset Default')) ? val('salonDesign') : 'authentic salon interior';
+  const staffText = val('salonBarberStaff');
+  const bustleText = val('salonBustle');
   const stationPropsText = val('salonStationProps') ? ` Station props visible on counter: ${val('salonStationProps')}.` : '';
   const lightingText = val('salonLighting');
   const moistureText = moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp;
@@ -2850,16 +2931,16 @@ function buildSalonPrompt(){
     lines.push('Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) documenting the haircut progression with complete photographic realism. Maintain 100% strict identity, hair color, and wardrobe consistency across all 4 frames: identical female client, identical male barber, identical draped cape, and identical salon station:');
     lines.push('');
     lines.push(`• FRAME 1 (TOP-LEFT) — SALON CONTEXT, CONSULTATION & PREP:
-Wide-medium framing at the styling station in ${venueText}. The female client is seated comfortably draped in ${capeText}. Barber presence: ${stylistText}. Natural in-mirror consultation as the male barber uses a black carbon tail comb and butterfly clips to part clean hair into sections.${stationPropsText} Mirrors reflect ambient ${lightingText}.`);
+Wide-medium framing at the styling station in ${venueText}. The female client (our solitary female model) is seated comfortably draped in ${capeText}. Shop design: ${designText}. Barber staffing: ${staffText}. Crowd atmosphere: ${bustleText}. Barber presence: ${stylistText}. Natural in-mirror consultation as the male barber uses a black carbon tail comb and butterfly clips to part clean hair into sections.${stationPropsText} Mirrors reflect ambient ${lightingText}.`);
     lines.push('');
     lines.push(`• FRAME 2 (TOP-RIGHT) — ACTIVE MOMENT: ${stageLabel.toUpperCase()} (MACRO TOOL & ACTION REALISM):
 Crisp eye-level close-up of the active haircutting action: ${stageText}. The male barber's arms and shoulders are visible and anatomically connected to his hands (zero floating or disembodied hands). He is actively cutting and detailing ${haircutText}. Hair moisture state: ${moistureText}. Barber hand mechanics: professional Japanese stainless steel shears held in authentic barber grip (thumb in moving blade ring, ring finger in finger ring, pinky on tang, index and middle fingers supporting the shank) or authentic salon styling tool; hair strand clamped flat and taut between index and middle fingers. Distinct hair strand tension, tiny water mist droplets on fibers, crisp cutting precision. Strictly authentic tools only; zero hybrid tools, zero clippers cutting long hair, zero deformed shears.`);
     lines.push('');
     lines.push(`• FRAME 3 (BOTTOM-LEFT) — SIDE PROFILE, LAYERING & CAPE DRAPE:
-Three-quarter side angle capturing the silhouette of ${haircutText}. Camera perspective: ${cameraText}. Visible authentic freshly cut hair clippings cling naturally to the nylon surface of ${capeText} draped over her shoulders with the crêpe paper neck strip. The male barber (${stylistLabel}) carefully refines the face-framing angles or perimeter graduation with the carbon cutting comb.`);
+Three-quarter side angle capturing the silhouette of ${haircutText}. Camera perspective: ${cameraText}. Background shows the shop interior design (${designText}) with ${bustleText}. Visible authentic freshly cut hair clippings cling naturally to the nylon surface of ${capeText} draped over her shoulders with the crêpe paper neck strip. The male barber (${stylistLabel}) carefully refines the face-framing angles or perimeter graduation with the carbon cutting comb.`);
     lines.push('');
     lines.push(`• FRAME 4 (BOTTOM-RIGHT) — FINISHED MIRROR REVEAL & BALANCE INSPECTION:
-Frontal mirror-reflection perspective. The client looks straight into the salon mirror with an authentic, pleased, relaxed expression, admiring the balanced silhouette, face-framing movement, and organic shape of her newly cut ${haircutText}. The male barber steps back slightly with a natural posture, wiping his shears or holding the mirror angle for her inspection. Lived-in salon background with authentic reflections under ${lightingText}.`);
+Frontal mirror-reflection perspective. The client (the sole female in the shop) looks straight into the salon mirror with an authentic, pleased, relaxed expression, admiring the balanced silhouette, face-framing movement, and organic shape of her newly cut ${haircutText}. The male barber steps back slightly with a natural posture, wiping his shears or holding the mirror angle for her inspection. Lived-in salon background with authentic reflections under ${lightingText}.`);
     lines.push('');
   } else if(outputType === 'triptych'){
     lines.push('THREE-PANEL EDITORIAL TRIPTYCH PROGRESSION (DYNAMIC 3-FRAME SEQUENCE)');
@@ -2905,6 +2986,9 @@ Frontal mirror-reflection perspective. The client looks straight into the salon 
   if(checkState.fabric) {
     salonChecks.push('• Realistic Cape & Fabric Behavior: Authentic draping folds of the cutting cape, crisp crêpe paper neck strip, snap fasteners, and believable fabric tension across shoulders.');
   }
+
+  // Strict Solitary Female Model & Exclusive Male Staff Safeguard:
+  salonChecks.push('• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
 
   // Always enforce Barber Tool Ergonomics & Anatomy in salon scenes:
   salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied arms entering frame). Haircut tools are strictly authentic, recognizable salon equipment: professional Japanese stainless steel shears held in standard barber grip (thumb in lower ring, ring finger in upper ring, pinky resting on tang), and a black carbon cutting comb held in opposite hand. Hair being cut is held flat and taut between index and middle fingers. Absolutely zero hybrid tools, zero fused scissor-combs, zero backward shears, and zero distorted blades.");
@@ -2956,6 +3040,7 @@ Frontal mirror-reflection perspective. The client looks straight into the salon 
 
   lines.push('AVOID / NEGATIVE GUIDANCE');
   const salonNegatives = [
+    'female barber, woman hairdresser, female stylist, female assistant, secondary woman in shop, female customers in neighboring chairs, other women, multiple women in frame',
     'cartoon, anime, 3d render, CGI plastic skin, doll-like hair',
     'floating hands, disembodied hands, hands without body, hands detached from arms, phantom limbs, third hand',
     'deformed scissors, melted shears, backwards scissors, giant shears, fused scissors and comb, hybrid grooming tools, mutant styling gadgets, scissors with extra blades, missing scissor finger rings, crooked blades',
