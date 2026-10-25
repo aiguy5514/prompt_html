@@ -1541,6 +1541,10 @@ function switchStudioMode(mode){
   }
   
   activeSection = sections[0].id;
+  const numImagesEl = el('numImages');
+  if(numImagesEl && numImagesEl.options && numImagesEl.options.length > 1){
+    numImagesEl.options[1].text = (mode === 'salon') ? 'One 2×2 collage · 4 haircut stages' : 'One 2×2 collage · 4 poses';
+  }
   renderTabs();
   goSection(activeSection, false);
   buildPrompt();
@@ -2829,7 +2833,44 @@ function buildSalonPrompt(){
   lines.push(`Camera angle: ${val('salonCamera')}. Lighting: ${val('salonLighting')}. Quality: ${val('salonQuality')}.`);
   lines.push('');
 
-    const salonChecks = [];
+  if(outputType === 'collage'){
+    lines.push('2×2 EDITORIAL COLLAGE COMPOSITION & PANEL BLUEPRINT (MANDATORY)');
+    lines.push('Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) documenting the haircut progression with complete photographic realism. Maintain 100% strict identity, hair color, and wardrobe consistency across all 4 frames: identical female client, identical male barber, identical draped cape, and identical salon station:');
+    lines.push('');
+    lines.push(`• FRAME 1 (TOP-LEFT) — SALON CONSULTATION & DAMP SECTIONING:
+Wide-medium angle at styling station. The female client sits comfortably draped in ${val('salonCape')}, looking into the salon mirror. The male barber stands attentively behind her, using a fine-toothed black carbon tail comb to part clean, misted damp hair into sectioning clips. Station mirrors reflect the warm salon lighting and shelves of grooming tonics.`);
+    lines.push('');
+    lines.push(`• FRAME 2 (TOP-RIGHT) — ACTIVE PRECISION SHEAR CUTTING (MACRO TOOL REALISM):
+Crisp eye-level close-up of active haircutting technique. The male barber's arms and shoulders are visible and anatomically connected to his hands (zero floating or disembodied hands). In his left hand, he holds a clean horizontal section of ${val('salonHaircut')} pulled perfectly flat and taut between his index and middle fingers (two-finger cutting tension). In his right hand, he holds professional Japanese stainless steel haircutting shears in authentic barber grip (thumb in moving blade ring, ring finger in finger ring, pinky on tang, index and middle fingers supporting the shank). The sharp, single-pivot scissor blades are actively and cleanly snipping the hair ends just above his fingers. Distinct hair strand tension, tiny water mist droplets on fibers (${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}), crisp cutting precision. Zero hybrid tools, zero clippers, zero deformed scissors.`);
+    lines.push('');
+    lines.push(`• FRAME 3 (BOTTOM-LEFT) — SIDE PROFILE & LAYERING DETAILING:
+Three-quarter side angle showing the drape of the cape across her shoulders and crêpe paper neck strip. Visible authentic freshly cut hair clippings cling naturally to the nylon surface of the cape. The male barber stands to the side, carefully elevating a face-framing layer or curtain bangs with the carbon cutting comb, checking graduation and movement against her cheekbone.`);
+    lines.push('');
+    lines.push(`• FRAME 4 (BOTTOM-RIGHT) — MIRROR REVEAL & BALANCE INSPECTION:
+Frontal mirror-reflection perspective. The client looks straight into the salon mirror with an authentic, pleased, relaxed expression, admiring the balanced silhouette, face-framing movement, and organic shape of her cut hair. The male barber steps back slightly with a natural posture, wiping his shears or holding the mirror angle for her inspection. Lived-in salon background with Barbicide jars, leather chair headrest, and ambient warm daylight.`);
+    lines.push('');
+  } else if(outputType === 'triptych'){
+    lines.push('THREE-PANEL EDITORIAL TRIPTYCH PROGRESSION (MANDATORY)');
+    lines.push('Generate a continuous 3-panel horizontal triptych depicting the salon haircut journey from left to right, maintaining strict identity and scene consistency across all 3 panels:');
+    lines.push(`• PANEL 1 (LEFT) — PRE-CUT PREP & SECTIONING: Client draped in ${val('salonCape')}; male barber sectioning damp hair with a black carbon comb and clips.`);
+    lines.push(`• PANEL 2 (CENTER) — ACTIVE PRECISION SHEAR CUTTING: Close-up of male barber holding hair strand taut between index and middle fingers, cutting with professional Japanese stainless steel shears in true barber grip.`);
+    lines.push(`• PANEL 3 (RIGHT) — FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ${val('salonHaircut')}, natural strand texture, and client admiring the result.`);
+    lines.push('');
+  } else if(outputType === 'set'){
+    lines.push('FOUR-FRAME EDITORIAL PHOTOGRAPHY SET');
+    lines.push('Generate four distinct photographic captures covering the salon experience: 1) Consultation and sectioning at styling station, 2) Macro close-up of active precision shear cutting on taut hair strand with authentic barber grip, 3) Profile angle showing cape draped with realistic cut hair clippings, 4) Frontal mirror reveal with completed silhouette.');
+    lines.push('');
+  } else if(outputType === 'contact'){
+    lines.push('SIX-FRAME 35MM FILM CONTACT SHEET SEQUENCE');
+    lines.push('Generate a classic six-frame contact sheet strip chronicling the haircut from cape fastening, water spray misting, precision shear trimming, layer detailing, blow-dry styling, to final mirror inspection.');
+    lines.push('');
+  } else {
+    lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
+    lines.push("When haircutting action is depicted, the male barber holds authentic professional Japanese stainless steel cutting shears (thumb and ring finger in rings, pinky on tang) and a black carbon comb, cutting hair held taut between index and middle fingers. The barber's arms and body must be fully connected to his hands with zero floating limbs.");
+    lines.push('');
+  }
+
+  const salonChecks = [];
 
   if(checkState.identity) {
     salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
@@ -2847,13 +2888,17 @@ function buildSalonPrompt(){
     salonChecks.push('• Fine Hair Strand Physics: Distinct individual hair strands, natural parting line, delicate micro-flyaways at the temples and hairline, organic volume.');
   }
   if(checkState.hairTexturePreserve || preserveHairTexture) {
-    salonChecks.push('• Hair Texture Integrity: Maintain the client\'s authentic natural Indian hair fiber, natural density, and organic behavior without artificial smoothing or mismatched texture.');
+    salonChecks.push("• Hair Texture Integrity: Maintain the client's authentic natural Indian hair fiber, natural density, and organic behavior without artificial smoothing or mismatched texture.");
   }
   if(checkState.fabric) {
     salonChecks.push('• Realistic Cape & Fabric Behavior: Authentic draping folds of the cutting cape, crisp crêpe paper neck strip, snap fasteners, and believable fabric tension across shoulders.');
   }
+
+  // Always enforce Barber Tool Ergonomics & Anatomy in salon scenes:
+  salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied arms entering frame). Haircut tools are strictly authentic, recognizable salon equipment: professional Japanese stainless steel shears held in standard barber grip (thumb in lower ring, ring finger in upper ring, pinky resting on tang), and a black carbon cutting comb held in opposite hand. Hair being cut is held flat and taut between index and middle fingers. Absolutely zero hybrid tools, zero fused scissor-combs, zero backward shears, and zero distorted blades.");
+
   if(checkState.hands) {
-    salonChecks.push('• Anatomically Correct Barber Hands: Physically accurate male barber hand grip holding professional stainless steel shears and carbon cutting comb, realistic knuckles and hand posture.');
+    salonChecks.push('• Anatomically Correct Barber Hands: Physically accurate male barber hand grip holding professional stainless steel shears and carbon cutting comb, realistic knuckles, skin folds, and authentic finger tension clamping hair flat between index and middle fingers.');
   }
   if(checkState.lightingReal) {
     salonChecks.push('• Physically Believable Lighting Physics: Balanced indoor illumination, authentic mirror reflections, realistic shadow depth, and warm practical light falloff.');
@@ -2880,7 +2925,7 @@ function buildSalonPrompt(){
   if(salonHairMoisture === 'dry') {
     salonChecks.push('• Dry Hair Physics: Lightweight individual hair strand movement, airy crown volume, soft natural flyaways, and zero moisture clumping.');
   } else {
-    salonChecks.push('• Water Spray & Wet Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between barber\'s fingers, and authentic non-plastic water reflection.');
+    salonChecks.push("• Water Spray & Wet Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between barber's fingers, and authentic non-plastic water reflection.");
   }
 
   lines.push('REALISM, IDENTITY & PHYSICAL SAFEGUARDS');
@@ -2899,16 +2944,20 @@ function buildSalonPrompt(){
 
   lines.push('AVOID / NEGATIVE GUIDANCE');
   const salonNegatives = [
-    'cartoon, anime, 3d render, plastic skin, doll-like hair',
-    'floating scissors, extra fingers, warped mirrors, impossible reflections',
-    'over-airbrushed skin, missing cape, floating hair clips',
-    'fake studio glamour lighting, red carpet attire under cape'
+    'cartoon, anime, 3d render, CGI plastic skin, doll-like hair',
+    'floating hands, disembodied hands, hands without body, hands detached from arms, phantom limbs, third hand',
+    'deformed scissors, melted shears, backwards scissors, giant shears, fused scissors and comb, hybrid grooming tools, mutant styling gadgets, scissors with extra blades, missing scissor finger rings, crooked blades',
+    'clippers cutting long female hair, buzzing hair off clumsily, electric trimmer disaster',
+    'extra fingers, missing fingers, malformed knuckles, fused fingers, backwards thumbs',
+    'floating hair clips, missing salon cape, unfastened neck strip, floating combs',
+    'warped mirrors, distorted mirror reflections, duplicated faces in glass, impossible reflective geometry',
+    'over-airbrushed skin, waxy plastic sheen, heavy beauty retouching, fake studio glamour glow'
   ];
 
   if(checkState.noMirror) salonNegatives.push('mirrors, mirror reflections, duplicated faces, reflective glass distortion');
   if(checkState.retouch) salonNegatives.push('airbrushed skin, waxy skin, heavy beauty filters, CGI plastic sheen');
   if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair');
-  if(checkState.hands) salonNegatives.push('extra fingers, malformed hands, floating scissors, distorted barber grip');
+  if(checkState.hands) salonNegatives.push('extra fingers, malformed hands, floating scissors, distorted barber grip, disembodied hands');
   if(salonHairMoisture === 'dry') {
     salonNegatives.push('wet hair, damp hair, dripping hair, greasy hair, oily sheen, clumping strands');
   } else {
