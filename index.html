@@ -1360,7 +1360,8 @@ const salonSections=[
   {id:'salonVenueSec',name:'Salon & Vibe',short:'VENUE',icon:'💈',desc:'Reference workflow, authentic salon venue, and neighborhood bustle.'},
   {id:'salonStageSec',name:'Haircut & Barber',short:'STAGE',icon:'✂',desc:'Pick the in-progress cutting moment and barber presence in frame.'},
   {id:'salonHairSec',name:'Haircut Style',short:'HAIR',icon:'💇‍♀️',desc:'Specify the haircut being cut from 230 styles and authentic hair texture.'},
-  {id:'salonCameraSec',name:'Cape & Camera',short:'CAMERA',icon:'📸',desc:'Set the draped cutting cape, mirror perspective POV, and salon lighting.'}
+  {id:'salonCameraSec',name:'Cape & Camera',short:'CAMERA',icon:'📸',desc:'Set the draped cutting cape, mirror perspective POV, and salon lighting.'},
+  {id:'finish',name:'Finish & controls',short:'FINISH',icon:'✦',desc:'Control identity preservation, realism, exclusions, and custom instructions.'}
 ];
 
 let currentStudioMode = 'photoshoot';
@@ -2062,7 +2063,8 @@ custom.querySelectorAll('.choice').forEach(b=>{
 }
 
 function finishMarkup(){
-return `<div class="field-grid" style="margin-top:22px"><div class="field full"><div class="label-row"><label for="customDirection">Your own creative direction</label><span class="option-count">Optional</span></div><textarea id="customDirection" placeholder="Add details: hairstyle length, jewelry to retain, room details, exact outfit color, pose adjustments…"></textarea><p class="help">This text is added to the generated prompt as your custom instructions.</p></div><div class="field full"><div class="label-row"><label for="negative">Extra exclusions / negative prompt</label><span class="option-count">Optional</span></div><textarea id="negative" placeholder="e.g. no mirror, no blurry face, no extra fingers, no artificial hair…"></textarea><p class="help">Additional things the image model should avoid.</p></div><div class="field full"><label>Identity, realism and output safeguards</label><div class="checks" id="finishChecks">${finishChecks.map(c=>`<label class="check"><input type="checkbox" data-check="${c.id}" ${checkState[c.id]?'checked':''}><span>${c.label}<small>${c.detail}</small></span></label>`).join('')}</div></div><div class="field"><div class="label-row"><label for="numImages">Output format</label></div><div class="select-wrap"><select id="numImages"><option value="single">One final image</option><option value="collage">One 2×2 collage · 4 poses</option><option value="set">Four separate images</option><option value="triptych">Three-panel editorial triptych</option><option value="contact">Six-frame contact sheet</option></select></div></div><div class="field"><div class="label-row"><label for="detailLevel">Prompt detail</label></div><div class="select-wrap"><select id="detailLevel"><option value="full">Highly detailed</option><option value="balanced">Balanced detail</option><option value="compact">Compact prompt</option></select></div></div></div>`;
+const visibleChecks=finishChecks.filter(c=>currentStudioMode==='photoshoot'||c.id!=='soloSubject');
+return `<div class="field-grid" style="margin-top:22px"><div class="field full"><div class="label-row"><label for="customDirection">Your own creative direction</label><span class="option-count">Optional</span></div><textarea id="customDirection" placeholder="Add details: hairstyle length, jewelry to retain, room details, exact outfit color, pose adjustments…"></textarea><p class="help">This text is added to the generated prompt as your custom instructions.</p></div><div class="field full"><div class="label-row"><label for="negative">Extra exclusions / negative prompt</label><span class="option-count">Optional</span></div><textarea id="negative" placeholder="e.g. no mirror, no blurry face, no extra fingers, no artificial hair…"></textarea><p class="help">Additional things the image model should avoid.</p></div><div class="field full"><label>Identity, realism and output safeguards</label><div class="checks" id="finishChecks">${visibleChecks.map(c=>`<label class="check"><input type="checkbox" data-check="${c.id}" ${checkState[c.id]?'checked':''}><span>${c.label}<small>${c.detail}</small></span></label>`).join('')}</div></div><div class="field"><div class="label-row"><label for="numImages">Output format</label></div><div class="select-wrap"><select id="numImages"><option value="single">One final image</option><option value="collage">One 2×2 collage · 4 poses</option><option value="set">Four separate images</option><option value="triptych">Three-panel editorial triptych</option><option value="contact">Six-frame contact sheet</option></select></div></div><div class="field"><div class="label-row"><label for="detailLevel">Prompt detail</label></div><div class="select-wrap"><select id="detailLevel"><option value="full">Highly detailed</option><option value="balanced">Balanced detail</option><option value="compact">Compact prompt</option></select></div></div></div>`;
 }
 
 function bindFinish(){
@@ -2078,9 +2080,9 @@ el('finishChecks').querySelectorAll('input').forEach(i=>i.addEventListener('chan
 }
 
 function goSection(id,shouldScroll=true){
-activeSection=id;
-const section=sections.find(s=>s.id===id);
-tabs.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.section===id));
+const section=sections.find(s=>s.id===id) || sections[0];
+activeSection=section.id;
+tabs.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.section===activeSection));
 el('stepEyebrow').textContent='Creative direction · '+String(sections.indexOf(section)+1).padStart(2,'0');
 el('stepTitle').textContent=section.name;
 el('stepDescription').textContent=section.desc;
@@ -2088,7 +2090,9 @@ el('stepIcon').textContent=section.icon;
 el('stepCount').textContent=`Step ${sections.indexOf(section)+1} of ${sections.length}`;
 el('prevStep').disabled=sections.indexOf(section)===0;
 el('prevStep').style.opacity=el('prevStep').disabled?'.42':'1';
-el('nextStep').textContent=sections.indexOf(section)===sections.length-1?'Back to look ↺':'Next step →';
+el('nextStep').textContent=sections.indexOf(section)===sections.length-1?(currentStudioMode==='salon'?'Back to venue ↺':'Back to look ↺'):'Next step →';
+const advBar=document.querySelector('.advanced-bar');
+if(advBar) advBar.style.display=activeSection==='finish'?'none':'flex';
 renderFields();
 if(shouldScroll)window.scrollTo({top:Math.max(0,el('stepCard').getBoundingClientRect().top+window.scrollY-12),behavior:'smooth'});
 }
@@ -2099,7 +2103,7 @@ if(!p)return;
 activePreset=id;
 document.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active',b.dataset.preset===id));
 rollTheme(p);
-goSection('look');
+goSection(currentStudioMode==='salon'?'salonVenueSec':'look');
 buildPrompt();
 toast(`Applied “${p.title}”. Customize any option now.`);
 }
@@ -2719,8 +2723,16 @@ function buildSalonPrompt(){
     lines.push('');
   }
 
+  const outputText = {
+    single: 'Create one finished photorealistic image.',
+    collage: 'Generate one single high-resolution 2×2 editorial collage with four distinct, non-identical frames of the salon scene.',
+    set: 'Generate a curated set of four distinct individual photographs of the salon scene from different angles.',
+    triptych: 'Generate a continuous three-panel editorial triptych depicting the salon haircut progression.',
+    contact: 'Generate a classic contact sheet layout featuring six contiguous film frames of the salon scene.'
+  };
+
   lines.push('CREATIVE INTENT');
-  lines.push(`${mode}. Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
+  lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
   lines.push('');
 
   lines.push('VENUE & ATMOSPHERE');
@@ -2756,6 +2768,12 @@ function buildSalonPrompt(){
   lines.push('• Seamless mirror perspective with physically accurate reflection geometry and zero AI duplication artifacts.');
   lines.push('');
 
+  if(customDirection.trim()){
+    lines.push('ADDITIONAL CREATIVE DIRECTION');
+    lines.push(customDirection.trim());
+    lines.push('');
+  }
+
   lines.push('AVOID / NEGATIVE GUIDANCE');
   const salonNegatives = [
     'cartoon, anime, 3d render, plastic skin, doll-like hair',
@@ -2763,6 +2781,7 @@ function buildSalonPrompt(){
     'over-airbrushed skin, missing cape, floating hair clips',
     'fake studio glamour lighting, red carpet attire under cape'
   ];
+  if(checkState.noText) salonNegatives.push('text overlays, logos and watermarks');
   if(extraNegative.trim()) salonNegatives.push(extraNegative.trim());
   lines.push(salonNegatives.map(x=>'• '+x).join('\n'));
 
@@ -3251,7 +3270,7 @@ outputType='single';
 detailLevel='full';
 activePreset='';
 document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
-goSection('look');
+goSection(currentStudioMode==='salon'?'salonVenueSec':'look');
 buildPrompt();
 toast(lockedFields.size>0?'Reset choices to defaults (locked choices kept).':'Builder reset to defaults.');
 }
