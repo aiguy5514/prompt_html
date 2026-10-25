@@ -235,6 +235,12 @@
 
 
 /* 2×2 Collage Storyboard Director Card */
+.collage-director-wrap,
+.collage-director-wrap.full {
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
+}
 .collage-director-card {
   grid-column: 1 / -1;
   width: 100%;
@@ -336,10 +342,7 @@
   line-height: 1.4 !important;
   appearance: none !important;
   -webkit-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f472b6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 10px center !important;
-  background-size: 14px !important;
+  background-image: none !important;
 }
 .collage-quadrants-grid {
   display: grid;
@@ -395,10 +398,7 @@
   line-height: 1.4 !important;
   appearance: none !important;
   -webkit-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f472b6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 8px center !important;
-  background-size: 14px !important;
+  background-image: none !important;
 }
 .quadrant-select optgroup {
   font-weight: 700;
@@ -1021,7 +1021,7 @@ const salonTime = makeOpts([
 ]);
 
 const salonStage = makeOpts([
-  ['Active scissor work — mid-haircut', 'in-progress haircut action: the male barber holds a damp section of hair taut between his index and middle fingers while sharp stainless steel shears execute a clean precision snip, with freshly cut wet hair strands falling onto the draped cape'],
+  ['Active scissor work — mid-haircut', 'in-progress haircut action: the male barber holds a taut section of hair between his index and middle fingers while sharp stainless steel shears execute a clean precision snip, with freshly cut hair strands falling onto the draped cape'],
   ['Precision fringe & curtain bangs trimming', 'active precision detailing: the male barber carefully point-cuts soft arched bottleneck curtain bangs at eyebrow level, using a carbon cutting comb to hold light tension as tiny hair clippings scatter onto the cape'],
   ['Sectioning with butterfly clips & prep', 'haircut preparation stage: the client is draped in a cape with upper hair divided into neat sections secured by colorful salon butterfly clips, while lower layers are combed flat ready to be cut'],
   ['Wetting with spray bottle & combing flat', 'pre-cut wetting stage: fine water mist from an aluminum spray bottle glistens across the hair strands, as the male barber uses a fine-tooth cutting comb to create a crisp center parting'],
@@ -1039,7 +1039,7 @@ const salonStage = makeOpts([
   ['Scissor-over-comb blending motion', 'active layering: the male barber rapidly works cutting shears over a flat barber comb to sculpt clean graduated layers along the hair perimeter'],
   ['Slide cutting along face-framing angles', 'precision shaping: the male barber slides open scissor blades smoothly down the front curtain strands to create a seamless tapered face frame'],
   ['Cross-checking vertical sections across the crown', 'balance check: the male barber lifts vertical sections of hair perpendicular to the scalp between his fingers, checking uniform layer lengths across the crown'],
-  ['Spray bottle misting during haircut', 'active cut maintenance: the male barber spritzes water mist directly onto damp crown strands as water droplets glisten and hair settles into clean cutting tension'],
+  ['Spray bottle misting during haircut', 'active cut maintenance: the male barber spritzes water mist directly onto crown strands as water droplets glisten and hair settles into clean cutting tension'],
   ['Combing curtain bangs into crisp center part', 'parting precision: the male barber uses a black tail comb to carve a clean center parting and drape wispy arched curtain bangs symmetrically over brows'],
   ['Twisting and point-cutting ponytail tail ends', 'tail detailing: the male barber gathers the ponytail tail, twisting the ends lightly and point-cutting into the tips to give soft natural movement'],
   ['Hairdryer cool-shot loose hair blast', 'clearing clippings: the male barber uses the cool-shot nozzle of a hairdryer to gently blow loose cut hair fragments off the shoulders and cape collar'],
@@ -1083,9 +1083,9 @@ const salonCape = makeOpts([
   ['Heavyweight black vinyl chemical & cutting cape', 'a thick glossy black vinyl waterproof salon cape draped heavily over the styling chair arms, with water droplets and cut hair clippings clinging to the surface'],
   ['Double-towel neck wrap with classic black cape', 'thick dual white salon towels layered around the neck for maximum comfort under a snug black nylon cutting cape with scattered hair dust'],
   ['Gold-trimmed luxury black satin cutting cape', 'an upscale luxury black satin salon cape with gold piping along the edges, draped gracefully with fine micro-hair clippings resting on the shoulders'],
-  ['Royal blue waterproof cape with snap fasteners', 'a rich royal blue waterproof barber cape snapped securely at the neck with dark fallen cut hair fragments visible against the vibrant fabric'],
+  ['Royal blue waterproof cape with snap fasteners', 'a rich royal blue waterproof barber cape snapped securely at the neck with fallen cut hair fragments visible against the vibrant fabric'],
   ['Retro barber tool motif printed black cape', 'a retro black cape printed with subtle white vintage shears, combs, and barber pole graphics, dusted with realistic hair clippings'],
-  ['Sunny yellow retro vinyl barber cape', 'a cheerful vintage yellow salon cape with black edge binding, draped over the styling chair with dark cut hair dust scattered on the lap'],
+  ['Sunny yellow retro vinyl barber cape', 'a cheerful vintage yellow salon cape with black edge binding, draped over the styling chair with cut hair dust scattered on the lap'],
   ['Earthy terracotta cotton-blend drape over embroidered kurti', 'a warm terracotta rust-colored cotton salon drape loosely fastened, revealing an embroidered traditional Indian kurti collar at the neckline'],
   ['Soft lavender waterproof cape with sanitary neck strip', 'a calming pastel lavender cutting cape with a clean white crêpe collar, accented by a scattering of cut hair ends across the chest'],
   ['Black cape with sporty red contrast racing stripes', 'a contemporary sporty black salon cape featuring twin red accent stripes down the arms, dusted with fresh cut hair fragments'],
@@ -1282,7 +1282,7 @@ function getStageMatchingSceneId(stageLabel, stageText){
   }
   const lbl = (stageLabel || '').toLowerCase();
   const txt = (stageText || '').toLowerCase();
-  if (lbl.includes('feathering razor') || txt.includes('feathering razor') || lbl.includes('wispy')) return 'feathering_razor_ends';
+  if (lbl.includes('feathering razor') || txt.includes('feathering razor')) return 'feathering_razor_ends';
   const text = (stageLabel + ' ' + (stageText || '')).toLowerCase();
   if (text.includes('blowout') || text.includes('hairdryer') || text.includes('round-brush')){
     return 'blowout_round_brush';
@@ -1328,16 +1328,23 @@ function getCollageSceneDirective(sceneId, ctx){
   const staff = ctx.staffText || 'barber staff working';
   const isSoloClient = (ctx.stylistLabel || '').toLowerCase().includes('solo client');
   const isDryMode = (ctx.hairMoisture === 'dry');
+  const noMirror = !!ctx.noMirror;
 
   const isBustleEmpty = (ctx.bustleLabel || '').toLowerCase().startsWith('empty');
   const shopCrowdDesc = isBustleEmpty ? 'peaceful quiet atmosphere with zero other customers in neighboring chairs' : `${b}. Barber staffing: ${staff}`;
 
   const templates = {
-    consultation_chair: `Wide-medium in-mirror consultation at the styling station in ${v} (${d}). The female client sits comfortably in the hydraulic chair draped in ${c}. The male barber (${st}) stands beside her, gently lifting a section of ${h} with his fingers while discussing the desired silhouette in the station mirror under ${l}.${pStr}`,
-    consultation_chai: `Relaxed candid consultation moment at the station in ${v}. The female client holds a steaming brass cup of chai/coffee while conversing with ${st} about her haircut direction. Shop atmosphere: ${shopCrowdDesc}. Vintage Belmont chair and counter props reflected in ${l}.${pStr}`,
-    cape_neck_strip: `Prep moment in chair: the male barber (${sl}) stands behind the client, gently wrapping a clean white elastic crêpe paper neck strip around her collar before fastening the high neckline of ${c} with snap buttons. The client smiles calmly; station mirror reflects ambient ${l} of ${v}.`,
-    comb_through_dry: `Pre-cut hair assessment: the male barber uses a wide-tooth tortoiseshell styling comb to glide smoothly through the client's hair, evaluating natural strand fall, crown cowlicks, and density before cutting. The female client relaxes under ${c}. Background displays ${d} with ${b}.`,
-    chair_hydraulic: `Atmospheric salon mechanics: the male barber uses his foot on the heavy chrome hydraulic pump lever of the vintage barber chair, adjusting the client's seating height with precision. The female client rests her hands under ${c} looking into the station mirror with anticipation under ${l}.${pStr}`,
+    consultation_chair: `Wide-medium in-chair consultation at the styling station in ${v} (${d}). The female client sits comfortably in the hydraulic chair draped in ${c}. The male barber (${st}) stands beside her, gently lifting a section of ${h} with his fingers while discussing the desired silhouette ${noMirror ? `in ${v} under ${l}` : `in the station mirror under ${l}`}.${pStr}`,
+    consultation_chai: isSoloClient
+      ? `Relaxed candid consultation moment: the female client holds a steaming brass cup of chai/coffee at the station counter in ${v}, relaxing and contemplating her haircut direction before cutting. Shop atmosphere: ${shopCrowdDesc}.${pStr}`
+      : `Relaxed candid consultation moment at the station in ${v}. The female client holds a steaming brass cup of chai/coffee while conversing with ${st} about her haircut direction. Shop atmosphere: ${shopCrowdDesc}. Vintage Belmont chair and counter props in ${l}.${pStr}`,
+    cape_neck_strip: `Prep moment in chair: the male barber (${sl}) stands behind the client, gently wrapping a clean white elastic crêpe paper neck strip around her collar before fastening the high neckline of ${c} with snap buttons. The client smiles calmly; station background reflects ambient ${l} of ${v}.`,
+    comb_through_dry: isSoloClient
+      ? `Pre-cut hair assessment: the female client uses a wide-tooth tortoiseshell styling comb to glide smoothly through her hair, evaluating natural strand fall and density under ${c}. Background displays ${d} with ${b}.`
+      : `Pre-cut hair assessment: the male barber uses a wide-tooth tortoiseshell styling comb to glide smoothly through the client's hair, evaluating natural strand fall, crown cowlicks, and density before cutting. The female client relaxes under ${c}. Background displays ${d} with ${b}.`,
+    chair_hydraulic: isSoloClient
+      ? `Atmospheric salon mechanics: the female client sits comfortably in the vintage hydraulic Belmont chair in ${v}, draped in ${c}, gazing ${noMirror ? 'forward' : 'into the station mirror'} with anticipation under ${l}.${pStr}`
+      : `Atmospheric salon mechanics: the male barber uses his foot on the heavy chrome hydraulic pump lever of the vintage barber chair, adjusting the client's seating height with precision. The female client rests her hands under ${c} looking ${noMirror ? 'ahead' : 'into the station mirror'} with anticipation under ${l}.${pStr}`,
     shampoo_basin: isDryMode 
       ? `Soothing wash station capture (pre-blowout prep): the client leans back comfortably over the white porcelain shampoo basin in the wash area of ${v}. The male barber gently massages botanical shampoo and warm water into hair strands before subsequent towel-drying and thermal blowout styling. Relaxed facial expression, delicate suds, all attendants male.`
       : `Soothing wash station capture: the client leans back comfortably over the white porcelain shampoo basin in the wash area of ${v}. The male barber gently massages rich foaming botanical shampoo into saturated hair strands under a warm chrome spray nozzle. Delicate water droplets and lather bubbles, relaxed facial expression.`,
@@ -1345,40 +1352,46 @@ function getCollageSceneDirective(sceneId, ctx){
       ? `Sensory salon wash ritual (pre-blowout prep): warm water cascades through hair strands as the male barber rinses clean suds at the ceramic backwash basin for the female client before towel blotting and blowout styling. Steam rises softly in ambient ${l}; all attendants male.`
       : `Sensory salon ritual: warm water cascades through saturated hair strands as the male barber rinses clean suds at the ceramic backwash basin for the female client. Steam rises softly in ambient ${l}. Believable wet hair drape and glistening aquatic sheen; all attendants male.`,
     towel_turban_dry: isDryMode
-      ? `Post-wash return to chair: the female client is seated at the main station in ${v} with a plush white towel neatly wrapped into a turban atop her head, blotting hair dry before thermal blowout styling. The male barber (${st}) prepares styling combs and shears on the counter.${pStr}`
-      : `Post-wash return to chair: the female client is seated at the main station in ${v} with a plush white towel neatly wrapped into a turban atop her head, beginning to air-dry. The male barber (${st}) prepares styling combs and shears on the counter.${pStr}`,
+      ? `Post-wash return to chair: the female client is seated at the main station in ${v} with a plush white towel neatly wrapped into a turban atop her head, blotting hair dry before thermal blowout styling.${pStr}`
+      : `Post-wash return to chair: the female client is seated at the main station in ${v} with a plush white towel neatly wrapped into a turban atop her head, beginning to air-dry.${pStr}`,
     spray_misting: isDryMode
       ? `Pre-cut prep stage: the male barber holds a brushed aluminum spray bottle, applying light targeted water mist across sectioned strands on the seated client while preserving overall dry cutting texture. Tiny glistening droplets catch the salon lighting as his other hand glides a carbon cutting comb through ${h}. Zero scissors in this prep frame.`
       : `Pre-cut wetting stage: the male barber holds a brushed aluminum spray bottle, spritzing a fine, even water mist across hair strands on the seated client. Moisture state: ${m}. Tiny glistening droplets catch the salon lighting as his other hand glides a carbon cutting comb through the dampened sections of ${h}. Zero scissors in this prep frame.`,
-    carbon_comb_parting: `Precision sectioning craft: close-medium shot of the male barber's focused hands using the fine metal tail of a carbon comb to carve crisp, razor-sharp parting lines across the damp crown of the female client. Clean geometric sectioning, butterfly clips securing perimeter of ${h}, focused artisan gaze.`,
-    sectioning_clips: `Artisan preparation: the female client's damp hair is methodically partitioned into four clean quadrants, held securely by matte black salon duckbill clips. The male barber (${sl}) stands poised with shears ready in hand, studying the symmetry of ${h} in the wall mirror under ${l}.`,
+    carbon_comb_parting: `Precision sectioning craft: close-medium shot of the male barber's focused hands using the fine metal tail of a carbon comb to carve crisp, razor-sharp parting lines across the ${isDryMode ? 'crown' : 'damp crown'} of the female client. Clean geometric sectioning, butterfly clips securing perimeter of ${h}, focused artisan gaze.`,
+    sectioning_clips: `Artisan preparation: the female client's ${isDryMode ? 'hair' : 'damp hair'} is methodically partitioned into four clean quadrants, held securely by matte black salon duckbill clips. The male barber (${sl}) stands poised with shears ready in hand, studying the symmetry of ${h} ${noMirror ? 'under' : 'in the wall mirror under'} ${l}.`,
     scissor_blunt_perimeter: `Hero precision cutting: crisp eye-level close-up of the male barber's hands clamping a horizontal section of ${h} taut and flat between index and middle fingers on the female client, cleanly snipping a blunt baseline perimeter with Japanese stainless steel shears. Authentic barber grip (thumb and ring finger in rings, pinky on tang). Distinct strand tension, crisp cutting line, fine clippings falling onto ${c}.`,
-    scissor_point_cutting: `Texturizing scissor work: the male barber holds shears vertically, delicately point-cutting with the scissor tips into the ends of damp ${h} on the female client to soften the perimeter and create airy, natural movement. Full anatomical arm connection, taut two-finger tension, realistic micro-droplets on hair fibers.`,
-    scissor_curtain_bangs: `Face-framing fringe craft: the male barber stands facing the station mirror, meticulously point-cutting soft, arched bottleneck curtain bangs around the female client's eyebrows and cheekbones. Client's expressive eyes visible beneath the fringe, delicate fallen hair dust on upper collar of ${c}.`,
+    scissor_point_cutting: `Texturizing scissor work: the male barber holds shears vertically, delicately point-cutting with the scissor tips into the ends of ${isDryMode ? '' : 'damp '}${h} on the female client to soften the perimeter and create airy, natural movement. Full anatomical arm connection, taut two-finger tension${isDryMode ? ', clean dry strand separation.' : ', realistic micro-droplets on hair fibers.'}`,
+    scissor_curtain_bangs: `Face-framing fringe craft: the male barber stands facing ${noMirror ? 'the client' : 'the station mirror'}, meticulously point-cutting soft, arched bottleneck curtain bangs around the female client's eyebrows and cheekbones. Client's expressive eyes visible beneath the fringe, delicate fallen hair dust on upper collar of ${c}.`,
     scissor_face_framing: `Angled slide cutting: dynamic angle showing the male barber gently angling his shears downward along the side of the client's face, carving soft jawline-hugging graduated layers in ${h}. Beautiful cheekbone framing, natural hair movement, shop background ${d}.`,
     scissor_over_comb: `Master barber technique: male barber rhythmically works his stainless steel cutting shears over a flat white barber comb, precisely blending graduation and weight along the perimeter of ${h} for the female client. Steady wrists, rhythmic motion blur, lived-in atmosphere of ${v}.`,
     scissor_crown_layers: `Dimensional layering: the male barber elevates a clean rectangular section from the crown straight up at a 90-degree angle, tensioning the hair taut between fingers before trimming to establish fluid cascading layers in ${h} on the client. Cut strands fan out naturally under ${l}.`,
-    thinning_shears_bulk: `Specialized texturizing: macro focus on the male barber's notched Japanese thinning shears cutting midway through a thick damp hair section of ${h} on the female client. Visible notched teeth on moving blade removing weight while preserving strand length; airy piecey separation.`,
+    thinning_shears_bulk: `Specialized texturizing: macro focus on the male barber's notched Japanese thinning shears cutting midway through a thick ${isDryMode ? '' : 'damp '}hair section of ${h} on the female client. Visible notched teeth on moving blade removing weight while preserving strand length; airy piecey separation.`,
     razor_perimeter_nape: `Artisan razor detailing: the male barber carefully wields a traditional folding straight razor with warm lather along the lower nape and hairline perimeter below ${h} on the client. Zero shears; deliberate, steady hand control, razor edge gleaming under ${l}.`,
     feathering_razor_ends: `Feathering razor styling: male barber uses a guarded feathering razor to lightly slice through the outer ends of ${h} on the female client, creating soft wispy tips and lightweight airy flick along the collarbone. Natural hair drape over ${c}.`,
     blowout_round_brush: `Thermal blowout styling: professional ceramic round barrel brush lifting roots at the crown of the female client while the male barber directs a narrow-nozzle salon hairdryer with warm smoothing airflow. Zero scissors in this frame; dynamic brush curvature, smooth strand tension, and airy blowout volume on ${h}.`,
     blowout_curved_ends: `Polished finish: male barber uses a large boar-bristle round brush with hot hairdryer airflow, rolling the brush through the bottom perimeter of ${h} on the client to lock in bouncy, inward-tucked salon curves with glossy sheen.`,
-    diffuser_volume: `Organic texture drying: male barber cups damp wavy strands of ${h} on the female client with a large round diffuser nozzle on the hairdryer, lifting roots gently to amplify organic volume and soft bouncy wave definition without frizz.`,
+    diffuser_volume: `Organic texture drying: male barber cups ${isDryMode ? 'naturally wavy strands' : 'damp wavy strands'} of ${h} on the female client with a large round diffuser nozzle on the hairdryer, lifting roots gently to amplify organic volume and soft bouncy wave definition without frizz.`,
     talcum_neck_duster: `Post-cut barber cleanup: close-up of the male barber using a soft wooden-handled horsehair powder duster with light talcum powder, gently sweeping away stray loose hair clippings from the client's neck, collarbone, and neckline of ${c}.`,
     cape_hair_dusting: `Station cleanup ritual: the male barber uses a wide soft-bristle barber brush to sweep freshly fallen hair clippings off the shoulders and chest of the black nylon cape draped on the female client, letting them flutter to the floor tiles.`,
-    handheld_mirror_reveal: `Dual-mirror reveal: post-cut moment in the chair. The male barber stands behind holding up an oval black-rimmed handheld mirror at a precise angle, allowing the female client to inspect the back silhouette, graduation, and neckline of her finished ${h} in the main wall mirror.`,
+    handheld_mirror_reveal: noMirror
+      ? `Post-cut reveal: direct rear three-quarter view showcasing the back silhouette, graduation, and neckline of her finished ${h} in crisp lighting. The male barber (${sl}) stands nearby admiring the balanced perimeter.`
+      : `Dual-mirror reveal: post-cut moment in the chair. The male barber stands behind holding up an oval black-rimmed handheld mirror at a precise angle, allowing the female client to inspect the back silhouette, graduation, and neckline of her finished ${h} in the main wall mirror.`,
     front_mirror_admire: isSoloClient
-      ? `Joyful reveal: the client gazes directly into the station mirror with an authentic, delighted smile, running her fingers through the silky bounce and weightless layers of her completed ${h} under ${l}, seated alone in the chair with the male stylist having stepped out of frame.`
-      : `Joyful mirror reveal: the client gazes directly into the station mirror with an authentic, delighted smile, running her fingers through the silky bounce and weightless layers of her completed ${h} under ${l}, while the male barber watches approvingly.`,
+      ? `Joyful reveal: the client gazes ${noMirror ? 'forward toward the camera' : 'directly into the station mirror'} with an authentic, delighted smile, running her fingers through the silky bounce and weightless layers of her completed ${h} under ${l}, seated alone in the chair with the male stylist having stepped out of frame.`
+      : `Joyful mirror reveal: the client gazes ${noMirror ? 'forward with delighted expression' : 'directly into the station mirror with an authentic, delighted smile'}, running her fingers through the silky bounce and weightless layers of her completed ${h} under ${l}, while the male barber watches approvingly.`,
     side_profile_check: isSoloClient
-      ? `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, admiring the side silhouette, jawline frame, and clean movement of ${h} while seated comfortably alone in the styling chair.`
-      : `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, admiring the side silhouette, jawline frame, and clean movement of ${h} in the mirror. Barber (${sl}) stands by with hands relaxed, pleased with the result.`,
+      ? `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, ${noMirror ? 'showcasing' : 'admiring'} the side silhouette, jawline frame, and clean movement of ${h} ${noMirror ? '' : 'in the mirror '}while seated comfortably alone in the styling chair.`
+      : `Three-quarter inspection from camera angle ${cam}: the female client turns her head 45 degrees, ${noMirror ? 'showcasing' : 'admiring'} the side silhouette, jawline frame, and clean movement of ${h} ${noMirror ? '' : 'in the mirror'}. Barber (${sl}) stands by with hands relaxed, pleased with the result.`,
     barber_satisfied_finish: isSoloClient
-      ? `Craftsman satisfaction: the female client sits alone in the styling chair smiling and admiring her completed haircut in the mirror, while the male barber in the background tidies tools on the counter. Atmospheric depth of ${v} and ${shopCrowdDesc}.`
-      : `Craftsman satisfaction: the male barber steps back slightly with a proud, warm smile, wiping his shears on a clean station towel while the client admires her completed haircut in the mirror. Atmospheric depth of ${v} and ${shopCrowdDesc}.`,
+      ? `Craftsman satisfaction: the female client sits alone in the styling chair smiling and admiring her completed haircut ${noMirror ? '' : 'in the mirror'}, while the male barber in the background tidies tools on the counter. Atmospheric depth of ${v} and ${shopCrowdDesc}.`
+      : `Craftsman satisfaction: the male barber steps back slightly with a proud, warm smile, wiping his shears on a clean station towel while the client admires her completed haircut ${noMirror ? '' : 'in the mirror'}. Atmospheric depth of ${v} and ${shopCrowdDesc}.`,
     macro_hands_tools: `Cinematic macro insert: tight macro focus on the male barber's fingers clamping a section of hair taut alongside gleaming Japanese shears pivot screw and carbon comb teeth on the seated female client. Micro-droplets glistening on strand fibers, hyper-detailed texture, shallow depth of field.`,
-    over_shoulder_mirror: `Cinematic perspective (${cam}): over-the-shoulder angle from behind the male barber looking past his shoulder into the station mirror, framing the female client's calm, engaged eyes and the silhouette of ${h} under warm ${l}.`,
-    wide_shop_bustle: `Wide environmental storytelling (${cam}): wide establishing shot showing the entire styling station in ${v}. Female client seated in chair with ${c}, male barber working diligently, vintage mirrors reflecting ${d} and ${shopCrowdDesc}.`
+    over_shoulder_mirror: noMirror
+      ? `Cinematic perspective (${cam}): over-the-shoulder angle from behind the male barber looking toward the seated female client, framing her calm, engaged eyes and the silhouette of ${h} under warm ${l}.`
+      : `Cinematic perspective (${cam}): over-the-shoulder angle from behind the male barber looking past his shoulder into the station mirror, framing the female client's calm, engaged eyes and the silhouette of ${h} under warm ${l}.`,
+    wide_shop_bustle: noMirror
+      ? `Wide environmental storytelling (${cam}): wide establishing shot showing the entire styling station in ${v}. Female client seated in chair with ${c}, male barber working diligently, atmospheric shop interior showing ${d} and ${shopCrowdDesc}.`
+      : `Wide environmental storytelling (${cam}): wide establishing shot showing the entire styling station in ${v}. Female client seated in chair with ${c}, male barber working diligently, vintage mirrors reflecting ${d} and ${shopCrowdDesc}.`
   };
 
     if(templates[sceneId]) return templates[sceneId];
@@ -2338,14 +2351,12 @@ visibleOpts.forEach((o)=>{
 
     const RE_RENDER_IDS = new Set(['salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonHairCategory', 'salonHaircut', 'salonCollageFlow', 'salonCollageFrame1', 'salonCollageFrame2', 'salonCollageFrame3', 'salonCollageFrame4', 'hairCategory', 'hair', 'outfitCategory', 'outfit', 'poseCategory', 'pose', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
     if (id === 'salonStage') {
-      const curFlow = values.salonCollageFlow?.text || 'journey';
-      if (curFlow === 'journey') {
-        const newStageScene = getStageMatchingSceneId(values.salonStage?.label, values.salonStage?.text);
-        const matchSceneObj = salonCollageScenes.find(s => s.text === newStageScene);
-        if (matchSceneObj) {
-          values.salonCollageFrame2 = matchSceneObj;
-          syncCollageDirectorCardUI();
-        }
+      const newStageScene = getStageMatchingSceneId(values.salonStage?.label, values.salonStage?.text);
+      const matchSceneObj = salonCollageScenes.find(s => s.text === newStageScene);
+      if (matchSceneObj && values.salonCollageFrame2?.text !== newStageScene) {
+        values.salonCollageFrame2 = matchSceneObj;
+        markCollageCustom();
+        syncCollageDirectorCardUI();
       }
     }
     if (RE_RENDER_IDS.has(id)) {
@@ -2641,17 +2652,9 @@ Object.entries(fields).forEach(([id,f])=>{
   values[id]=f.opts[Math.floor(Math.random()*f.opts.length)];
 });
 if(currentStudioMode==='salon' && outputType==='collage'){
-  const flowLocked = lockedFields.has('salonCollageFlow');
-  if(!flowLocked){
-    const presetKeys = Object.keys(COLLAGE_PRESETS);
-    const randKey = presetKeys[Math.floor(Math.random()*presetKeys.length)];
-    applyCollagePreset(randKey, true);
-  } else {
-    const curKey = values.salonCollageFlow?.text;
-    if(curKey && COLLAGE_PRESETS[curKey]){
-      applyCollagePreset(curKey, true);
-    }
-  }
+  const presetKeys = Object.keys(COLLAGE_PRESETS);
+  const randKey = presetKeys[Math.floor(Math.random()*presetKeys.length)];
+  applyCollagePreset(randKey);
 }
 if(!lockedFields.has('hairCategory') && values.hair){
   const hCat = getItemCategory('hair', values.hair);
@@ -2841,25 +2844,15 @@ function syncCollageDirectorCardUI(){
   }
 }
 
-function applyCollagePreset(presetKey, checkLocks = false){
+function applyCollagePreset(presetKey){
   const p = COLLAGE_PRESETS[presetKey];
   if(p){
-    if(!checkLocks || !lockedFields.has('salonCollageFrame1')){
-      values.salonCollageFrame1 = salonCollageScenes.find(s => s.text === p[0]) || values.salonCollageFrame1;
-    }
-    if(!checkLocks || !lockedFields.has('salonCollageFrame2')){
-      values.salonCollageFrame2 = salonCollageScenes.find(s => s.text === p[1]) || values.salonCollageFrame2;
-    }
-    if(!checkLocks || !lockedFields.has('salonCollageFrame3')){
-      values.salonCollageFrame3 = salonCollageScenes.find(s => s.text === p[2]) || values.salonCollageFrame3;
-    }
-    if(!checkLocks || !lockedFields.has('salonCollageFrame4')){
-      values.salonCollageFrame4 = salonCollageScenes.find(s => s.text === p[3]) || values.salonCollageFrame4;
-    }
-    if(!checkLocks || !lockedFields.has('salonCollageFlow')){
-      const flowOpt = salonCollageFlow.find(f => f.text === presetKey);
-      if(flowOpt) values.salonCollageFlow = flowOpt;
-    }
+    values.salonCollageFrame1 = salonCollageScenes.find(s => s.text === p[0]) || salonCollageScenes[0];
+    values.salonCollageFrame2 = salonCollageScenes.find(s => s.text === p[1]) || salonCollageScenes[0];
+    values.salonCollageFrame3 = salonCollageScenes.find(s => s.text === p[2]) || salonCollageScenes[0];
+    values.salonCollageFrame4 = salonCollageScenes.find(s => s.text === p[3]) || salonCollageScenes[0];
+    const flowOpt = salonCollageFlow.find(f => f.text === presetKey);
+    if(flowOpt) values.salonCollageFlow = flowOpt;
     syncCollageDirectorCardUI();
     buildPrompt();
   }
@@ -3592,7 +3585,9 @@ function buildSalonPrompt(){
   lines.push(`Camera angle: ${val('salonCamera')}. Lighting: ${val('salonLighting')}. Quality: ${val('salonQuality')}.`);
   lines.push('');
 
-    const stylistText = val('salonStylist');
+  const stageText = val('salonStage');
+  const stageLabel = values['salonStage']?.label || 'Active haircut moment';
+  const stylistText = val('salonStylist');
   const stylistLabel = values['salonStylist']?.label || 'Male barber';
   const capeText = val('salonCape');
   const haircutText = val('salonHaircut');
@@ -3640,7 +3635,8 @@ function buildSalonPrompt(){
   const collageCtx = {
     venueText, designText, staffText, bustleText, bustleLabel,
     stylistText, stylistLabel, haircutText, moistureText, hairMoisture: salonHairMoisture,
-    capeText, cameraText, lightingText, stationProps: rawStationProps
+    capeText, cameraText, lightingText, stationProps: rawStationProps,
+    stageText, stageLabel, noMirror: !!checkState.noMirror
   };
 
   if(outputType === 'collage'){
@@ -4259,7 +4255,7 @@ function resetAll(){
 Object.entries(fields).forEach(([id,f])=>{
   if(!lockedFields.has(id)) values[id]=f.opts[f.def];
 });
-applyCollagePreset('journey', true);
+applyCollagePreset('journey');
 finishChecks.forEach(c=>checkState[c.id]=c.checked);
 customDirection='';
 extraNegative='';
