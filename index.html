@@ -2799,13 +2799,71 @@ if(currentStudioMode === 'salon' && activeSection === 'salonCameraSec'){
   host.appendChild(banner);
 }
 
+if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
+  const isInteractive = values.malePresence && values.malePresence.text !== 'solo';
+  
+  const switchWrap = document.createElement('div');
+  switchWrap.className = 'pose-mode-switch-card';
+  switchWrap.style.cssText = 'grid-column: 1 / -1; margin: 0 0 16px 0; padding: 14px 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;';
+  
+  switchWrap.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Shoot Setup & Presence</strong>
+        <span style="font-size: 11px; color: var(--text-dim, #999);">Choose whether our female model is posing solo or interacting with male co-stars / creative crew.</span>
+      </div>
+      <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+        <button type="button" class="seg-btn ${!isInteractive ? 'active' : ''}" id="btnPoseSolo" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${!isInteractive ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👩 Solo Model Posing</button>
+        <button type="button" class="seg-btn ${isInteractive ? 'active' : ''}" id="btnPoseInteract" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isInteractive ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👥 Co-Star, Crew & Shaving</button>
+      </div>
+    </div>
+  `;
+
+  switchWrap.querySelector('#btnPoseSolo').addEventListener('click', () => {
+    values.malePresence = fields.malePresence.opts.find(o => o.text === 'solo') || fields.malePresence.opts[0];
+    values.maleInteraction = fields.maleInteraction.opts.find(o => o.text === 'none') || fields.maleInteraction.opts[0];
+    renderFields();
+    buildPrompt();
+    toast('Switched to Solo Model Posing.');
+  });
+
+  switchWrap.querySelector('#btnPoseInteract').addEventListener('click', () => {
+    if (!values.malePresence || values.malePresence.text === 'solo') {
+      values.malePresence = fields.malePresence.opts.find(o => o.text === 'romantic') || fields.malePresence.opts[1];
+      const match = fields.maleInteraction.opts.find(opt => opt.cat === values.malePresence.text && opt.text !== 'none');
+      if (match) values.maleInteraction = match;
+    }
+    renderFields();
+    buildPrompt();
+    toast('Switched to Co-Star, Crew & Shaving Interaction.');
+  });
+
+  host.appendChild(switchWrap);
+}
+
 const allOrdered=orderedFields();
 const coreSet=CORE_FIELD_IDS[activeSection]||new Set();
 
 const primaryFields=[];
 const secondaryFields=[];
 
+const isSoloPose = (currentStudioMode === 'photoshoot' && activeSection === 'pose' && (!values.malePresence || values.malePresence.text === 'solo'));
+const isInteractPose = (currentStudioMode === 'photoshoot' && activeSection === 'pose' && values.malePresence && values.malePresence.text !== 'solo');
+
 allOrdered.forEach(([id,f])=>{
+  if(activeSection === 'pose'){
+    if(isSoloPose){
+      if(id === 'malePresence' || id === 'maleInteraction') return;
+      if(coreSet.has(id)) primaryFields.push([id,f]);
+      else secondaryFields.push([id,f]);
+    } else {
+      if(id === 'poseCategory' || id === 'pose' || id === 'gesture' || id === 'stance' || id === 'motion') return;
+      if(coreSet.has(id) || id === 'malePresence' || id === 'maleInteraction') primaryFields.push([id,f]);
+      else secondaryFields.push([id,f]);
+    }
+    return;
+  }
+
   if(coreSet.has(id)||activeSection==='finish'){
     primaryFields.push([id,f]);
   }else{
@@ -3013,6 +3071,15 @@ if(currentStudioMode==='salon' && outputType==='collage'){
   const presetKeys = Object.keys(COLLAGE_PRESETS);
   const randKey = presetKeys[Math.floor(Math.random()*presetKeys.length)];
   applyCollagePreset(randKey);
+}
+if(values.malePresence && fields.maleInteraction){
+  const pres = values.malePresence.text;
+  if(pres === 'solo'){
+    values.maleInteraction = fields.maleInteraction.opts.find(opt => opt.text === 'none') || fields.maleInteraction.opts[0];
+  } else {
+    const match = fields.maleInteraction.opts.find(opt => opt.cat === pres && opt.text !== 'none');
+    if(match) values.maleInteraction = match;
+  }
 }
 if(!lockedFields.has('hairCategory') && values.hair){
   const hCat = getItemCategory('hair', values.hair);
@@ -3795,7 +3862,7 @@ function buildLookbookSeries(checks, negatives){
     '',
     'POSE, EXPRESSION & HAIR',
     hasMalePresence
-      ? `Pose: ${poseDesc}. Facial expression: ${exprDesc}. Hand detail: ${gestDesc}. Interaction: ${maleInterDesc}. Hair: ${hairDesc} (${hairCol}), falling naturally around the collarbones and shoulders.`
+      ? `Interaction-driven posture: ${maleInterDesc}. Facial expression: ${exprDesc}. Hair: ${hairDesc} (${hairCol}), falling naturally around the collarbones and shoulders.`
       : `Pose: ${poseDesc}. Facial expression: ${exprDesc}. Hand detail: ${gestDesc}. Hair: ${hairDesc} (${hairCol}), falling naturally around the collarbones and shoulders.`,
     '',
     'SETTING & LIGHTING',
@@ -3820,7 +3887,7 @@ function buildLookbookSeries(checks, negatives){
     '',
     'HAIR & POSE IN MOTION',
     hasMalePresence
-      ? `Hairstyle: ${hairDesc} caught in natural motion. Pose: ${poseDesc} with confident posture and open body language. Co-star / crew interaction: ${maleInterDesc}. Expression: ${exprDesc}.`
+      ? `Hairstyle: ${hairDesc} caught in natural motion. Dynamic co-star / crew interaction & posture: ${maleInterDesc}. Expression: ${exprDesc}.`
       : `Hairstyle: ${hairDesc} caught in natural motion. Pose: ${poseDesc} with confident posture and open body language. Expression: ${exprDesc}.`,
     '',
     'PERSPECTIVE & CAMERA',
@@ -3865,10 +3932,14 @@ function buildLookbookSeries(checks, negatives){
     `Tight macro headshot. Razor-sharp focus on the post-makeover haircut (${hairDesc}), natural skin texture, visible pores, and expressive eye contact. Finish: ${hairFin}. Makeup: ${makeupDesc}.`,
     '',
     '=== SHOT 2: 3/4 MEDIUM FASHION POSE ===',
-    `Medium torso crop. Garment: ${outfitDesc} (${outfitFitDesc}). Pose: ${poseDesc}. Expression: ${exprDesc}. Hand detail: ${gestDesc}.${hasMalePresence ? ` Interaction: ${maleInterDesc}.` : ''} Captures spontaneous movement and tailoring.`,
+    hasMalePresence
+      ? `Medium torso crop. Garment: ${outfitDesc} (${outfitFitDesc}). Interaction & posture: ${maleInterDesc}. Expression: ${exprDesc}. Captures spontaneous connection and tailoring.`
+      : `Medium torso crop. Garment: ${outfitDesc} (${outfitFitDesc}). Pose: ${poseDesc}. Expression: ${exprDesc}. Hand detail: ${gestDesc}. Captures spontaneous movement and tailoring.`,
     '',
     '=== SHOT 3: FULL-LENGTH ENVIRONMENTAL SILHOUETTE ===',
-    `Head-to-toe wide composition in ${bgDesc}. Full outfit silhouette, footwear, architectural depth, and dynamic motion.${hasMalePresence ? ` Dynamic co-star / crew interaction: ${maleInterDesc}.` : ''}`,
+    hasMalePresence
+      ? `Head-to-toe wide composition in ${bgDesc}. Full outfit silhouette, footwear, architectural depth, and dynamic co-star / crew interaction: ${maleInterDesc}.`
+      : `Head-to-toe wide composition in ${bgDesc}. Full outfit silhouette, footwear, architectural depth, and dynamic motion.`,
     '',
     '=== SHOT 4: CINEMATIC DETAIL MACRO ===',
     `Artistic close-up accent. Tactile fabric texture, accessories (${accDesc}), back/side hair volume, and atmospheric lighting highlights.`,
@@ -4361,7 +4432,9 @@ lines.push(`${mode}. Capture the same adult woman just after her makeover, durin
 lines.push('');
 lines.push('MAKEOVER MOMENT');
 let moVal = val('makeover');
-if(!hasMalePresence && ((styleRef && transferToggles && transferToggles.hair) || checkState.soloSubject)){
+if(hasMalePresence && (values.malePresence.text === 'crew_prep' || values.malePresence.text === 'bts_shaving')){
+  moVal = 'the female model is in the midst of an authentic backstage beauty and grooming prep session just before her high-fashion shoot';
+} else if(!hasMalePresence && ((styleRef && transferToggles && transferToggles.hair) || checkState.soloSubject)){
   if(moVal.includes('stylist') || moVal.includes('styling chair')){
     moVal = 'the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject';
   }
@@ -4386,17 +4459,17 @@ lines.push('');
 if(hasMalePresence){
   lines.push('MALE PRESENCE & EDITORIAL CO-STAR / CREW INTERACTION');
   lines.push(`Setup category: ${values.malePresence.label}.`);
-  lines.push(`Specific interaction: ${val('maleInteraction')}.`);
+  lines.push(`Action & body posture: ${val('maleInteraction')}. The interaction directly dictates her physical positioning, body contact, and hand placement, with our model as the clear visual protagonist.`);
   lines.push('Solitary Female Model Rule: The adult female model is strictly and exclusively the ONLY woman in the scene. All colleagues, co-models, hair stylists, makeup artists, wardrobe assistants, and groomers interacting with her must strictly be male (completely exclude any secondary women, female stylists, or female background subjects).');
   lines.push('');
-}
-lines.push('POSE AND EXPRESSION');
-if(hasMalePresence){
-  lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}.`);
-  lines.push(`Action & interaction: ${val('maleInteraction')}. Capture tangible chemistry, natural interaction, and spontaneous body language between the female model and her male colleague / crew member, with our model as the clear visual protagonist.`);
+  lines.push('POSE AND EXPRESSION');
+  lines.push(`Interaction-driven body posture: ${val('maleInteraction')}. Keep her body language responsive, natural, and authentic to the moment.`);
+  lines.push(`Facial expression: ${val('expression')}. Overall attitude: ${val('mood')}.`);
 } else if(styleRef && transferToggles && transferToggles.hair){
+  lines.push('POSE AND EXPRESSION');
   lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Solo subject composition: The adult woman is completely alone in the frame with her finished hair resting naturally; strictly no hairdresser standing beside or behind her, no man in the background, and zero stylist hands touching, holding, or styling her hair.`);
 } else {
+  lines.push('POSE AND EXPRESSION');
   lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Keep the body language open, believable and relaxed; capture a specific spontaneous moment rather than a generic stock pose.`);
 }
 lines.push('');
