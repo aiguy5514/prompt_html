@@ -4506,7 +4506,6 @@ function buildSalonPrompt(){
   const words = text.trim().split(/\s+/).length;
   el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · Salon Mode`;
 
-  const isStool = (salonSeatingMode === 'stool');
   const summaryIds = isStool
     ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonHaircut', 'salonCape', 'salonCamera']
     : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonHaircut', 'salonCape', 'salonCamera'];
@@ -5647,7 +5646,11 @@ el('fab').addEventListener('click',()=>{
 }
 
 load();
-goSection('look',false);
+if(currentStudioMode === 'salon' || window.location.hash === '#salon'){
+  switchStudioMode('salon');
+} else {
+  goSection('look', false);
+}
 buildPrompt();
 initRefViewer();
 initMobileDrawer();
