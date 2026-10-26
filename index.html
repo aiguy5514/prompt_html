@@ -1612,7 +1612,9 @@ function getCollageSceneDirective(sceneId, ctx){
   const shopCrowdDesc = isBustleEmpty ? 'peaceful quiet atmosphere with zero other customers in neighboring chairs' : `${b}. Barber staffing: ${staff}`;
 
   const templates = {
-    consultation_chair: `Wide-medium in-chair consultation at the styling station in ${v} (${d}). The female client sits comfortably in the hydraulic chair draped in ${c}. The male barber (${st}) stands beside her, gently lifting a section of ${h} with his fingers while discussing the desired silhouette ${noMirror ? `under ${l}` : `in the station mirror under ${l}`}.${pStr}`,
+    consultation_chair: isSoloClient
+      ? `Wide-medium in-chair consultation at the styling station in ${v} (${d}). The female client sits comfortably in the styling chair draped in ${c}, reviewing haircut reference photos on her phone and contemplating the desired silhouette ${noMirror ? `under ${l}` : `in the station mirror under ${l}`}.${pStr}`
+      : `Wide-medium in-chair consultation at the styling station in ${v} (${d}). The female client sits comfortably in the hydraulic chair draped in ${c}. The male barber (${st}) stands beside her, gently lifting a section of ${h} with his fingers while discussing the desired silhouette ${noMirror ? `under ${l}` : `in the station mirror under ${l}`}.${pStr}`,
     consultation_chai: isSoloClient
       ? `Relaxed candid consultation moment: the female client holds a steaming brass cup of chai/coffee at the station counter in ${v}, relaxing and contemplating her haircut direction before cutting. Shop atmosphere: ${shopCrowdDesc}.${pStr}`
       : `Relaxed candid consultation moment at the station in ${v}. The female client holds a steaming brass cup of chai/coffee while conversing with ${st} about her haircut direction. Shop atmosphere: ${shopCrowdDesc}. Vintage Belmont chair and counter props in ${l}.${pStr}`,
@@ -1681,11 +1683,23 @@ function getCollageSceneDirective(sceneId, ctx){
     stool_nape_intimate: `Close-contact nape & neckline detailing: the female client is seated on a low stool with her head gently tilted forward, exposing her graceful nape and neck. The male barber leans down intimately close beside her ear from behind, deftly detailing the tapered perimeter of ${h} with straight razor and comb with artisan precision under ${l}.${pStr}`
   };
 
-    if(templates[sceneId]) return templates[sceneId];
-  const sceneObj = salonCollageScenes.find(s => s.text === sceneId);
-  const rawSceneName = sceneObj?.label || 'haircut progression action';
-  const sceneName = noMirror ? sanitizeMirrorProse(rawSceneName) : rawSceneName;
-  return `Authentic salon scene focusing on ${sceneName.toLowerCase()} on ${h} with ${st} inside ${v} (${d}). Client seated draped in ${c} under ${l}.${pStr}`;
+    let res = templates[sceneId];
+    if(!res){
+      const sceneObj = salonCollageScenes.find(s => s.text === sceneId);
+      const rawSceneName = sceneObj?.label || 'haircut progression action';
+      const sceneName = noMirror ? sanitizeMirrorProse(rawSceneName) : rawSceneName;
+      res = `Authentic salon scene focusing on ${sceneName.toLowerCase()} on ${h} with ${st} inside ${v} (${d}). Client seated draped in ${c} under ${l}.${pStr}`;
+    }
+    if(ctx.isStool){
+      res = res
+        .replace(/vintage hydraulic Belmont chair/gi, 'low backless salon cutting stool')
+        .replace(/hydraulic Belmont chair/gi, 'low backless salon cutting stool')
+        .replace(/hydraulic chair/gi, 'low backless stool')
+        .replace(/Belmont chair/gi, 'low backless stool')
+        .replace(/in the styling chair/gi, 'on the low backless stool')
+        .replace(/in the chair/gi, 'on the stool');
+    }
+    return res;
 }
 
 const placeDetail = makeOpts([
@@ -2036,7 +2050,7 @@ addOptions(eyeLook, makeOpts([
 ]));
 
 addOptions(pose, makeOpts([
-  ['Sitting upright in salon styling chair with calm candid expression', 'seated upright in the black leather salon styling chair with relaxed shoulders, looking forward with a calm, gentle, candid expression as the stylist finishes her hair'],
+  ['Sitting upright with relaxed shoulders and calm candid expression', 'seated upright with relaxed shoulders, hands resting naturally in lap, looking forward with a calm, gentle, candid expression'],
   ['Emerging from pool brushing hair back', 'emerging from swimming pool water while sweeping wet hair back off her face with both hands'],
   ['Resting forearms on wet pool edge', 'resting her forearms on the wet stone pool edge, chin slightly lifted with confident direct gaze'],
   ['Rain-soaked stance under city streetlight', 'standing rain-soaked under a warm city streetlight, water glistening on skin and clothes'],
@@ -2084,7 +2098,7 @@ addOptions(lighting, makeOpts([
 // CUTOUT & PLUNGING V-CUT WARDROBE EXPANSION
 // ==========================================
 addOptions(outfit, makeOpts([
-  ['Rose-pink split-neck cotton kurti with cut hair fragments (salon reveal)', 'a relaxed dusty rose-pink split-neck Indian cotton kurti with small scattered cut hair fragments on the collar, shoulders and chest from her fresh haircut, in a natural candid salon moment'],
+  ['Rose-pink split-neck cotton kurti with self-thread embroidery', 'a relaxed dusty rose-pink split-neck Indian cotton kurti with delicate self-thread embroidery along the split-V neckline, clean finish, and three-quarter sleeves'],
   // Monokinis & Swimwear Cutouts
   ['Deep plunging V-cut monokini with side slash cutouts', 'a bold deep plunging V-cut monokini with geometric side slash cutouts, a high-leg Brazilian cut, and sleek supportive strapping'],
   ['Asymmetric one-shoulder cutout swimsuit with V-wire notch', 'an asymmetric one-shoulder swimsuit featuring a structured V-wire notch at the bust, architectural ribcage cutout, and a high-cut hip silhouette'],
@@ -2155,7 +2169,7 @@ addOptions(weather, makeOpts([
 // ==========================================
 addOptions(hair, makeOpts([
   ['Mid ponytail with arched bottleneck curtain bangs', 'an authentic salon-styled mid-height ponytail with soft naturally rounded crown and gentle scalp volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to the upper cheekbones with delicate piecey strand separation, side hair combed smoothly back and gently tucked behind the ears, anchored at the mid-occipital back of the head into a relaxed mid ponytail with a smooth natural straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders, strictly preserving her original natural silky-fine Indian hair texture, strand density, and organic healthy sheen without heat curls or synthetic styling'],
-  ['Salon reveal mid ponytail with stylist hands finishing crown', 'an authentic candid salon-reveal mid ponytail, where the subject sits in a black leather salon styling chair with the stylist\'s hands gently lifting and finishing the crown volume above soft arched bottleneck curtain bangs skimming her eyebrows and cheekbones, side hair tucked neatly behind ears, with a soft straight mid-height ponytail resting at the nape, wearing a pink split-neck kurta with tiny cut hair fragments scattered across the chest, strictly preserving her original natural silky black Indian hair texture and realistic facial expression'],
+  ['Mid-height ponytail with soft rounded bounce and fanned crown', 'an authentic candid mid ponytail with soft naturally rounded crown and gentle scalp volume, hair smoothed back cleanly at the front into a secure mid-crown tie above soft arched bottleneck curtain bangs skimming her eyebrows and cheekbones, side hair tucked neatly behind ears, with a soft straight mid-height ponytail resting at the nape with natural bounce and movement, strictly preserving her original natural silky black Indian hair texture and realistic facial expression'],
   ['Sleek low-to-mid ponytail + near-center part & curtain bangs', 'a sleek low-to-mid ponytail with a clean near-center part and long, wispy curtain bangs softly framing the forehead and cheekbones, with the ponytail ending around the nape to upper shoulders'],
   ['All hair swept to one side (dramatic shoulder drape)', 'a dramatic asymmetric hairstyle with all hair swept entirely over one shoulder, leaving the opposite neck and collarbone exposed'],
   ['Voluminous side-swept blowout with deep root flip', 'a voluminous side-swept blowout with all hair thrown dramatically over one shoulder, featuring a bold lifted root flip and soft cascading waves'],
@@ -2638,7 +2652,7 @@ if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.h
   const cat = values.lightingCategory.text;
   visibleOpts = f.opts.filter(o => getItemCategory('lighting', o) === cat);
 } else if (id === 'composition' && values.framing && values.framing.text) {
-  const tightFramings = ['close-up beauty portrait', 'detail crop: hair + face'];
+  const tightFramings = ['close-up beauty portrait', 'detail crop: hair + face', 'tight side-profile portrait'];
   const framingLower = values.framing.label.toLowerCase();
   if (tightFramings.some(tf => framingLower.includes(tf))) {
     const incompatible = ['hair silhouette visible', 'outfit silhouette emphasized', 'environmental storytelling'];
@@ -3122,7 +3136,7 @@ custom.querySelectorAll('.choice').forEach(b=>{
 function finishMarkup(){
 const visibleChecks=finishChecks.filter(c=>currentStudioMode==='photoshoot'||c.id!=='soloSubject');
 const showCollageDirector = (currentStudioMode === 'salon' && outputType === 'collage');
-return `<div class="field-grid" style="margin-top:22px"><div class="field full"><div class="label-row"><label for="customDirection">Your own creative direction</label><span class="option-count">Optional</span></div><textarea id="customDirection" placeholder="Add details: hairstyle length, jewelry to retain, room details, exact outfit color, pose adjustments…"></textarea><p class="help">This text is added to the generated prompt as your custom instructions.</p></div><div class="field full"><div class="label-row"><label for="negative">Extra exclusions / negative prompt</label><span class="option-count">Optional</span></div><textarea id="negative" placeholder="e.g. no mirror, no blurry face, no extra fingers, no artificial hair…"></textarea><p class="help">Additional things the image model should avoid.</p></div><div class="field full"><label>Identity, realism and output safeguards</label><div class="checks" id="finishChecks">${visibleChecks.map(c=>`<label class="check"><input type="checkbox" data-check="${c.id}" ${checkState[c.id]?'checked':''}><span>${c.label}<small>${c.detail}</small></span></label>`).join('')}</div></div><div class="field"><div class="label-row"><label for="numImages">Output format</label></div><div class="select-wrap"><select id="numImages"><option value="single">One final image</option><option value="collage">One 2×2 collage · 4 haircut stages</option><option value="set">Four separate images</option><option value="triptych">Three-panel editorial triptych</option><option value="contact">Six-frame contact sheet</option></select></div></div><div class="field"><div class="label-row"><label for="detailLevel">Prompt detail</label></div><div class="select-wrap"><select id="detailLevel"><option value="full">Highly detailed</option><option value="balanced">Balanced detail</option><option value="compact">Compact prompt</option></select></div></div><div class="collage-director-wrap full" id="finishCollageDirectorWrap" style="${showCollageDirector?'':'display:none;'}"></div></div>`;
+return `<div class="field-grid" style="margin-top:22px"><div class="field full"><div class="label-row"><label for="customDirection">Your own creative direction</label><span class="option-count">Optional</span></div><textarea id="customDirection" placeholder="Add details: hairstyle length, jewelry to retain, room details, exact outfit color, pose adjustments…"></textarea><p class="help">This text is added to the generated prompt as your custom instructions.</p></div><div class="field full"><div class="label-row"><label for="negative">Extra exclusions / negative prompt</label><span class="option-count">Optional</span></div><textarea id="negative" placeholder="e.g. no mirror, no blurry face, no extra fingers, no artificial hair…"></textarea><p class="help">Additional things the image model should avoid.</p></div><div class="field full"><label>Identity, realism and output safeguards</label><div class="checks" id="finishChecks">${visibleChecks.map(c=>`<label class="check"><input type="checkbox" data-check="${c.id}" ${checkState[c.id]?'checked':''}><span>${c.label}<small>${c.detail}</small></span></label>`).join('')}</div></div><div class="field"><div class="label-row"><label for="numImages">Output format</label></div><div class="select-wrap"><select id="numImages"><option value="single">One final image</option>${currentStudioMode === 'salon' ? '<option value="collage">One 2×2 collage · 4 haircut stages</option>' : '<option value="collage">One 2×2 collage · 4 poses</option>'}<option value="set">Four separate images</option><option value="triptych">Three-panel editorial triptych</option><option value="contact">Six-frame contact sheet</option></select></div></div><div class="field"><div class="label-row"><label for="detailLevel">Prompt detail</label></div><div class="select-wrap"><select id="detailLevel"><option value="full">Highly detailed</option><option value="balanced">Balanced detail</option><option value="compact">Compact prompt</option></select></div></div><div class="collage-director-wrap full" id="finishCollageDirectorWrap" style="${showCollageDirector?'':'display:none;'}"></div></div>`;
 }
 
 function bindFinish(){
@@ -3210,6 +3224,22 @@ if(!lockedFields.has('hairCategory') && values.hair){
   const hCat = getItemCategory('hair', values.hair);
   const match = fields.hairCategory.opts.find(c => c.text === hCat);
   if(match) values.hairCategory = match;
+}
+if(!lockedFields.has('salonVenueCategory') && values.salonVenue && fields.salonVenueCategory){
+  const vCat = getItemCategory('salonVenue', values.salonVenue);
+  const match = fields.salonVenueCategory.opts.find(c => c.text === vCat);
+  if(match) values.salonVenueCategory = match;
+}
+if(values.framing && values.composition && fields.composition){
+  const tightFramings = ['close-up beauty portrait', 'detail crop: hair + face', 'tight side-profile portrait'];
+  const fLabel = (values.framing.label || '').toLowerCase();
+  if(tightFramings.some(tf => fLabel.includes(tf))){
+    const incompatible = ['hair silhouette visible', 'outfit silhouette emphasized', 'environmental storytelling'];
+    if(incompatible.includes((values.composition.label || '').toLowerCase())){
+      const valid = fields.composition.opts.filter(o => !incompatible.includes((o.label || '').toLowerCase()));
+      if(valid.length) values.composition = valid[0];
+    }
+  }
 }
 if(!lockedFields.has('salonHairCategory') && values.salonHaircut && fields.salonHairCategory){
   const hCat = getItemCategory('hair', values.salonHaircut);
@@ -3303,10 +3333,12 @@ function getFullHairDescription(){
   if(sweepEnd) details.push(sweepEnd);
   if(sweepFinish) details.push(sweepFinish);
 
+  const fringeLabel = values.fringe?.label || '';
+  const partLabel = values.parting?.label || '';
   const fringeVal = val('fringe');
   const partVal = val('parting');
-  if(partVal && partVal !== 'Natural part matching reference' && !baseHair.toLowerCase().includes('center part')) details.push(`parting: ${partVal}`);
-  if(fringeVal && fringeVal !== 'No fringe / open forehead' && !baseHair.toLowerCase().includes('curtain bangs')) details.push(`fringe: ${fringeVal}`);
+  if(partVal && partLabel !== 'Natural part matching reference' && !baseHair.toLowerCase().includes('center part')) details.push(`parting: ${partVal}`);
+  if(fringeVal && fringeLabel !== 'No fringe / open forehead' && !baseHair.toLowerCase().includes('curtain bangs')) details.push(`fringe: ${fringeVal}`);
 
   if(details.length > 0){
     return `${baseHair} (${details.join(', ')})`;
@@ -3930,7 +3962,7 @@ function createSideSweepCard(){
 
 function val(id){return values[id]?.text||''}
 
-function buildLookbookSeries(checks, negatives){
+function buildLookbookSeries(checks, negatives, extraLines = []){
   const hairDesc = getEffectiveHairstyle();
   const hairCol = val('hairColor');
   const hairFin = val('hairFinish');
@@ -3941,7 +3973,9 @@ function buildLookbookSeries(checks, negatives){
   const poseDesc = val('pose');
   const exprDesc = val('expression');
   const gestDesc = val('gesture');
-  const bgDesc = val('background');
+  const bgDesc = (checkState.noMirror && typeof sanitizeMirrorProse === 'function')
+    ? sanitizeMirrorProse(val('background'))
+    : val('background');
   const lightDesc = val('lighting');
   const gradeDesc = val('grade');
   const qualDesc = val('quality');
@@ -4040,6 +4074,7 @@ function buildLookbookSeries(checks, negatives){
     '',
     'SERIES HARMONY & REALISM',
     '• Consistent materials, color grade and lighting from the complete 4-shot series.',
+    checks.length ? checks.map(x=>'• '+x).join('\n') : '',
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
@@ -4069,9 +4104,10 @@ function buildLookbookSeries(checks, negatives){
     '=== SHOT 4: CINEMATIC DETAIL MACRO ===',
     `Artistic close-up accent. Tactile fabric texture, accessories (${accDesc}), back/side hair volume, and atmospheric lighting highlights.`,
     '',
-    'LIGHTING, FILM & FINISH',
-    `Lighting: ${lightDesc}. Photography style: ${val('style')}. Color grade: ${gradeDesc}. Quality: ${qualDesc}. Aspect ratio: ${aspDesc}.`,
+    'LIGHTING, CAMERA & FINISH',
+    `Lighting: ${lightDesc}. Camera angle & lens: ${val('angle')}, ${val('lens')}. Photography style: ${val('style')}. Color grade: ${gradeDesc}. Quality: ${qualDesc}. Aspect ratio: ${aspDesc}.`,
     '',
+    (extraLines && extraLines.length ? 'ADDITIONAL STYLING DETAILS\n' + extraLines.join('\n') + '\n\n' : '') +
     'IDENTITY & REALISM SAFEGUARDS',
     checks.length ? checks.map(x=>'• '+x).join('\n') : '• Natural photographic texture, consistent identity and believable materials.',
     custNote,
@@ -4193,8 +4229,27 @@ function buildSalonPrompt(){
     wet: 'fully saturated wet hair with glossy water sheen, hair clinging to the scalp and nape, heavy aquatic drape'
   };
 
-  const haircutText = S(val('salonHaircut'));
+  let haircutText = S(val('salonHaircut'));
   const hairTextureText = S(val('salonHairTexture'));
+
+  const salonHairLower = (values.salonHaircut?.label || '').toLowerCase();
+  const isSalonPony = salonHairLower.includes('pony') || salonHairLower.includes('ponytail') || isPonySelected();
+  const isSalonSweep = salonHairLower.includes('side-swept') || salonHairLower.includes('swept to one side') || salonHairLower.includes('side sweep') || isSideSweepSelected();
+
+  if(isSalonPony){
+    const pDetails = [];
+    if(val('ponyBaseHeight')) pDetails.push(`anchored at ${val('ponyBaseHeight')}`);
+    if(val('ponyBaseWrap')) pDetails.push(`base ${val('ponyBaseWrap')}`);
+    if(val('ponyTailFall')) pDetails.push(`tail falling ${val('ponyTailFall')}`);
+    if(val('ponyTailEnd')) pDetails.push(`tail ends ${val('ponyTailEnd')}`);
+    if(pDetails.length) haircutText += ` (${pDetails.join(', ')})`;
+  } else if(isSalonSweep){
+    const sDetails = [];
+    if(val('sideSweepSide')) sDetails.push(val('sideSweepSide'));
+    if(val('sideSweepFlip')) sDetails.push(val('sideSweepFlip'));
+    if(val('sideSweepEnd')) sDetails.push(val('sideSweepEnd'));
+    if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
+  }
 
   lines.push('HAIRSTYLE BEING CUT');
   lines.push(`Haircut: ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
@@ -4259,7 +4314,8 @@ function buildSalonPrompt(){
     stylistText, stylistLabel, haircutText, moistureText, hairMoisture: salonHairMoisture,
     capeText, cameraText, lightingText, stationProps: rawStationProps,
     stageText, stageLabel, noMirror: !!checkState.noMirror,
-    isSoloClient: isSoloClient
+    isSoloClient: isSoloClient,
+    isStool: isStool
   };
 
   if(outputType === 'collage'){
@@ -4296,15 +4352,16 @@ function buildSalonPrompt(){
     lines.push('Generate a continuous 3-panel horizontal triptych depicting the salon haircut journey from left to right, maintaining strict identity and scene consistency across all 3 panels:');
     lines.push(`• PANEL 1 (LEFT) — PRE-CUT PREP & SECTIONING: Client draped in ${capeText} at ${venueText}; barber (${stylistLabel}) sectioning hair with a black carbon comb and clips.`);
     lines.push(`• PANEL 2 (CENTER) — ACTIVE MOMENT: ${stageLabel.toUpperCase()}: Close-up of active moment: ${stageText} on ${haircutText} with professional barber grip, authentic tool mechanics, and proper hair strand tension.`);
-    lines.push(`• PANEL 3 (RIGHT) — ${checkState.noMirror ? 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.' : 'FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.'}`);
+    lines.push(`• PANEL 3 (RIGHT) — ${checkState.noMirror ? (isStool ? 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client seated on the low stool admiring the balanced result with hair clippings on ' + capeText + '.' : 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.') : (isStool ? 'FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client seated on the low stool admiring the balanced result with hair clippings on ' + capeText + '.' : 'FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.')}`);
     lines.push('');
   } else if(outputType === 'set'){
     lines.push('FOUR-FRAME EDITORIAL PHOTOGRAPHY SET');
-    lines.push(`Generate four distinct photographic captures covering the salon experience: 1) Consultation and sectioning with ${stylistLabel} at ${venueText}, 2) Macro close-up of active moment: ${stageText} on ${haircutText} with authentic barber tool grip, 3) Profile angle showing ${capeText} draped with realistic cut hair clippings, ${checkState.noMirror ? '4) Direct chair reveal with completed silhouette under ' + lightingText + '.' : '4) Frontal mirror reveal with completed silhouette under ' + lightingText + '.'}`);
+    lines.push(`Generate four distinct photographic captures covering the salon experience: 1) Consultation and sectioning with ${stylistLabel} at ${venueText}, 2) Macro close-up of active moment: ${stageText} on ${haircutText} with authentic barber tool grip, 3) Profile angle showing ${capeText} draped with realistic cut hair clippings, ${checkState.noMirror ? (isStool ? '4) Direct stool reveal with completed silhouette under ' + lightingText + '.' : '4) Direct chair reveal with completed silhouette under ' + lightingText + '.') : (isStool ? '4) Frontal mirror reveal with completed silhouette from the stool under ' + lightingText + '.' : '4) Frontal mirror reveal with completed silhouette under ' + lightingText + '.')}`);
     lines.push('');
   } else if(outputType === 'contact'){
     lines.push('SIX-FRAME 35MM FILM CONTACT SHEET SEQUENCE');
-    lines.push(`Generate a classic six-frame contact sheet strip chronicling the haircut from cape fastening with ${capeText}, water spray misting, active moment: ${stageText}, layer detailing of ${haircutText}, blow-dry styling, ${checkState.noMirror ? 'to final inspection from the styling chair in ' + venueText + '.' : 'to final mirror inspection in ' + venueText + '.'}`);
+    const contactFrame2 = (salonHairMoisture === 'dry') ? 'dry sectioning with comb and clips' : 'water spray misting';
+    lines.push(`Generate a classic six-frame contact sheet strip chronicling the haircut from cape fastening with ${capeText}, ${contactFrame2}, active moment: ${stageText}, layer detailing of ${haircutText}, blow-dry styling, ${checkState.noMirror ? (isStool ? 'to final inspection from the low stool in ' + venueText + '.' : 'to final inspection from the styling chair in ' + venueText + '.') : (isStool ? 'to final mirror inspection from the low stool in ' + venueText + '.' : 'to final mirror inspection in ' + venueText + '.')}`);
     lines.push('');
   } else {
     lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
@@ -4370,10 +4427,14 @@ function buildSalonPrompt(){
     salonChecks.push('• Retain Reference Accessories: Keep visible jewelry, nose stud, earrings peeking through parted hair, or glasses if visible in reference.');
   }
   if(checkState.backgroundReal) {
-    salonChecks.push('• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.');
+    salonChecks.push(isStool
+      ? '• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the stool base, Barbicide jars, and authentic background depth.'
+      : '• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.');
   }
   if(checkState.noMirror) {
-    salonChecks.push('• Direct Chair Perspective: Frame the client directly in the styling chair with direct lens framing and zero secondary glass surfaces.');
+    salonChecks.push(isStool
+      ? '• Direct Stool Perspective: Frame the client directly on the low stool with direct lens framing and zero secondary glass surfaces.'
+      : '• Direct Chair Perspective: Frame the client directly in the styling chair with direct lens framing and zero secondary glass surfaces.');
   }
   if(checkState.candid) {
     salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between haircut moment, authentic client-barber eye contact and posture.');
@@ -4445,7 +4506,10 @@ function buildSalonPrompt(){
   const words = text.trim().split(/\s+/).length;
   el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · Salon Mode`;
 
-  const summaryIds = ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonHaircut', 'salonCape', 'salonCamera'];
+  const isStool = (salonSeatingMode === 'stool');
+  const summaryIds = isStool
+    ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonHaircut', 'salonCape', 'salonCamera']
+    : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonHaircut', 'salonCape', 'salonCamera'];
   const summaryTags = summaryIds
     .filter(id => fields[id] && values[id])
     .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`);
@@ -4641,14 +4705,26 @@ const cameraAnglePart = angleImpliedByFraming ? '' : ` Camera angle: ${angleText
 lines.push(`Framing: ${val('framing')}.${cameraAnglePart} Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements—especially the haircut, outfit and facial expression—without awkward cropping or distorted perspective.`);
 lines.push('');
 lines.push('SCENE, LIGHT AND FINISH');
-const placeDetailText = (checkState.noMirror && typeof sanitizeMirrorProse === 'function')
-  ? sanitizeMirrorProse(val('placeDetail'))
-  : val('placeDetail');
+let bgValText = val('background');
+let placeDetailText = val('placeDetail');
+if(checkState.noMirror && typeof sanitizeMirrorProse === 'function'){
+  bgValText = sanitizeMirrorProse(bgValText)
+    .replace(/tri-fold mirrors/gi, 'architectural folding screens')
+    .replace(/wall mirrors/gi, 'wall paneling')
+    .replace(/mirrors/gi, 'studio panels');
+  placeDetailText = sanitizeMirrorProse(placeDetailText);
+}
 const locDetail = placeDetailText ? ` Setting detail: ${placeDetailText}.` : '';
-lines.push(`Location: ${val('background')}.${locDetail} Lighting: ${val('lighting')}. Photography style: ${val('style')}. Color grade: ${val('grade')}. Image quality: ${val('quality')}. Aim for believable depth, balanced colors, coherent shadows, authentic photographic texture and realistic environment details.`);
+lines.push(`Location: ${bgValText}.${locDetail} Lighting: ${val('lighting')}. Photography style: ${val('style')}. Color grade: ${val('grade')}. Image quality: ${val('quality')}. Aim for believable depth, balanced colors, coherent shadows, authentic photographic texture and realistic environment details.`);
 lines.push('');
+const HAIR_MICRO_FIELD_IDS = new Set([
+  'fringe', 'parting', 'hairVolume', 'hairAccessories', 'hairTexture', 'hairLength',
+  'ponyStyle', 'ponyBaseHeight', 'ponyBaseWrap', 'ponyTailStyle', 'ponyTailFall', 'ponyTailEnd',
+  'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish'
+]);
 const extraLines=detail==='compact'?[]:Object.entries(extraFields).filter(([id])=>{
   if(id==='cameraDistance' && values.framing && values.framing.text) return false;
+  if(HAIR_MICRO_FIELD_IDS.has(id)) return false;
   return val(id);
 }).map(([id,f])=>`${f.label}: ${val(id)}.`);
 if(extraLines.length){
@@ -4668,9 +4744,10 @@ lines.push('AVOID / NEGATIVE GUIDANCE');
 let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
 if(hasMalePresence){
   negatives.push('any secondary woman, female co-model, female stylist, female makeup artist, female assistant, or other women in background (strictly solitary female model)');
-  negatives.push('loose hair down, hair down, un-tied hair, messy bun, topknot bun, curly afro, pixie cut, short crop, blunt straight fringe, hair covering eyes');
 } else if(checkState.soloSubject || (styleRef && transferToggles && transferToggles.hair) || styleRef){
   negatives.push('hairdresser, hair stylist, barber, salon staff, man working on hair, secondary person, extra person, man in background, stylist hands, hands touching hair, hands holding hair, hands styling hair, scissors, comb in hair, salon cape, two people, multiple people, male figure, companion, bystander, photobomb');
+}
+if(styleRef && transferToggles && transferToggles.hair){
   negatives.push('loose hair down, hair down, un-tied hair, messy bun, topknot bun, curly afro, pixie cut, short crop, blunt straight fringe, hair covering eyes');
 }
 if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered hair texture, artificial curls, synthetic perm, heat-damaged hair texture, unnatural straightener sheen or mismatched ethnic hair texture');
@@ -4783,10 +4860,13 @@ function syncRatioChips(){
 function updateModeButtons(){
   const bSingle=el('btnSingleMode');
   const bLookbook=el('btnLookbookMode');
+  const segWrap=bSingle?.parentElement;
   const tabs=el('shotTabs');
+  const isSalon = (currentStudioMode === 'salon');
+  if(segWrap) segWrap.style.display = isSalon ? 'none' : 'flex';
   if(bSingle)bSingle.classList.toggle('active',!lookbookMode);
   if(bLookbook)bLookbook.classList.toggle('active',lookbookMode);
-  if(tabs)tabs.classList.toggle('hidden',!lookbookMode);
+  if(tabs)tabs.classList.toggle('hidden', isSalon || !lookbookMode);
 }
 
 function loadHistory(){
@@ -4910,7 +4990,12 @@ function generateShareUrl(){
     c:checkState,
     d:customDirection,
     n:extraNegative,
-    l:lookbookMode
+    l:lookbookMode,
+    m:currentStudioMode,
+    sm:salonSeatingMode,
+    hm:salonHairMoisture,
+    pt:preserveHairTexture,
+    o:outputType
   };
   try{
     const str=JSON.stringify(payload);
@@ -4943,6 +5028,11 @@ function loadFromHash(){
       if(o.d!==undefined)customDirection=o.d;
       if(o.n!==undefined)extraNegative=o.n;
       if(o.l!==undefined)lookbookMode=!!o.l;
+      if(o.sm)salonSeatingMode=o.sm;
+      if(o.hm)salonHairMoisture=o.hm;
+      if(o.pt!==undefined)preserveHairTexture=!!o.pt;
+      if(o.o)outputType=o.o;
+      if(o.m && (o.m === 'salon' || o.m === 'photoshoot')) switchStudioMode(o.m);
       updateModeButtons();
       buildPrompt();
       renderFields();
@@ -4996,8 +5086,15 @@ outputType='single';
 detailLevel='full';
 salonHairMoisture='damp';
 salonSeatingMode='chair';
+lookbookMode=false;
+activeShot='all';
+subjectRef=null;
+styleRef=null;
+harmonizePalette=false;
+transferToggles={ hair: true, outfit: false, palette: false, scene: false };
 activePreset='';
 document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
+updateModeButtons();
 goSection(currentStudioMode==='salon'?'salonVenueSec':'look');
 buildPrompt();
 toast(lockedFields.size>0?'Reset choices to defaults (locked choices kept).':'Builder reset to defaults.');
@@ -5426,6 +5523,7 @@ if(btnLookbook){
 // Shot tabs
 document.querySelectorAll('.shot-tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
+    if(currentStudioMode === 'salon') return;
     document.querySelectorAll('.shot-tab').forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
     activeShot=tab.dataset.shot;
@@ -5494,6 +5592,10 @@ try{
     l:detailLevel,
     m:salonHairMoisture,
     sm:salonSeatingMode,
+    mode:currentStudioMode,
+    pt:preserveHairTexture,
+    lb:lookbookMode,
+    tt:transferToggles,
     k:[...lockedFields],
     u:customPresets.map(p=>({id:p.id,title:p.title,sub:p.sub,icon:p.icon,set:Object.fromEntries(Object.entries(p.set).map(([k,v])=>[k,v.label]))}))
   };
@@ -5517,6 +5619,10 @@ try{
   detailLevel=o.l||'full';
   if(o.m) salonHairMoisture=o.m;
   if(o.sm) salonSeatingMode=o.sm;
+  if(o.mode && (o.mode === 'salon' || o.mode === 'photoshoot')) currentStudioMode=o.mode;
+  if(o.pt !== undefined) preserveHairTexture=!!o.pt;
+  if(o.lb !== undefined) lookbookMode=!!o.lb;
+  if(o.tt) transferToggles=Object.assign(transferToggles, o.tt);
   if(Array.isArray(o.k)) lockedFields=new Set(o.k);
   if(Array.isArray(o.u)){
     customPresets=o.u.map(p=>{
