@@ -1108,6 +1108,52 @@ const salonStylist = makeOpts([
   ['Over-the-shoulder angle of male barber\'s focused eyes in mirror', 'an intimate mirror perspective capturing the Indian male barber\'s focused, professional gaze reflected in the glass as his hands detail the fringe']
 ]);
 
+const salonStoolType = makeOpts([
+  ['Low round backless swivel stool', 'a compact low round backless swivel cutting stool with a firm black faux-leather cushion and brushed chrome hydraulic cylinder, placing the client open and unobstructed in the space'],
+  ['Minimalist low wooden barber stool', 'a handcrafted low solid-wood barber stool with visible natural teak grain and clean rounded edges, completely backless and low to the ground'],
+  ['Vintage leather-cushioned small stool', 'a vintage industrial low salon stool with deep button-tufted espresso leather cushioning and a circular cast-iron foot ring base'],
+  ['Matte-black low studio stool', 'a compact matte-black steel round stool with a firm low-profile cushion, keeping her seated low without any tall backrest'],
+  ['Low ergonomic saddle stool', 'a compact dark-brown leather saddle-style stool without a backrest, encouraging an open, upright, and relaxed spinal posture'],
+  ['Traditional Indian low wooden baithak stool', 'a traditional low wooden baithak / peeda stool with rustic dark wood legs and tightly woven natural fiber detailing'],
+  ['Compact chrome rolling stool', 'a low-profile chrome rolling swivel stool with smooth casters and a minimalist black vinyl seat'],
+  ['Low upholstered square ottoman stool', 'a minimalist low square salon ottoman in textured charcoal linen, placing the client completely open in the room with zero chair back']
+]);
+
+const salonBarberProximity = makeOpts([
+  ['Directly pressed against her back — chest touching shoulders', 'standing directly behind her back with his chest practically touching her upper shoulders, leaning forward attentively as his arms bracket her frame'],
+  ['Torso grazing her shoulder blades closely', 'leaning in close over her shoulders with his dark canvas apron and shirt lightly grazing her back as his hands work forward'],
+  ['Standing millimeters behind with arms wrapping forward', 'positioned millimeters behind her back, body intimately close to hers, reaching both forearms forward around her head'],
+  ['Bending down close beside her ear', 'leaning his head down close beside her cheek and ear, face inches away as his skilled hands detail her front hair'],
+  ['One hand resting firmly on her bare shoulder', 'standing pressed intimately close behind her with one warm hand resting reassuringly on her shoulder and collarbone while his other hand cuts'],
+  ['Intimately hovering over crown from behind', 'hovering closely over her crown from behind, chest gently resting against her upper back, completely absorbed in shaping her hair'],
+  ['Legs lightly bracketing the small stool', 'standing closely behind with his stance lightly bracketing the backless stool, towering gently over her from behind'],
+  ['Gentle hands guiding her head tilt', 'standing right against her back, using both hands to softly guide and tilt her head as his body moves in harmony with hers']
+]);
+
+const salonIntimateHairAction = makeOpts([
+  ['Precision scissor work right in front of her face', 'holding a taut section of hair between his index and middle fingers right beside her cheek while sharp stainless steel shears execute precision point-snips, with fine hair fragments fluttering down'],
+  ['Fine-tooth combing & razor-sharp center part', 'standing directly behind her crown, gently gliding a fine-tooth carbon tail comb across her scalp to sculpt a razor-sharp center parting with calm focused breath'],
+  ['Point-cutting curtain bangs reaching over forehead', 'leaning forward over her shoulders from behind, his hands reaching across her forehead to point-cut soft arched bottleneck bangs at eyebrow level'],
+  ['Spray bottle misting & hand-smoothing damp hair', 'spritzing fine water mist onto hair strands while his warm fingers glide through the damp lengths to smooth them over her collarbones in the salon light'],
+  ['Straight-razor detailing along exposed nape & neckline', 'delicately applying warm lather and sweeping a traditional straight razor along her bare neck and nape hairline while bent close behind her ear'],
+  ['Warm blowout & round-brush crown root lifting', 'directing warm hairdryer airflow and a round ceramic barrel brush through her crown from directly behind, body pressed close to the stool'],
+  ['Fingers buried deep in hair assessing volume & bounce', 'burying both hands into her freshly cut hair from behind, lifting strands gently to feel the organic weight, texture, and tactile bounce'],
+  ['Sectioning with matte duckbill clips from above', 'methodically dividing upper hair into clean quadrant sections with black salon clips, leaning directly over her head from behind'],
+  ['Thinning shears texturizing weight from ends', 'working notched texturizing shears through hair ends while cut hair clippings flutter down onto her draped lap and stool base'],
+  ['Underarm straight-razor shave on stool', 'gently guiding her arm raised behind her head while leaning close from behind, applying rich lather and shaving underarm hair clean with a straight razor']
+]);
+
+const salonStoolModelPosture = makeOpts([
+  ['Upright on backless stool with relaxed composure', 'sitting comfortably upright on the low stool with natural spinal curve, shoulders relaxed, looking forward with quiet poise and calm confidence'],
+  ['Head softly tilted as his hands guide her hair', 'head gently tilted to the side under his reassuring touch, hands resting peacefully in her draped lap'],
+  ['Looking up into mirror / camera with candid trust', 'glancing slightly upward toward the lens with a calm, trusting, candid expression as he works inches away'],
+  ['Eyes softly closed enjoying the tactile sensation', 'eyes gently closed in relaxed bliss, savoring the tactile feeling of his hands and comb moving through her hair'],
+  ['Side profile angle with exposed neck', 'turned in side profile on the small stool, long graceful neckline exposed as his shears detail her perimeter'],
+  ['Candid conversation mid-snip', 'smiling softly and conversing candidly with the barber as he leans close over her shoulder'],
+  ['Hands resting lightly on knees', 'hands resting naturally on her knees under the cutting cape, fully immersed in the intimate barbershop moment'],
+  ['Serene chin raised, receptive posture', 'chin slightly raised with relaxed jawline, leaning back subtly into the barber\'s attentive presence']
+]);
+
 const salonCape = makeOpts([
   ['Classic black nylon cutting cape with cut hair clippings', 'a silky black nylon salon cutting cape snapped snugly around the neck over a white sanitary paper collar strip, with scattered cut hair fragments resting visibly across the draped shoulders'],
   ['Vintage blue and white pinstriped barber cape', 'a classic vintage barber cape with blue and white vertical pinstripes, draped broadly over the client\'s chest and lap with fresh cut hair dusting'],
@@ -1272,7 +1318,13 @@ const salonCollageScenes = makeOpts([
   ['Straight Razor Armpit Hair Shave with Warm Lather', 'armpit_shave', 'barber lathering and shaving client armpit hair clean with straight razor', 'Body Shaving & Barber Grooming'],
   ['Chest & Décolletage Hair Shave with Warm Foam', 'chest_hair_shave', 'barber shaving fine chest hair and body hair with warm lather', 'Body Shaving & Barber Grooming'],
   ['Upper Body & Shoulder Hair Shave with Razor', 'body_hair_shave', 'barber shaving shoulders, collarbones and body hair smooth with lather', 'Body Shaving & Barber Grooming'],
-  ['Steaming Hot Towel & Soothing After-Shave Balm', 'post_shave_balm', 'barber applying steaming hot towel and soothing balm to shaved areas', 'Body Shaving & Barber Grooming']
+  ['Steaming Hot Towel & Soothing After-Shave Balm', 'post_shave_balm', 'barber applying steaming hot towel and soothing balm to shaved areas', 'Body Shaving & Barber Grooming'],
+  // Intimate Stool & Close Barber Work
+  ['Model on Small Stool · Barber Leaning Close from Behind', 'stool_barber_leaning', 'barber standing directly behind model on small stool, practically touching her back while sectioning hair', 'Intimate Stool & Close Barber Work'],
+  ['Model on Low Stool · Intimate Scissor Trimming from Behind', 'stool_scissor_close', 'male barber directly behind model on low stool with hands framing her hair and shears snip in focus', 'Intimate Stool & Close Barber Work'],
+  ['Model on Low Stool · Barber Combing & Guiding Head from Behind', 'stool_combing_intimate', 'male barber leaning over model on small stool from behind, fingers gently through her hair with comb', 'Intimate Stool & Close Barber Work'],
+  ['Model on Small Stool · Barber Spray Misting & Smoothing Strands', 'stool_mist_close', 'male barber standing millimeters behind model on stool, spritzing fine mist and smoothing hair over shoulders', 'Intimate Stool & Close Barber Work'],
+  ['Model on Low Stool · Barber Detailing Nape & Collarbone Strands', 'stool_nape_intimate', 'barber bent close over model\'s shoulders from behind on low stool, detailing nape taper with razor/shears', 'Intimate Stool & Close Barber Work']
 ]);
 
 const salonCollageFlow = makeOpts([
@@ -1621,7 +1673,12 @@ function getCollageSceneDirective(sceneId, ctx){
     armpit_shave: `Underarm armpit shaving service: the female client relaxes comfortably in the hydraulic chair in ${v} with one arm gracefully raised behind her head, draped in ${c}. The male barber (${sl}) carefully applies rich warm shaving lather to her underarm, smoothly gliding a traditional straight razor to shave her armpit hair clean with artisan precision. Smooth skin, crisp lighting under ${l}.${pStr}`,
     chest_hair_shave: `Chest and décolletage razor grooming: close-medium shot in ${v}. The male barber (${sl}) delicately applies warm shaving foam across the female client's upper chest and collarbones, deftly gliding a warm straight razor to shave fine chest hair and body hair smooth. Clean towel draped, serene client posture under ${l}.${pStr}`,
     body_hair_shave: `Upper body & shoulder hair razor shave: the male barber (${sl}) methodically lathers the client's shoulders, arms, and neckline with rich shaving cream in ${v}, executing smooth straight-razor passes to shave all fine body hair clean. Professional barber craft, authentic chrome razor, atmospheric depth of ${d}.${pStr}`,
-    post_shave_balm: `Post-shave hot towel & soothing treatment: the male barber (${sl}) gently presses a steaming aromatic hot towel across the female client's freshly shaved underarms and upper chest in ${v}, followed by a delicate application of soothing after-shave balm to nourish smooth skin under ${l}.${pStr}`
+    post_shave_balm: `Post-shave hot towel & soothing treatment: the male barber (${sl}) gently presses a steaming aromatic hot towel across the female client's freshly shaved underarms and upper chest in ${v}, followed by a delicate application of soothing after-shave balm to nourish smooth skin under ${l}.${pStr}`,
+    stool_barber_leaning: `Intimate stool seating capture: the female client sits with relaxed, upright posture on a low backless salon stool in ${v}, completely open without a tall chair back. The attentive male barber (${st}) stands directly behind her, chest practically touching her upper back, leaning forward with focused care as his arms bracket her frame and his hands work through ${h} under ${l}.${pStr}`,
+    stool_scissor_close: `Intimate scissor craftsmanship on stool: close-medium shot in ${v}. The female client is seated on a low compact stool while the male barber stands millimeters behind her back, torso grazing her shoulders, holding a taut section of ${h} right in front of her cheek as sharp Japanese shears execute a precision snip with fallen clippings on ${c}.${pStr}`,
+    stool_combing_intimate: `Intimate combing & parting from behind: the female client sits calmly on a low backless stool with natural spinal poise. Standing pressed close behind her, the male barber leans over her crown, one warm hand softly steadying her temple while his other hand draws a razor-sharp parting line through ${h} with a carbon tail comb under ${l}.${pStr}`,
+    stool_mist_close: `Sensory misting & strand smoothing on stool: the male barber stands intimately close behind the female client seated on a small low stool, his apron and shirt lightly brushing against her shoulders. He spritzes a fine water mist over ${h} and gently glides his warm fingers through the damp lengths to smooth them over her collarbones in ${l}.${pStr}`,
+    stool_nape_intimate: `Close-contact nape & neckline detailing: the female client is seated on a low stool with her head gently tilted forward, exposing her graceful nape and neck. The male barber leans down intimately close beside her ear from behind, deftly detailing the tapered perimeter of ${h} with straight razor and comb with artisan precision under ${l}.${pStr}`
   };
 
     if(templates[sceneId]) return templates[sceneId];
@@ -1744,6 +1801,10 @@ salonTime:{label:'Time of day & light',section:'salonVenueSec',opts:salonTime,de
 salonStationProps:{label:'Counter & station props',section:'salonVenueSec',opts:salonStationProps,def:0},
 salonStage:{label:'Haircut progress & moment',section:'salonStageSec',opts:salonStage,def:0},
 salonStylist:{label:'Barber / Stylist presence',section:'salonStageSec',opts:salonStylist,def:0},
+salonStoolType:{label:'Stool & seating style',section:'salonStageSec',opts:salonStoolType,def:0},
+salonBarberProximity:{label:'Barber intimate proximity & body contact',section:'salonStageSec',opts:salonBarberProximity,def:0},
+salonIntimateHairAction:{label:'Hair work & in-progress action',section:'salonStageSec',opts:salonIntimateHairAction,def:0},
+salonStoolModelPosture:{label:'Model posture & expression on stool',section:'salonStageSec',opts:salonStoolModelPosture,def:0},
 salonHairCategory:{label:'Haircut style family',section:'salonHairSec',opts:HAIR_FAMILIES,def:0},
 salonHaircut:{label:'Haircut being cut',section:'salonHairSec',opts:hair,def:0},
 salonHairTexture:{label:'Hair texture & density',section:'salonHairSec',opts:salonHairTexture,def:0},
@@ -2164,6 +2225,7 @@ const salonSections=[
 
 let currentStudioMode = 'photoshoot';
 let salonHairMoisture = 'damp';
+let salonSeatingMode = 'chair';
 let sections = photoshootSections;
 const ENERGIES={
 aquatic:{name:'wet-look editorial',icon:'💧',settings:['outdoor','studio','night'],pick:{hair:/wet|slicked|hydro|soaked|damp|mermaid/i,outfit:/monokini|swimsuit|slip|liquid|latex|wet-look|sheer|vinyl|drenched/i,makeup:/dewy|glossy|droplet|waterproof|glistening/i,pose:/pool|water|emerging|rain|leaning|hair|collarbone/i,expression:/fierce|intense|calm|smirk|direct/i,mood:/fearless|mysterious|high-fashion/i}},
@@ -2213,6 +2275,8 @@ const GROUPS=[
 ['salonVenueSec','Establishment & Design',['mode','salonVenueCategory','salonVenue','salonDesign']],
 ['salonVenueSec','Staffing, Crowd & Atmosphere',['salonBarberStaff','salonBustle','salonTime','salonStationProps']],
 ['salonStageSec','Haircut Progress & Barber',['salonStage','salonStylist']],
+['salonStageSec','Stool & Intimate Barber Setup',['salonStoolType','salonBarberProximity']],
+['salonStageSec','Hair Work & Model Posture',['salonIntimateHairAction','salonStoolModelPosture']],
 ['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonHairTexture']],
 ['salonCameraSec','Cutting Cape & Realism',['salonCape']],
 ['salonCameraSec','Mirror Angle & Lighting',['salonCamera','salonLighting','salonQuality']],
@@ -2223,7 +2287,7 @@ const GROUPS=[
 ['scene','Location',['sceneCategory','background','placeDetail','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lightingCategory','lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
 salonVenueSec: new Set(['mode', 'salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonTime', 'salonStationProps']),
-salonStageSec: new Set(['salonStage', 'salonStylist']),
+salonStageSec: new Set(['salonStage', 'salonStylist', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture']),
 salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonHairTexture']),
 salonCameraSec: new Set(['salonCape', 'salonCamera', 'salonLighting', 'salonQuality']),
 look: new Set(['mode', 'hairCategory', 'hair', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
@@ -2841,6 +2905,43 @@ if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
   host.appendChild(switchWrap);
 }
 
+if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
+  const isStool = (salonSeatingMode === 'stool');
+  
+  const switchWrap = document.createElement('div');
+  switchWrap.className = 'salon-seating-switch-card';
+  switchWrap.style.cssText = 'grid-column: 1 / -1; margin: 0 0 16px 0; padding: 14px 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;';
+  
+  switchWrap.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Client Seating & Barber Proximity</strong>
+        <span style="font-size: 11px; color: var(--text-dim, #999);">Choose between a classic hydraulic barber chair or a low backless stool with the barber standing directly behind her practically touching her.</span>
+      </div>
+      <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+        <button type="button" class="seg-btn ${!isStool ? 'active' : ''}" id="btnSeatingChair" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${!isStool ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">💈 Classic Hydraulic Chair</button>
+        <button type="button" class="seg-btn ${isStool ? 'active' : ''}" id="btnSeatingStool" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isStool ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">🪑 Intimate Stool & Close Barber</button>
+      </div>
+    </div>
+  `;
+
+  switchWrap.querySelector('#btnSeatingChair').addEventListener('click', () => {
+    salonSeatingMode = 'chair';
+    renderFields();
+    buildPrompt();
+    toast('Switched to Classic Hydraulic Barber Chair.');
+  });
+
+  switchWrap.querySelector('#btnSeatingStool').addEventListener('click', () => {
+    salonSeatingMode = 'stool';
+    renderFields();
+    buildPrompt();
+    toast('Switched to Intimate Stool & Close-Contact Barber.');
+  });
+
+  host.appendChild(switchWrap);
+}
+
 const allOrdered=orderedFields();
 const coreSet=CORE_FIELD_IDS[activeSection]||new Set();
 
@@ -2859,6 +2960,20 @@ allOrdered.forEach(([id,f])=>{
     } else {
       if(id === 'poseCategory' || id === 'pose' || id === 'gesture' || id === 'stance' || id === 'motion') return;
       if(coreSet.has(id) || id === 'malePresence' || id === 'maleInteraction') primaryFields.push([id,f]);
+      else secondaryFields.push([id,f]);
+    }
+    return;
+  }
+
+  if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
+    const isStool = (salonSeatingMode === 'stool');
+    if(!isStool){
+      if(id === 'salonStoolType' || id === 'salonBarberProximity' || id === 'salonIntimateHairAction' || id === 'salonStoolModelPosture') return;
+      if(coreSet.has(id)) primaryFields.push([id,f]);
+      else secondaryFields.push([id,f]);
+    } else {
+      if(id === 'salonStage' || id === 'salonStylist') return;
+      if(coreSet.has(id)) primaryFields.push([id,f]);
       else secondaryFields.push([id,f]);
     }
     return;
@@ -3970,11 +4085,19 @@ function buildSalonPrompt(){
   const mode = val('mode');
   const S = t => (checkState.noMirror ? sanitizeMirrorProse(t) : t);
   const lines = [];
+  const isStool = (salonSeatingMode === 'stool');
+  const stoolTypeVal = S(val('salonStoolType'));
+  const stoolProxVal = S(val('salonBarberProximity'));
+  const stoolActVal = S(val('salonIntimateHairAction'));
+  const stoolPostVal = S(val('salonStoolModelPosture'));
+
   if(subjectRef && styleRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE');
     lines.push('');
     lines.push('PRIMARY SUBJECT (IMAGE 1):');
-    lines.push('• Strictly preserve the adult woman from Image 1 as the client in the barber chair.');
+    lines.push(isStool
+      ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}.`
+      : '• Strictly preserve the adult woman from Image 1 as the client in the barber chair.');
     lines.push('• Retain her recognizable facial identity, facial structure, natural eye shape, and realistic skin texture with visible pores.');
     lines.push('• Maintain her authentic natural Indian hair strand texture and natural strand density.');
     lines.push('');
@@ -3984,7 +4107,9 @@ function buildSalonPrompt(){
     lines.push('');
   } else if(subjectRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
-    lines.push('• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her recognizable facial identity and realistic skin texture.');
+    lines.push(isStool
+      ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}, retaining her recognizable facial identity and realistic skin texture.`
+      : '• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her recognizable facial identity and realistic skin texture.');
     lines.push('');
   } else {
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'AUTHENTIC SALON & BARBERSHOP SCENE · REALISTIC HAIRCUT EXPERIENCE');
@@ -3992,7 +4117,9 @@ function buildSalonPrompt(){
   }
 
   lines.push('SOLITARY FEMALE SUBJECT & ALL-MALE ENVIRONMENT:');
-  lines.push('• Solitary Female Model: The female client seated in the styling chair (our model) is strictly and exclusively the ONLY woman/girl in the entire image.');
+  lines.push(isStool
+    ? `• Solitary Female Model: The female client seated on the ${stoolTypeVal} (our model) is strictly and exclusively the ONLY woman/girl in the entire image.`
+    : '• Solitary Female Model: The female client seated in the styling chair (our model) is strictly and exclusively the ONLY woman/girl in the entire image.');
   lines.push('• All-Male Staff & Patrons: All barbers, hair stylists, apprentices, and secondary shop customers in neighboring chairs or waiting on benches must strictly be male.');
   lines.push(checkState.noMirror
     ? '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the shop interior or background.'
@@ -4033,13 +4160,22 @@ function buildSalonPrompt(){
   const lightingText = S(val('salonLighting'));
   const qualityText = S(val('salonQuality'));
 
-  lines.push('HAIRCUT STAGE & ACTIVE ACTION');
-  lines.push(`Haircut progress: ${stageText}.`);
-  lines.push('');
+  if(isStool){
+    lines.push('CLIENT SEATING & INTIMATE BARBER PROXIMITY');
+    lines.push(`Seating setup: The female client is seated on a low ${stoolTypeVal}, completely backless with zero headrest, leaving her upper body, neck, and hair completely open in the space.`);
+    lines.push(`Barber proximity & body contact: The male barber stands directly behind her, ${stoolProxVal}. His physical presence is intimately close, authentic, and attentively focused on her hair.`);
+    lines.push(`Active hair work: He is actively working on her hair: ${stoolActVal}.`);
+    lines.push(`Client posture & expression: ${stoolPostVal}.`);
+    lines.push('');
+  } else {
+    lines.push('HAIRCUT STAGE & ACTIVE ACTION');
+    lines.push(`Haircut progress: ${stageText}.`);
+    lines.push('');
 
-  lines.push('BARBER / STYLIST PRESENCE');
-  lines.push(`Stylist presence: ${stylistText}.`);
-  lines.push('');
+    lines.push('BARBER / STYLIST PRESENCE');
+    lines.push(`Stylist presence: ${stylistText}.`);
+    lines.push('');
+  }
 
   const moistureDescriptions = {
     dry: 'completely dry and styled with natural bounce, airy volume, smooth strand separation, and zero wetness',
@@ -4162,7 +4298,11 @@ function buildSalonPrompt(){
     lines.push('');
   } else {
     lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
-    lines.push(`When haircutting action is depicted, the male barber (${stylistLabel}) performs ${stageText} on ${haircutText} using authentic professional Japanese stainless steel cutting shears (thumb and ring finger in rings, pinky on tang) and a black carbon comb, cutting hair held taut between index and middle fingers. The barber's arms and body must be fully connected to his hands with zero floating limbs.`);
+    if(isStool){
+      lines.push(`When haircutting action is depicted on the stool, the male barber performs ${stoolActVal} with attentive physical posture standing directly behind her, chest practically touching her back. His arms and body are fully connected to his hands with zero floating limbs, executing deliberate professional technique with authentic salon tools.`);
+    } else {
+      lines.push(`When haircutting action is depicted, the male barber (${stylistLabel}) performs ${stageText} on ${haircutText} using authentic professional Japanese stainless steel cutting shears (thumb and ring finger in rings, pinky on tang) and a black carbon comb, cutting hair held taut between index and middle fingers. The barber's arms and body must be fully connected to his hands with zero floating limbs.`);
+    }
     lines.push('');
   }
 
@@ -4175,7 +4315,11 @@ function buildSalonPrompt(){
     salonChecks.push('• Authentic Skin Texture: Visible micro-pores, natural skin luster, authentic facial asymmetry; zero plastic airbrushing or digital doll smoothing.');
   }
   if(checkState.body) {
-    salonChecks.push('• Natural Seated Posture: Realistic seated posture in the hydraulic barber chair, natural shoulder slope, and believable body proportions.');
+    if(isStool){
+      salonChecks.push('• Realistic Seated Stool Posture & Anatomy: Believable seated posture on a low backless stool, natural spinal drape, relaxed shoulders, and convincing physical contact and proximity between the male barber standing directly behind her and the female client.');
+    } else {
+      salonChecks.push('• Natural Seated Posture: Realistic seated posture in the hydraulic barber chair, natural shoulder slope, and believable body proportions.');
+    }
   }
   if(checkState.skinTone) {
     salonChecks.push('• Consistent Skin Tone: Authentic skin undertones consistent with the reference image under the venue ambient lighting.');
@@ -4191,7 +4335,9 @@ function buildSalonPrompt(){
   }
 
   // Strict Solitary Female Model & Exclusive Male Staff Safeguard:
-  salonChecks.push('• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
+  salonChecks.push(isStool
+    ? '• Exclusive Male Staff & Solitary Female Client: The client seated on the stool is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.'
+    : '• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
 
   // Always enforce Barber Tool Ergonomics & Anatomy in salon scenes:
   salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied arms entering frame). Haircut tools are strictly authentic, recognizable salon equipment: professional Japanese stainless steel shears held in standard barber grip (thumb in lower ring, ring finger in upper ring, pinky resting on tang), and a black carbon cutting comb held in opposite hand. Hair being cut is held flat and taut between index and middle fingers. Absolutely zero hybrid tools, zero fused scissor-combs, zero backward shears, and zero distorted blades.");
@@ -4828,6 +4974,7 @@ extraNegative='';
 outputType='single';
 detailLevel='full';
 salonHairMoisture='damp';
+salonSeatingMode='chair';
 activePreset='';
 document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
 goSection(currentStudioMode==='salon'?'salonVenueSec':'look');
@@ -5325,6 +5472,7 @@ try{
     o:outputType,
     l:detailLevel,
     m:salonHairMoisture,
+    sm:salonSeatingMode,
     k:[...lockedFields],
     u:customPresets.map(p=>({id:p.id,title:p.title,sub:p.sub,icon:p.icon,set:Object.fromEntries(Object.entries(p.set).map(([k,v])=>[k,v.label]))}))
   };
@@ -5347,6 +5495,7 @@ try{
   outputType=o.o||'single';
   detailLevel=o.l||'full';
   if(o.m) salonHairMoisture=o.m;
+  if(o.sm) salonSeatingMode=o.sm;
   if(Array.isArray(o.k)) lockedFields=new Set(o.k);
   if(Array.isArray(o.u)){
     customPresets=o.u.map(p=>{
