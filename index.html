@@ -723,7 +723,7 @@ const eyeLook=makeOpts([['Soft brown wing','a soft brown winged eyeliner'],['Bla
 const stance=makeOpts([['Relaxed offset stance','a relaxed offset stance with one shoulder slightly forward'],['Balanced planted stance','a balanced, planted stance with natural alignment'],['Asymmetric shoulder line','an asymmetric shoulder line that feels effortless'],['One knee softly bent','one knee softly bent without exaggerating posture'],['Weight shifted naturally','weight shifted naturally onto one leg'],['Long relaxed posture','a long, relaxed posture with shoulders down'],['Compact seated posture','a compact seated posture with relaxed hands'],['Open confident posture','an open, confident posture without forced arching'],['Casual lean','a casual lean with natural weight support'],['In-motion stance','a natural in-motion stance caught between steps'],['Shoulders angled to camera','shoulders angled slightly toward the camera'],['Torso turned, face to lens','torso turned slightly while the face returns to the lens'],['Soft diagonal posture','a soft diagonal posture for editorial energy'],['Arms close to body','arms held naturally close to the body'],['Relaxed arms with space','relaxed arms with a little natural space from the body']]);
 const gaze=makeOpts([['Direct lens contact','direct eye contact with the lens'],['Just beside the lens','looking just beside the lens'],['Over photographer shoulder','looking over the photographer’s shoulder'],['Off-frame to camera left','looking off-frame to camera left'],['Off-frame to camera right','looking off-frame to camera right'],['Down toward hands','looking down briefly toward her hands'],['Up toward soft light','looking slightly upward toward the soft light'],['Side glance mid-turn','a side glance captured mid-turn'],['Looking toward a person off-frame','looking toward someone just outside the frame'],['Eyes following movement','eyes following movement outside the frame'],['Looking at hairstyle in hand','glancing at the new hairstyle as she lightly touches it'],['Looking past camera with confidence','looking past the camera with quiet confidence'],['Closed-eye laugh moment','eyes softly closed in a genuine laugh'],['Downward reflective glance','a reflective downward glance'],['Direct gaze with head turned','direct lens contact while her head remains turned three-quarter']]);
 const motion=makeOpts([['Almost-still candid','an almost-still candid moment with subtle natural movement'],['Hair moving from a turn','hair moving naturally from a recent turn'],['Caught mid-step','a clear but natural mid-step moment'],['Jacket moving slightly','a jacket moving slightly with her body movement'],['Hand gesture frozen in motion','a hand gesture frozen at a natural point in motion'],['Fabric moving at the hem','the fabric moving gently at the hem'],['Loose strands in motion','a few loose strands moving independently'],['Turning into the light','turning naturally into a patch of light'],['Settling after a laugh','settling after a laugh with shoulders dropping naturally'],['Reaching for a styling prop','reaching for a styling prop between takes'],['Tiny hair adjustment','a tiny hair adjustment captured in motion'],['Movement-free polished frame','a nearly still frame that emphasizes the finished look'],['Walking with natural stride','walking with a natural stride and believable limb positions'],['Mid-turn fabric sweep','a small fabric sweep captured during a turn'],['Candid hand movement','a candid hand movement rather than a posed gesture'],['Soft wind movement','subtle environmental movement in hair and fabric']]);
-const interaction=makeOpts([['Photographer gives a cue','responding to a photographer’s cue between shots'],['Stylist adjusts one strand','a stylist just out of frame has adjusted one small strand'],['Friend says something amusing','reacting to something amusing said just outside the frame'],['Checking the finished look','taking a quick moment to appreciate the finished makeover'],['Between takes conversation','a brief conversation between takes'],['Adjusting a clothing detail herself','adjusting a small clothing detail herself before the next frame'],['Hearing her name','turning as someone calls her name'],['Receiving a final styling check','receiving a final styling check just before the shoot'],['Taking a relaxed pause','taking a comfortable pause between more directed poses'],['Showing the haircut to the photographer','briefly showing the haircut to the photographer'],['Moving toward the setup mark','moving toward her position on the set'],['Laughing at an outtake','laughing at a moment from the previous take']]);
+const interaction=makeOpts([['Photographer gives a cue','responding to a photographer’s cue between shots'],['Quick hair adjustment between takes', 'a quick natural hair adjustment between takes before settling into pose'],['Friend says something amusing','reacting to something amusing said just outside the frame'],['Checking the finished look','taking a quick moment to appreciate the finished makeover'],['Between takes conversation','a brief conversation between takes'],['Adjusting a clothing detail herself','adjusting a small clothing detail herself before the next frame'],['Hearing her name','turning as someone calls her name'],['Receiving a final styling check','receiving a final styling check just before the shoot'],['Taking a relaxed pause','taking a comfortable pause between more directed poses'],['Showing the haircut to the photographer','briefly showing the haircut to the photographer'],['Moving toward the setup mark','moving toward her position on the set'],['Laughing at an outtake','laughing at a moment from the previous take']]);
 const setProps=makeOpts([['No extra props','no extra props; keep focus on her makeover and styling'],['Architectural floor lamp softly blurred in background','an architectural floor lamp softly blurred in the background'],['Styling tools on a counter','a few styling tools placed naturally on a counter, not distracting'],['Clothing rail in background','a clothing rail in soft focus'],['Minimal stool','a simple stool used naturally in the composition'],['Tall director chair','a tall director chair used as a subtle studio prop'],['Structured handbag','a structured handbag used as a styling prop'],['Sunglasses in hand','sunglasses held naturally in one hand'],['Small makeup pouch','a small makeup pouch placed on a nearby counter'],['Unbranded coffee cup','an unbranded coffee cup as a casual backstage prop'],['Soft curtain movement','a soft curtain in the background with slight movement'],['Low side table','a low side table with restrained surface details'],['Minimalist pedestal with sculptural ceramic piece','a clean gallery pedestal with a minimalist ceramic sculpture in soft focus'],['Coat draped over chair','a coat draped casually over a chair'],['Neutral flower arrangement','a small neutral flower arrangement in the distant background'],['Simple modern lamp','a simple modern lamp with realistic warm light'],['Editorial plinth','a minimal editorial plinth used as a studio prop'],['Camera bag out of focus','a photographer’s camera bag out of focus near the edge of frame'],['Magazine stack with unreadable covers','a small stack of magazines with no readable text'],['A hairbrush on counter','a hairbrush resting naturally on a counter'],['No mirrors in set','no visible mirrors or reflection-heavy set pieces'],['Subtle architectural column','a subtle architectural column in the background'],['Neutral bench','a neutral bench used as a natural resting point'],['No text or branded props','no readable text or branded props']]);
 const timeOfDay=makeOpts([['Mid-morning daylight','mid-morning daylight with neutral color temperature'],['Bright noon studio light','bright noon daylight balanced naturally'],['Late afternoon glow','late-afternoon glow with restrained warmth'],['Golden hour','golden-hour light with natural skin-tone fidelity'],['Blue hour city mood','blue-hour city ambience with realistic cool background tones'],['Early evening interior','early-evening interior light with practical lamps'],['Nighttime studio session','a nighttime studio session with controlled lighting'],['Overcast afternoon','overcast afternoon daylight with soft shadows'],['Morning studio buzz with soft dawn daylight','morning studio atmosphere with fresh dawn daylight'],['Quiet late-night editorial set','a quiet late-night editorial set with moody but realistic illumination']]);
 const weather=makeOpts([['No weather emphasis','no visible weather effects; keep the scene neutral'],['Soft overcast outdoors','soft overcast outdoor conditions'],['Light breeze','a light breeze creating subtle hair and fabric movement'],['After-rain city ambience','subtle after-rain city ambience with no dramatic wetness'],['Clear dry evening','a clear, dry evening environment'],['Warm summer air','warm summer air with natural outdoor light'],['Cool crisp air','cool crisp air with restrained environmental cues'],['Light mist in distance','a very light distant mist that does not obscure the subject'],['Cloud-filtered sunlight','cloud-filtered sunlight with natural contrast'],['Sheltered indoor setting','a sheltered indoor setting unaffected by weather']]);
@@ -906,13 +906,13 @@ function getItemCategory(id, item) {
     if (/salon|suite/i.test(text)) return 'salon';
     return 'barbershop';
   } else if (id === 'hair' || id === 'salonHaircut') {
-    if (/wet|hydro|drenched|slicked|ocean-soaked|post-swim|finger wave/i.test(text)) return 'wet';
     if (/pony|ponytail/i.test(text)) return 'pony';
     if (/bob|lob|tassel/i.test(text)) return 'bob';
     if (/shag|wolf|mullet|mixie|octopus/i.test(text)) return 'shag';
     if (/pixie|crop|bixie|buzz/i.test(text)) return 'pixie';
     if (/curl|curls|curly|coily|afro|ringlet/i.test(text)) return 'curl';
     if (/braid|braided|crown braid|twist|chignon|updo|bun/i.test(text)) return 'braid';
+    if (/wet|hydro|drenched|slicked|ocean-soaked|post-swim|finger wave/i.test(text)) return 'wet';
     if (/butterfly|hush|feather|rachel|layer|blowout|flip/i.test(text)) return 'layer';
     if (/wave|waves|mermaid|straight|glass hair/i.test(text)) return 'wave';
     return 'layer';
@@ -942,7 +942,7 @@ function getItemCategory(id, item) {
     if (/nightclub|lounge|speakeasy|cocktail|sky lounge|neon|jazz|members club/i.test(text)) return 'nightlife';
     if (/haveli|palace|chateau|villa|estate|heritage|monastery|jharokha|chettinad/i.test(text)) return 'heritage';
     if (/runway|catwalk|backstage|fashion week|photo pit|fitting atelier|model lineup/i.test(text)) return 'runway';
-    if (/dune|desert|greenhouse|conservatory|botanical|glade|forest|cove|volcanic|grove|sand/i.test(text)) return 'nature';
+    if (/dune|desert|greenhouse|conservatory|botanical|glade|forest|cove|volcanic|grove|sand|garden|terrace|park|meadow|courtyard|floral|orchard/i.test(text)) return 'nature';
     if (/museum|atrium|spiral|staircase|brutalist|concrete|gallery|sculpture|loft|pavilion|plaza|travertine/i.test(text)) return 'architecture';
     if (/pool|water|ocean|cliffside|beach|aqua|terrace pool|shower|lagoon/i.test(text)) return 'aquatic';
     if (/salon|styling station|dressing room|waiting area|hairdresser|barber/i.test(text)) return 'salon';
@@ -953,10 +953,12 @@ function getItemCategory(id, item) {
     return item.cat || 'all';
   } else if (id === 'lighting') {
     if (/pool|water|caustic|specular|aquatic|dusk backlighting|ocean/i.test(text)) return 'aquatic';
-    if (/flash|direct|sunlight|hard shadow|on-camera/i.test(text)) return 'flash';
-    if (/window|daylight|salon daylight|ambient|overcast/i.test(text)) return 'daylight';
-    if (/golden|warm|tungsten|sunset|dusk/i.test(text)) return 'warm';
-    if (/moody|low-key|low-contrast|cool editorial|cinematic side|practical/i.test(text)) return 'moody';
+    if (/\b(?:on-camera flash|studio flash|strobe|speedlight|hard flash|direct flash|flash photography)\b/i.test(text)) return 'flash';
+    if (/\b(?:window|daylight|salon daylight|ambient daylight|sunlight|sunlit|sun patch|overcast|morning light|afternoon light)\b/i.test(text)) return 'daylight';
+    if (/\b(?:golden|warm|tungsten|sunset|dusk|candlelight|amber)\b/i.test(text)) return 'warm';
+    if (/\b(?:moody|low-key|low-contrast|cool editorial|cinematic side|practical)\b/i.test(text)) return 'moody';
+    if (/\b(?:flash|strobe|hard shadow)\b/i.test(text)) return 'flash';
+    if (/ambient|day/i.test(text)) return 'daylight';
     return 'studio';
   }
   return 'all';
@@ -1693,11 +1695,22 @@ function getCollageSceneDirective(sceneId, ctx){
     if(ctx.isStool){
       res = res
         .replace(/vintage hydraulic Belmont chair/gi, 'low backless salon cutting stool')
+        .replace(/classic chrome hydraulic barber chair/gi, 'low backless salon cutting stool')
         .replace(/hydraulic Belmont chair/gi, 'low backless salon cutting stool')
+        .replace(/hydraulic barber chair/gi, 'low backless salon cutting stool')
+        .replace(/black leather hydraulic styling chair/gi, 'low backless cutting stool')
+        .replace(/black leather salon styling chair/gi, 'low backless cutting stool')
         .replace(/hydraulic chair/gi, 'low backless stool')
         .replace(/Belmont chair/gi, 'low backless stool')
+        .replace(/barber chair/gi, 'low backless cutting stool')
+        .replace(/styling chair arms/gi, 'draped down around the stool')
+        .replace(/styling chair/gi, 'low backless stool')
         .replace(/in the styling chair/gi, 'on the low backless stool')
-        .replace(/in the chair/gi, 'on the stool');
+        .replace(/in the barber chair/gi, 'on the low backless stool')
+        .replace(/to the female client in the chair/gi, 'to the female client on the low backless stool')
+        .replace(/in the chair/gi, 'on the stool')
+        .replace(/the heavy chrome hydraulic pump lever of the vintage barber chair, adjusting the client's seating height with precision/gi, "the client's seated posture and position on the low backless cutting stool with artisan precision")
+        .replace(/foot on the heavy chrome hydraulic pump lever[^,.]+/gi, "careful hand positioning to adjust the client's seating on the low stool");
     }
     return res;
 }
@@ -1865,7 +1878,7 @@ const extraOutfitColors=['scarlet red','ink black','deep sapphire','burnished co
 const extraOutfitFinishes=['with a clean architectural line','with a refined draped finish','with high-contrast monochrome accents','with subtle tonal accessories','with sharp tailoring and a relaxed attitude','with an editorial asymmetric detail'];
 const extraOutfitOptions=[];outfitShapes.forEach((shape,i)=>{for(let j=0;j<4;j++){const c=extraOutfitColors[(i*2+j*3)%extraOutfitColors.length], f=extraOutfitFinishes[(i+j)%extraOutfitFinishes.length];extraOutfitOptions.push(O(c[0].toUpperCase()+c.slice(1)+' '+shape[0]+' / variation '+(j+1),'a '+c+' '+shape[1]+' '+f));}});addOptions(outfit,extraOutfitOptions);
 const extraPoseBases=[
-['Turning while stepping onto a mark','turning while stepping onto the studio mark'],['Leaning lightly on a tall stool','leaning lightly on a tall stool with a confident side glance'],['Holding a jacket by the collar','holding a jacket loosely by its collar while smiling toward camera'],['Resting a hand on a pocket edge','resting one hand at the pocket edge in a relaxed stance'],['Tilting toward the photographer','tilting slightly toward the photographer while listening'],['Catching a loose hair strand','catching a loose strand of hair and tucking it back'],['Standing with crossed wrists','standing with wrists loosely crossed in front, shoulders relaxed'],['Turning while holding a clutch','turning while holding a small clutch at her side'],['Pausing beside a clothing rack','pausing beside a clothing rack with a candid expression'],['Taking a seat mid-conversation','taking a seat mid-conversation with relaxed hands'],['Looking back while fixing a cuff','looking back while casually fixing a sleeve cuff'],['Stepping away from the styling station','stepping away from the styling station after the final touch-up'],['Gently sweeping hair off one shoulder','gently sweeping hair off one shoulder to reveal the haircut'],['Standing with a relaxed hip shift','standing with a natural hip shift and shoulders at ease'],['Leaning forward with one palm on table','leaning forward with one palm resting lightly on a table'],['Turning from the window','turning away from a window toward the photographer'],['Sitting upright with one elbow supported','sitting upright with one elbow naturally supported'],['Smiling at an off-frame comment','smiling at a comment from someone outside the frame'],['Walking while looking over shoulder','walking while looking over one shoulder'],['Smoothing a lapel during a reset','smoothing a lapel during a natural reset between frames'],['Keeping one hand near the waist','keeping one hand near the waist in an easy confident stance'],['Standing under a doorway light','standing under doorway light with the head turned slightly'],['Leaning shoulder-first into frame','leaning shoulder-first into the composition with a playful expression'],['Holding a relaxed side pose','holding a relaxed side pose while the photographer adjusts focus'],['Turning to show the haircut profile','turning to show the haircut profile with realistic hair movement'],['Looking down and then smiling','looking down briefly before smiling naturally'],['Adjusting a bracelet during a laugh','adjusting a bracelet while laughing between takes'],['Moving one hand through the air mid-sentence','moving one hand naturally through the air mid-sentence'],['Sitting near the edge of a bench','sitting near the edge of a bench with a composed posture'],['Stepping into a pool of studio light','stepping naturally into a pool of studio light'],['Resting fingertips on a chair back','resting fingertips on a chair back with relaxed shoulders'],['Turning with fabric moving softly','turning as the outfit fabric moves softly'],['Standing at a three-quarter angle with hands relaxed','standing at a three-quarter angle with both hands relaxed'],['Laughing while looking toward the stylist','laughing while looking toward the stylist just outside frame'],['Walking past a textured wall','walking past a textured wall as the camera catches the moment'],['Pausing to arrange an earring','pausing to arrange an earring before the next photograph'],['Showing the neckline with a shoulder turn','turning one shoulder to show the neckline and outfit construction'],['Resting one elbow on a ledge','resting one elbow lightly on a ledge in a composed pose'],['Caught fixing a loose strand','caught fixing a loose strand without looking directly at camera'],['Standing with a slight backward glance','standing with a slight backward glance and a confident half-smile'],['Settling into a side-sit','settling into a comfortable side-sit on a stool'],['Moving from shadow into light','moving from shadow into light in a spontaneous take'],['Holding sunglasses by one temple','holding sunglasses by one temple as a casual prop'],['Half-turn with chin lowered slightly','making a half-turn with chin lowered slightly and eyes toward camera'],['Pausing after a small spin','pausing after a small, natural turn with hair settling'],['Adjusting the edge of a jacket','adjusting the edge of a jacket while keeping an easy expression'],['Looking toward the room entrance','looking toward the room entrance as someone arrives'],['Relaxed pose with hands loosely linked','posing with hands loosely linked and arms relaxed'],['Leaning on the back of a sofa','leaning lightly on the back of a sofa in an editorial setting'],['Walking into frame while smiling','walking into frame while smiling naturally']
+['Turning while stepping onto a mark','turning while stepping onto the studio mark'],['Leaning lightly on a tall stool','leaning lightly on a tall stool with a confident side glance'],['Holding a jacket by the collar','holding a jacket loosely by its collar while smiling toward camera'],['Resting a hand on a pocket edge','resting one hand at the pocket edge in a relaxed stance'],['Tilting toward the photographer','tilting slightly toward the photographer while listening'],['Catching a loose hair strand','catching a loose strand of hair and tucking it back'],['Standing with crossed wrists','standing with wrists loosely crossed in front, shoulders relaxed'],['Turning while holding a clutch','turning while holding a small clutch at her side'],['Pausing beside a clothing rack','pausing beside a clothing rack with a candid expression'],['Taking a seat mid-conversation','taking a seat mid-conversation with relaxed hands'],['Looking back while fixing a cuff','looking back while casually fixing a sleeve cuff'],['Stepping away from the styling station','stepping away from the styling station after the final touch-up'],['Gently sweeping hair off one shoulder','gently sweeping hair off one shoulder to reveal the haircut'],['Standing with a relaxed hip shift','standing with a natural hip shift and shoulders at ease'],['Leaning forward with one palm on table','leaning forward with one palm resting lightly on a table'],['Turning from the window','turning away from a window toward the photographer'],['Sitting upright with one elbow supported','sitting upright with one elbow naturally supported'],['Smiling at an off-frame comment','smiling at a comment from someone outside the frame'],['Walking while looking over shoulder','walking while looking over one shoulder'],['Smoothing a lapel during a reset','smoothing a lapel during a natural reset between frames'],['Keeping one hand near the waist','keeping one hand near the waist in an easy confident stance'],['Standing under a doorway light','standing under doorway light with the head turned slightly'],['Leaning shoulder-first into frame','leaning shoulder-first into the composition with a playful expression'],['Holding a relaxed side pose','holding a relaxed side pose while the photographer adjusts focus'],['Turning to show the haircut profile','turning to show the haircut profile with realistic hair movement'],['Looking down and then smiling','looking down briefly before smiling naturally'],['Adjusting a bracelet during a laugh','adjusting a bracelet while laughing between takes'],['Moving one hand through the air mid-sentence','moving one hand naturally through the air mid-sentence'],['Sitting near the edge of a bench','sitting near the edge of a bench with a composed posture'],['Stepping into a pool of studio light','stepping naturally into a pool of studio light'],['Resting fingertips on a chair back','resting fingertips on a chair back with relaxed shoulders'],['Turning with fabric moving softly','turning as the outfit fabric moves softly'],['Standing at a three-quarter angle with hands relaxed','standing at a three-quarter angle with both hands relaxed'],['Laughing candidly toward someone off-camera', 'laughing warmly toward someone just outside the frame, caught in a genuine spontaneous reaction'],['Walking past a textured wall','walking past a textured wall as the camera catches the moment'],['Pausing to arrange an earring','pausing to arrange an earring before the next photograph'],['Showing the neckline with a shoulder turn','turning one shoulder to show the neckline and outfit construction'],['Resting one elbow on a ledge','resting one elbow lightly on a ledge in a composed pose'],['Caught fixing a loose strand','caught fixing a loose strand without looking directly at camera'],['Standing with a slight backward glance','standing with a slight backward glance and a confident half-smile'],['Settling into a side-sit','settling into a comfortable side-sit on a stool'],['Moving from shadow into light','moving from shadow into light in a spontaneous take'],['Holding sunglasses by one temple','holding sunglasses by one temple as a casual prop'],['Half-turn with chin lowered slightly','making a half-turn with chin lowered slightly and eyes toward camera'],['Pausing after a small spin','pausing after a small, natural turn with hair settling'],['Adjusting the edge of a jacket','adjusting the edge of a jacket while keeping an easy expression'],['Looking toward the room entrance','looking toward the room entrance as someone arrives'],['Relaxed pose with hands loosely linked','posing with hands loosely linked and arms relaxed'],['Leaning on the back of a sofa','leaning lightly on the back of a sofa in an editorial setting'],['Walking into frame while smiling','walking into frame while smiling naturally']
 ];
 const extraPoseMods=['with believable balance and natural hand placement','captured a fraction of a second before she settles','with subtle clothing and hair movement','as a candid moment instead of a directed pose'];
 const morePoses=[];extraPoseBases.forEach((p,i)=>{morePoses.push(O(p[0],p[1]));if(i<45)morePoses.push(O(p[0]+' · spontaneous variation',p[1]+', '+extraPoseMods[i%extraPoseMods.length]));});addOptions(pose,morePoses);
@@ -1895,7 +1908,7 @@ const browStyle=makeOpts([['Keep reference brow shape','keep the eyebrow shape c
 const complexion=makeOpts([['Natural satin complexion','a natural satin complexion with realistic pores'],['Soft matte T-zone','a softly matte T-zone with natural skin detail retained'],['Natural cheek texture preserved','natural cheek texture preserved without smoothing'],['Subtle real skin highlights','subtle skin highlights that follow the lighting'],['No artificial glass skin','no artificial glass-skin effect'],['Realistic under-eye texture','realistic under-eye texture and natural facial detail'],['Light makeup texture','light makeup texture that does not obscure pores'],['Natural shine variation','natural variation in skin sheen across forehead, cheeks and nose'],['Fine facial details retained','fine facial details and natural asymmetry retained'],['No skin tone shift','no shift in the reference skin tone']]);
 const garmentDetail=makeOpts([['Symmetrical side-waist cutouts','tastefully tailored symmetrical side-waist cutouts accentuating the silhouette'],['Asymmetric ribcage slash cutout','an architectural asymmetric slash cutout along the ribcage and midriff'],['Deep V-cut pelvic accents','high-cut V-shaped hip accents with clean geometric lines'],['Backless deep-V taper','a dramatic open back with clean V-tapered tailoring down to the lower back'],['Underbust keyhole cutouts','subtle structural underbust cutouts with crisp seam finishing'],['Visible seam construction','visible seam construction where appropriate'],['Tasteful statement buttons','tasteful statement buttons with realistic spacing'],['Defined waist seam','a defined waist seam with natural garment tension'],['Asymmetric panel detail','an asymmetric panel detail that reads clearly'],['Clean hemline','a clean hemline with believable weight'],['Subtle piping','subtle piping following the garment construction'],['Draped fabric folds','draped fabric folds that follow gravity naturally'],['Pleats with clear structure','pleats with clear structure and realistic spacing'],['Minimal hardware detail','minimal hardware detail with controlled reflections'],['Belt and buckle detail','a realistic belt and buckle detail'],['Tailored lapel texture','tailored lapel texture with clear edge definition'],['Button placket visible','a visible button placket with believable button placement'],['Satin highlights controlled','controlled satin highlights without blown-out patches'],['No random embellishment','no random or invented garment embellishments'],['Realistic fabric thickness','realistic fabric thickness at cuffs, hems and seams']]);
 const accentColors=makeOpts([['Single red accent','one single red accent against a restrained palette'],['Metallic silver details','metallic silver details used sparingly'],['Warm gold buttons or jewelry','warm gold buttons or jewelry used as a subtle accent'],['Burgundy accent','a burgundy accent integrated with the outfit'],['Cobalt accessory accent','a cobalt accessory accent'],['Emerald accent detail','an emerald accent detail'],['Pearl white accent','a pearl-white accent against deeper tones'],['Black contrast piping','black contrast piping'],['Tone-on-tone detail','tone-on-tone detailing for a sophisticated finish'],['No extra accent color','no additional accent color; preserve a cohesive palette'],['Subtle copper accent','a subtle copper accent'],['Silver-blue accent','a silver-blue accent'],['Deep plum accent','a deep plum accent'],['Warm neutral contrast','warm neutral contrast with restrained visual separation']]);
-const sceneActivity=makeOpts([['No background people','no background people; keep the frame focused on the subject'],['Stylist blurred in far background','a stylist blurred far in the background without distracting from her'],['Photographer presence implied','the photographer’s presence implied by her candid glance'],['Quiet pause between editorial takes','a quiet spontaneous pause between camera takes'],['A real in-between take','a believable in-between take during the photoshoot'],['Subtle production activity in soft focus','subtle production crew and lighting gear in soft background focus'],['Empty studio between setups','an empty studio between setups'],['Someone just outside frame','someone just outside the frame prompting a genuine reaction'],['Final outfit adjustment before shot','a final outfit adjustment before the photographer starts shooting'],['Relaxed break after makeover','a relaxed break immediately after the makeover'],['Natural conversation off-camera','a brief natural conversation happening off-camera'],['Photographer tests a frame','the photographer testing a frame while she relaxes'],['She is readying for next pose','she is getting ready for the next pose'],['A candid reaction to a preview','a candid reaction to seeing a preview photo'],['Freshly finished salon moment','a freshly finished salon moment before leaving the chair']]);
+const sceneActivity=makeOpts([['No background people','no background people; keep the frame focused on the subject'],['Crew member blurred in far background', 'a crew member blurred far in the background without distracting from her'],['Photographer presence implied','the photographer’s presence implied by her candid glance'],['Quiet pause between editorial takes','a quiet spontaneous pause between camera takes'],['A real in-between take','a believable in-between take during the photoshoot'],['Subtle production activity in soft focus','subtle production crew and lighting gear in soft background focus'],['Empty studio between setups','an empty studio between setups'],['Someone just outside frame','someone just outside the frame prompting a genuine reaction'],['Final outfit adjustment before shot','a final outfit adjustment before the photographer starts shooting'],['Relaxed break after makeover','a relaxed break immediately after the makeover'],['Natural conversation off-camera','a brief natural conversation happening off-camera'],['Photographer tests a frame','the photographer testing a frame while she relaxes'],['She is readying for next pose','she is getting ready for the next pose'],['A candid reaction to a preview','a candid reaction to seeing a preview photo'],['Fresh post-makeover moment', 'a fresh post-makeover moment before stepping into the main shoot']]);
 const cameraDistance=makeOpts([['Close portrait distance','a close portrait distance with natural facial perspective'],['Comfortable conversational distance','a comfortable conversational camera distance'],['Medium fashion distance','a medium camera distance suited to fashion portraiture'],['Full-body distance with normal perspective','a full-body camera distance without wide-angle distortion'],['Slightly farther environmental view','a slightly farther environmental view with context'],['Tight but not cropped awkwardly','a tight frame that avoids awkwardly cutting the chin or hairstyle'],['Natural smartphone distance','a natural smartphone shooting distance'],['Portrait-lens distance','a portrait-lens distance with believable compression'],['Camera at comfortable eye line','camera positioned at a comfortable eye line'],['Step-back framing for outfit','a step-back composition that shows the outfit clearly']]);
 const blurControl=makeOpts([['No artificial motion blur','no artificial motion blur'],['Tiny motion in hair only','a tiny hint of motion in hair ends while face remains crisp'],['Very light ambient movement','very light ambient movement in the setting'],['Subject crisp, background soft','a crisp subject against a softly blurred background'],['Subtle film motion character','subtle film motion character without smearing facial detail'],['Freeze action clearly','freeze the action clearly with sharp facial detail'],['No ghosting or duplicate edges','no ghosting, double edges or duplicate limbs'],['Natural depth blur only','natural optical depth blur only, without cutout artifacts']]);
 const cropRules=makeOpts([['Keep full hairstyle inside frame','keep the complete hairstyle inside the frame'],['Do not cut off chin or forehead','avoid cutting off the chin or forehead awkwardly'],['Show neckline and hairstyle','show both the neckline and the full hairstyle where the selected crop allows'],['Hands remain inside crop if active','keep active hands inside the frame when the pose depends on them'],['Keep outfit silhouette readable','keep the selected outfit silhouette readable'],['Give breathing room above hair','leave breathing room above the top of the hairstyle'],['Avoid accidental limb cropping','avoid accidental limb cropping in medium and full-body shots'],['Frame naturally, not perfectly centered','frame naturally rather than forcing perfect center alignment'],['Respect vertical composition','respect the selected vertical composition'],['Do not crop shoes in full-body shot','keep shoes visible when a full-body framing is selected']]);
@@ -2168,13 +2181,13 @@ addOptions(weather, makeOpts([
 // PONYTAIL & UPDO GRANULAR EXPANSION
 // ==========================================
 addOptions(hair, makeOpts([
-  ['Mid ponytail with arched bottleneck curtain bangs', 'an authentic salon-styled mid-height ponytail with soft naturally rounded crown and gentle scalp volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to the upper cheekbones with delicate piecey strand separation, side hair combed smoothly back and gently tucked behind the ears, anchored at the mid-occipital back of the head into a relaxed mid ponytail with a smooth natural straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders, strictly preserving her original natural silky-fine Indian hair texture, strand density, and organic healthy sheen without heat curls or synthetic styling'],
-  ['Mid-height ponytail with soft rounded bounce and fanned crown', 'an authentic candid mid ponytail with soft naturally rounded crown and gentle scalp volume, hair smoothed back cleanly at the front into a secure mid-crown tie above soft arched bottleneck curtain bangs skimming her eyebrows and cheekbones, side hair tucked neatly behind ears, with a soft straight mid-height ponytail resting at the nape with natural bounce and movement, strictly preserving her original natural silky black Indian hair texture and realistic facial expression'],
-  ['Sleek low-to-mid ponytail + near-center part & curtain bangs', 'a sleek low-to-mid ponytail with a clean near-center part and long, wispy curtain bangs softly framing the forehead and cheekbones, with the ponytail ending around the nape to upper shoulders'],
+  ['Mid ponytail with arched bottleneck curtain bangs', 'an authentic mid-height ponytail with gentle scalp volume, soft arched bottleneck curtain bangs framing the cheekbones, and a smooth natural tail resting at the nape'],
+  ['Mid-height ponytail with soft rounded bounce and fanned crown', 'a bouncy mid-height ponytail with soft rounded crown volume, clean front tension, and a smooth straight tail falling naturally to the nape'],
+  ['Sleek low-to-mid ponytail + near-center part & curtain bangs', 'a sleek low-to-mid ponytail with soft curtain bangs framing cheekbones and a tapered tail resting above the shoulders'],
   ['All hair swept to one side (dramatic shoulder drape)', 'a dramatic asymmetric hairstyle with all hair swept entirely over one shoulder, leaving the opposite neck and collarbone exposed'],
   ['Voluminous side-swept blowout with deep root flip', 'a voluminous side-swept blowout with all hair thrown dramatically over one shoulder, featuring a bold lifted root flip and soft cascading waves'],
   ['Wet-look slicked side-swept hair draped over shoulder', 'a high-fashion wet-look hairstyle with all hair slicked sleekly across the scalp and cascading over one shoulder in liquid-gloss saturated clumps'],
-  ['Sleek high ponytail + deep side part & short wavy nape tail', 'a sleek high ponytail with a subtle deep side part and smoothly swept-back crown, leading to a short wavy tail ending at the nape of the neck just above the shoulders, with softly tousled ends'],
+  ['Sleek high ponytail + deep side part & short wavy nape tail', 'a sleek high ponytail with swept-back crown and a short textured tail ending cleanly at the nape'],
   ['Short sleek high ponytail ending at neck', 'a snatched high ponytail secured high at the crown with mirror-like shine and a sleek razor-cut tail ending cleanly at the base of the neck'],
   ['Short blunt high ponytail with flipped ends', 'a high crown ponytail with a short blunt tail flicked playfully outward around the upper neck in a 90s editorial style'],
   ['Short micro-tail high pony (jawline focus)', 'an ultra-high snatched ponytail with a cropped micro-tail barely grazing the upper nape, highlighting the neck and jawline'],
@@ -3307,43 +3320,73 @@ function isSideSweepSelected(){
 
 function getFullHairDescription(){
   const baseHair = val('hair');
+  const hairLabel = (values.hair?.label || '').toLowerCase();
+  const hairLower = baseHair.toLowerCase();
+  const isPony = hairLabel.includes('pony') || hairLower.includes('pony') || (values.hairCategory && values.hairCategory.text === 'pony');
+  const isSweep = hairLabel.includes('side-swept') || hairLabel.includes('swept to one side') || hairLower.includes('side-swept') || hairLower.includes('swept to one side');
+  
   const details = [];
   
-  const fall = val('ponyTailFall');
-  const end = val('ponyTailEnd');
-  const height = val('ponyBaseHeight');
-  const wrap = val('ponyBaseWrap');
-  const tail = val('ponyTailStyle');
-  const updo = val('ponyStyle');
+  if (isPony) {
+    const fall = val('ponyTailFall');
+    const end = val('ponyTailEnd');
+    const height = val('ponyBaseHeight');
+    const wrap = val('ponyBaseWrap');
+    const tail = val('ponyTailStyle');
+    const updo = val('ponyStyle');
 
-  if(fall) details.push(`ponytail falls ${fall}`);
-  if(end) details.push(`tail ${end}`);
-  if(height) details.push(`anchored at ${height}`);
-  if(wrap) details.push(`base ${wrap}`);
-  if(tail) details.push(`tail texture: ${tail}`);
-  if(updo) details.push(updo);
+    if(fall) details.push(`ponytail falls ${fall}`);
+    if(end) details.push(`tail ${end}`);
+    if(height) details.push(`anchored at ${height}`);
+    if(wrap) details.push(`base ${wrap}`);
+    if(tail) details.push(`tail texture: ${tail}`);
+    if(updo) details.push(updo);
+  }
 
-  const sweepSide = val('sideSweepSide');
-  const sweepFlip = val('sideSweepFlip');
-  const sweepEnd = val('sideSweepEnd');
-  const sweepFinish = val('sideSweepFinish');
+  if (isSweep) {
+    const sweepSide = val('sideSweepSide');
+    const sweepFlip = val('sideSweepFlip');
+    const sweepEnd = val('sideSweepEnd');
+    const sweepFinish = val('sideSweepFinish');
 
-  if(sweepSide) details.push(sweepSide);
-  if(sweepFlip) details.push(sweepFlip);
-  if(sweepEnd) details.push(sweepEnd);
-  if(sweepFinish) details.push(sweepFinish);
+    if(sweepSide) details.push(sweepSide);
+    if(sweepFlip) details.push(sweepFlip);
+    if(sweepEnd) details.push(sweepEnd);
+    if(sweepFinish) details.push(sweepFinish);
+  }
 
   const fringeLabel = values.fringe?.label || '';
   const partLabel = values.parting?.label || '';
   const fringeVal = val('fringe');
   const partVal = val('parting');
-  if(partVal && partLabel !== 'Natural part matching reference' && !baseHair.toLowerCase().includes('center part')) details.push(`parting: ${partVal}`);
-  if(fringeVal && fringeLabel !== 'No fringe / open forehead' && !baseHair.toLowerCase().includes('curtain bangs')) details.push(`fringe: ${fringeVal}`);
+  const isDefaultFringe = !fringeVal || fringeLabel.startsWith('Auto') || fringeLabel === 'No fringe / open forehead';
+  const isDefaultPart = !partVal || partLabel.startsWith('Auto') || partLabel === 'Natural part matching reference';
+
+  let cleanedBaseHair = baseHair;
+
+  if (!isDefaultPart) {
+    if (cleanedBaseHair.toLowerCase().includes('center part') && !partVal.toLowerCase().includes('center part')) {
+      cleanedBaseHair = cleanedBaseHair.replace(/(?:with a |with )?(?:clean |subtle )?(?:deep )?center part/gi, `with ${partVal}`);
+    } else if (cleanedBaseHair.toLowerCase().includes('side part') && !partVal.toLowerCase().includes('side part')) {
+      cleanedBaseHair = cleanedBaseHair.replace(/(?:with a |with )?(?:clean |subtle )?(?:deep )?side part/gi, `with ${partVal}`);
+    } else if (!cleanedBaseHair.toLowerCase().includes(partVal.toLowerCase())) {
+      details.push(`parting: ${partVal}`);
+    }
+  }
+
+  if (!isDefaultFringe) {
+    if (cleanedBaseHair.toLowerCase().includes('curtain bangs') && !fringeVal.toLowerCase().includes('curtain')) {
+      cleanedBaseHair = cleanedBaseHair.replace(/(?:with |featuring )?(?:soft |airy |wispy )?(?:arched )?bottleneck curtain bangs/gi, `featuring ${fringeVal}`);
+      cleanedBaseHair = cleanedBaseHair.replace(/(?:with |featuring )?(?:soft |airy |wispy )?curtain bangs/gi, `featuring ${fringeVal}`);
+    } else if (!cleanedBaseHair.toLowerCase().includes(fringeVal.toLowerCase())) {
+      details.push(`fringe: ${fringeVal}`);
+    }
+  }
 
   if(details.length > 0){
-    return `${baseHair} (${details.join(', ')})`;
+    return `${cleanedBaseHair} (${details.join(', ')})`;
   }
-  return baseHair;
+  return cleanedBaseHair;
 }
 
 function getEffectiveHairstyle(){
@@ -3962,7 +4005,7 @@ function createSideSweepCard(){
 
 function val(id){return values[id]?.text||''}
 
-function buildLookbookSeries(checks, negatives, extraLines = []){
+function buildLookbookSeries(checks = [], negatives = [], extraLines = []){
   const hairDesc = getEffectiveHairstyle();
   const hairCol = val('hairColor');
   const hairFin = val('hairFinish');
@@ -4003,11 +4046,11 @@ function buildLookbookSeries(checks, negatives, extraLines = []){
     `Framing: Intimate macro headshot crop. Eye-level camera angle with authentic catchlights in the eyes. Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
     '',
     'IDENTITY & REALISM SAFEGUARDS',
-    checks.length ? checks.map(x=>'• '+x).join('\n') : '• Maintain exact facial identity, realistic skin pores and believable facial anatomy.',
+    (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '• Maintain exact facial identity, realistic skin pores and believable facial anatomy.',
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    negatives.map(x=>'• '+x).join('\n')
+    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
   ].filter(Boolean).join('\n');
 
   const shot2 = [
@@ -4028,11 +4071,11 @@ function buildLookbookSeries(checks, negatives, extraLines = []){
     `Location: ${bgDesc}. Lighting: ${lightDesc}. Color grade: ${gradeDesc}. Camera framing: Medium 3/4 portrait crop.${palNote}`,
     '',
     'SERIES CONTINUITY & REALISM',
-    '• Maintain strict identity and wardrobe continuity with Shot 1.\n' + (checks.length ? checks.map(x=>'• '+x).join('\n') : ''),
+    '• Maintain strict identity and wardrobe continuity with Shot 1.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    negatives.map(x=>'• '+x).join('\n')
+    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
   ].filter(Boolean).join('\n');
 
   const shot3 = [
@@ -4053,11 +4096,11 @@ function buildLookbookSeries(checks, negatives, extraLines = []){
     `Wide environmental composition showing authentic scale and architectural depth. Lighting: ${lightDesc}. Color grade: ${gradeDesc}. Aspect ratio: ${aspDesc}.${palNote}`,
     '',
     'SERIES CONTINUITY & REALISM',
-    '• Unbroken continuity: same woman, exact haircut, outfit and palette as Shots 1 and 2.\n' + (checks.length ? checks.map(x=>'• '+x).join('\n') : ''),
+    '• Unbroken continuity: same woman, exact haircut, outfit and palette as Shots 1 and 2.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    negatives.map(x=>'• '+x).join('\n')
+    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
   ].filter(Boolean).join('\n');
 
   const shot4 = [
@@ -4074,11 +4117,11 @@ function buildLookbookSeries(checks, negatives, extraLines = []){
     '',
     'SERIES HARMONY & REALISM',
     '• Consistent materials, color grade and lighting from the complete 4-shot series.',
-    checks.length ? checks.map(x=>'• '+x).join('\n') : '',
+    (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '',
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    negatives.map(x=>'• '+x).join('\n')
+    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
   ].filter(Boolean).join('\n');
 
   const allShots = [
@@ -4109,11 +4152,11 @@ function buildLookbookSeries(checks, negatives, extraLines = []){
     '',
     (extraLines && extraLines.length ? 'ADDITIONAL STYLING DETAILS\n' + extraLines.join('\n') + '\n\n' : '') +
     'IDENTITY & REALISM SAFEGUARDS',
-    checks.length ? checks.map(x=>'• '+x).join('\n') : '• Natural photographic texture, consistent identity and believable materials.',
+    (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '• Natural photographic texture, consistent identity and believable materials.',
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    negatives.map(x=>'• '+x).join('\n')
+    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
   ].filter(Boolean).join('\n');
 
   return {
@@ -4132,6 +4175,29 @@ function buildSalonPrompt(){
   const S = t => (checkState.noMirror ? sanitizeMirrorProse(t) : t);
   const lines = [];
   const isStool = (salonSeatingMode === 'stool');
+  const sanitizeStool = (text) => {
+    if(!isStool || !text) return text;
+    return text
+      .replace(/vintage hydraulic Belmont chair/gi, 'low backless salon cutting stool')
+      .replace(/classic chrome hydraulic barber chair/gi, 'low backless salon cutting stool')
+      .replace(/hydraulic Belmont chair/gi, 'low backless salon cutting stool')
+      .replace(/hydraulic barber chair/gi, 'low backless salon cutting stool')
+      .replace(/black leather hydraulic styling chair/gi, 'low backless cutting stool')
+      .replace(/black leather salon styling chair/gi, 'low backless cutting stool')
+      .replace(/hydraulic chair/gi, 'low backless stool')
+      .replace(/Belmont chair/gi, 'low backless stool')
+      .replace(/barber chair/gi, 'low backless cutting stool')
+      .replace(/styling chair arms/gi, 'draped down around the stool')
+      .replace(/styling chair/gi, 'low backless stool')
+      .replace(/in the styling chair/gi, 'on the low backless stool')
+      .replace(/in the barber chair/gi, 'on the low backless stool')
+      .replace(/to the female client in the chair/gi, 'to the female client on the low backless stool')
+      .replace(/in the chair/gi, 'on the stool')
+      .replace(/from chair armrest height/gi, 'from low stool height')
+      .replace(/chair armrest/gi, 'stool edge')
+      .replace(/IN-CHAIR CONSULTATION/gi, 'IN-STATION STOOL CONSULTATION')
+      .replace(/CLIENT SMILING IN STYLING CHAIR/gi, 'CLIENT SMILING ON LOW STOOL');
+  };
   const stoolTypeVal = S(val('salonStoolType'));
   const stoolProxVal = S(val('salonBarberProximity'));
   const stoolActVal = S(val('salonIntimateHairAction'));
@@ -4185,9 +4251,9 @@ function buildSalonPrompt(){
   lines.push('');
 
   lines.push('VENUE & ATMOSPHERE');
-  const venueText = S(val('salonVenue'));
+  const venueText = sanitizeStool(S(val('salonVenue')));
   const designText = (val('salonDesign') && !val('salonDesign').startsWith('Preset Default')) ? S(val('salonDesign')) : '';
-  const staffText = S(val('salonBarberStaff'));
+  const staffText = sanitizeStool(S(val('salonBarberStaff')));
   const bustleText = S(val('salonBustle'));
   const bustleLabel = values['salonBustle']?.label || '';
   const timeText = S(val('salonTime'));
@@ -4200,8 +4266,16 @@ function buildSalonPrompt(){
   lines.push(venueLine);
   lines.push('');
 
-  const stageText = S(val('salonStage'));
-  const cameraText = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
+  const rawStylistLabel = values['salonStylist']?.label || 'Male barber';
+  const stylistLabel = S(rawStylistLabel);
+  const isSoloClient = (rawStylistLabel || '').toLowerCase().includes('solo client');
+  const rawStageText = S(val('salonStage'));
+  const stageText = sanitizeStool(rawStageText);
+  let rawCameraText = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
+  rawCameraText = sanitizeStool(rawCameraText);
+  const salonHairLowerCam = (values.salonHaircut?.label || '').toLowerCase();
+  const isPonyCam = salonHairLowerCam.includes('pony') || salonHairLowerCam.includes('ponytail') || (typeof isPonySelected === 'function' && isPonySelected());
+  const cameraText = isPonyCam ? rawCameraText : rawCameraText.replace(/ponytail profile/gi, 'haircut silhouette');
   const stylistText = S(val('salonStylist'));
   const lightingText = S(val('salonLighting'));
   const qualityText = S(val('salonQuality'));
@@ -4215,7 +4289,11 @@ function buildSalonPrompt(){
     lines.push('');
   } else {
     lines.push('HAIRCUT STAGE & ACTIVE ACTION');
-    lines.push(`Haircut progress: ${stageText}.`);
+    if(isSoloClient){
+      lines.push(`Haircut progress: the female client sits calmly as a solo subject, contemplating and reviewing her freshly styled haircut with zero other people in the frame.`);
+    } else {
+      lines.push(`Haircut progress: ${stageText}.`);
+    }
     lines.push('');
 
     lines.push('BARBER / STYLIST PRESENCE');
@@ -4255,7 +4333,7 @@ function buildSalonPrompt(){
   lines.push(`Haircut: ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
   lines.push('');
 
-  const capeText = S(val('salonCape'));
+  const capeText = sanitizeStool(S(val('salonCape')));
 
   lines.push('CUTTING CAPE & SALON DETAILS');
   lines.push(`Draped cape: ${capeText}.`);
@@ -4266,9 +4344,6 @@ function buildSalonPrompt(){
   lines.push('');
 
   const stageLabel = S(values['salonStage']?.label || 'Active haircut moment');
-  const rawStylistLabel = values['salonStylist']?.label || 'Male barber';
-  const stylistLabel = S(rawStylistLabel);
-  const isSoloClient = (rawStylistLabel || '').toLowerCase().includes('solo client');
   const moistureText = moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp;
 
   const flowType = (values.salonCollageFlow && values.salonCollageFlow.text) ? values.salonCollageFlow.text : 'journey';
@@ -4324,6 +4399,9 @@ function buildSalonPrompt(){
     lines.push('');
     const formatFrameHeader = (frameLabel) => {
       let lbl = frameLabel || 'Salon Scene';
+      if(isStool){
+        lbl = sanitizeStool(lbl);
+      }
       if(checkState.noMirror){
         lbl = lbl.replace(/client smiling at front wall mirror admiring cut/gi, 'Client Smiling in Styling Chair Admiring Cut')
                  .replace(/front wall mirror\s*/gi, 'styling station ')
@@ -4339,13 +4417,17 @@ function buildSalonPrompt(){
       return lbl.toUpperCase();
     };
 
-    lines.push(`• FRAME 1 (TOP-LEFT) — ${formatFrameHeader(f1Label)}:\n${getCollageSceneDirective(f1Val, collageCtx)}`);
+    const getCleanDir = (val, ctx) => {
+      let res = getCollageSceneDirective(val, ctx);
+      return isStool ? sanitizeStool(res) : res;
+    };
+    lines.push(`• FRAME 1 (TOP-LEFT) — ${formatFrameHeader(f1Label)}:\n${getCleanDir(f1Val, collageCtx)}`);
     lines.push('');
-    lines.push(`• FRAME 2 (TOP-RIGHT) — ${formatFrameHeader(f2Label)}:\n${getCollageSceneDirective(f2Val, collageCtx)}`);
+    lines.push(`• FRAME 2 (TOP-RIGHT) — ${formatFrameHeader(f2Label)}:\n${getCleanDir(f2Val, collageCtx)}`);
     lines.push('');
-    lines.push(`• FRAME 3 (BOTTOM-LEFT) — ${formatFrameHeader(f3Label)}:\n${getCollageSceneDirective(f3Val, collageCtx)}`);
+    lines.push(`• FRAME 3 (BOTTOM-LEFT) — ${formatFrameHeader(f3Label)}:\n${getCleanDir(f3Val, collageCtx)}`);
     lines.push('');
-    lines.push(`• FRAME 4 (BOTTOM-RIGHT) — ${formatFrameHeader(f4Label)}:\n${getCollageSceneDirective(f4Val, collageCtx)}`);
+    lines.push(`• FRAME 4 (BOTTOM-RIGHT) — ${formatFrameHeader(f4Label)}:\n${getCleanDir(f4Val, collageCtx)}`);
     lines.push('');
   } else if(outputType === 'triptych'){
     lines.push('THREE-PANEL EDITORIAL TRIPTYCH PROGRESSION (DYNAMIC 3-FRAME SEQUENCE)');
@@ -4695,11 +4777,17 @@ lines.push('');
 lines.push('CAMERA AND FRAMING');
 // Deduplicate angle if already implied by framing
 const framingText = val('framing') || '';
-const angleText = val('angle') || '';
+let angleText = val('angle') || '';
+const isTightFraming = framingText.includes('close-up') || framingText.includes('head-and-shoulders') || framingText.includes('detail crop') || framingText.includes('side-profile');
 const angleImpliedByFraming = (
   (framingText.includes('side-profile') && angleText.includes('side-profile')) ||
   (framingText.includes('side profile') && angleText.includes('side profile'))
 );
+
+// Harmonize conflicting perspective combinations:
+if (isTightFraming && angleText.includes('behind and beside the subject')) {
+  angleText = 'an intimate three-quarter angle focusing closely on her facial profile and hair from just beside her shoulder';
+}
 const cameraAnglePart = angleImpliedByFraming ? '' : ` Camera angle: ${angleText}.`;
 lines.push(`Framing: ${val('framing')}.${cameraAnglePart} Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements—especially the haircut, outfit and facial expression—without awkward cropping or distorted perspective.`);
 lines.push('');
@@ -4753,7 +4841,7 @@ if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
 if(checkState.noText)negatives.push('text overlays, logos and watermarks');
 if(extraNegative.trim())negatives.push(extraNegative.trim());
-lines.push(negatives.map(x=>'• '+x).join('\n'));
+lines.push((Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : '');
 
 if(detail==='full'){
   lines.push('');
