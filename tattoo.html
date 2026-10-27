@@ -16,8 +16,8 @@
   <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon & Barbershop</a>
   <a href="tattoo.html" class="suite-nav-link active"><span class="studio-btn-icon">🖋️</span> Tattoo Studio <span class="nav-badge">NEW</span></a>
 </nav>
-<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">13 Body Placements · Fine-Line Ink Engine</span><span class="pill">Offline · No uploads</span></div></header>
-<section class="hero"><div><div class="eyebrow" id="heroEyebrow">Reference-led creative direction · Fine-Line & Macro Body Art</div><h1 id="heroTitle">Tattoo & <span>Body Art</span><br>Experience Studio</h1><p id="heroDescription">Direct intimate, tactile, photorealistic fine-line tattoo portraits on your reference model. Choose anatomical body placements, exquisite ink motifs, single-needle techniques, fresh ointment gloss vs healed matte states, and extreme macro optics.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">13 Body Placements</span><span class="tag">Single-Needle 1RL</span><span class="tag">Fresh Ointment Sheen</span><span class="tag">100mm Macro Framing</span></div></div></aside></section>
+<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">13 Body Placements · Haircuts & Locations Engine</span><span class="pill">Offline · No uploads</span></div></header>
+<section class="hero"><div><div class="eyebrow" id="heroEyebrow">Reference-led creative direction · Fine-Line & Macro Body Art</div><h1 id="heroTitle">Tattoo & <span>Body Art</span><br>Experience Studio</h1><p id="heroDescription">Direct intimate, tactile, photorealistic fine-line tattoo portraits on your reference model. Choose anatomical body placements, signature haircuts, cinematic shoot locations, fine-line ink motifs, and extreme macro optics.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">13 Body Placements</span><span class="tag">Expanded Haircuts</span><span class="tag">Cinematic Locations</span><span class="tag">100mm Macro Framing</span></div></div></aside></section>
 <div class="layout"><main class="builder">
 <section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div></div><div class="preset-grid" id="presets"></div></section>
 <nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
@@ -88,16 +88,132 @@ const O = (label, text, desc, cat) => ({ label, text: text || label, desc: desc 
 // TATTOO STUDIO SECTIONS
 // ==========================================
 const tattooSections = [
-  { id: 'tattooSubjectSec', name: 'Model & Fit', short: 'MODEL', icon: '✂', desc: 'Reference identity, model posture, and revealing garment styling.' },
+  { id: 'tattooSubjectSec', name: 'Model & Haircut', short: 'MODEL', icon: '✂', desc: 'Reference identity, model posture, haircut, and revealing wardrobe styling.' },
   { id: 'tattooPlacementSec', name: 'Placement & Skin', short: 'PLACEMENT', icon: '📍', desc: 'Select exact anatomical body placement and skin canvas details.' },
   { id: 'tattooArtSec', name: 'Motif & Ink Style', short: 'MOTIF', icon: '🖋️', desc: 'Curated tattoo motifs, line techniques, scale, and custom descriptions.' },
-  { id: 'tattooSessionSec', name: 'Freshness & Session', short: 'SESSION', icon: '⏱️', desc: 'Ointment gloss vs healed state, gloved artist interaction, and studio vibe.' },
+  { id: 'tattooSessionSec', name: 'Session & Location', short: 'SESSION', icon: '⏱️', desc: 'Ointment gloss vs healed state, gloved artist interaction, and shoot location.' },
   { id: 'tattooCameraSec', name: 'Camera & Macro Light', short: 'CAMERA', icon: '📷', desc: '100mm macro lenses, tactile glancing sidelight, and film grade.' },
   { id: 'finish', name: 'Finish & Controls', short: 'FINISH', icon: '✦', desc: 'Dual-reference preservation, 2x2 macro collage, and negative guidance.' }
 ];
 
 // ==========================================
-// OPTION BANKS
+// OPTION BANKS: HAIRCUTS & STYLING
+// ==========================================
+
+const tattooHairCategories = [
+  O('✦ All Haircut Styles (32 options)', 'all'),
+  O('👑 High Buns, Topknots & Updos (exposing neck & spine)', 'updo'),
+  O('👱‍♀️ Ponytails, Curtain Bangs & Sweeps', 'pony'),
+  O('✂️ Precision Bobs & Collarbone Lobs', 'bob'),
+  O('🌿 Butterfly Layers, Shags & Wolf Cuts', 'shag'),
+  O('💧 Sleek Wet-Look & Hydro Post-Swim', 'wet'),
+  O('🌊 Natural Indian Waves & Blowouts', 'waves'),
+  O('⚡ Pixies, Crops & Architectural Bixies', 'pixie')
+];
+
+const tattooHairStylings = makeOpts([
+  // High Buns & Updos (exposing neck, ear, spine)
+  ['High textured messy topknot with wispy temple tendrils', 'hair swept cleanly up into a high, textured messy topknot bun anchored at the crown, with delicate wispy flyaways around the hairline and temples, leaving the nape of the neck, earlobes, and shoulders completely bare', '', 'updo'],
+  ['Architectural French twist with swept crown', 'a sculptural, elegant French twist pinned flat against the occipital curve, sweeping hair up seamlessly from the nape to expose the cervical spine and neck', '', 'updo'],
+  ['Sleek high origami chignon with lacquered hold', 'a polished high origami chignon tied firmly at the high crown with glossy lacquered hold, exposing the entire nape, neck, and collarbone', '', 'updo'],
+  ['Romantic loose undone bun with face-framing pieces', 'a softly undone romantic low-to-mid bun with soft wavy strands escaping around the jawline, keeping the back of the neck gracefully visible', '', 'updo'],
+  ['Crown milkmaid braid halo lifting hair away from neck', 'an intricate double crown milkmaid braid encircling the head like a halo, lifting all hair cleanly away from the ears, nape, and back', '', 'updo'],
+  ['Sleek tight ballerina bun with center part', 'a clean, minimalist ballerina bun pinned firmly at the mid-crown with a pristine center part, emphasizing facial symmetry and ear curves', '', 'updo'],
+
+  // Ponytails & Dramatic Sweeps
+  ['Mid ponytail with arched bottleneck curtain bangs', 'an authentic salon-styled mid-height ponytail with soft naturally rounded crown volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to upper cheekbones with piecey separation, side hair tucked behind ears, and a smooth straight tail resting flush against the upper back', '', 'pony'],
+  ['Sleek high snatched ponytail with hair-wrapped base', 'a high snatched ponytail sitting high on the crown with a seamless hair-wrapped elastic base, straight glossy lengths fanning down with natural movement', '', 'pony'],
+  ['Asymmetric shoulder drape (all hair swept to opposite side)', 'all long natural silky black Indian hair thrown dramatically over the opposite shoulder in loose organic waves, leaving the tattooed shoulder, collarbone, and upper chest completely exposed', '', 'pony'],
+  ['Low relaxed ponytail with soft side-swept fringe', 'a relaxed low ponytail tied loosely at the nape with a silk ribbon, featuring a soft side-swept fringe skimming one eyebrow and exposing one ear', '', 'pony'],
+  ['Bubble ponytail with spaced metallic cuffs', 'an editorial bubble ponytail with evenly spaced voluminous segments down the back, held by minimalist brushed metal bands', '', 'pony'],
+
+  // Bobs & Collarbone Lobs
+  ['French chin-grazing bob with soft eyelash fringe', 'a chic French chin-length bob with soft, slightly undercut ends that curve inward along the jawline, paired with a delicate eyelash-skimming brow fringe', '', 'bob'],
+  ['Collarbone-length blunt lob with glass-hair finish', 'a crisp, geometric collarbone-length long bob with razor-sharp blunt perimeter lines, high mirror-like glass hair shine, and a pristine center part', '', 'bob'],
+  ['Italian voluminous rounded bob', 'a classic Italian bob cut with full, airy, bouncy ends and subtle inward bevel, stopping right at the jaw to frame the throat and clavicle', '', 'bob'],
+  ['Airy layered micro-bob with exposed nape', 'a graduated micro-bob cropped high in the back to leave the upper nape bare, with longer textured pieces angling forward along the cheekbones', '', 'bob'],
+  ['Asymmetrical angled lob (higher back, longer front)', 'an architectural asymmetrical lob that rises higher in the back to expose the neckline and sweeps down into sharp face-framing front points', '', 'bob'],
+
+  // Shags, Wolf Cuts & Layered Volume
+  ['Modern butterfly cut with bouncy face-framing layers', 'a modern butterfly cut with feathery, cascading face-framing layers that fan outward at cheekbone and collarbone levels, maintaining buoyant volume', '', 'shag'],
+  ['Soft wolf cut with wispy curtain fringe', 'a soft, textured wolf cut featuring lightweight choppy layers throughout the crown and length, paired with airy curtain bangs that open over the forehead', '', 'shag'],
+  ['70s feathered shag with swept-back wings', 'a retro 1970s-inspired feather cut with airy, outward-swept winged layers along the temples and shoulders', '', 'shag'],
+  ['Long U-shaped blowout layers', 'long flowing layers cut in a graceful U-shaped silhouette, styled in a voluminous salon blowout with soft natural bounce', '', 'shag'],
+
+  // Wet-Look & Hydro Post-Swim
+  ['Editorial wet-look slicked comb-back', 'a high-editorial wet-look comb-back with visible wide-tooth comb striations through the crown, hair swept cleanly back off the face and ears, clinging sleekly to the head with a damp, dewy sheen', '', 'wet'],
+  ['Drenched post-swim strands clinging to bare skin', 'natural drenched wet hair texture fresh from the water, with separated glossy dark strands clinging organically to the collarbone and shoulders', '', 'wet'],
+  ['Slicked wet finger waves hugging the hairline', 'delicate vintage-inspired wet finger waves molded flat against the temples and cheekbones, leaving the ears and neck completely unobstructed', '', 'wet'],
+
+  // Natural Indian Waves & Blowouts
+  ['Air-dried organic Indian silk waves', 'natural air-dried Indian hair with authentic silky straight-to-subtle-wave texture, organic strand separation, and healthy natural luster', '', 'waves'],
+  ['Deep side-part with cascading Hollywood glamour waves', 'a dramatic deep side part with rich, glossy cascading waves draped over one arm, leaving the opposite neck and clavicle bare', '', 'waves'],
+  ['Soft natural curl halo with defined ringlets', 'soft, defined natural curls with bouncy ringlet definition framing the face and lifted gracefully off the neck', '', 'waves'],
+
+  // Pixies, Crops & Architectural Bixies
+  ['Textured bixie cut (bob-pixie hybrid) with airy nape', 'a chic textured bixie cut combining the lightness of a pixie with soft bob layers, feathery at the crown with a closely tapered nape exposing the neckline', '', 'pixie'],
+  ['Sculptural pixie crop with side-swept micro-fringe', 'a clean sculptural pixie crop with delicate scissor-tapered sides, exposing the ear contours and jawline with a soft textured top', '', 'pixie']
+]);
+
+// ==========================================
+// OPTION BANKS: SHOOT LOCATIONS & SETTINGS
+// ==========================================
+
+const tattooLocationCategories = [
+  O('✦ All Shoot Locations (29 options)', 'all'),
+  O('🖋️ Boutique Tattoo Studios & Lofts (5 options)', 'studio'),
+  O('🏛️ Luxury Suites, Havelis & Villas (5 options)', 'luxury'),
+  O('🌊 Coastal, Oceanfront & Poolside (5 options)', 'coastal'),
+  O('🌿 Botanical Conservatories & Groves (5 options)', 'nature'),
+  O('🍸 Urban Rooftops, Speakeasies & Terraces (5 options)', 'urban'),
+  O('🛏️ Intimate Minimalist Morning Light (4 options)', 'minimal')
+];
+
+const tattooLocations = makeOpts([
+  // Boutique Studios & Industrial Lofts
+  ['Sunlit Soho industrial loft tattoo studio with exposed brick', 'a boutique Soho tattoo loft with tall cast-iron arched windows streaming soft northern daylight, exposed weathered brick walls, polished timber floors, and vintage potted monstera plants', '', 'studio'],
+  ['Moody artisan atelier with warm Edison sconces & flash art', 'an atmospheric mood-lit private tattoo atelier with warm brass filament sconces, framed hand-painted flash art in dark mahogany, and dark charcoal walls', '', 'studio'],
+  ['Ultra-clean minimalist private medical-aesthetic studio', 'a pristine minimalist private studio with clinical cleanliness, matte white surfaces, sleek black ergonomic furniture, and soft architectural recessed coves', '', 'studio'],
+  ['Brooklyn converted warehouse with dramatic skylights', 'a spacious converted Brooklyn warehouse studio with dramatic sawtooth skylights, black steel beams, and warm afternoon light pooling on polished concrete floors', '', 'studio'],
+  ['Tokyo Harajuku intimate hidden tattoo atelier', 'an intimate minimalist Japanese tattoo studio with natural shoji screens, light hinoki cypress wood counters, and soft diffused paper lantern illumination', '', 'studio'],
+
+  // Luxury Suites, Havelis & Villas
+  ['Parisian Haussmann apartment with gilded moldings', 'a classic Parisian Haussmann apartment with intricate carved crown moldings, herringbone parquet flooring, floor-to-ceiling French doors, and soft shearling upholstery', '', 'luxury'],
+  ['Rajasthani heritage haveli with carved sandstone jharokhas', 'an opulent heritage haveli in Rajasthan featuring intricately carved pink sandstone jharokhas, brass antique lanterns, and soft patterned courtyard shadows', '', 'luxury'],
+  ['Modern Mediterranean cliffside villa with stone terrace', 'a minimalist whitewashed Mediterranean cliffside villa overlooking the azure sea, with raw travertine stone paving and gentle sea breeze moving sheer drapes', '', 'luxury'],
+  ['Luxury Milanese penthouse with floor-to-ceiling city views', 'a sleek Milanese penthouse with smoky glass partitions, dark fluted marble walls, and panoramic urban skyline vistas', '', 'luxury'],
+  ['Tranquil heritage courtyard with lotus reflection pond', 'a tranquil heritage estate courtyard surrounded by scalloped stone archways, lush tropical frangipani blossoms, and a still reflection pool', '', 'luxury'],
+
+  // Coastal, Oceanfront & Poolside
+  ['Sun-drenched travertine infinity pool edge', 'the warm travertine stone edge of a private luxury infinity pool, with shimmering turquoise water caustics reflecting gently onto the model\'s skin', '', 'coastal'],
+  ['Secluded Mediterranean rocky cove with turquoise sea', 'a private sun-warmed rocky cove on the Mediterranean coast, with salt-sprayed limestone boulders, turquoise shallows, and golden sunbeams', '', 'coastal'],
+  ['Golden hour coastal sand dunes with wild sea grass', 'wind-sculpted coastal sand dunes at low tide during warm golden hour, with wisps of wild sea oats and warm horizon light', '', 'coastal'],
+  ['Private teak yacht deck with open sea horizon', 'the polished teak deck of a luxury wooden sailing yacht anchored in a calm bay, with warm golden rim light bouncing off the water', '', 'coastal'],
+  ['Shaded resort cabana with billowing linen curtains', 'a shaded private resort cabana with sheer cream linen curtains drifting in the warm breeze, cast travertine pillars, and soft dappled sunlight', '', 'coastal'],
+
+  // Nature, Botanical & Conservatories
+  ['Lush Victorian botanical greenhouse with glass dome', 'a humid Victorian conservatory with an antique curved glass dome, surrounded by giant cascading monsteras, bird of paradise leaves, and filtered tropical light', '', 'nature'],
+  ['Minimalist Zen rock garden with bamboo water spout', 'a serene Japanese Zen garden featuring raked pale gravel patterns, dark basalt stone slabs, and tall emerald bamboo stalks', '', 'nature'],
+  ['Ancient sunlit olive grove with dappled canopy shadows', 'an ancient Mediterranean olive grove with gnarled silver-leaf trees casting soft dappled lace shadows across the model\'s shoulders and skin', '', 'nature'],
+  ['Wildflower meadow at dusk with soft twilight sky', 'an open golden meadow filled with wild chamomile, lavender, and Queen Anne\'s lace under a peaceful, pastel-hued twilight sky', '', 'nature'],
+  ['Dappled bamboo forest sanctuary with misty morning rays', 'a secluded misty bamboo forest grove with straight emerald stalks filtering diagonal morning sunbeams onto the damp mossy ground', '', 'nature'],
+
+  // Urban Rooftops, Speakeasies & Terraces
+  ['Golden hour rooftop terrace overlooking Manhattan skyline', 'a private Manhattan rooftop terrace at sunset, with warm amber horizon light casting long cinematic shadows against industrial parapets and water towers', '', 'urban'],
+  ['Dimly lit velvet speakeasy lounge with amber candlelight', 'a moody speakeasy lounge with emerald green velvet banquettes, fluted amber cocktail glasses, and warm flickering candlelight', '', 'urban'],
+  ['Minimalist brutalist concrete terrace with stark geometry', 'an architectural brutalist rooftop terrace with smooth board-formed concrete walls, crisp geometric shadow lines, and open blue sky', '', 'urban'],
+  ['Cobblestone European balcony with wrought iron railings', 'an intimate second-floor wrought iron Juliet balcony overlooking a quiet cobblestone alley in Florence with warm streetlamps', '', 'urban'],
+  ['High-rise infinity balcony overlooking neon city dusk', 'a contemporary high-rise glass balcony hovering above a bustling metropolis at dusk, with ambient neon reflections and cool evening breeze', '', 'urban'],
+
+  // Intimate Minimalist Living & Morning Light
+  ['Sun-drenched bedroom with rumpled white linen sheets', 'an intimate minimalist bedroom flooded with soft morning sunlight, featuring rumpled crisp white organic linen sheets and sheer linen curtains', '', 'minimal'],
+  ['Freestanding stone soaking tub in sunlit master bathroom', 'a luxury spa-like master bathroom with a sculptural freestanding matte-stone soaking tub, pale limestone walls, and diffused natural window light', '', 'minimal'],
+  ['Minimalist living space with low floor cushion & tatami', 'a serene minimalist Japanese-inspired living space with a low linen floor cushion, tatami texture, and soft natural daylight through paper screens', '', 'minimal'],
+  ['Quiet private study with floor-to-ceiling oak bookshelves', 'an intimate private library with floor-to-ceiling dark oak bookshelves, a vintage brown leather chaise lounge, and soft afternoon window light', '', 'minimal']
+]);
+
+// ==========================================
+// OPTION BANKS: BODY PLACEMENTS & MOTIFS
 // ==========================================
 
 const tattooPlacements = makeOpts([
@@ -228,12 +344,6 @@ const tattooInteractions = makeOpts([
   ['Model inspecting ink in a handheld brass mirror', 'the model holds a small antique brass handheld mirror, gazing at the reflection of the tattoo with an authentic, gentle, candid expression of quiet satisfaction']
 ]);
 
-const tattooStudioEnvs = makeOpts([
-  ['Sunlit boutique tattoo loft with exposed brick & plants', 'a boutique private tattoo studio loft with exposed warm brick walls, large arched industrial windows, polished concrete floors, and lush green fiddle-leaf figs'],
-  ['Moody artisan atelier with warm Edison sconces & flash art', 'an intimate mood-lit artisan tattoo atelier with warm brass filament sconces, vintage flash art framed in dark mahogany, and dark charcoal walls'],
-  ['Ultra-clean minimalist private medical-aesthetic studio', 'a pristine minimalist private studio with clinical cleanliness, matte white surfaces, sleek black ergonomic furniture, and soft architectural coves']
-]);
-
 const tattooModelPoses = makeOpts([
   ['Seated curved spine with head gently tilted forward', 'seated upright on a low backless stool with relaxed posture, head gently tilted forward and to the side, elongating the neck and collarbone in a calm, contemplative moment'],
   ['Reclining on black leather studio examination bench', 'reclining comfortably on a sleek black leather studio examination bench with one arm resting loosely above her head, body curved naturally'],
@@ -250,13 +360,6 @@ const tattooRevealingFits = makeOpts([
   ['Dramatic deep open-back cowl dress', 'a dramatic deep open-back cowl neck dress in fluid jersey fabric, exposing the entire length of the spine down to the lower back'],
   ['Architectural monokini with geometric side cutouts', 'a modern high-fashion monokini with sculptural geometric side cutouts and a high-leg hip cut that leaves the entire flank and hip bone bare'],
   ['Draped black cotton studio towel & bib', 'draped in a clean textured black salon towel tucked cleanly below the chest and secured across the lap, keeping the placement completely unobstructed']
-]);
-
-const tattooHairStylings = makeOpts([
-  ['High messy topknot with loose temple tendrils', 'hair swept cleanly up into a high, textured messy topknot bun with a few delicate wispy flyaways around the nape and temples, leaving the neck and shoulders completely bare'],
-  ['Sleek low chignon tucked neatly behind ears', 'hair combed smoothly into a sleek low chignon at the base of the skull, hair neatly tucked behind both ears to display the mastoid and jawline'],
-  ['Loose side-swept waves thrown over one shoulder', 'long natural silky black Indian hair swept entirely over the opposite shoulder, leaving the tattooed shoulder, collarbone, and neck fully unobstructed'],
-  ['Airy textured bob with soft nape graduation', 'a modern textured chin-length bob cut with soft nape graduation, brushing just above the ink placement with natural movement']
 ]);
 
 const tattooCameras = makeOpts([
@@ -296,7 +399,8 @@ const fields = {
   // tattooSubjectSec
   tattooPose: { label: 'Model Pose & Posture', opts: tattooModelPoses, def: 0, section: 'tattooSubjectSec', _grp: 'Model & Posture' },
   tattooWardrobe: { label: 'Revealing Wardrobe Silhouette', opts: tattooRevealingFits, def: 0, section: 'tattooSubjectSec', _grp: 'Model & Posture' },
-  tattooHair: { label: 'Hair Styling for Ink Visibility', opts: tattooHairStylings, def: 0, section: 'tattooSubjectSec', _grp: 'Model & Posture' },
+  tattooHairCategory: { label: 'Haircut Family Filter', opts: tattooHairCategories, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
+  tattooHair: { label: 'Haircut & Hair Styling', opts: tattooHairStylings, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
 
   // tattooPlacementSec
   tattooPlacement: { label: 'Anatomical Body Placement', opts: tattooPlacements, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
@@ -310,9 +414,10 @@ const fields = {
   tattooScale: { label: 'Tattoo Scale & Density', opts: tattooScales, def: 0, section: 'tattooArtSec', _grp: 'Tattoo Art & Technique' },
 
   // tattooSessionSec
-  tattooFreshness: { label: 'Tattoo Freshness & Skin State', opts: tattooFreshnesses, def: 0, section: 'tattooSessionSec', _grp: 'Session & Environment' },
-  tattooInteraction: { label: 'Artist Interaction & Process', opts: tattooInteractions, def: 0, section: 'tattooSessionSec', _grp: 'Session & Environment' },
-  tattooStudioEnv: { label: 'Studio Interior Ambiance', opts: tattooStudioEnvs, def: 0, section: 'tattooSessionSec', _grp: 'Session & Environment' },
+  tattooFreshness: { label: 'Tattoo Freshness & Skin State', opts: tattooFreshnesses, def: 0, section: 'tattooSessionSec', _grp: 'Session & Skin State' },
+  tattooInteraction: { label: 'Artist Interaction & Process', opts: tattooInteractions, def: 0, section: 'tattooSessionSec', _grp: 'Session & Skin State' },
+  tattooLocationCategory: { label: 'Location Family Filter', opts: tattooLocationCategories, def: 0, section: 'tattooSessionSec', _grp: 'Location & Atmosphere' },
+  tattooLocation: { label: 'Shoot Location & Setting', opts: tattooLocations, def: 0, section: 'tattooSessionSec', _grp: 'Location & Atmosphere' },
 
   // tattooCameraSec
   tattooCamera: { label: 'Macro Framing & Lens Angle', opts: tattooCameras, def: 0, section: 'tattooCameraSec', _grp: 'Optics & Lighting' },
@@ -323,12 +428,12 @@ const fields = {
   numImages: { label: 'Image Output Format', opts: tattooOutputFormats, def: 0, section: 'finish', _grp: 'Output Controls' }
 };
 
-// Presets
+// Presets (Expanded with rich haircuts and locations)
 const tattooPresets = [
   {
     id: 'botanical-clavicle',
     title: 'Botanical Clavicle Whisper',
-    sub: 'Fine-line chamomile along collarbone in silk slip',
+    sub: 'French bob along collarbone in Soho industrial loft',
     icon: '🌿',
     values: {
       tattooPlacement: tattooPlacements[0],
@@ -337,7 +442,8 @@ const tattooPresets = [
       tattooFreshness: tattooFreshnesses[0],
       tattooWardrobe: tattooRevealingFits[0],
       tattooPose: tattooModelPoses[0],
-      tattooHair: tattooHairStylings[0],
+      tattooHair: tattooHairStylings[11], // French bob
+      tattooLocation: tattooLocations[0], // Soho loft
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[0]
     }
@@ -345,7 +451,7 @@ const tattooPresets = [
   {
     id: 'sacred-mandala-ribs',
     title: 'Sacred Lotus Mandala Ribcage',
-    sub: 'Intricate dotwork mandala on side ribs in linen shirt',
+    sub: 'Side-swept waves in Mediterranean cliffside villa',
     icon: '🌸',
     values: {
       tattooPlacement: tattooPlacements[1],
@@ -354,7 +460,8 @@ const tattooPresets = [
       tattooFreshness: tattooFreshnesses[0],
       tattooWardrobe: tattooRevealingFits[1],
       tattooPose: tattooModelPoses[1],
-      tattooHair: tattooHairStylings[2],
+      tattooHair: tattooHairStylings[8], // Asymmetric shoulder drape
+      tattooLocation: tattooLocations[7], // Mediterranean villa
       tattooCamera: tattooCameras[1],
       tattooLighting: tattooLightings[0]
     }
@@ -362,7 +469,7 @@ const tattooPresets = [
   {
     id: 'celestial-crescent-spine',
     title: 'Celestial Sun & Moon Spine',
-    sub: 'Stippled crescent moon down spine in open-back dress',
+    sub: 'High messy topknot on Manhattan golden hour rooftop',
     icon: '🌙',
     values: {
       tattooPlacement: tattooPlacements[4],
@@ -371,7 +478,8 @@ const tattooPresets = [
       tattooFreshness: tattooFreshnesses[3],
       tattooWardrobe: tattooRevealingFits[4],
       tattooPose: tattooModelPoses[3],
-      tattooHair: tattooHairStylings[0],
+      tattooHair: tattooHairStylings[0], // High topknot
+      tattooLocation: tattooLocations[19], // Manhattan rooftop
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[2]
     }
@@ -379,7 +487,7 @@ const tattooPresets = [
   {
     id: 'sanskrit-shanti-sternum',
     title: 'Devanagari "Shanti" Sternum',
-    sub: 'Bespoke Sanskrit calligraphy centered on sternum',
+    sub: 'Origami chignon in Rajasthani heritage haveli',
     icon: '🕉️',
     values: {
       tattooPlacement: tattooPlacements[8],
@@ -388,7 +496,8 @@ const tattooPresets = [
       tattooFreshness: tattooFreshnesses[0],
       tattooWardrobe: tattooRevealingFits[3],
       tattooPose: tattooModelPoses[0],
-      tattooHair: tattooHairStylings[1],
+      tattooHair: tattooHairStylings[2], // Origami chignon
+      tattooLocation: tattooLocations[6], // Rajasthani haveli
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[1]
     }
@@ -396,7 +505,7 @@ const tattooPresets = [
   {
     id: 'micro-monarch-wrist',
     title: 'Micro-Realism Monarch Wrist',
-    sub: 'Miniature butterfly on inner forearm with window light',
+    sub: 'Bottleneck curtain bangs in Victorian conservatory',
     icon: '🦋',
     values: {
       tattooPlacement: tattooPlacements[6],
@@ -405,7 +514,8 @@ const tattooPresets = [
       tattooFreshness: tattooFreshnesses[3],
       tattooWardrobe: tattooRevealingFits[1],
       tattooPose: tattooModelPoses[2],
-      tattooHair: tattooHairStylings[2],
+      tattooHair: tattooHairStylings[6], // Ponytail with bottleneck curtain bangs
+      tattooLocation: tattooLocations[14], // Botanical greenhouse
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[0]
     }
@@ -413,7 +523,7 @@ const tattooPresets = [
   {
     id: 'crimson-nape-olive',
     title: 'Crimson Single-Needle Nape',
-    sub: 'Red ink olive branch at nape revealed by topknot',
+    sub: 'French twist updo in moody artisan atelier',
     icon: '🔴',
     values: {
       tattooPlacement: tattooPlacements[2],
@@ -422,7 +532,8 @@ const tattooPresets = [
       tattooFreshness: tattooFreshnesses[0],
       tattooWardrobe: tattooRevealingFits[0],
       tattooPose: tattooModelPoses[0],
-      tattooHair: tattooHairStylings[0],
+      tattooHair: tattooHairStylings[1], // French twist
+      tattooLocation: tattooLocations[1], // Moody atelier
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[1]
     }
@@ -430,7 +541,7 @@ const tattooPresets = [
   {
     id: 'sinuous-snake-scapula',
     title: 'Sinuous Serpent Scapula',
-    sub: 'Slender snake wrapping shoulder blade with sidelight',
+    sub: 'Tapered bixie cut on brutalist concrete terrace',
     icon: '🐍',
     values: {
       tattooPlacement: tattooPlacements[5],
@@ -439,7 +550,8 @@ const tattooPresets = [
       tattooFreshness: tattooFreshnesses[0],
       tattooWardrobe: tattooRevealingFits[0],
       tattooPose: tattooModelPoses[4],
-      tattooHair: tattooHairStylings[0],
+      tattooHair: tattooHairStylings[26], // Textured bixie
+      tattooLocation: tattooLocations[21], // Brutalist terrace
       tattooCamera: tattooCameras[2],
       tattooLighting: tattooLightings[0]
     }
@@ -447,16 +559,17 @@ const tattooPresets = [
   {
     id: 'fluid-wave-ankle',
     title: 'Fluid Wave Ankle Wrap',
-    sub: 'Japanese wave contour wrapping outer ankle bone',
+    sub: 'Wet-look comb-back by sun-drenched travertine pool',
     icon: '🌊',
     values: {
       tattooPlacement: tattooPlacements[11],
       tattooMotif: tattooMotifs[34],
       tattooStyle: tattooStyles[0],
       tattooFreshness: tattooFreshnesses[3],
-      tattooWardrobe: tattooRevealingFits[3],
+      tattooWardrobe: tattooRevealingFits[5], // Cutout monokini
       tattooPose: tattooModelPoses[1],
-      tattooHair: tattooHairStylings[1],
+      tattooHair: tattooHairStylings[20], // Wet-look comb-back
+      tattooLocation: tattooLocations[9], // Travertine pool
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[0]
     }
@@ -568,7 +681,7 @@ function updateCustom(custom, id){
 
 function createFieldElement(id, f){
   const wrap = document.createElement('div');
-  wrap.className = 'field' + (['tattooPlacement', 'tattooMotif'].includes(id) ? ' full' : '');
+  wrap.className = 'field' + (['tattooPlacement', 'tattooMotif', 'tattooHair', 'tattooLocation'].includes(id) ? ' full' : '');
   
   const lab = document.createElement('div');
   lab.className = 'label-row';
@@ -605,6 +718,18 @@ function createFieldElement(id, f){
     visibleOpts = f.opts.filter(o => o.cat === filterCat);
     if(!visibleOpts.includes(values.tattooMotif)){
       values.tattooMotif = visibleOpts[0] || f.opts[0];
+    }
+  } else if(id === 'tattooHair' && values.tattooHairCategory && values.tattooHairCategory.cat && values.tattooHairCategory.cat !== 'all'){
+    const filterCat = values.tattooHairCategory.cat;
+    visibleOpts = f.opts.filter(o => o.cat === filterCat);
+    if(!visibleOpts.includes(values.tattooHair)){
+      values.tattooHair = visibleOpts[0] || f.opts[0];
+    }
+  } else if(id === 'tattooLocation' && values.tattooLocationCategory && values.tattooLocationCategory.cat && values.tattooLocationCategory.cat !== 'all'){
+    const filterCat = values.tattooLocationCategory.cat;
+    visibleOpts = f.opts.filter(o => o.cat === filterCat);
+    if(!visibleOpts.includes(values.tattooLocation)){
+      values.tattooLocation = visibleOpts[0] || f.opts[0];
     }
   }
 
@@ -644,11 +769,23 @@ function createFieldElement(id, f){
           const matchFirst = fields.tattooMotif.opts.find(opt => opt.cat === cat);
           if(matchFirst) values.tattooMotif = matchFirst;
         }
+      } else if(id === 'tattooHairCategory'){
+        const cat = o.cat || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.tattooHair.opts.find(opt => opt.cat === cat);
+          if(matchFirst) values.tattooHair = matchFirst;
+        }
+      } else if(id === 'tattooLocationCategory'){
+        const cat = o.cat || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.tattooLocation.opts.find(opt => opt.cat === cat);
+          if(matchFirst) values.tattooLocation = matchFirst;
+        }
       }
       updateCustom(custom, id);
       custom.classList.remove('open');
       trigger.setAttribute('aria-expanded', 'false');
-      if(id === 'tattooMotifCategory'){
+      if(id === 'tattooMotifCategory' || id === 'tattooHairCategory' || id === 'tattooLocationCategory'){
         renderFields();
       }
       buildPrompt();
@@ -798,7 +935,7 @@ function buildPrompt(){
   const cam = val('tattooCamera');
   const light = val('tattooLighting');
   const film = val('tattooFilm');
-  const env = val('tattooStudioEnv');
+  const loc = val('tattooLocation');
   const act = val('tattooInteraction');
   const scale = val('tattooScale');
   const numMode = val('numImages');
@@ -847,9 +984,9 @@ function buildPrompt(){
   lines.push(`Anatomical alignment: ${contour}. Skin canvas: ${skinSensory}.`);
   lines.push(`The body art features ${m}, executed with ${s}. Scale: ${scale}.`);
   lines.push(`Tattoo condition & skin state: ${f}.`);
-  lines.push(`Model stance & framing: the female subject is ${pose}, wearing ${w}. Hair styling: ${hair}.`);
-  lines.push(`Session moment: ${act}. Studio setting: ${env}.`);
-  lines.push(`Camera direction & optics: ${cam}. Color grade & film: ${film}.`);
+  lines.push(`Model stance & styling: the female subject is ${pose}, wearing ${w}. Haircut & styling: ${hair}.`);
+  lines.push(`Session moment: ${act}. Shoot location & environment: ${loc}.`);
+  lines.push(`Camera direction & optics: ${cam}. Color grade & film feel: ${film}.`);
   lines.push(`Lighting & ambiance: ${light}.`);
   lines.push('');
 
