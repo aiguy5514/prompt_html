@@ -762,6 +762,27 @@ const salonStationProps = makeOpts([
   ['Clear acrylic station organizer with tail combs and alligator clips', 'a neat clear acrylic organizer holding assorted carbon cutting combs, sectioning alligator clips, and wide-tooth detangling combs']
 ]);
 
+const salonClientExpressions = makeOpts([
+  ['Quiet satisfaction in mirror', 'watching her hair transformation in the mirror with quiet satisfaction, relaxed eyes, and a subtle self-assured smile'],
+  ['Relaxed contemplative poise', 'a calm, contemplative expression with soft eyes and relaxed facial muscles as shears work around her face'],
+  ['Anticipatory joyful smile', 'an anticipatory, joyful half-smile as she watches the shape of the new haircut emerge in the mirror'],
+  ['Closed-eyes basin wash bliss', 'eyes gently closed in serene bliss, completely relaxed and savoring the tactile wash and scalp massage'],
+  ['Direct confident eye contact with reflection', 'holding direct, confident eye contact with her reflection in the mirror, chin slightly raised with poised allure'],
+  ['Surprised joyful reveal delight', 'a spontaneous, delighted gasp and joyful expression as the cape is shaken out to reveal the finished haircut'],
+  ['Amused candid mid-conversation laughter', 'natural candid laughter with crinkled eyes while chatting effortlessly with the barber mid-snip'],
+  ['Serene trusting calm', 'a completely serene and trusting expression, head resting obediently as the stylist details her perimeter'],
+  ['Subtle playful smirk', 'a playful, mischievous smirk reflected in the vanity mirror as she runs her fingers through the freshly cut fringe'],
+  ['Focused appraisal of bangs and layers', 'attentive, appreciative gaze focused on the fresh curtain bangs and face-framing layers in the mirror'],
+  ['Warm approachable glow', 'a warm, approachable expression with bright eyes, soft relaxed smile, and glowing post-makeover excitement'],
+  ['Cool unbothered editorial aloofness', 'a cool, unbothered high-fashion editorial expression with relaxed lips and calm, piercing gaze'],
+  ['Soft awe touching freshly cut ends', 'an expression of soft awe and wonder as she lightly touches the blunt edges and silky texture of her new cut'],
+  ['Subtle relief and renewed confidence', 'a subtle exhale of relief and renewed feminine confidence seeing the gorgeous silhouette in the glass'],
+  ['Intrigued curious glance at scissors', 'an intrigued, curious sidelong glance watching the barber\'s precise scissors cut through damp strands'],
+  ['Radiant post-blowout euphoria', 'radiant euphoria and beaming happiness as the blow-dryer lifts voluminous bouncy layers around her cheekbones'],
+  ['Gentle head-tilt appreciation', 'tilting her head with an appreciative smile, admiring how the layers cascade along her jawline'],
+  ['Thoughtful mirror consultation', 'a thoughtful, engaged expression discussing length and styling options while looking into the vanity glass']
+]);
+
 const salonCamera = makeOpts([
   ['Direct mirror reflection POV (shot through the glass)', 'photographed directly into the large salon wall mirror, capturing the client\'s front reflection, the male barber\'s hands, and the full styling station reflected with optical depth'],
   ['Candid 3/4 styling chair portrait', 'an eye-level 3/4 candid portrait from the side, framing the client in the black leather chair with the draped cape and ponytail profile'],
@@ -778,7 +799,20 @@ const salonCamera = makeOpts([
   ['Infinite reflection through opposing dual mirrors', 'a captivating double-mirror perspective with front and rear mirrors creating infinite recursive reflections and deep optical salon geometry'],
   ['Extreme close-up on shears and finger cutting tension', 'a macro close-up focused exclusively on the male barber\'s fingers holding a taut wet hair strand as the scissor blades slice cleanly through'],
   ['Behind-the-chair portrait showing handheld mirror angle', 'a candid perspective from behind the chair showing the male barber holding up an oval handheld mirror framing the back of the client\'s new haircut'],
-  ['Street-level documentary view through the shop doorway', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within']
+  ['Street-level documentary view through the shop doorway', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within'],
+  ['Low stool-height raking angle on draped silhouette', 'a low camera angle placed near footrest height looking upward, emphasizing the cascading drape of the cutting cape and the model\'s poised jawline'],
+  ['Macro straight razor on nape with warm lather', 'an ultra-sharp macro detail shot focused on a classic chrome straight razor cleaning the nape hairline against rich warm lather'],
+  ['Over-barber\'s-forearm perspective framing shears', 'an intimate photographic perspective shot right over the barber\'s rolled-up sleeve forearm, framing the scissor tips slicing damp strands'],
+  ['Floor-level shot of fallen hair clippings', 'an artistic low floor-level angle capturing crisp scattered hair clippings on the salon tile, with the chair base and client\'s shoes in shallow focus behind'],
+  ['High-angle shampoo basin wash perspective', 'a gentle 45-degree high-angle view looking down at the ceramic shampoo basin, water mist droplets, and the client\'s relaxed profile during the wash'],
+  ['Split-diopter dual focus: shears foreground & mirror reflection', 'a split-diopter optical shot keeping both the barber\'s shears in extreme foreground and the client\'s expressive eyes in the background mirror tack-sharp'],
+  ['Handheld brass mirror secondary angle reveal', 'a candid medium shot capturing the barber holding an ornate handheld mirror showing the client her rear neckline from a flattering 45-degree angle'],
+  ['Trolley flat-lay with styling tools and mirror bokeh', 'an editorial perspective angled over the styling trolley showing combs, clips, and tonic bottles in sharp relief with the haircut scene in soft bokeh'],
+  ['Tight 85mm portrait focusing on parted wet fringe', 'an 85mm f/1.4 prime portrait isolating the client\'s eyes and glistening wet fringe with creamy optical background bokeh'],
+  ['Wide cinematic 2.39:1 letterbox salon panorama', 'a wide cinematic 2.39:1 widescreen frame capturing the entire salon length, neon wall signage, multiple mirrors, and the bustling haircut action'],
+  ['35mm documentary snapshot with natural room blur', 'a candid 35mm photojournalistic perspective capturing authentic motion blur, barber\'s comb movement, and unposed salon realism'],
+  ['Profile shot through hanging salon plants and vintage glass', 'an atmospheric peek-through composition shot through hanging salon greenery and vintage ribbed glass partitions framing the chair'],
+  ['Ultra-close macro on blow-dry round brush tension', 'a tight macro shot on the bristles of a ceramic round brush lifting hair at the roots under the concentrated airflow of the dryer nozzle']
 ]);
 
 const salonLighting = makeOpts([
@@ -1005,7 +1039,19 @@ const SALON_CAMERA_MIRROR_FREE = {
     "a captivating layered-depth perspective framing the client in the chair with atmospheric depth across the salon interior",
 
   "a candid perspective from behind the chair showing the male barber holding up an oval handheld mirror framing the back of the client's new haircut":
-    "a candid perspective from behind the chair showing the male barber proudly presenting the rear silhouette and perimeter lines of the client's new haircut"
+    "a candid perspective from behind the chair showing the male barber proudly presenting the rear silhouette and perimeter lines of the client's new haircut",
+
+  "a split-diopter optical shot keeping both the barber's shears in extreme foreground and the client's expressive eyes in the background mirror tack-sharp":
+    "a split-diopter optical shot keeping both the barber's shears in extreme foreground and the client's expressive eyes tack-sharp in the styling chair",
+
+  "a candid medium shot capturing the barber holding an ornate handheld mirror showing the client her rear neckline from a flattering 45-degree angle":
+    "a candid medium shot capturing the barber presenting the client's rear neckline and perimeter from a flattering 45-degree angle",
+
+  "an editorial perspective angled over the styling trolley showing combs, clips, and tonic bottles in sharp relief with the haircut scene in soft bokeh":
+    "an editorial perspective angled over the styling trolley showing combs, clips, and tonic bottles in sharp relief with the client in soft bokeh",
+
+  "a wide cinematic 2.39:1 widescreen frame capturing the entire salon length, neon wall signage, multiple mirrors, and the bustling haircut action":
+    "a wide cinematic 2.39:1 widescreen frame capturing the entire salon length, neon wall signage, multiple styling stations, and the bustling haircut action",
 };
 
 function sanitizeMirrorProse(text){
@@ -1388,6 +1434,7 @@ salonTime:{label:'Time of day & light',section:'salonVenueSec',opts:salonTime,de
 salonStationProps:{label:'Counter & station props',section:'salonVenueSec',opts:salonStationProps,def:0},
 salonStage:{label:'Haircut progress & moment',section:'salonStageSec',opts:salonStage,def:0},
 salonStylist:{label:'Barber / Stylist presence',section:'salonStageSec',opts:salonStylist,def:0},
+salonExpression:{label:'Client expression & reaction',section:'salonStageSec',opts:salonClientExpressions,def:0},
 salonStoolType:{label:'Stool & seating style',section:'salonStageSec',opts:salonStoolType,def:0},
 salonBarberProximity:{label:'Barber intimate proximity & body contact',section:'salonStageSec',opts:salonBarberProximity,def:0},
 salonIntimateHairAction:{label:'Hair work & in-progress action',section:'salonStageSec',opts:salonIntimateHairAction,def:0},
@@ -1862,6 +1909,7 @@ const GROUPS=[
 ['salonVenueSec','Establishment & Design',['mode','salonVenueCategory','salonVenue','salonDesign']],
 ['salonVenueSec','Staffing, Crowd & Atmosphere',['salonBarberStaff','salonBustle','salonTime','salonStationProps']],
 ['salonStageSec','Haircut Progress & Barber',['salonStage','salonStylist']],
+['salonStageSec','Client Expression & Reaction',['salonExpression']],
 ['salonStageSec','Stool & Intimate Barber Setup',['salonStoolType','salonBarberProximity']],
 ['salonStageSec','Hair Work & Model Posture',['salonIntimateHairAction','salonStoolModelPosture']],
 ['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonHairTexture']],
@@ -1874,7 +1922,7 @@ const GROUPS=[
 ['scene','Location',['sceneCategory','background','placeDetail','locale','setProps','sceneActivity','depth']],['scene','Light & time',['lightingCategory','lighting','timeOfDay','season','weather']],['scene','Photo look',['style','grade','quality','photoTexture']]];
 const CORE_FIELD_IDS = {
 salonVenueSec: new Set(['mode', 'salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonTime', 'salonStationProps']),
-salonStageSec: new Set(['salonStage', 'salonStylist', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture']),
+salonStageSec: new Set(['salonStage', 'salonStylist', 'salonExpression', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture']),
 salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonHairTexture']),
 salonCameraSec: new Set(['salonCape', 'salonCamera', 'salonLighting', 'salonQuality']),
 look: new Set(['mode', 'hairCategory', 'hair', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
@@ -3840,7 +3888,7 @@ function buildSalonPrompt(){
     lines.push(`Seating setup: The female client is seated on a low ${stoolTypeVal}, completely backless with zero headrest, leaving her upper body, neck, and hair completely open in the space.`);
     lines.push(`Barber proximity & body contact: The male barber stands directly behind her, ${stoolProxVal}. His physical presence is intimately close, authentic, and attentively focused on her hair.`);
     lines.push(`Active hair work: He is actively working on her hair: ${stoolActVal}.`);
-    lines.push(`Client posture & expression: ${stoolPostVal}.`);
+    lines.push(`Client posture & expression: ${stoolPostVal}. Client facial reaction: ${S(val('salonExpression'))}.`);
     lines.push('');
   } else {
     lines.push('HAIRCUT STAGE & ACTIVE ACTION');
@@ -3849,6 +3897,7 @@ function buildSalonPrompt(){
     } else {
       lines.push(`Haircut progress: ${stageText}.`);
     }
+    lines.push(`Client expression & reaction: ${S(val('salonExpression'))}.`);
     lines.push('');
 
     lines.push('BARBER / STYLIST PRESENCE');
@@ -4145,7 +4194,7 @@ function buildSalonPrompt(){
 
   const summaryIds = isStool
     ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonHaircut', 'salonCape', 'salonCamera']
-    : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonHaircut', 'salonCape', 'salonCamera'];
+    : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonExpression', 'salonHaircut', 'salonCape', 'salonCamera'];
   const summaryTags = summaryIds
     .filter(id => fields[id] && values[id])
     .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`);
