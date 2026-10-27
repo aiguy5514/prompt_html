@@ -1981,9 +1981,7 @@ function switchStudioMode(mode){
     sections = photoshootSections;
   }
   
-  if(history.replaceState){
-    history.replaceState(null, null, '#' + mode);
-  }
+  // Studio mode url hash tracking removed (each studio has its own HTML file)
   
   activeSection = sections[0].id;
   const numImagesEl = el('numImages');
@@ -5294,11 +5292,13 @@ el('fab').addEventListener('click',()=>{
 }
 
 load();
-if(currentStudioMode === 'salon' || window.location.hash === '#salon'){
-  switchStudioMode('salon');
-} else {
-  goSection('look', false);
+
+if(window.location.hash === '#salon' || window.location.hash === '#photoshoot'){
+  if(history.replaceState) history.replaceState(null, null, window.location.pathname);
 }
+
+currentStudioMode = 'photoshoot';
+goSection('look', false);
 buildPrompt();
 initRefViewer();
 initMobileDrawer();

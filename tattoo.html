@@ -17,7 +17,7 @@
   <a href="tattoo.html" class="suite-nav-link active"><span class="studio-btn-icon">🖋️</span> Tattoo Studio <span class="nav-badge">NEW</span></a>
 </nav>
 <div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">13 Body Placements · Fine-Line Ink Engine</span><span class="pill">Offline · No uploads</span></div></header>
-<section class="hero"><div><div class="eyebrow" id="heroEyebrow">Reference-led creative direction · Fine-Line & Macro Body Art</div><h1 id="heroTitle">Tattoo & <span>Body Art</span><br>Experience Studio</h1><p id="heroDescription">Direct intimate, tactile, photorealistic fine-line tattoo portraits on your reference model. Choose anatomical body placements, exquisite ink motifs, single-needle techniques, fresh ointment gloss vs healed matte states, and extreme macro optics.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the exact anatomical ink placement, skin redness, ointment gloss, and macro camera perspective in real time.</p><div class="tags"><span class="tag">13 Body Placements</span><span class="tag">Single-Needle 1RL</span><span class="tag">Fresh Ointment Sheen</span><span class="tag">100mm Macro Framing</span></div></div></aside></section>
+<section class="hero"><div><div class="eyebrow" id="heroEyebrow">Reference-led creative direction · Fine-Line & Macro Body Art</div><h1 id="heroTitle">Tattoo & <span>Body Art</span><br>Experience Studio</h1><p id="heroDescription">Direct intimate, tactile, photorealistic fine-line tattoo portraits on your reference model. Choose anatomical body placements, exquisite ink motifs, single-needle techniques, fresh ointment gloss vs healed matte states, and extreme macro optics.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">13 Body Placements</span><span class="tag">Single-Needle 1RL</span><span class="tag">Fresh Ointment Sheen</span><span class="tag">100mm Macro Framing</span></div></div></aside></section>
 <div class="layout"><main class="builder">
 <section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div></div><div class="preset-grid" id="presets"></div></section>
 <nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
@@ -81,167 +81,12 @@
 </div>
 <script>
 const el = id => document.getElementById(id);
-const makeOpts = arr => arr.map(([label, text, desc, category]) => ({ label, text: text || label, desc: desc || '', category: category || 'all' }));
-const O = (label, text, desc, category) => ({ label, text: text || label, desc: desc || '', category: category || 'all' });
+const makeOpts = arr => arr.map(([label, text, desc, cat]) => ({ label, text: text || label, desc: desc || '', cat: cat || 'all' }));
+const O = (label, text, desc, cat) => ({ label, text: text || label, desc: desc || '', cat: cat || 'all' });
 
 // ==========================================
-// TATTOO STUDIO OPTION BANKS
+// TATTOO STUDIO SECTIONS
 // ==========================================
-
-const tattooPlacements = makeOpts([
-  ['Collarbone & Clavicle Contour', 'along the graceful horizontal curve of the left clavicle collarbone, delicately following the bone contour into the hollow of the throat', 'Traces the delicate clavicle bone and hollow of the throat'],
-  ['Ribcage & Underbust Flank', 'along the delicate contour of the left ribcage just beneath the underbust line, accentuating the natural curvature of the ribs and breathing posture', 'Intimate placement along the side rib contour'],
-  ['Nape of Neck & Cervical Spine', 'centered precisely at the nape of the neck just beneath the hairline, gracefully revealed by her swept-up hair', 'Centered at the nape of the neck beneath hairline'],
-  ['Behind the Ear & Mastoid', 'curving delicately along the groove behind the left earlobe and mastoid bone, framed by fine wisps of loose hair', 'Intimate curve behind the earlobe'],
-  ['Spine Centerline & Vertebrae', 'running vertically down the centerline of the upper spine between the shoulder blades, aligned with the dorsal vertebrae', 'Vertical alignment down the thoracic vertebrae'],
-  ['Shoulder Blade & Scapula', 'positioned elegantly across the surface of the right shoulder blade (scapula), following the sculptural curvature of the upper back', 'Sculptural placement across the upper back'],
-  ['Inner Forearm & Wrist Crease', 'placed along the smooth inner forearm just two inches above the wrist crease, showing fine skin grain and tendon contours', 'Tactile placement on smooth inner forearm'],
-  ['Outer Bicep & Deltoid Curve', 'anchored on the outer curve of the upper bicep and deltoid, wrapping subtly around the contour of the arm', 'Clean placement wrapping outer bicep'],
-  ['Center Sternum & Décolletage', 'centered vertically along the breastbone (sternum) in the décolletage, forming an exquisite symmetrical focal point', 'Symmetrical fine-line art centered on the sternum'],
-  ['Hip Bone & Iliac Crest', 'resting delicately along the forward crest of the pelvic hip bone, just peeking above the waistband', 'Intimate placement resting on the pelvic bone'],
-  ['Upper Thigh & Outer Flank Line', 'positioned along the outer high thigh and flank curve, contouring naturally with the leg silhouette', 'Flattering side-profile contour along upper thigh'],
-  ['Outer Ankle & Achilles Tendon', 'wrapping subtly around the outer ankle bone (lateral malleolus) and tracing slightly toward the Achilles tendon', 'Delicate wrap around the lateral ankle bone'],
-  ['Hand & Middle Knuckle Micro-Detail', 'delicate miniature single-needle symbols placed cleanly along the top of the middle phalanx of the fingers', 'Miniature micron symbols along finger joints']
-]);
-
-const tattooMotifCategories = [
-  O('🌿 Fine-Line Botanical & Flora', 'botanical'),
-  O('🌸 Sacred Geometry & Mandala', 'mandala'),
-  O('🌙 Celestial & Cosmic', 'celestial'),
-  O('🕉️ Traditional Indian & Devanagari', 'indian'),
-  O('🦋 Micro-Realism & Wildlife', 'realism'),
-  O('✒️ Delicate Cursive Typography', 'typography'),
-  O('〰️ Abstract Single-Line Contour', 'abstract'),
-  O('🐍 Sinuous Serpent & Fauna', 'serpent')
-];
-
-const tattooMotifs = makeOpts([
-  // Botanical
-  ['Wildflower Sprig with Chamomile & Baby\'s Breath', 'a delicate botanical sprig of wild chamomile and baby\'s breath, with ultra-fine stems, tiny serrated leaves, and soft petal contours', 'Ultra-fine wildflower sprig with micro leaves', 'botanical'],
-  ['Slender Mediterranean Olive Branch', 'a slender Mediterranean olive branch with tiny pointed leaves and delicate fruit nodes, curving organically along the skin', 'Slender olive branch following skin contours', 'botanical'],
-  ['Single Fine-Stemmed Peony Blossom', 'a single blooming garden peony with paper-thin translucent petal layers and delicate micro-stamen detailing', 'Layered translucent peony petals', 'botanical'],
-  ['Minimalist Vertical Eucalyptus Foliage', 'a vertical stalk of round eucalyptus leaves with delicate leaf venation and airy negative space', 'Minimalist round eucalyptus leaves', 'botanical'],
-  ['Single-Needle Garden Rose with Micro-Thorns', 'an elegant single-needle garden rose with razor-sharp micro-thorns, a slender stem, and detailed curled petal edges', 'Single-needle rose with micro-thorns', 'botanical'],
-  ['Opening Lotus Blossom in Early Bloom', 'a serene sacred lotus blossom opening outward with pristine symmetrical petals and a tiny seed pod center', 'Early-bloom symmetrical sacred lotus', 'botanical'],
-  ['Delicate Lavender Sprig with Stippled Florets', 'a fragrant lavender sprig with tiny stippled purple-black florets clustered along an ultra-fine stem', 'Stippled lavender florets along stem', 'botanical'],
-  ['Wild Fern Frond with Microscopic Pinnae', 'an arching woodland fern frond with microscopic, feather-like leaflet pinnae rendered with surgical precision', 'Feathery arching fern frond', 'botanical'],
-  
-  // Sacred Geometry & Mandala
-  ['Micro-Stippled Concentric Lotus Mandala', 'an intricate micro-stippled concentric mandala with razor-thin concentric circles, miniature lotus petal tips, and delicate dotwork gradients', 'Concentric mandala with dotwork gradients', 'mandala'],
-  ['Sacred Sri Yantra Nine Interlocking Triangles', 'a sacred Sri Yantra geometric configuration of nine interlocking triangles rendered with razor-sharp single-needle precision', 'Nine interlocking geometric triangles', 'mandala'],
-  ['Sunburst Lotus Centerpiece with Micro-Beads', 'a balanced ornamental lotus with radiating fine-line sunburst filaments and microscopic geometric beadwork', 'Radiating sunburst lotus with beadwork', 'mandala'],
-  ['Unalome Spiral Path Rising to Lotus', 'an authentic unalome path with smooth spiral curves, a zigzag ascent, and a serene miniature lotus crest', 'Sacred unalome spiral and lotus crest', 'mandala'],
-  ['Geometric Golden Ratio Sacred Spiral', 'a clean Fibonacci golden ratio logarithmic spiral composed of hair-thin arcs and subtle dotted coordinate axes', 'Fibonacci golden ratio spiral', 'mandala'],
-  
-  // Celestial & Cosmic
-  ['Crescent Moon with Stippled Crater Shading', 'an elegant slender crescent moon with delicate stipple shading inside the crater curve, accompanied by a single radiant star', 'Slender crescent moon with stippled crater', 'celestial'],
-  ['Radiant Fine-Line Sunburst & Solar Filaments', 'a minimalist radiant sunburst featuring an array of alternating long and short single-needle rays with micro-dot tips', 'Alternating long and short solar rays', 'celestial'],
-  ['Astronomical Constellation with Hairline Links', 'a precise astronomical star constellation with tiny pinpoint stellar dots connected by faint hairline vector traces', 'Pinpoint stars with vector links', 'celestial'],
-  ['Solar Eclipse Ring with Ethereal Corona Halo', 'a modern minimalist solar eclipse with an ultra-thin black ring and delicate ethereal corona rays', 'Minimalist eclipse ring and corona rays', 'celestial'],
-  ['Phases of the Moon Vertical Sequence', 'a vertical progression of five lunar phases from waxing crescent to full moon and waning crescent, delicately stippled', 'Vertical 5-phase lunar sequence', 'celestial'],
-  
-  // Traditional Indian & Devanagari
-  ['Devanagari Sanskrit Calligraphy ("शान्ति" - Shanti)', 'the sacred Sanskrit word "शान्ति" (Shanti / Peace) in bespoke handwritten Devanagari calligraphy with crisp horizontal shirorekha line and flowing fluid vowels', 'Sacred Shanti calligraphy in Devanagari', 'indian'],
-  ['Devanagari Sanskrit Calligraphy ("प्राण" - Prana)', 'the sacred Sanskrit word "प्राण" (Prana / Life Force) in delicate bespoke Devanagari script with fine pen-nib stroke contrast', 'Sacred Prana life force script', 'indian'],
-  ['Miniature Ornamental Indian Paisley (Kalka)', 'a miniature ornate traditional Indian paisley motif with intricate inner micro-florals and delicate jali mesh line work', 'Traditional Indian paisley with inner jali', 'indian'],
-  ['Minimalist Henna-Inspired Jali Trace', 'a delicate henna-inspired single-needle jali pattern tracing along the skin with microscopic mandala florets', 'Single-needle henna-inspired jali trace', 'indian'],
-  ['Devanagari Sanskrit Calligraphy ("आनन्द" - Ananda)', 'the Sanskrit word "आनन्द" (Ananda / Bliss) rendered in refined, graceful Devanagari calligraphy', 'Ananda bliss calligraphy in Devanagari', 'indian'],
-  
-  // Micro-Realism & Wildlife
-  ['Miniature Hummingbird Hovering in Motion', 'a micro-realism miniature hummingbird suspended mid-hover with blurred wing beat lines and razor-sharp beak and eye reflections', 'Micro-realism hummingbird mid-hover', 'realism'],
-  ['Monarch Butterfly with Translucent Veined Wings', 'a photorealistic miniature monarch butterfly with hyper-detailed wing veins, micro-spotted borders, and soft dimensional drop shadow', 'Photorealistic monarch butterfly', 'realism'],
-  ['Graceful Swallow in Swooping Flight', 'a classic nautical swallow rendered in delicate single-needle modern realism, swooping downward with outstretched fanned tail feathers', 'Single-needle swallow in downward swoop', 'realism'],
-  ['Tiny Honeybee with Gossamer Wing Textures', 'a lifelike miniature honeybee with delicate cross-hatched translucent wings, fuzzy thorax texture, and tiny segmented legs', 'Micro honeybee with gossamer wings', 'realism'],
-  ['Minimalist Slender Dragonfly with Filigree Wings', 'an elegant slender dragonfly with razor-sharp filigree wing veins and an ultra-fine segmented tail', 'Filigree-winged dragonfly', 'realism'],
-  
-  // Delicate Cursive Typography
-  ['Cursive Script ("Breathe")', 'the single word "Breathe" in fine-line handwritten cursive calligraphy with delicate ascending loops and soft ink tapering', 'Fine-line cursive "Breathe"', 'typography'],
-  ['Cursive Script ("Grace")', 'the word "Grace" in whisper-thin single-needle cursive typography, flowing effortlessly across the skin', 'Whisper-thin cursive "Grace"', 'typography'],
-  ['Cursive Script ("Serenity")', 'the word "Serenity" in elegant italicized fountain-pen script with clean ligature connections', 'Italicized fountain-pen "Serenity"', 'typography'],
-  ['Cursive Script ("Stillness")', 'the word "Stillness" in delicate modern script with extended, feathery exit strokes', 'Delicate script "Stillness"', 'typography'],
-  
-  // Abstract Single-Line Contour
-  ['Continuous Single-Line Female Face Contour', 'an abstract Picasso-inspired continuous single-line contour drawing of a serene female face, executed in one unbroken hairline', 'Unbroken single-line female face contour', 'abstract'],
-  ['Minimalist Kissing Profiles Single-Line Art', 'a fluid continuous single-line abstract depiction of two serene facial profiles gently converging', 'Continuous line converging profiles', 'abstract'],
-  ['Fluid Oceanic Wave Contour', 'a Japanese-inspired minimalist wave crest curving in fluid unbroken lines with fine spray droplets', 'Japanese-inspired unbroken wave crest', 'abstract'],
-  
-  // Sinuous Serpent & Fauna
-  ['Sinuous Slender Snake Coiling Anatomically', 'a slender sinuous snake with delicate micro-scaled belly plates and a poised head, coiling gracefully along the bone ridge', 'Slender snake coiling along bone ridge', 'serpent'],
-  ['Coiling Viper with Microscopic Scales', 'a delicate coiling viper silhouette with micro-stippled crosshatch scales and fine flickering tongue detail', 'Coiling viper with crosshatch scales', 'serpent']
-]);
-
-const tattooStyles = makeOpts([
-  ['Single-needle 1RL ultra fine-line (0.20mm micron precision)', 'crisp, razor-thin single-needle 1RL precision linework with razor-sharp contours, consistent micron line weight, and zero ink blowouts', 'Razor-thin single needle linework'],
-  ['Soft whip / pepper shading with stipple dotwork', 'delicate whip shading and pepper stippling technique, using microscopic ink dots to create a soft organic tonal gradient', 'Organic micro-dot stipple gradients'],
-  ['Micro-realism with smooth grayscale tonal gradient', 'photorealistic micro-realism technique with ultra-smooth grayscale gradients, subtle drop shadows, and microscopic depth without heavy outlines', 'Smooth grayscale shading and depth'],
-  ['Saturated rich blackwork with bold solid contrast', 'deeply saturated rich blackwork with opaque midnight-black density and sharp graphic silhouette edges', 'Solid deep midnight-black saturation'],
-  ['Editorial crimson red single-needle line art', 'striking editorial crimson-red ink linework, rendered in ultra-thin single-needle precision for a vivid, modern art look', 'Vivid single-needle crimson red ink'],
-  ['Micro-color pastel wash with watercolor softness', 'delicate black line art accented with translucent watercolor washes of soft blush rose and muted sage green', 'Translucent blush & sage pastel wash']
-]);
-
-const tattooFreshnesses = makeOpts([
-  ['Freshly inked with subtle erythema & Aquaphor gloss sheen', 'a brand-new fresh tattoo with subtle natural skin redness (erythema) softly haloing the crisp black ink lines, coated in a micro-thin glossy sheen of protective Aquaphor healing ointment catching crisp specular light highlights, with microscopic ink pores visible', 'Fresh ink with natural redness and ointment sheen'],
-  ['Active in-session tattoo process (gloved hands & wipe)', 'an authentic active tattoo session in progress: a black nitrile-gloved hand gently stretches the skin while another holds a damp sterile paper towel wiping excess black ink streaks across the surface, with a modern sleek rotary pen machine resting close by', 'Active in-session process with gloved artist'],
-  ['Day-three settled healing with subtle natural flaking', 'a three-day-old tattoo in its natural settling stage: ink settling into the upper dermis with delicate microscopic skin flaking around the perimeter, soft semi-matte sheen, and natural skin hydration', 'Settling ink with slight natural flaking'],
-  ['Fully healed smooth skin with matte dermis integration', 'a completely healed, pristine tattoo: smooth, natural skin texture with matte ink permanently fused into the dermis, where natural pores, fine hairs, and skin wrinkles pass seamlessly directly through the black linework with zero redness', 'Fully healed matte ink fused into skin']
-]);
-
-const tattooRevealingFits = makeOpts([
-  ['Ultra-thin spaghetti-strap black silk slip dress', 'an ultra-thin black mulberry silk slip dress with delicate thread-thin spaghetti straps, drooping slightly off one shoulder to fully expose the collarbone, décolletage, and upper back', 'Thread-thin slip dress exposing shoulder & collarbone'],
-  ['Oversized unbuttoned white linen shirt falling off shoulder', 'a relaxed oversized crisp white linen button-down shirt, loosely unbuttoned and casually slipping completely off one bare shoulder to reveal the upper chest, clavicle, and ink', 'Unbuttoned linen shirt slouched off one shoulder'],
-  ['High-cut ribbed racerback crop tank top', 'a fitted black ribbed cotton racerback crop tank, cut high at the shoulders and open at the ribs to showcase the flank and upper vertebrae', 'Racerback crop tank exposing ribs & spine'],
-  ['Minimalist soft cotton bralette & relaxed linen trousers', 'a minimalist charcoal stretch-cotton bralette with thin elastic strapping, paired with low-slung linen trousers that reveal the ribcage, sternum, and hip crest', 'Bralette and low-slung trousers showing ribcage & hip'],
-  ['Dramatic deep open-back cowl dress', 'a dramatic deep open-back cowl neck dress in fluid jersey fabric, exposing the entire length of the spine down to the lower back', 'Deep open cowl back revealing entire spine'],
-  ['Architectural monokini with geometric side cutouts', 'a modern high-fashion monokini with sculptural geometric side cutouts and a high-leg hip cut that leaves the entire flank and hip bone bare', 'Cutout monokini exposing flank and hip bone'],
-  ['Draped black cotton studio towel & bib', 'draped in a clean textured black salon towel tucked cleanly below the chest and secured across the lap, keeping the placement completely unobstructed', 'Clean studio draping towel keeping ink bare']
-]);
-
-const tattooModelPoses = makeOpts([
-  ['Seated curved spine with head gently tilted forward', 'seated upright on a low backless stool with relaxed posture, head gently tilted forward and to the side, elongating the neck and collarbone in a calm, contemplative moment', 'Seated upright on low stool with tilted head'],
-  ['Reclining on black leather studio examination bench', 'reclining comfortably on a sleek black leather studio examination bench with one arm resting loosely above her head, body curved naturally', 'Reclining on studio examination bench'],
-  ['Standing 3/4 profile beside natural window light', 'standing in a graceful 3/4 profile beside a tall sunlit studio window, torso angled softly with one hand resting naturally on her hip', 'Standing 3/4 profile by tall window'],
-  ['Leaning forward resting forearms on knees', 'leaning forward with forearms resting casually on her knees, curving the spine to stretch the back canvas and highlight tattoo geometry', 'Leaning forward stretching back contour'],
-  ['Admiring tattoo reflection in antique brass handheld mirror', 'turning her head over her bare shoulder, looking with a subtle candid smile into a small antique brass handheld mirror to inspect the fresh ink', 'Candid glance into handheld brass mirror']
-]);
-
-const tattooHairStylings = makeOpts([
-  ['High messy topknot with loose temple tendrils', 'hair swept cleanly up into a high, textured messy topknot bun with a few delicate wispy flyaways around the nape and temples, leaving the neck and shoulders completely bare', 'High messy bun leaving neck & shoulders bare'],
-  ['Sleek low chignon tucked neatly behind ears', 'hair combed smoothly into a sleek low chignon at the base of the skull, hair neatly tucked behind both ears to display the mastoid and jawline', 'Sleek low chignon tucked behind ears'],
-  ['Loose side-swept waves thrown over one shoulder', 'long natural silky black Indian hair swept entirely over the opposite shoulder, leaving the tattooed shoulder, collarbone, and neck fully unobstructed', 'Hair swept over opposite shoulder'],
-  ['Airy textured bob with soft nape graduation', 'a modern textured chin-length bob cut with soft nape graduation, brushing just above the ink placement with natural movement', 'Textured bob brushing above tattoo']
-]);
-
-const tattooCameras = makeOpts([
-  ['Extreme Macro Close-Up (100mm f/2.8 Macro)', 'an extreme macro close-up shot with a 100mm f/2.8 Macro lens, focusing with razor-sharp fidelity on the individual tattoo lines, microscopic ink stippling, and natural skin pore texture, with creamy shallow depth-of-field falloff', '100mm macro on needle lines & skin pores'],
-  ['Intimate 3/4 Beauty Portrait (85mm f/1.4)', 'an intimate 3/4 beauty portrait shot on an 85mm f/1.4 lens, keeping the model\'s candid facial profile softly visible in creamy bokeh while the tattoo on her bare skin is rendered with tack-sharp clarity', '85mm portrait balancing face & ink'],
-  ['Low-Rake Glancing Side Angle', 'a low-angle glancing raking camera perspective skimming across the curve of the skin, capturing the light reflection glinting off the ointment sheen and revealing the subtle physical topography of the skin', 'Raking sidelight angle showing ointment glint'],
-  ['High-Angle Downward Macro Crop', 'a high-angle top-down macro detail crop looking directly down at the anatomical contour and tattoo placement', 'Top-down macro perspective on placement'],
-  ['Editorial Medium Crop with Silhouette Context', 'a high-fashion editorial medium shot with a 50mm f/1.2 lens, balancing the crisp detail of the body art with the model\'s elegant posture and draped garment context', '50mm editorial shot showing silhouette context']
-]);
-
-const tattooLightings = makeOpts([
-  ['Tactile glancing window sidelight revealing skin topography', 'soft, tactile natural daylight streaming from an adjacent window at a low glancing angle, skimming across the skin surface to cast micro-shadows that accentuate both the tattoo line precision and authentic skin pores', 'Low glancing window light highlighting texture'],
-  ['Direct on-camera editorial flash with crisp specular highlights', 'a crisp on-camera direct flash snapshot aesthetic, producing sharp specular gleams on the ointment gloss, bold contrast, and pristine skin clarity without shadows', 'Direct flash with sharp specular gleams on gloss'],
-  ['Warm golden hour rim light & soft sunlit halo', 'warm late-afternoon golden hour sunlight wrapping around the curve of the body as a luminous rim light, illuminating fine peach fuzz and delicate ink lines', 'Golden hour rim light wrapping body contour'],
-  ['Moody boutique tattoo studio interior', 'atmospheric indoor boutique tattoo studio lighting, with warm vintage Edison filament sconces, exposed brick textures in the background, and a focused cool LED task light illuminating the tattooed skin', 'Atmospheric studio with warm sconces & task light'],
-  ['Diffused commercial beauty studio softbox', 'large octa-softbox studio lighting creating perfectly even, soft, flattering wrap-around illumination with neutral skin tones and zero harsh hot spots', 'Even diffused softbox beauty illumination']
-]);
-
-const tattooInteractions = makeOpts([
-  ['Solo model showcasing her tattoo candidly', 'the solitary female model is alone in the frame, gracefully turning her head with a relaxed candid expression as she showcases the finished artwork in natural soft light', 'Solo model admiring ink candidly'],
-  ['Black nitrile-gloved artist hand gently wiping with damp cloth', 'a close-up framing featuring the female model, with an artist\'s hand in a sterile black nitrile glove delicately wiping a damp lint-free cloth across the skin, revealing the crisp, immaculate lines beneath', 'Gloved artist hand wiping damp cloth'],
-  ['Artist hand stretching skin as wireless rotary pen hovers', 'an artist\'s gloved thumb and forefinger gently stretching the canvas of the skin, with a matte-black wireless rotary tattoo pen machine held poised with artisan concentration', 'Gloved hand stretching skin with pen hovering'],
-  ['Model inspecting ink in a handheld brass mirror', 'the model holds a small antique brass handheld mirror, gazing at the reflection of the tattoo with an authentic, gentle, candid expression of quiet satisfaction', 'Inspecting ink in handheld brass mirror']
-]);
-
-const tattooScales = makeOpts([
-  ['Delicate micro-tattoo (1.5 to 2.5 inches)', 'a delicate miniature scale measuring approximately two inches across, designed with subtle minimalism and intimate proportions'],
-  ['Medium anatomical contour (3.5 to 5 inches)', 'a medium-scale composition spanning four inches, flowing organically with the natural curvature and musculature of the body'],
-  ['Elongated vertical run (6 to 8 inches)', 'an elongated vertical design spanning approximately seven inches, tracing an elegant line along the spine or limb'],
-  ['Graceful limb wrap contour', 'a curving composition designed to wrap gracefully around the anatomical curve of the limb or bone']
-]);
-
-// Sections definition for Tattoo Studio
 const tattooSections = [
   { id: 'tattooSubjectSec', name: 'Model & Fit', short: 'MODEL', icon: '✂', desc: 'Reference identity, model posture, and revealing garment styling.' },
   { id: 'tattooPlacementSec', name: 'Placement & Skin', short: 'PLACEMENT', icon: '📍', desc: 'Select exact anatomical body placement and skin canvas details.' },
@@ -251,78 +96,240 @@ const tattooSections = [
   { id: 'finish', name: 'Finish & Controls', short: 'FINISH', icon: '✦', desc: 'Dual-reference preservation, 2x2 macro collage, and negative guidance.' }
 ];
 
+// ==========================================
+// OPTION BANKS
+// ==========================================
+
+const tattooPlacements = makeOpts([
+  ['Collarbone & Clavicle Contour', 'along the graceful horizontal curve of the left clavicle collarbone, delicately following the bone contour into the hollow of the throat'],
+  ['Ribcage & Underbust Flank', 'along the delicate contour of the left ribcage just beneath the underbust line, accentuating the natural curvature of the ribs and breathing posture'],
+  ['Nape of Neck & Cervical Spine', 'centered precisely at the nape of the neck just beneath the hairline, gracefully revealed by her swept-up hair'],
+  ['Behind the Ear & Mastoid', 'curving delicately along the groove behind the left earlobe and mastoid bone, framed by fine wisps of loose hair'],
+  ['Spine Centerline & Vertebrae', 'running vertically down the centerline of the upper spine between the shoulder blades, aligned with the dorsal vertebrae'],
+  ['Shoulder Blade & Scapula', 'positioned elegantly across the surface of the right shoulder blade (scapula), following the sculptural curvature of the upper back'],
+  ['Inner Forearm & Wrist Crease', 'placed along the smooth inner forearm just two inches above the wrist crease, showing fine skin grain and tendon contours'],
+  ['Outer Bicep & Deltoid Curve', 'anchored on the outer curve of the upper bicep and deltoid, wrapping subtly around the contour of the arm'],
+  ['Center Sternum & Décolletage', 'centered vertically along the breastbone (sternum) in the décolletage, forming an exquisite symmetrical focal point'],
+  ['Hip Bone & Iliac Crest', 'resting delicately along the forward crest of the pelvic hip bone, just peeking above the waistband'],
+  ['Upper Thigh & Outer Flank Line', 'positioned along the outer high thigh and flank curve, contouring naturally with the leg silhouette'],
+  ['Outer Ankle & Achilles Tendon', 'wrapping subtly around the outer ankle bone (lateral malleolus) and tracing slightly toward the Achilles tendon'],
+  ['Hand & Middle Knuckle Micro-Detail', 'delicate miniature single-needle symbols placed cleanly along the top of the middle phalanx of the fingers']
+]);
+
+const tattooContourFlows = makeOpts([
+  ['Contouring naturally along horizontal bone contour', 'delicately aligned with the natural horizontal curvature of the skeletal structure, flowing organically across the skin'],
+  ['Vertical centerline alignment along vertebrae', 'strictly following a razor-straight vertical alignment down the body centerline'],
+  ['Intimate diagonal slant hugging muscle grain', 'angled on a subtle 30-degree diagonal that compliments the natural muscular tension and movement of the canvas'],
+  ['Delicate anatomical wrap around limb curvature', 'gracefully wrapping partially around the cylindrical curvature of the limb in a seamless spiral arc']
+]);
+
+const tattooSkinSensories = makeOpts([
+  ['Authentic skin pores & natural clavicle/rib shadows', 'revealing authentic skin pore texture, realistic skin translucency, and subtle natural bone shadows without airbrushing'],
+  ['Subtle goosebumps & fine dermal micro-texture', 'featuring realistic micro-texture with subtle goosebumps and micro-creases responding naturally to ambient air'],
+  ['Warm golden Indian undertones with natural sheen', 'radiating a natural warm golden undertone with authentic dermal hydration and organic skin glow'],
+  ['Ultra-smooth bare canvas with delicate shadow falloff', 'pristine bare skin with soft, gentle anatomical shadow gradients across the collarbone hollows and spine ridge']
+]);
+
+const tattooMotifCategories = [
+  O('✦ All Motif Families (38 styles)', 'all'),
+  O('🌿 Fine-Line Botanical & Flora (8 options)', 'botanical'),
+  O('🌸 Sacred Geometry & Mandala (5 options)', 'mandala'),
+  O('🌙 Celestial & Cosmic (5 options)', 'celestial'),
+  O('🕉️ Traditional Indian & Devanagari (5 options)', 'indian'),
+  O('🦋 Micro-Realism & Wildlife (5 options)', 'realism'),
+  O('✒️ Delicate Cursive Typography (4 options)', 'typography'),
+  O('〰️ Abstract Single-Line Contour (3 options)', 'abstract'),
+  O('🐍 Sinuous Serpent & Fauna (3 options)', 'serpent')
+];
+
+const tattooMotifs = makeOpts([
+  // Botanical
+  ['Wildflower Sprig with Chamomile & Baby\'s Breath', 'a delicate botanical sprig of wild chamomile and baby\'s breath, with ultra-fine stems, tiny serrated leaves, and soft petal contours', '', 'botanical'],
+  ['Slender Mediterranean Olive Branch', 'a slender Mediterranean olive branch with tiny pointed leaves and delicate fruit nodes, curving organically along the skin', '', 'botanical'],
+  ['Single Fine-Stemmed Peony Blossom', 'a single blooming garden peony with paper-thin translucent petal layers and delicate micro-stamen detailing', '', 'botanical'],
+  ['Minimalist Vertical Eucalyptus Foliage', 'a vertical stalk of round eucalyptus leaves with delicate leaf venation and airy negative space', '', 'botanical'],
+  ['Single-Needle Garden Rose with Micro-Thorns', 'an elegant single-needle garden rose with razor-sharp micro-thorns, a slender stem, and detailed curled petal edges', '', 'botanical'],
+  ['Opening Lotus Blossom in Early Bloom', 'a serene sacred lotus blossom opening outward with pristine symmetrical petals and a tiny seed pod center', '', 'botanical'],
+  ['Delicate Lavender Sprig with Stippled Florets', 'a fragrant lavender sprig with tiny stippled purple-black florets clustered along an ultra-fine stem', '', 'botanical'],
+  ['Wild Fern Frond with Microscopic Pinnae', 'an arching woodland fern frond with microscopic, feather-like leaflet pinnae rendered with surgical precision', '', 'botanical'],
+  
+  // Sacred Geometry & Mandala
+  ['Micro-Stippled Concentric Lotus Mandala', 'an intricate micro-stippled concentric mandala with razor-thin concentric circles, miniature lotus petal tips, and delicate dotwork gradients', '', 'mandala'],
+  ['Sacred Sri Yantra Nine Interlocking Triangles', 'a sacred Sri Yantra geometric configuration of nine interlocking triangles rendered with razor-sharp single-needle precision', '', 'mandala'],
+  ['Sunburst Lotus Centerpiece with Micro-Beads', 'a balanced ornamental lotus with radiating fine-line sunburst filaments and microscopic geometric beadwork', '', 'mandala'],
+  ['Unalome Spiral Path Rising to Lotus', 'an authentic unalome path with smooth spiral curves, a zigzag ascent, and a serene miniature lotus crest', '', 'mandala'],
+  ['Geometric Golden Ratio Sacred Spiral', 'a clean Fibonacci golden ratio logarithmic spiral composed of hair-thin arcs and subtle dotted coordinate axes', '', 'mandala'],
+  
+  // Celestial & Cosmic
+  ['Crescent Moon with Stippled Crater Shading', 'an elegant slender crescent moon with delicate stipple shading inside the crater curve, accompanied by a single radiant star', '', 'celestial'],
+  ['Radiant Fine-Line Sunburst & Solar Filaments', 'a minimalist radiant sunburst featuring an array of alternating long and short single-needle rays with micro-dot tips', '', 'celestial'],
+  ['Astronomical Constellation with Hairline Links', 'a precise astronomical star constellation with tiny pinpoint stellar dots connected by faint hairline vector traces', '', 'celestial'],
+  ['Solar Eclipse Ring with Ethereal Corona Halo', 'a modern minimalist solar eclipse with an ultra-thin black ring and delicate ethereal corona rays', '', 'celestial'],
+  ['Phases of the Moon Vertical Sequence', 'a vertical progression of five lunar phases from waxing crescent to full moon and waning crescent, delicately stippled', '', 'celestial'],
+  
+  // Traditional Indian & Devanagari
+  ['Devanagari Sanskrit Calligraphy ("शान्ति" - Shanti)', 'the sacred Sanskrit word "शान्ति" (Shanti / Peace) in bespoke handwritten Devanagari calligraphy with crisp horizontal shirorekha line and flowing fluid vowels', '', 'indian'],
+  ['Devanagari Sanskrit Calligraphy ("प्राण" - Prana)', 'the sacred Sanskrit word "प्राण" (Prana / Life Force) in delicate bespoke Devanagari script with fine pen-nib stroke contrast', '', 'indian'],
+  ['Miniature Ornamental Indian Paisley (Kalka)', 'a miniature ornate traditional Indian paisley motif with intricate inner micro-florals and delicate jali mesh line work', '', 'indian'],
+  ['Minimalist Henna-Inspired Jali Trace', 'a delicate henna-inspired single-needle jali pattern tracing along the skin with microscopic mandala florets', '', 'indian'],
+  ['Devanagari Sanskrit Calligraphy ("आनन्द" - Ananda)', 'the Sanskrit word "आनन्द" (Ananda / Bliss) rendered in refined, graceful Devanagari calligraphy', '', 'indian'],
+  
+  // Micro-Realism & Wildlife
+  ['Miniature Hummingbird Hovering in Motion', 'a micro-realism miniature hummingbird suspended mid-hover with blurred wing beat lines and razor-sharp beak and eye reflections', '', 'realism'],
+  ['Monarch Butterfly with Translucent Veined Wings', 'a photorealistic miniature monarch butterfly with hyper-detailed wing veins, micro-spotted borders, and soft dimensional drop shadow', '', 'realism'],
+  ['Graceful Swallow in Swooping Flight', 'a classic nautical swallow rendered in delicate single-needle modern realism, swooping downward with outstretched fanned tail feathers', '', 'realism'],
+  ['Tiny Honeybee with Gossamer Wing Textures', 'a lifelike miniature honeybee with delicate cross-hatched translucent wings, fuzzy thorax texture, and tiny segmented legs', '', 'realism'],
+  ['Minimalist Slender Dragonfly with Filigree Wings', 'an elegant slender dragonfly with razor-sharp filigree wing veins and an ultra-fine segmented tail', '', 'realism'],
+  
+  // Delicate Cursive Typography
+  ['Cursive Script ("Breathe")', 'the single word "Breathe" in fine-line handwritten cursive calligraphy with delicate ascending loops and soft ink tapering', '', 'typography'],
+  ['Cursive Script ("Grace")', 'the word "Grace" in whisper-thin single-needle cursive typography, flowing effortlessly across the skin', '', 'typography'],
+  ['Cursive Script ("Serenity")', 'the word "Serenity" in elegant italicized fountain-pen script with clean ligature connections', '', 'typography'],
+  ['Cursive Script ("Stillness")', 'the word "Stillness" in delicate modern script with extended, feathery exit strokes', '', 'typography'],
+  
+  // Abstract Single-Line Contour
+  ['Continuous Single-Line Female Face Contour', 'an abstract Picasso-inspired continuous single-line contour drawing of a serene female face, executed in one unbroken hairline', '', 'abstract'],
+  ['Minimalist Kissing Profiles Single-Line Art', 'a fluid continuous single-line abstract depiction of two serene facial profiles gently converging', '', 'abstract'],
+  ['Fluid Oceanic Wave Contour', 'a Japanese-inspired minimalist wave crest curving in fluid unbroken lines with fine spray droplets', '', 'abstract'],
+  
+  // Sinuous Serpent & Fauna
+  ['Sinuous Slender Snake Coiling Anatomically', 'a slender sinuous snake with delicate micro-scaled belly plates and a poised head, coiling gracefully along the bone ridge', '', 'serpent'],
+  ['Coiling Viper with Microscopic Scales', 'a delicate coiling viper silhouette with micro-stippled crosshatch scales and fine flickering tongue detail', '', 'serpent'],
+  ['Minimalist Hummingbird Line Silhouette', 'a minimalist single-line silhouette of a hummingbird sipping nectar from a delicate petal', '', 'serpent']
+]);
+
+const tattooStyles = makeOpts([
+  ['Single-needle 1RL ultra fine-line (0.20mm micron precision)', 'crisp, razor-thin single-needle 1RL precision linework with razor-sharp contours, consistent micron line weight, and zero ink blowouts'],
+  ['Soft whip / pepper shading with stipple dotwork', 'delicate whip shading and pepper stippling technique, using microscopic ink dots to create a soft organic tonal gradient'],
+  ['Micro-realism with smooth grayscale tonal gradient', 'photorealistic micro-realism technique with ultra-smooth grayscale gradients, subtle drop shadows, and microscopic depth without heavy outlines'],
+  ['Saturated rich blackwork with bold solid contrast', 'deeply saturated rich blackwork with opaque midnight-black density and sharp graphic silhouette edges'],
+  ['Editorial crimson red single-needle line art', 'striking editorial crimson-red ink linework, rendered in ultra-thin single-needle precision for a vivid, modern art look'],
+  ['Micro-color pastel wash with watercolor softness', 'delicate black line art accented with translucent watercolor washes of soft blush rose and muted sage green']
+]);
+
+const tattooScales = makeOpts([
+  ['Delicate micro-tattoo (1.5 to 2.5 inches)', 'a delicate miniature scale measuring approximately two inches across, designed with subtle minimalism and intimate proportions'],
+  ['Medium anatomical contour (3.5 to 5 inches)', 'a medium-scale composition spanning four inches, flowing organically with the natural curvature and musculature of the body'],
+  ['Elongated vertical run (6 to 8 inches)', 'an elongated vertical design spanning approximately seven inches, tracing an elegant line along the spine or limb'],
+  ['Graceful limb wrap contour', 'a curving composition designed to wrap gracefully around the anatomical curve of the limb or bone']
+]);
+
+const tattooFreshnesses = makeOpts([
+  ['Freshly inked with subtle natural erythema & Aquaphor gloss sheen', 'a brand-new fresh tattoo with subtle natural skin redness (erythema) softly haloing the crisp black ink lines, coated in a micro-thin glossy sheen of protective Aquaphor healing ointment catching crisp specular light highlights, with microscopic ink pores visible'],
+  ['Active in-session tattoo process (gloved hands & wipe)', 'an authentic active tattoo session in progress: a black nitrile-gloved hand gently stretches the skin while another holds a damp sterile paper towel wiping excess black ink streaks across the surface, with a modern sleek rotary pen machine resting close by'],
+  ['Day-three settled healing with subtle natural flaking', 'a three-day-old tattoo in its natural settling stage: ink settling into the upper dermis with delicate microscopic skin flaking around the perimeter, soft semi-matte sheen, and natural skin hydration'],
+  ['Fully healed smooth skin with matte dermis integration', 'a completely healed, pristine tattoo: smooth, natural skin texture with matte ink permanently fused into the dermis, where natural pores, fine hairs, and skin wrinkles pass seamlessly directly through the black linework with zero redness']
+]);
+
+const tattooInteractions = makeOpts([
+  ['Solo model admiring her tattoo candidly', 'the solitary female model is alone in the frame, gracefully turning her head with a relaxed candid expression as she admires the finished artwork in natural soft light'],
+  ['Black nitrile-gloved artist hand gently wiping with damp cloth', 'a close-up framing featuring the female model, with an artist\'s hand in a sterile black nitrile glove delicately wiping a damp lint-free cloth across the skin, revealing the crisp, immaculate lines beneath'],
+  ['Artist hand stretching skin as wireless rotary pen hovers', 'an artist\'s gloved thumb and forefinger gently stretching the canvas of the skin, with a matte-black wireless rotary tattoo pen machine held poised with artisan concentration'],
+  ['Model inspecting ink in a handheld brass mirror', 'the model holds a small antique brass handheld mirror, gazing at the reflection of the tattoo with an authentic, gentle, candid expression of quiet satisfaction']
+]);
+
+const tattooStudioEnvs = makeOpts([
+  ['Sunlit boutique tattoo loft with exposed brick & plants', 'a boutique private tattoo studio loft with exposed warm brick walls, large arched industrial windows, polished concrete floors, and lush green fiddle-leaf figs'],
+  ['Moody artisan atelier with warm Edison sconces & flash art', 'an intimate mood-lit artisan tattoo atelier with warm brass filament sconces, vintage flash art framed in dark mahogany, and dark charcoal walls'],
+  ['Ultra-clean minimalist private medical-aesthetic studio', 'a pristine minimalist private studio with clinical cleanliness, matte white surfaces, sleek black ergonomic furniture, and soft architectural coves']
+]);
+
+const tattooModelPoses = makeOpts([
+  ['Seated curved spine with head gently tilted forward', 'seated upright on a low backless stool with relaxed posture, head gently tilted forward and to the side, elongating the neck and collarbone in a calm, contemplative moment'],
+  ['Reclining on black leather studio examination bench', 'reclining comfortably on a sleek black leather studio examination bench with one arm resting loosely above her head, body curved naturally'],
+  ['Standing 3/4 profile beside natural window light', 'standing in a graceful 3/4 profile beside a tall sunlit studio window, torso angled softly with one hand resting naturally on her hip'],
+  ['Leaning forward resting forearms on knees', 'leaning forward with forearms resting casually on her knees, curving the spine to stretch the back canvas and highlight tattoo geometry'],
+  ['Admiring tattoo reflection in antique brass handheld mirror', 'turning her head over her bare shoulder, looking with a subtle candid smile into a small antique brass handheld mirror to inspect the fresh ink']
+]);
+
+const tattooRevealingFits = makeOpts([
+  ['Ultra-thin spaghetti-strap black silk slip dress', 'an ultra-thin black mulberry silk slip dress with delicate thread-thin spaghetti straps, drooping slightly off one shoulder to fully expose the collarbone, décolletage, and upper back'],
+  ['Oversized unbuttoned white linen shirt falling off shoulder', 'a relaxed oversized crisp white linen button-down shirt, loosely unbuttoned and casually slipping completely off one bare shoulder to reveal the upper chest, clavicle, and ink'],
+  ['High-cut ribbed racerback crop tank top', 'a fitted black ribbed cotton racerback crop tank, cut high at the shoulders and open at the ribs to showcase the flank and upper vertebrae'],
+  ['Minimalist soft cotton bralette & relaxed linen trousers', 'a minimalist charcoal stretch-cotton bralette with thin elastic strapping, paired with low-slung linen trousers that reveal the ribcage, sternum, and hip crest'],
+  ['Dramatic deep open-back cowl dress', 'a dramatic deep open-back cowl neck dress in fluid jersey fabric, exposing the entire length of the spine down to the lower back'],
+  ['Architectural monokini with geometric side cutouts', 'a modern high-fashion monokini with sculptural geometric side cutouts and a high-leg hip cut that leaves the entire flank and hip bone bare'],
+  ['Draped black cotton studio towel & bib', 'draped in a clean textured black salon towel tucked cleanly below the chest and secured across the lap, keeping the placement completely unobstructed']
+]);
+
+const tattooHairStylings = makeOpts([
+  ['High messy topknot with loose temple tendrils', 'hair swept cleanly up into a high, textured messy topknot bun with a few delicate wispy flyaways around the nape and temples, leaving the neck and shoulders completely bare'],
+  ['Sleek low chignon tucked neatly behind ears', 'hair combed smoothly into a sleek low chignon at the base of the skull, hair neatly tucked behind both ears to display the mastoid and jawline'],
+  ['Loose side-swept waves thrown over one shoulder', 'long natural silky black Indian hair swept entirely over the opposite shoulder, leaving the tattooed shoulder, collarbone, and neck fully unobstructed'],
+  ['Airy textured bob with soft nape graduation', 'a modern textured chin-length bob cut with soft nape graduation, brushing just above the ink placement with natural movement']
+]);
+
+const tattooCameras = makeOpts([
+  ['Extreme Macro Close-Up (100mm f/2.8 Macro)', 'an extreme macro close-up shot with a 100mm f/2.8 Macro lens, focusing with razor-sharp fidelity on the individual tattoo lines, microscopic ink stippling, and natural skin pore texture, with creamy shallow depth-of-field falloff'],
+  ['Intimate 3/4 Beauty Portrait (85mm f/1.4)', 'an intimate 3/4 beauty portrait shot on an 85mm f/1.4 lens, keeping the model\'s candid facial profile softly visible in creamy bokeh while the tattoo on her bare skin is rendered with tack-sharp clarity'],
+  ['Low-Rake Glancing Side Angle', 'a low-angle glancing raking camera perspective skimming across the curve of the skin, capturing the light reflection glinting off the ointment sheen and revealing the subtle physical topography of the skin'],
+  ['High-Angle Downward Macro Crop', 'a high-angle top-down macro detail crop looking directly down at the anatomical contour and tattoo placement'],
+  ['Editorial Medium Crop with Silhouette Context', 'a high-fashion editorial medium shot with a 50mm f/1.2 lens, balancing the crisp detail of the body art with the model\'s elegant posture and draped garment context']
+]);
+
+const tattooLightings = makeOpts([
+  ['Tactile glancing window sidelight revealing skin topography', 'soft, tactile natural daylight streaming from an adjacent window at a low glancing angle, skimming across the skin surface to cast micro-shadows that accentuate both the tattoo line precision and authentic skin pores'],
+  ['Direct on-camera editorial flash with crisp specular highlights', 'a crisp on-camera direct flash snapshot aesthetic, producing sharp specular gleams on the ointment gloss, bold contrast, and pristine skin clarity without shadows'],
+  ['Warm golden hour rim light & soft sunlit halo', 'warm late-afternoon golden hour sunlight wrapping around the curve of the body as a luminous rim light, illuminating fine peach fuzz and delicate ink lines'],
+  ['Moody boutique tattoo studio interior', 'atmospheric indoor boutique tattoo studio lighting, with warm vintage Edison filament sconces, exposed brick textures in the background, and a focused cool LED task light illuminating the tattooed skin'],
+  ['Diffused commercial beauty studio softbox', 'large octa-softbox studio lighting creating perfectly even, soft, flattering wrap-around illumination with neutral skin tones and zero harsh hot spots']
+]);
+
+const tattooFilmFeels = makeOpts([
+  ['Ultra-sharp modern 100MP digital RAW clarity', 'ultra-crisp medium-format digital sensor rendering with extreme resolution, perfect edge micro-contrast, and clean neutral color science'],
+  ['Kodak Portra 400 fine organic film grain', 'warm analog 35mm film aesthetic with subtle organic grain, gentle highlight roll-off, and flattering skin tone reproduction'],
+  ['Muted editorial high-fashion palette', 'sophisticated desaturated tones with deep blacks, soft muted highlights, and focused editorial contrast'],
+  ['Rich high-contrast monochrome black & white', 'striking fine-art black and white conversion with silver halide tonal gradation, deep velvety blacks, and luminous skin highlights']
+]);
+
+const tattooOutputFormats = makeOpts([
+  ['Single finished macro portrait', 'single', 'One single high-resolution photorealistic image'],
+  ['One 2×2 macro collage · 4 detail crops', 'collage', 'Four complementary macro framings in one image'],
+  ['Set of four distinct images', 'set', 'Four separate images with consistent model & tattoo'],
+  ['Three-frame editorial triptych', 'triptych', 'Three side-by-side progression crops']
+]);
+
+// ==========================================
+// FIELDS DEFINITIONS
+// ==========================================
 const fields = {
   // tattooSubjectSec
-  tattooPose: { label: 'Model Pose & Posture', opts: tattooModelPoses, section: 'tattooSubjectSec', type: 'radio' },
-  tattooWardrobe: { label: 'Revealing Wardrobe Silhouette', opts: tattooRevealingFits, section: 'tattooSubjectSec', type: 'radio' },
-  tattooHair: { label: 'Hair Styling for Ink Visibility', opts: tattooHairStylings, section: 'tattooSubjectSec', type: 'radio' },
+  tattooPose: { label: 'Model Pose & Posture', opts: tattooModelPoses, def: 0, section: 'tattooSubjectSec', _grp: 'Model & Posture' },
+  tattooWardrobe: { label: 'Revealing Wardrobe Silhouette', opts: tattooRevealingFits, def: 0, section: 'tattooSubjectSec', _grp: 'Model & Posture' },
+  tattooHair: { label: 'Hair Styling for Ink Visibility', opts: tattooHairStylings, def: 0, section: 'tattooSubjectSec', _grp: 'Model & Posture' },
 
   // tattooPlacementSec
-  tattooPlacement: { label: 'Anatomical Body Placement', opts: tattooPlacements, section: 'tattooPlacementSec', type: 'radio' },
+  tattooPlacement: { label: 'Anatomical Body Placement', opts: tattooPlacements, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
+  tattooContour: { label: 'Skeletal Contour & Alignment', opts: tattooContourFlows, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
+  tattooSkinSensory: { label: 'Skin Canvas & Pore Detail', opts: tattooSkinSensories, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
 
   // tattooArtSec
-  tattooMotifCategory: { label: 'Tattoo Motif Category', opts: tattooMotifCategories, section: 'tattooArtSec', type: 'tabs' },
-  tattooMotif: { label: 'Curated Tattoo Motif', opts: tattooMotifs, section: 'tattooArtSec', type: 'radio' },
-  tattooStyle: { label: 'Technique & Line Weight', opts: tattooStyles, section: 'tattooArtSec', type: 'radio' },
-  tattooScale: { label: 'Tattoo Scale & Density', opts: tattooScales, section: 'tattooArtSec', type: 'radio' },
+  tattooMotifCategory: { label: 'Motif Family Filter', opts: tattooMotifCategories, def: 0, section: 'tattooArtSec', _grp: 'Tattoo Art & Technique' },
+  tattooMotif: { label: 'Curated Tattoo Motif', opts: tattooMotifs, def: 0, section: 'tattooArtSec', _grp: 'Tattoo Art & Technique' },
+  tattooStyle: { label: 'Technique & Line Weight', opts: tattooStyles, def: 0, section: 'tattooArtSec', _grp: 'Tattoo Art & Technique' },
+  tattooScale: { label: 'Tattoo Scale & Density', opts: tattooScales, def: 0, section: 'tattooArtSec', _grp: 'Tattoo Art & Technique' },
 
   // tattooSessionSec
-  tattooFreshness: { label: 'Tattoo Freshness & Skin State', opts: tattooFreshnesses, section: 'tattooSessionSec', type: 'radio' },
-  tattooInteraction: { label: 'Artist Interaction & Session Process', opts: tattooInteractions, section: 'tattooSessionSec', type: 'radio' },
+  tattooFreshness: { label: 'Tattoo Freshness & Skin State', opts: tattooFreshnesses, def: 0, section: 'tattooSessionSec', _grp: 'Session & Environment' },
+  tattooInteraction: { label: 'Artist Interaction & Process', opts: tattooInteractions, def: 0, section: 'tattooSessionSec', _grp: 'Session & Environment' },
+  tattooStudioEnv: { label: 'Studio Interior Ambiance', opts: tattooStudioEnvs, def: 0, section: 'tattooSessionSec', _grp: 'Session & Environment' },
 
   // tattooCameraSec
-  tattooCamera: { label: 'Macro Framing & Lens Angle', opts: tattooCameras, section: 'tattooCameraSec', type: 'radio' },
-  tattooLighting: { label: 'Lighting & Tactile Sidelight', opts: tattooLightings, section: 'tattooCameraSec', type: 'radio' },
+  tattooCamera: { label: 'Macro Framing & Lens Angle', opts: tattooCameras, def: 0, section: 'tattooCameraSec', _grp: 'Optics & Lighting' },
+  tattooLighting: { label: 'Lighting & Tactile Sidelight', opts: tattooLightings, def: 0, section: 'tattooCameraSec', _grp: 'Optics & Lighting' },
+  tattooFilm: { label: 'Film Feel & Sensor Color Grade', opts: tattooFilmFeels, def: 0, section: 'tattooCameraSec', _grp: 'Optics & Lighting' },
 
   // finish
-  numImages: {
-    label: 'Image Output Format',
-    opts: makeOpts([
-      ['Single finished macro portrait', 'single', 'One single photorealistic high-res image'],
-      ['One 2×2 macro collage · 4 detail crops', 'collage', 'Four complementary macro framings in one image'],
-      ['Set of four distinct images', 'set', 'Four separate images with consistent model & tattoo'],
-      ['Three-frame editorial triptych', 'triptych', 'Three side-by-side progression crops']
-    ]),
-    section: 'finish',
-    type: 'radio'
-  }
+  numImages: { label: 'Image Output Format', opts: tattooOutputFormats, def: 0, section: 'finish', _grp: 'Output Controls' }
 };
 
-let sections = tattooSections;
-let activeSection = 'tattooSubjectSec';
-let values = {};
-let subjectRef = null;
-let styleRef = null;
-let customPresets = [];
-let activePreset = '';
-let promptHistory = [];
-
-const checkState = {
-  identity: true,
-  skin: true,
-  body: true,
-  skinTone: true,
-  hairStrands: true,
-  retouch: true,
-  lightingReal: true,
-  noMirror: false,
-  noText: true,
-  candid: true,
-  soloSubject: true
-};
-
-// Initialize default values
-Object.keys(fields).forEach(k => {
-  const f = fields[k];
-  values[k] = f.opts[0];
-});
-
-// Presets for Tattoo Studio
+// Presets
 const tattooPresets = [
   {
     id: 'botanical-clavicle',
     title: 'Botanical Clavicle Whisper',
-    desc: 'Fine-line chamomile along the collarbone in a silk slip dress with ointment gloss.',
+    sub: 'Fine-line chamomile along collarbone in silk slip',
+    icon: '🌿',
     values: {
       tattooPlacement: tattooPlacements[0],
       tattooMotif: tattooMotifs[0],
@@ -338,7 +345,8 @@ const tattooPresets = [
   {
     id: 'sacred-mandala-ribs',
     title: 'Sacred Lotus Mandala Ribcage',
-    desc: 'Intricate dotwork mandala on side ribs, revealed by an unbuttoned linen shirt.',
+    sub: 'Intricate dotwork mandala on side ribs in linen shirt',
+    icon: '🌸',
     values: {
       tattooPlacement: tattooPlacements[1],
       tattooMotif: tattooMotifs[8],
@@ -354,7 +362,8 @@ const tattooPresets = [
   {
     id: 'celestial-crescent-spine',
     title: 'Celestial Sun & Moon Spine',
-    desc: 'Stippled crescent moon running down the vertebrae in a deep open-back dress.',
+    sub: 'Stippled crescent moon down spine in open-back dress',
+    icon: '🌙',
     values: {
       tattooPlacement: tattooPlacements[4],
       tattooMotif: tattooMotifs[13],
@@ -370,7 +379,8 @@ const tattooPresets = [
   {
     id: 'sanskrit-shanti-sternum',
     title: 'Devanagari "Shanti" Sternum',
-    desc: 'Bespoke Sanskrit calligraphy centered on the sternum with fresh specular sheen.',
+    sub: 'Bespoke Sanskrit calligraphy centered on sternum',
+    icon: '🕉️',
     values: {
       tattooPlacement: tattooPlacements[8],
       tattooMotif: tattooMotifs[18],
@@ -386,7 +396,8 @@ const tattooPresets = [
   {
     id: 'micro-monarch-wrist',
     title: 'Micro-Realism Monarch Wrist',
-    desc: 'Hyper-detailed miniature butterfly on inner forearm with tactile window light.',
+    sub: 'Miniature butterfly on inner forearm with window light',
+    icon: '🦋',
     values: {
       tattooPlacement: tattooPlacements[6],
       tattooMotif: tattooMotifs[24],
@@ -402,7 +413,8 @@ const tattooPresets = [
   {
     id: 'crimson-nape-olive',
     title: 'Crimson Single-Needle Nape',
-    desc: 'Striking red ink olive branch at the nape, revealed by a messy topknot.',
+    sub: 'Red ink olive branch at nape revealed by topknot',
+    icon: '🔴',
     values: {
       tattooPlacement: tattooPlacements[2],
       tattooMotif: tattooMotifs[1],
@@ -414,21 +426,92 @@ const tattooPresets = [
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[1]
     }
+  },
+  {
+    id: 'sinuous-snake-scapula',
+    title: 'Sinuous Serpent Scapula',
+    sub: 'Slender snake wrapping shoulder blade with sidelight',
+    icon: '🐍',
+    values: {
+      tattooPlacement: tattooPlacements[5],
+      tattooMotif: tattooMotifs[35],
+      tattooStyle: tattooStyles[0],
+      tattooFreshness: tattooFreshnesses[0],
+      tattooWardrobe: tattooRevealingFits[0],
+      tattooPose: tattooModelPoses[4],
+      tattooHair: tattooHairStylings[0],
+      tattooCamera: tattooCameras[2],
+      tattooLighting: tattooLightings[0]
+    }
+  },
+  {
+    id: 'fluid-wave-ankle',
+    title: 'Fluid Wave Ankle Wrap',
+    sub: 'Japanese wave contour wrapping outer ankle bone',
+    icon: '🌊',
+    values: {
+      tattooPlacement: tattooPlacements[11],
+      tattooMotif: tattooMotifs[34],
+      tattooStyle: tattooStyles[0],
+      tattooFreshness: tattooFreshnesses[3],
+      tattooWardrobe: tattooRevealingFits[3],
+      tattooPose: tattooModelPoses[1],
+      tattooHair: tattooHairStylings[1],
+      tattooCamera: tattooCameras[0],
+      tattooLighting: tattooLightings[0]
+    }
   }
 ];
 
+let sections = tattooSections;
+let activeSection = 'tattooSubjectSec';
+let values = {};
+let lockedFields = new Set();
+let subjectRef = null;
+let styleRef = null;
+let customPresets = [];
+let activePreset = '';
+let promptHistory = [];
+
+const checkState = {
+  identity: true,
+  skin: true,
+  body: true,
+  skinTone: true,
+  retouch: true,
+  lightingReal: true,
+  noText: true,
+  candid: true,
+  soloSubject: true
+};
+
+// Initialize default values
+Object.keys(fields).forEach(k => {
+  const f = fields[k];
+  values[k] = f.opts[f.def || 0];
+});
+
 function val(k){ return values[k]?.text || ''; }
+
+// Clean any legacy hash from URL
+if(window.location.hash === '#salon' || window.location.hash === '#photoshoot' || window.location.hash === '#tattoo'){
+  if(history.replaceState) history.replaceState(null, null, window.location.pathname);
+}
+
+// ==========================================
+// RENDERING FUNCTIONS
+// ==========================================
 
 function renderTabs(){
   const tabs = el('tabs');
   if(!tabs) return;
   tabs.innerHTML = '';
-  sections.forEach(s => {
+  sections.forEach((s, idx) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'tab-btn' + (s.id === activeSection ? ' active' : '');
-    b.innerHTML = `<span class="tab-icon">${s.icon}</span><span class="tab-label">${s.short}</span>`;
-    b.title = s.name;
+    b.className = 'tab' + (s.id === activeSection ? ' active' : '');
+    b.dataset.section = s.id;
+    b.innerHTML = `<span class="tab-no">0${idx+1}</span>${s.name}`;
     b.addEventListener('click', () => goSection(s.id));
     tabs.appendChild(b);
   });
@@ -438,135 +521,262 @@ function goSection(secId){
   activeSection = secId;
   const s = sections.find(x => x.id === secId);
   if(!s) return;
-  el('stepEyebrow').textContent = `Creative direction · ${s.name}`;
+  el('stepEyebrow').textContent = `Creative direction · 0${sections.indexOf(s)+1}`;
   el('stepTitle').textContent = s.name;
   el('stepDescription').textContent = s.desc;
   el('stepIcon').textContent = s.icon;
-  const idx = sections.indexOf(s);
-  el('stepCount').textContent = `Step ${idx+1} of ${sections.length}`;
+  el('stepCount').textContent = `Step ${sections.indexOf(s)+1} of ${sections.length}`;
   renderTabs();
-  renderFields(secId);
+  renderFields();
 }
 
-function renderFields(secId){
-  const host = el('fields');
-  if(!host) return;
-  host.innerHTML = '';
-  const specialHost = el('specialContent');
-  if(specialHost) specialHost.innerHTML = '';
-
-  const secFields = Object.keys(fields).filter(k => fields[k].section === secId);
-  secFields.forEach(k => {
-    const f = fields[k];
-    const card = document.createElement('div');
-    card.className = 'field-card';
-
-    const h = document.createElement('div');
-    h.className = 'field-head';
-    h.innerHTML = `<strong>${f.label}</strong><span class="field-curr">${values[k]?.label || ''}</span>`;
-    card.appendChild(h);
-
-    if(f.type === 'tabs'){
-      const subTabs = document.createElement('div');
-      subTabs.className = 'sub-tabs';
-      f.opts.forEach(o => {
-        const tb = document.createElement('button');
-        tb.type = 'button';
-        tb.className = 'sub-tab-btn' + (values[k]?.text === o.text ? ' active' : '');
-        tb.textContent = o.label;
-        tb.addEventListener('click', () => {
-          values[k] = o;
-          renderFields(secId);
-          buildPrompt();
-        });
-        subTabs.appendChild(tb);
-      });
-      card.appendChild(subTabs);
-    } else {
-      const optWrap = document.createElement('div');
-      optWrap.className = 'opt-grid';
-
-      let visibleOpts = f.opts;
-      if(k === 'tattooMotif' && values.tattooMotifCategory){
-        visibleOpts = f.opts.filter(o => o.category === 'all' || o.category === values.tattooMotifCategory.text);
-      }
-
-      visibleOpts.forEach(o => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'opt-btn' + (values[k]?.label === o.label ? ' active' : '');
-        btn.innerHTML = `<span class="opt-label">${o.label}</span>${o.desc ? `<small class="opt-desc">${o.desc}</small>` : ''}`;
-        btn.addEventListener('click', () => {
-          values[k] = o;
-          card.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const curr = card.querySelector('.field-curr');
-          if(curr) curr.textContent = o.label;
-          buildPrompt();
-        });
-        optWrap.appendChild(btn);
-      });
-      card.appendChild(optWrap);
+function filterChoices(menu, q){
+  let shown = 0;
+  const list = menu.querySelector('.option-list');
+  [...list.querySelectorAll('.choice')].forEach(b => {
+    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    b.classList.toggle('hidden', !ok);
+    if(ok) shown++;
+  });
+  let no = menu.querySelector('.no-results');
+  if(!shown){
+    if(!no){
+      no = document.createElement('div');
+      no.className = 'no-results';
+      no.textContent = 'No matching options. Try another search.';
+      list.appendChild(no);
     }
+  } else if(no) no.remove();
+}
 
-    host.appendChild(card);
+function updateCustom(custom, id){
+  const curr = custom.querySelector('.current');
+  if(curr && values[id]) curr.textContent = values[id].label;
+  custom.querySelectorAll('.choice').forEach(b => {
+    const active = fields[id].opts[Number(b.dataset.index)] === values[id];
+    b.classList.toggle('selected', active);
+    const old = b.querySelector('.checkmark');
+    if(old) old.remove();
+    if(active){
+      const cm = document.createElement('span');
+      cm.className = 'checkmark';
+      cm.textContent = '✓ ';
+      b.prepend(cm);
+    }
+  });
+}
+
+function createFieldElement(id, f){
+  const wrap = document.createElement('div');
+  wrap.className = 'field' + (['tattooPlacement', 'tattooMotif'].includes(id) ? ' full' : '');
+  
+  const lab = document.createElement('div');
+  lab.className = 'label-row';
+
+  const titleWrap = document.createElement('div');
+  titleWrap.className = 'label-title-wrap';
+
+  const label = document.createElement('label');
+  label.textContent = f.label;
+  label.htmlFor = 'field-' + id;
+
+  const isLocked = lockedFields.has(id);
+  const lockBtn = document.createElement('button');
+  lockBtn.type = 'button';
+  lockBtn.className = 'lock-btn' + (isLocked ? ' locked' : '');
+  lockBtn.title = isLocked ? 'Locked (won\'t change during shuffle). Click to unlock.' : 'Lock this choice during shuffle';
+  lockBtn.innerHTML = isLocked ? '🔒' : '🔓';
+  lockBtn.addEventListener('click', () => {
+    if(lockedFields.has(id)){
+      lockedFields.delete(id);
+      toast(`Unlocked ${f.label}`);
+    } else {
+      lockedFields.add(id);
+      toast(`Locked ${f.label}`);
+    }
+    renderFields();
   });
 
-  if(secId === 'finish'){
-    renderFinishControls();
+  titleWrap.append(label, lockBtn);
+
+  let visibleOpts = f.opts;
+  if(id === 'tattooMotif' && values.tattooMotifCategory && values.tattooMotifCategory.cat && values.tattooMotifCategory.cat !== 'all'){
+    const filterCat = values.tattooMotifCategory.cat;
+    visibleOpts = f.opts.filter(o => o.cat === filterCat);
+    if(!visibleOpts.includes(values.tattooMotif)){
+      values.tattooMotif = visibleOpts[0] || f.opts[0];
+    }
+  }
+
+  const count = document.createElement('span');
+  count.className = 'option-count';
+  count.textContent = visibleOpts.length + ' options';
+  lab.append(titleWrap, count);
+
+  const custom = document.createElement('div');
+  custom.className = 'custom-select';
+  custom.dataset.id = id;
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'select-trigger';
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.innerHTML = `<span class="current"></span><span class="chevron">⌄</span>`;
+  trigger.querySelector('.current').textContent = values[id]?.label || '';
+
+  const menu = document.createElement('div');
+  menu.className = 'select-menu';
+  menu.innerHTML = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;
+
+  const list = menu.querySelector('.option-list');
+
+  visibleOpts.forEach(o => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choice' + (values[id] === o ? ' selected' : '');
+    b.dataset.index = f.opts.indexOf(o);
+    b.textContent = o.label;
+    b.addEventListener('click', () => {
+      values[id] = o;
+      if(id === 'tattooMotifCategory'){
+        const cat = o.cat || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.tattooMotif.opts.find(opt => opt.cat === cat);
+          if(matchFirst) values.tattooMotif = matchFirst;
+        }
+      }
+      updateCustom(custom, id);
+      custom.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      if(id === 'tattooMotifCategory'){
+        renderFields();
+      }
+      buildPrompt();
+    });
+    list.appendChild(b);
+  });
+
+  trigger.addEventListener('click', () => {
+    const was = custom.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(x => {
+      x.classList.remove('open');
+      x.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+    if(!was){
+      custom.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+      const inp = menu.querySelector('input');
+      inp.value = '';
+      filterChoices(menu, '');
+      inp.focus({ preventScroll: true });
+      const sel = menu.querySelector('.choice.selected:not(.hidden)');
+      if(sel) sel.scrollIntoView({ block: 'nearest' });
+    }
+  });
+
+  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  menu.querySelector('input').addEventListener('keydown', e => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const first = menu.querySelector('.choice:not(.hidden)');
+      if(first) first.click();
+    }
+  });
+
+  custom.append(trigger, menu);
+  wrap.append(lab, custom);
+  updateCustom(custom, id);
+  return wrap;
+}
+
+function renderFields(){
+  const host = el('fields');
+  const fineArea = el('fineTuneArea');
+  if(!host) return;
+  host.innerHTML = '';
+  if(fineArea) fineArea.innerHTML = '';
+
+  const secFields = Object.keys(fields).filter(k => fields[k].section === activeSection);
+  
+  let lastGrp = '';
+  secFields.forEach(id => {
+    const f = fields[id];
+    if(f._grp && f._grp !== lastGrp){
+      lastGrp = f._grp;
+      const g = document.createElement('h3');
+      g.className = 'grp';
+      g.textContent = lastGrp;
+      host.appendChild(g);
+    }
+    host.appendChild(createFieldElement(id, f));
+  });
+
+  const sp = el('specialContent');
+  if(sp){
+    if(activeSection === 'finish'){
+      sp.innerHTML = `
+        <div class="field-card" style="margin-top:16px; padding:16px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:12px;">
+          <h3 style="font-size:14px; margin:0 0 12px 0; color:#f1f5f9;">Technical & Realism Preservations</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;">
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkId" ${checkState.identity ? 'checked' : ''}> Preserve Reference Model Identity</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkPores" ${checkState.skin ? 'checked' : ''}> Authentic Skin Pores & Micro-Texture</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoAirbrush" ${checkState.retouch ? 'checked' : ''}> Zero Airbrushing or Plastic Skin</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkAnatomy" ${checkState.body ? 'checked' : ''}> Natural Anatomical Curvature</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoText" ${checkState.noText ? 'checked' : ''}> Exclude Graphic Watermarks & Logos</label>
+          </div>
+        </div>
+      `;
+      ['chkId', 'chkPores', 'chkNoAirbrush', 'chkAnatomy', 'chkNoText'].forEach(id => {
+        const box = el(id);
+        if(box){
+          box.addEventListener('change', () => {
+            if(id === 'chkId') checkState.identity = box.checked;
+            if(id === 'chkPores') checkState.skin = box.checked;
+            if(id === 'chkNoAirbrush') checkState.retouch = box.checked;
+            if(id === 'chkAnatomy') checkState.body = box.checked;
+            if(id === 'chkNoText') checkState.noText = box.checked;
+            buildPrompt();
+          });
+        }
+      });
+    } else {
+      sp.innerHTML = '';
+    }
   }
 }
 
-function renderFinishControls(){
-  const sp = el('specialContent');
-  if(!sp) return;
-  sp.innerHTML = `
-    <div class="field-card" style="margin-top:16px;">
-      <div class="field-head"><strong>Realism & Anatomy Preservations</strong></div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;padding:8px 0;">
-        <label class="toggle-pill"><input type="checkbox" id="chkId" ${checkState.identity ? 'checked' : ''}> Preserve Reference Model Identity</label>
-        <label class="toggle-pill"><input type="checkbox" id="chkPores" ${checkState.skin ? 'checked' : ''}> Authentic Skin Pores & Micro-Texture</label>
-        <label class="toggle-pill"><input type="checkbox" id="chkNoAirbrush" ${checkState.retouch ? 'checked' : ''}> Zero Airbrushing or Plastic Skin</label>
-        <label class="toggle-pill"><input type="checkbox" id="chkAnatomy" ${checkState.body ? 'checked' : ''}> Natural Anatomical Curvature</label>
-        <label class="toggle-pill"><input type="checkbox" id="chkNoText" ${checkState.noText ? 'checked' : ''}> Exclude Watermarks & Overlays</label>
-      </div>
-    </div>
-  `;
-  ['chkId', 'chkPores', 'chkNoAirbrush', 'chkAnatomy', 'chkNoText'].forEach(id => {
-    const box = el(id);
-    if(box){
-      box.addEventListener('change', () => {
-        if(id === 'chkId') checkState.identity = box.checked;
-        if(id === 'chkPores') checkState.skin = box.checked;
-        if(id === 'chkNoAirbrush') checkState.retouch = box.checked;
-        if(id === 'chkAnatomy') checkState.body = box.checked;
-        if(id === 'chkNoText') checkState.noText = box.checked;
-        buildPrompt();
-      });
-    }
-  });
-}
+// Document click to close open custom selects
+document.addEventListener('click', e => {
+  if(!e.target.closest('.custom-select')){
+    document.querySelectorAll('.custom-select.open').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+  }
+});
 
+// Presets Rendering
 function renderPresets(){
   const host = el('presets');
   if(!host) return;
   host.innerHTML = '';
   tattooPresets.forEach(p => {
-    const card = document.createElement('button');
-    card.type = 'button';
-    card.className = 'preset' + (p.id === activePreset ? ' active' : '');
-    card.innerHTML = `<strong>${p.title}</strong><p>${p.desc}</p>`;
-    card.addEventListener('click', () => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset' + (p.id === activePreset ? ' active' : '');
+    b.dataset.preset = p.id;
+    b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
+    b.addEventListener('click', () => {
       activePreset = p.id;
       Object.keys(p.values).forEach(k => {
         values[k] = p.values[k];
       });
       renderPresets();
-      renderFields(activeSection);
+      renderFields();
       buildPrompt();
       toast(`✦ Applied preset: ${p.title}`);
     });
-    host.appendChild(card);
+    host.appendChild(b);
   });
 }
 
@@ -577,6 +787,8 @@ function renderPresets(){
 function buildPrompt(){
   const lines = [];
   const p = val('tattooPlacement');
+  const contour = val('tattooContour');
+  const skinSensory = val('tattooSkinSensory');
   const m = val('tattooMotif');
   const s = val('tattooStyle');
   const f = val('tattooFreshness');
@@ -585,6 +797,8 @@ function buildPrompt(){
   const hair = val('tattooHair');
   const cam = val('tattooCamera');
   const light = val('tattooLighting');
+  const film = val('tattooFilm');
+  const env = val('tattooStudioEnv');
   const act = val('tattooInteraction');
   const scale = val('tattooScale');
   const numMode = val('numImages');
@@ -630,11 +844,12 @@ function buildPrompt(){
 
   // Core scene prose
   lines.push(`Photorealistic high-fashion fine-line tattoo portrait focusing on an intricate tattoo placed ${p}.`);
+  lines.push(`Anatomical alignment: ${contour}. Skin canvas: ${skinSensory}.`);
   lines.push(`The body art features ${m}, executed with ${s}. Scale: ${scale}.`);
   lines.push(`Tattoo condition & skin state: ${f}.`);
   lines.push(`Model stance & framing: the female subject is ${pose}, wearing ${w}. Hair styling: ${hair}.`);
-  lines.push(`Session moment: ${act}.`);
-  lines.push(`Camera direction & optics: ${cam}.`);
+  lines.push(`Session moment: ${act}. Studio setting: ${env}.`);
+  lines.push(`Camera direction & optics: ${cam}. Color grade & film: ${film}.`);
   lines.push(`Lighting & ambiance: ${light}.`);
   lines.push('');
 
@@ -677,7 +892,7 @@ function recordHistory(){
   const t = el('prompt')?.value.trim();
   if(!t) return;
   if(!promptHistory.length || promptHistory[0].text !== t){
-    promptHistory.unshift({ id: Date.now(), text: t, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+    promptHistory.unshift({ id: Date.now(), text: t, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), words: t.split(/\s+/).length });
     if(promptHistory.length > 30) promptHistory.pop();
     const b = el('historyBadge');
     if(b) b.textContent = promptHistory.length;
@@ -716,22 +931,24 @@ function toast(msg){
 
 function randomizeAll(){
   Object.keys(fields).forEach(k => {
+    if(lockedFields.has(k)) return;
     const f = fields[k];
     const pick = f.opts[Math.floor(Math.random() * f.opts.length)];
     values[k] = pick;
   });
-  renderFields(activeSection);
+  renderFields();
   buildPrompt();
   toast('✦ Generated random tattoo configuration!');
 }
 
 function resetAll(){
   Object.keys(fields).forEach(k => {
-    values[k] = fields[k].opts[0];
+    values[k] = fields[k].opts[fields[k].def || 0];
   });
   activePreset = '';
+  lockedFields.clear();
   renderPresets();
-  renderFields(activeSection);
+  renderFields();
   buildPrompt();
   toast('↺ Reset all selections to defaults.');
 }
@@ -741,6 +958,22 @@ el('copyTop')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
 el('copy')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
 el('resetTop')?.addEventListener('click', resetAll);
 el('topQuickCopy')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('shuffleLooks')?.addEventListener('click', randomizeAll);
+
+el('saveCustomLook')?.addEventListener('click', () => {
+  const name = prompt('Enter a name for this custom tattoo preset:', 'Custom Ink ' + (customPresets.length + 1));
+  if(!name || !name.trim()) return;
+  const newPreset = {
+    id: 'user_' + Date.now(),
+    title: name.trim(),
+    sub: [values.tattooPlacement?.label, values.tattooMotif?.label].filter(Boolean).join(' · ') || 'Custom Ink',
+    icon: '⭐',
+    values: Object.assign({}, values)
+  };
+  tattooPresets.unshift(newPreset);
+  renderPresets();
+  toast('Saved custom tattoo preset!');
+});
 
 // Dual Reference Uploaders
 function setupRefUpload(fileInputId, imgId, wrapId, type){
@@ -780,6 +1013,85 @@ el('btnRemoveStyle')?.addEventListener('click', () => {
   if(w) w.style.display = 'none';
   buildPrompt();
   toast('Removed tattoo reference.');
+});
+
+// History modal
+function openHistory(){
+  const l = el('historyList');
+  if(l){
+    if(!promptHistory.length){
+      l.innerHTML = '<div class="history-empty"><p>No saved history yet.</p><small>Prompts you generate, randomize or copy are automatically preserved here.</small></div>';
+    } else {
+      l.innerHTML = promptHistory.map((item, idx) => `
+        <div class="history-item">
+          <div class="history-item-top">
+            <strong class="history-item-title">${item.title || 'Tattoo Prompt'}</strong>
+            <span class="history-item-time">${item.time}</span>
+          </div>
+          <div class="history-item-sub">${item.sub || 'Prompt output'} · ${item.words} words</div>
+          <div class="history-item-actions">
+            <button class="btn btn-primary btn-small copy-hist" data-idx="${idx}" type="button">Copy ▣</button>
+          </div>
+        </div>
+      `).join('');
+      l.querySelectorAll('.copy-hist').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.idx);
+          if(promptHistory[idx]){
+            copy(promptHistory[idx].text);
+            closeHistory();
+          }
+        });
+      });
+    }
+  }
+  el('historyModal')?.classList.add('active');
+  el('historyBackdrop')?.classList.add('active');
+}
+
+function closeHistory(){
+  el('historyModal')?.classList.remove('active');
+  el('historyBackdrop')?.classList.remove('active');
+}
+
+el('openHistoryBtn')?.addEventListener('click', openHistory);
+el('closeHistoryBtn')?.addEventListener('click', closeHistory);
+el('clearHistoryBtn')?.addEventListener('click', () => {
+  promptHistory = [];
+  const b = el('historyBadge');
+  if(b) b.textContent = '0';
+  openHistory();
+  toast('History cleared.');
+});
+el('historyBackdrop')?.addEventListener('click', closeHistory);
+
+// Mobile drawer
+const mobileCopy = el('mobileCopyBtn');
+const topCopy = el('topQuickCopy');
+const handle = el('sheetHandle');
+function openDrawer(){
+  const preview = document.querySelector('.preview');
+  if(preview) preview.classList.add('open');
+}
+function closeDrawer(){
+  const preview = document.querySelector('.preview');
+  if(preview) preview.classList.remove('open');
+}
+if(handle) handle.addEventListener('click', () => {
+  const p = document.querySelector('.preview');
+  if(p && p.classList.contains('open')) closeDrawer();
+  else openDrawer();
+});
+el('closeDrawer')?.addEventListener('click', closeDrawer);
+if(mobileCopy) mobileCopy.addEventListener('click', () => {
+  copy(el('prompt')?.value || '');
+  mobileCopy.textContent = '✓ Copied';
+  setTimeout(() => mobileCopy.textContent = '▣ Copy', 1500);
+});
+if(topCopy) topCopy.addEventListener('click', () => {
+  copy(el('prompt')?.value || '');
+  topCopy.textContent = '✓ Copied';
+  setTimeout(() => topCopy.textContent = '▣ Copy', 1500);
 });
 
 // Initialize Studio
