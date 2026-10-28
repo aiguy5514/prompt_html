@@ -16,7 +16,7 @@
   <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon & Barbershop</a>
   <a href="tattoo.html" class="suite-nav-link active"><span class="studio-btn-icon">🖋️</span> Tattoo Studio <span class="nav-badge">NEW</span></a>
 </nav>
-<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">13 Body Placements · Haircuts & Locations Engine</span><span class="pill">Offline · No uploads</span></div></header>
+<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">180+ curated choices</span><span class="pill">Offline · No uploads</span></div></header>
 <section class="hero"><div><div class="eyebrow" id="heroEyebrow">Reference-led creative direction · Fine-Line & Macro Body Art</div><h1 id="heroTitle">Tattoo & <span>Body Art</span><br>Experience Studio</h1><p id="heroDescription">Direct intimate, tactile, photorealistic fine-line tattoo portraits on your reference model. Choose anatomical body placements, signature haircuts, cinematic shoot locations, fine-line ink motifs, and extreme macro optics.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">13 Body Placements</span><span class="tag">Expanded Haircuts</span><span class="tag">Cinematic Locations</span><span class="tag">100mm Macro Framing</span></div></div></aside></section>
 <div class="layout"><main class="builder">
 <section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div></div><div class="preset-grid" id="presets"></div></section>
@@ -1270,6 +1270,8 @@ if(topCopy) topCopy.addEventListener('click', () => {
 });
 
 // Initialize Studio
+const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
+if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + ' curated choices';
 renderPresets();
 renderTabs();
 goSection('tattooSubjectSec');
