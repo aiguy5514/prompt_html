@@ -503,3 +503,19 @@
     font-size: 0.75rem;
   }
 }
+
+/* Wardrobe Mode Switcher */
+.wardrobe-mode-card {
+  grid-column: 1 / -1;
+  margin: 0 0 16px 0;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
