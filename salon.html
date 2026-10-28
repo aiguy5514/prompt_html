@@ -467,7 +467,7 @@ function getItemCategory(id, item) {
     return 'barbershop';
   } else if (id === 'hair' || id === 'salonHaircut') {
     if (/pony|ponytail/i.test(text)) return 'pony';
-    if (/bob|lob|tassel/i.test(text)) return 'bob';
+    if (/bob|lob|tassel|clip/i.test(text)) return 'bob';
     if (/shag|wolf|mullet|mixie|octopus/i.test(text)) return 'shag';
     if (/pixie|crop|bixie|buzz/i.test(text)) return 'pixie';
     if (/curl|curls|curly|coily|afro|ringlet/i.test(text)) return 'curl';
@@ -646,7 +646,9 @@ const salonStage = makeOpts([
   ['Barber shaving client\'s armpit hair with straight razor', 'barber underarm shaving: the female client relaxes comfortably in the hydraulic chair with one arm raised behind her head, draped in cape, while the male barber applies rich warm shaving lather to her underarm and expertly glides a traditional straight razor to shave her armpit hair cleanly and smoothly'],
   ['Barber shaving fine chest hair with warm lather & straight razor', 'chest and décolletage shave: the male barber carefully works warm rich lather across the female client\'s upper chest and collarbones, delicately shaving fine chest hair and body hair with smooth, confident straight-razor strokes while she reclines comfortably in the chair'],
   ['Full body hair shave: arms & shoulders with lather & razor', 'body hair grooming service: the male barber applies hot towel prep and rich lather across the female client\'s shoulders, arms, and neckline, smoothly shaving all fine body hair with an authentic chrome safety razor, revealing clean, smooth skin'],
-  ['Post-shave hot towel & soothing balm on underarms & chest', 'post-shave soothing treatment: the male barber gently presses a steaming aromatic hot towel to the client\'s freshly shaved underarms and chest, followed by a gentle soothing after-shave balm application']
+  ['Post-shave hot towel & soothing balm on underarms & chest', 'post-shave soothing treatment: the male barber gently presses a steaming aromatic hot towel to the client\'s freshly shaved underarms and chest, followed by a gentle soothing after-shave balm application'],
+  ['Client head tilted down for nape trimming', 'precision neckline detailing: client with head tilted gently down toward her chest, exposing the cervical spine and nape while the barber combs and shears the baseline'],
+  ['Client leaning forward evaluating bangs in mirror', 'in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length']
 ]);
 
 const salonStylist = makeOpts([
@@ -713,7 +715,11 @@ const salonStoolModelPosture = makeOpts([
   ['Side profile angle with exposed neck', 'turned in side profile on the small stool, long graceful neckline exposed as his shears detail her perimeter'],
   ['Candid conversation mid-snip', 'smiling softly and conversing candidly with the barber as he leans close over her shoulder'],
   ['Hands resting lightly on knees', 'hands resting naturally on her knees under the cutting cape, fully immersed in the intimate barbershop moment'],
-  ['Serene chin raised, receptive posture', 'chin slightly raised with relaxed jawline, leaning back subtly into the barber\'s attentive presence']
+  ['Serene chin raised, receptive posture', 'chin slightly raised with relaxed jawline, leaning back subtly into the barber\'s attentive presence'],
+  ['Head tilted down exposing crown and nape for barber shears', 'head tilted forward with chin resting toward chest, curving the neck to expose the crown, hairline, and nape while the barber combs and snips the baseline from behind'],
+  ['Bent forward with elbows on knees as barber details crown', 'torso bent forward at the waist with elbows resting on knees under the cape, rounding the back and bowing the head forward naturally for precision cutting'],
+  ['Head tilted softly downward admiring haircut in cape reflection', 'head tilted softly downward with eyes glancing at the fallen hair clippings on the draped cape, in a quiet, contemplative candid moment'],
+  ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool']
 ]);
 
 const salonCape = makeOpts([
@@ -1689,7 +1695,13 @@ addOptions(pose, makeOpts([
   ['Stepping out of outdoor rain shower', 'stepping out of an outdoor teakwood rain shower with eyes softly closed and head tilted back'],
   ['Reclining on wet sun lounger', 'reclining gracefully on a poolside sun lounger with wet hair swept over one shoulder'],
   ['Wiping water droplet from cheekbone', 'lightly brushing a single water droplet away from her cheekbone with confident eye contact'],
-  ['Arching neck under water droplets', 'arching her neck gracefully as fine water droplets fall across her collarbones and shoulders']
+  ['Arching neck under water droplets', 'arching her neck gracefully as fine water droplets fall across her collarbones and shoulders'],
+  ['Head tilted down with introspective gaze', 'head tilted down with eyes glancing softly toward the ground, contemplative fashion attitude with hair parting and crown visible'],
+  ['Bent forward at waist with hands on knees', 'bent forward at the waist with hands resting firmly on slightly bent knees, torso angled forward in a bold editorial power pose'],
+  ['Deep forward bend with arms hanging loose', 'bent deeply down toward her feet with arms loosely dangling and hair falling forward naturally around her face and shoulders'],
+  ['Seated leaning forward with head tilted down', 'seated on a stool leaning forward with forearms on thighs and head tilted down, eyes looking up through dark lashes'],
+  ['Standing with chin tilted down and subtle side angle', 'standing with chin tilted down toward her chest, angled slightly three-quarter to reveal the nape, neckline, and shoulder contour'],
+  ['Leaning forward over balcony railing, head tilted down', 'leaning forward over a railing with elbows resting on the ledge, head tilted down watching the scene below']
 ]));
 
 addOptions(gesture, makeOpts([
@@ -1826,7 +1838,9 @@ addOptions(hair, makeOpts([
   ['Sleek high ponytail with deep side swoop fringe', 'a sleek high ponytail paired with a polished side-swept swoop fringe framing the forehead'],
   ['Side-swept low ponytail with soft waves', 'a romantic low ponytail swept over one shoulder with glossy, relaxed waves'],
   ['High ponytail with metallic cuff accent', 'a high snatched ponytail featuring a polished metallic cuff accentuating the base'],
-  ['Flipped-out retro high ponytail with bangs', 'a retro high ponytail with outward flipped ends brushing the upper neck and full brow bangs']
+  ['Flipped-out retro high ponytail with bangs', 'a retro high ponytail with outward flipped ends brushing the upper neck and full brow bangs'],
+  ['Shoulder-length cut with clip holding hair back', 'a shoulder-length haircut with the upper front and side hair cleanly brushed and held back securely with a sleek claw clip at the back of the head, leaving delicate face-framing strands around the temples and loose shoulder-grazing ends with natural body'],
+  ['Sleek tightly brushed-back high ponytail with smooth crown & wavy neck-length ends', 'a sleek, tightly brushed-back high ponytail anchored high at the crown with a pristine smooth crown and zero flyaways, cascading into naturally gathered, slightly wavy ends that finish cleanly right at the nape of the neck']
 ]));
 
 addOptions(hairAccessories, makeOpts([
