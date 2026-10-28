@@ -490,7 +490,7 @@ const SHOT_FAMILIES = [
 ];
 
 const SCENE_FAMILIES = [
-  O('✦ All Locations (124 options)', 'all'),
+  O('✦ All Locations (159 options)', 'all'),
   O('📸 Studio Backdrops & Cycs (29 variations)', 'studio'),
   O('🌆 Urban Streets & Rooftops (24 variations)', 'urban'),
   O('🛋️ Luxury Interiors & Suites (18 variations)', 'luxury'),
@@ -586,7 +586,7 @@ function getItemCategory(id, item) {
 // SALON & BARBERSHOP STUDIO DATASETS
 // ==========================================
 const SALON_VENUE_CATEGORIES = [
-  O('✦ All Establishments (36 choices)', 'all'),
+  O('✦ All Establishments (52 choices)', 'all'),
   O('💈 Barber Shop (Traditional, street & modern barbershops)', 'barbershop'),
   O('✂️ Salon (Commercial, unisex, mall & luxury salons)', 'salon'),
   O('🪞 Parlour (Neighborhood, air-conditioned & market parlours)', 'parlour'),
@@ -636,7 +636,31 @@ const salonVenue = makeOpts([
   ['Private One-Chair Styling Studio', 'an intimate private studio with a single bespoke leather styling chair, acoustic wall panels, custom halo-lit mirror, and zero distractions'],
   ['Artisan Raw Concrete Hair Studio', 'a modern architectural hair studio featuring textured micro-cement walls, minimalist black iron stations, and sculptural lighting'],
   ['Garden Veranda Hair Studio', 'a peaceful semi-outdoor veranda studio with terracotta pavers, leafy palm fronds reflecting in mirrors, and gentle warm breeze'],
-  ['Underground Speakeasy Hair Studio', 'an intimate speakeasy-inspired studio with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance']
+  ['Underground Speakeasy Hair Studio', 'an intimate speakeasy-inspired studio with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance'],
+
+  // BARBER SHOPS EXPANSION
+  ['Old Delhi Chawri Bazaar Heritage Barber Shop', 'an authentic historic Old Delhi narrow lane barber shop with aged Burma teak framing, brass talcum shaker, ornate antique mirror reflecting passing cycle-rickshaws, and vintage revolving chrome chair'],
+  ['Mumbai Colaba Art Deco Barber Saloon', 'a 1930s Mumbai Art Deco barber saloon with seafoam-green mosaic tile floors, curved geometric mirrors, polished brass coat tree, and overhead slow revolving ceiling fan'],
+  ['Goan Portuguese-Villa Heritage Barber Shop', 'a breezy heritage Goan barber shop with whitewashed laterite stone walls, azure-blue wooden louvered shutters, terracotta floor tiles, and a vintage hydraulic leather chair'],
+  ['Railway Colony Express Barber Shop', 'a nostalgic Indian railway colony barber shop with mint-green enamel wainscoting, overhead slow-spinning ceiling fan, stainless steel scissor magnetic bar, and quiet midday hum'],
+
+  // SALONS EXPANSION
+  ['Bandra West Sunlit Bohemian Chic Salon', 'a trendy Mumbai Bandra West salon with fluted lime-wash plaster walls, arched brass vanity niches, natural rattan chairs, and warm filtered coastal daylight'],
+  ['Bangalore Indiranagar Biophilic Glasshouse Salon', 'an airy glass-roofed Bangalore salon filled with hanging fiddle-leaf figs and monstera vines, terrazzo floors, and minimalist natural ash-wood styling stations'],
+  ['New Delhi Mehrauli Heritage Courtyard Salon', 'a high-fashion salon situated in a historic Mehrauli sandstone courtyard, scalloped Mughal archways in soft focus, and modern minimalist halo mirrors'],
+  ['South Mumbai Victorian Stone Heritage Salon Suite', 'an exclusive salon suite inside a Victorian Gothic stone heritage building with 16-foot vaulted ceilings, arched leaded-glass windows, and plush emerald leather styling chairs'],
+
+  // PARLOURS EXPANSION
+  ['Kolkata North Heritage Marble-Top Parlour', 'a historic North Kolkata neighbourhood parlour with Belgian glass mirrors, marble-top vanity shelf, antique brass wall sconces, and gentle street chatter outside'],
+  ['Chennai Mylapore Traditional Brahmin Market Parlour', 'an authentic Mylapore temple-district parlour with brass oil lamp on the counter, fresh jasmine garland, polished red-oxide floors, and humming wall fan'],
+  ['Jaipur Pink City Johari Bazaar Parlour', 'a vibrant Pink City market parlour with terracotta-pink arched doorway, brass mirror frames, traditional block-print curtains, and energetic bazaar sounds'],
+  ['Pune Deccan Gymkhana Shaded Corner Parlour', 'a serene suburban Pune parlour shaded by ancient banyan trees, white tiled walls, vintage radio playing classic melodies, and comfortable reclining vinyl chairs'],
+
+  // HAIR STUDIOS EXPANSION
+  ['Goa Fontainhas Heritage Quarter Atelier', 'an artistic private hair studio in Fontainhas with ochre-yellow stucco facade, dark timber rafters, hand-painted Portuguese azulejo tiles, and a private garden patio'],
+  ['Kochi Fort Kochi Colonial Waterfront Studio', 'an airy waterfront studio in Fort Kochi with exposed Dutch brickwork, antique maritime brass lamps, and sea breeze through tall louvered casement windows'],
+  ['Himalayan Dehradun Pine Valley Retreat Studio', 'a serene mountain hair studio with knotty pine timber walls, panoramic valley views of mist-clad Himalayan hills, and a warm stone hearth'],
+  ['Rishikesh Riverside Zen Bamboo Studio', 'a tranquil riverside hair studio with split-bamboo screens, natural slate flooring, soft sound of flowing Ganga river water, and diffused mountain daylight']
 ]);
 
 const salonDesign = makeOpts([
@@ -1359,7 +1383,13 @@ const placeDetail = makeOpts([
   ['Brushed stainless steel work tables and vintage vanity cases', 'industrial stainless steel backstage makeup tables with organized cosmetic brushes, palettes, and mirrors'],
   ['Sculptural travertine coffee table with art monographs', 'a sculptural low-slung travertine stone coffee table topped with oversized fashion and architecture monographs'],
   ['Backlit frosted glass partition wall with soft diffused glow', 'an architectural floor-to-ceiling frosted glass screen glowing with diffused daylight from behind'],
-  ['Open-air stone balustrade with expansive horizon panorama', 'a classical carved stone balustrade overlooking an expansive panoramic horizon view']
+  ['Open-air stone balustrade with expansive horizon panorama', 'a classical carved stone balustrade overlooking an expansive panoramic horizon view'],
+  ['Sun-drenched teakwood balcony railing with climbing bougainvillea', 'leaning over a polished teak balcony railing entwined with vivid magenta bougainvillea blossoms, overlooking sun-washed courtyards'],
+  ['Raw board-formed concrete pillar with morning sunbeam slice', 'standing beside a massive board-formed architectural concrete pillar cut through by a sharp, warm morning sunbeam'],
+  ['Low minimalist travertine coffee table with art book and candle', 'a low rectangular travertine stone coffee table displaying an open hardbound art monograph and a minimalist stone candle'],
+  ['Scalloped marble jali screen casting geometric lace shadows', 'an intricately carved Mughal-style marble jali screen casting crisp, delicate geometric lace shadows across the floor and walls'],
+  ['Industrial black crittall grid window with city rain streaks', 'tall industrial steel crittall grid window panes with delicate rain droplet trails reflecting soft diffused city lights'],
+  ['Aged brass bar cart with crystal decanters in amber shadow', 'an elegant vintage polished brass bar cart with crystal fluted decanters catching warm amber light in the corner']
 ]);
 
 const malePresenceOpts = makeOpts([
@@ -1860,7 +1890,62 @@ addOptions(background, makeOpts([
   ['Steamy thermal spa pool with volcanic stone', 'a steamy natural thermal spa pool with mist rising off warm water against dark volcanic stone'],
   ['Private yacht swim platform', 'a sun-drenched teak swim platform of a private yacht with crystal-clear turquoise sea caustics'],
   ['Architectural indoor lap pool with limestone', 'a minimalist architectural indoor lap pool with smooth grey limestone and still water reflections'],
-  ['Drenched seaside rocky cove at dusk', 'a dramatic seaside rocky cove with ocean spray and wet dark basalt boulders at dusk']
+  ['Drenched seaside rocky cove at dusk', 'a dramatic seaside rocky cove with ocean spray and wet dark basalt boulders at dusk'],
+
+  // Heritage Havelis & Palaces Expansion
+  ['Jodhpur Umaid Bhawan Palace Art Deco sandstone terrace', 'an imposing golden sandstone palace terrace in Jodhpur overlooking royal courtyards, sweeping monumental steps, and warm desert horizon'],
+  ['Jaipur City Palace courtyard with peacock gate', 'a vibrant historic royal courtyard in Jaipur with intricate hand-painted enamel peacock archways and pale pink scalloped corridors'],
+  ['Chettinad heritage mansion with Burma teak pillars & Athangudi tiles', 'an expansive South Indian heritage mansion courtyard with massive polished Burma teak pillars and glossy geometric Athangudi floor tiles'],
+  ['Kashmir Dal Lake royal house-boat salon with walnut carvings', 'an opulent heritage Kashmiri cedarwood boathouse salon with hand-carved walnut wall lattices and morning lake mist'],
+
+  // Aquatic Pools & Coastal Expansion
+  ['Sun-drenched Goan private pool villa with laterite stone', 'a private coastal villa in North Goa with a turquoise plunge pool bordered by warm laterite stone and swaying coconut palm reflections'],
+  ['Santorini cliffside whitewashed infinity pool at blue hour', 'a breathtaking Greek Aegean cliffside infinity pool carved into volcanic rock, deep twilight blue sky and tranquil water reflections'],
+  ['Private superyacht aft deck with teak loungers and ocean wake', 'a sleek luxury yacht aft deck with polished teak planking, stainless steel railings, and glistening turquoise ocean wake'],
+  ['Boutique riad plunge pool courtyard with emerald zellij tiles', 'an intimate Moroccan riad courtyard with an emerald-green zellij mosaic plunge pool, floating white jasmine blossoms, and sunbeam shafts'],
+
+  // Luxury Nightlife & Speakeasies Expansion
+  ['Tokyo Ginza subterranean cocktail lounge with smoky amber backlighting', 'an exclusive underground Ginza cocktail bar with dark polished hinoki wood counter, smoky amber glass bottles, and sultry low-light intimacy'],
+  ['Mumbai Lower Parel rooftop sky lounge overlooking sea link', 'a glamorous open-air rooftop sky lounge with glowing ambient glass bar, plush charcoal velvet banquettes, and distant glittering bridge lights'],
+  ['Mayfair London private members club velvet salon', 'an opulent British private club lounge with oxblood velvet upholstery, dark mahogany wainscoting, and warm glowing bankers lamps'],
+  ['Parisian subterranean jazz club with arched stone vaults', 'an intimate Left Bank jazz cellar with rough-hewn limestone vaulted ceilings, low cabaret tables, and soft warm spotlighting'],
+
+  // Runways & Backstages Expansion
+  ['Milan Fashion Week high-gloss black mirrored catwalk', 'a high-editorial runway with high-gloss black lacquer runway floor reflecting strobe flashes, minimalist white lighting scrims, and blurred front row'],
+  ['Paris Haute Couture grand Palais glass atrium runway', 'a monumental glass-domed runway space filled with diffused pale daylight, polished white runway floor, and architectural steel arches'],
+  ['Backstage quick-change area with clothes racks and warm clip lights', 'an energetic fashion week backstage bustling with metallic garment racks, designer moodboards pinned to cork, and focused clip lights'],
+
+  // Salons & Hair Studios Expansion
+  ['Luxury duplex hair atelier with floating backlit glass mirrors', 'a high-end designer hair salon spanning two open floors, with floating frameless mirrors, pale travertine stations, and professional ring lights'],
+  ['Backstage celebrity hair & makeup trailer with illuminated vanity', 'an intimate luxury production trailer setup with chrome styling chair, Hollywood bulb mirror frame, and professional haircare bottles'],
+  ['Soho loft hair laboratory with bespoke oak workstations', 'a boutique New York hair salon with exposed brick, bespoke blackened-steel and white-oak cutting stations, and abundant diffused northern light'],
+
+  // Exotic Nature, Botanical & Dunes Expansion
+  ['Rajasthan Thar desert golden sand dunes at sunset', 'pristine sweeping wind-sculpted sand dunes glowing in deep saffron and amber twilight, with dramatic sharp-edge shadow ridges'],
+  ['Kerala backwaters shaded palm grove on tranquil canals', 'a serene palm-fringed canal bank in Alleppey with emerald-green water reflections, dappled tropical light, and traditional wooden canoes in soft focus'],
+  ['Alpine wildflower meadow with distant snowcapped peaks', 'a vibrant high-altitude meadow blooming with mountain flora under crisp, clear sunlight with blue mountain silhouettes'],
+  ['Kyoto Arashiyama bamboo grove with morning sunbeams', 'towering emerald bamboo stalks filtering vertical rays of soft morning light onto a moss-carpeted earthen footpath'],
+
+  // Modernist Architecture & Museums Expansion
+  ['Chandigarh Le Corbusier raw concrete pavilion with geometric cutouts', 'an iconic modernist monument with textured board-marked concrete, sculptural shadows, and monumental geometric windows'],
+  ['Museum of Contemporary Art soaring spiral concrete ramp', 'an architectural masterpiece featuring a sweeping curving white spiral ramp, overhead circular skylight, and pristine spatial clarity'],
+  ['Travertine stone colonnade overlooking reflecting basin', 'monumental pale beige travertine stone columns with crisp linear shadows cast across a mirror-still shallow water pool'],
+  ['Minimalist concrete loft with 20-foot glass walls & city view', 'an expansive double-height urban loft with polished concrete floors, minimalist floating staircase, and floor-to-ceiling glass'],
+
+  // Luxury Interiors & Suites Expansion
+  ['Art Deco presidential penthouse with curved panoramic windows', 'a grand luxury penthouse suite featuring dark fluted wood, custom brass bar cart, geometric floor rugs, and breathtaking skyline vistas'],
+  ['Venetian canal palazzo grand salon with Murano chandelier', 'an authentic Venetian palazzo room with high beamed ceilings, terrazzo alla veneziana floors, tall gothic arched windows, and soft canal reflections'],
+  ['Contemporary Mumbai sea-facing apartment balcony with sunset view', 'a high-floor sea-facing apartment with white marble terrace floor, glass balustrade, and the glowing Arabian Sea at dusk'],
+
+  // Urban Streets & Rooftops Expansion
+  ['Colaba Mumbai heritage street with colonial stone facades', 'a vibrant, tree-shaded South Mumbai avenue flanked by yellow basalt colonial architecture, vintage street lamps, and dappled sunlight'],
+  ['SoHo Manhattan cobblestone street with cast-iron fire escapes', 'classic New York cobblestone street during golden hour, with historic black fire escapes, warm brick facades, and soft atmospheric haze'],
+  ['London Mayfair mews street with pastel townhouses & black railings', 'a charming cobblestone mews street with pastel-painted brick townhouses, blooming window boxes, and classic British character'],
+
+  // Studio Backdrops & Cycs Expansion
+  ['Warm sandstone lime-wash textured studio backdrop', 'a tactile lime-wash painted studio wall in warm desert sandstone tones, creating organic micro-textures and subtle shadow gradient'],
+  ['Deep emerald velvet infinity drape with soft puddling', 'a luxurious heavy emerald-green velvet backdrop falling in deep sculptural folds with soft puddles on the dark studio floor'],
+  ['Two-tone architectural studio set with curved partition wall', 'a bespoke photo studio set featuring a curving pastel peach partition wall against a matte charcoal floor sweep']
 ]));
 
 addOptions(lighting, makeOpts([

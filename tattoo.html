@@ -164,13 +164,13 @@ const tattooHairStylings = makeOpts([
 // ==========================================
 
 const tattooLocationCategories = [
-  O('✦ All Shoot Locations (29 options)', 'all'),
-  O('🖋️ Boutique Tattoo Studios & Lofts (5 options)', 'studio'),
-  O('🏛️ Luxury Suites, Havelis & Villas (5 options)', 'luxury'),
-  O('🌊 Coastal, Oceanfront & Poolside (5 options)', 'coastal'),
-  O('🌿 Botanical Conservatories & Groves (5 options)', 'nature'),
-  O('🍸 Urban Rooftops, Speakeasies & Terraces (5 options)', 'urban'),
-  O('🛏️ Intimate Minimalist Morning Light (4 options)', 'minimal')
+  O('✦ All Shoot Locations (47 options)', 'all'),
+  O('🖋️ Boutique Tattoo Studios & Lofts (8 options)', 'studio'),
+  O('🏛️ Luxury Suites, Havelis & Villas (8 options)', 'luxury'),
+  O('🌊 Coastal, Oceanfront & Poolside (8 options)', 'coastal'),
+  O('🌿 Botanical Conservatories & Groves (8 options)', 'nature'),
+  O('🍸 Urban Rooftops, Speakeasies & Terraces (8 options)', 'urban'),
+  O('🛏️ Intimate Minimalist Morning Light (7 options)', 'minimal')
 ];
 
 const tattooLocations = makeOpts([
@@ -213,7 +213,37 @@ const tattooLocations = makeOpts([
   ['Sun-drenched bedroom with rumpled white linen sheets', 'an intimate minimalist bedroom flooded with soft morning sunlight, featuring rumpled crisp white organic linen sheets and sheer linen curtains', '', 'minimal'],
   ['Freestanding stone soaking tub in sunlit master bathroom', 'a luxury spa-like master bathroom with a sculptural freestanding matte-stone soaking tub, pale limestone walls, and diffused natural window light', '', 'minimal'],
   ['Minimalist living space with low floor cushion & tatami', 'a serene minimalist Japanese-inspired living space with a low linen floor cushion, tatami texture, and soft natural daylight through paper screens', '', 'minimal'],
-  ['Quiet private study with floor-to-ceiling oak bookshelves', 'an intimate private library with floor-to-ceiling dark oak bookshelves, a vintage brown leather chaise lounge, and soft afternoon window light', '', 'minimal']
+  ['Quiet private study with floor-to-ceiling oak bookshelves', 'an intimate private library with floor-to-ceiling dark oak bookshelves, a vintage brown leather chaise lounge, and soft afternoon window light', '', 'minimal'],
+
+  // Boutique Studios & Industrial Lofts Expansion
+  ['Berlin Kreuzberg sun-faded industrial loft tattoo studio', 'a spacious Kreuzberg artist loft with high arched brick windows streaming cool daylight, whitewashed brick walls, cast-iron radiators, and worn timber workbenches with stainless steel Mayo trays', '', 'studio'],
+  ['London Shoreditch brick studio with crittall steel windows', 'an authentic Shoreditch tattoo atelier with black crittall steel-framed glass windows, dark exposed brick, vintage leather dentist chair, and warm brass task lamps', '', 'studio'],
+  ['Kyoto artisan machiya townhouse studio with garden view', 'a quiet historic Kyoto machiya wooden townhouse studio with cedar wood beams, sliding washi paper screens, and a serene moss courtyard garden visible beyond', '', 'studio'],
+
+  // Luxury Suites, Havelis & Villas Expansion
+  ['Udaipur Lake Palace marble pavilion overlooking serene waters', 'an exquisite white marble pavilion at Lake Pichola in Udaipur, with scalloped archways, delicate jali stone screens, and glistening water reflections at dawn', '', 'luxury'],
+  ['Art Deco Parisian penthouse suite with curved glass walls', 'a lavish 1930s Art Deco penthouse in Paris with curved floor-to-ceiling glass walls, polished brass inlay in dark oak parquet, and sweeping views of the Seine', '', 'luxury'],
+  ['Florence Renaissance palazzo with frescoed ceilings & stone loggia', 'a historic Florentine palazzo salon with vaulted frescoed ceilings, antique stone fireplace, tall open loggia overlooking terracotta rooftops, and warm golden light', '', 'luxury'],
+
+  // Coastal, Oceanfront & Poolside Expansion
+  ['Amalfi coast sunlit lemon grove terrace over the sea', 'a sun-drenched private cliffside stone terrace in Positano shaded by fragrant lemon trellises, overlooking the deep sapphire Mediterranean sea far below', '', 'coastal'],
+  ['Santorini whitewashed cave suite with private plunge pool', 'an intimate whitewashed volcanic cave suite in Oia, with smooth sculptural lime-plaster walls, private turquoise plunge pool, and caldera views under Aegean sunlight', '', 'coastal'],
+  ['Big Sur coastal headlands with dramatic ocean mist', 'a secluded private redwood timber deck perched high on the Big Sur cliffs, with coastal sea mist rolling over wild sagebrush and distant Pacific surf crashing below', '', 'coastal'],
+
+  // Botanical Conservatories & Groves Expansion
+  ['Kyoto Arashiyama bamboo forest path with dappled morning rays', 'a secluded path deep within a towering green bamboo forest grove, with morning sunbeams angling through tall emerald stalks and gentle mist hovering over the earth', '', 'nature'],
+  ['English country estate conservatory with climbing jasmine', 'a vintage glasshouse conservatory in the Cotswolds filled with fragrant climbing star jasmine, aged terracotta urns, stone flagstones, and filtered natural greenhouse light', '', 'nature'],
+  ['Icelandic volcanic moss glade with thermal steam plumes', 'a dramatic Icelandic highland setting with vibrant emerald moss covering dark volcanic basalt, distant geothermal steam vents, and clean, cool Nordic daylight', '', 'nature'],
+
+  // Urban Rooftops, Speakeasies & Terraces Expansion
+  ['Tribeca cobblestone fire-escape balcony with cast-iron framing', 'a low-angle urban perspective from a historic Tribeca black wrought-iron fire escape, framing weathered red brick masonry, cobblestone street below, and soft afternoon sky', '', 'urban'],
+  ['Seoul Seongsu-dong rooftop greenhouse cafe at twilight', 'a trendy industrial rooftop glasshouse in Seoul at blue hour, with hanging ambient fairy bulbs, steel planters, and panoramic neon metropolis skyline', '', 'urban'],
+  ['London South Bank brutalist terrace overlooking Thames', 'a dramatic board-formed concrete terrace along the Thames, with crisp architectural geometry, open overcast sky, and the London river skyline in soft focus', '', 'urban'],
+
+  // Intimate Minimalist Morning Light Expansion
+  ['Modern Scandinavian birch-and-linen morning reading room', 'a serene Nordic interior with pale birch wall paneling, natural oat-colored linen upholstery, floor-to-ceiling sheer curtains, and pure, soft, diffused morning daylight', '', 'minimal'],
+  ['Sunlit concrete artist atelier with raw linen canvases', 'a high-ceilinged minimalist artist studio with raw plastered concrete walls, oversized stretched linen canvases leaning against walls, and pools of warm morning sunlight on pine floors', '', 'minimal'],
+  ['Kyoto ryokan tatami room opening onto rain-washed moss garden', 'an authentic Japanese ryokan room with fragrant woven tatami mats, low cypress timber table, open sliding shoji doors, and quiet rain droplets falling on garden stones outside', '', 'minimal']
 ]);
 
 // ==========================================

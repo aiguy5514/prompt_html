@@ -529,7 +529,7 @@ function getItemCategory(id, item) {
 // SALON & BARBERSHOP STUDIO DATASETS
 // ==========================================
 const SALON_VENUE_CATEGORIES = [
-  O('✦ All Establishments (36 choices)', 'all'),
+  O('✦ All Establishments (52 choices)', 'all'),
   O('💈 Barber Shop (Traditional, street & modern barbershops)', 'barbershop'),
   O('✂️ Salon (Commercial, unisex, mall & luxury salons)', 'salon'),
   O('🪞 Parlour (Neighborhood, air-conditioned & market parlours)', 'parlour'),
@@ -579,7 +579,31 @@ const salonVenue = makeOpts([
   ['Private One-Chair Styling Studio', 'an intimate private studio with a single bespoke leather styling chair, acoustic wall panels, custom halo-lit mirror, and zero distractions'],
   ['Artisan Raw Concrete Hair Studio', 'a modern architectural hair studio featuring textured micro-cement walls, minimalist black iron stations, and sculptural lighting'],
   ['Garden Veranda Hair Studio', 'a peaceful semi-outdoor veranda studio with terracotta pavers, leafy palm fronds reflecting in mirrors, and gentle warm breeze'],
-  ['Underground Speakeasy Hair Studio', 'an intimate speakeasy-inspired studio with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance']
+  ['Underground Speakeasy Hair Studio', 'an intimate speakeasy-inspired studio with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance'],
+
+  // BARBER SHOPS EXPANSION
+  ['Old Delhi Chawri Bazaar Heritage Barber Shop', 'an authentic historic Old Delhi narrow lane barber shop with aged Burma teak framing, brass talcum shaker, ornate antique mirror reflecting passing cycle-rickshaws, and vintage revolving chrome chair'],
+  ['Mumbai Colaba Art Deco Barber Saloon', 'a 1930s Mumbai Art Deco barber saloon with seafoam-green mosaic tile floors, curved geometric mirrors, polished brass coat tree, and overhead slow revolving ceiling fan'],
+  ['Goan Portuguese-Villa Heritage Barber Shop', 'a breezy heritage Goan barber shop with whitewashed laterite stone walls, azure-blue wooden louvered shutters, terracotta floor tiles, and a vintage hydraulic leather chair'],
+  ['Railway Colony Express Barber Shop', 'a nostalgic Indian railway colony barber shop with mint-green enamel wainscoting, overhead slow-spinning ceiling fan, stainless steel scissor magnetic bar, and quiet midday hum'],
+
+  // SALONS EXPANSION
+  ['Bandra West Sunlit Bohemian Chic Salon', 'a trendy Mumbai Bandra West salon with fluted lime-wash plaster walls, arched brass vanity niches, natural rattan chairs, and warm filtered coastal daylight'],
+  ['Bangalore Indiranagar Biophilic Glasshouse Salon', 'an airy glass-roofed Bangalore salon filled with hanging fiddle-leaf figs and monstera vines, terrazzo floors, and minimalist natural ash-wood styling stations'],
+  ['New Delhi Mehrauli Heritage Courtyard Salon', 'a high-fashion salon situated in a historic Mehrauli sandstone courtyard, scalloped Mughal archways in soft focus, and modern minimalist halo mirrors'],
+  ['South Mumbai Victorian Stone Heritage Salon Suite', 'an exclusive salon suite inside a Victorian Gothic stone heritage building with 16-foot vaulted ceilings, arched leaded-glass windows, and plush emerald leather styling chairs'],
+
+  // PARLOURS EXPANSION
+  ['Kolkata North Heritage Marble-Top Parlour', 'a historic North Kolkata neighbourhood parlour with Belgian glass mirrors, marble-top vanity shelf, antique brass wall sconces, and gentle street chatter outside'],
+  ['Chennai Mylapore Traditional Brahmin Market Parlour', 'an authentic Mylapore temple-district parlour with brass oil lamp on the counter, fresh jasmine garland, polished red-oxide floors, and humming wall fan'],
+  ['Jaipur Pink City Johari Bazaar Parlour', 'a vibrant Pink City market parlour with terracotta-pink arched doorway, brass mirror frames, traditional block-print curtains, and energetic bazaar sounds'],
+  ['Pune Deccan Gymkhana Shaded Corner Parlour', 'a serene suburban Pune parlour shaded by ancient banyan trees, white tiled walls, vintage radio playing classic melodies, and comfortable reclining vinyl chairs'],
+
+  // HAIR STUDIOS EXPANSION
+  ['Goa Fontainhas Heritage Quarter Atelier', 'an artistic private hair studio in Fontainhas with ochre-yellow stucco facade, dark timber rafters, hand-painted Portuguese azulejo tiles, and a private garden patio'],
+  ['Kochi Fort Kochi Colonial Waterfront Studio', 'an airy waterfront studio in Fort Kochi with exposed Dutch brickwork, antique maritime brass lamps, and sea breeze through tall louvered casement windows'],
+  ['Himalayan Dehradun Pine Valley Retreat Studio', 'a serene mountain hair studio with knotty pine timber walls, panoramic valley views of mist-clad Himalayan hills, and a warm stone hearth'],
+  ['Rishikesh Riverside Zen Bamboo Studio', 'a tranquil riverside hair studio with split-bamboo screens, natural slate flooring, soft sound of flowing Ganga river water, and diffused mountain daylight']
 ]);
 
 const salonDesign = makeOpts([
