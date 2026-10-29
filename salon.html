@@ -747,7 +747,15 @@ const salonStoolModelPosture = makeOpts([
   ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool'],
   ['Turned sideways looking away with hand touching temple', 'turned sideways on the stool looking away from the camera and mirror, raising one hand to her hairline to shield her face from view while the barber details her silhouette'],
   ['Turned away in profile with hair falling forward hiding face', 'turned sideways facing away into the salon background with hair falling forward and shielding her face completely from the lens'],
-  ['Turned sideways on stool looking away from camera', 'turned sideways on the low stool looking away from the camera and mirror into the shop, head angled away so her face is not visible to the lens, retaining her natural hair while the barber works']
+  ['Turned sideways on stool looking away from camera', 'turned sideways on the low stool looking away from the camera and mirror into the shop, head angled away so her face is not visible to the lens, retaining her natural hair while the barber works'],
+  ['Turned sideways in barber chair with arm draped over backrest', 'seated sideways across the hydraulic barber chair with draped cape, one arm resting casually along the chair backrest while her head turns away toward the salon window'],
+  ['Flush sideways profile gazing away while barber snips side layer', 'sitting upright in clean lateral profile looking away into the shop, keeping her head turned steadily away as the male barber detail-snips the perimeter line along her ear tuck'],
+  ['Turned sideways on stool with hands clasped quietly on lap', 'turned sideways on the low wooden stool with hands resting calmly under the voluminous cutting cape, head angled away into the background enjoying the ambient salon sound'],
+  ['Turned sideways leaning against chair armrest gazing past mirror', 'relaxing sideways into the contoured leather chair, shoulder leaning against the padded armrest, head turned away from the mirror gazing toward the bustling shop floor'],
+  ['Sideways profile looking into distance as barber combs neckline', 'seated sideways in profile looking out toward the salon entrance, holding natural still posture while the barber stands behind with black comb detailing her neckline'],
+  ['Turned sideways on stool with chin angled away toward lap', 'seated sideways on the small stool with torso turned away, chin tilted slightly down and away from the lens, hands resting comfortably under the cape in a candid salon pause'],
+  ['Turned sideways observing neighboring styling station', 'seated sideways in the barber chair draped in cape, head angled away to casually watch the barber at the neighboring styling station, revealing her clean side jawline and ear contour'],
+  ['Turned sideways on stool resting side of chin on knuckles', 'turned sideways on the low stool with draped cape, resting the side of her chin lightly on bent knuckles while gazing away into the salon interior, face turned away from the camera']
 ]);
 
 const salonCape = makeOpts([
@@ -3875,9 +3883,9 @@ function buildSalonPrompt(){
   const salonStoolPostStr = (salonStoolPostObj?.label || '') + ' ' + (stoolPostVal || '');
   const salonStageObj = values['salonStage'];
   const salonStageStr = (salonStageObj?.label || '') + ' ' + (stageForDetection || '');
-  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonCamStr) ||
-                       (isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonStoolPostStr)) ||
-                       (!isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonStageStr));
+  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(salonCamStr) ||
+                       (/shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(salonStoolPostStr)) ||
+                       (/shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(salonStageStr));
 
   // Header / Subject preservation
   lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
