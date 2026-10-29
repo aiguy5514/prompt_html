@@ -746,7 +746,8 @@ const salonStoolModelPosture = makeOpts([
   ['Head tilted softly downward admiring haircut in cape reflection', 'head tilted softly downward with eyes glancing at the fallen hair clippings on the draped cape, in a quiet, contemplative candid moment'],
   ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool'],
   ['Turned sideways looking away with hand touching temple', 'turned sideways on the stool looking away from the camera and mirror, raising one hand to her hairline to shield her face from view while the barber details her silhouette'],
-  ['Turned away in profile with hair falling forward hiding face', 'turned sideways facing away into the salon background with hair falling forward and shielding her face completely from the lens']
+  ['Turned away in profile with hair falling forward hiding face', 'turned sideways facing away into the salon background with hair falling forward and shielding her face completely from the lens'],
+  ['Turned sideways on stool looking away from camera', 'turned sideways on the low stool looking away from the camera and mirror into the shop, head angled away so her face is not visible to the lens, retaining her natural hair while the barber works']
 ]);
 
 const salonCape = makeOpts([
@@ -857,7 +858,8 @@ const salonCamera = makeOpts([
   ['Profile shot through hanging salon plants and vintage glass', 'an atmospheric peek-through composition shot through hanging salon greenery and vintage ribbed glass partitions framing the chair'],
   ['Ultra-close macro on blow-dry round brush tension', 'a tight macro shot on the bristles of a ceramic round brush lifting hair at the roots under the concentrated airflow of the dryer nozzle'],
   ['Sideways angle: client looking away with hand shielding face', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape'],
-  ['Side-profile turned away with hair concealing face', 'a side-profile camera angle capturing the client turned sideways facing away into the salon background, with her hair naturally falling forward to fully obscure her face from the lens, focusing on her haircut perimeter and cape drape with zero facial exposure']
+  ['Side-profile turned away with hair concealing face', 'a side-profile camera angle capturing the client turned sideways facing away into the salon background, with her hair naturally falling forward to fully obscure her face from the lens, focusing on her haircut perimeter and cape drape with zero facial exposure'],
+  ['Sideways angle: client turned looking away into shop', 'a side-angle camera perspective capturing the client turned sideways looking away from the camera into the salon background, her head angled away so her face is not visible to the lens, retaining her natural hairstyle and focusing on her haircut perimeter, hair texture, and draped cape with zero facial exposure']
 ]);
 
 const salonLighting = makeOpts([
@@ -3867,9 +3869,9 @@ function buildSalonPrompt(){
   const salonStoolPostStr = (salonStoolPostObj?.label || '') + ' ' + (stoolPostVal || '');
   const salonStageObj = values['salonStage'];
   const salonStageStr = (salonStageObj?.label || '') + ' ' + (stageForDetection || '');
-  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonCamStr) ||
-                       (isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStoolPostStr)) ||
-                       (!isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStageStr));
+  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonCamStr) ||
+                       (isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonStoolPostStr)) ||
+                       (!isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonStageStr));
 
   if(subjectRef && styleRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE');
@@ -3918,7 +3920,7 @@ function buildSalonPrompt(){
 
   if(isFaceHidden){
     lines.push('FACE CONCEALMENT & OCCLUSION:');
-    lines.push('• The female client is turned sideways looking away from the camera with her face completely hidden and shielded from view (by her raised hand near temple/forehead or hair falling forward naturally). Zero facial features or direct facial exposure are visible to the lens; the photographic composition focuses purely on her haircut perimeter, hair texture, neckline silhouette, and salon atmosphere.');
+    lines.push('• The female client is turned sideways looking away from the camera with her face not visible to the lens (head angled away into the salon background or shielded from view). Zero facial features or direct facial exposure are visible to the lens; the model retains her natural hair styling while the photographic composition focuses purely on her haircut perimeter, hair texture, neckline silhouette, and salon atmosphere.');
     lines.push('');
   }
 

@@ -146,7 +146,8 @@ const angle=[O('Eye-level candid angle','an eye-level candid camera angle'),O('S
   O('Three-quarter rear angle capturing hair silhouette & rim','a three-quarter rear camera angle focusing on hair silhouette, neck curvature, and delicate rim lighting'),
   O('Slight downward 15-degree fashion catalogue angle','a classic high-fashion catalogue angle angled 15 degrees downward with clean, flattering geometry'),
   O('Sideways looking away - face hidden by hand', 'a side-profile camera angle where the model is turned sideways looking away from the scene, her face completely obscured and shielded from view by her raised hand touching her temple/forehead, keeping her facial features entirely hidden while highlighting her silhouette, hair volume, and wardrobe styling'),
-  O('Sideways looking away - face concealed by hair & direction', 'a side-angle camera perspective capturing the model turned sideways facing away into the background/distance, her head turned away and thick hair falling forward naturally to completely obscure her face from the lens, with zero facial features visible')];
+  O('Sideways looking away - face concealed by hair & direction', 'a side-angle camera perspective capturing the model turned sideways facing away into the background/distance, her head turned away and thick hair falling forward naturally to completely obscure her face from the lens, with zero facial features visible'),
+  O('Sideways looking away - model turned away into distance', 'a side-profile camera angle where the model is turned sideways looking away from the camera into the distance, her head angled away from the lens so her face is not visible, maintaining her natural hairstyle and drawing focus to her posture, shoulder line, and wardrobe silhouette')];
 const lens=[O('Natural 50mm DSLR look','a natural 50mm DSLR lens perspective'),O('85mm portrait look','an 85mm portrait lens look with soft background separation'),O('35mm environmental look','a 35mm environmental portrait look with a lived-in sense of space'),O('Smartphone candid look','a high-quality smartphone camera look with realistic computational detail'),O('Classic 70mm fashion look','a classic 70mm fashion portrait perspective'),O('Natural uncompressed perspective','a natural perspective without exaggerated wide-angle distortion'),O('Classic 105mm telephoto look','a classic 105mm telephoto portrait perspective with natural background compression'),O('Wide 24mm environmental look','a wide 24mm environmental perspective with realistic foreground context'),O('Crisp editorial detail','crisp editorial detail with natural optical falloff'),
   O('Hasselblad 100mm f/2.2 medium-format prime','a Hasselblad 100mm f/2.2 medium-format portrait prime look with ultra-creamy background melt and 3D subject pop'),
   O('105mm f/1.4 Art prime (tack-sharp eyes & creamy bokeh)','a 105mm f/1.4 prime lens perspective with razor-sharp focus on the iris and dreamlike buttery background falloff'),
@@ -806,7 +807,8 @@ const salonStoolModelPosture = makeOpts([
   ['Head tilted softly downward admiring haircut in cape reflection', 'head tilted softly downward with eyes glancing at the fallen hair clippings on the draped cape, in a quiet, contemplative candid moment'],
   ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool'],
   ['Turned sideways looking away with hand touching temple', 'turned sideways on the stool looking away from the camera and mirror, raising one hand to her hairline to shield her face from view while the barber details her silhouette'],
-  ['Turned away in profile with hair falling forward hiding face', 'turned sideways facing away into the salon background with hair falling forward and shielding her face completely from the lens']
+  ['Turned away in profile with hair falling forward hiding face', 'turned sideways facing away into the salon background with hair falling forward and shielding her face completely from the lens'],
+  ['Turned sideways on stool looking away from camera', 'turned sideways on the low stool looking away from the camera and mirror into the shop, head angled away so her face is not visible to the lens, retaining her natural hair while the barber works']
 ]);
 
 const salonCape = makeOpts([
@@ -873,7 +875,8 @@ const salonCamera = makeOpts([
   ['Behind-the-chair portrait showing handheld mirror angle', 'a candid perspective from behind the chair showing the male barber holding up an oval handheld mirror framing the back of the client\'s new haircut'],
   ['Street-level documentary view through the shop doorway', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within'],
   ['Sideways angle: client looking away with hand shielding face', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape'],
-  ['Side-profile turned away with hair concealing face', 'a side-profile camera angle capturing the client turned sideways facing away into the salon background, with her hair naturally falling forward to fully obscure her face from the lens, focusing on her haircut perimeter and cape drape with zero facial exposure']
+  ['Side-profile turned away with hair concealing face', 'a side-profile camera angle capturing the client turned sideways facing away into the salon background, with her hair naturally falling forward to fully obscure her face from the lens, focusing on her haircut perimeter and cape drape with zero facial exposure'],
+  ['Sideways angle: client turned looking away into shop', 'a side-angle camera perspective capturing the client turned sideways looking away from the camera into the salon background, her head angled away so her face is not visible to the lens, retaining her natural hairstyle and focusing on her haircut perimeter, hair texture, and draped cape with zero facial exposure']
 ]);
 
 const salonLighting = makeOpts([
@@ -1876,7 +1879,8 @@ addOptions(pose, makeOpts([
   ['Standing with chin tilted down and subtle side angle', 'standing with chin tilted down toward her chest, angled slightly three-quarter to reveal the nape, neckline, and shoulder contour'],
   ['Leaning forward over balcony railing, head tilted down', 'leaning forward over a railing with elbows resting on the ledge, head tilted down watching the scene below'],
   ['Turned sideways looking away with hand shielding face', 'turned sideways in profile looking away from the camera, with one hand casually raised to her temple or forehead to naturally shield her face so her facial features are not visible, emphasizing her posture, hair, and styling'],
-  ['Turned away in side-profile with hair completely hiding face', 'standing in side-profile turned away from the camera looking into the distant background, her thick hair naturally falling forward and shielding her face so it is completely occluded from the lens']
+  ['Turned away in side-profile with hair completely hiding face', 'standing in side-profile turned away from the camera looking into the distant background, her thick hair naturally falling forward and shielding her face so it is completely occluded from the lens'],
+  ['Turned sideways in profile looking away from camera', 'standing or seated turned sideways in profile looking away from the camera into the distance, head angled away so her face is not visible to the lens, maintaining her natural hair styling and poised posture']
 ]));
 
 addOptions(gesture, makeOpts([
@@ -4144,9 +4148,9 @@ function buildSalonPrompt(){
   const salonStoolPostStr = (salonStoolPostObj?.label || '') + ' ' + (stoolPostVal || '');
   const salonStageObj = values['salonStage'];
   const salonStageStr = (salonStageObj?.label || '') + ' ' + (stageForDetection || '');
-  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonCamStr) ||
-                       (isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStoolPostStr)) ||
-                       (!isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStageStr));
+  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonCamStr) ||
+                       (isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonStoolPostStr)) ||
+                       (!isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(salonStageStr));
 
   if(subjectRef && styleRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE');
@@ -4584,10 +4588,10 @@ const angleStr = (angleObj?.label || '') + ' ' + (val('angle') || '');
 const poseStr = (poseObj?.label || '') + ' ' + (val('pose') || '');
 const gestStr = (gestObj?.label || '') + ' ' + (val('gesture') || '');
 const gazeStr = (gazeObj?.label || '') + ' ' + (val('gaze') || '');
-const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(angleStr) ||
-                     /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(poseStr) ||
-                     /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(gestStr) ||
-                     /face.*hidden|hid\w*.*face/i.test(gazeStr);
+const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(angleStr) ||
+                     /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(poseStr) ||
+                     /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away/i.test(gestStr) ||
+                     /face.*hidden|hid\w*.*face|face.*not visible/i.test(gazeStr);
 const checks=[];
 if(checkState.identity){
   if(isFaceHidden){
@@ -4779,7 +4783,7 @@ if(hasMalePresence){
 lines.push('');
 if(isFaceHidden){
   lines.push('FACE CONCEALMENT & OCCLUSION');
-  lines.push('• Face concealment directive: The model is turned sideways looking away from the camera with her face completely hidden and shielded from view (by her raised hand near temple/forehead or thick hair falling forward naturally). Zero direct facial features, eyes, or front profile are visible to the lens. Direct the optical focus entirely to her hairstyle, silhouette, wardrobe styling, posture, and environmental composition.');
+  lines.push('• Face concealment directive: The model is turned sideways looking away from the camera with her face not visible to the lens (head angled away looking into the scene or shielded from view). Zero direct facial features, eyes, or front profile are visible to the lens; she retains her natural hair styling while the optical focus is directed entirely to her haircut silhouette, posture, wardrobe styling, and environmental composition.');
   lines.push('');
 }
 
