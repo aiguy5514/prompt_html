@@ -144,7 +144,9 @@ const angle=[O('Eye-level candid angle','an eye-level candid camera angle'),O('S
   O('Floor-grazing low-profile camera angle','a floor-grazing camera angle shooting just above ground level for an immersive, modern street editorial feel'),
   O('Worm\'s-eye perspective looking dramatically upward','a dramatic worm\'s-eye perspective looking sharply upward against the ceiling or sky'),
   O('Three-quarter rear angle capturing hair silhouette & rim','a three-quarter rear camera angle focusing on hair silhouette, neck curvature, and delicate rim lighting'),
-  O('Slight downward 15-degree fashion catalogue angle','a classic high-fashion catalogue angle angled 15 degrees downward with clean, flattering geometry')];
+  O('Slight downward 15-degree fashion catalogue angle','a classic high-fashion catalogue angle angled 15 degrees downward with clean, flattering geometry'),
+  O('Sideways looking away - face hidden by hand', 'a side-profile camera angle where the model is turned sideways looking away from the scene, her face completely obscured and shielded from view by her raised hand touching her temple/forehead, keeping her facial features entirely hidden while highlighting her silhouette, hair volume, and wardrobe styling'),
+  O('Sideways looking away - face concealed by hair & direction', 'a side-angle camera perspective capturing the model turned sideways facing away into the background/distance, her head turned away and thick hair falling forward naturally to completely obscure her face from the lens, with zero facial features visible')];
 const lens=[O('Natural 50mm DSLR look','a natural 50mm DSLR lens perspective'),O('85mm portrait look','an 85mm portrait lens look with soft background separation'),O('35mm environmental look','a 35mm environmental portrait look with a lived-in sense of space'),O('Smartphone candid look','a high-quality smartphone camera look with realistic computational detail'),O('Classic 70mm fashion look','a classic 70mm fashion portrait perspective'),O('Natural uncompressed perspective','a natural perspective without exaggerated wide-angle distortion'),O('Classic 105mm telephoto look','a classic 105mm telephoto portrait perspective with natural background compression'),O('Wide 24mm environmental look','a wide 24mm environmental perspective with realistic foreground context'),O('Crisp editorial detail','crisp editorial detail with natural optical falloff'),
   O('Hasselblad 100mm f/2.2 medium-format prime','a Hasselblad 100mm f/2.2 medium-format portrait prime look with ultra-creamy background melt and 3D subject pop'),
   O('105mm f/1.4 Art prime (tack-sharp eyes & creamy bokeh)','a 105mm f/1.4 prime lens perspective with razor-sharp focus on the iris and dreamlike buttery background falloff'),
@@ -338,7 +340,8 @@ const nailStyle=makeOpts([['Short natural manicure','short natural nails with a 
 const lipLook=makeOpts([['Natural rose lip','a natural rose lip'],['Classic red lip','a classic red lip'],['Berry satin lip','a berry satin lip'],['Deep wine lip','a deep wine lip'],['Warm nude lip','a warm nude lip'],['Rosewood lip','a rosewood lip'],['Soft terracotta lip','a soft terracotta lip'],['Muted mauve lip','a muted mauve lip'],['Glossy neutral lip','a glossy neutral lip with restrained shine'],['Soft brick-red lip','a soft brick-red lip'],['Brown-rose lip','a brown-rose lip'],['Velvet matte berry lip','a velvet-matte berry lip'],['Bare lip with balm','a bare lip with a natural balm finish'],['Classic pink-red lip','a classic pink-red lip'],['Cocoa nude lip','a cocoa-nude lip'],['Plum stain','a plum lip stain'],['Soft coral lip','a soft coral lip'],['Neutral lip with crisp liner','a neutral lip with carefully blended liner']]);
 const eyeLook=makeOpts([['Soft brown wing','a soft brown winged eyeliner'],['Black cat-eye liner','a precise black cat-eye liner'],['Smudged charcoal lash line','a smudged charcoal lash line'],['Bronze lid wash','a bronze wash across the eyelids'],['Taupe smoky eyes','taupe smoky eyes with soft edges'],['Defined lashes, minimal shadow','defined lashes with minimal eyeshadow'],['Soft shimmer inner corners','soft shimmer at the inner corners'],['Muted plum shadow','muted plum eyeshadow'],['Warm copper shadow','warm copper eyeshadow'],['Classic liner and neutral lid','classic liner with a neutral lid'],['Graphic but refined liner','graphic yet refined eyeliner'],['Soft black smoky eye','a softly blended black smoky eye'],['Olive-brown shadow','olive-brown eyeshadow'],['Subtle metallic bronze','a subtle metallic bronze eye accent'],['Clean bare-eye editorial','a clean, nearly bare-eye editorial look'],['Diffused wing and soft lower lash','a diffused wing with a softly defined lower lash line'],['Deep espresso liner','deep espresso eyeliner'],['Muted rose eye makeup','muted rose eye makeup']]);
 const stance=makeOpts([['Relaxed offset stance','a relaxed offset stance with one shoulder slightly forward'],['Balanced planted stance','a balanced, planted stance with natural alignment'],['Asymmetric shoulder line','an asymmetric shoulder line that feels effortless'],['One knee softly bent','one knee softly bent without exaggerating posture'],['Weight shifted naturally','weight shifted naturally onto one leg'],['Long relaxed posture','a long, relaxed posture with shoulders down'],['Compact seated posture','a compact seated posture with relaxed hands'],['Open confident posture','an open, confident posture without forced arching'],['Casual lean','a casual lean with natural weight support'],['In-motion stance','a natural in-motion stance caught between steps'],['Shoulders angled to camera','shoulders angled slightly toward the camera'],['Torso turned, face to lens','torso turned slightly while the face returns to the lens'],['Soft diagonal posture','a soft diagonal posture for editorial energy'],['Arms close to body','arms held naturally close to the body'],['Relaxed arms with space','relaxed arms with a little natural space from the body']]);
-const gaze=makeOpts([['Direct lens contact','direct eye contact with the lens'],['Just beside the lens','looking just beside the lens'],['Over photographer shoulder','looking over the photographer’s shoulder'],['Off-frame to camera left','looking off-frame to camera left'],['Off-frame to camera right','looking off-frame to camera right'],['Down toward hands','looking down briefly toward her hands'],['Up toward soft light','looking slightly upward toward the soft light'],['Side glance mid-turn','a side glance captured mid-turn'],['Looking toward a person off-frame','looking toward someone just outside the frame'],['Eyes following movement','eyes following movement outside the frame'],['Looking at hairstyle in hand','glancing at the new hairstyle as she lightly touches it'],['Looking past camera with confidence','looking past the camera with quiet confidence'],['Closed-eye laugh moment','eyes softly closed in a genuine laugh'],['Downward reflective glance','a reflective downward glance'],['Direct gaze with head turned','direct lens contact while her head remains turned three-quarter']]);
+const gaze=makeOpts([['Direct lens contact','direct eye contact with the lens'],['Just beside the lens','looking just beside the lens'],['Over photographer shoulder','looking over the photographer’s shoulder'],['Off-frame to camera left','looking off-frame to camera left'],['Off-frame to camera right','looking off-frame to camera right'],['Down toward hands','looking down briefly toward her hands'],['Up toward soft light','looking slightly upward toward the soft light'],['Side glance mid-turn','a side glance captured mid-turn'],['Looking toward a person off-frame','looking toward someone just outside the frame'],['Eyes following movement','eyes following movement outside the frame'],['Looking at hairstyle in hand','glancing at the new hairstyle as she lightly touches it'],['Looking past camera with confidence','looking past the camera with quiet confidence'],['Closed-eye laugh moment','eyes softly closed in a genuine laugh'],['Downward reflective glance','a reflective downward glance'],['Direct gaze with head turned','direct lens contact while her head remains turned three-quarter'],
+['Turned away into background (face hidden)','head turned away into the background with face completely hidden from camera view']]);
 const motion=makeOpts([['Almost-still candid','an almost-still candid moment with subtle natural movement'],['Hair moving from a turn','hair moving naturally from a recent turn'],['Caught mid-step','a clear but natural mid-step moment'],['Jacket moving slightly','a jacket moving slightly with her body movement'],['Hand gesture frozen in motion','a hand gesture frozen at a natural point in motion'],['Fabric moving at the hem','the fabric moving gently at the hem'],['Loose strands in motion','a few loose strands moving independently'],['Turning into the light','turning naturally into a patch of light'],['Settling after a laugh','settling after a laugh with shoulders dropping naturally'],['Reaching for a styling prop','reaching for a styling prop between takes'],['Tiny hair adjustment','a tiny hair adjustment captured in motion'],['Movement-free polished frame','a nearly still frame that emphasizes the finished look'],['Walking with natural stride','walking with a natural stride and believable limb positions'],['Mid-turn fabric sweep','a small fabric sweep captured during a turn'],['Candid hand movement','a candid hand movement rather than a posed gesture'],['Soft wind movement','subtle environmental movement in hair and fabric']]);
 const interaction=makeOpts([['Photographer gives a cue','responding to a photographer’s cue between shots'],['Quick hair adjustment between takes', 'a quick natural hair adjustment between takes before settling into pose'],['Friend says something amusing','reacting to something amusing said just outside the frame'],['Checking the finished look','taking a quick moment to appreciate the finished makeover'],['Between takes conversation','a brief conversation between takes'],['Adjusting a clothing detail herself','adjusting a small clothing detail herself before the next frame'],['Hearing her name','turning as someone calls her name'],['Receiving a final styling check','receiving a final styling check just before the shoot'],['Taking a relaxed pause','taking a comfortable pause between more directed poses'],['Showing the haircut to the photographer','briefly showing the haircut to the photographer'],['Moving toward the setup mark','moving toward her position on the set'],['Laughing at an outtake','laughing at a moment from the previous take']]);
 const setProps=makeOpts([['No extra props','no extra props; keep focus on her makeover and styling'],['Architectural floor lamp softly blurred in background','an architectural floor lamp softly blurred in the background'],['Styling tools on a counter','a few styling tools placed naturally on a counter, not distracting'],['Clothing rail in background','a clothing rail in soft focus'],['Minimal stool','a simple stool used naturally in the composition'],['Tall director chair','a tall director chair used as a subtle studio prop'],['Structured handbag','a structured handbag used as a styling prop'],['Sunglasses in hand','sunglasses held naturally in one hand'],['Small makeup pouch','a small makeup pouch placed on a nearby counter'],['Unbranded coffee cup','an unbranded coffee cup as a casual backstage prop'],['Soft curtain movement','a soft curtain in the background with slight movement'],['Low side table','a low side table with restrained surface details'],['Minimalist pedestal with sculptural ceramic piece','a clean gallery pedestal with a minimalist ceramic sculpture in soft focus'],['Coat draped over chair','a coat draped casually over a chair'],['Neutral flower arrangement','a small neutral flower arrangement in the distant background'],['Simple modern lamp','a simple modern lamp with realistic warm light'],['Editorial plinth','a minimal editorial plinth used as a studio prop'],['Camera bag out of focus','a photographer’s camera bag out of focus near the edge of frame'],['Magazine stack with unreadable covers','a small stack of magazines with no readable text'],['A hairbrush on counter','a hairbrush resting naturally on a counter'],['No mirrors in set','no visible mirrors or reflection-heavy set pieces'],['Subtle architectural column','a subtle architectural column in the background'],['Neutral bench','a neutral bench used as a natural resting point'],['No text or branded props','no readable text or branded props']]);
@@ -729,7 +732,8 @@ const salonStage = makeOpts([
   ['Full body hair shave: arms & shoulders with lather & razor', 'body hair grooming service: the male barber applies hot towel prep and rich lather across the female client\'s shoulders, arms, and neckline, smoothly shaving all fine body hair with an authentic chrome safety razor, revealing clean, smooth skin'],
   ['Post-shave hot towel & soothing balm on underarms & chest', 'post-shave soothing treatment: the male barber gently presses a steaming aromatic hot towel to the client\'s freshly shaved underarms and chest, followed by a gentle soothing after-shave balm application'],
   ['Client head tilted down for nape trimming', 'precision neckline detailing: client with head tilted gently down toward her chest, exposing the cervical spine and nape while the barber combs and shears the baseline'],
-  ['Client leaning forward evaluating bangs in mirror', 'in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length']
+  ['Client leaning forward evaluating bangs in mirror', 'in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length'],
+  ['Client turned sideways looking away while barber checks perimeter', 'haircut moment: client turned sideways in chair looking away into the shop with her hand raised near her temple shielding her face, as the barber steps to the side to inspect the haircut baseline and hair texture']
 ]);
 
 const salonStylist = makeOpts([
@@ -800,7 +804,9 @@ const salonStoolModelPosture = makeOpts([
   ['Head tilted down exposing crown and nape for barber shears', 'head tilted forward with chin resting toward chest, curving the neck to expose the crown, hairline, and nape while the barber combs and snips the baseline from behind'],
   ['Bent forward with elbows on knees as barber details crown', 'torso bent forward at the waist with elbows resting on knees under the cape, rounding the back and bowing the head forward naturally for precision cutting'],
   ['Head tilted softly downward admiring haircut in cape reflection', 'head tilted softly downward with eyes glancing at the fallen hair clippings on the draped cape, in a quiet, contemplative candid moment'],
-  ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool']
+  ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool'],
+  ['Turned sideways looking away with hand touching temple', 'turned sideways on the stool looking away from the camera and mirror, raising one hand to her hairline to shield her face from view while the barber details her silhouette'],
+  ['Turned away in profile with hair falling forward hiding face', 'turned sideways facing away into the salon background with hair falling forward and shielding her face completely from the lens']
 ]);
 
 const salonCape = makeOpts([
@@ -865,7 +871,9 @@ const salonCamera = makeOpts([
   ['Infinite reflection through opposing dual mirrors', 'a captivating double-mirror perspective with front and rear mirrors creating infinite recursive reflections and deep optical salon geometry'],
   ['Extreme close-up on shears and finger cutting tension', 'a macro close-up focused exclusively on the male barber\'s fingers holding a taut wet hair strand as the scissor blades slice cleanly through'],
   ['Behind-the-chair portrait showing handheld mirror angle', 'a candid perspective from behind the chair showing the male barber holding up an oval handheld mirror framing the back of the client\'s new haircut'],
-  ['Street-level documentary view through the shop doorway', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within']
+  ['Street-level documentary view through the shop doorway', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within'],
+  ['Sideways angle: client looking away with hand shielding face', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape'],
+  ['Side-profile turned away with hair concealing face', 'a side-profile camera angle capturing the client turned sideways facing away into the salon background, with her hair naturally falling forward to fully obscure her face from the lens, focusing on her haircut perimeter and cape drape with zero facial exposure']
 ]);
 
 const salonLighting = makeOpts([
@@ -1866,14 +1874,17 @@ addOptions(pose, makeOpts([
   ['Deep forward bend with arms hanging loose', 'bent deeply down toward her feet with arms loosely dangling and hair falling forward naturally around her face and shoulders'],
   ['Seated leaning forward with head tilted down', 'seated on a stool leaning forward with forearms on thighs and head tilted down, eyes looking up through dark lashes'],
   ['Standing with chin tilted down and subtle side angle', 'standing with chin tilted down toward her chest, angled slightly three-quarter to reveal the nape, neckline, and shoulder contour'],
-  ['Leaning forward over balcony railing, head tilted down', 'leaning forward over a railing with elbows resting on the ledge, head tilted down watching the scene below']
+  ['Leaning forward over balcony railing, head tilted down', 'leaning forward over a railing with elbows resting on the ledge, head tilted down watching the scene below'],
+  ['Turned sideways looking away with hand shielding face', 'turned sideways in profile looking away from the camera, with one hand casually raised to her temple or forehead to naturally shield her face so her facial features are not visible, emphasizing her posture, hair, and styling'],
+  ['Turned away in side-profile with hair completely hiding face', 'standing in side-profile turned away from the camera looking into the distant background, her thick hair naturally falling forward and shielding her face so it is completely occluded from the lens']
 ]));
 
 addOptions(gesture, makeOpts([
   ['Sweeping wet hair off face', 'sweeping wet hair back away from the face with natural finger separation'],
   ['Fingers grazing water surface', 'resting one hand with fingertips grazing the calm water surface'],
   ['Lightly touching wet collarbone', 'lightly resting fingers on her wet collarbone as water droplets glisten'],
-  ['Tucking damp strand behind ear', 'tucking a single damp hair strand behind her ear']
+  ['Tucking damp strand behind ear', 'tucking a single damp hair strand behind her ear'],
+  ['Hand raised to temple / forehead shielding face', 'one hand gracefully raised with fingers touching the hairline or forehead, naturally shielding and obscuring the face from the camera lens']
 ]));
 
 addOptions(stance, makeOpts([
@@ -4124,6 +4135,18 @@ function buildSalonPrompt(){
   const stoolProxVal = S(val('salonBarberProximity'));
   const stoolActVal = S(val('salonIntimateHairAction'));
   const stoolPostVal = S(val('salonStoolModelPosture'));
+  const rawStageForDetection = S(val('salonStage'));
+  const stageForDetection = sanitizeStool(rawStageForDetection);
+  const rawCameraForDetection = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
+  const salonCamObj = values['salonCamera'];
+  const salonCamStr = (salonCamObj?.label || '') + ' ' + (rawCameraForDetection || '');
+  const salonStoolPostObj = values['salonStoolModelPosture'];
+  const salonStoolPostStr = (salonStoolPostObj?.label || '') + ' ' + (stoolPostVal || '');
+  const salonStageObj = values['salonStage'];
+  const salonStageStr = (salonStageObj?.label || '') + ' ' + (stageForDetection || '');
+  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonCamStr) ||
+                       (isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStoolPostStr)) ||
+                       (!isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStageStr));
 
   if(subjectRef && styleRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE');
@@ -4132,7 +4155,15 @@ function buildSalonPrompt(){
     lines.push(isStool
       ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}.`
       : '• Strictly preserve the adult woman from Image 1 as the client in the barber chair.');
-    lines.push('• Retain her recognizable facial identity, facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.');
+    } else {
+      if(isFaceHidden){
+  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.');
+} else {
+  lines.push('• Retain her recognizable facial identity, facial structure, natural eye shape, and realistic skin texture with visible pores.');
+}
+    }
     lines.push('• Maintain her authentic natural Indian hair strand texture and natural strand density.');
     lines.push('');
     lines.push('STYLE REFERENCE (IMAGE 2):');
@@ -4141,9 +4172,15 @@ function buildSalonPrompt(){
     lines.push('');
   } else if(subjectRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
-    lines.push(isStool
-      ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}, retaining her recognizable facial identity and realistic skin texture.`
-      : '• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her recognizable facial identity and realistic skin texture.');
+    if(isFaceHidden){
+      lines.push(isStool
+        ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}, retaining her authentic Indian heritage features, skin tone, hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.`
+        : '• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her authentic Indian heritage features, skin tone, hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.');
+    } else {
+      lines.push(isStool
+        ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}, retaining her recognizable facial identity and realistic skin texture.`
+        : '• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her recognizable facial identity and realistic skin texture.');
+    }
     lines.push('');
   } else {
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'AUTHENTIC SALON & BARBERSHOP SCENE · REALISTIC HAIRCUT EXPERIENCE');
@@ -4159,6 +4196,12 @@ function buildSalonPrompt(){
     ? '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the shop interior or background.'
     : '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the background or mirrors.');
   lines.push('');
+
+  if(isFaceHidden){
+    lines.push('FACE CONCEALMENT & OCCLUSION:');
+    lines.push('• The female client is turned sideways looking away from the camera with her face completely hidden and shielded from view (by her raised hand near temple/forehead or hair falling forward naturally). Zero facial features or direct facial exposure are visible to the lens; the photographic composition focuses purely on her haircut perimeter, hair texture, neckline silhouette, and salon atmosphere.');
+    lines.push('');
+  }
 
   const outputText = {
     single: 'Create one finished photorealistic image.',
@@ -4380,7 +4423,11 @@ function buildSalonPrompt(){
   const salonChecks = [];
 
   if(checkState.identity) {
-    salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
+    if(isFaceHidden){
+      salonChecks.push('• Identity & Silhouette Preservation: Faithfully preserve the adult woman from the reference, maintaining her authentic Indian skin tone, body proportions, and hair fiber, while respecting that her face is turned sideways looking away and shielded from the lens.');
+    } else {
+      salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
+    }
   }
   if(checkState.skin) {
     salonChecks.push('• Authentic Skin Texture: Visible micro-pores, natural skin luster, authentic facial asymmetry; zero plastic airbrushing or digital doll smoothing.');
@@ -4485,6 +4532,9 @@ function buildSalonPrompt(){
     'over-airbrushed skin, waxy plastic sheen, heavy beauty retouching, fake studio glamour glow'
   ];
 
+  if(isFaceHidden){
+    salonNegatives.push('visible face, front facial view, frontal eyes, open direct eye contact, revealing hidden face, artificial frontal facial features');
+  }
   if(checkState.noMirror) salonNegatives.push('mirrors, mirror reflections, duplicated faces, reflective glass distortion');
   if(checkState.retouch) salonNegatives.push('airbrushed skin, waxy skin, heavy beauty filters, CGI plastic sheen');
   if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair');
@@ -4526,8 +4576,26 @@ function buildPrompt(){
 if(currentStudioMode==='salon'){return buildSalonPrompt();}
 const selected=Object.values(values);
 const hasMalePresence = values.malePresence && values.malePresence.text !== 'solo' && values.maleInteraction && values.maleInteraction.text !== 'none';
+const angleObj = values['angle'];
+const poseObj = values['pose'];
+const gestObj = values['gesture'];
+const gazeObj = values['gaze'];
+const angleStr = (angleObj?.label || '') + ' ' + (val('angle') || '');
+const poseStr = (poseObj?.label || '') + ' ' + (val('pose') || '');
+const gestStr = (gestObj?.label || '') + ' ' + (val('gesture') || '');
+const gazeStr = (gazeObj?.label || '') + ' ' + (val('gaze') || '');
+const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(angleStr) ||
+                     /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(poseStr) ||
+                     /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(gestStr) ||
+                     /face.*hidden|hid\w*.*face/i.test(gazeStr);
 const checks=[];
-if(checkState.identity)checks.push('Preserve the same adult woman from the supplied reference, retaining her recognizable facial identity and features; do not replace her with another person or introduce identity drift.');
+if(checkState.identity){
+  if(isFaceHidden){
+    checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone, body proportions, and hair texture, while respecting that her face is turned sideways looking away and shielded/concealed from the lens.');
+  } else {
+    checks.push('Preserve the same adult woman from the supplied reference, retaining her recognizable facial identity and features; do not replace her with another person or introduce identity drift.');
+  }
+}
 if(hasMalePresence){
   checks.push('Strictly feature ONLY one woman in the image—she is the solitary female model. All colleagues, co-models, hair stylists, makeup artists, wardrobe assistants, and groomers interacting with her must strictly be male (completely exclude any secondary women or female background subjects).');
 } else if(checkState.soloSubject || (styleRef && transferToggles && transferToggles.hair) || styleRef){
@@ -4624,7 +4692,11 @@ lines.push('• Render unified, physically believable lighting and cast shadows 
 lines.push('');
 } else if(subjectRef){
 lines.push('REFERENCE-IMAGE EDIT · IDENTITY PRESERVATION MAKEOVER');
-lines.push('• Strictly preserve the adult woman from the reference photo, maintaining her recognizable facial identity, natural skin texture with visible pores, natural body proportions, and organic hair texture.');
+if(isFaceHidden){
+  lines.push('• Strictly preserve the adult woman from the reference photo, maintaining her authentic Indian skin tone, natural skin texture with visible pores, natural body proportions, and organic hair texture while respecting that her face is turned sideways looking away and shielded from view.');
+} else {
+  lines.push('• Strictly preserve the adult woman from the reference photo, maintaining her recognizable facial identity, natural skin texture with visible pores, natural body proportions, and organic hair texture.');
+}
 lines.push('');
 } else if(styleRef){
 lines.push('STYLE-REFERENCE MAKEOVER PHOTOSHOOT');
@@ -4705,6 +4777,12 @@ if(hasMalePresence){
   lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Keep the body language open, believable and relaxed; capture a specific spontaneous moment rather than a generic stock pose.`);
 }
 lines.push('');
+if(isFaceHidden){
+  lines.push('FACE CONCEALMENT & OCCLUSION');
+  lines.push('• Face concealment directive: The model is turned sideways looking away from the camera with her face completely hidden and shielded from view (by her raised hand near temple/forehead or thick hair falling forward naturally). Zero direct facial features, eyes, or front profile are visible to the lens. Direct the optical focus entirely to her hairstyle, silhouette, wardrobe styling, posture, and environmental composition.');
+  lines.push('');
+}
+
 lines.push('CAMERA AND FRAMING');
 // Deduplicate angle if already implied by framing
 const framingText = val('framing') || '';
@@ -4767,6 +4845,9 @@ if(hasMalePresence){
 }
 if(styleRef && transferToggles && transferToggles.hair){
   negatives.push('loose hair down, hair down, un-tied hair, messy bun, topknot bun, curly afro, pixie cut, short crop, blunt straight fringe, hair covering eyes');
+}
+if(isFaceHidden){
+  negatives.push('visible face, front facial view, frontal eyes, open direct eye contact, revealing hidden face, artificial frontal facial features');
 }
 if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered hair texture, artificial curls, synthetic perm, heat-damaged hair texture, unnatural straightener sheen or mismatched ethnic hair texture');
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');

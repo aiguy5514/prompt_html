@@ -672,7 +672,8 @@ const salonStage = makeOpts([
   ['Full body hair shave: arms & shoulders with lather & razor', 'body hair grooming service: the male barber applies hot towel prep and rich lather across the female client\'s shoulders, arms, and neckline, smoothly shaving all fine body hair with an authentic chrome safety razor, revealing clean, smooth skin'],
   ['Post-shave hot towel & soothing balm on underarms & chest', 'post-shave soothing treatment: the male barber gently presses a steaming aromatic hot towel to the client\'s freshly shaved underarms and chest, followed by a gentle soothing after-shave balm application'],
   ['Client head tilted down for nape trimming', 'precision neckline detailing: client with head tilted gently down toward her chest, exposing the cervical spine and nape while the barber combs and shears the baseline'],
-  ['Client leaning forward evaluating bangs in mirror', 'in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length']
+  ['Client leaning forward evaluating bangs in mirror', 'in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length'],
+  ['Client turned sideways looking away while barber checks perimeter', 'haircut moment: client turned sideways in chair looking away into the shop with her hand raised near her temple shielding her face, as the barber steps to the side to inspect the haircut baseline and hair texture']
 ]);
 
 const salonStylist = makeOpts([
@@ -743,7 +744,9 @@ const salonStoolModelPosture = makeOpts([
   ['Head tilted down exposing crown and nape for barber shears', 'head tilted forward with chin resting toward chest, curving the neck to expose the crown, hairline, and nape while the barber combs and snips the baseline from behind'],
   ['Bent forward with elbows on knees as barber details crown', 'torso bent forward at the waist with elbows resting on knees under the cape, rounding the back and bowing the head forward naturally for precision cutting'],
   ['Head tilted softly downward admiring haircut in cape reflection', 'head tilted softly downward with eyes glancing at the fallen hair clippings on the draped cape, in a quiet, contemplative candid moment'],
-  ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool']
+  ['Bent slightly down to examine cut hair on floor', 'bending slightly forward and tilting head down to observe the scattered hair clippings accumulated on the salon floor around the stool'],
+  ['Turned sideways looking away with hand touching temple', 'turned sideways on the stool looking away from the camera and mirror, raising one hand to her hairline to shield her face from view while the barber details her silhouette'],
+  ['Turned away in profile with hair falling forward hiding face', 'turned sideways facing away into the salon background with hair falling forward and shielding her face completely from the lens']
 ]);
 
 const salonCape = makeOpts([
@@ -852,7 +855,9 @@ const salonCamera = makeOpts([
   ['Wide cinematic 2.39:1 letterbox salon panorama', 'a wide cinematic 2.39:1 widescreen frame capturing the entire salon length, neon wall signage, multiple mirrors, and the bustling haircut action'],
   ['35mm documentary snapshot with natural room blur', 'a candid 35mm photojournalistic perspective capturing authentic motion blur, barber\'s comb movement, and unposed salon realism'],
   ['Profile shot through hanging salon plants and vintage glass', 'an atmospheric peek-through composition shot through hanging salon greenery and vintage ribbed glass partitions framing the chair'],
-  ['Ultra-close macro on blow-dry round brush tension', 'a tight macro shot on the bristles of a ceramic round brush lifting hair at the roots under the concentrated airflow of the dryer nozzle']
+  ['Ultra-close macro on blow-dry round brush tension', 'a tight macro shot on the bristles of a ceramic round brush lifting hair at the roots under the concentrated airflow of the dryer nozzle'],
+  ['Sideways angle: client looking away with hand shielding face', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape'],
+  ['Side-profile turned away with hair concealing face', 'a side-profile camera angle capturing the client turned sideways facing away into the salon background, with her hair naturally falling forward to fully obscure her face from the lens, focusing on her haircut perimeter and cape drape with zero facial exposure']
 ]);
 
 const salonLighting = makeOpts([
@@ -3853,6 +3858,18 @@ function buildSalonPrompt(){
   const stoolProxVal = S(val('salonBarberProximity'));
   const stoolActVal = S(val('salonIntimateHairAction'));
   const stoolPostVal = S(val('salonStoolModelPosture'));
+  const rawStageForDetection = S(val('salonStage'));
+  const stageForDetection = sanitizeStool(rawStageForDetection);
+  const rawCameraForDetection = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
+  const salonCamObj = values['salonCamera'];
+  const salonCamStr = (salonCamObj?.label || '') + ' ' + (rawCameraForDetection || '');
+  const salonStoolPostObj = values['salonStoolModelPosture'];
+  const salonStoolPostStr = (salonStoolPostObj?.label || '') + ' ' + (stoolPostVal || '');
+  const salonStageObj = values['salonStage'];
+  const salonStageStr = (salonStageObj?.label || '') + ' ' + (stageForDetection || '');
+  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonCamStr) ||
+                       (isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStoolPostStr)) ||
+                       (!isStool && /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(salonStageStr));
 
   if(subjectRef && styleRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · DUAL-REFERENCE SALON & BARBERSHOP SCENE');
@@ -3861,7 +3878,11 @@ function buildSalonPrompt(){
     lines.push(isStool
       ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}.`
       : '• Strictly preserve the adult woman from Image 1 as the client in the barber chair.');
-    lines.push('• Retain her recognizable facial identity, facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.');
+    } else {
+      lines.push('• Retain her recognizable facial identity, facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    }
     lines.push('• Maintain her authentic natural Indian hair strand texture and natural strand density.');
     lines.push('');
     lines.push('STYLE REFERENCE (IMAGE 2):');
@@ -3870,9 +3891,15 @@ function buildSalonPrompt(){
     lines.push('');
   } else if(subjectRef){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
-    lines.push(isStool
-      ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}, retaining her recognizable facial identity and realistic skin texture.`
-      : '• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her recognizable facial identity and realistic skin texture.');
+    if(isFaceHidden){
+      lines.push(isStool
+        ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}, retaining her authentic Indian heritage features, skin tone, hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.`
+        : '• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her authentic Indian heritage features, skin tone, hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.');
+    } else {
+      lines.push(isStool
+        ? `• Strictly preserve the adult woman from Image 1 as the client seated on the ${stoolTypeVal}, retaining her recognizable facial identity and realistic skin texture.`
+        : '• Strictly preserve the adult woman from Image 1 as the client seated in the styling chair, retaining her recognizable facial identity and realistic skin texture.');
+    }
     lines.push('');
   } else {
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'AUTHENTIC SALON & BARBERSHOP SCENE · REALISTIC HAIRCUT EXPERIENCE');
@@ -3888,6 +3915,12 @@ function buildSalonPrompt(){
     ? '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the shop interior or background.'
     : '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the background or mirrors.');
   lines.push('');
+
+  if(isFaceHidden){
+    lines.push('FACE CONCEALMENT & OCCLUSION:');
+    lines.push('• The female client is turned sideways looking away from the camera with her face completely hidden and shielded from view (by her raised hand near temple/forehead or hair falling forward naturally). Zero facial features or direct facial exposure are visible to the lens; the photographic composition focuses purely on her haircut perimeter, hair texture, neckline silhouette, and salon atmosphere.');
+    lines.push('');
+  }
 
   const outputText = {
     single: 'Create one finished photorealistic image.',
@@ -4110,7 +4143,11 @@ function buildSalonPrompt(){
   const salonChecks = [];
 
   if(checkState.identity) {
-    salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
+    if(isFaceHidden){
+      salonChecks.push('• Identity & Silhouette Preservation: Faithfully preserve the adult woman from the reference, maintaining her authentic Indian skin tone, body proportions, and hair fiber, while respecting that her face is turned sideways looking away and shielded from the lens.');
+    } else {
+      salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
+    }
   }
   if(checkState.skin) {
     salonChecks.push('• Authentic Skin Texture: Visible micro-pores, natural skin luster, authentic facial asymmetry; zero plastic airbrushing or digital doll smoothing.');
@@ -4215,6 +4252,9 @@ function buildSalonPrompt(){
     'over-airbrushed skin, waxy plastic sheen, heavy beauty retouching, fake studio glamour glow'
   ];
 
+  if(isFaceHidden){
+    salonNegatives.push('visible face, front facial view, frontal eyes, open direct eye contact, revealing hidden face, artificial frontal facial features');
+  }
   if(checkState.noMirror) salonNegatives.push('mirrors, mirror reflections, duplicated faces, reflective glass distortion');
   if(checkState.retouch) salonNegatives.push('airbrushed skin, waxy skin, heavy beauty filters, CGI plastic sheen');
   if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair');

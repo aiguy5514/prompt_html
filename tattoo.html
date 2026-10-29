@@ -409,7 +409,9 @@ const tattooModelPoses = makeOpts([
   ['Bent down forward at waist displaying full back & ribcage', 'bent down forward at the waist with hands resting on shins, flattening the back and stretching the ribcage to clearly display tattoo geometry and muscle contour'],
   ['Seated curled forward with elbows on knees, head bowed', 'seated on the studio bench bent forward with elbows on knees and head bowed down, quiet contemplative posture highlighting spine and neck ink'],
   ['Standing with chin tilted down looking up through lashes', 'standing with chin angled down toward collarbone while gazing upward through dark eyelashes, creating an intimate, moody portrait angle'],
-  ['Kneeling bent forward with forearms on leather bench', 'kneeling on the floor bent forward with forearms resting across the studio leather bench, spine arched gracefully to display flank and back ink']
+  ['Kneeling bent forward with forearms on leather bench', 'kneeling on the floor bent forward with forearms resting across the studio leather bench, spine arched gracefully to display flank and back ink'],
+  ['Turned sideways looking away with hand shielding face', 'turned sideways in profile looking away from the camera into the scene, with one hand casually raised to her temple or forehead to naturally shield her face so her facial features are not visible, showcasing her body art, posture, and silhouette'],
+  ['Turned sideways facing away with hair falling forward hiding face', 'standing in side-profile turned away from the camera looking into the background, with her hair falling forward to naturally and completely conceal her face from view, focusing optical clarity on her tattoo and figure']
 ]);
 
 const tattooRevealingFits = makeOpts([
@@ -457,7 +459,9 @@ const tattooCameras = makeOpts([
   ['Side-Profile Silhouette with Backlit Skin Rim', 'a crisp side-profile camera angle capturing the contour of the skin rim-lit against soft background daylight, highlighting fine dermal texture and ink contrast'],
   ['Tight Beauty Crop: Lips, Jawline & Clavicle Ink', 'a tight vertical crop framing the model\'s parted lips, sculpted jawline, and the delicate tattoo resting on the collarbone below'],
   ['Ground-Up Stylist Tray Foreground Bokeh Framing', 'a low perspective framed through the blurred silhouettes of tattoo ink caps and stencil bottles on the stainless steel tray in the immediate foreground'],
-  ['50mm f/1.2 Candid Portrait Balancing Face & Torso', 'a classic 50mm normal lens perspective at eye level, presenting natural human eye proportions without optical compression or wide distortion']
+  ['50mm f/1.2 Candid Portrait Balancing Face & Torso', 'a classic 50mm normal lens perspective at eye level, presenting natural human eye proportions without optical compression or wide distortion'],
+  ['Sideways Profile: Looking Away with Hand Shielding Face', 'a side-profile camera angle where the model is turned sideways looking away from the camera into the setting, with one hand casually raised to her temple or forehead to shield and conceal her face so her facial features are completely hidden, drawing full optical focus to her tattoo placement, bare skin contour, and hair silhouette'],
+  ['Turned Sideways Looking Away with Hair Concealing Face', 'a cinematic side-profile perspective capturing the model turned sideways facing away into the background, her thick hair falling forward naturally to completely obscure her face from the lens, framing the body art, anatomical curves, and environment with zero facial exposure']
 ]);
 
 const tattooLightings = makeOpts([
@@ -1025,6 +1029,12 @@ function buildPrompt(){
   const expr = val('tattooExpression');
   const hair = val('tattooHair');
   const cam = val('tattooCamera');
+  const camObj = values['tattooCamera'];
+  const poseObj = values['tattooPose'];
+  const camStr = (camObj?.label || '') + ' ' + (cam || '');
+  const poseStr = (poseObj?.label || '') + ' ' + (pose || '');
+  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(camStr) ||
+                       /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(poseStr);
   const light = val('tattooLighting');
   const film = val('tattooFilm');
   const loc = val('tattooLocation');
@@ -1038,7 +1048,11 @@ function buildPrompt(){
     lines.push('');
     lines.push('PRIMARY SUBJECT (IMAGE 1):');
     lines.push('• Strictly preserve the adult woman from Image 1 as the primary model receiving/showcasing the tattoo.');
-    lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.');
+    } else {
+      lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    }
     lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
     lines.push('');
     lines.push('TATTOO REFERENCE (IMAGE 2):');
@@ -1050,7 +1064,11 @@ function buildPrompt(){
     lines.push('');
     lines.push('PRIMARY SUBJECT (IMAGE 1):');
     lines.push('• Strictly preserve the adult woman from Image 1 as the sole female model in the frame.');
-    lines.push('• Retain her recognizable facial structure, authentic Indian heritage features, and natural skin pores without airbrushing.');
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and shielded/concealed from view.');
+    } else {
+      lines.push('• Retain her recognizable facial structure, authentic Indian heritage features, and natural skin pores without airbrushing.');
+    }
     lines.push('');
   }
 
@@ -1081,11 +1099,20 @@ function buildPrompt(){
   lines.push(`Session moment: ${act}. Shoot location & environment: ${loc}.`);
   lines.push(`Camera direction & optics: ${cam}. Color grade & film feel: ${film}.`);
   lines.push(`Lighting & ambiance: ${light}.`);
+  if(isFaceHidden){
+    lines.push('Face Concealment & Occlusion: The model is turned sideways looking away from the camera with her face completely hidden and shielded from view (by her raised hand / hair falling forward); zero facial features or front facial profile are visible to the lens. Focus the photographic composition entirely on her silhouette, posture, bare skin canvas, and fine-line tattoo artistry.');
+  }
   lines.push('');
 
   // Preservations & Quality Checks
   const checks = [];
-  if(checkState.identity) checks.push('Preserve the same adult woman from the reference, retaining her recognizable facial identity, warm Indian skin tone, and authentic facial proportions.');
+  if(checkState.identity){
+    if(isFaceHidden){
+      checks.push('Preserve the same adult woman from the reference, maintaining her warm Indian skin tone, body proportions, and hair texture, while respecting that her face is turned sideways and occluded from the lens.');
+    } else {
+      checks.push('Preserve the same adult woman from the reference, retaining her recognizable facial identity, warm Indian skin tone, and authentic facial proportions.');
+    }
+  }
   if(checkState.skin) checks.push('Render authentic skin pores, delicate goosebumps, natural clavicle/rib shadows, and realistic dermal texture; zero plastic skin or waxy beauty filters.');
   if(checkState.retouch) checks.push('Avoid artificial airbrushing, heavy digital smoothing, or waxy cartoon rendering; preserve micro-pores directly beneath and surrounding the ink lines.');
   if(checkState.body) checks.push('Maintain natural, believable body proportions and authentic skeletal contours without distortion.');
