@@ -19,7 +19,7 @@
 <div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">2,600+ searchable choices</span><span class="pill">Offline · No uploads</span></div></header>
 <section class="hero"><div><div class="eyebrow" id="heroEyebrow">Reference-led creative direction · Editorial Fashion</div><h1 id="heroTitle">Makeover <span>Photoshoot</span><br>Prompt Studio</h1><p id="heroDescription">Build a confident, candid, bold fashion-editorial prompt after the makeover. Mix hairstyles, statement looks, expressive poses, camera direction, lighting and realism controls—then copy a finished prompt ready for your image editor.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">Expanded hair library</span><span class="tag">Hundreds of looks</span><span class="tag">Searchable menus</span><span class="tag">Identity controls</span></div></div></aside></section>
 <div class="layout"><main class="builder">
-<section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button></div></div><div class="preset-grid" id="presets"></div></section>
+<section class="preset-strip"><div class="strip-head"><div><h2>Start with a creative direction</h2><p>Presets are starting points—you can customize every choice afterward. Every look is generated on the spot from a coherent style, setting and colour story, and new ones keep appearing. Click one to apply exactly what the card shows.</p></div><div class="strip-actions"><button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button><button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button><button class="btn btn-secondary btn-small" id="btnQuickGrooming" type="button" style="border-color: rgba(244,114,182,0.4); color: #f472b6; font-weight: 600;">✂️ Men Grooming</button></div></div><div class="preset-grid" id="presets"></div></section>
 <nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
 <section class="step-card" id="stepCard"><div class="step-head"><div><div class="eyebrow" id="stepEyebrow">Creative direction · 01</div><h2 id="stepTitle">Hair & makeover</h2><p id="stepDescription">Choose the signature post-makeover look.</p></div><div class="step-icon" id="stepIcon">✂</div></div><div class="field-grid" id="fields"></div><div id="fineTuneArea"></div><div id="specialContent"></div><div class="step-foot"><span class="step-count" id="stepCount">Step 1 of 6</span><div class="step-buttons"><button class="btn btn-secondary" id="prevStep">← Previous</button><button class="btn btn-primary" id="nextStep">Next step →</button></div></div></section>
 <section class="advanced-bar"><div><strong>Want a more specific result?</strong><small>Add your own direction or exclusions in the Finish & controls step.</small></div><button class="btn btn-secondary btn-small" id="finishJump">Open finish controls ↗</button></section>
@@ -2453,6 +2453,18 @@ setInterval(()=>{
 el('shuffleLooks').addEventListener('click',()=>rotatePresets(true));
 if(el('saveCustomLook')) el('saveCustomLook').addEventListener('click',saveCustomPreset);
 }
+
+function activateMenGrooming(){
+  values.malePresence = fields.malePresence.opts.find(o => o.text === 'female_grooming_men') || fields.malePresence.opts[5];
+  const match = fields.maleInteraction.opts.find(opt => opt.cat === 'female_grooming_men' && opt.text !== 'none');
+  if (match) values.maleInteraction = match;
+  goSection('pose');
+  buildPrompt();
+  toast('Switched to Female Model Grooming Men (Shaving, beard & champi).');
+  const card = document.getElementById('stepCard');
+  if(card) card.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+if(el('btnQuickGrooming')) el('btnQuickGrooming').addEventListener('click', activateMenGrooming);
 
 function saveCustomPreset(){
 const name=prompt('Enter a name for this custom look:','My Look '+(customPresets.length+1));
@@ -5459,6 +5471,14 @@ initMobileDrawer();
 loadHistory();
 loadFromHash();
 rotatePresets(true);
+if(window.location.hash === '#grooming' || window.location.hash === '#men-grooming'){
+  activateMenGrooming();
+}
+window.addEventListener('hashchange', () => {
+  if(window.location.hash === '#grooming' || window.location.hash === '#men-grooming'){
+    activateMenGrooming();
+  }
+});
 startRotation();
 })();
 </script>
