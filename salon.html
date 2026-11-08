@@ -4095,63 +4095,94 @@ function buildSalonPrompt(){
       .replace(/black leather salon styling chair/gi, 'low backless cutting stool')
       .replace(/hydraulic chair/gi, 'low backless stool')
       .replace(/Belmont chair/gi, 'low backless stool')
-      .replace(/barber chair/gi, 'low backless cutting stool')
-      .replace(/styling chair arms/gi, 'draped down around the stool')
-      .replace(/styling chair/gi, 'low backless stool')
-      .replace(/in the styling chair/gi, 'on the low backless stool')
-      .replace(/in the barber chair/gi, 'on the low backless stool')
-      .replace(/to the female client in the chair/gi, 'to the female client on the low backless stool')
-      .replace(/in the chair/gi, 'on the stool')
-      .replace(/from chair armrest height/gi, 'from low stool height')
-      .replace(/chair armrest/gi, 'stool edge')
-      .replace(/IN-CHAIR CONSULTATION/gi, 'IN-STATION STOOL CONSULTATION')
-      .replace(/CLIENT SMILING IN STYLING CHAIR/gi, 'CLIENT SMILING ON LOW STOOL');
+      .replace(/tall styling chair/gi, 'low backless stool')
+      .replace(/styling chair/gi, 'low backless salon stool')
+      .replace(/barber chair/gi, 'low backless stool')
+      .replace(/the chrome pump pedal/gi, 'the stool perimeter')
+      .replace(/foot on the heavy chrome hydraulic pump lever[^,.]+/gi, "careful hand positioning to adjust the client's seating on the low stool");
   };
+
+  const sanitizeGrooming = (text) => {
+    if(!isFemaleModelBarber || !text) return text;
+    return text
+      .replace(/to the female client in the chair/gi, 'to the male client in the chair')
+      .replace(/female model is the sole client/gi, 'female model is the sole barber attending to her male client')
+      .replace(/the female client rests her hands/gi, 'the seated male client rests his hands')
+      .replace(/the female client sits/gi, 'the seated male client sits')
+      .replace(/adjusting the client's seating height/gi, "adjusting the male client's seating height")
+      .replace(/female client in the chair/gi, 'male client in the chair')
+      .replace(/female client in the styling chair/gi, 'male client in the styling chair')
+      .replace(/female client/gi, 'male client')
+      .replace(/female customer/gi, 'male customer');
+  };
+
   const stoolTypeVal = S(val('salonStoolType'));
   const stoolProxVal = S(val('salonBarberProximity'));
   const stoolActVal = S(val('salonIntimateHairAction'));
   const stoolPostVal = S(val('salonStoolModelPosture'));
-  const rawStageForDetection = S(val('salonStage'));
-  const stageForDetection = sanitizeStool(rawStageForDetection);
-  const rawCameraForDetection = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
-  const salonCamObj = values['salonCamera'];
-  const salonCamStr = (salonCamObj?.label || '') + ' ' + (rawCameraForDetection || '');
-  const salonStoolPostObj = values['salonStoolModelPosture'];
-  const salonStoolPostStr = (salonStoolPostObj?.label || '') + ' ' + (stoolPostVal || '');
-  const salonStageObj = values['salonStage'];
-  const salonStageStr = (salonStageObj?.label || '') + ' ' + (stageForDetection || '');
-  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(salonCamStr) ||
-                       (/shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(salonStoolPostStr)) ||
-                       (/shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(salonStageStr));
+  const isFaceHidden = (values.salonCamera && values.salonCamera.label && values.salonCamera.label.toLowerCase().includes('face hidden'));
 
   // Header / Subject preservation
-  lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
-  lines.push('');
-  lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
-  lines.push(isStool
-    ? `• Strictly preserve the adult woman from the reference image as the client seated on the ${stoolTypeVal}.`
-    : '• Strictly preserve the adult woman from the reference image as the client in the barber chair.');
-  if(isFaceHidden){
-    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
+  if(isFemaleModelBarber){
+    lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT' : 'REFERENCE-GUIDED PORTRAIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT');
   } else {
-    lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
   }
-  lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
   lines.push('');
 
-  lines.push('SOLITARY FEMALE SUBJECT & ALL-MALE ENVIRONMENT:');
-  lines.push(isStool
-    ? `• Solitary Female Model: The female client seated on the ${stoolTypeVal} (our model) is strictly and exclusively the ONLY woman/girl in the entire image.`
-    : '• Solitary Female Model: The female client seated in the styling chair (our model) is strictly and exclusively the ONLY woman/girl in the entire image.');
-  lines.push('• All-Male Staff & Patrons: All barbers, hair stylists, apprentices, and secondary shop customers in neighboring chairs or waiting on benches must strictly be male.');
-  lines.push(checkState.noMirror
-    ? '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the shop interior or background.'
-    : '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the background or mirrors.');
+  lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
+  if(isFemaleModelBarber){
+    lines.push('• Strictly preserve the adult woman from the reference image as the skilled female barber / practitioner actively attending to her seated male client.');
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
+    } else {
+      lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores as she focuses with artisan concentration on grooming her client.');
+    }
+    lines.push('• Maintain her authentic natural Indian hair strand density and texture, styled professionally as a salon practitioner.');
+  } else if(isStool){
+    lines.push(`• Strictly preserve the adult woman from the reference image as the client seated on the ${stoolTypeVal}.`);
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
+    } else {
+      lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    }
+    lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+  } else {
+    lines.push('• Strictly preserve the adult woman from the reference image as the client in the barber chair.');
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
+    } else {
+      lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
+    }
+    lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+  }
+  lines.push('');
+
+  if(isFemaleModelBarber){
+    lines.push('SOLITARY FEMALE PRACTITIONER & ALL-MALE ENVIRONMENT:');
+    lines.push('• Solitary Female Model (Barber): The adult female model from the reference image (acting as the skilled barber/practitioner) is strictly and exclusively the ONLY woman/girl in the entire image.');
+    lines.push('• Seated Male Client: The person seated in the barber chair receiving grooming is strictly an adult male client.');
+    lines.push('• All-Male Patrons & Apprentices: Any secondary customers in neighboring chairs, waiting on benches, or secondary shop assistants must strictly be male.');
+    lines.push('• Exclude All Other Women: Absolutely zero secondary women, zero female clients, zero female customers, and zero other female staff anywhere in the background, shop interior, or mirrors.');
+  } else {
+    lines.push('SOLITARY FEMALE SUBJECT & ALL-MALE ENVIRONMENT:');
+    lines.push(isStool
+      ? `• Solitary Female Model: The female client seated on the ${stoolTypeVal} (our model) is strictly and exclusively the ONLY woman/girl in the entire image.`
+      : '• Solitary Female Model: The female client seated in the styling chair (our model) is strictly and exclusively the ONLY woman/girl in the entire image.');
+    lines.push('• All-Male Staff & Patrons: All barbers, hair stylists, apprentices, and secondary shop customers in neighboring chairs or waiting on benches must strictly be male.');
+    lines.push(checkState.noMirror
+      ? '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the shop interior or background.'
+      : '• Exclude All Other Women: Absolutely zero secondary women, zero female stylists, zero female assistants, and zero female customers anywhere in the background or mirrors.');
+  }
   lines.push('');
 
   if(isFaceHidden){
     lines.push('FACE CONCEALMENT & OCCLUSION:');
-    lines.push('• The female client is turned sideways looking away from the camera with her face not visible to the lens (head angled away into the salon background or shielded from view). Zero facial features or direct facial exposure are visible to the lens; the model retains her natural hair styling while the photographic composition focuses purely on her haircut perimeter, hair texture, neckline silhouette, and salon atmosphere.');
+    if(isFemaleModelBarber){
+      lines.push('• The female barber is turned sideways looking away from the camera or leaning over her client with her face not visible to the lens (head angled away into the salon background or shielded from view). Zero facial features or direct facial exposure are visible to the lens; the model retains her natural hair styling and professional practitioner posture while the photographic composition focuses purely on her grooming craft, artisan hands, neckline silhouette, and salon atmosphere.');
+    } else {
+      lines.push('• The female client is turned sideways looking away from the camera with her face not visible to the lens (head angled away into the salon background or shielded from view). Zero facial features or direct facial exposure are visible to the lens; the model retains her natural hair styling while the photographic composition focuses purely on her haircut perimeter, hair texture, neckline silhouette, and salon atmosphere.');
+    }
     lines.push('');
   }
 
@@ -4164,13 +4195,17 @@ function buildSalonPrompt(){
   };
 
   lines.push('CREATIVE INTENT');
-  lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
+  if(isFemaleModelBarber){
+    lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture the female model as the skilled barber executing an authentic grooming service on a male client with realistic salon details.`);
+  } else {
+    lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
+  }
   lines.push('');
 
   lines.push('VENUE & ATMOSPHERE');
-  const venueText = sanitizeStool(S(val('salonVenue')));
+  const venueText = sanitizeGrooming(sanitizeStool(S(val('salonVenue'))));
   const designText = (val('salonDesign') && !val('salonDesign').startsWith('Preset Default')) ? S(val('salonDesign')) : '';
-  const staffText = sanitizeStool(S(val('salonBarberStaff')));
+  const staffText = sanitizeGrooming(sanitizeStool(S(val('salonBarberStaff'))));
   const bustleText = S(val('salonBustle'));
   const bustleLabel = values['salonBustle']?.label || '';
   const timeText = S(val('salonTime'));
@@ -4187,22 +4222,44 @@ function buildSalonPrompt(){
   const stylistLabel = S(rawStylistLabel);
   const isSoloClient = (rawStylistLabel || '').toLowerCase().includes('solo client');
   const rawStageText = S(val('salonStage'));
-  const stageText = sanitizeStool(rawStageText);
+  const stageText = sanitizeGrooming(sanitizeStool(rawStageText));
   let rawCameraText = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
   rawCameraText = sanitizeStool(rawCameraText);
   const salonHairLowerCam = (values.salonHaircut?.label || '').toLowerCase();
   const isPonyCam = salonHairLowerCam.includes('pony') || salonHairLowerCam.includes('ponytail') || (typeof isPonySelected === 'function' && isPonySelected());
-  const cameraText = isPonyCam ? rawCameraText : rawCameraText.replace(/ponytail profile/gi, 'haircut silhouette');
+  let cameraText = isPonyCam ? rawCameraText : rawCameraText.replace(/ponytail profile/gi, 'haircut silhouette');
+  if(isFemaleModelBarber){
+    cameraText = cameraText
+      .replace(/the male barber's hands/gi, "the female barber's hands")
+      .replace(/male barber's hands/gi, "female barber's hands")
+      .replace(/male barber/gi, "female model (barber)")
+      .replace(/the client's front reflection/gi, "the seated male client and standing female barber")
+      .replace(/the client's reflection/gi, "the male client and female barber reflection")
+      .replace(/client's front reflection/gi, "seated male client and standing female barber");
+  }
   const stylistText = S(val('salonStylist'));
   const lightingText = S(val('salonLighting'));
   const qualityText = S(val('salonQuality'));
 
-  if(isStool){
+  if(isFemaleModelBarber){
+    lines.push('GROOMING SERVICE & BARBER ARTISAN ACTION');
+    lines.push(`Active grooming moment: ${stageText}.`);
+    lines.push('Female model artisan posture: The adult female model acts as the skilled barber standing beside or over the hydraulic chair, executing the grooming service with authentic posture, artisan hand positioning, and attentive eye contact.');
+    const rawExpr = val('salonExpression');
+    let maleReactionText = rawExpr ? S(rawExpr)
+      .replace(/watching her hair transformation in the mirror with quiet satisfaction, relaxed eyes, and a subtle self-assured smile/gi, 'reclining calmly with eyes closed or head tilted comfortably, enjoying the soothing grooming service')
+      .replace(/her hair transformation/gi, 'the grooming treatment')
+      .replace(/\bher\b/gi, 'his')
+      : 'reclining calmly with eyes closed or head tilted comfortably, enjoying the soothing grooming service';
+    lines.push(`Male client reaction & composure: The seated male client responds with calm relaxation (${maleReactionText}).`);
+    lines.push('');
+  } else if(isStool){
     lines.push('CLIENT SEATING & INTIMATE BARBER PROXIMITY');
     lines.push(`Seating setup: The female client is seated on a low ${stoolTypeVal}, completely backless with zero headrest, leaving her upper body, neck, and hair completely open in the space.`);
     lines.push(`Barber proximity & body contact: The male barber stands directly behind her, ${stoolProxVal}. His physical presence is intimately close, authentic, and attentively focused on her hair.`);
     lines.push(`Active hair work: He is actively working on her hair: ${stoolActVal}.`);
-    lines.push(`Client posture & expression: ${stoolPostVal}. Client facial reaction: ${S(val('salonExpression'))}.`);
+    const exprText = val('salonExpression') ? ` Client facial reaction: ${S(val('salonExpression'))}.` : '';
+    lines.push(`Client posture & expression: ${stoolPostVal}.${exprText}`);
     lines.push('');
   } else {
     lines.push('HAIRCUT STAGE & ACTIVE ACTION');
@@ -4211,7 +4268,9 @@ function buildSalonPrompt(){
     } else {
       lines.push(`Haircut progress: ${stageText}.`);
     }
-    lines.push(`Client expression & reaction: ${S(val('salonExpression'))}.`);
+    if(val('salonExpression')){
+      lines.push(`Client expression & reaction: ${S(val('salonExpression'))}.`);
+    }
     lines.push('');
 
     lines.push('BARBER / STYLIST PRESENCE');
@@ -4247,14 +4306,24 @@ function buildSalonPrompt(){
     if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
   }
 
-  lines.push('HAIRSTYLE BEING CUT');
-  lines.push(`Haircut: ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
+  if(isFemaleModelBarber){
+    lines.push('GROOMING SERVICE & MODEL STYLING');
+    lines.push(`Service on male client: grooming and hair work on male client: ${haircutText}. Hair texture of male client: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
+    lines.push(`Female model's personal hair: Authentic natural Indian hair, neatly styled (${values.salonHaircut?.label || 'natural blowout'}), maintaining authentic hair strand density and shine while kept clear of her hands as she grooms her client.`);
+  } else {
+    lines.push('HAIRSTYLE BEING CUT');
+    lines.push(`Haircut: ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
+  }
   lines.push('');
 
   const capeText = sanitizeStool(S(val('salonCape')));
 
   lines.push('CUTTING CAPE & SALON DETAILS');
-  lines.push(`Draped cape: ${capeText}.`);
+  if(isFemaleModelBarber){
+    lines.push(`Draped cape on male client: ${capeText} draped securely around the seated male client's neck and shoulders over a sanitary collar strip, catching foam and clippings as our female model grooms him.`);
+  } else {
+    lines.push(`Draped cape: ${capeText}.`);
+  }
   lines.push('');
 
   lines.push(checkState.noMirror ? 'CAMERA PERSPECTIVE & LIGHTING' : 'CAMERA, MIRROR PERSPECTIVE & LIGHTING');
@@ -4281,7 +4350,6 @@ function buildSalonPrompt(){
     }
   }
   lines.push('');
-
 
   const stageLabel = S(values['salonStage']?.label || 'Active haircut moment');
   const moistureText = moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp;
@@ -4335,12 +4403,19 @@ function buildSalonPrompt(){
 
   if(outputType === 'collage'){
     lines.push(`2×2 EDITORIAL COLLAGE COMPOSITION & PANEL BLUEPRINT (${flowLabel.toUpperCase()})`);
-    lines.push(`Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female client (solitary female in the shop), identical male barber, consistent styling cape or wash draping, and identical salon station:`);
+    if(isFemaleModelBarber){
+      lines.push(`Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female model as the skilled barber (solitary female in the shop), identical male client, consistent draped cape on the male client, and identical salon station:`);
+    } else {
+      lines.push(`Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female client (solitary female in the shop), identical male barber, consistent styling cape or wash draping, and identical salon station:`);
+    }
     lines.push('');
     const formatFrameHeader = (frameLabel) => {
       let lbl = frameLabel || 'Salon Scene';
       if(isStool){
         lbl = sanitizeStool(lbl);
+      }
+      if(isFemaleModelBarber){
+        lbl = sanitizeGrooming(lbl);
       }
       if(checkState.noMirror){
         lbl = lbl.replace(/client smiling at front wall mirror admiring cut/gi, 'Client Smiling in Styling Chair Admiring Cut')
@@ -4359,6 +4434,7 @@ function buildSalonPrompt(){
 
     const getCleanDir = (val, ctx) => {
       let res = getCollageSceneDirective(val, ctx);
+      if(isFemaleModelBarber) res = sanitizeGrooming(res);
       return isStool ? sanitizeStool(res) : res;
     };
     lines.push(`• FRAME 1 (TOP-LEFT) — ${formatFrameHeader(f1Label)}:\n${getCleanDir(f1Val, collageCtx)}`);
@@ -4371,23 +4447,37 @@ function buildSalonPrompt(){
     lines.push('');
   } else if(outputType === 'triptych'){
     lines.push('THREE-PANEL EDITORIAL TRIPTYCH PROGRESSION (DYNAMIC 3-FRAME SEQUENCE)');
-    lines.push('Generate a continuous 3-panel horizontal triptych depicting the salon haircut journey from left to right, maintaining strict identity and scene consistency across all 3 panels:');
-    lines.push(`• PANEL 1 (LEFT) — PRE-CUT PREP & SECTIONING: Client draped in ${capeText} at ${venueText}; barber (${stylistLabel}) sectioning hair with a black carbon comb and clips.`);
-    lines.push(`• PANEL 2 (CENTER) — ACTIVE MOMENT: ${stageLabel.toUpperCase()}: Close-up of active moment: ${stageText} on ${haircutText} with professional barber grip, authentic tool mechanics, and proper hair strand tension.`);
-    lines.push(`• PANEL 3 (RIGHT) — ${checkState.noMirror ? (isStool ? 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client seated on the low stool admiring the balanced result with hair clippings on ' + capeText + '.' : 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.') : (isStool ? 'FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client seated on the low stool admiring the balanced result with hair clippings on ' + capeText + '.' : 'FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.')}`);
+    if(isFemaleModelBarber){
+      lines.push('Generate a continuous 3-panel horizontal triptych depicting the grooming service progression from left to right, maintaining strict identity and scene consistency across all 3 panels:');
+      lines.push(`• PANEL 1 (LEFT) — PRE-SERVICE PREP: Male client draped in ${capeText} at ${venueText}; female model (barber) preparing tools and consulting with her client.`);
+      lines.push(`• PANEL 2 (CENTER) — ACTIVE MOMENT: ${stageLabel.toUpperCase()}: Close-up of active grooming: ${stageText} with professional artisan grip, deliberate technique, and focused composure.`);
+      lines.push(`• PANEL 3 (RIGHT) — ${checkState.noMirror ? 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the completed grooming service under ' + lightingText + ', with the male client refreshed and our female model reviewing the clean result.' : 'FINISHED MIRROR REVEAL: Mirror perspective showing the completed grooming service under ' + lightingText + ', with the male client refreshed and our female model reviewing the clean result.'}`);
+    } else {
+      lines.push('Generate a continuous 3-panel horizontal triptych depicting the salon haircut journey from left to right, maintaining strict identity and scene consistency across all 3 panels:');
+      lines.push(`• PANEL 1 (LEFT) — PRE-CUT PREP & SECTIONING: Client draped in ${capeText} at ${venueText}; barber (${stylistLabel}) sectioning hair with a black carbon comb and clips.`);
+      lines.push(`• PANEL 2 (CENTER) — ACTIVE MOMENT: ${stageLabel.toUpperCase()}: Close-up of active moment: ${stageText} on ${haircutText} with professional barber grip, authentic tool mechanics, and proper hair strand tension.`);
+      lines.push(`• PANEL 3 (RIGHT) — ${checkState.noMirror ? (isStool ? 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client seated on the low stool admiring the balanced result with hair clippings on ' + capeText + '.' : 'FINISHED REVEAL & INSPECTION: Direct styling station view showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.') : (isStool ? 'FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client seated on the low stool admiring the balanced result with hair clippings on ' + capeText + '.' : 'FINISHED MIRROR REVEAL: Front mirror reflection showing the finished ' + haircutText + ' under ' + lightingText + ', natural strand texture, and client admiring the balanced result with hair clippings on ' + capeText + '.')}`);
+    }
     lines.push('');
   } else if(outputType === 'set'){
     lines.push('FOUR-FRAME EDITORIAL PHOTOGRAPHY SET');
-    lines.push(`Generate four distinct photographic captures covering the salon experience: 1) Consultation and sectioning with ${stylistLabel} at ${venueText}, 2) Macro close-up of active moment: ${stageText} on ${haircutText} with authentic barber tool grip, 3) Profile angle showing ${capeText} draped with realistic cut hair clippings, ${checkState.noMirror ? (isStool ? '4) Direct stool reveal with completed silhouette under ' + lightingText + '.' : '4) Direct chair reveal with completed silhouette under ' + lightingText + '.') : (isStool ? '4) Frontal mirror reveal with completed silhouette from the stool under ' + lightingText + '.' : '4) Frontal mirror reveal with completed silhouette under ' + lightingText + '.')}`);
+    if(isFemaleModelBarber){
+      lines.push(`Generate four distinct photographic captures covering the male grooming service: 1) Initial preparation and consultation with the female model at ${venueText}, 2) Macro close-up of active moment: ${stageText} with authentic barber tool grip, 3) Side profile showing the draped cape and precise artisan handwork, ${checkState.noMirror ? '4) Direct station view of the completed grooming service under ' + lightingText + '.' : '4) Frontal mirror perspective of the completed grooming service under ' + lightingText + '.'}`);
+    } else {
+      lines.push(`Generate four distinct photographic captures covering the salon experience: 1) Consultation and sectioning with ${stylistLabel} at ${venueText}, 2) Macro close-up of active moment: ${stageText} on ${haircutText} with authentic barber tool grip, 3) Profile angle showing ${capeText} draped with realistic cut hair clippings, ${checkState.noMirror ? (isStool ? '4) Direct stool reveal with completed silhouette under ' + lightingText + '.' : '4) Direct chair reveal with completed silhouette under ' + lightingText + '.') : (isStool ? '4) Frontal mirror reveal with completed silhouette from the stool under ' + lightingText + '.' : '4) Frontal mirror reveal with completed silhouette under ' + lightingText + '.')}`);
+    }
     lines.push('');
   } else if(outputType === 'contact'){
     lines.push('SIX-FRAME 35MM FILM CONTACT SHEET SEQUENCE');
-    const contactFrame2 = (salonHairMoisture === 'dry') ? 'dry sectioning with comb and clips' : 'water spray misting';
-    lines.push(`Generate a classic six-frame contact sheet strip chronicling the haircut from cape fastening with ${capeText}, ${contactFrame2}, active moment: ${stageText}, layer detailing of ${haircutText}, blow-dry styling, ${checkState.noMirror ? (isStool ? 'to final inspection from the low stool in ' + venueText + '.' : 'to final inspection from the styling chair in ' + venueText + '.') : (isStool ? 'to final mirror inspection from the low stool in ' + venueText + '.' : 'to final mirror inspection in ' + venueText + '.')}`);
+    if(isFemaleModelBarber){
+      lines.push(`Generate a classic six-frame contact sheet strip chronicling the grooming service from cape fastening with ${capeText}, preparatory lathering or hot towel, active moment: ${stageText}, precision detailing, soothing after-shave or scalp work, ${checkState.noMirror ? 'to final inspection at the chair in ' + venueText + '.' : 'to final mirror inspection in ' + venueText + '.'}`);
+    } else {
+      const contactFrame2 = (salonHairMoisture === 'dry') ? 'dry sectioning with comb and clips' : 'water spray misting';
+      lines.push(`Generate a classic six-frame contact sheet strip chronicling the haircut from cape fastening with ${capeText}, ${contactFrame2}, active moment: ${stageText}, layer detailing of ${haircutText}, blow-dry styling, ${checkState.noMirror ? (isStool ? 'to final inspection from the low stool in ' + venueText + '.' : 'to final inspection from the styling chair in ' + venueText + '.') : (isStool ? 'to final mirror inspection from the low stool in ' + venueText + '.' : 'to final mirror inspection in ' + venueText + '.')}`);
+    }
     lines.push('');
   } else {
     lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
-    // isFemaleModelBarber defined at function scope
     if(isFemaleModelBarber){
       lines.push(`When grooming action is depicted, the adult female model acts as the skilled practitioner and barber (${stageText}) with authentic posture, focused artisan concentration, and believable physical ergonomics. The receptive male client is seated or reclining comfortably in the chair. Her hands and body are fully connected with zero floating limbs, executing deliberate professional technique.`);
     } else if(isStool){
@@ -4411,7 +4501,9 @@ function buildSalonPrompt(){
     salonChecks.push('• Authentic Skin Texture: Visible micro-pores, natural skin luster, authentic facial asymmetry; zero plastic airbrushing or digital doll smoothing.');
   }
   if(checkState.body) {
-    if(isStool){
+    if(isFemaleModelBarber){
+      salonChecks.push('• Female Model Artisan Posture: Believable standing or leaning posture of the female model as she works around the chair, authentic spinal ergonomics, and focused concentration.');
+    } else if(isStool){
       salonChecks.push('• Realistic Seated Stool Posture & Anatomy: Believable seated posture on a low backless stool, natural spinal drape, relaxed shoulders, and convincing physical contact and proximity between the male barber standing directly behind her and the female client.');
     } else {
       salonChecks.push('• Natural Seated Posture: Realistic seated posture in the hydraulic barber chair, natural shoulder slope, and believable body proportions.');
@@ -4424,14 +4516,21 @@ function buildSalonPrompt(){
     salonChecks.push('• Fine Hair Strand Physics: Distinct individual hair strands, natural parting line, delicate micro-flyaways at the temples and hairline, organic volume.');
   }
   if(checkState.hairTexturePreserve || preserveHairTexture) {
-    salonChecks.push("• Hair Texture Integrity: Maintain the client's authentic natural Indian hair fiber, natural density, and organic behavior without artificial smoothing or mismatched texture.");
+    if(isFemaleModelBarber){
+      salonChecks.push("• Hair Texture Integrity: Maintain our female model's authentic natural Indian hair fiber, natural density, and organic shine, alongside authentic hair texture for the male client.");
+    } else {
+      salonChecks.push("• Hair Texture Integrity: Maintain the client's authentic natural Indian hair fiber, natural density, and organic behavior without artificial smoothing or mismatched texture.");
+    }
   }
   if(checkState.fabric) {
-    salonChecks.push('• Realistic Cape & Fabric Behavior: Authentic draping folds of the cutting cape, crisp crêpe paper neck strip, snap fasteners, and believable fabric tension across shoulders.');
+    if(isFemaleModelBarber){
+      salonChecks.push("• Realistic Cape & Fabric Behavior: Authentic draping folds of the cutting cape across the male client's chest and shoulders, crisp crêpe paper neck strip, snap fasteners, and natural drape.");
+    } else {
+      salonChecks.push('• Realistic Cape & Fabric Behavior: Authentic draping folds of the cutting cape, crisp crêpe paper neck strip, snap fasteners, and believable fabric tension across shoulders.');
+    }
   }
 
   // Strict Solitary Female Model & Exclusive Male Staff Safeguard:
-  // isFemaleModelBarber defined at function scope
   if(isFemaleModelBarber){
     salonChecks.push('• Exclusive Solitary Female Model & Male Client/Staff: The adult female model from the reference is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.');
   } else {
@@ -4440,38 +4539,44 @@ function buildSalonPrompt(){
       : '• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
   }
 
-  // Always enforce Barber Tool Ergonomics & Anatomy in salon scenes:
-  salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied arms entering frame). Haircut tools are strictly authentic, recognizable salon equipment: professional Japanese stainless steel shears held in standard barber grip (thumb in lower ring, ring finger in upper ring, pinky resting on tang), and a black carbon cutting comb held in opposite hand. Hair being cut is held flat and taut between index and middle fingers. Absolutely zero hybrid tools, zero fused scissor-combs, zero backward shears, and zero distorted blades.");
-
   if(checkState.hands) {
-    salonChecks.push('• Anatomically Correct Barber Hands: Physically accurate male barber hand grip holding professional stainless steel shears and carbon cutting comb, realistic knuckles, skin folds, and authentic finger tension clamping hair flat between index and middle fingers.');
+    if(isFemaleModelBarber){
+      salonChecks.push("• Female Barber Tool Ergonomics & Anatomy: The female model's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied limbs). Professional tool grip with deliberate artisan technique.");
+      salonChecks.push('• Receptive Male Client Posture: Natural seated or reclining posture of the male client in the hydraulic chair, relaxed neck, and calm receptive composure.');
+    } else if(isStool){
+      salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied limbs). Professional haircutting shears held with precision, cutting hair held taut between fingers with natural body proximity and authentic posture.");
+    } else {
+      salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied limbs). Professional haircutting scissors held strictly with traditional barber grip (thumb in moving ring, ring finger in still ring, pinky resting on tang), shears cutting hair held taut between index and middle fingers.");
+    }
   }
+
   if(checkState.lightingReal) {
-    salonChecks.push(checkState.noMirror
-      ? '• Physically Believable Lighting Physics: Balanced indoor illumination, authentic directional highlights, realistic shadow depth, and warm practical light falloff.'
-      : '• Physically Believable Lighting Physics: Balanced indoor illumination, authentic mirror reflections, realistic shadow depth, and warm practical light falloff.');
+    salonChecks.push('• Believable Salon Lighting Physics: Coherent illumination from overhead studio troffers and vanity mirror bulb strips, realistic specular highlights on wet hair strands and scissor blades, soft authentic shadow falloff under chin and cape.');
   }
-  if(checkState.waterReal) {
-    salonChecks.push('• Authentic Water & Wet Hair Physics: Fine mist droplets clinging to strands, realistic damp clumping, authentic spray bottle water tension, and natural damp hair weight.');
-  }
-  if(checkState.retouch) {
-    salonChecks.push('• Zero Artificial Retouching: Raw unpolished documentary realism, no CGI sheen, no excessive beauty retouching or unnatural skin bloom.');
-  }
-  if(checkState.accessoryKeep) {
-    salonChecks.push('• Retain Reference Accessories: Keep visible jewelry, nose stud, earrings peeking through parted hair, or glasses if visible in reference.');
-  }
-  if(checkState.backgroundReal) {
-    salonChecks.push(isStool
-      ? '• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the stool base, Barbicide jars, and authentic background depth.'
-      : '• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.');
+  if(checkState.livedIn) {
+    if(isFemaleModelBarber){
+      salonChecks.push("• Authentic Lived-in Barbershop Atmosphere: Fine cut hair clippings scattered across the male client's draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.");
+    } else {
+      salonChecks.push(isStool
+        ? '• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the stool base, Barbicide jars, and authentic background depth.'
+        : '• Authentic Lived-in Salon Atmosphere: Fine cut hair clippings scattered across the draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.');
+    }
   }
   if(checkState.noMirror) {
-    salonChecks.push(isStool
-      ? '• Direct Stool Perspective: Frame the client directly on the low stool with direct lens framing and zero secondary glass surfaces.'
-      : '• Direct Chair Perspective: Frame the client directly in the styling chair with direct lens framing and zero secondary glass surfaces.');
+    if(isFemaleModelBarber){
+      salonChecks.push('• Direct Styling Perspective: Frame the female barber and seated male client directly with direct lens framing and zero secondary glass surfaces.');
+    } else if(isStool){
+      salonChecks.push('• Direct Stool Perspective: Frame the client directly on the low stool with direct lens framing and zero secondary glass surfaces.');
+    } else {
+      salonChecks.push('• Direct Chair Perspective: Frame the client directly in the styling chair with direct lens framing and zero secondary glass surfaces.');
+    }
   }
   if(checkState.candid) {
-    salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between haircut moment, authentic client-barber eye contact and posture.');
+    if(isFemaleModelBarber){
+      salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between grooming moment, authentic practitioner-client interaction and posture.');
+    } else {
+      salonChecks.push('• Candid Documentary Realism: Natural unforced expression, candid in-between haircut moment, authentic client-barber eye contact and posture.');
+    }
   }
 
   const hasWashOrSprayPanel = (outputType === 'collage') && [f1Val, f2Val, f3Val, f4Val].some(s => 
@@ -4503,12 +4608,18 @@ function buildSalonPrompt(){
   }
 
   lines.push('AVOID / NEGATIVE GUIDANCE');
+  const primaryExclusion = isFemaleModelBarber
+    ? 'male barber cutting female hair, female client seated in chair, woman in salon cape, female customer in cutting chair, secondary woman in shop, female customers in neighboring chairs, other women, multiple women in frame'
+    : 'female barber, woman hairdresser, female stylist, female assistant, secondary woman in shop, female customers in neighboring chairs, other women, multiple women in frame';
+
   const salonNegatives = [
-    'female barber, woman hairdresser, female stylist, female assistant, secondary woman in shop, female customers in neighboring chairs, other women, multiple women in frame',
+    primaryExclusion,
     'cartoon, anime, 3d render, CGI plastic skin, doll-like hair',
     'floating hands, disembodied hands, hands without body, hands detached from arms, phantom limbs, third hand',
     'deformed scissors, melted shears, backwards scissors, giant shears, fused scissors and comb, hybrid grooming tools, mutant styling gadgets, scissors with extra blades, missing scissor finger rings, crooked blades',
-    'clippers cutting long female hair, buzzing hair off clumsily, electric trimmer disaster',
+    isFemaleModelBarber
+      ? 'female client getting hair cut, woman draped in cape in chair, messy cut, razor cuts or bleeding'
+      : 'clippers cutting long female hair, buzzing hair off clumsily, electric trimmer disaster',
     'extra fingers, missing fingers, malformed knuckles, fused fingers, backwards thumbs',
     'floating hair clips, missing salon cape, unfastened neck strip, floating combs',
     'warped mirrors, distorted mirror reflections, duplicated faces in glass, impossible reflective geometry',
@@ -4543,9 +4654,11 @@ function buildSalonPrompt(){
   const words = text.trim().split(/\s+/).length;
   el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · Salon Mode`;
 
-  const summaryIds = isStool
-    ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonHaircut', 'salonCape', 'salonCamera']
-    : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonExpression', 'salonHaircut', 'salonCape', 'salonCamera'];
+  const summaryIds = isFemaleModelBarber
+    ? ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonHaircut', 'salonCape', 'salonCamera']
+    : (isStool
+      ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonHaircut', 'salonCape', 'salonCamera']
+      : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonStylist', 'salonExpression', 'salonHaircut', 'salonCape', 'salonCamera']);
   const summaryTags = summaryIds
     .filter(id => fields[id] && values[id])
     .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`);
