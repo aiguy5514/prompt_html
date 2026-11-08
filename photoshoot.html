@@ -740,7 +740,13 @@ const salonStage = makeOpts([
   ['Post-shave hot towel & soothing balm on underarms & chest', 'post-shave soothing treatment: the male barber gently presses a steaming aromatic hot towel to the client\'s freshly shaved underarms and chest, followed by a gentle soothing after-shave balm application'],
   ['Client head tilted down for nape trimming', 'precision neckline detailing: client with head tilted gently down toward her chest, exposing the cervical spine and nape while the barber combs and shears the baseline'],
   ['Client leaning forward evaluating bangs in mirror', 'in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length'],
-  ['Client turned sideways looking away while barber checks perimeter', 'haircut moment: client turned sideways in chair looking away into the shop with her hand raised near her temple shielding her face, as the barber steps to the side to inspect the haircut baseline and hair texture']
+  ['Client turned sideways looking away while barber checks perimeter', 'haircut moment: client turned sideways in chair looking away into the shop with her hand raised near her temple shielding her face, as the barber steps to the side to inspect the haircut baseline and hair texture'],
+  // Female Model (Barber) Grooming Male Client
+  ['Female model (barber) straight-razor shaving male client\'s beard with warm lather', 'barber action: the adult female model acts as the skilled barber standing beside the hydraulic chair, holding a traditional chrome straight razor at a precise angle to shave rich lather off the male client\'s jawline as he reclines comfortably with a draped cape'],
+  ['Female model (barber) performing traditional hot oil champi (head massage) on male client', 'barber action: the adult female model stands behind the seated male client, skillfully massaging warm herbal oil into his scalp and temples with rhythmic finger kneading as he leans back into the headrest with eyes closed'],
+  ['Female model (barber) shaving male client\'s underarm hair clean with razor', 'grooming service: the adult female model carefully glides a precision razor down the male client\'s raised underarm with warm foamy lather, expertly shaving his armpit hair clean as he relaxes in the chair'],
+  ['Female model (barber) detailing male client\'s mustache and beard perimeter with shears', 'precision styling: the adult female model leans in close with fine barber shears and a pocket comb to detail and sculpt the male client\'s mustache and sideburn perimeter in the vanity mirror'],
+  ['Female model (barber) applying hot towel wrap & shoulder massage on male client', 'spa treatment: the adult female model drapes a steaming hot towel around the male client\'s neck and shoulders, using firm caring palm pressure to massage his neck muscles after his shave']
 ]);
 
 const salonStylist = makeOpts([
@@ -1428,7 +1434,8 @@ const malePresenceOpts = makeOpts([
   ['Romantic chemistry & intimacy with male colleague', 'romantic'],
   ['Candid backstage & colleague interaction', 'candid_colleague'],
   ['Male creative crew & backstage prep (Makeup, hair & wardrobe)', 'crew_prep'],
-  ['BTS grooming & body shaving prep', 'bts_shaving']
+  ['BTS grooming & body shaving prep', 'bts_shaving'],
+  ['Female model grooming & pampering male partner (Shaving, beard & champi)', 'female_grooming_men']
 ]);
 
 const maleInteractionOpts = makeOpts([
@@ -1465,7 +1472,44 @@ const maleInteractionOpts = makeOpts([
   ['Male stylist shaving fine chest hair & décolletage with warm lather', 'pre-shoot chest and décolletage razor grooming: male grooming specialist gently working rich shaving lather across the female model\'s upper chest and collarbones, deftly shaving fine chest hair and body hair with smooth, delicate razor strokes before she dresses in a plunging neckline gown', 'BTS Body Shaving & Grooming', 'bts_shaving'],
   ['Male groomer shaving body hair on shoulders and arms', 'body hair grooming service: male groomer applying warm lather and a sleek safety razor along her shoulders, arms, and collarbones to shave away fine body hair, with steaming white towels and grooming essentials neatly arranged on the tray', 'BTS Body Shaving & Grooming', 'bts_shaving'],
   ['Complete smooth body shaving touch-up with lather & razor', 'comprehensive body hair shave: attentive male groomer performing a meticulous pre-shoot shave on her underarms and upper body with warm lather and fresh razor, ensuring completely smooth, radiant skin under shoot lighting', 'BTS Body Shaving & Grooming', 'bts_shaving'],
-  ['Post-shave soothing balm application by male groomer', 'post-shave soothing skincare: male groomer delicately pressing a warm damp towel to her freshly shaved underarms and chest, followed by a gentle massage of soothing after-shave balm to nourish smooth skin', 'BTS Body Shaving & Grooming', 'bts_shaving']
+  ['Post-shave soothing balm application by male groomer', 'post-shave soothing skincare: male groomer delicately pressing a warm damp towel to her freshly shaved underarms and chest, followed by a gentle massage of soothing after-shave balm to nourish smooth skin', 'BTS Body Shaving & Grooming', 'bts_shaving'],
+
+  // Female Model Grooming & Pampering Men (Shaving, Beard, Mustache & Champi)
+  // 1. Beard & Mustache Shaving (6 Actions)
+  ['Model whipping warm shaving lather and brushing man\'s beard', 'Female model whipping rich shaving cream into dense warm froth in a ceramic barber mug, gently painting thick foam across the man\'s beard, jawline, and cheeks with a badger-hair brush as he tilts his head back in a leather chair', 'Beard & Mustache Shaving', 'female_grooming_men'],
+  ['Model shaving man\'s cheek & jawline with classic straight razor', 'Female model holding a traditional chrome straight razor at a precise 30-degree angle, stretching his cheek skin taut with one hand while shaving the beard stubble off his jawline with delicate, confident strokes', 'Beard & Mustache Shaving', 'female_grooming_men'],
+  ['Model shaving man\'s throat and neckline with straight razor', 'Female model standing over the seated man, holding his chin up gently with one finger while deftly gliding a straight razor along his exposed neck and Adams apple with focused concentration', 'Beard & Mustache Shaving', 'female_grooming_men'],
+  ['Model trimming & detailing man\'s mustache with shears and comb', 'Female model leaning in close to the seated man, using precision small barber scissors and a black mustache comb to detail his mustache line, her expressive eyes locked in artisan focus', 'Beard & Mustache Shaving', 'female_grooming_men'],
+  ['Model applying soothing alum block and sandalwood aftershave splash', 'Female model gently gliding a smooth wet alum block over his freshly shaved jawline, followed by patting soothing sandalwood aftershave splash across his cheeks with both open palms', 'Beard & Mustache Shaving', 'female_grooming_men'],
+  ['Model wiping residual lather with warm damp cloth from his face', 'Female model delicately holding a warm damp white cotton towel, gently wiping clean the residual shaving foam from his lips, chin, and jawline with an affectionate smile', 'Beard & Mustache Shaving', 'female_grooming_men'],
+
+  // 2. Men\'s Underarm Hair Shaving (5 Actions)
+  ['Model applying warm foamy lather to man\'s underarm', 'Female model applying rich, warm shaving lather into the male model\'s armpit with her fingertips, while he reclines comfortably shirtless on a studio bench with one arm raised behind his head', 'Men\'s Underarm Shaving', 'female_grooming_men'],
+  ['Model shaving man\'s underarm hair clean with precision razor', 'Female model gently holding the skin of his raised arm taut, smoothly gliding a precision chrome razor down the hollow of his underarm to shave away all underarm hair, revealing clean smooth skin', 'Men\'s Underarm Shaving', 'female_grooming_men'],
+  ['Model wiping freshly shaved underarm with steaming hot damp towel', 'Female model pressing a warm, steaming damp towel to his freshly shaved armpit to soothe the skin and clean away stray hair clippings, her other hand resting on his bicep', 'Men\'s Underarm Shaving', 'female_grooming_men'],
+  ['Model massaging soothing post-shave balm into man\'s underarm', 'Female model gently massaging cooling aloe vera and tea-tree aftershave balm into his smooth, freshly shaved underarm with light circular thumb strokes as he relaxes completely', 'Men\'s Underarm Shaving', 'female_grooming_men'],
+  ['Model inspecting smooth clean underarm shave with admiring touch', 'Female model lightly brushing her fingertips across his smooth, freshly shaved underarm to inspect the clean razor finish, sharing a candid, affectionate half-smile', 'Men\'s Underarm Shaving', 'female_grooming_men'],
+
+  // 3. Traditional Indian Champi (Scalp Massage) (6 Actions)
+  ['Traditional Indian champi: pouring warm Ayurvedic oil into man\'s hair', 'Female model standing behind the seated man, parting his hair with one hand and pouring a thin stream of warm golden Brahmi/Bhringraj herbal oil directly onto his crown from a small brass cruet', 'Traditional Indian Champi', 'female_grooming_men'],
+  ['Traditional Indian champi: rhythmic circular scalp massage on crown', 'Female model using both hands with spread fingers to deeply knead and circulate warm herbal oil into his scalp, working in rhythmic circular pulses that stimulate the roots as he closes his eyes in blissful relaxation', 'Traditional Indian Champi', 'female_grooming_men'],
+  ['Champi temple & forehead pressure point relief on man', 'Female model resting her fingers over his crown while using both thumbs to apply firm, soothing pressure to his temples and brow bone, releasing tension as he leans his head back against her torso', 'Traditional Indian Champi', 'female_grooming_men'],
+  ['Champi rhythmic scalp clapping and knuckle tapping (Thappi)', 'Female model executing authentic rhythmic Indian champi percussive tapping and cupping motions across his scalp with cupped palms and loose knuckles, sending ripples of tingling relaxation through him', 'Traditional Indian Champi', 'female_grooming_men'],
+  ['Deep thumb kneading at the base of man\'s skull (Occipital ridge)', 'Female model cradling the sides of his head while her thumbs press deeply into the hollows at the base of his skull and upper cervical spine, as his head tilts gently back in serene release', 'Traditional Indian Champi', 'female_grooming_men'],
+  ['Model running oiled fingers through man\'s hair smoothing strands', 'Female model running both hands slowly through his oil-enriched hair from forehead to nape, gathering and smoothing the dark glossy strands in an intimate, tranquil post-champi moment', 'Traditional Indian Champi', 'female_grooming_men'],
+
+  // 4. Neck, Trapezius & Shoulder Massage (5 Actions)
+  ['Model massaging warm oil into man\'s neck and trapezius muscles', 'Female model standing behind the seated shirtless man, working warm herbal massage oil into the nape of his neck and trapezius muscle ridges with strong, fluid palm strokes', 'Neck, Trapezius & Shoulder Massage', 'female_grooming_men'],
+  ['Model applying deep thumb pressure to man\'s tight shoulder knots', 'Female model leaning over the seated man, focusing both thumbs into his tight shoulder knots beside the shoulder blades, working out tension as he exhales deeply', 'Neck, Trapezius & Shoulder Massage', 'female_grooming_men'],
+  ['Chest & collarbone soothing oil massage on reclining man', 'Female model gently smoothing warm scented oil across his upper chest, clavicles, and shoulders with broad open-palm gliding motions while he reclines comfortably', 'Neck, Trapezius & Shoulder Massage', 'female_grooming_men'],
+  ['Forearm and hand reflexology massage on male partner', 'Female model seated beside him, holding his forearm in her lap and using both thumbs to massage his palm and forearm muscles with nourishing almond oil', 'Neck, Trapezius & Shoulder Massage', 'female_grooming_men'],
+  ['Resting hands warmly on man\'s shoulders after soothing massage', 'Female model standing behind the man, resting both hands flat and warm over his relaxed bare shoulders, chin tilted slightly with a soft, caring, confident expression', 'Neck, Trapezius & Shoulder Massage', 'female_grooming_men'],
+
+  // 5. Hot Towel & Post-Grooming Soothing (4 Actions)
+  ['Wrapping man\'s face in steaming aromatic hot barber towel', 'Female model carefully draping a steaming hot white barber towel over his face and beard, leaving only his nose exposed to breathe, gently pressing the warmth into his pores with open hands', 'Hot Towel & Post-Grooming Soothing', 'female_grooming_men'],
+  ['Unwrapping hot towel from man\'s face revealing glowing skin', 'Female model gently peeling the warm towel away from his face and neck, with delicate wisps of steam rising, revealing his smooth, refreshed skin', 'Hot Towel & Post-Grooming Soothing', 'female_grooming_men'],
+  ['Applying chilled rosewater toner mist across man\'s freshly shaved face', 'Female model holding a vintage amber glass spray bottle, spritzing a fine refreshing mist of chilled rosewater over his clean shaven face while shielding his eyes with her hand', 'Hot Towel & Post-Grooming Soothing', 'female_grooming_men'],
+  ['Applying soothing sandalwood moisturizer to man\'s face and neck', 'Female model lightly dabbing soothing sandalwood moisturizing cream across his cheeks, chin, and neck, blending it in with gentle upward palm strokes', 'Hot Towel & Post-Grooming Soothing', 'female_grooming_men']
 ]);
 
 addOptions(background, makeOpts([
@@ -2820,7 +2864,10 @@ if(currentStudioMode === 'salon' && activeSection === 'salonCameraSec'){
 }
 
 if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
-  const isInteractive = values.malePresence && values.malePresence.text !== 'solo';
+  const pres = values.malePresence?.text || 'solo';
+  const isSolo = (!values.malePresence || pres === 'solo');
+  const isGrooming = (pres === 'female_grooming_men');
+  const isCoStar = (!isSolo && !isGrooming);
   
   const switchWrap = document.createElement('div');
   switchWrap.className = 'pose-mode-switch-card';
@@ -2830,11 +2877,12 @@ if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
       <div>
         <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Shoot Setup & Presence</strong>
-        <span style="font-size: 11px; color: var(--text-dim, #999);">Choose whether our female model is posing solo or interacting with male co-stars / creative crew.</span>
+        <span style="font-size: 11px; color: var(--text-dim, #999);">Choose whether our female model is posing solo, interacting with male co-stars / crew, or grooming & pampering men.</span>
       </div>
-      <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
-        <button type="button" class="seg-btn ${!isInteractive ? 'active' : ''}" id="btnPoseSolo" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${!isInteractive ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👩 Solo Model Posing</button>
-        <button type="button" class="seg-btn ${isInteractive ? 'active' : ''}" id="btnPoseInteract" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isInteractive ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👥 Co-Star, Crew & Shaving</button>
+      <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); gap: 4px; flex-wrap: wrap;">
+        <button type="button" class="seg-btn ${isSolo ? 'active' : ''}" id="btnPoseSolo" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isSolo ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👩 Solo Posing</button>
+        <button type="button" class="seg-btn ${isCoStar ? 'active' : ''}" id="btnPoseInteract" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isCoStar ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👥 Co-Star & Crew</button>
+        <button type="button" class="seg-btn ${isGrooming ? 'active' : ''}" id="btnPoseGrooming" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isGrooming ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">✂️ Model Grooming Men</button>
       </div>
     </div>
   `;
@@ -2848,14 +2896,23 @@ if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
   });
 
   switchWrap.querySelector('#btnPoseInteract').addEventListener('click', () => {
-    if (!values.malePresence || values.malePresence.text === 'solo') {
+    if (!values.malePresence || values.malePresence.text === 'solo' || values.malePresence.text === 'female_grooming_men') {
       values.malePresence = fields.malePresence.opts.find(o => o.text === 'romantic') || fields.malePresence.opts[1];
       const match = fields.maleInteraction.opts.find(opt => opt.cat === values.malePresence.text && opt.text !== 'none');
       if (match) values.maleInteraction = match;
     }
     renderFields();
     buildPrompt();
-    toast('Switched to Co-Star, Crew & Shaving Interaction.');
+    toast('Switched to Co-Star & Crew Interaction.');
+  });
+
+  switchWrap.querySelector('#btnPoseGrooming').addEventListener('click', () => {
+    values.malePresence = fields.malePresence.opts.find(o => o.text === 'female_grooming_men') || fields.malePresence.opts[5];
+    const match = fields.maleInteraction.opts.find(opt => opt.cat === 'female_grooming_men' && opt.text !== 'none');
+    if (match) values.maleInteraction = match;
+    renderFields();
+    buildPrompt();
+    toast('Switched to Female Model Grooming Men (Shaving, beard & champi).');
   });
 
   host.appendChild(switchWrap);
@@ -4420,7 +4477,10 @@ function buildSalonPrompt(){
     lines.push('');
   } else {
     lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
-    if(isStool){
+    const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+    if(isFemaleModelBarber){
+      lines.push(`When grooming action is depicted, the adult female model acts as the skilled practitioner and barber (${stageText}) with authentic posture, focused artisan concentration, and believable physical ergonomics. The receptive male client is seated or reclining comfortably in the chair. Her hands and body are fully connected with zero floating limbs, executing deliberate professional technique.`);
+    } else if(isStool){
       lines.push(`When haircutting action is depicted on the stool, the male barber performs ${stoolActVal} with attentive physical posture standing directly behind her, chest practically touching her back. His arms and body are fully connected to his hands with zero floating limbs, executing deliberate professional technique with authentic salon tools.`);
     } else {
       lines.push(`When haircutting action is depicted, the male barber (${stylistLabel}) performs ${stageText} on ${haircutText} using authentic professional Japanese stainless steel cutting shears (thumb and ring finger in rings, pinky on tang) and a black carbon comb, cutting hair held taut between index and middle fingers. The barber's arms and body must be fully connected to his hands with zero floating limbs.`);
@@ -4461,9 +4521,14 @@ function buildSalonPrompt(){
   }
 
   // Strict Solitary Female Model & Exclusive Male Staff Safeguard:
-  salonChecks.push(isStool
-    ? '• Exclusive Male Staff & Solitary Female Client: The client seated on the stool is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.'
-    : '• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
+  const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+  if(isFemaleModelBarber){
+    salonChecks.push('• Exclusive Solitary Female Model & Male Client/Staff: The adult female model from the reference is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.');
+  } else {
+    salonChecks.push(isStool
+      ? '• Exclusive Male Staff & Solitary Female Client: The client seated on the stool is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.'
+      : '• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
+  }
 
   // Always enforce Barber Tool Ergonomics & Anatomy in salon scenes:
   salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied arms entering frame). Haircut tools are strictly authentic, recognizable salon equipment: professional Japanese stainless steel shears held in standard barber grip (thumb in lower ring, ring finger in upper ring, pinky resting on tang), and a black carbon cutting comb held in opposite hand. Hair being cut is held flat and taut between index and middle fingers. Absolutely zero hybrid tools, zero fused scissor-combs, zero backward shears, and zero distorted blades.");
@@ -4669,6 +4734,8 @@ lines.push('MAKEOVER MOMENT');
 let moVal = val('makeover');
 if(hasMalePresence && (values.malePresence.text === 'crew_prep' || values.malePresence.text === 'bts_shaving')){
   moVal = 'the female model is in the midst of an authentic backstage beauty and grooming prep session just before her high-fashion shoot';
+} else if(hasMalePresence && values.malePresence.text === 'female_grooming_men'){
+  moVal = 'the adult female model is captured in an intimate, artisan grooming and pampering session as the active practitioner shaving, detailing, and massaging her male partner';
 } else if(!hasMalePresence && checkState.soloSubject){
   if(moVal.includes('stylist') || moVal.includes('styling chair')){
     moVal = 'the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject';
@@ -4701,14 +4768,27 @@ if(wardrobeMode === 'separates'){
 }
 lines.push('');
 if(hasMalePresence){
-  lines.push('MALE PRESENCE & EDITORIAL CO-STAR / CREW INTERACTION');
-  lines.push(`Setup category: ${values.malePresence.label}.`);
-  lines.push(`Action & body posture: ${val('maleInteraction')}. The interaction directly dictates her physical positioning, body contact, and hand placement, with our model as the clear visual protagonist.`);
-  lines.push('Solitary Female Model Rule: The adult female model is strictly and exclusively the ONLY woman in the scene. All colleagues, co-models, hair stylists, makeup artists, wardrobe assistants, and groomers interacting with her must strictly be male (completely exclude any secondary women, female stylists, or female background subjects).');
-  lines.push('');
-  lines.push('POSE AND EXPRESSION');
-  lines.push(`Interaction-driven body posture: ${val('maleInteraction')}. Keep her body language responsive, natural, and authentic to the moment.`);
-  lines.push(`Facial expression: ${val('expression')}. Overall attitude: ${val('mood')}.`);
+  if(values.malePresence.text === 'female_grooming_men'){
+    lines.push('FEMALE MODEL PROTAGONIST & ACTIVE GROOMING ACTION');
+    lines.push('• Active Practitioner Role: The adult woman from the reference image is the primary protagonist and active practitioner (groomer, barber, or partner). Her hands, tools, and posture drive the action.');
+    lines.push(`• Action & Physical Connection: ${val('maleInteraction')}. Believable finger placement, accurate tool grip, rich warm foam/lather texture, and authentic skin interaction.`);
+    lines.push('• Receptive Male Subject: A handsome, sharply groomed adult male model/client (receptive partner), seated or reclining comfortably with relaxed posture, eyes closed or looking up appreciatively.');
+    lines.push('• Solitary Female Model Rule: The adult female model is strictly and exclusively the ONLY woman in the scene. Zero secondary women, female stylists, or female background subjects.');
+    lines.push('• Identity & Realism Preservation: Faithfully preserve the adult Indian woman from the reference image—her recognizable facial identity, warm skin undertone, natural pores, and authentic hair texture.');
+    lines.push('');
+    lines.push('POSE AND EXPRESSION');
+    lines.push(`Active grooming posture: ${val('maleInteraction')}. Keep her body language focused, caring, natural, and authentic to the moment.`);
+    lines.push(`Facial expression: ${val('expression')}. Overall attitude: ${val('mood')}.`);
+  } else {
+    lines.push('MALE PRESENCE & EDITORIAL CO-STAR / CREW INTERACTION');
+    lines.push(`Setup category: ${values.malePresence.label}.`);
+    lines.push(`Action & body posture: ${val('maleInteraction')}. The interaction directly dictates her physical positioning, body contact, and hand placement, with our model as the clear visual protagonist.`);
+    lines.push('Solitary Female Model Rule: The adult female model is strictly and exclusively the ONLY woman in the scene. All colleagues, co-models, hair stylists, makeup artists, wardrobe assistants, and groomers interacting with her must strictly be male (completely exclude any secondary women, female stylists, or female background subjects).');
+    lines.push('');
+    lines.push('POSE AND EXPRESSION');
+    lines.push(`Interaction-driven body posture: ${val('maleInteraction')}. Keep her body language responsive, natural, and authentic to the moment.`);
+    lines.push(`Facial expression: ${val('expression')}. Overall attitude: ${val('mood')}.`);
+  }
 } else if(styleRef && transferToggles && transferToggles.hair){
   lines.push('POSE AND EXPRESSION');
   lines.push(`Pose: ${val('pose')}. Facial expression: ${val('expression')}. Hand / gesture detail: ${val('gesture')}. Solo subject composition: The adult woman is completely alone in the frame with her finished hair resting naturally; strictly no hairdresser standing beside or behind her, no man in the background, and zero stylist hands touching, holding, or styling her hair.`);

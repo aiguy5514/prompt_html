@@ -673,7 +673,13 @@ const salonStage = makeOpts([
   ['Post-shave hot towel & soothing balm on underarms & chest', 'post-shave soothing treatment: the male barber gently presses a steaming aromatic hot towel to the client\'s freshly shaved underarms and chest, followed by a gentle soothing after-shave balm application'],
   ['Client head tilted down for nape trimming', 'precision neckline detailing: client with head tilted gently down toward her chest, exposing the cervical spine and nape while the barber combs and shears the baseline'],
   ['Client leaning forward evaluating bangs in mirror', 'in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length'],
-  ['Client turned sideways looking away while barber checks perimeter', 'haircut moment: client turned sideways in chair looking away into the shop with her hand raised near her temple shielding her face, as the barber steps to the side to inspect the haircut baseline and hair texture']
+  ['Client turned sideways looking away while barber checks perimeter', 'haircut moment: client turned sideways in chair looking away into the shop with her hand raised near her temple shielding her face, as the barber steps to the side to inspect the haircut baseline and hair texture'],
+  // Female Model (Barber) Grooming Male Client
+  ['Female model (barber) straight-razor shaving male client\'s beard with warm lather', 'barber action: the adult female model acts as the skilled barber standing beside the hydraulic chair, holding a traditional chrome straight razor at a precise angle to shave rich lather off the male client\'s jawline as he reclines comfortably with a draped cape'],
+  ['Female model (barber) performing traditional hot oil champi (head massage) on male client', 'barber action: the adult female model stands behind the seated male client, skillfully massaging warm herbal oil into his scalp and temples with rhythmic finger kneading as he leans back into the headrest with eyes closed'],
+  ['Female model (barber) shaving male client\'s underarm hair clean with razor', 'grooming service: the adult female model carefully glides a precision razor down the male client\'s raised underarm with warm foamy lather, expertly shaving his armpit hair clean as he relaxes in the chair'],
+  ['Female model (barber) detailing male client\'s mustache and beard perimeter with shears', 'precision styling: the adult female model leans in close with fine barber shears and a pocket comb to detail and sculpt the male client\'s mustache and sideburn perimeter in the vanity mirror'],
+  ['Female model (barber) applying hot towel wrap & shoulder massage on male client', 'spa treatment: the adult female model drapes a steaming hot towel around the male client\'s neck and shoulders, using firm caring palm pressure to massage his neck muscles after his shave']
 ]);
 
 const salonStylist = makeOpts([
@@ -4128,7 +4134,10 @@ function buildSalonPrompt(){
     lines.push('');
   } else {
     lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
-    if(isStool){
+    const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+    if(isFemaleModelBarber){
+      lines.push(`When grooming action is depicted, the adult female model acts as the skilled practitioner and barber (${stageText}) with authentic posture, focused artisan concentration, and believable physical ergonomics. The receptive male client is seated or reclining comfortably in the chair. Her hands and body are fully connected with zero floating limbs, executing deliberate professional technique.`);
+    } else if(isStool){
       lines.push(`When haircutting action is depicted on the stool, the male barber performs ${stoolActVal} with attentive physical posture standing directly behind her, chest practically touching her back. His arms and body are fully connected to his hands with zero floating limbs, executing deliberate professional technique with authentic salon tools.`);
     } else {
       lines.push(`When haircutting action is depicted, the male barber (${stylistLabel}) performs ${stageText} on ${haircutText} using authentic professional Japanese stainless steel cutting shears (thumb and ring finger in rings, pinky on tang) and a black carbon comb, cutting hair held taut between index and middle fingers. The barber's arms and body must be fully connected to his hands with zero floating limbs.`);
@@ -4169,9 +4178,14 @@ function buildSalonPrompt(){
   }
 
   // Strict Solitary Female Model & Exclusive Male Staff Safeguard:
-  salonChecks.push(isStool
-    ? '• Exclusive Male Staff & Solitary Female Client: The client seated on the stool is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.'
-    : '• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
+  const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+  if(isFemaleModelBarber){
+    salonChecks.push('• Exclusive Solitary Female Model & Male Client/Staff: The adult female model from the reference is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.');
+  } else {
+    salonChecks.push(isStool
+      ? '• Exclusive Male Staff & Solitary Female Client: The client seated on the stool is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.'
+      : '• Exclusive Male Staff & Solitary Female Client: The client in the styling chair is the solitary female subject. All barbers, stylists, apprentices, and secondary shop patrons must be male; zero other women in frame.');
+  }
 
   // Always enforce Barber Tool Ergonomics & Anatomy in salon scenes:
   salonChecks.push("• Professional Barber Tool Ergonomics & Anatomy: The male barber's hands must always connect naturally to visible wrists, forearms, arms, and torso (zero floating hands, zero disembodied arms entering frame). Haircut tools are strictly authentic, recognizable salon equipment: professional Japanese stainless steel shears held in standard barber grip (thumb in lower ring, ring finger in upper ring, pinky resting on tang), and a black carbon cutting comb held in opposite hand. Hair being cut is held flat and taut between index and middle fingers. Absolutely zero hybrid tools, zero fused scissor-combs, zero backward shears, and zero distorted blades.");
