@@ -2194,6 +2194,7 @@ if(el('saveCustomLook')) el('saveCustomLook').addEventListener('click',saveCusto
 }
 
 function activateMenGrooming(){
+  salonSeatingMode = 'grooming_men';
   const match = fields.salonStage.opts.find(o => o.label.includes('Female model (barber)'));
   if (match) values.salonStage = match;
   goSection('salonStageSec');
@@ -2310,7 +2311,17 @@ titleWrap.append(label, lockBtn);
 
 // Determine options to display (filtered by category if applicable)
 let visibleOpts = f.opts;
-if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.hairCategory.text !== 'all') {
+if (id === 'salonStage' && salonSeatingMode === 'grooming_men') {
+  visibleOpts = f.opts.filter(o => o.label.includes('Female model (barber)'));
+  if (!visibleOpts.includes(values.salonStage)) {
+    values.salonStage = visibleOpts[0] || f.opts[0];
+  }
+} else if (id === 'salonStage' && salonSeatingMode !== 'grooming_men') {
+  visibleOpts = f.opts.filter(o => !o.label.includes('Female model (barber)'));
+  if (!visibleOpts.includes(values.salonStage)) {
+    values.salonStage = visibleOpts[0] || f.opts[0];
+  }
+} else if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.hairCategory.text !== 'all') {
   const cat = values.hairCategory.text;
   visibleOpts = f.opts.filter(o => getItemCategory('hair', o) === cat);
   if (!visibleOpts.includes(values.hair)) {
@@ -2633,6 +2644,8 @@ if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
 
 if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
   const isStool = (salonSeatingMode === 'stool');
+  const isGrooming = (salonSeatingMode === 'grooming_men');
+  const isChair = (!isStool && !isGrooming);
   
   const switchWrap = document.createElement('div');
   switchWrap.className = 'salon-seating-switch-card';
@@ -2641,28 +2654,41 @@ if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
   switchWrap.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
       <div>
-        <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Client Seating & Barber Proximity</strong>
-        <span style="font-size: 11px; color: var(--text-dim, #999);">Choose between a classic hydraulic barber chair or a low backless stool with the barber standing directly behind her practically touching her.</span>
+        <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Barber Role, Seating & Presence</strong>
+        <span style="font-size: 11px; color: var(--text-dim, #999);">Choose whether our female model is the client getting a haircut (chair / stool) or the skilled barber grooming a male client.</span>
       </div>
-      <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
-        <button type="button" class="seg-btn ${!isStool ? 'active' : ''}" id="btnSeatingChair" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${!isStool ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">💈 Classic Hydraulic Chair</button>
-        <button type="button" class="seg-btn ${isStool ? 'active' : ''}" id="btnSeatingStool" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isStool ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">🪑 Intimate Stool & Close Barber</button>
+      <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); gap: 4px; flex-wrap: wrap;">
+        <button type="button" class="seg-btn ${isChair ? 'active' : ''}" id="btnSeatingChair" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isChair ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">💈 Classic Chair (Client)</button>
+        <button type="button" class="seg-btn ${isStool ? 'active' : ''}" id="btnSeatingStool" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isStool ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">🪑 Stool & Close Barber (Client)</button>
+        <button type="button" class="seg-btn ${isGrooming ? 'active' : ''}" id="btnRoleGrooming" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isGrooming ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">✂️ Model Grooming Men (Barber)</button>
       </div>
     </div>
   `;
 
   switchWrap.querySelector('#btnSeatingChair').addEventListener('click', () => {
     salonSeatingMode = 'chair';
+    if (values.salonStage?.label?.includes('Female model (barber)')) {
+      values.salonStage = fields.salonStage.opts[0];
+    }
     renderFields();
-    buildPrompt();
-    toast('Switched to Classic Hydraulic Barber Chair.');
+    buildSalonPrompt();
+    toast('Switched to Classic Hydraulic Barber Chair (Client).');
   });
 
   switchWrap.querySelector('#btnSeatingStool').addEventListener('click', () => {
     salonSeatingMode = 'stool';
     renderFields();
-    buildPrompt();
-    toast('Switched to Intimate Stool & Close-Contact Barber.');
+    buildSalonPrompt();
+    toast('Switched to Intimate Stool & Close-Contact Barber (Client).');
+  });
+
+  switchWrap.querySelector('#btnRoleGrooming').addEventListener('click', () => {
+    salonSeatingMode = 'grooming_men';
+    const match = fields.salonStage.opts.find(o => o.label.includes('Female model (barber)'));
+    if (match) values.salonStage = match;
+    renderFields();
+    buildSalonPrompt();
+    toast('Switched to Female Model (Barber) Grooming Male Client.');
   });
 
   host.appendChild(switchWrap);
@@ -2693,8 +2719,10 @@ allOrdered.forEach(([id,f])=>{
 
   if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
     const isStool = (salonSeatingMode === 'stool');
+    const isGrooming = (salonSeatingMode === 'grooming_men');
     if(!isStool){
       if(id === 'salonStoolType' || id === 'salonBarberProximity' || id === 'salonIntimateHairAction' || id === 'salonStoolModelPosture') return;
+      if(isGrooming && id === 'salonStylist') return;
       if(coreSet.has(id)) primaryFields.push([id,f]);
       else secondaryFields.push([id,f]);
     } else {
