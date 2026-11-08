@@ -1491,6 +1491,135 @@ addOptions(background, makeOpts([
   ['Industrial gallery loft with exposed steel beams & sawtooth skylights', 'a cavernous converted industrial loft gallery with exposed rust-patina steel trusses, whitewashed brick, and northern sawtooth skylights']
 ]));
 
+
+// ==========================================
+// MODULAR SEPARATES ENGINE (TOPS & BOTTOMS)
+// ==========================================
+const TOP_FAMILIES = [
+  O('✦ All Tops (35 options)', 'all'),
+  O('👚 Cropped Tanks & Baby Tees (9 options)', 'crop_tee'),
+  O('🦺 Corsets & Bustiers (6 options)', 'corset'),
+  O('🧶 Halter & Backless Tops (6 options)', 'halter'),
+  O('👔 Shirts, Blouses & Button-Downs (5 options)', 'shirt'),
+  O('✨ Bandeaus & Asymmetric Tops (5 options)', 'bandeau'),
+  O('🧥 Cropped Jackets & Layered Vests (4 options)', 'jacket')
+];
+
+const topPieces = makeOpts([
+  // Cropped Tanks & Baby Tees
+  ['White ribbed racerback cropped tank top', 'a fitted white ribbed cotton racerback cropped tank top ending just below the ribcage, with clean armhole binding and visible fabric rib texture', '', 'crop_tee'],
+  ['Vintage washed baby tee with contrast ringer collar', 'a soft vintage-washed cotton baby tee cropped at the natural waist, featuring contrast navy rib ringer trim at the crew neck and sleeves', '', 'crop_tee'],
+  ['Black seamless scoop-neck athletic crop tank', 'a minimalist matte black seamless scoop-neck athletic crop tank with wide straps and snug body contouring', '', 'crop_tee'],
+  ['Charcoal heathered crewneck cropped tee', 'a relaxed heather-charcoal cropped cotton t-shirt with a boxy cut and raw cut-off hem resting above the navel', '', 'crop_tee'],
+  ['Fitted long-sleeve ribbed crop top with thumbholes', 'a body-skimming long-sleeve ribbed knit crop top in espresso brown with subtle thumbhole cuffs and a wide boat neckline', '', 'crop_tee'],
+  ['Square-neck cream cotton crop top', 'a structured square-neck stretch cotton crop top in warm cream with thick supportive straps and a clean hemline', '', 'crop_tee'],
+  ['Distressed vintage graphic band baby tee', 'a faded vintage rock-band graphic baby tee cropped high across the midriff with subtle distressing along the neckline', '', 'crop_tee'],
+  ['Deep scoop-neck ribbed crop top in olive green', 'a deep scoop-neck finely ribbed cotton crop top in muted olive green with delicate edge stitching', '', 'crop_tee'],
+  ['Knitted short-sleeve baby tee with micro-ribbing', 'a lightweight cashmere-cotton blend short-sleeve baby tee in soft oatmeal with delicate micro-ribbed cuffs', '', 'crop_tee'],
+
+  // Corsets & Bustiers
+  ['Structured indigo denim corset bustier', 'a sharply contoured dark indigo denim corset top with vertical boning seams, exposed metallic brass zip front, and sweetheart neckline', '', 'corset'],
+  ['Black lace-trimmed satin crop camisole', 'a delicate black mulberry silk-satin crop camisole with scalloped eyelash lace along the V-neckline and slender adjustable straps', '', 'corset'],
+  ['Lace-up front cotton canvas corset top', 'a vintage-inspired cream cotton canvas corset top with front nickel eyelet lace-up detailing and curved underbust boning', '', 'corset'],
+  ['Champagne satin boned bustier crop top', 'a structured champagne satin bustier crop top with sculpted cups, interior boning, and clean architectural lines', '', 'corset'],
+  ['Distressed light-wash denim corset top', 'a vintage light-wash denim corset top with contrast tobacco stitching and raw frayed edges along the top and bottom hems', '', 'corset'],
+  ['Structured black leatherette bustier crop', 'a matte black structured faux-leather bustier crop with defined cup seams and silver side-zip hardware', '', 'corset'],
+
+  // Halter & Backless Tops
+  ['Backless bohemian crochet-knit halter crop', 'a handmade cream crochet-knit halter crop top with an open diamond stitch pattern, tie-back neck straps, and completely bare spine', '', 'halter'],
+  ['High-neck ribbed knit halter crop top', 'a high-neck ribbed knit halter crop top in rich burgundy with a cutaway shoulder line that emphasizes the clavicle and collarbone', '', 'halter'],
+  ['Fluid black silk halter scarf top', 'a minimalist black silk-satin scarf halter top tied behind the neck and lower back, draping gracefully across the chest', '', 'halter'],
+  ['Deep-V neck cotton halter top with tie back', 'a plunging deep-V cotton halter crop top in terracotta rust with an open back and relaxed hem', '', 'halter'],
+  ['Cross-front keyhole halter crop top', 'a modern black stretch fabric halter crop top with a crossed front keyhole accent and racerback strap detail', '', 'halter'],
+  ['Fine-gauge cashmere halter crop in soft taupe', 'a luxurious fine-gauge soft taupe knit halter crop top with a soft rolled neckline and open shoulder line', '', 'halter'],
+
+  // Shirts, Blouses & Button-Downs
+  ['Oversized crisp white linen shirt unbuttoned over bralette', 'an oversized crisp white linen button-down shirt worn completely unbuttoned and draped loosely off one shoulder over a tiny black crop bralette', '', 'shirt'],
+  ['Tie-front cropped white poplin button-up shirt', 'a crisp white cotton poplin button-down shirt cropped above the waist with front tails tied casually in a loose knot at the navel', '', 'shirt'],
+  ['Cropped boxy denim utility short-sleeve shirt', 'a boxy light-blue denim utility shirt cropped at the natural waist with twin chest flap pockets and rolled cuffs', '', 'shirt'],
+  ['Sheer black silk chiffon tie-front blouse', 'a sheer airy black silk chiffon blouse with billowy sleeves, tied loosely at the front over a minimalist bandeau', '', 'shirt'],
+  ['Relaxed vintage plaid flannel shirt tied at the waist', 'a vintage washed cotton plaid flannel shirt tied casually around the waist or worn open over a ribbed white crop tank', '', 'shirt'],
+
+  // Bandeaus & Asymmetric Tops
+  ['Seamless black stretch bandeau tube top', 'a clean strapless black stretch bandeau tube top providing sleek minimalist coverage across the bust with completely bare shoulders and décolletage', '', 'bandeau'],
+  ['Asymmetric one-shoulder ribbed knit crop top', 'a fashion-forward asymmetric one-shoulder ribbed crop top in slate grey with a clean diagonal chest line and single sculpted strap', '', 'bandeau'],
+  ['Twist-front strapless sweetheart bandeau in white', 'a crisp white strapless bandeau top with a central twist knot detail and flattering sweetheart silhouette', '', 'bandeau'],
+  ['Ruched mesh strapless tube crop top in espresso', 'a finely ruched sheer mesh strapless tube crop top layered over an opaque espresso-brown base with soft side gather details', '', 'bandeau'],
+  ['Sculptural one-shoulder drape crop top', 'an architectural ivory one-shoulder crop top with an asymmetric draped neckline and gathered shoulder accent', '', 'bandeau'],
+
+  // Cropped Jackets & Layered Vests
+  ['Sleeveless vintage denim trucker vest worn buttoned', 'a vintage faded blue denim trucker vest with brass shank buttons, worn buttoned up without an undershirt as a chic cropped sleeveless top', '', 'jacket'],
+  ['Cropped black leather-look biker jacket over crop cami', 'a buttery black vegan leather moto jacket cropped above the hips with silver asymmetric zip hardware, worn open over a tiny ribbed cami', '', 'jacket'],
+  ['Tailored sleeveless suiting waistcoat crop vest', 'a sharply tailored black suiting waistcoat with front welt pockets and pointed front hem, worn buttoned against bare skin as a crop top', '', 'jacket'],
+  ['Cropped beige trench jacket with storm flap', 'a cropped double-breasted beige cotton gabardine trench jacket with storm flap and tortoise buttons, ending sharply at the waist', '', 'jacket']
+]);
+
+const BOTTOM_FAMILIES = [
+  O('✦ All Bottoms (32 options)', 'all'),
+  O('👖 Denim Shorts & Cutoffs (10 options)', 'denim_shorts'),
+  O('👖 Jeans & Denim Trousers (6 options)', 'jeans'),
+  O('🩳 Tailored & Casual Shorts (5 options)', 'shorts'),
+  O('👗 Skirts & Minis (6 options)', 'skirt'),
+  O('👖 Trousers & Pants (5 options)', 'pants')
+];
+
+const bottomPieces = makeOpts([
+  // Denim Shorts & Cutoffs
+  ['High-waisted vintage wash denim cutoff shorts with frayed hems', 'high-waisted vintage medium-wash blue denim cutoff shorts with authentic hand-frayed raw hems, subtle front whisker fading, and classic five-pocket styling', '', 'denim_shorts'],
+  ['Distressed micro denim shorts with raw edges', 'low-slung distressed light-blue micro denim shorts with shredded raw hems, exposed pocket lining fringes, and brass rivet accents', '', 'denim_shorts'],
+  ['Classic Levi\'s 501 vintage wash denim cutoffs', 'authentic vintage Levi\'s 501 medium-blue denim cutoffs with a button-fly closure, natural thigh distress, and raw cut hem', '', 'denim_shorts'],
+  ['Frayed raw-hem Daisy Dukes in sun-bleached denim', 'ultra-short sun-bleached light denim Daisy Dukes with frayed raw hems curving gently upward at the outer thighs, highlighting leg lines', '', 'denim_shorts'],
+  ['Relaxed 90s acid-wash denim cutoff jorts', 'relaxed knee-grazing 90s acid-wash blue denim cutoff jorts with a loose straight-leg fit and unhemmed frayed cuffs', '', 'denim_shorts'],
+  ['Black washed denim cutoff shorts with distressed pocket details', 'faded black washed denim cutoff shorts with subtle pocket abrasion, raw hems, and matte black hardware', '', 'denim_shorts'],
+  ['Clean white denim high-rise cutoff shorts', 'crisp white denim high-rise cutoff shorts with clean copper rivets, subtle frayed fringe hems, and structured pocket lines', '', 'denim_shorts'],
+  ['Carpenter-style denim cutoff shorts with utility hammer loop', 'medium-wash relaxed denim cutoff shorts featuring utilitarian carpenter pockets and side hammer loop with raw frayed edges', '', 'denim_shorts'],
+  ['Deep indigo raw-edge denim shorts with cuffed hems', 'dark saturated indigo denim shorts with rolled raw-edge cuffs and contrast golden-yellow tobacco stitching', '', 'denim_shorts'],
+  ['Two-tone spliced denim cutoff shorts', 'creative two-tone denim cutoff shorts splicing light and medium denim washes across front panels with frayed raw bottoms', '', 'denim_shorts'],
+
+  // Jeans & Denim Trousers
+  ['Wide-leg relaxed puddle denim jeans with raw hem', 'high-waisted wide-leg puddle jeans in vintage light wash denim, falling fluidly with natural fabric drape over the shoes', '', 'jeans'],
+  ['Low-slung 90s boyfriend jeans with knee distress', 'slouchy low-slung 90s boyfriend jeans in medium wash denim with relaxed thighs, subtle knee slashes, and undone hem', '', 'jeans'],
+  ['Straight-leg vintage blue jeans with clean ankle crop', 'classic high-rise straight-leg vintage denim jeans with an ankle-length crop showcasing clean footwear lines', '', 'jeans'],
+  ['Dark indigo flare denim jeans with high waist', 'high-waisted dark indigo stretch denim flare jeans with an elongated 70s-inspired silhouette and clean trouser hem', '', 'jeans'],
+  ['Ecru off-white relaxed denim carpenter pants', 'relaxed ecru off-white denim carpenter trousers with utility stitching, slanted front pockets, and loose straight legs', '', 'jeans'],
+  ['Faded black wide-leg denim jeans with floor sweep', 'relaxed faded black denim wide-leg jeans with clean waistline tailoring and fluid architectural drape', '', 'jeans'],
+
+  // Tailored & Casual Shorts
+  ['High-waisted tailored pleat-front linen shorts in beige', 'high-waisted tailored linen-blend shorts in warm beige with sharp front pleats, slant pockets, and a neat folded hem', '', 'shorts'],
+  ['Matte black faux-leather tailored mini shorts', 'buttery matte black faux-leather mini shorts with a clean flat waistband, side zip closure, and structured minimal silhouette', '', 'shorts'],
+  ['Cargo utility cotton mini shorts with flap pockets in olive', 'relaxed olive green cotton twill cargo mini shorts with functional side flap pockets and twill drawstring waist', '', 'shorts'],
+  ['Crisp tailored Bermuda suiting shorts in charcoal', 'knee-length tailored Bermuda shorts in charcoal tropical wool suiting with clean center pressed creases and belt loops', '', 'shorts'],
+  ['Striped poplin boxer-style lounge shorts in blue and white', 'breezy blue and white vertical striped cotton poplin boxer shorts with an elasticated waistband and relaxed leg openings', '', 'shorts'],
+
+  // Skirts & Minis
+  ['Low-rise micro denim mini skirt with frayed raw hem', 'a micro denim mini skirt in vintage medium blue wash with raw distressed fringe hem and classic five-pocket belt line', '', 'skirt'],
+  ['High-waisted pleated tennis mini skirt in white', 'a crisp white pleated athletic tennis mini skirt with sharp knife pleats and an integral tailored waistband', '', 'skirt'],
+  ['Asymmetric fluid satin midi skirt with thigh slit', 'a bias-cut fluid champagne satin midi skirt with a high side thigh slit and liquid-smooth fabric movement', '', 'skirt'],
+  ['Black tailored wrap mini skirt with buckle closure', 'a sharp black suiting wrap mini skirt with an asymmetric front flap secured by a sleek silver side buckle', '', 'skirt'],
+  ['Distressed light-wash denim maxi skirt with front slit', 'an elongated 90s column maxi skirt in vintage light wash denim featuring a high center front walking slit and raw hem', '', 'skirt'],
+  ['Gathered floral chiffon mini skirt with ruffles', 'an airy semi-sheer chiffon mini skirt in muted floral tones with subtle micro-ruffle tiers and soft movement', '', 'skirt'],
+
+  // Trousers & Pants
+  ['Fluid high-waisted wide-leg palazzo trousers in ivory', 'high-waisted fluid crepe palazzo trousers in ivory with deep front pleats, flowing elegantly with every step', '', 'pants'],
+  ['Relaxed low-rise linen drawstring trousers in oatmeal', 'low-slung breezy linen trousers in oatmeal with a relaxed drawstring waistband and effortless slouchy drape', '', 'pants'],
+  ['Tailored straight-leg cigarette trousers in black', 'sharply tailored ankle-length black cigarette trousers with pressed center creases and minimalist welt pockets', '', 'pants'],
+  ['Wide-leg cargo trousers in washed sage green with utility ties', 'relaxed wide-leg cotton cargo pants in washed sage green with multi-compartment utility pockets and adjustable ankle ties', '', 'pants'],
+  ['High-waisted black leather-look straight-leg pants', 'supple black vegan leather straight-leg trousers with a clean high waistband and authentic matte sheen', '', 'pants']
+]);
+
+const midriffStylings = makeOpts([
+  ['Bare midriff with natural skin texture & subtle abdominal tone', 'a bare midriff revealing authentic skin pore texture, natural waist curvature, and subtle abdominal definition without airbrushing'],
+  ['High-waisted denim coverage with narrow sliver of midriff', 'high-waisted denim fit leaving only a tasteful, narrow sliver of bare skin visible between the crop top hem and waistband'],
+  ['Low-rise fit showcasing waist contour & pelvic crest', 'a low-rise waistband resting casually on the hips, showcasing the natural waist contour, pelvic bone crest, and flat stomach'],
+  ['Vintage leather belt with antiqued silver buckle accent', 'the denim waistband cinched with a worn vintage brown leather belt featuring an engraved antique silver western buckle'],
+  ['Casual half-tuck front with relaxed hem drape', 'the front edge of the top loosely half-tucked into the denim waistband with the sides and back draping naturally'],
+  ['Western double-buckle belt with statement metal hardware', 'the waist accented by a bold black leather western belt with dual ornate engraved silver buckles and metal tip hardware'],
+  ['Clean belt-free waistband resting naturally on hips', 'a clean, unbelted denim waistband resting naturally against bare sun-kissed skin without accessories'],
+  ['Ultra-low-rise waistband revealing hip bones and flank silhouette', 'an ultra-low-rise waistband sitting low across the hips, fully showcasing the flank silhouette, waist indent, and lower abdominal contour']
+]);
+
+let wardrobeMode = 'ensemble';
+
 const fields={
 salonVenueCategory:{label:'Establishment category',section:'salonVenueSec',opts:SALON_VENUE_CATEGORIES,def:0},
 salonVenue:{label:'Establishment type',section:'salonVenueSec',opts:salonVenue,def:0},
@@ -1520,6 +1649,11 @@ salonCollageFrame3:{label:'Panel 3 Scene (Bottom-Left)',section:'salonCollageSec
 salonCollageFrame4:{label:'Panel 4 Scene (Bottom-Right)',section:'salonCollageSec',opts:salonCollageScenes,def:26},
 
 hairCategory:{label:'Haircut category',section:'look',opts:HAIR_FAMILIES,def:0},
+topCategory:{label:'Top piece category',section:'wardrobe',opts:TOP_FAMILIES,def:0},
+topPiece:{label:'Top garment & silhouette',section:'wardrobe',opts:topPieces,def:0},
+bottomCategory:{label:'Bottom piece category',section:'wardrobe',opts:BOTTOM_FAMILIES,def:0},
+bottomPiece:{label:'Bottom garment & cut',section:'wardrobe',opts:bottomPieces,def:0},
+midriffStyling:{label:'Midriff & waist styling',section:'wardrobe',opts:midriffStylings,def:0},
 outfitCategory:{label:'Wardrobe category',section:'wardrobe',opts:OUTFIT_FAMILIES,def:0},
 poseCategory:{label:'Pose category',section:'pose',opts:POSE_FAMILIES,def:0},
 shotCategory:{label:'Shot category',section:'camera',opts:SHOT_FAMILIES,def:0},
@@ -1928,6 +2062,7 @@ const salonSections=[
   {id:'salonVenueSec',name:'Salon & Vibe',short:'VENUE',icon:'💈',desc:'Reference workflow, authentic salon venue, and neighborhood bustle.'},
   {id:'salonStageSec',name:'Haircut & Barber',short:'STAGE',icon:'✂',desc:'Pick the in-progress cutting moment and barber presence in frame.'},
   {id:'salonHairSec',name:'Haircut Style',short:'HAIR',icon:'💇‍♀️',desc:'Specify the haircut being cut from 230 styles and authentic hair texture.'},
+  {id:'wardrobe',name:'Wardrobe & Styling',short:'WARDROBE',icon:'👗',desc:'Choose full-look ensembles or two-piece separates (tops & bottoms) for our model.'},
   {id:'salonCameraSec',name:'Cape & Camera',short:'CAMERA',icon:'📸',desc:'Set the draped cutting cape, mirror perspective POV, and salon lighting. (💡 Note: To direct 2×2 Storyboard Collage panels, choose \'2×2 collage\' under Output format in Finish.)'},
   {id:'finish',name:'Finish & controls',short:'FINISH',icon:'✦',desc:'Control identity preservation, realism, exclusions, and custom instructions.'}
 ];
@@ -1988,6 +2123,12 @@ const GROUPS=[
 ['salonStageSec','Stool & Intimate Barber Setup',['salonStoolType','salonBarberProximity']],
 ['salonStageSec','Hair Work & Model Posture',['salonIntimateHairAction','salonStoolModelPosture']],
 ['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonHairTexture']],
+['wardrobe','Outfit',['outfitCategory','outfit']],
+['wardrobe','Top Piece & Styling',['topCategory','topPiece']],
+['wardrobe','Bottom Piece & Cut',['bottomCategory','bottomPiece','midriffStyling']],
+['wardrobe','Fit & Fabric Details',['outfitFit','palette']],
+['wardrobe','Accessories',['accessories']],
+['wardrobe','Makeup & skin',['makeup']],
 ['salonCameraSec','Cutting Cape & Realism',['salonCape']],
 ['salonCameraSec','Mirror Angle & Lighting',['salonCamera','salonLighting','salonQuality']],
 ['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairTexture','hairLength','hairVolume','fringe','parting']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
@@ -2001,7 +2142,7 @@ salonStageSec: new Set(['salonStage', 'salonStylist', 'salonExpression', 'salonS
 salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonHairTexture']),
 salonCameraSec: new Set(['salonCape', 'salonCamera', 'salonLighting', 'salonQuality']),
 look: new Set(['mode', 'hairCategory', 'hair', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
-wardrobe: new Set(['outfitCategory', 'outfit', 'outfitFit', 'palette', 'makeup', 'accessories']),
+wardrobe: new Set(['outfitCategory', 'outfit', 'topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling', 'outfitFit', 'palette', 'makeup', 'accessories']),
 pose: new Set(['poseCategory', 'pose', 'malePresence', 'maleInteraction', 'expression', 'gesture', 'mood']),
 camera: new Set(['shotCategory', 'framing', 'angle', 'lens', 'aspect']),
 scene: new Set(['sceneCategory', 'background', 'placeDetail', 'lightingCategory', 'lighting', 'style', 'grade'])
@@ -2321,7 +2462,19 @@ if (id === 'salonStage' && salonSeatingMode === 'grooming_men') {
   if (!visibleOpts.includes(values.salonStage)) {
     values.salonStage = visibleOpts[0] || f.opts[0];
   }
-} else if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.hairCategory.text !== 'all') {
+} else if (id === 'topPiece' && values.topCategory && values.topCategory.text && values.topCategory.text !== 'all') {
+    const cat = values.topCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+    if (!visibleOpts.includes(values.topPiece)) {
+      values.topPiece = visibleOpts[0] || f.opts[0];
+    }
+  } else if (id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text && values.bottomCategory.text !== 'all') {
+    const cat = values.bottomCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+    if (!visibleOpts.includes(values.bottomPiece)) {
+      values.bottomPiece = visibleOpts[0] || f.opts[0];
+    }
+  } else if (id === 'hair' && values.hairCategory && values.hairCategory.text && values.hairCategory.text !== 'all') {
   const cat = values.hairCategory.text;
   visibleOpts = f.opts.filter(o => getItemCategory('hair', o) === cat);
   if (!visibleOpts.includes(values.hair)) {
@@ -2564,6 +2717,41 @@ function updateFineTuneBadge(){
 const countEl=el('fineTuneActiveCount');
 if(!countEl)return;
 const coreSet=CORE_FIELD_IDS[activeSection]||new Set();
+if(activeSection === 'wardrobe'){
+    const isSeparates = (wardrobeMode === 'separates');
+    const switchWrap = document.createElement('div');
+    switchWrap.className = 'wardrobe-mode-card';
+    switchWrap.style.cssText = 'grid-column: 1 / -1; margin: 0 0 16px 0; padding: 14px 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;';
+    switchWrap.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Wardrobe Configuration</strong>
+          <span style="font-size: 11px; color: var(--text-dim, #999);">Choose between complete designer outfits or customizable two-piece separates (crop tops & bottoms).</span>
+        </div>
+        <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); gap: 4px;">
+          <button type="button" class="seg-btn ${!isSeparates ? 'active' : ''}" id="btnModeEnsemble" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${!isSeparates ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👗 Full Look Ensembles</button>
+          <button type="button" class="seg-btn ${isSeparates ? 'active' : ''}" id="btnModeSeparates" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isSeparates ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👚 Two-Piece Separates</button>
+        </div>
+      </div>
+    `;
+
+    switchWrap.querySelector('#btnModeEnsemble').addEventListener('click', () => {
+      wardrobeMode = 'ensemble';
+      renderFields();
+      buildSalonPrompt();
+      toast('Switched to Full Look Ensembles.');
+    });
+
+    switchWrap.querySelector('#btnModeSeparates').addEventListener('click', () => {
+      wardrobeMode = 'separates';
+      renderFields();
+      buildSalonPrompt();
+      toast('Switched to Two-Piece Separates (Crop Tops & Bottoms).');
+    });
+
+    host.appendChild(switchWrap);
+}
+
 const allOrdered=orderedFields();
 let customized=0;
 allOrdered.forEach(([id,f])=>{
@@ -2644,6 +2832,7 @@ if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
 
 if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
   const isStool = (salonSeatingMode === 'stool');
+  const isFemaleModelBarber = (salonSeatingMode === 'grooming_men') || (val('salonStage') && val('salonStage').includes('adult female model')) || (values['salonStage']?.label && values['salonStage'].label.includes('Female model (barber)'));
   const isGrooming = (salonSeatingMode === 'grooming_men');
   const isChair = (!isStool && !isGrooming);
   
@@ -3889,6 +4078,9 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = []){
 
 function buildSalonPrompt(){
   const mode = val('mode');
+  const stageRawVal = val('salonStage') || '';
+  const stageLabelVal = values['salonStage']?.label || '';
+  const isFemaleModelBarber = (salonSeatingMode === 'grooming_men') || stageRawVal.includes('adult female model') || stageLabelVal.includes('Female model (barber)');
   const S = t => (checkState.noMirror ? sanitizeMirrorProse(t) : t);
   const lines = [];
   const isStool = (salonSeatingMode === 'stool');
@@ -4068,6 +4260,28 @@ function buildSalonPrompt(){
   lines.push(checkState.noMirror ? 'CAMERA PERSPECTIVE & LIGHTING' : 'CAMERA, MIRROR PERSPECTIVE & LIGHTING');
   lines.push(`Camera angle: ${cameraText}. Lighting: ${lightingText}. Quality: ${qualityText}.`);
   lines.push('');
+  lines.push(isFemaleModelBarber ? 'MODEL BARBER WARDROBE & STYLING' : 'CLIENT UNDER-CAPE WARDROBE & STYLING');
+  if(wardrobeMode === 'separates'){
+    const topText = val('topPiece') || 'a minimalist white ribbed racerback crop tank top';
+    const bottomText = val('bottomPiece') || 'high-waisted vintage wash denim cutoff shorts';
+    const waistText = val('midriffStyling') || 'bare midriff with natural skin texture & subtle tone';
+    const fitText = val('outfitFit') || 'clean tailored fit';
+    if(isFemaleModelBarber){
+      lines.push(`Model barber attire: a stylish two-piece separates ensemble featuring ${topText} paired with ${bottomText}. Midriff & waist styling: ${waistText}. Garment fit: ${fitText}. The female model wears her stylish salon practitioner separates with authentic fabric drape and realistic seams as she actively moves around the chair grooming her male client.`);
+    } else {
+      lines.push(`Client under-cape wardrobe: a modern two-piece separates ensemble featuring ${topText} paired with ${bottomText}. Midriff & waist styling: ${waistText}. Garment fit: ${fitText}. Fabric folds and hemlines naturally visible beneath the draped cutting cape neckline and lap.`);
+    }
+  } else {
+    const outfitText = val('outfit') || 'a chic contemporary outfit';
+    const fitText = val('outfitFit') || 'natural tailored fit';
+    if(isFemaleModelBarber){
+      lines.push(`Model barber attire: ${outfitText}. Garment fit: ${fitText}. The female model wears her stylish salon practitioner outfit with authentic fabric drape and realistic seams as she actively moves around the chair grooming her male client.`);
+    } else {
+      lines.push(`Client under-cape wardrobe: ${outfitText}. Garment fit: ${fitText}. Fabric drape visible beneath the draped cutting cape neckline and lap.`);
+    }
+  }
+  lines.push('');
+
 
   const stageLabel = S(values['salonStage']?.label || 'Active haircut moment');
   const moistureText = moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp;
@@ -4173,7 +4387,7 @@ function buildSalonPrompt(){
     lines.push('');
   } else {
     lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
-    const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+    // isFemaleModelBarber defined at function scope
     if(isFemaleModelBarber){
       lines.push(`When grooming action is depicted, the adult female model acts as the skilled practitioner and barber (${stageText}) with authentic posture, focused artisan concentration, and believable physical ergonomics. The receptive male client is seated or reclining comfortably in the chair. Her hands and body are fully connected with zero floating limbs, executing deliberate professional technique.`);
     } else if(isStool){
@@ -4217,7 +4431,7 @@ function buildSalonPrompt(){
   }
 
   // Strict Solitary Female Model & Exclusive Male Staff Safeguard:
-  const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+  // isFemaleModelBarber defined at function scope
   if(isFemaleModelBarber){
     salonChecks.push('• Exclusive Solitary Female Model & Male Client/Staff: The adult female model from the reference is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.');
   } else {
@@ -5104,6 +5318,7 @@ window.addEventListener('hashchange', () => {
     activateMenGrooming();
   }
 });
+
 startRotation();
 })();
 </script>

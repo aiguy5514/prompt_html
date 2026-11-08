@@ -2184,6 +2184,7 @@ const salonSections=[
   {id:'salonVenueSec',name:'Salon & Vibe',short:'VENUE',icon:'💈',desc:'Reference workflow, authentic salon venue, and neighborhood bustle.'},
   {id:'salonStageSec',name:'Haircut & Barber',short:'STAGE',icon:'✂',desc:'Pick the in-progress cutting moment and barber presence in frame.'},
   {id:'salonHairSec',name:'Haircut Style',short:'HAIR',icon:'💇‍♀️',desc:'Specify the haircut being cut from 230 styles and authentic hair texture.'},
+  {id:'wardrobe',name:'Wardrobe & Styling',short:'WARDROBE',icon:'👗',desc:'Choose full-look ensembles or two-piece separates (tops & bottoms) for our model.'},
   {id:'salonCameraSec',name:'Cape & Camera',short:'CAMERA',icon:'📸',desc:'Set the draped cutting cape, mirror perspective POV, and salon lighting. (💡 Note: To direct 2×2 Storyboard Collage panels, choose \'2×2 collage\' under Output format in Finish.)'},
   {id:'finish',name:'Finish & controls',short:'FINISH',icon:'✦',desc:'Control identity preservation, realism, exclusions, and custom instructions.'}
 ];
@@ -2974,6 +2975,7 @@ if(activeSection === 'wardrobe'){
 
   if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
   const isStool = (salonSeatingMode === 'stool');
+  const isFemaleModelBarber = (salonSeatingMode === 'grooming_men') || (val('salonStage') && val('salonStage').includes('adult female model')) || (values['salonStage']?.label && values['salonStage'].label.includes('Female model (barber)'));
   const isGrooming = (salonSeatingMode === 'grooming_men');
   const isChair = (!isStool && !isGrooming);
   
@@ -4233,6 +4235,9 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = []){
 
 function buildSalonPrompt(){
   const mode = val('mode');
+  const stageRawVal = val('salonStage') || '';
+  const stageLabelVal = values['salonStage']?.label || '';
+  const isFemaleModelBarber = (salonSeatingMode === 'grooming_men') || stageRawVal.includes('adult female model') || stageLabelVal.includes('Female model (barber)');
   const S = t => (checkState.noMirror ? sanitizeMirrorProse(t) : t);
   const lines = [];
   const isStool = (salonSeatingMode === 'stool');
@@ -4411,6 +4416,28 @@ function buildSalonPrompt(){
   lines.push(checkState.noMirror ? 'CAMERA PERSPECTIVE & LIGHTING' : 'CAMERA, MIRROR PERSPECTIVE & LIGHTING');
   lines.push(`Camera angle: ${cameraText}. Lighting: ${lightingText}. Quality: ${qualityText}.`);
   lines.push('');
+  lines.push(isFemaleModelBarber ? 'MODEL BARBER WARDROBE & STYLING' : 'CLIENT UNDER-CAPE WARDROBE & STYLING');
+  if(wardrobeMode === 'separates'){
+    const topText = val('topPiece') || 'a minimalist white ribbed racerback crop tank top';
+    const bottomText = val('bottomPiece') || 'high-waisted vintage wash denim cutoff shorts';
+    const waistText = val('midriffStyling') || 'bare midriff with natural skin texture & subtle tone';
+    const fitText = val('outfitFit') || 'clean tailored fit';
+    if(isFemaleModelBarber){
+      lines.push(`Model barber attire: a stylish two-piece separates ensemble featuring ${topText} paired with ${bottomText}. Midriff & waist styling: ${waistText}. Garment fit: ${fitText}. The female model wears her stylish salon practitioner separates with authentic fabric drape and realistic seams as she actively moves around the chair grooming her male client.`);
+    } else {
+      lines.push(`Client under-cape wardrobe: a modern two-piece separates ensemble featuring ${topText} paired with ${bottomText}. Midriff & waist styling: ${waistText}. Garment fit: ${fitText}. Fabric folds and hemlines naturally visible beneath the draped cutting cape neckline and lap.`);
+    }
+  } else {
+    const outfitText = val('outfit') || 'a chic contemporary outfit';
+    const fitText = val('outfitFit') || 'natural tailored fit';
+    if(isFemaleModelBarber){
+      lines.push(`Model barber attire: ${outfitText}. Garment fit: ${fitText}. The female model wears her stylish salon practitioner outfit with authentic fabric drape and realistic seams as she actively moves around the chair grooming her male client.`);
+    } else {
+      lines.push(`Client under-cape wardrobe: ${outfitText}. Garment fit: ${fitText}. Fabric drape visible beneath the draped cutting cape neckline and lap.`);
+    }
+  }
+  lines.push('');
+
 
   const stageLabel = S(values['salonStage']?.label || 'Active haircut moment');
   const moistureText = moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp;
@@ -4516,7 +4543,7 @@ function buildSalonPrompt(){
     lines.push('');
   } else {
     lines.push('HAIRCUT TOOL & ACTION ERGONOMICS');
-    const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+    // isFemaleModelBarber defined at function scope
     if(isFemaleModelBarber){
       lines.push(`When grooming action is depicted, the adult female model acts as the skilled practitioner and barber (${stageText}) with authentic posture, focused artisan concentration, and believable physical ergonomics. The receptive male client is seated or reclining comfortably in the chair. Her hands and body are fully connected with zero floating limbs, executing deliberate professional technique.`);
     } else if(isStool){
@@ -4560,7 +4587,7 @@ function buildSalonPrompt(){
   }
 
   // Strict Solitary Female Model & Exclusive Male Staff Safeguard:
-  const isFemaleModelBarber = stageText.includes('adult female model') || (stageLabel && stageLabel.includes('Female model (barber)'));
+  // isFemaleModelBarber defined at function scope
   if(isFemaleModelBarber){
     salonChecks.push('• Exclusive Solitary Female Model & Male Client/Staff: The adult female model from the reference is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.');
   } else {
