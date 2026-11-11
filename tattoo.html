@@ -572,17 +572,19 @@ const tattooPresets = [
   {
     id: 'botanical-clavicle',
     title: 'Botanical Clavicle Whisper',
-    sub: 'French bob along collarbone in Soho industrial loft',
+    sub: 'French bob & ribbed crop tank in Soho industrial loft',
     icon: '🌿',
+    wardrobeMode: 'separates',
     values: {
       tattooPlacement: tattooPlacements[0],
       tattooMotif: tattooMotifs[0],
       tattooStyle: tattooStyles[0],
       tattooFreshness: tattooFreshnesses[0],
-      tattooWardrobe: tattooRevealingFits[0],
+      topPiece: topPieces.find(x => /ribbed/i.test(x.label)) || topPieces[0],
+      bottomPiece: bottomPieces.find(x => /denim cutoff/i.test(x.label)) || bottomPieces[0],
       tattooPose: tattooModelPoses[0],
-      tattooHair: tattooHairStylings[11], // French bob
-      tattooLocation: tattooLocations[0], // Soho loft
+      tattooHair: hair.find(x => /Chin-length French bob/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[0],
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[0]
     }
@@ -590,17 +592,19 @@ const tattooPresets = [
   {
     id: 'sacred-mandala-ribs',
     title: 'Sacred Lotus Mandala Ribcage',
-    sub: 'Side-swept waves in Mediterranean cliffside villa',
+    sub: 'Side-swept waves & halter top in Mediterranean cliffside villa',
     icon: '🌸',
+    wardrobeMode: 'separates',
     values: {
       tattooPlacement: tattooPlacements[1],
       tattooMotif: tattooMotifs[8],
       tattooStyle: tattooStyles[1],
       tattooFreshness: tattooFreshnesses[0],
-      tattooWardrobe: tattooRevealingFits[1],
+      topPiece: topPieces.find(x => /halter/i.test(x.label)) || topPieces[0],
+      bottomPiece: bottomPieces.find(x => /shorts/i.test(x.label)) || bottomPieces[0],
       tattooPose: tattooModelPoses[1],
-      tattooHair: tattooHairStylings[8], // Asymmetric shoulder drape
-      tattooLocation: tattooLocations[7], // Mediterranean villa
+      tattooHair: hair.find(x => /All hair swept to one side/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[7],
       tattooCamera: tattooCameras[1],
       tattooLighting: tattooLightings[0]
     }
@@ -608,17 +612,18 @@ const tattooPresets = [
   {
     id: 'celestial-crescent-spine',
     title: 'Celestial Sun & Moon Spine',
-    sub: 'High messy topknot on Manhattan golden hour rooftop',
+    sub: 'High messy topknot & backless slip on Manhattan rooftop',
     icon: '🌙',
+    wardrobeMode: 'ensemble',
     values: {
       tattooPlacement: tattooPlacements[4],
       tattooMotif: tattooMotifs[13],
       tattooStyle: tattooStyles[1],
       tattooFreshness: tattooFreshnesses[3],
-      tattooWardrobe: tattooRevealingFits[4],
+      outfit: outfit.find(x => /off-shoulder|slip/i.test(x.label)) || outfit[0],
       tattooPose: tattooModelPoses[3],
-      tattooHair: tattooHairStylings[0], // High topknot
-      tattooLocation: tattooLocations[19], // Manhattan rooftop
+      tattooHair: hair.find(x => /Loose topknot/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[19],
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[2]
     }
@@ -626,17 +631,19 @@ const tattooPresets = [
   {
     id: 'sanskrit-shanti-sternum',
     title: 'Devanagari "Shanti" Sternum',
-    sub: 'Origami chignon in Rajasthani heritage haveli',
+    sub: 'Chignon updo in Rajasthani heritage haveli',
     icon: '🕉️',
+    wardrobeMode: 'separates',
     values: {
       tattooPlacement: tattooPlacements[8],
       tattooMotif: tattooMotifs[18],
       tattooStyle: tattooStyles[0],
       tattooFreshness: tattooFreshnesses[0],
-      tattooWardrobe: tattooRevealingFits[3],
+      topPiece: topPieces.find(x => /bralette|bandeau/i.test(x.label)) || topPieces[0],
+      bottomPiece: bottomPieces[0],
       tattooPose: tattooModelPoses[0],
-      tattooHair: tattooHairStylings[2], // Origami chignon
-      tattooLocation: tattooLocations[6], // Rajasthani haveli
+      tattooHair: hair.find(x => /Chignon/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[6],
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[1]
     }
@@ -644,17 +651,19 @@ const tattooPresets = [
   {
     id: 'micro-monarch-wrist',
     title: 'Micro-Realism Monarch Wrist',
-    sub: 'Bottleneck curtain bangs in Victorian conservatory',
+    sub: 'Bottleneck curtain bangs & ponytail in Victorian conservatory',
     icon: '🦋',
+    wardrobeMode: 'separates',
     values: {
       tattooPlacement: tattooPlacements[6],
       tattooMotif: tattooMotifs[24],
       tattooStyle: tattooStyles[2],
       tattooFreshness: tattooFreshnesses[3],
-      tattooWardrobe: tattooRevealingFits[1],
+      topPiece: topPieces.find(x => /crop/i.test(x.label)) || topPieces[0],
+      bottomPiece: bottomPieces[0],
       tattooPose: tattooModelPoses[2],
-      tattooHair: tattooHairStylings[6], // Ponytail with bottleneck curtain bangs
-      tattooLocation: tattooLocations[14], // Botanical greenhouse
+      tattooHair: hair.find(x => /bottleneck curtain bangs/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[14],
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[0]
     }
@@ -664,15 +673,17 @@ const tattooPresets = [
     title: 'Crimson Single-Needle Nape',
     sub: 'French twist updo in moody artisan atelier',
     icon: '🔴',
+    wardrobeMode: 'separates',
     values: {
       tattooPlacement: tattooPlacements[2],
       tattooMotif: tattooMotifs[1],
       tattooStyle: tattooStyles[4],
       tattooFreshness: tattooFreshnesses[0],
-      tattooWardrobe: tattooRevealingFits[0],
+      topPiece: topPieces.find(x => /strapless|halter|tank/i.test(x.label)) || topPieces[0],
+      bottomPiece: bottomPieces[0],
       tattooPose: tattooModelPoses[0],
-      tattooHair: tattooHairStylings[1], // French twist
-      tattooLocation: tattooLocations[1], // Moody atelier
+      tattooHair: hair.find(x => /French twist/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[1],
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[1]
     }
@@ -680,17 +691,19 @@ const tattooPresets = [
   {
     id: 'sinuous-snake-scapula',
     title: 'Sinuous Serpent Scapula',
-    sub: 'Tapered bixie cut on brutalist concrete terrace',
+    sub: 'Textured bixie cut on brutalist concrete terrace',
     icon: '🐍',
+    wardrobeMode: 'separates',
     values: {
       tattooPlacement: tattooPlacements[5],
       tattooMotif: tattooMotifs[35],
       tattooStyle: tattooStyles[0],
       tattooFreshness: tattooFreshnesses[0],
-      tattooWardrobe: tattooRevealingFits[0],
+      topPiece: topPieces.find(x => /backless|tank/i.test(x.label)) || topPieces[0],
+      bottomPiece: bottomPieces[0],
       tattooPose: tattooModelPoses[4],
-      tattooHair: tattooHairStylings[26], // Textured bixie
-      tattooLocation: tattooLocations[21], // Brutalist terrace
+      tattooHair: hair.find(x => /bixie/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[21],
       tattooCamera: tattooCameras[2],
       tattooLighting: tattooLightings[0]
     }
@@ -698,17 +711,18 @@ const tattooPresets = [
   {
     id: 'fluid-wave-ankle',
     title: 'Fluid Wave Ankle Wrap',
-    sub: 'Wet-look comb-back by sun-drenched travertine pool',
+    sub: 'Wet-look comb-back & monokini by travertine pool',
     icon: '🌊',
+    wardrobeMode: 'ensemble',
     values: {
       tattooPlacement: tattooPlacements[11],
       tattooMotif: tattooMotifs[34],
       tattooStyle: tattooStyles[0],
       tattooFreshness: tattooFreshnesses[3],
-      tattooWardrobe: tattooRevealingFits[5], // Cutout monokini
+      outfit: outfit.find(x => /monokini/i.test(x.label)) || outfit[0],
       tattooPose: tattooModelPoses[1],
-      tattooHair: tattooHairStylings[20], // Wet-look comb-back
-      tattooLocation: tattooLocations[9], // Travertine pool
+      tattooHair: hair.find(x => /Wet-look slicked comb-back/i.test(x.label)) || hair[0],
+      tattooLocation: tattooLocations[9],
       tattooCamera: tattooCameras[0],
       tattooLighting: tattooLightings[0]
     }
@@ -1105,8 +1119,11 @@ function renderPresets(){
     b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
     b.addEventListener('click', () => {
       activePreset = p.id;
+      if(p.wardrobeMode){
+        wardrobeMode = p.wardrobeMode;
+      }
       Object.keys(p.values).forEach(k => {
-        values[k] = p.values[k];
+        if(p.values[k]) values[k] = p.values[k];
       });
       renderPresets();
       renderFields();
@@ -1129,6 +1146,9 @@ function buildPrompt(){
   const m = val('tattooMotif');
   const s = val('tattooStyle');
   const f = val('tattooFreshness');
+  const fLabel = values['tattooFreshness']?.label || '';
+  const isHealedMatte = /healed|matte|settled/i.test(fLabel + ' ' + f);
+
   let w = '';
   if(wardrobeMode === 'separates'){
     const topText = val('topPiece') || 'a minimalist white ribbed racerback crop tank top';
@@ -1139,11 +1159,14 @@ function buildPrompt(){
     w = (val('outfit') || 'an ultra-thin black silk slip dress') + ', leaving the tattoo placement completely unobstructed';
   }
   const pose = val('tattooPose');
-  const expr = val('tattooExpression');
+  const rawExpr = val('tattooExpression');
   const hairVal = val('tattooHair');
   const tattooFaceCovVal = val('tattooHairFaceCoverage') || '';
   const tattooFaceCovLabel = values['tattooHairFaceCoverage']?.label || '';
   const isTattooFullVeil = /95–100%|95-100%/i.test(tattooFaceCovLabel);
+  const isTattooHeavyVeil = /80–85%|80-85%|95–100%|95-100%/i.test(tattooFaceCovLabel);
+  const isTattooZeroVeil = tattooFaceCovLabel.startsWith('0% Behind Hair');
+
   const cam = val('tattooCamera');
   const camObj = values['tattooCamera'];
   const poseObj = values['tattooPose'];
@@ -1151,6 +1174,12 @@ function buildPrompt(){
   const poseStr = (poseObj?.label || '') + ' ' + (pose || '');
   const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(camStr) ||
                        /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(poseStr);
+  const hideEyes = isFaceHidden || isTattooFullVeil;
+
+  const expr = hideEyes
+    ? ''
+    : rawExpr;
+
   const light = val('tattooLighting');
   const film = val('tattooFilm');
   const loc = val('tattooLocation');
@@ -1177,9 +1206,13 @@ function buildPrompt(){
   if(numMode === 'collage'){
     lines.push('Create one 2×2 macro photography collage with four distinct detail crops and angles of the tattoo.');
     lines.push('Panel 1: Extreme macro 100mm f/2.8 focus on the single-needle linework, micro-stippling, and natural skin pores.');
-    lines.push('Panel 2: Low raking sidelight angle highlighting skin curvature and the delicate specular glint on the fresh ointment sheen.');
+    lines.push(isHealedMatte
+      ? 'Panel 2: Low raking sidelight angle highlighting natural skin curvature, matte healed dermal integration, and zero greasy ointment sheen.'
+      : 'Panel 2: Low raking sidelight angle highlighting skin curvature and the delicate specular glint on the fresh soothing ointment sheen.');
     lines.push('Panel 3: Intimate medium crop revealing the draped garment edge, model posture, and anatomical placement context.');
-    lines.push('Panel 4: Intimate candid portrait crop showing the model admiring the ink with a serene, subtle expression.');
+    lines.push(hideEyes
+      ? 'Panel 4: Intimate atmospheric crop showcasing her graceful posture, descending hair silhouette, and the tattoo placement in calm composure (respecting concealed facial orientation).'
+      : 'Panel 4: Intimate candid portrait crop showing the model admiring the ink with a serene, subtle expression.');
     lines.push('Maintain strict continuity of the model\'s identity, the exact tattoo geometry, and color grade across all four panels.');
   } else if(numMode === 'set'){
     lines.push('Create a cohesive four-image editorial set featuring varied close-up angles of the same model and tattoo with identical line work.');
@@ -1210,6 +1243,8 @@ function buildPrompt(){
   if(checkState.identity){
     if(isFaceHidden){
       checks.push('Preserve the same adult woman from the reference, maintaining her warm Indian skin tone, body proportions, and natural hair texture, while respecting that her face is turned sideways looking away and not visible to the lens.');
+    } else if(isTattooFullVeil){
+      checks.push('Preserve the same adult woman from the reference, maintaining her warm Indian skin tone, body proportions, and hair density while keeping 95–100% of her face veiled behind cascading front hair.');
     } else {
       checks.push('Preserve the same adult woman from the reference, retaining her recognizable facial identity, warm Indian skin tone, and authentic facial proportions.');
     }
@@ -1223,6 +1258,17 @@ function buildPrompt(){
   lines.push('TECHNICAL & REALISM PRESERVATIONS:');
   checks.forEach(c => lines.push(`• ${c}`));
 
+  lines.push('');
+  lines.push('AVOID / NEGATIVE GUIDANCE:');
+  const negs = [
+    'secondary women, multiple women, identity drift, plastic waxy airbrushed skin, blurry distorted tattoo lines, misspelled lettering',
+    isHealedMatte ? 'fresh red inflammation, shiny oily bandage ointment gloss' : 'faded chalky washed-out ink when fresh ink requested'
+  ];
+  if(isFaceHidden) negs.push('visible front facial view, frontal eye contact, revealing turned-away face');
+  if(isTattooZeroVeil) negs.push('hair strands covering eyes, hair falling across cheeks or obscuring forehead');
+  else if(isTattooHeavyVeil) negs.push('hair pulled behind ears exposing bare forehead, completely uncovered open forehead and unobstructed full face');
+  negs.forEach(n => lines.push(`• ${n}`));
+
   const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
   const promptEl = el('prompt');
   if(promptEl){
@@ -1235,18 +1281,7 @@ function buildPrompt(){
   return text;
 }
 
-// Navigation / Step buttons
-el('prevStep')?.addEventListener('click', () => {
-  const idx = sections.findIndex(s => s.id === activeSection);
-  if(idx > 0) goSection(sections[idx - 1].id);
-});
-el('nextStep')?.addEventListener('click', () => {
-  const idx = sections.findIndex(s => s.id === activeSection);
-  if(idx < sections.length - 1) goSection(sections[idx + 1].id);
-});
-el('finishJump')?.addEventListener('click', () => goSection('finish'));
 
-// Copy & Utility buttons
 function recordHistory(){
   const t = el('prompt')?.value.trim();
   if(!t) return;
