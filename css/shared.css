@@ -86,7 +86,7 @@
 .preset.custom-preset{border-color:#f3d49a55;background:#f3d49a0d}
 .preset-del{margin-left:auto;font-size:11px;color:var(--muted);background:transparent;border:none;padding:1px 4px;border-radius:4px;cursor:pointer}
 .preset-del:hover{color:#ff5c92;background:#ff5c9222}
-.strip-actions{display:flex;gap:7px}
+.strip-actions{display:flex;gap:7px;flex-wrap:wrap}
 @media(min-width:851px){.hidden-desktop{display:none!important}}
 
 .ref-card summary.ref-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#ffffff05;border-bottom:1px solid var(--line);cursor:pointer;list-style:none}
