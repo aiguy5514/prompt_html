@@ -96,6 +96,12 @@
 .portal-card.card-makeup:hover::before {
   background: linear-gradient(90deg, #f472b6, #f59e0b);
 }
+.portal-card.card-video:hover::before {
+  background: linear-gradient(90deg, #6366f1, #06b6d4);
+}
+.portal-card.card-storyboard:hover::before {
+  background: linear-gradient(90deg, #a855f7, #ec4899);
+}
 .portal-card-head {
   display: flex;
   align-items: center;
@@ -128,6 +134,14 @@
 .card-makeup .portal-icon {
   background: rgba(244, 114, 182, 0.1);
   border-color: rgba(244, 114, 182, 0.25);
+}
+.card-video .portal-icon {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+.card-storyboard .portal-icon {
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.3);
 }
 .portal-badge {
   font-size: 0.7rem;
@@ -262,7 +276,9 @@
     <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
     <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon & Barbershop</a>
     <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
-    <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa <span class="nav-badge">NEW</span></a>
+    <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
+    <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director <span class="nav-badge">NEW</span></a>
+    <a href="storyboard.html" class="suite-nav-link"><span class="studio-btn-icon">🎞️</span> Storyboarder <span class="nav-badge">NEW</span></a>
   </nav>
   <div class="top-meta">
     <span class="pill"><span class="pill-dot"></span> Suite v2.5</span>
@@ -368,6 +384,47 @@
       </div>
       <div class="portal-cta">
         <span>Launch Makeup &amp; Spa Studio</span>
+        <span class="portal-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Card 5: Cinema Video Motion Director -->
+    <a href="video.html" class="portal-card card-video">
+      <div class="portal-card-head">
+        <div class="portal-icon">🎬</div>
+        <span class="portal-badge badge-new">New · I2V Motion</span>
+      </div>
+      <h2 class="portal-title">Cinema Motion Director</h2>
+      <p class="portal-desc">Choreograph smooth 3-beat live-action prompts (Start · Peak · Resolve) for Kling, Veo, Runway, and Sora. Pair 32 dolly/orbit camera paths, 120fps slow-motion hair turns, monsoon wind/water physics, and anti-morphing identity locks.</p>
+      <div class="portal-features">
+        <span class="portal-tag">32 Camera Moves</span>
+        <span class="portal-tag">80+ Action Beats</span>
+        <span class="portal-tag">24–240fps Cadence</span>
+        <span class="portal-tag">260+ Haircuts</span>
+        <span class="portal-tag">Temporal Identity Lock</span>
+      </div>
+      <div class="portal-cta">
+        <span>Launch Video Director</span>
+        <span class="portal-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Card 6: Multi-Shot Narrative Storyboard Sequencer -->
+    <a href="storyboard.html" class="portal-card card-storyboard">
+      <div class="portal-card-head">
+        <div class="portal-icon">🎞️</div>
+        <span class="portal-badge badge-new">New · Sequencer</span>
+      </div>
+      <h2 class="portal-title">Storyboard Sequencer</h2>
+      <p class="portal-desc">Lock global identity, haircut, wardrobe, and venue once, then sequence 3, 4, or 6 frames with independent per-shot Crop, Angle, Narrative Beat, Veil %, Moisture, and Lighting overrides—exporting a full pack or unified grid prompt.</p>
+      <div class="portal-features">
+        <span class="portal-tag">3 / 4 / 6 Frame Packs</span>
+        <span class="portal-tag">Per-Shot Veil &amp; Moisture</span>
+        <span class="portal-tag">35+ Frame Actions</span>
+        <span class="portal-tag">Unified Grid + Pack Export</span>
+      </div>
+      <div class="portal-cta">
+        <span>Launch Storyboarder</span>
         <span class="portal-cta-arrow">→</span>
       </div>
     </a>

@@ -1,0 +1,1384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Afterglow / Image-to-Video Motion Director</title>
+<link rel="stylesheet" href="css/shared.css">
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div>
+<nav class="suite-nav" aria-label="Studio Switcher">
+  <a href="index.html" class="suite-nav-link" title="Afterglow Hub">✦ Hub</a>
+  <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
+  <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon &amp; Barbershop</a>
+  <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
+  <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
+  <a href="video.html" class="suite-nav-link active"><span class="studio-btn-icon">🎬</span> Video Director <span class="nav-badge">NEW</span></a>
+  <a href="storyboard.html" class="suite-nav-link"><span class="studio-btn-icon">🎞️</span> Storyboarder <span class="nav-badge">NEW</span></a>
+</nav>
+<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">Loading choices…</span><span class="pill">Offline · No uploads</span></div></header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow" id="heroEyebrow">Image-to-Video (I2V) Choreography · Veo · Kling · Runway · Sora</div>
+    <h1 id="heroTitle">Cinema <span>Motion</span><br>Prompt Director</h1>
+    <p id="heroDescription">Transform reference photos or concepts into timed 3-beat cinema prompts. Choreograph dolly &amp; 180° orbit cameras, 120fps slow-mo hair sweeps, scissor &amp; spa micro-actions, monsoon wind/water physics, and anti-morph temporal stability locks.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="randomTop" type="button">✦ Surprise me</button>
+      <button class="btn btn-secondary" id="copyTop" type="button">▣ Copy current prompt</button>
+      <button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button>
+      <button class="btn btn-quiet" id="resetTop" type="button">↺ Start over</button>
+    </div>
+  </div>
+  <aside class="hero-note">
+    <div class="sparkle">✧ ✦ ✧</div>
+    <div>
+      <strong>Smooth motion, zero identity morphing.</strong>
+      <p>Structured into Start (0–2s), Peak (2–4s), and Resolve (4–6s+) choreography beats so video models hold facial identity, finger joints, and hair length smoothly across every frame.</p>
+      <div class="tags">
+        <span class="tag">32 Camera Moves</span>
+        <span class="tag">90+ Beat Actions</span>
+        <span class="tag">260+ Haircuts</span>
+        <span class="tag">Moisture &amp; Veil Locks</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<div class="layout">
+<main class="builder">
+<section class="preset-strip">
+  <div class="strip-head">
+    <div>
+      <h2>Start with a motion direction</h2>
+      <p>Curated multi-beat cinema shots spanning slow salon reveals, monsoon breeze hair curtains, hydrosol misting slow-mo, and runway strides. Tweak any beat without resetting your base styling.</p>
+    </div>
+    <div class="strip-actions">
+      <button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button>
+      <button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button>
+      <button class="btn btn-secondary btn-small" id="exportPresetsBtn" type="button" title="Export custom looks to JSON">⬇ Export</button>
+      <button class="btn btn-secondary btn-small" id="importPresetsBtn" type="button" title="Import custom looks from JSON">⬆ Import</button>
+      <input type="file" id="importPresetsInput" accept=".json,application/json" hidden>
+    </div>
+  </div>
+  <div class="preset-grid" id="presets"></div>
+</section>
+
+<nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
+
+<section class="step-card" id="stepCard">
+  <div class="step-head">
+    <div>
+      <div class="eyebrow" id="stepEyebrow">Creative direction · 01</div>
+      <h2 id="stepTitle">Subject, Hair &amp; Wardrobe</h2>
+      <p id="stepDescription">Choose input workflow, haircut geometry, face-veil lock, moisture weight, and wardrobe.</p>
+    </div>
+    <div class="step-icon" id="stepIcon">👩</div>
+  </div>
+  <div class="field-grid" id="fields"></div>
+  <div id="fineTuneArea"></div>
+  <div id="specialContent"></div>
+  <div class="step-foot">
+    <span class="step-count" id="stepCount">Step 1 of 6</span>
+    <div class="step-buttons">
+      <button class="btn btn-secondary" id="prevStep" type="button">← Previous</button>
+      <button class="btn btn-primary" id="nextStep" type="button">Next step →</button>
+    </div>
+  </div>
+</section>
+
+<section class="advanced-bar">
+  <div>
+    <strong>Need tighter temporal rules or custom motion timing?</strong>
+    <small>Add custom choreography cues, camera lens notes, or negative artifacts in the Finish step.</small>
+  </div>
+  <button class="btn btn-secondary btn-small" id="finishJump" type="button">Open finish controls ↗</button>
+</section>
+</main>
+
+<aside class="preview">
+  <div class="sheet-handle hidden-desktop" id="sheetHandle"></div>
+  <div class="preview-head">
+    <div class="preview-top">
+      <div class="eyebrow">Live video prompt</div>
+      <div class="preview-top-actions">
+        <button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button>
+        <button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button>
+        <span class="live">Updating</span>
+        <button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button>
+      </div>
+    </div>
+    <h2>Your motion prompt, assembled</h2>
+    <p>Ready for Kling, Veo, Runway Gen-4, Sora, or Luma.</p>
+    <div class="summary" id="summary"></div>
+  </div>
+  <div class="preview-body">
+    <div class="preview-toolbar">
+      <div class="toolbar-row">
+        <div class="seg-control" id="modeSegControl">
+          <button type="button" class="seg-btn active" id="btnStructuredMode">Detailed Timeline</button>
+          <button type="button" class="seg-btn" id="btnCompactMotion">✦ Compact Prose</button>
+        </div>
+        <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+      </div>
+      <div class="ratio-row">
+        <span class="ratio-label">Ratio:</span>
+        <div class="ratio-chips" id="ratioChips">
+          <button type="button" class="ratio-chip" data-ratio="9:16">9:16</button>
+          <button type="button" class="ratio-chip" data-ratio="16:9">16:9</button>
+          <button type="button" class="ratio-chip" data-ratio="4:5">4:5</button>
+          <button type="button" class="ratio-chip" data-ratio="3:4">3:4</button>
+          <button type="button" class="ratio-chip" data-ratio="1:1">1:1</button>
+          <button type="button" class="ratio-chip" data-ratio="2.39:1">2.39:1</button>
+        </div>
+      </div>
+    </div>
+    <div class="prompt-meta">
+      <span id="wordCount">Prompt ready</span>
+      <button class="btn btn-quiet btn-small" id="selectPrompt" type="button">Select all text</button>
+    </div>
+    <textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated video prompt"></textarea>
+    <div class="preview-buttons">
+      <button class="btn btn-primary" id="copy" type="button">▣ Copy prompt</button>
+      <button class="btn btn-secondary" id="download" type="button">↓ Download .txt</button>
+      <button class="btn btn-secondary" id="copyPositive" type="button">Copy positive only</button>
+      <button class="btn btn-secondary" id="copyNegative" type="button">Copy exclusions only</button>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <div class="preview-help"><strong>Tip:</strong> For Image-to-Video, upload your starting Afterglow still first, then paste this timeline prompt to preserve outfit, hair, and identity cleanly through movement.</div>
+</aside>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-bar" id="mobileBar">
+  <div class="mobile-bar-info">
+    <span class="mobile-stat" id="mobileWordCount">Prompt ready</span>
+    <span class="mobile-sub" id="mobileSummaryMini">Video Director</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="btn btn-secondary btn-small" id="openDrawerBtn" type="button">Preview prompt ↗</button>
+    <button class="btn btn-primary btn-small" id="mobileCopyBtn" type="button">▣ Copy</button>
+  </div>
+</div>
+<button class="btn btn-primary fab" id="fab" type="button">▣ Copy prompt</button>
+
+<div class="history-modal" id="historyModal">
+  <div class="history-head">
+    <div>
+      <h3>Video Prompt History</h3>
+      <p>Recent choreography prompts from this session.</p>
+    </div>
+    <div class="history-head-actions">
+      <button class="btn-quiet btn-small" id="clearHistoryBtn" type="button">Clear</button>
+      <button class="btn-quiet btn-small" id="closeHistoryBtn" type="button">✕ Close</button>
+    </div>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+<div class="modal-backdrop" id="historyBackdrop"></div>
+<p class="fineprint">AFTERGLOW STUDIO · Reference-Guided Cinema Motion · Your choices remain strictly local in this browser</p>
+</div>
+
+<script src="js/shared-veil.js"></script>
+<script src="js/shared-datasets.js"></script>
+<script>
+(function(){
+'use strict';
+
+const {
+  O,
+  HAIR_FAMILIES, hair, hairFaceCoverageOpts,
+  OUTFIT_FAMILIES, outfit,
+  TOP_FAMILIES, topPieces,
+  BOTTOM_FAMILIES, bottomPieces,
+  midriffStylings
+} = window.AfterglowDatasets;
+
+const {
+  parseVeilTier, detectHairArchitecture, getVeilRule,
+  sanitizeHiddenFaceText, extractPositivePrompt, extractNegativePrompt
+} = window.AfterglowVeil;
+
+const el = id => document.getElementById(id);
+
+const sections = [
+  { id: 'vidInputSec', name: 'Subject & Styling', short: 'SUBJECT', icon: '👩', desc: 'Select I2V start mode, haircut library, veil % lock, moisture physics, and wardrobe.' },
+  { id: 'vidCameraSec', name: 'Camera Choreography', short: 'CAMERA', icon: '🎥', desc: 'Direct camera path, orbital speed, frame rate slow-motion, and cinema optics.' },
+  { id: 'vidActionSec', name: '3-Beat Action Timeline', short: 'BEATS', icon: '⏱️', desc: 'Sequence Start (0–2s), Peak Action (2–4s), Closing Resolve (4–6s+), and micro-expression.' },
+  { id: 'vidEnvSec', name: 'Scene & Ambient Physics', short: 'SCENE', icon: '🌬️', desc: 'Choose location, breeze/steam/water movement, and dynamic light shifts.' },
+  { id: 'vidTechSec', name: 'Duration, Ratio & Film', short: 'SPECS', icon: '🎞️', desc: 'Configure clip duration, motion amplitude, aspect ratio, and color cinema stock.' },
+  { id: 'finish', name: 'Temporal Locks & Finish', short: 'FINISH', icon: '✦', desc: 'Anti-morphing temporal locks, solitary subject safeguards, custom cues, and exclusions.' }
+];
+
+// ==========================================
+// VIDEO DIRECTOR OPTION BANKS (EXPANDED)
+// ==========================================
+
+const vidPipelineModes = O_list([
+  ['Image-to-Video (animate uploaded Afterglow still seamlessly)', 'Animate the supplied starting reference photograph into smooth continuous motion, preserving 100% of the subject face, haircut silhouette, wardrobe, and environment already visible in the initial frame'],
+  ['Reference-Guided Text-to-Video (synthesize full scene from portrait ref)', 'Generate a complete cinematic live-action video clip preserving the exact facial identity, Indian heritage structure, skin texture, and hair fiber of the supplied portrait reference'],
+  ['Start-to-End Keyframe Bridge (smooth continuous transition between frames)', 'Create an ultra-smooth continuous physical transition bridging the opening pose and composition organically into the ending posture with believable weight shift and hair inertia'],
+  ['Seamless Infinite Slow-Motion Loop (ambient hair & mist movement)', 'Design a calm hypnotic seamless-loop video clip with continuous ambient breeze in hair strands, drifting steam or light caustics, and steady subtle breathing motion']
+]);
+
+function O_list(arr){
+  return arr.map(x => O(x[0], x[1], x[2] || '', x[3] || 'all'));
+}
+
+const vidCameraFamilies = [
+  O('✦ All Camera Movements (32 paths)', 'all'),
+  O('🚂 Push-In, Dolly & Tracking (8 paths)', 'dolly'),
+  O('🔄 Orbit Arcs & Semi-360 Reveals (6 paths)', 'orbit'),
+  O('📹 Handheld, Steadicam & Candid BTS (6 paths)', 'handheld'),
+  O('🏗️ Crane, Boom, Tilt & Pedestal (6 paths)', 'crane'),
+  O('🎯 Locked Tripod & Rack-Focus Macros (6 paths)', 'macro')
+];
+
+const vidCameraMoves = O_list([
+  // Dolly & Tracking
+  ['Slow 35mm whisper dolly push-in from waist toward cheekbones', 'ultra-smooth motorized dolly push-in gliding slowly forward from a waist-up medium frame into a tight cheekbone beauty portrait without camera shake', '', 'dolly'],
+  ['Reverse dolly track pulling smoothly backward as model strides forward', 'fluid backward dolly tracking shot matching the model’s confident walking pace step-for-step while keeping background architecture sliding past smoothly', '', 'dolly'],
+  ['Horizontal lateral slider glide across backlit window & salon chair', 'silky low horizontal slider tracking left-to-right past the styling chair, revealing changing rim light along hair perimeter and foreground depth objects', '', 'dolly'],
+  ['Intimate slow creep-in locking onto razor blade & wet jawline contour', 'gradual whisper-quiet macro push-in closing from 24 inches to 8 inches beside the neckline and tool edge with razor-thin shallow focal plane', '', 'dolly'],
+  ['Quick dynamic whip-track sweeping into a sharp stopped 3/4 portrait', 'energetic sideways tracking whip smoothly decelerating with damped inertia right into a crisp three-quarter editorial close-up', '', 'dolly'],
+  ['Over-the-shoulder forward creep peering past barber into station', 'subtle over-the-shoulder forward glide drifting slowly past the barber’s dark sleeve to center the seated female protagonist cleanly', '', 'dolly'],
+  ['Diagonal ascending push-in from lower collarbone up to veiled brow', 'diagonal rising dolly movement climbing gradually from bare clavicle shadows up across lips toward the glossy hair curtain', '', 'dolly'],
+  ['Smooth parallel sidewalk tracking shot alongside flowing fabric', 'long-lens parallel sidewalk tracking shot following the subject from profile view as traffic bokeh and trees streak gently behind', '', 'dolly'],
+
+  // Orbit Arcs
+  ['Smooth 180-degree semi-orbit sweeping from profile into 3/4 frontal', 'cinematic curved 180-degree orbital arc gliding effortlessly around the model from a pure rear-profile neckline view to an intimate front 3/4 angle', '', 'orbit'],
+  ['Slow 90-degree orbital wrap showcasing asymmetric hair drape & veil', 'graceful 90-degree slow orbital rotation circling around the covered side of her face to showcase satin hair curtain continuity', '', 'orbit'],
+  ['Tight macro arc circling around ear, neck tattoo, or serum cheek glow', 'tight close-up orbital pan gliding smoothly around her sculpted shoulder blade and cheekbone while glancing highlights roll across wet skin', '', 'orbit'],
+  ['Counter-orbit reveal as model turns left while camera tracks right', 'dynamic opposing motion where the model turns her chin slowly clockwise as the camera orbits smoothly counter-clockwise for rich 3D parallax', '', 'orbit'],
+  ['Wide 270-degree Steadicam room sweep showcasing full loft & entourage', 'sweeping 270-degree continuous Steadicam circle capturing the bustling studio or salon interior receding into soft depth around the poised subject', '', 'orbit'],
+  ['Gentle 30-degree micro-arc adding subtle 3D depth on seated subject', 'restraint-focused micro-arc drifting barely 30 degrees around her chair—giving unmistakable real-world 3D parallax with zero geometric warping', '', 'orbit'],
+
+  // Handheld & Steadicam
+  ['Intimate organic 50mm documentary handheld breathing sway', 'authentic operator-held 50mm cinema camera exhibiting tiny organic breathing micro-sway, lending raw backstage documentary intimacy', '', 'handheld'],
+  ['Candid BTS follow-cam trailing two paces behind through doorway', 'behind-the-scenes handheld follow-cam stepping behind her through a sunlit doorway before she turns naturally toward the lens', '', 'handheld'],
+  ['Spontaneous eye-level paparazzi/lookbook handheld with micro pan', 'lively fashion-week street-style handheld camera subtly adjusting framing to track a quick hair toss and smirk', '', 'handheld'],
+  ['Low-raking waist-level Steadicam follow accentuating stride & silhouette', 'grounded waist-level Steadicam tracking upward slightly to lend statuesque runway dominance across wet cobblestone or concrete', '', 'handheld'],
+  ['Dutch-angle 12-degree handheld drift building tension during prep', 'subtly tilted 12-degree handheld perspective slowly leveling horizontal as she completes her head turn', '', 'handheld'],
+  ['Direct handheld phone-candid jitter mimicking raw behind-the-scenes clip', 'authentic smartphone-held natural micro-motion capturing an unscripted backstage laughter moment between formal takes', '', 'handheld'],
+
+  // Crane, Boom & Tilt
+  ['Graceful downward crane boom from chandelier/skylight to chair level', 'elevated overhead crane jib lowering smoothly down through atmospheric ceiling beams and warm pendant haze into an intimate eye-level portrait', '', 'crane'],
+  ['Rising pedestal reveal climbing from wet floor reflections up full figure', 'slow vertical pedestal elevator glide rising seamlessly from mirror-wet marble puddles past hemline, waist, and collarbone up to jawline', '', 'crane'],
+  ['Top-down 45-degree bird’s-eye drift descending gently onto spa bed', 'high overhead boom lowering steadily toward a reclined treatment bed as rose-quartz tools and facial steam cross the foreground', '', 'crane'],
+  ['Reverse high-pullaway jib ascending smoothly into wide cityscape dusk', 'cinematic closing crane pullback ascending upward and outward over a rooftop terrace, gradually revealing endless dusk skyline bokeh', '', 'crane'],
+  ['Subtle upward chin-to-crown tilt emphasizing layered haircut bounce', 'slow fluid vertical tripod tilt rising cleanly from collarbone detail across mouth and cheekbone hair tips up to lifted crown volume', '', 'crane'],
+  ['Sweep-down rain tilt moving from illuminated neon awnings onto wet model', 'atmospheric vertical tilt descending from glowing monsoon street awnings through backlit rain streaks onto her drenched hair silhouette', '', 'crane'],
+
+  // Locked Tripod & Rack Focus
+  ['Locked-off tripod still frame allowing pure subject & wind micro-motion', 'rock-steady locked-off cinema tripod composition holding architecture 100% still so every movement comes purely from hair strands, mist, and posture', '', 'macro'],
+  ['Crisp manual rack-focus pull from foreground scissor blades to her cheek', 'tactile cinema follow-focus pull shifting sharply from glistening foreground shear blades and falling clippings deep into focus on her face/veil', '', 'macro'],
+  ['Shallow 100mm rack-focus from serum dropper bead onto damp jawline curve', 'ultra-shallow macro rack-focus transitioning smoothly off a suspended serum droplet tip onto translucent skin micro-pores below', '', 'macro'],
+  ['Steady mirror-perspective static frame watching subtle barber comb tension', 'stationary vanity framing capturing authentic calm reflection symmetry while comb teeth draw straight tension down through damp ends', '', 'macro'],
+  ['Split-diopter vintage lock keeping foreground clip & background door sharp', 'retro editorial cinema composition keeping an extreme foreground hand gesture and distant background silhouette crisply readable simultaneously', '', 'macro'],
+  ['Slow breath-hold lock centered squarely on 100mm lip/cheekbone glow', 'stationary 100mm beauty frame calibrated so even subtle exhales, eyelid flutters, and mist settling read with hyper-real texture', '', 'macro']
+]);
+
+const vidFramerates = O_list([
+  ['24fps Classic Cinema Natural Motion (180° shutter)', 'filmed cleanly at 24fps cinema cadence with organic 180-degree shutter motion blur and lifelike human tempo'],
+  ['48fps Silky Fluid Movement (subtle dreamy deceleration)', 'captured at 48fps subtly slowed to 24fps (0.5× slow-mo) giving hair turns, hand gestures, and draped fabric liquid silk grace'],
+  ['120fps Hyper-Slow Motion Cinema (hair & droplet suspended)', 'shot at 120fps hyper-slow-motion playback so every swinging hair ribbon, falling water droplet, and floating hair clipping glides weightlessly'],
+  ['240fps Ultra-High-Speed Splash & Scissor Detail', 'ultra-high-speed 240fps slow-motion capture freezing airborne spray-bottle droplets, rain spray, and crisp shear blade closure in razor clarity'],
+  ['60fps Hyper-Crisp Modern Digital Documentary', 'smooth high-frame-rate 60fps behind-the-scenes documentary clarity with crisp tactile sharpness on skin and texture']
+]);
+
+const vidFocalLenses = O_list([
+  ['50mm f/1.2 Noctilux Cinema Prime (luminous skin & cream bokeh)', 'shot on a vintage 50mm f/1.2 cinema prime with velvety organic highlight roll-off and creamy background separation'],
+  ['85mm f/1.4 Master Anamorphic (oval bokeh & portrait magic)', '85mm T1.4 anamorphic prime delivering gentle horizontal oval bokeh streaks, dimensional subject pop, and flattering facial optics'],
+  ['35mm f/1.4 Cooke S4 (intimate spatial proximity & film warmth)', '35mm T1.4 Cooke S4 cinema lens preserving warm golden Indian skin tones and immersive near-field room presence'],
+  ['100mm f/2.8 Macro Cine Prime (pores, blade edges & water beads)', '100mm macro cinema prime resolving microscopic water beads, scissor steel texture, skin pores, and crisp strand edge gleams'],
+  ['24mm f/1.8 Wide Kinetic Lens (dramatic corridor & rooftop scale)', '24mm wide-angle cinema optics amplifying stride velocity and monumental architectural scale with natural perspective'],
+  ['75mm Vintage Helios Swirl Bokeh (dreamy halo highlights)', 'vintage 75mm cinema lens adding delicate organic peripheral bokeh swirl around background practical vanity lamps and foliage'],
+  ['40mm Panavision C-Series Anamorphic (subtle barrel breathing & flare)', '40mm Panavision C-Series anamorphic optics adding warm amber streak flares and organic edge character'],
+  ['135mm f/1.8 Telephoto Compression (creamy isolated portrait depth)', '135mm T1.8 telephoto prime flattening background distance into velvety bokeh while isolating hair flyaways cleanly'],
+  ['28mm f/2.0 Leica Summilux-C (tactile salon & backstage intimacy)', '28mm Leica Summilux-C prime bringing the viewer arm’s-length close inside mirror bulbs and misty salon steam'],
+  ['65mm Medium-Format Alexa 65 Prime (zero distortion sculpting)', '65mm large-format cinema lens capturing monumental 3D facial contouring and effortless silk fabric sheen'],
+  ['55mm Petzval Art Brass Lens (vintage vignette & center razor clarity)', '55mm brass Petzval optics focusing tack-sharp eye/veil detail while melting perimeter room lights softly'],
+  ['180-Degree Mechanical Shutter Natural Blur (silky hand motion)', 'filmed with classic 180-degree shutter timing preserving authentic organic hand/scissor motion trail without choppy staccato'],
+  ['Crisp High-Shutter 1/1000s Capture (frozen droplets & loose clippings)', 'tight 1/1000-second cinema shutter freezing suspended water spray droplets and falling hair tips crisply per frame'],
+  ['Tilt-Shift 45mm Miniature/Editorial Plane (narrow razor focus slice)', '45mm cinema tilt-shift casting an artistic narrow slice of razor clarity directly along cheekbones or collarbone'],
+  ['Split-Field Diopter Vintage Filter (dual foreground & deep sharpness)', 'classic optical split-diopter keeping extreme close-up comb/dropper foreground crisp beside background eye contact'],
+  ['Black Pro-Mist 1/4 Diffusion Glass (soft warm halation around bulbs)', 'subtle 1/4 Black Pro-Mist lens diffusion blooming warm tungsten vanity bulbs organically without muddying dark black hair']
+]);
+
+// ==========================================
+// 3-BEAT ACTION TIMELINE LIBRARIES
+// ==========================================
+
+const vidActionDomains = [
+  O('✦ All Motion Domains (80+ beat actions)', 'all'),
+  O('✂️ Haircut, Barber & Salon Chair', 'salon'),
+  O('💃 Editorial Fashion & Stride', 'editorial'),
+  O('💄 Makeup Chair, Serums & Spa Steam', 'spa'),
+  O('🌊 Monsoon Rain, Pool & Wind Physics', 'aquatic'),
+  O('🖋️ Tattoo Macro & Skin Canvas', 'tattoo')
+];
+
+const vidBeatStarts = O_list([
+  // Salon (6)
+  ['0–2s: Seated still in black salon cape under fine spray-bottle mist cloud', 'model sits calmly draped in a silky black cutting cape as an aluminum bottle sprays fine glistening water mist across her crown hair', '', 'salon'],
+  ['0–2s: Damp comb-down hair veil resting completely smoothly across closed upper face', 'camera opens on her freshly combed damp glossy front hair sheet resting cleanly over forehead and eyes while hands position steel shears', '', 'salon'],
+  ['0–2s: Perched on low backless cutting stool, head tilted 25° downward calmly', 'opens on the model seated poised on a low backless stool with chin dipped smoothly forward, dark hair combed sleekly over cheeks', '', 'salon'],
+  ['0–2s: Barber checking wet side-part line carefully with carbon pintail comb', 'male barber draws slender carbon pintail divider across crown hairline before slicing first guide section', '', 'salon'],
+  ['0–2s: Female barber standing attentively above reclined male client in soap lather', 'our female protagonist leans poised over her seated male client resting a steamed razor gently beside dense beard lather', '', 'salon'],
+  ['0–2s: Resting chin lightly forward while clippers/shears hover ready at nape', 'begins from a crisp nape profile view showing fine loose strands brushed clear above fresh cape paper strip', '', 'salon'],
+  // Editorial (7)
+  ['0–2s: Standing poised in 3/4 silhouette facing slightly away into soft key light', 'begins from a quiet still three-quarter back/side stance illuminated cleanly by window rim light before motion initiates', '', 'editorial'],
+  ['0–2s: Leaning casually against concrete wall/railing looking calmly off-frame', 'opens with model leaning relaxed against textured stone/glass, hands resting lightly at hip/collar with steady breathing', '', 'editorial'],
+  ['0–2s: Seated on velvet studio cube with fingers resting lightly beside temple hair', 'begins seated balanced on a minimal cube, fingertips hovering calmly near her cheek wisps as tension builds', '', 'editorial'],
+  ['0–2s: Standing motionless inside tall shadowed doorway waiting on photographer cue', 'begins framed starkly against glowing corridor doorway before stepping calmly forward into studio key light', '', 'editorial'],
+  ['0–2s: Back turned to lens facing ocean/city dusk balcony railing in wind', 'opens purely on silhouette back, shoulder line, and gentle fluttering strands against twilight horizon', '', 'editorial'],
+  ['0–2s: Adjusting oversized coat lapel lazily with eyes cast softly downward', 'opens in candid unposed in-between calm as slender fingers smooth fabric collar quietly', '', 'editorial'],
+  ['0–2s: Paused at bottom of grand stone staircase glancing softly back over bare shoulder', 'begins anchored cleanly on stepped stone with spine elongated and calm chin poised toward stairwell light', '', 'editorial'],
+  // Spa (6)
+  ['0–2s: Reclined peacefully on heated spa linen with warm steam drifting past cheek', 'opens in serene 100mm macro profile as aromatic mist curls softly over freshly oiled bare shoulders and cheek pores', '', 'spa'],
+  ['0–2s: Seated before warm Edison vanity bulbs holding clipped duckbill waves in check', 'begins centered in glowing tungsten vanity light with front waves pinned cleanly back behind temples via matte clips', '', 'spa'],
+  ['0–2s: Wearing cool frosted cryo-globes resting delicately beneath flushed cheekbones', 'opens silently on translucent frosted spa globes cooling radiant cheek skin amidst tranquil spa candle flicker', '', 'spa'],
+  ['0–2s: Male MUA inspecting eyebrow arch subtly in tungsten dressing glow before stroke', 'attending male makeup artist holds fine angled brush poised inches from lash line beneath warm mirror bulb haze', '', 'spa'],
+  ['0–2s: Wrapped in strapless cream spa towel resting elbows on cool Carrara marble', 'opens with bare collarbones and radiant serum skin framed softly beside steaming glass atomizer on white marble', '', 'spa'],
+  ['0–2s: Resting peacefully under damp lavender towel compress along lower jawline', 'begins with soothing steaming cloth cupping jaw contour while stray temple wisps gleam gently in warm light', '', 'spa'],
+  // Aquatic (5)
+  ['0–2s: Emerging calmly chest-deep from mirror-still turquoise pool/rainlight', 'opens chest-deep in dark luminous water with drenched slicked strands resting flat along collarbones', '', 'aquatic'],
+  ['0–2s: Standing beneath covered dark marquee watching heavy monsoon streaks fall', 'begins motionless inside sheltered warm awning shadow looking gently outward toward falling rain curtains', '', 'aquatic'],
+  ['0–2s: Standing under outdoor warm marble rain shower head holding eyes softly closed', 'opens under cascading transparent rainfall catching warm backlit droplets across wet slicked hair crown', '', 'aquatic'],
+  ['0–2s: Sitting on wet travertine pool ledge dangling ankles quietly over glowing caustics', 'begins relaxed poolside as turquoise light ripples across damp satin fabric and shimmering shoulders', '', 'aquatic'],
+  ['0–2s: Rainwater streaking steadily down misty window glass directly beside her profile', 'opens through wet rain-dotted window pane framing serene silhouette behind warm café amber bokeh', '', 'aquatic'],
+  // Tattoo (4)
+  ['0–2s: Close 100mm focus on freshly inked/healed fine-line clavicle/rib tattoo', 'opens macro-tight on sharp single-needle dermal ink contouring bare sunlit skin while breath subtly lifts the ribcage', '', 'tattoo'],
+  ['0–2s: Sideways concealed profile showcasing bare tattooed nape beneath high bun/updo', 'begins cleanly framed from three-quarter back/side highlighting bare neck ink under a sculpted updo before head turns', '', 'tattoo'],
+  ['0–2s: Artist black-gloved fingertips stretching taut skin beside delicate floral stencil', 'opens close-up on purple fine-line stencil contour across bare flank under cool skylight studio wash', '', 'tattoo'],
+  ['0–2s: Sitting calmly barefoot on rumpled white morning sheets admiring forearm ink', 'opens in gentle golden morning beam catching fine skin goosebumps and crisp dark forearm linework', '', 'tattoo']
+]);
+
+const vidBeatMids = O_list([
+  // Salon (8)
+  ['2–4s: Male barber lifts comb smoothly through damp section & snips crisp clean line', 'the male barber slides a black carbon comb cleanly through the middle section, holding damp hair fibers taut between index and middle fingers as Japanese steel shears execute two clean deliberate snips, releasing tiny damp clippings down onto the matte black cape', '', 'salon'],
+  ['2–4s: Barber gently sweeps heavy wet/damp front veil panel deliberately over eye', 'focused male barber uses wide-tooth comb and steady fingertips to drape a solid, continuous glossy satin panel of front hair smoothly downward across the upper face in one fluid sheet', '', 'salon'],
+  ['2–4s: Model softly lifts palm brushing loose freshly trimmed clippings off shoulder', 'seated model slowly raises one slender hand to dust fine damp freshly snipped hair tips off her cape collar with understated calm poise', '', 'salon'],
+  ['2–4s: Wide blowout brush twirling ends outward as warm dryer air billows silhouette', 'warm salon airflow catches newly layered ends cleanly around a round boar-bristle brush, bouncing feathery bangs outward in buoyant slow motion', '', 'salon'],
+  ['2–4s: Female model (barber) executes slow precise straight-razor cheek shave glide', 'our female protagonist (acting as skilled artisan barber) stretches the seated male client’s lower cheek gently while drawing a gleaming folded straight razor smoothly downward through warm lather foam', '', 'salon'],
+  ['2–4s: Male barber unclips top butterfly clamps allowing damp crown waterfall to drop', 'barber pops open sleek black butterfly sectioning clips one by one, letting dense freshly layered damp sheets cascade down seamlessly past jawline', '', 'salon'],
+  ['2–4s: Continuous misting spray arc sweeping left-to-right saturating lengths deeper', 'steady hand squeezes brass-trigger mist bottle sweeping glistening water droplets cleanly across dry tips into sleek saturated clumping', '', 'salon'],
+  ['2–4s: Razor-feather point-cutting vertically upward into dry wispy curtain ends', 'steel shear tips flutter in rapid precision vertical point-cuts creating feathery texture as microscopic cut tips float down past black cape folds', '', 'salon'],
+  // Editorial (8)
+  ['2–4s: Slow 45-degree chin pivot causing sleek front hair wave to swing & veil one eye', 'she rotates her head deliberately 45 degrees toward camera key light, letting a lush Veronica-Lake glossy hair sweep glide weightlessly across her cheekbone and lock cleanly over one eye', '', 'editorial'],
+  ['2–4s: Running spread fingers smoothly upward from nape to lift voluminous bounce', 'she threads splayed fingers smoothly under the back hair bulk and tosses her crown upward in one fluid motion so cascading layers unfurl across her shoulders in slow motion', '', 'editorial'],
+  ['2–4s: Tucking loose cheekbone wisp slowly behind ear revealing jawline & earring drop', 'with delicate unhurried finger timing, she hooks one silky front strand gently behind her ear, bringing cheekbone shadow and metallic jewelry glint into sharp relief', '', 'editorial'],
+  ['2–4s: Stepping cleanly forward mid-stride as trench coat lapels & hem billow wide', 'she takes two measured editorial steps straight down the line of sight as breeze catches the loose open trench/dress hem and whips trailing hair ends naturally past shoulder', '', 'editorial'],
+  ['2–4s: Lifting gloved/bare hand to temple shielding facial profile gracefully sideways', 'turned cleanly sideways in golden sidelight, she slowly raises one open hand gently to her forehead/temple concealing her frontal expression while highlighting silhouette and hair sheen', '', 'editorial'],
+  ['2–4s: Slow 180-degree shoulder pivot wrapping all hair dramatically forward over shoulder', 'she rotates gracefully on ball of foot while gathering thick lengths forward over her bare left collarbone in one liquid sweep', '', 'editorial'],
+  ['2–4s: Sliding dark tortoiseshell sunglasses subtly down nose bridge to reveal steady gaze', 'minimalist frame lowers effortlessly half-inch down bridge catching sudden reflection off key light cleanly', '', 'editorial'],
+  ['2–4s: Pulling sleek silk coat/blazer collar slowly closed across bare sternum mid-turn', 'confident casual turn clutching wide tailored wool lapel loosely against golden twilight breeze', '', 'editorial'],
+  // Spa (7)
+  ['2–4s: Male MUA steadies pinky softly on cheek while sweeping razor-thin black wing liner', 'attending male makeup artist braces his pinky gingerly along the apple of her cheek and pulls one continuous unbroken stroke of jet-black liquid liner outward smoothly', '', 'spa'],
+  ['2–4s: Glass pipette squeezes glistening hyaluronic serum bead rolling slowly down cheek', 'glass dropper hovers millimeters above her cheekbone, releasing one crystal-clear serum drop that trails down organically across visible skin micro-pores', '', 'spa'],
+  ['2–4s: Rose-quartz gua sha stone gliding steadily upward along sleek jawline oil gleam', 'smooth contoured rose-quartz stone traces steadily upward from chin to earlobe over glistening botanical oil, subtly lifting cheek contours', '', 'spa'],
+  ['2–4s: Ultra-fine hydrosol spray atomizer casts backlit cloud settling across lashes', 'an iridescent halo mist from a glass spritzer billows past the key light, depositing microscopic glistening water beads onto temples, shoulders, and collarbones', '', 'spa'],
+  ['2–4s: Unclipping dark matte duckbill hair clip at temple releasing soft curtain layers', 'she reaches up effortlessly with thumb and forefinger to pop open a dark duckbill sectioning clip, letting pinned front layers fall naturally around her cheek', '', 'spa'],
+  ['2–4s: Translucent setting powder cloud drifting weightlessly off fluffy squirrel brush', 'fine luminescent powder bursts softly off wide fan bristles under backlighting while MUA pats under-eye contour cleanly', '', 'spa'],
+  ['2–4s: Peeling semi-sheer cooling hydrogel mask corner gently back off luminous cheekbone', 'delicate manicured fingers peel saturated translucent mask edge slowly upward revealing glassy pore-fresh glow below', '', 'spa'],
+  // Aquatic (6)
+  ['2–4s: Stepping cleanly into warm evening rain as saturated hair slicks smooth & heavy', 'stepping gracefully out into glistening illuminated rainfall, raindrops scatter sharply off drenched hair ribbons clinging cleanly down temples and neck', '', 'aquatic'],
+  ['2–4s: Sweeping drenched wet hair straight backward with both palms out of pool water', 'sliding both wet hands cleanly back from forehead through crown, shedding cascading silver droplets into golden sunset ripples behind her', '', 'aquatic'],
+  ['2–4s: Standing in sudden coastal wind tunnel as wet-damp ends lift dramatically', 'strong sea breeze whips damp separated hair ribbons softly across jawline while linen robe straps billow effortlessly behind bare shoulders', '', 'aquatic'],
+  ['2–4s: Submerging neck slowly back into turquoise infinity pool leaving ribbons floating', 'tilts gently backward across glassy water surface so saturated hair fans outward softly in weightless floating ribbons', '', 'aquatic'],
+  ['2–4s: Flicking saturated hair ends subtly over wet shoulder casting silver spray arc', 'quick crisp shoulder turn flings bright backlit water droplets horizontally into shallow night neon bokeh', '', 'aquatic'],
+  ['2–4s: Pressing cool damp palm slowly down wet collarbones catching steam & condensation', 'smooth wet fingertips glide down collarbone contour shimmering with rain sheen and mist droplets', '', 'aquatic'],
+  // Tattoo (5)
+  ['2–4s: Gliding gloved fingertips gently beside fresh healed collarbone tattoo ink', 'close tracking focus follows bare/gloved fingertips grazing gently inches from intricate single-needle botanical lines across breathing collarbone contours', '', 'tattoo'],
+  ['2–4s: Tilting bare shoulder backward slowly so hair drapes clear of intricate spine ink', 'she lowers her shoulder blade gently forward while brushing heavy hair forward over the opposite arm, revealing the crisp symmetrical spine mandala smoothly', '', 'tattoo'],
+  ['2–4s: Wiping green-soap foam calmly clean across fresh ribbed ink with dark folded gauze', 'slow firm wipe clears pale foam cleanly from crisp wet-black botanical stems glistening under soothing balm sheen', '', 'tattoo'],
+  ['2–4s: Raising bare forearm slowly across golden morning window ray highlighting delicate flower ink', 'turning bare wrist effortlessly toward diagonal sunbeam so razor-thin ink stems read against warm skin pores and golden hairs', '', 'tattoo'],
+  ['2–4s: Turning bare back toward 85mm camera pulling messy bun slightly tighter at nape', 'both slender arms lift loosely tying dark messy topknot up high to frame fresh spine center-line art clearly', '', 'tattoo']
+]);
+
+const vidBeatEnds = O_list([
+  ['4–6s: Settling quietly into knowing closed-lip half-smile holding poise', 'head settles softly at rest with an unforced private closed-lip smirk and calm rhythmic breath while camera completes final inch of glide', '', 'all'],
+  ['4–6s: Holding steady serene veiled stillness as heavy glossy front veil stays locked', 'subject holds calm motionless composure as the sleek combed hair curtain remains firmly anchored over the veiled eye(s) with subtle end-strand settle', '', 'all'],
+  ['4–6s: Turning gracefully away 60 degrees into background soft golden bokeh', 'model pivots smoothly away toward the distant terrace/room background, letting final highlight roll across neckline silhouette before fade', '', 'all'],
+  ['4–6s: Final close pause as mist droplets catch golden light along lips & collarbone', 'motion slows gently to near-stillness in shallow bokeh while micro-droplets sparkle quietly across plump hydrated skin and glistening hair ends', '', 'all'],
+  ['4–6s: Confident unbothered direct glance directly down camera barrel as music beat hits', 'completes turn squarely toward the lens with unwavering poised gaze and slight lift of chin in editorial authority', '', 'all'],
+  ['4–6s: Lowering eyelashes serenely toward resting neutral breath in candlelit warmth', 'exhales peacefully as gaze drops softly downward in tranquil candid beauty', '', 'all'],
+  ['4–6s: Brief spontaneous candid laugh softening cheeks right before cutting away', 'breaks effortlessly out of composed pose into a warm unguarded half-laugh turning softly off camera', '', 'all'],
+  ['4–6s: Sculpted motionless pause in crisp profile silhouetting new haircut line', 'stops cleanly on final angle letting back layers swing gently to rest in razor-sharp silhouette against window glow', '', 'all'],
+  ['4–6s: Slow pull-away leaving subject framed smaller amidst atmospheric room haze', 'subject relaxes posture peacefully as drifting steam or rain haze slowly softens outer frame edges', '', 'all'],
+  ['4–6s: Quiet closing eye-contact over shoulder before stepping cleanly past frame left', 'offers one parting calm look backward over bare shoulder before drifting gracefully toward soft focus exit', '', 'all'],
+  ['4–6s: Delicate chin dip letting parted bottleneck curtain bangs settle into symmetry', 'chin lowers half-inch cleanly as twin arched curtain panels frame outer cheekbones in effortless balance', '', 'all'],
+  ['4–6s: Still chest breath rise & single unhurried blink in 100mm hyper-detail lock', 'closes in razor-sharp tranquil stillness holding eye catchlights and damp micro-strands cleanly frozen on final chord', '', 'all']
+]);
+
+const vidFacialMicroMotions = O_list([
+  ['Natural quiet breathing, soft single natural blink & micro lip part', 'subtle rhythmic collarbone breath rise, one organic blink, and barely perceptible relaxation of parted lips'],
+  ['Serene zero-eye stillness (ideal for 80–100% hair veil or closed-eyes spa)', 'calm tranquil facial stillness with serene slow breathing cadence and zero distracting wide-eye darting'],
+  ['Warm playful half-smirk forming gradually across outer cheeks', 'an authentic tiny corner-lip smirk warming gently across relaxed cheek contours without exaggerated teeth'],
+  ['Focused steady beauty pose (still jaw & soft composed gaze)', 'unflinching editorial composure with gentle natural eyelid poise during fine liner or scissor detail'],
+  ['Spontaneous real laugh crinkle mid-sentence transitioning back to calm', 'flicker of genuine off-camera amused laugh followed immediately by soft composed settling'],
+  ['Soft involuntary squint against golden sunlight followed by serene exhale', 'natural gentle brow relax and soft pupil adjustment into warm late afternoon key light'],
+  ['Slow downward gaze drop across cheekbones then lifted toward horizon', 'graceful slow eyelid dip tracing jawline line before lifting eyes calmly past lens edge'],
+  ['Biting lower lip briefly in amused concentration before relaxing', 'micro-candid lip bite during hair adjustment releasing cleanly into relaxed serene contour'],
+  ['Tranquil parted-mouth inhale under warm hydrosol spray cooling skin', 'delicate slow chest inhalation with barely parted hydrated lips catching fine aromatic spray'],
+  ['One subtle arched eyebrow in cool editorial confidence', 'effortless understated brow lift pairing amused detachment with razor-sharp poise']
+]);
+
+const vidEnvironments = O_list([
+  ['Luxury sunlit loft studio with sheer blowing ivory linen curtains', 'spacious minimalist loft studio bathed in late afternoon sunbeams with floor-to-ceiling sheer ivory curtains billowing gently'],
+  ['Authentic busy Indian barbershop with glowing mirrors, steel tools & male clientele', 'lived-in atmospheric Indian barbershop with dark Belmont hydraulic chairs, warm tungsten bulbs, misting bottles, and out-of-focus male activity behind'],
+  ['Neon rain-slicked Tokyo/Mumbai night alley awash in magenta & amber puddles', 'cinematic wet night street lined with glowing shop signs reflecting liquid gold and magenta puddles across glistening dark asphalt'],
+  ['Travertine infinity pool edge overlooking ocean twilight horizon', 'warm stone infinity pool deck overlooking deep twilight sea horizon with rhythmic turquoise light caustics rippling upward'],
+  ['Candlelit Seoul thermal spa cabin with ceramic mist diffuser & dark slate', 'intimate architectural thermal spa sanctuary bathed in warm candle glow and pale slate reflections'],
+  ['Parisian balcony overlooking evening rooftops in soft coastal twilight', 'romantic Haussmann wrought-iron balcony high above soft evening city bokeh and gentle dusk wind'],
+  ['Backstage fashion-week vanity row glowing under warm Edison mirror bulbs', 'electric backstage dressing corridor framed by rows of warm frosted vanity bulbs, metallic racks, and blurred movement behind'],
+  ['Moody dark slate luxury hotel bathroom filled with warm mirror steam', 'five-star dark marble suite bathroom veiled softly in aromatic rising shower mist and warm recessed brass sconces'],
+  ['Rajasthani sandstone heritage haveli courtyard in golden sunset dust motes', 'exquisite hand-carved sandstone courtyard alive with warm slanted afternoon sunbeams and gently swaying marigold petals'],
+  ['Humid conservatory greenhouse overflowing with giant wet tropical monsteras', 'glass-domed Victorian botanical greenhouse teeming with misted emerald palm leaves and soft overhead sunlight'],
+  ['Rain-streaked luxury sedan backseat gliding past blurred wet city bokeh', 'intimate leather car interior rolling smoothly past liquid neon city rain streaks along fogged side glass'],
+  ['Milan Fashion Week glossy black runway catwalk under crisp strobe beams', 'high-contrast editorial runway gleaming black under pulsing flashes and blurred rows of silhouettes'],
+  ['Sun-drenched Amalfi coastal cliff terrace with lemon branches & sea sparkles', 'bright whitewashed Mediterranean cliff stone framing swaying citrus foliage and sparkling turquoise sea behind'],
+  ['Subterranean smoky Tokyo jazz cellar with amber tungsten wall sconces', 'moody stone vault lounge bathed in warm golden spotlights and soft background acoustic blur'],
+  ['Outdoor tropical teakwood rain shower with steam rising off dark basalt', 'lush open-air wooden rain sanctuary framed by steaming black stone walls and misty foliage'],
+  ['Minimalist curved architectural concrete studio cyclorama with light beams', 'stark gallery-white & raw concrete studio set illuminated by passing sharp diagonal sun shafts']
+]);
+
+const vidEnvPhysics = O_list([
+  ['Gentle golden-hour crosswind lifting loose temple flyaways & hem edges', 'subtle warm natural air current drifting right-to-left, floating fine loose hairs delicately across glowing key light'],
+  ['Rising warm aromatic spa steam plumes curling past foreground backlight', 'translucent organic ribbons of gentle facial mist and warm steam drifting languidly upward past the subject without fogging clarity'],
+  ['Backlit fine raindrops & water-spray halo suspended crisply in air', 'thousands of luminous sunlit mist and rain droplets dancing sharply in air around shoulders and glistening hair tips'],
+  ['Shimmering water caustics dancing fluidly upward across bare neck & wall', 'living refractive ripples of pool water light sweeping rhythmically across skin contours, damp strands, and marble stone'],
+  ['Airborne fine trimmed hair clippings & translucent setting powder falling slowly', 'microscopic cut hair wisps and feathery powder motes drifting weightlessly downward through warm focused key light'],
+  ['Completely still quiet luxury interior air (pure micro-motion focus)', 'dead-calm indoor atmosphere with zero external wind disruption, centering every visual ripple on deliberate subject choreography'],
+  ['Gentle electric fan breeze fluttering satin robe belt & cheekbone curtains', 'soft backstage fan airflow keeping wispy curtain bangs and lightweight satin edges continuously alive'],
+  ['Drifting warm sunlit dust motes swimming peacefully across shadow beams', 'delicate suspended golden dust motes floating lazily through crisp architectural window shafts'],
+  ['Soft steam wisps condensing gradually across cool mirror & glass perimeter', 'subtle organic warm bath mist rising silently near dark wood trim and brass fixtures'],
+  ['Slow falling rain curtains pouring cleanly past distant blurred neon awnings', 'rich silver rain streaks slicing rhythmically outside sheltered entrance overhang']
+]);
+
+const vidLightingShifts = O_list([
+  ['Constant sculpted beauty-dish & warm tungsten consistency', 'rock-steady physical lighting balance preserving exact skin tone and consistent shadow directions across every frame'],
+  ['Gradual golden sunbeam sweep panning subtly across cheek & hair sheen', 'slow natural passing sunlight band warming across her jawline and glossy crown texture mid-shot'],
+  ['Subtle flickering candle & neon sign spill dancing across wet skin speculars', 'organic live practical light shimmer rolling across hydrated pores, serum dewdrops, and dark hair gleam'],
+  ['Behind-the-scenes direct strobe pop followed by warm continuous fill', 'crisp editorial flash shimmer balanced smoothly with ambient tungsten fill lighting'],
+  ['Cloud breaking gently over sunlit window brightening cheekbones smoothly', 'natural exterior overcast daylight opening gradually into warm radiant sunbeam mid-turn'],
+  ['Silhouette shadow transition rotating cleanly out into bright key exposure', 'subject turns seamlessly from moody rim-lit darkness straight into luminous beauty key light'],
+  ['Warm sodium/amber streetlamp wash mixing smoothly with cool rain sky fill', 'contrast of warm tungsten highlights kissing wet cheekbones against cool twilight steel blues']
+]);
+
+// ==========================================
+// DURATION, AMPLITUDE, GRADE & ASPECT
+// ==========================================
+
+const vidDurations = O_list([
+  ['5 Seconds — Focused Single-Arc Micro Reveal', '5-second tight single continuous take pacing'],
+  ['6–8 Seconds — Standard 3-Beat Choreography (Ideal Kling / Veo / Runway)', '6-to-8-second natural cinema pacing smoothly completing Start, Peak, and Resolve beats'],
+  ['10 Seconds — Unhurried Extended Beauty & Action Study', '10-second deliberate slow-tempo take with unhurried pause between beats'],
+  ['15 Seconds — Hypnotic Slow-Motion Atmosphere Study', '15-second dreamy hyper-slow cinema sequence']
+]);
+
+const vidAmplitudes = O_list([
+  ['Ultra-Subtle (Micro-Motion · 99% Zero Morphing Guarantee)', 'restraint-prioritized micro-motion amplitude: preserve identical facial geometry, hairline, fingers, and garment seams cleanly with gentle realistic inertia'],
+  ['Balanced Editorial (Natural Turn, Breeze & Crisp Tool Mechanics)', 'balanced medium cinema motion amplitude allowing fluid 45–90° head pivots, natural stride, and lifelike hair weight without temporal tearing'],
+  ['Dynamic Kinetic (Expressive Hair Whip, Monsoon Wind & Runway Stride)', 'high-energy kinetic motion physics driving bold hair swings, billowing fabric hems, and crisp splash droplets cleanly']
+]);
+
+const vidStyles = O_list([
+  ['Kodak Vision3 500T Anamorphic Cinema Film (rich Indian skin & halation)', 'authentic Kodak Vision3 500T 35mm motion-picture color science preserving rich warm Indian skin tones, velvety shadows, and gentle practical halation'],
+  ['Arri Alexa Mini LF Natural Commercial Beauty Grade', 'ultra-clean Arri Alexa large-format digital cinema look with buttery skin highlight roll-off and crisp tactile pore fidelity'],
+  ['Raw Behind-the-Scenes Documentary 16mm Grain', 'tactile 16mm behind-the-scenes celluloid grain with authentic practical lighting truth and unforced live camera texture'],
+  ['Crisp High-Contrast Nocturnal Neon & Rain Grade', 'moody high-contrast night cinema grading balancing saturated practical colors against clean accurate natural skin'],
+  ['Kodak Portra Motion Warm Daylight Nostalgia', 'sun-drenched warm golden analog film texture celebrating glowing warm undertones and gentle airy contrast'],
+  ['RED V-Raptor 8K Razor-Sharp Editorial Lookbook Grade', 'ultra-crisp commercial fashion lookbook depth resolving individual lashes, metallic hardware gleams, and fabric weaves'],
+  ['Monochrome Silver-Gelatin Noir Cinema Grade', 'rich deep silver blacks and sculpted silver specular highlights across wet cheekbones and glossy dark hair curves'],
+  ['Soft 90s Vintage Super-8 / Betacam Backstage Charm', 'nostalgic warm-toned backstage runway video aesthetic with subtle organic highlight bloom and lived-in spontaneity']
+]);
+
+const vidAspects = O_list([
+  ['9:16 Vertical Cinema / Reels', 'vertical 9:16 cinema composition (1080×1920)'],
+  ['16:9 Widescreen Cinema', 'classic 16:9 widescreen film composition (1920×1080)'],
+  ['4:5 Portrait Editorial Video', 'portrait 4:5 editorial frame'],
+  ['3:4 Classic Portrait Video', 'classic 3:4 portrait video aspect'],
+  ['1:1 Square Loops', 'balanced 1:1 square frame'],
+  ['2.39:1 Anamorphic Scope', 'wide 2.39:1 anamorphic cinema scope framing']
+]);
+
+let wardrobeMode = 'ensemble';
+let vidHairMoisture = 'dry';
+let compactMotionMode = false;
+
+const fields = {
+  // 01 Subject & Styling
+  vidPipelineMode: { label: 'Video Generation Workflow', opts: vidPipelineModes, def: 0, section: 'vidInputSec', _grp: 'Reference & Base Styling' },
+  vidHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'vidInputSec', _grp: 'Haircut, Veil & Motion Physics' },
+  vidHair: { label: 'Chosen Haircut Silhouette', opts: hair, def: 0, section: 'vidInputSec', _grp: 'Haircut, Veil & Motion Physics' },
+  vidHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'vidInputSec', _grp: 'Haircut, Veil & Motion Physics' },
+
+  vidOutfitCategory: { label: 'Ensemble Wardrobe Family (430+ options)', opts: OUTFIT_FAMILIES, def: 0, section: 'vidInputSec', _grp: 'Wardrobe in Motion' },
+  vidOutfit: { label: 'Full Wardrobe Ensemble', opts: outfit, def: 0, section: 'vidInputSec', _grp: 'Wardrobe in Motion' },
+  topCategory: { label: 'Top Piece Category', opts: TOP_FAMILIES, def: 0, section: 'vidInputSec', _grp: 'Wardrobe in Motion' },
+  topPiece: { label: 'Crop Top / Bralette / Tank', opts: topPieces, def: 0, section: 'vidInputSec', _grp: 'Wardrobe in Motion' },
+  bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'vidInputSec', _grp: 'Wardrobe in Motion' },
+  bottomPiece: { label: 'Denim Shorts / Jeans / Skirt', opts: bottomPieces, def: 0, section: 'vidInputSec', _grp: 'Wardrobe in Motion' },
+  midriffStyling: { label: 'Midriff & Waistline Exposure', opts: midriffStylings, def: 0, section: 'vidInputSec', _grp: 'Wardrobe in Motion' },
+
+  // 02 Camera Choreography
+  vidCameraFamily: { label: 'Camera Motion Family', opts: vidCameraFamilies, def: 0, section: 'vidCameraSec', _grp: 'Camera Movement & Optics' },
+  vidCameraMove: { label: 'Camera Path & Movement', opts: vidCameraMoves, def: 0, section: 'vidCameraSec', _grp: 'Camera Movement & Optics' },
+  vidFramerate: { label: 'Frame Rate & Slow-Motion Speed', opts: vidFramerates, def: 0, section: 'vidCameraSec', _grp: 'Camera Movement & Optics' },
+  vidFocalLens: { label: 'Cinema Lens & Optical Character', opts: vidFocalLenses, def: 0, section: 'vidCameraSec', _grp: 'Camera Movement & Optics' },
+
+  // 03 3-Beat Action Timeline
+  vidActionDomain: { label: 'Action Beat Domain Filter', opts: vidActionDomains, def: 0, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
+  vidBeatStart: { label: 'Opening Beat (0s–2s Start)', opts: vidBeatStarts, def: 3, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
+  vidBeatMid: { label: 'Peak Action Beat (2s–4s Climax)', opts: vidBeatMids, def: 5, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
+  vidBeatEnd: { label: 'Closing Resolve Beat (4s–6s+ End)', opts: vidBeatEnds, def: 0, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
+  vidFacialMicroMotion: { label: 'Facial Breathing & Micro-Expression', opts: vidFacialMicroMotions, def: 0, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
+
+  // 04 Environment & Ambient Physics
+  vidEnvironment: { label: 'Moving Scene & Backdrop', opts: vidEnvironments, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Lighting Flux' },
+  vidEnvPhysics: { label: 'Wind, Steam, Rain & Ambient Motion', opts: vidEnvPhysics, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Lighting Flux' },
+  vidLightingShift: { label: 'Lighting Continuity & Practical Flicker', opts: vidLightingShifts, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Lighting Flux' },
+
+  // 05 Technical Specs
+  vidDuration: { label: 'Clip Length & Pacing', opts: vidDurations, def: 1, section: 'vidTechSec', _grp: 'Generation Parameters' },
+  vidAmplitude: { label: 'Motion Amplitude (Stability vs Drama)', opts: vidAmplitudes, def: 1, section: 'vidTechSec', _grp: 'Generation Parameters' },
+  vidStyleLook: { label: 'Cinema Film Stock & Grade', opts: vidStyles, def: 0, section: 'vidTechSec', _grp: 'Generation Parameters' },
+  aspect: { label: 'Video Aspect Ratio', opts: vidAspects, def: 0, section: 'vidTechSec', _grp: 'Generation Parameters' }
+};
+
+const starterPresets = [
+  {
+    id: 'veil-slow-turn',
+    title: 'Slow Hair-Veil 45° Turn',
+    sub: '48fps whisper dolly-in · Cheek veil locks over one eye',
+    icon: '🌊',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'dry',
+    values: {
+      vidCameraMove: vidCameraMoves[0],
+      vidFramerate: vidFramerates[1],
+      vidBeatStart: vidBeatStarts[3],
+      vidBeatMid: vidBeatMids[5],
+      vidBeatEnd: vidBeatEnds[1],
+      vidHairFaceCoverage: hairFaceCoverageOpts.find(o => o.label.includes('40–45%')) || hairFaceCoverageOpts[3],
+      vidEnvPhysics: vidEnvPhysics[0]
+    }
+  },
+  {
+    id: 'salon-snip-slowmo',
+    title: '120fps Salon Scissor Snip',
+    sub: 'Rack-focus onto shears · Clippings drifting down wet cape',
+    icon: '✂️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      vidCameraMove: vidCameraMoves[25],
+      vidFramerate: vidFramerates[2],
+      vidBeatStart: vidBeatStarts[0],
+      vidBeatMid: vidBeatMids[0],
+      vidBeatEnd: vidBeatEnds[1],
+      vidEnvironment: vidEnvironments[1],
+      vidEnvPhysics: vidEnvPhysics[4]
+    }
+  },
+  {
+    id: 'monsoon-wet-stride',
+    title: 'Monsoon Neon Wet Stride',
+    sub: 'Soaked ribbons · Backward tracking · Backlit raindrops',
+    icon: '🌧️',
+    wardrobeMode: 'separates',
+    hairMoisture: 'wet',
+    values: {
+      vidCameraMove: vidCameraMoves[1],
+      vidFramerate: vidFramerates[2],
+      vidBeatStart: vidBeatStarts[9],
+      vidBeatMid: vidBeatMids[15],
+      vidBeatEnd: vidBeatEnds[4],
+      vidEnvironment: vidEnvironments[2],
+      vidEnvPhysics: vidEnvPhysics[2]
+    }
+  },
+  {
+    id: 'spa-guasha-steam',
+    title: '100mm Spa Gua Sha & Mist',
+    sub: 'Macro serum trail · Eucalyptus steam plumes · Serene bliss',
+    icon: '💎',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      vidCameraMove: vidCameraMoves[10],
+      vidFramerate: vidFramerates[1],
+      vidBeatStart: vidBeatStarts[6],
+      vidBeatMid: vidBeatMids[12],
+      vidBeatEnd: vidBeatEnds[5],
+      vidEnvironment: vidEnvironments[4],
+      vidEnvPhysics: vidEnvPhysics[1],
+      vidFacialMicroMotion: vidFacialMicroMotions[1]
+    }
+  },
+  {
+    id: 'pool-emergence-whip',
+    title: 'Poolside Wet Comb-Back Whip',
+    sub: '240fps frozen water spray · Turquoise caustics rippling',
+    icon: '🏊‍♀️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'wet',
+    values: {
+      vidCameraMove: vidCameraMoves[8],
+      vidFramerate: vidFramerates[3],
+      vidBeatStart: vidBeatStarts[8],
+      vidBeatMid: vidBeatMids[16],
+      vidBeatEnd: vidBeatEnds[3],
+      vidEnvironment: vidEnvironments[3],
+      vidEnvPhysics: vidEnvPhysics[3]
+    }
+  },
+  {
+    id: 'tattoo-nape-reveal',
+    title: '180° Tattoo & Updo Orbit',
+    sub: '100mm macro orbital glide · Hair sweeps clear of ink',
+    icon: '🖋️',
+    wardrobeMode: 'separates',
+    hairMoisture: 'dry',
+    values: {
+      vidCameraMove: vidCameraMoves[8],
+      vidFramerate: vidFramerates[1],
+      vidBeatStart: vidBeatStarts[11],
+      vidBeatMid: vidBeatMids[19],
+      vidBeatEnd: vidBeatEnds[2],
+      vidEnvironment: vidEnvironments[0],
+      vidEnvPhysics: vidEnvPhysics[5]
+    }
+  }
+];
+
+let activeSection = 'vidInputSec';
+let values = {};
+let lockedFields = new Set();
+let customPresets = [];
+let activePreset = '';
+let promptHistory = [];
+let customDirection = '';
+let extraNegative = '';
+
+const VID_KEY = 'afterglow_video_director_v1';
+const VID_HIST_KEY = 'afterglow_video_hist_v1';
+
+const checkState = {
+  noMorph: true,
+  hairLock: true,
+  fingerLock: true,
+  solitaryRule: true,
+  bgLock: true,
+  naturalPhysics: true,
+  noText: true
+};
+
+Object.keys(fields).forEach(k => {
+  const f = fields[k];
+  values[k] = f.opts[f.def || 0];
+});
+
+function val(k){ return values[k]?.text || ''; }
+
+function serializeSet(m){
+  const o = {};
+  Object.entries(m || {}).forEach(([k, v]) => { if(v?.label) o[k] = v.label; });
+  return o;
+}
+function hydrateSet(raw){
+  const o = {};
+  Object.entries(raw || {}).forEach(([k, lbl]) => {
+    const f = fields[k];
+    if(!f) return;
+    const hit = f.opts.find(x => x.label === lbl);
+    if(hit) o[k] = hit;
+  });
+  return o;
+}
+
+function save(){
+  try {
+    localStorage.setItem(VID_KEY, JSON.stringify({
+      wm: wardrobeMode, hm: vidHairMoisture, cm: compactMotionMode,
+      sec: activeSection, cs: checkState, ap: activePreset,
+      d: customDirection, n: extraNegative, k: [...lockedFields],
+      v: serializeSet(values),
+      u: customPresets.map(p => ({
+        id: p.id, title: p.title, sub: p.sub, icon: p.icon || '⭐',
+        wardrobeMode: p.wardrobeMode, hairMoisture: p.hairMoisture,
+        v: serializeSet(p.values)
+      }))
+    }));
+  } catch(e){}
+}
+
+function load(){
+  try {
+    const o = JSON.parse(localStorage.getItem(VID_KEY) || 'null');
+    if(o){
+      if(o.wm === 'ensemble' || o.wm === 'separates') wardrobeMode = o.wm;
+      if(o.hm === 'dry' || o.hm === 'damp' || o.hm === 'wet') vidHairMoisture = o.hm;
+      if(typeof o.cm === 'boolean') compactMotionMode = o.cm;
+      if(o.sec && sections.some(s => s.id === o.sec)) activeSection = o.sec;
+      if(o.cs) Object.assign(checkState, o.cs);
+      if(o.ap) activePreset = o.ap;
+      if(typeof o.d === 'string') customDirection = o.d;
+      if(typeof o.n === 'string') extraNegative = o.n;
+      if(Array.isArray(o.k)) lockedFields = new Set(o.k);
+      if(o.v) Object.assign(values, hydrateSet(o.v));
+      if(Array.isArray(o.u)){
+        customPresets = o.u.map(p => ({
+          id: p.id, title: p.title, sub: p.sub || 'Custom Motion', icon: p.icon || '⭐',
+          isCustom: true, wardrobeMode: p.wardrobeMode, hairMoisture: p.hairMoisture,
+          values: hydrateSet(p.v || p.set)
+        }));
+      }
+    }
+  } catch(e){}
+  try {
+    promptHistory = JSON.parse(localStorage.getItem(VID_HIST_KEY) || '[]');
+    if(el('historyBadge')) el('historyBadge').textContent = promptHistory.length;
+  } catch(e){}
+}
+
+function renderTabs(){
+  const tabs = el('tabs');
+  if(!tabs) return;
+  tabs.innerHTML = '';
+  sections.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tab' + (s.id === activeSection ? ' active' : '');
+    b.dataset.section = s.id;
+    b.innerHTML = `<span class="tab-no">0${i+1}</span>${s.name}`;
+    b.addEventListener('click', () => goSection(s.id));
+    tabs.appendChild(b);
+  });
+}
+
+function goSection(secId){
+  activeSection = secId;
+  const s = sections.find(x => x.id === secId);
+  if(!s) return;
+  const idx = sections.indexOf(s);
+  el('stepEyebrow').textContent = `Creative direction · 0${idx+1}`;
+  el('stepTitle').textContent = s.name;
+  el('stepDescription').textContent = s.desc;
+  el('stepIcon').textContent = s.icon;
+  el('stepCount').textContent = `Step ${idx+1} of ${sections.length}`;
+  if(el('prevStep')){
+    el('prevStep').disabled = (idx === 0);
+    el('prevStep').style.opacity = (idx === 0) ? '.42' : '1';
+  }
+  if(el('nextStep')){
+    el('nextStep').textContent = (idx === sections.length - 1) ? '← Back to top' : 'Next step →';
+  }
+  renderTabs();
+  renderFields();
+  save();
+}
+
+function filterChoices(menu, q){
+  let shown = 0;
+  const list = menu.querySelector('.option-list');
+  [...list.querySelectorAll('.choice')].forEach(b => {
+    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    b.classList.toggle('hidden', !ok);
+    if(ok) shown++;
+  });
+  let no = menu.querySelector('.no-results');
+  if(!shown){
+    if(!no){
+      no = document.createElement('div');
+      no.className = 'no-results';
+      no.textContent = 'No matching options.';
+      list.appendChild(no);
+    }
+  } else if(no) no.remove();
+}
+
+function updateCustom(custom, id){
+  const curr = custom.querySelector('.current');
+  if(curr && values[id]) curr.textContent = values[id].label;
+  custom.querySelectorAll('.choice').forEach(b => {
+    const active = fields[id].opts[Number(b.dataset.index)] === values[id];
+    b.classList.toggle('selected', active);
+    const old = b.querySelector('.checkmark');
+    if(old) old.remove();
+    if(active){
+      const cm = document.createElement('span');
+      cm.className = 'checkmark';
+      cm.textContent = '✓ ';
+      b.prepend(cm);
+    }
+  });
+}
+
+function getFilteredOpts(id, f){
+  let vis = f.opts;
+  if(id === 'vidHair' && values.vidHairCategory && values.vidHairCategory.text !== 'all'){
+    vis = f.opts.filter(o => o.cat === values.vidHairCategory.text);
+  } else if(id === 'vidOutfit' && values.vidOutfitCategory && values.vidOutfitCategory.text !== 'all'){
+    vis = f.opts.filter(o => o.cat === values.vidOutfitCategory.text);
+  } else if(id === 'topPiece' && values.topCategory && values.topCategory.text !== 'all'){
+    vis = f.opts.filter(o => o.cat === values.topCategory.text);
+  } else if(id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text !== 'all'){
+    vis = f.opts.filter(o => o.cat === values.bottomCategory.text);
+  } else if(id === 'vidCameraMove' && values.vidCameraFamily && values.vidCameraFamily.text !== 'all'){
+    vis = f.opts.filter(o => o.cat === values.vidCameraFamily.text);
+  } else if(['vidBeatStart', 'vidBeatMid'].includes(id) && values.vidActionDomain && values.vidActionDomain.text !== 'all'){
+    const filtered = f.opts.filter(o => o.cat === values.vidActionDomain.text || o.cat === 'all');
+    if(filtered.length) vis = filtered;
+  }
+  if(!vis.length) vis = f.opts;
+  if(!vis.includes(values[id])) values[id] = vis[0];
+  return vis;
+}
+
+function createFieldElement(id, f){
+  const wrap = document.createElement('div');
+  wrap.className = 'field' + (['vidPipelineMode', 'vidHair', 'vidOutfit', 'vidCameraMove', 'vidBeatStart', 'vidBeatMid', 'vidBeatEnd', 'vidEnvironment', 'vidEnvPhysics'].includes(id) ? ' full' : '');
+
+  const lab = document.createElement('div');
+  lab.className = 'label-row';
+  const tw = document.createElement('div');
+  tw.className = 'label-title-wrap';
+  const label = document.createElement('label');
+  label.textContent = f.label;
+  const isLocked = lockedFields.has(id);
+  const lockBtn = document.createElement('button');
+  lockBtn.type = 'button';
+  lockBtn.className = 'lock-btn' + (isLocked ? ' locked' : '');
+  lockBtn.innerHTML = isLocked ? '🔒' : '🔓';
+  lockBtn.addEventListener('click', () => {
+    if(lockedFields.has(id)) lockedFields.delete(id);
+    else lockedFields.add(id);
+    save();
+    renderFields();
+  });
+  tw.append(label, lockBtn);
+
+  const visibleOpts = getFilteredOpts(id, f);
+  const count = document.createElement('span');
+  count.className = 'option-count';
+  count.textContent = visibleOpts.length + ' options';
+  lab.append(tw, count);
+
+  const custom = document.createElement('div');
+  custom.className = 'custom-select';
+  custom.dataset.id = id;
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'select-trigger';
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.innerHTML = `<span class="current"></span><span class="chevron">⌄</span>`;
+  trigger.querySelector('.current').textContent = values[id]?.label || '';
+
+  const menu = document.createElement('div');
+  menu.className = 'select-menu';
+  menu.innerHTML = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…"><div class="option-list"></div>`;
+  const list = menu.querySelector('.option-list');
+
+  visibleOpts.forEach(o => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choice' + (values[id] === o ? ' selected' : '');
+    b.dataset.index = f.opts.indexOf(o);
+    b.textContent = o.label;
+    b.addEventListener('click', () => {
+      values[id] = o;
+      if(id === 'vidHairCategory' && o.text !== 'all'){
+        const m = fields.vidHair.opts.find(x => x.cat === o.text); if(m) values.vidHair = m;
+      } else if(id === 'vidOutfitCategory' && o.text !== 'all'){
+        const m = fields.vidOutfit.opts.find(x => x.cat === o.text); if(m) values.vidOutfit = m;
+      } else if(id === 'topCategory' && o.text !== 'all'){
+        const m = fields.topPiece.opts.find(x => x.cat === o.text); if(m) values.topPiece = m;
+      } else if(id === 'bottomCategory' && o.text !== 'all'){
+        const m = fields.bottomPiece.opts.find(x => x.cat === o.text); if(m) values.bottomPiece = m;
+      } else if(id === 'vidCameraFamily' && o.text !== 'all'){
+        const m = fields.vidCameraMove.opts.find(x => x.cat === o.text); if(m) values.vidCameraMove = m;
+      } else if(id === 'vidActionDomain' && o.text !== 'all'){
+        const ms = fields.vidBeatStart.opts.find(x => x.cat === o.text); if(ms) values.vidBeatStart = ms;
+        const mm = fields.vidBeatMid.opts.find(x => x.cat === o.text); if(mm) values.vidBeatMid = mm;
+      }
+      updateCustom(custom, id);
+      custom.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      if(id.endsWith('Category') || id.endsWith('Family') || id === 'vidActionDomain') renderFields();
+      buildPrompt();
+    });
+    list.appendChild(b);
+  });
+
+  trigger.addEventListener('click', () => {
+    const was = custom.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(x => {
+      x.classList.remove('open');
+      x.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+    if(!was){
+      custom.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+      const inp = menu.querySelector('input');
+      inp.value = '';
+      filterChoices(menu, '');
+      inp.focus({ preventScroll: true });
+    }
+  });
+  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  menu.querySelector('input').addEventListener('keydown', e => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const first = menu.querySelector('.choice:not(.hidden)');
+      if(first) first.click();
+    }
+  });
+
+  custom.append(trigger, menu);
+  wrap.append(lab, custom);
+  updateCustom(custom, id);
+  return wrap;
+}
+
+function createVidMoistureCard(){
+  const card = document.createElement('div');
+  card.className = 'moisture-toggle-card';
+  card.id = 'moistureToggleCard';
+  card.innerHTML = `<div class="moisture-header"><span class="moisture-label">💧 Moving Hair Moisture Physics</span><span class="moisture-hint">Controls airborne strand weight, clumping &amp; water-spray shedding in motion</span></div>`;
+  const pillsWrap = document.createElement('div');
+  pillsWrap.className = 'moisture-pills';
+  [
+    { id: 'dry', label: '💨 Dry & Blown-out' },
+    { id: 'damp', label: '💦 Damp / Spray-Misted' },
+    { id: 'wet', label: '🌊 Soaked / Wet-Look' }
+  ].forEach(opt => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'moisture-pill' + (vidHairMoisture === opt.id ? ' active' : '');
+    btn.dataset.moisture = opt.id;
+    btn.textContent = opt.label;
+    btn.addEventListener('click', () => {
+      vidHairMoisture = opt.id;
+      pillsWrap.querySelectorAll('.moisture-pill').forEach(b => b.classList.toggle('active', b.dataset.moisture === opt.id));
+      buildPrompt();
+      toast(`💧 Motion moisture set to: ${opt.label}`);
+    });
+    pillsWrap.appendChild(btn);
+  });
+  card.appendChild(pillsWrap);
+  return card;
+}
+
+function renderFields(){
+  const host = el('fields');
+  if(!host) return;
+  host.innerHTML = '';
+
+  if(activeSection === 'vidInputSec'){
+    const isSep = (wardrobeMode === 'separates');
+    const sw = document.createElement('div');
+    sw.className = 'wardrobe-mode-card';
+    sw.style.cssText = 'grid-column: 1 / -1; margin: 0 0 16px 0; padding: 14px 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px;';
+    sw.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div><strong style="font-size:13px;color:#fff;display:block;">Wardrobe Mode</strong><span style="font-size:11px;color:#999;">Choose full ensembles or modular crop tops &amp; bottoms in motion.</span></div>
+        <div class="seg-control" style="display:flex;background:rgba(0,0,0,0.4);padding:3px;border-radius:8px;gap:4px;">
+          <button type="button" class="seg-btn ${!isSep ? 'active' : ''}" id="btnVidEnsemble" style="padding:6px 14px;font-size:11px;border-radius:6px;cursor:pointer;border:none;background:${!isSep ? 'var(--pink,#ec4899)' : 'transparent'};color:#fff;font-weight:600;">👗 Full Ensembles</button>
+          <button type="button" class="seg-btn ${isSep ? 'active' : ''}" id="btnVidSeparates" style="padding:6px 14px;font-size:11px;border-radius:6px;cursor:pointer;border:none;background:${isSep ? 'var(--pink,#ec4899)' : 'transparent'};color:#fff;font-weight:600;">👚 Separates</button>
+        </div>
+      </div>`;
+    sw.querySelector('#btnVidEnsemble').addEventListener('click', () => { wardrobeMode = 'ensemble'; renderFields(); buildPrompt(); });
+    sw.querySelector('#btnVidSeparates').addEventListener('click', () => { wardrobeMode = 'separates'; renderFields(); buildPrompt(); });
+    host.appendChild(sw);
+  }
+
+  let secFields = Object.keys(fields).filter(k => fields[k].section === activeSection);
+  if(activeSection === 'vidInputSec'){
+    secFields = wardrobeMode === 'separates'
+      ? secFields.filter(k => !['vidOutfitCategory', 'vidOutfit'].includes(k))
+      : secFields.filter(k => !['topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling'].includes(k));
+  }
+
+  let lastGrp = '';
+  secFields.forEach(id => {
+    const f = fields[id];
+    if(f._grp && f._grp !== lastGrp){
+      lastGrp = f._grp;
+      const g = document.createElement('h3');
+      g.className = 'grp';
+      g.textContent = lastGrp;
+      host.appendChild(g);
+    }
+    host.appendChild(createFieldElement(id, f));
+    if(id === 'vidHairFaceCoverage' && activeSection === 'vidInputSec'){
+      host.appendChild(createVidMoistureCard());
+    }
+  });
+
+  const sp = el('specialContent');
+  if(sp){
+    if(activeSection === 'finish'){
+      sp.innerHTML = `
+        <div class="field-card" style="margin-top:16px;padding:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;">
+          <h3 style="font-size:14px;margin:0 0 12px 0;color:#f1f5f9;">Temporal Continuity &amp; Anti-Morph Locks</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-bottom:16px;">
+            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkNoMorph" ${checkState.noMorph ? 'checked' : ''}> Lock Facial Identity Mid-Turn (Zero Morph)</label>
+            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkHairLock" ${checkState.hairLock ? 'checked' : ''}> Keep Exact Hair Length &amp; Cut Stable</label>
+            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkFingerLock" ${checkState.fingerLock ? 'checked' : ''}> Consistent Hands, Fingers &amp; Tool Grip</label>
+            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSolitary" ${checkState.solitaryRule ? 'checked' : ''}> Solitary Female Protagonist Rule</label>
+            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkBgLock" ${checkState.bgLock ? 'checked' : ''}> Stable Background Architecture (Zero Melt)</label>
+            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkNoText" ${checkState.noText ? 'checked' : ''}> Zero Captions, Logos or Watermarks</label>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label for="customDirInput" style="display:block;font-size:12px;font-weight:600;color:#cbd5e1;margin-bottom:6px;">Custom Choreography Cue</label>
+              <textarea id="customDirInput" rows="3" placeholder="e.g., wind arrives right at second 2.5 gently parting right shoulder tendrils…" style="width:100%;border-radius:10px;padding:10px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);color:#f8fafc;font-size:12px;">${customDirection.replace(/</g,'&lt;')}</textarea>
+            </div>
+            <div>
+              <label for="extraNegInput" style="display:block;font-size:12px;font-weight:600;color:#cbd5e1;margin-bottom:6px;">Extra Video Exclusions</label>
+              <textarea id="extraNegInput" rows="3" placeholder="e.g., morphing extra hands, warping mirror edges, strobe flicker…" style="width:100%;border-radius:10px;padding:10px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);color:#f8fafc;font-size:12px;">${extraNegative.replace(/</g,'&lt;')}</textarea>
+            </div>
+          </div>
+        </div>`;
+      [['chkNoMorph','noMorph'],['chkHairLock','hairLock'],['chkFingerLock','fingerLock'],['chkSolitary','solitaryRule'],['chkBgLock','bgLock'],['chkNoText','noText']].forEach(([cid, k]) => {
+        el(cid)?.addEventListener('change', e => { checkState[k] = e.target.checked; buildPrompt(); });
+      });
+      el('customDirInput')?.addEventListener('input', e => { customDirection = e.target.value; buildPrompt(); });
+      el('extraNegInput')?.addEventListener('input', e => { extraNegative = e.target.value; buildPrompt(); });
+    } else {
+      sp.innerHTML = '';
+    }
+  }
+}
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.custom-select')){
+    document.querySelectorAll('.custom-select.open').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+function renderPresets(){
+  const host = el('presets');
+  if(!host) return;
+  host.innerHTML = '';
+  customPresets.forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon||'⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" data-del="${p.id}">✕</button></div><small>${p.sub||'Custom'}</small>`;
+    b.addEventListener('click', e => {
+      if(e.target.closest('.preset-del')){
+        customPresets = customPresets.filter(x => x.id !== p.id);
+        save(); renderPresets(); return;
+      }
+      applyPresetObj(p);
+      toast(`✦ Applied custom motion preset: ${p.title}`);
+    });
+    host.appendChild(b);
+  });
+  starterPresets.forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset' + (p.id === activePreset ? ' active' : '');
+    b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
+    b.addEventListener('click', () => { applyPresetObj(p); toast(`✦ Applied preset: ${p.title}`); });
+    host.appendChild(b);
+  });
+}
+
+function applyPresetObj(p){
+  activePreset = p.id;
+  if(p.wardrobeMode) wardrobeMode = p.wardrobeMode;
+  if(p.hairMoisture) vidHairMoisture = p.hairMoisture;
+  Object.keys(p.values || {}).forEach(k => { if(p.values[k] && !lockedFields.has(k)) values[k] = p.values[k]; });
+  renderPresets(); renderFields(); buildPrompt();
+}
+
+// ==========================================
+// VIDEO PROMPT GENERATION ENGINE
+// ==========================================
+
+function buildPrompt(){
+  const hairText = val('vidHair');
+  const covLabel = values.vidHairFaceCoverage?.label || '';
+  const covVal = val('vidHairFaceCoverage');
+  const veilTier = parseVeilTier(covLabel);
+  const hairArch = detectHairArchitecture(values.vidHair, hairText);
+  const veilRuleObj = getVeilRule(veilTier, hairArch);
+
+  const camMove = val('vidCameraMove');
+  const beatStart = val('vidBeatStart');
+  const beatMid = val('vidBeatMid');
+  const beatEnd = val('vidBeatEnd');
+  const isConcealed = /shield\w*.*face|conceal\w*.*face|facing.*away|turned.*away|profile/i.test(beatMid + ' ' + beatEnd) || ['65_70','80_85','95_100'].includes(veilTier);
+
+  const rawMicro = val('vidFacialMicroMotion');
+  const microSafe = (['65_70','80_85','95_100'].includes(veilTier) || /shield|conceal/i.test(beatMid))
+    ? sanitizeHiddenFaceText(rawMicro, true, veilTier)
+    : rawMicro;
+
+  const wardrobeText = (wardrobeMode === 'separates')
+    ? `a modern separates outfit featuring ${val('topPiece')} paired with ${val('bottomPiece')} (${val('midriffStyling')})`
+    : val('vidOutfit');
+
+  const moistMotionClause = vidHairMoisture === 'wet'
+    ? 'Soaked Wet Hair Motion Physics: Heavy saturated wet hair ribbons swing with dense wet weight, shedding silver spray droplets slowly while wet temple/neck strands cling sleekly against skin without airy flyaway frizz.'
+    : (vidHairMoisture === 'damp'
+      ? 'Damp Misted Hair Physics: Lightly spray-misted strands move with cohesive slightly clumped inertia and fine catching droplet sheen.'
+      : 'Dry Blown-Out Motion Physics: Lightweight airy dry hair layers catch soft air currents with bouncy volume and delicate shimmering flyaways.');
+
+  const lines = [];
+  if(compactMotionMode){
+    lines.push(`${val('vidPipelineMode')}. Duration: ${val('vidDuration')}, ${val('vidFramerate')}, ${val('vidFocalLens')}, aspect ${val('aspect')}.`);
+    lines.push(`Subject: Preserve reference adult woman's Indian heritage identity seamlessly wearing ${wardrobeText}; haircut: ${hairText}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
+    lines.push(`Camera Choreography: ${camMove}.`);
+    lines.push(`Action Sequence: (0–2s) ${beatStart}. (2–4s) ${beatMid}. (4–6s+) ${beatEnd}. Facial rhythm: ${microSafe}.`);
+    lines.push(`Environment & Physics: ${val('vidEnvironment')}. Ambient movement: ${val('vidEnvPhysics')}. Lighting: ${val('vidLightingShift')}. Film look: ${val('vidStyleLook')}. Amplitude: ${val('vidAmplitude')}.`);
+    if(veilRuleObj?.strict) lines.push(`HAIR VEIL LOCK: ${veilRuleObj.strict}`);
+    if(customDirection.trim()) lines.push(`Direction: ${customDirection.trim()}`);
+  } else {
+    lines.push('REFERENCE-GUIDED LIVE-ACTION VIDEO PROMPT · CINEMA MOTION DIRECTOR');
+    lines.push('');
+    lines.push('WORKFLOW & SUBJECT CONTINUITY:');
+    lines.push(`• Input Mode: ${val('vidPipelineMode')}.`);
+    lines.push(`• Subject & Solitary Rule: Maintain the exact adult Indian woman from reference throughout all frames wearing ${wardrobeText}.`);
+    lines.push(`• Hair Architecture & Motion Weight: ${hairText}${covVal ? '. Active face-veil tier: ' + covVal : ''}.`);
+    if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
+    lines.push(`• ${moistMotionClause}`);
+    lines.push('');
+    lines.push('CAMERA CHOREOGRAPHY & OPTICS:');
+    lines.push(`• Camera Path: ${camMove}.`);
+    lines.push(`• Speed & Capture: ${val('vidFramerate')}. Optics: ${val('vidFocalLens')}.`);
+    lines.push(`• Motion Amplitude: ${val('vidAmplitude')}. Clip Target: ${val('vidDuration')}. Aspect Ratio: ${val('aspect')}.`);
+    lines.push('');
+    lines.push('CHRONOLOGICAL 3-BEAT ACTION TIMELINE:');
+    lines.push(`• BEAT 1 (0s–2s · OPENING FRAME): ${beatStart}.`);
+    lines.push(`• BEAT 2 (2s–4s · PEAK ACTION & MOTION): ${beatMid}.`);
+    lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & POISE): ${beatEnd}.`);
+    lines.push(`• Micro-Expression & Breathing: ${microSafe}.`);
+    lines.push('');
+    lines.push('ENVIRONMENT, AMBIENT WIND & LIGHT FLUX:');
+    lines.push(`• Setting: ${val('vidEnvironment')}.`);
+    lines.push(`• Secondary Ambient Motion: ${val('vidEnvPhysics')}.`);
+    lines.push(`• Light & Color Grade: ${val('vidLightingShift')}. Film stock: ${val('vidStyleLook')}.`);
+    if(veilRuleObj?.strict){
+      lines.push('');
+      lines.push('HAIR VEIL CONTINUITY LOCK (ALL FRAMES):');
+      lines.push(`• ${veilRuleObj.strict}`);
+    }
+    if(customDirection.trim()){
+      lines.push('');
+      lines.push('ADDITIONAL CHOREOGRAPHY DIRECTION:');
+      lines.push(customDirection.trim());
+    }
+    lines.push('');
+    lines.push('TEMPORAL STABILITY & ARTIFACT SAFEGUARDS:');
+    if(checkState.noMorph) lines.push('• Zero Facial Morphing: Facial bone structure, skin tone, and micro-pores remain 100% locked cleanly across head rotation.');
+    if(checkState.hairLock) lines.push(`• Exact Hair Geometry Lock: Keep selected haircut (${values.vidHair?.label || 'style'}) length and crown constant without morphing length mid-clip.`);
+    if(checkState.fingerLock) lines.push('• Smooth Hand & Limb Continuity: Five anatomically coherent fingers per hand with realistic joint inertia and zero extra floating hands.');
+    if(checkState.solitaryRule) lines.push('• Solitary Female Subject: Strictly zero secondary women appearing dynamically anywhere in background crowds or passing extras.');
+    if(checkState.bgLock) lines.push('• Fixed Environmental Geometry: Walls, mirrors, furniture, and chair legs stay solid and non-warping during camera motion.');
+  }
+
+  const negs = [
+    'facial identity morphing during head turn, melting jaw features, fluctuating skin tone',
+    'hair suddenly growing longer or changing cut mid-clip, flickering stray bangs',
+    'extra fingers, rubber warping arms, floating disembodied barber/MUA tools',
+    'secondary women walking into frame, warping walls, flickering strobe noise'
+  ];
+  if(veilRuleObj?.neg) negs.push(veilRuleObj.neg);
+  if(vidHairMoisture === 'wet') negs.push('hair magically drying out mid-shot, dry fluffy frizz');
+  else if(vidHairMoisture === 'dry') negs.push('sudden unexplained wet slicked clumps');
+  if(checkState.noText) negs.push('subtitles, corner watermarks, UI overlays, weird text glyphs');
+  if(extraNegative.trim()) negs.push(extraNegative.trim());
+
+  lines.push('');
+  lines.push('AVOID / NEGATIVE GUIDANCE:');
+  negs.forEach(n => lines.push('• ' + n));
+
+  const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+  el('prompt').value = text;
+  el('prompt').textContent = text;
+  const words = text.trim().split(/\s+/).length;
+  el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ${compactMotionMode ? 'Compact Video' : '3-Beat Cinema'}`;
+  if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
+
+  const moistMap = { dry: 'Dry Blown-out', damp: 'Damp Misted', wet: 'Soaked Wet' };
+  const sumIds = ['vidCameraMove', 'vidFramerate', 'vidBeatMid', 'vidHair', 'vidHairFaceCoverage'];
+  const tags = sumIds.filter(id => fields[id] && values[id]).map(id => `<span class="summary-tag">${fields[id].label}: <strong>${values[id].label}</strong></span>`);
+  tags.splice(3, 0, `<span class="summary-tag">Moisture: <strong>${moistMap[vidHairMoisture]}</strong></span>`);
+  el('summary').innerHTML = tags.join('');
+  if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent = `${values.vidCameraMove?.label || ''} · ${values.vidFramerate?.label || ''}`;
+
+  document.querySelectorAll('.ratio-chip').forEach(chip => chip.classList.toggle('active', (values.aspect?.label || '').includes(chip.dataset.ratio)));
+  el('btnStructuredMode')?.classList.toggle('active', !compactMotionMode);
+  el('btnCompactMotion')?.classList.toggle('active', compactMotionMode);
+  save();
+  return text;
+}
+
+function toast(msg){
+  const t = el('toast');
+  if(!t) return;
+  t.textContent = msg; t.classList.remove('flash'); void t.offsetWidth; t.classList.add('flash');
+}
+function recordHistory(){
+  const t = el('prompt')?.value.trim(); if(!t) return;
+  if(!promptHistory.length || promptHistory[0].text !== t){
+    promptHistory.unshift({ id: Date.now(), title: values.vidBeatMid?.label || 'Video Prompt', sub: values.vidCameraMove?.label || 'Motion', text: t, time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }), words: t.split(/\s+/).length });
+    if(promptHistory.length > 30) promptHistory.pop();
+    if(el('historyBadge')) el('historyBadge').textContent = promptHistory.length;
+    try { localStorage.setItem(VID_HIST_KEY, JSON.stringify(promptHistory)); } catch(e){}
+  }
+}
+function copy(t){
+  recordHistory();
+  if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(() => toast('Copied video prompt.')).catch(() => fallbackCopy(t));
+  else fallbackCopy(t);
+}
+function fallbackCopy(t){
+  const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch(e){}
+  ta.remove(); toast('Copied video prompt.');
+}
+
+function randomizeAll(){
+  Object.keys(fields).forEach(k => {
+    if(lockedFields.has(k) || k.endsWith('Category') || k.endsWith('Family') || k === 'vidActionDomain') return;
+    const f = fields[k];
+    values[k] = f.opts[Math.floor(Math.random() * f.opts.length)];
+  });
+  activePreset = ''; renderPresets(); renderFields(); buildPrompt();
+  toast('✦ Rolled fresh 3-beat cinema motion!');
+}
+function resetAll(){
+  Object.keys(fields).forEach(k => { if(!lockedFields.has(k)) values[k] = fields[k].opts[fields[k].def || 0]; });
+  vidHairMoisture = 'dry'; wardrobeMode = 'ensemble'; compactMotionMode = false; customDirection = ''; extraNegative = ''; activePreset = '';
+  save(); renderPresets(); renderFields(); buildPrompt(); toast('↺ Reset motion director to defaults.');
+}
+function shuffleStarterPresets(){
+  for(let i = starterPresets.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [starterPresets[i], starterPresets[j]] = [starterPresets[j], starterPresets[i]];
+  }
+  renderPresets(); toast('↻ Shuffled starter motion directions.');
+}
+function saveCustomVidPreset(optName){
+  const name = (typeof optName === 'string' && optName.trim()) ? optName : prompt('Name this custom motion preset:', 'Motion ' + (customPresets.length + 1));
+  if(!name || !name.trim()) return null;
+  const p = { id: 'user_' + Date.now(), title: name.trim(), sub: values.vidCameraMove?.label || 'Custom Motion', icon: '⭐', isCustom: true, wardrobeMode, hairMoisture: vidHairMoisture, values: Object.assign({}, values) };
+  customPresets.unshift(p); save(); renderPresets(); toast(`Saved “${p.title}”.`); return p;
+}
+function exportVidPresets(){
+  const payload = { version: 1, studio: 'video', exportedAt: new Date().toISOString(), customPresets: customPresets.map(p => ({ id: p.id, title: p.title, sub: p.sub, icon: p.icon, wardrobeMode: p.wardrobeMode, hairMoisture: p.hairMoisture, set: serializeSet(p.values) })) };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a'), url = URL.createObjectURL(blob);
+  a.href = url; a.download = 'afterglow-video-presets.json'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function importVidPresetsFromData(parsed){
+  const list = Array.isArray(parsed) ? parsed : (parsed?.customPresets || null);
+  if(!list) throw new Error('Invalid JSON');
+  let added = 0;
+  list.forEach(raw => {
+    if(!raw?.title) return;
+    const h = hydrateSet(raw.set || raw.values || raw.v);
+    if(!Object.keys(h).length || customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
+    customPresets.unshift({ id: raw.id || ('user_'+Date.now()+'_'+added), title: raw.title, sub: raw.sub || 'Imported', icon: raw.icon || '⭐', isCustom: true, wardrobeMode: raw.wardrobeMode, hairMoisture: raw.hairMoisture, values: h });
+    added++;
+  });
+  save(); renderPresets(); return added;
+}
+
+el('randomTop')?.addEventListener('click', randomizeAll);
+el('copyTop')?.addEventListener('click', () => copy(el('prompt').value));
+el('copy')?.addEventListener('click', () => copy(el('prompt').value));
+el('resetTop')?.addEventListener('click', resetAll);
+el('shuffleLooks')?.addEventListener('click', shuffleStarterPresets);
+el('saveCustomLook')?.addEventListener('click', () => saveCustomVidPreset());
+el('exportPresetsBtn')?.addEventListener('click', exportVidPresets);
+if(el('importPresetsBtn') && el('importPresetsInput')){
+  el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
+  el('importPresetsInput').addEventListener('change', e => {
+    const f = e.target.files?.[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => { try { toast(`✓ Imported ${importVidPresetsFromData(JSON.parse(r.result))} preset(s).`); } catch(err){ toast('Invalid JSON file.'); } e.target.value = ''; };
+    r.readAsText(f);
+  });
+}
+el('copyPositive')?.addEventListener('click', () => { const t = el('prompt').value; copy(extractPositivePrompt(t) || t); toast('✓ Copied positive motion prompt.'); });
+el('copyNegative')?.addEventListener('click', () => { const neg = extractNegativePrompt(el('prompt').value); if(neg){ copy(neg); toast('✓ Copied exclusions only.'); } });
+el('download')?.addEventListener('click', () => {
+  const b = new Blob([el('prompt').value], { type:'text/plain;charset=utf-8' }), a = document.createElement('a'), u = URL.createObjectURL(b);
+  a.href = u; a.download = 'afterglow-video-prompt.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
+});
+el('selectPrompt')?.addEventListener('click', () => { el('prompt').focus(); el('prompt').select(); });
+el('prevStep')?.addEventListener('click', () => { const i = sections.findIndex(s => s.id === activeSection); if(i > 0) goSection(sections[i-1].id); });
+el('nextStep')?.addEventListener('click', () => { const i = sections.findIndex(s => s.id === activeSection); goSection(sections[(i+1)%sections.length].id); });
+el('finishJump')?.addEventListener('click', () => goSection('finish'));
+el('btnStructuredMode')?.addEventListener('click', () => { compactMotionMode = false; buildPrompt(); });
+el('btnCompactMotion')?.addEventListener('click', () => { compactMotionMode = true; buildPrompt(); });
+document.querySelectorAll('.ratio-chip').forEach(c => c.addEventListener('click', () => {
+  const m = fields.aspect.opts.find(o => o.label.includes(c.dataset.ratio));
+  if(m){ values.aspect = m; buildPrompt(); renderFields(); toast(`Ratio set to ${c.dataset.ratio}.`); }
+}));
+function generateShareUrl(){
+  try {
+    const p = new URLSearchParams(); Object.keys(values).forEach(k => { if(values[k]) p.set(k, values[k].label); });
+    p.set('wm', wardrobeMode); p.set('hm', vidHairMoisture);
+    copy(window.location.origin + window.location.pathname + '?' + p.toString()); toast('🔗 Share URL copied!');
+  } catch(e){}
+}
+el('shareLookBtn')?.addEventListener('click', generateShareUrl);
+el('shareLookTop')?.addEventListener('click', generateShareUrl);
+
+function openHistory(){
+  const l = el('historyList');
+  if(l) l.innerHTML = !promptHistory.length ? '<div class="history-empty"><p>No video prompts copied yet.</p></div>' : promptHistory.map((it, idx) => `<div class="history-item"><div class="history-item-top"><strong>${it.title}</strong><span>${it.time}</span></div><div class="history-item-sub">${it.sub} · ${it.words} words</div><div class="history-item-actions"><button class="btn btn-primary btn-small copy-h" data-idx="${idx}" type="button">Copy ▣</button></div></div>`).join('');
+  l?.querySelectorAll('.copy-h').forEach(b => b.addEventListener('click', () => { copy(promptHistory[Number(b.dataset.idx)].text); closeHistory(); }));
+  el('historyModal')?.classList.add('active'); el('historyBackdrop')?.classList.add('active');
+}
+function closeHistory(){ el('historyModal')?.classList.remove('active'); el('historyBackdrop')?.classList.remove('active'); }
+el('openHistoryBtn')?.addEventListener('click', openHistory);
+el('closeHistoryBtn')?.addEventListener('click', closeHistory);
+el('historyBackdrop')?.addEventListener('click', closeHistory);
+el('clearHistoryBtn')?.addEventListener('click', () => { promptHistory = []; localStorage.removeItem(VID_HIST_KEY); if(el('historyBadge')) el('historyBadge').textContent = '0'; openHistory(); });
+
+const prev = document.querySelector('.preview'), back = el('drawerBackdrop');
+function openDrawer(){ prev?.classList.add('drawer-open'); back?.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeDrawer(){ prev?.classList.remove('drawer-open'); back?.classList.remove('active'); document.body.style.overflow = ''; }
+el('openDrawerBtn')?.addEventListener('click', openDrawer);
+el('closeDrawer')?.addEventListener('click', closeDrawer);
+back?.addEventListener('click', closeDrawer);
+el('sheetHandle')?.addEventListener('click', () => prev?.classList.contains('drawer-open') ? closeDrawer() : openDrawer());
+el('mobileCopyBtn')?.addEventListener('click', () => copy(el('prompt').value));
+el('topQuickCopy')?.addEventListener('click', () => copy(el('prompt').value));
+el('fab')?.addEventListener('click', () => copy(el('prompt').value));
+
+const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
+if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + '+ searchable motion options';
+load(); renderPresets(); renderTabs(); goSection(activeSection || 'vidInputSec'); buildPrompt();
+
+window.AfterglowVideo = {
+  getFields: () => fields, getValues: () => values, getCheckState: () => checkState,
+  buildPrompt, renderFields, save, load, resetAll,
+  saveCustomVidPreset, importVidPresetsFromData, getCustomPresets: () => customPresets,
+  getHair: () => hair, getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getMoisture: () => vidHairMoisture, setMoisture: m => { vidHairMoisture = m; renderFields(); buildPrompt(); },
+  setCompactMode: b => { compactMotionMode = !!b; buildPrompt(); },
+  getExtractedPositive: () => extractPositivePrompt(el('prompt').value),
+  getExtractedNegative: () => extractNegativePrompt(el('prompt').value)
+};
+})();
+</script>
+</body>
+</html>

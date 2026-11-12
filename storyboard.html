@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Afterglow / Multi-Shot Narrative Storyboard Sequencer</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+.sb-frame-grid{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.sb-frame-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.sb-frame-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:8px}
+.sb-frame-badge{font-size:12px;font-weight:700;color:#f472b6;letter-spacing:.04em;text-transform:uppercase}
+.sb-frame-controls{display:flex;gap:6px;flex-wrap:wrap}
+.sb-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sb-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:700px){.sb-row-2,.sb-row-3{grid-template-columns:1fr}}
+.sb-label{display:block;font-size:11px;font-weight:600;color:#cbd5e1;margin-bottom:4px}
+.sb-select,.sb-input{width:100%;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:8px 10px;color:#f8fafc;font-size:12px}
+.sb-frame-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:12px 14px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:12px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div>
+<nav class="suite-nav" aria-label="Studio Switcher">
+  <a href="index.html" class="suite-nav-link" title="Afterglow Hub">✦ Hub</a>
+  <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
+  <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon &amp; Barbershop</a>
+  <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
+  <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
+  <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director</a>
+  <a href="storyboard.html" class="suite-nav-link active"><span class="studio-btn-icon">🎞️</span> Storyboarder <span class="nav-badge">NEW</span></a>
+</nav>
+<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live sequence builder</span><span class="pill" id="totalOptionCount">Loading choices…</span><span class="pill">Offline · No uploads</span></div></header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow" id="heroEyebrow">Multi-Shot Continuity Sequencer · 3 / 4 / 6 Frames</div>
+    <h1 id="heroTitle">Narrative <span>Storyboard</span><br>Prompt Sequencer</h1>
+    <p id="heroDescription">Lock one unified cast—haircut, wardrobe, color grade, and location—once, then choreograph up to 6 distinct chronological shots with independent per-frame Veil %, Moisture, Framing, Camera Angle, Action Beat, and Lighting overrides.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="randomTop" type="button">✦ Randomize story arc</button>
+      <button class="btn btn-secondary" id="copyTop" type="button">▣ Copy current output</button>
+      <button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share storyboard</button>
+      <button class="btn btn-quiet" id="resetTop" type="button">↺ Start over</button>
+    </div>
+  </div>
+  <aside class="hero-note">
+    <div class="sparkle">✧ ✦ ✧</div>
+    <div>
+      <strong>Unbroken cast, evolving story.</strong>
+      <p>Output either a single unified 2×2 / contact grid prompt or inspect and copy each individual frame (`Shot 1`–`Shot 6`) one by one while keeping identical identity across every frame.</p>
+      <div class="tags">
+        <span class="tag">3 / 4 / 6 Frame Packs</span>
+        <span class="tag">Per-Frame Veil &amp; Moisture</span>
+        <span class="tag">32 Narrative Beats</span>
+        <span class="tag">Grid + Individual Prompts</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<div class="layout">
+<main class="builder">
+<section class="preset-strip">
+  <div class="strip-head">
+    <div>
+      <h2>Start with a complete story arc</h2>
+      <p>Full multi-frame progressions spanning Salon Wet-to-Dry Transformations, Progressive Hair-Veil Reveals (`0% → 45% → 85% → 100%`), MUA Vanity-to-Editorial Exits, and Tattoo Session Narratives.</p>
+    </div>
+    <div class="strip-actions">
+      <button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save story</button>
+      <button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle arcs</button>
+      <button class="btn btn-secondary btn-small" id="exportPresetsBtn" type="button" title="Export custom storyboards to JSON">⬇ Export</button>
+      <button class="btn btn-secondary btn-small" id="importPresetsBtn" type="button" title="Import custom storyboards from JSON">⬆ Import</button>
+      <input type="file" id="importPresetsInput" accept=".json,application/json" hidden>
+    </div>
+  </div>
+  <div class="preset-grid" id="presets"></div>
+</section>
+
+<nav class="section-tabs" id="tabs" aria-label="Storyboard sections"></nav>
+
+<section class="step-card" id="stepCard">
+  <div class="step-head">
+    <div>
+      <div class="eyebrow" id="stepEyebrow">Global continuity · 01</div>
+      <h2 id="stepTitle">Global Hair &amp; Cast Lock</h2>
+      <p id="stepDescription">Lock haircut, baseline veil %, baseline moisture, and reference identity rules shared by all frames.</p>
+    </div>
+    <div class="step-icon" id="stepIcon">✂</div>
+  </div>
+  <div class="field-grid" id="fields"></div>
+  <div id="fineTuneArea"></div>
+  <div id="specialContent"></div>
+  <div class="step-foot">
+    <span class="step-count" id="stepCount">Step 1 of 4</span>
+    <div class="step-buttons">
+      <button class="btn btn-secondary" id="prevStep" type="button">← Previous</button>
+      <button class="btn btn-primary" id="nextStep" type="button">Next step →</button>
+    </div>
+  </div>
+</section>
+
+<section class="advanced-bar">
+  <div>
+    <strong>Fine-tuning individual frames or continuity safeguards?</strong>
+    <small>Jump straight to the Per-Frame Shot Director or Continuity &amp; Exclusions step.</small>
+  </div>
+  <button class="btn btn-secondary btn-small" id="finishJump" type="button">Open finish controls ↗</button>
+</section>
+</main>
+
+<aside class="preview">
+  <div class="sheet-handle hidden-desktop" id="sheetHandle"></div>
+  <div class="preview-head">
+    <div class="preview-top">
+      <div class="eyebrow">Live sequence output</div>
+      <div class="preview-top-actions">
+        <button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button>
+        <button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button>
+        <span class="live">Updating</span>
+        <button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button>
+      </div>
+    </div>
+    <h2>Your sequence, assembled</h2>
+    <p>Switch seamlessly between the full pack, unified collage grid, or individual frame prompts.</p>
+    <div class="summary" id="summary"></div>
+  </div>
+  <div class="preview-body">
+    <div class="preview-toolbar">
+      <div class="toolbar-row">
+        <div class="seg-control" id="modeSegControl">
+          <button type="button" class="seg-btn active" id="btnPackMode">Full Pack (All Shots)</button>
+          <button type="button" class="seg-btn" id="btnGridMode">✦ Unified Grid Prompt</button>
+        </div>
+        <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+      </div>
+      <div class="ratio-row">
+        <span class="ratio-label">Ratio:</span>
+        <div class="ratio-chips" id="ratioChips">
+          <button type="button" class="ratio-chip" data-ratio="3:4">3:4</button>
+          <button type="button" class="ratio-chip" data-ratio="4:5">4:5</button>
+          <button type="button" class="ratio-chip" data-ratio="9:16">9:16</button>
+          <button type="button" class="ratio-chip" data-ratio="1:1">1:1</button>
+          <button type="button" class="ratio-chip" data-ratio="3:2">3:2</button>
+          <button type="button" class="ratio-chip" data-ratio="16:9">16:9</button>
+        </div>
+      </div>
+      <div class="shot-tabs" id="shotTabs"></div>
+    </div>
+    <div class="prompt-meta">
+      <span id="wordCount">Sequence ready</span>
+      <button class="btn btn-quiet btn-small" id="selectPrompt" type="button">Select all text</button>
+    </div>
+    <textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated storyboard prompt"></textarea>
+    <div class="preview-buttons">
+      <button class="btn btn-primary" id="copy" type="button">▣ Copy current view</button>
+      <button class="btn btn-secondary" id="download" type="button">↓ Download .txt</button>
+      <button class="btn btn-secondary" id="copyPositive" type="button">Copy positive only</button>
+      <button class="btn btn-secondary" id="copyNegative" type="button">Copy exclusions only</button>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <div class="preview-help"><strong>Workflow tip:</strong> Click individual Shot tabs (`Shot 1`–`Shot 6`) to generate frames sequentially with the same reference image, or choose <em>Unified Grid Prompt</em> for a single 2×2 / triptych generation.</div>
+</aside>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-bar" id="mobileBar">
+  <div class="mobile-bar-info">
+    <span class="mobile-stat" id="mobileWordCount">Ready</span>
+    <span class="mobile-sub" id="mobileSummaryMini">Storyboarder</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="btn btn-secondary btn-small" id="openDrawerBtn" type="button">Preview prompt ↗</button>
+    <button class="btn btn-primary btn-small" id="mobileCopyBtn" type="button">▣ Copy</button>
+  </div>
+</div>
+<button class="btn btn-primary fab" id="fab" type="button">▣ Copy output</button>
+
+<div class="history-modal" id="historyModal">
+  <div class="history-head">
+    <div>
+      <h3>Storyboard History</h3>
+      <p>Recent sequences &amp; frame prompts copied from this session.</p>
+    </div>
+    <div class="history-head-actions">
+      <button class="btn-quiet btn-small" id="clearHistoryBtn" type="button">Clear</button>
+      <button class="btn-quiet btn-small" id="closeHistoryBtn" type="button">✕ Close</button>
+    </div>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+<div class="modal-backdrop" id="historyBackdrop"></div>
+<p class="fineprint">AFTERGLOW STUDIO · Multi-Frame Narrative Sequencer · Strictly client-side &amp; offline</p>
+</div>
+
+<script src="js/shared-veil.js"></script>
+<script src="js/shared-datasets.js"></script>
+<script>
+(function(){
+'use strict';
+
+const {
+  O,
+  HAIR_FAMILIES, hair, hairFaceCoverageOpts,
+  OUTFIT_FAMILIES, outfit,
+  TOP_FAMILIES, topPieces,
+  BOTTOM_FAMILIES, bottomPieces,
+  midriffStylings
+} = window.AfterglowDatasets;
+
+const {
+  parseVeilTier, detectHairArchitecture, getVeilRule,
+  sanitizeHiddenFaceText, extractPositivePrompt, extractNegativePrompt
+} = window.AfterglowVeil;
+
+const el = id => document.getElementById(id);
+const O_list = arr => arr.map(x => O(x[0], x[1], x[2] || '', x[3] || 'all'));
+
+const sections = [
+  { id: 'sbGlobalCastSec', name: 'Global Cast & Hair', short: 'CAST', icon: '✂', desc: 'Lock identity, haircut silhouette, baseline veil %, and baseline hair moisture across every shot.' },
+  { id: 'sbWorldSec', name: 'Global World & Wardrobe', short: 'WORLD', icon: '👗', desc: 'Choose unified location, full outfit or separates, color grade, lighting baseline, and ratio.' },
+  { id: 'sbFramesSec', name: 'Frame-by-Frame Sequencer', short: 'FRAMES', icon: '🎞️', desc: 'Choreograph 3, 4, or 6 frames with independent Crop, Angle, Beat, Veil %, Moisture & Lighting overrides.' },
+  { id: 'finish', name: 'Continuity & Controls', short: 'FINISH', icon: '✦', desc: 'Global anti-drift rules, solitary protagonist safeguards, custom notes, and exclusions.' }
+];
+
+// ==========================================
+// GLOBAL CONTINUITY OPTION BANKS (EXPANDED)
+// ==========================================
+
+const sbWorldVenues = O_list([
+  ['Modern Indian luxury barbershop & dark walnut styling station', 'an authentic upscale Indian hair salon with dark walnut stations, warm brass bulb accents, black leather hydraulic Belmont chair, and atmospheric reflections'],
+  ['Backstage fashion-week illuminated vanity dressing room', 'an energetic fashion-week backstage vanity station lined with glowing frosted Edison bulbs, makeup brush cups, and misty steamer vapor'],
+  ['Sunlit Soho cast-iron loft studio with tall industrial windows', 'a sunlit Soho loft editorial photography studio with soaring black cast-iron windows, warm hardwood floors, and sheer drifting linen drapes'],
+  ['Carrara marble master bath & rainfall glass vanity at twilight', 'a serene luxury marble bathroom bathed in warm sconce twilight glow with faint bath steam and brushed gold fixtures'],
+  ['Neon rain-soaked urban street terrace overlooking evening city lights', 'a moody monsoon-slicked elevated rooftop terrace overlooking glittering city night bokeh and glossy rain puddles'],
+  ['Mediterranean travertine infinity pool villa at golden sunset', 'an architectural coastal villa infinity pool edge with warm limestone tiles, turquoise light caustics, and late golden sunbeams'],
+  ['Seoul minimalist thermal facial cabin with glowing cove light', 'a tranquil Seoul holistic beauty cabin featuring warm plaster walls, ceramic botanical vessels, linen facial table, and soft amber cove glow'],
+  ['Boutique Soho tattoo atelier with green plants & tall daylight windows', 'a bright sunlit Soho fine-line tattoo loft with weathered brick, dark cherry benchwork, indoor greenery, and macro spotlighting'],
+  ['Opulent Rajasthani sandstone haveli courtyard & brass lanterns', 'a restored Rajasthan heritage haveli veranda with intricately carved sandstone arches, warm brass lamps, and dramatic natural shadows'],
+  ['Parisian Haussmann apartment suite with tall French balcony doors', 'a sophisticated Parisian apartment interior with parquet wood floors, tall open French balcony doors, and diffused overcast afternoon glow'],
+  ['Stark brutalist concrete gallery pavilion with crisp light beams', 'a monumental minimalist concrete architectural space slashed by sharp geometric afternoon sunbeams and clean shadows'],
+  ['Dimly lit emerald velvet speakeasy lounge with candlelight', 'an atmospheric private velvet cocktail lounge bathed in moody amber candlelight and warm nocturnal highlights'],
+  ['Vintage chrome old-Bombay Irani barbershop parlor with leather Belmont chair', 'an evocative vintage South Mumbai barber parlor with checkered tiles, tarnished silver trays, and tall striped barber poles'],
+  ['Kyoto hinoki cypress holistic spa room with glowing paper shoji screens', 'a tranquil Japanese timber sanctuary lit through warm translucent rice-paper shoji screens and aromatic mist diffusers'],
+  ['Milan Fashion Week black high-gloss mirrored runway & front row', 'an editorial fashion catwalk floor gleaming high-gloss black under strobe flashes and blurred audience silhouettes'],
+  ['Outdoor tropical teakwood rain shower with steam rising off dark basalt', 'a lush botanical outdoor rain shower framed by misting monstera leaves and glistening black volcanic stone'],
+  ['Art Deco velvet vanity trailer on rainy film location set', 'an intimate mahogany celebrity prep trailer glowing warm amidst damp exterior set lights and hanging wardrobe garment bags'],
+  ['Sun-warmed Santorini whitewashed cliff suite overlooking deep Aegean twilight', 'white carved limestone arches framing shimmering blue Aegean twilight horizon and gentle candlelight'],
+  ['Victorian glass greenhouse overflowing with misty ferns & botanical palms', 'a humid antique cast-iron botanical conservatory bathed in diffused green-dappled skylight'],
+  ['Private teak superyacht aft deck at late sunset with shimmering sea caustics', 'a sleek yacht wooden deck glowing golden under low sea horizon rays and rippling water reflections']
+]);
+
+const sbHairColors = O_list([
+  ['Preserve natural Indian jet-black / dark espresso hair color', 'her authentic natural jet-black / deep espresso Indian hair color with organic silk sheen'],
+  ['Rich glossy blue-black virgin hair sheen', 'saturated blue-black hair with mirror-like natural glass shine'],
+  ['Deep espresso brunette with subtle warm chestnut dimension', 'deep espresso brown hair with restrained, realistic chestnut undertones'],
+  ['Dark chocolate hair with fine caramel face-framing ribbons', 'rich dark chocolate hair accented by natural subtle caramel highlights near the cheekbones'],
+  ['Soft warm auburn-chestnut sunlit gloss', 'refined deep mahogany-chestnut hair catching copper sheen in warm rim light'],
+  ['Ashy smoked charcoal-espresso cool tone', 'neutral smoky charcoal-espresso brunette with crisp high-fashion mirror sheen']
+]);
+
+const sbColorGrades = O_list([
+  ['Kodak Portra 400 warm organic skin fidelity', 'consistent Kodak Portra 400 analog color science preserving natural Indian skin undertones and smooth highlight roll-off'],
+  ['Crisp High-Fashion Editorial Digital Contrast', 'clean commercial magazine editorial color grade with tack-sharp pores and balanced neutrals'],
+  ['Moody Warm Tungsten & Deep Shadow Cinema Grade', 'rich nocturnal cinema grading balancing warm amber practicals against clean dark shadows'],
+  ['Bright Overcast Scandinavian Clean Editorial', 'airy, neutral true-to-life natural daylight color science with delicate silver-cool shadow depth'],
+  ['Kodak Vision3 500T Anamorphic Film Emulsion', 'deep cinema shadows with gentle warm practical halation around vanity bulbs and neon edges'],
+  ['Ilford HP5 Classic Silver-Gelatin Monochrome', 'sculptural black-and-white editorial monochrome contrasting glossy dark hair against gleaming skin texture'],
+  ['Rich Jewel-Tone Couture Magazine Spread', 'vibrant architectural saturation anchored by strictly realistic natural human skin fidelity'],
+  ['Raw Behind-the-Scenes Documentary True Color', 'ungraded candid camera realism capturing natural mixed indoor room light truthfully']
+]);
+
+const sbGlobalLightings = O_list([
+  ['Soft diffused north window key light + gentle ambient fill', 'soft directional diffused daylight sculpting cheekbones cleanly with realistic micro-pore shadow falloff'],
+  ['Warm Hollywood Edison vanity & overhead salon lighting', 'authentic warm tungsten vanity and studio practical illumination with flattering crisp eye/hair catchlights'],
+  ['Dramatic sculpted beauty-dish studio key with soft rim separation', 'controlled editorial studio key light paired with clean hair-rim backlight'],
+  ['Late-afternoon golden hour warm sidelight', 'warm low-angle golden hour sidelight grazing bare collarbones and illuminating fine airborne strands'],
+  ['Candid behind-the-scenes direct 35mm on-camera flash', 'crisp direct on-camera flash aesthetic creating punchy editorial specular highlights and lived-in contrast'],
+  ['Venetian blind graphic sunlight shadow stripes across scene', 'sharply sliced warm afternoon sunlight bands raking diagonally across hair sheen, walls, and collarbones'],
+  ['Atmospheric spa candlelit glow balanced with cool twilight window fill', 'two-tone moody balance pitting flickering warm candle amber against soft twilight window cool blue'],
+  ['Neon rain-street glow spilling across dark wet textures', 'vibrant magenta/cyan/amber neon reflections dancing gently off rain-slicked surfaces and damp skin'],
+  ['Soft overhead skylight zenith diffusion casting subtle jaw shadow', 'clean top-down diffused natural skylight modeling brow ridge, collarbones, and garment folds gently']
+]);
+
+const sbCapesAndExtraApparel = O_list([
+  ['Use Global Selected Wardrobe / Separates cleanly as chosen', ''],
+  ['Draped in silky black waterproof salon cutting cape over chosen outfit', 'wearing her chosen outfit neatly concealed beneath a fastened silky black nylon salon cutting cape with crisp neck strip'],
+  ['Wrapped in strapless cream luxury cotton spa towel wrap (bare shoulders)', 'wrapped snugly above the chest in a thick plush cream cotton spa towel wrap leaving bare collarbones & shoulders exposed over her styling'],
+  ['Draped in champagne silk kimono dressing robe loosely over chosen look', 'layered effortlessly in a champagne mulberry-silk prep robe draped casually open near collarbones'],
+  ['Classic vertical pinstriped barber cape snapped snugly at collar', 'draped neatly in a timeless pinstriped vintage barbershop cape folded smoothly across shoulders and lap'],
+  ['Lightweight frosted matte-clear plastic beauty prep cape showing neckline underneath', 'shielded cleanly in a frosted translucent lightweight salon prep cape letting collarbones and strap lines read softly through'],
+  ['Fresh crisp white barber apron/wrap with clean cotton crêpe neck strip', 'wrapped sharply in a pristine white satin-weave barbershop drape speckled lightly with dark trim clippings']
+]);
+
+const sbAspects = O_list([
+  ['Classic portrait 3:4', 'classic 3:4 portrait aspect'],
+  ['Portrait 4:5', 'portrait 4:5 editorial frame'],
+  ['Vertical 9:16', 'vertical 9:16 tall frame'],
+  ['Square 1:1', 'square 1:1 balanced frame'],
+  ['Landscape 3:2', 'landscape 3:2 editorial wide frame'],
+  ['Cinema 16:9', 'widescreen 16:9 aspect']
+]);
+
+// ==========================================
+// PER-FRAME OPTION BANKS (EXPANDED)
+// ==========================================
+
+const sbFrameCrops = O_list([
+  ['Wide environmental establishing shot showing full room & full posture', 'a wide environmental establishing composition capturing the full room architecture, light sources, and head-to-toe posture'],
+  ['Three-quarter fashion framing (knees-up) highlighting garment & drape', 'a three-quarter knees-up editorial framing reading garment drape, hand posture, and full haircut perimeter cleanly'],
+  ['Waist-up medium candid portrait showing outfit, arms & expression', 'a waist-up medium candid portrait balanced between garment construction, arm placement, and haircut movement'],
+  ['Chest-up intimate beauty portrait focusing cleanly on haircut & cheekbones', 'a chest-up close beauty portrait emphasizing jawline curvature, front bangs/veil, collarbone glow, and surface texture'],
+  ['Extreme 100mm macro detail crop (eye/veil curtain, lips, brush, ink or blade)', 'an extreme 100mm f/2.8 macro close-up tight on skin micro-pores, satin hair-veil sheen, water droplets, or fine brush/tool precision'],
+  ['Rear over-shoulder & nape silhouette showcasing back haircut perimeter', 'an intimate rear three-quarter over-the-shoulder angle showcasing the razor-crisp nape outline, crown texture, and neck contour'],
+  ['Split low-angle knee-up frame looking subtly upward with commanding stature', 'a slightly low-angle three-quarter frame lending quiet commanding editorial presence'],
+  ['Tight jawline, lip & collarbone crop (hands holding comb/dropper/spray in frame)', 'an ultra-intimate sculptural crop centering mouth curve, misted jawline, bare neck shadow, and foreground artisan hand action'],
+  ['Tight overhead bird’s-eye medium framing looking down onto chair / spa pillow', 'an elevated 45-degree downward perspective looking into upturned crown structure, cheekbones, and pillow linen drape'],
+  ['Dutch-tilted 15° backstage documentary medium crop in motion', 'an energetic tilted 15-degree medium frame catching hair movement and garment swirl mid-step'],
+  ['Two-shot balanced frame including attending male barber/MUA hands & silhouette', 'a balanced candid two-shot composition keeping the solitary female protagonist centered while clearly framing the attending male barber/MUA posture and ergonomic hand placement'],
+  ['Ultra-tight rear hairline & undercut / fine-line neck tattoo focus shot', 'a razor-sharp macro-medium framing focusing purely on clean nape haircut geometry, dangling wisps, and upper spine details']
+]);
+
+const sbFrameAngles = O_list([
+  ['Eye-level direct candid angle (authentic presence)', 'eye-level natural camera perspective'],
+  ['Three-quarter side angle sculpting jawline & front hair drape', 'flattering three-quarter side angle sculpting cheekbone contour and hair drape'],
+  ['Low raking 20° upward angle (cinematic authority)', 'subtly low upward camera angle amplifying posture and silhouette'],
+  ['High 35° slightly downward beauty angle accentuating cheekbones & veil', 'clean elevated 35-degree downward beauty angle'],
+  ['Sideways 90° lateral profile looking away (face naturally concealed)', 'a clean 90-degree lateral side-profile camera angle where the model looks away so her face stays naturally concealed while focusing on hair perimeter and neckline'],
+  ['Over-the-shoulder intimate POV looking past barber / prop into station', 'intimate over-the-shoulder framing peering cleanly past foreground hands/shoulder into the action'],
+  ['Sideways concealed profile — face shielded cleanly by raised hand at temple', 'a discreet side-angle perspective where the model turns away with her raised fingers lightly shielding her temple and profile cleanly from view'],
+  ['Three-quarter rear walking-away tracking angle focusing on swinging hair back', 'a dynamic three-quarter rear camera viewpoint emphasizing moving hair ends, bare shoulders, and architectural depth'],
+  ['Floor-grazing extreme low-angle looking steeply upward against ceiling/sky', 'dramatic low-profile camera perspective magnifying towering architectural verticality and hair volume'],
+  ['Close reflection glance off frosted foreground glass pane without duplicate mirrors', 'artistic layered foreground glass perspective creating subtle specular atmosphere while keeping face crisp']
+]);
+
+const sbFrameActions = O_list([
+  // Opening / Arrival (9)
+  ['OPENING: Stepping calmly into soft doorway light & pausing before taking mark', 'pausing gracefully inside natural entry light before stepping into focus, hands resting effortlessly along coat or waist'],
+  ['OPENING: Seated quietly at salon/vanity chair before active work begins', 'seated calmly in the chair inspecting the atmosphere before tools are lifted, shoulders relaxed and hair resting smoothly'],
+  ['OPENING: Pinning upper waves cleanly back with matte duckbill section clips', 'sliding matte dark sectioning clips calmly beside her temples to frame cheekbones cleanly prior to styling'],
+  ['OPENING: Reclined peacefully on spa pillow inhaling warm eucalyptus steam mist', 'reclining tranquil and unhurried beneath gentle backlit steam mist with relaxed neck and calm chest breathing'],
+  ['OPENING: Inspecting freshly unboxed styling brushes / vanity atomizers calmly', 'leaning casually beside the station counter touching cool metallic brush handles with curious understated calm'],
+  ['OPENING: Perched high on backless cutting stool holding relaxed poise with chin level', 'seated upright balanced cleanly on a low backless stool while salon staff prepare spray bottle behind'],
+  ['OPENING: Resting palms smoothly on wet infinity pool stone before entering water', 'seated barefoot beside glowing turquoise pool surface catching warm sunset rays on dry pre-swim hair'],
+  ['OPENING: Adjusting delicate slip/separates collar smoothly before camera rolls', 'fixing strap / neckline subtly between poses with unposed behind-the-scenes warmth'],
+  // Active Craft & Mechanics (12)
+  ['ACTION: Male barber misting water bottle & parting damp front bangs cleanly with comb', 'male barber spritzing fine backlit water mist over her crown while drawing a black carbon comb cleanly through sleek front hair panels'],
+  ['ACTION: Clean deliberate scissor snip holding damp ends taut between fingers', 'male barber holding damp hair sections flat between index and middle fingers and making precise deliberate steel-shear snips as clippings drop onto cape'],
+  ['ACTION: Sliding wide round brush or flat-iron steadily down beveled ends', 'smoothing gleaming warm styling brush smoothly down beveled front layers, coaxing effortless salon C-curve movement'],
+  ['ACTION: Male MUA resting pinky softly on cheek sweeping thin black winged liner', 'focused male makeup artist bracing his pinky lightly near cheek apple while pulling a continuous razor-sharp jet-black winged liner stroke'],
+  ['ACTION: Gliding cool rose-quartz gua sha / glass dropper serum up oiled jawline', 'smooth botanical oil and chilled rose-quartz gua sha stone gliding calmly upward along glowing sculpted cheekbone pores'],
+  ['ACTION: Fine-line tattoo artist gloved hand steady against bare collarbone/spine skin', 'macro concentration as tattooed artwork on bare skin gleams beside matte black nitrile gloves aligning fine single-needle linework'],
+  ['ACTION: Barber sweeping loose cut hair clippings gently off forehead & cape shoulders', 'focused male barber using soft black boar-bristle neck duster brush along jawline and shoulders cleanly'],
+  ['ACTION: Male MUA dusting fine luminous powder subtly off cheekbones with fan brush', 'artisan squirrel-hair brush diffusing feathery weightless powder glow under warm vanity bulbs cleanly'],
+  ['ACTION: Pressing warm rolled lavender hot towel soothingly around jaw & temples', 'comforting steam-warmed organic linen compress cradling cheeks in serene closed-eye spa calm'],
+  ['ACTION: Peeling corner of clear hydrogel sheet mask gently back off dewy jawline', 'delicate manicured fingers lifting glowing cooling mask cleanly away to expose luminous hydration underneath'],
+  ['ACTION: Female protagonist (barber) shaving male client cheek foam neatly with razor', 'female protagonist concentrating intensely in crisp haircut while guiding her straight razor cleanly along male client jawline foam'],
+  // Peak Climax / Veil & Motion (10)
+  ['PEAK: Continuous satin front hair sweep gliding smoothly across covered eye(s)', 'rotating her chin gently 45 degrees so a continuous glossy fine-tooth-combed hair curtain drapes solidly across her eye/cheek zone'],
+  ['PEAK: Running spread fingertips slowly upward through tousled curls & layers', 'threading bare splayed fingers softly under thick nape layers to shake natural voluminous bounce effortlessly into motion'],
+  ['PEAK: Tucking single damp wisp deliberately behind ear exposing cheekbone & hoop', 'delicate natural gesture tucking one glossy temple wisp behind her ear while soft shadows trace collarbone and neck'],
+  ['PEAK: Stepping confidently mid-stride into warm breeze catching drenched/airy ends', 'caught candidly mid-stride as gentle crosswind billows wardrobe hem and floats separated hair tips across sunlit air'],
+  ['PEAK: Raising open hand gracefully to forehead/temple concealing profile sideways', 'turned cleanly sideways with slender fingertips touching hairline/forehead gracefully, shielding frontal facial view completely'],
+  ['PEAK: Fresh mist spray halo illuminating airborne droplets cleanly against rim light', 'suspended backlit halo of superfine spray mist sparking across glowing cheek micro-pores, dark hair gleam, and bare shoulders'],
+  ['PEAK: Mid-turn hair whip catching bright flash pop against neon rain night bokeh', 'caught split-second mid-pivot as gleaming hair lengths fan gracefully out against wet city night bokeh'],
+  ['PEAK: Sweeping wet slicked strands cleanly back off brow stepping out of rainfall/pool', 'gliding damp palms smoothly backward from temples so glistening dark soaked hair ribbons lie flat over shoulders'],
+  ['PEAK: Unclipping final duckbill crown clip letting fresh layered bangs drop home', 'thumb and forefinger release dark sectioning clamp softly beside temple as fresh layers bounce effortlessly around jawline'],
+  // Reveal & Closing (9)
+  ['REVEAL: Quiet knowing closed-lip smirk held in confident post-makeover stillness', 'holding unforced calm authority with an authentic tiny closed-lip smirk and luminous finish in focused light'],
+  ['REVEAL: Crisp rear-to-3/4 turn showcasing sharply trimmed silhouette perimeter', 'pivoting cleanly just past three-quarter back view so the freshly sculpted haircut perimeter and neck line read razor-sharp'],
+  ['REVEAL: Leaning relaxed onto marble counter / railing bathed in golden afterglow', 'leaning gently onto warm marble or architectural ledge in serene afterglow stillness, hair & outfit settled effortlessly'],
+  ['REVEAL: Tranquil down-tilted veiled poise in low candlelit bokeh shadow', 'tilting chin softly downward in serene veiled mystery as dim practical bokeh dissolves behind her'],
+  ['REVEAL: Direct unwavering eye-level lens stare holding sleek sculptural presence', 'straight-on fearless editorial gaze holding sharp symmetry and effortless natural posture'],
+  ['REVEAL: Candid spontaneous warm laugh tilting chin softly back between final takes', 'relaxed authentic post-session joy with shoulders dropped and crinkled natural smile'],
+  ['REVEAL: Walking peacefully away down illuminated corridor leaving backlit hair glow', 'striding unhurriedly toward warm deep corridor bokeh while rim light traces sculpted back silhouette'],
+  ['REVEAL: Close quiet check of lip tint / hydrated dewy glow under vanity bulbs', 'soft peaceful calm admiring luminous hydrated texture as ambient vanity haze glows gently around contours']
+]);
+
+const sbFrameVeilOverrides = [
+  O('Inherit Global Veil % (follow global setting)', 'inherit'),
+  ...hairFaceCoverageOpts
+];
+
+const sbFrameMoistureOverrides = [
+  O('Inherit Global Moisture', 'inherit'),
+  O('💨 Dry & Blown-out', 'dry'),
+  O('💦 Damp / Spray-Misted', 'damp'),
+  O('🌊 Soaked / Wet-Look', 'wet')
+];
+
+const sbFrameLightTwists = [
+  O('Inherit Global Lighting', ''),
+  O('Warm Edison / tungsten vanity spotlight pop', 'lit by close warm amber vanity bulbs illuminating hair gleam and cheekbones tightly'),
+  O('Cool north window daylight catching clean skin pores', 'bathed in pure cool overcast north window daylight highlighting realistic dermal texture'),
+  O('Crisp backlit hair-rim glow through mist / steam haze', 'framed by luminous golden rim backlighting tracing individual hair flyaways and airborne droplets'),
+  O('Direct candid 35mm on-camera paparazzi flash pop', 'punctuated by crisp direct on-camera flash creating bold specular catchlights and candid energy'),
+  O('Dim atmospheric candlelight & soft warm shadow gradient', 'wrapped in tranquil warm candlelit glow falling gently into deep velvet shadow'),
+  O('Dramatic Venetian-blind razor sunlight shadow stripes', 'slashed cleanly with high-contrast graphic window blind sunbeams across cheek & neckline'),
+  O('Shimmering turquoise water caustics bouncing across damp collarbones', 'illuminated by dancing pool water light caustics rippling subtly over hydrated skin'),
+  ['Magenta & cyan monsoon neon streetlamp glow on wet surfaces', 'washed gently in vibrant pink/amber/cyan nocturnal neon bokeh reflecting off wet sheen'],
+  ['Overcast silvery open-shade luxury editorial softness', 'diffused open-shade sky casting velvety soft wraps around jawline with zero harsh shadows']
+].map(x => Array.isArray(x) ? O(x[0], x[1]) : x);
+
+// ==========================================
+// COMPLETE STORY ARC PRESETS (STARTING POINTS)
+// ==========================================
+
+function makeFrame(cropIdx, angleIdx, actIdx, veilIdx, moistIdx, lightIdx, note = ''){
+  return { cropIdx, angleIdx, actIdx, veilIdx, moistIdx, lightIdx, note };
+}
+
+const storyArcPresets = [
+  {
+    id: 'salon-wet-to-dry',
+    title: 'Salon Transformation (Dry → Wet → Cut → Glow)',
+    sub: '4 Frames · Uncut arrival → Mist & drape → Precision snip → Blown-out reveal',
+    icon: '💈',
+    frameCount: 4,
+    global: {
+      sbVenue: sbWorldVenues[0],
+      sbHair: hair.find(h => h.label.includes('Chin-length French bob')) || hair[0],
+      sbHairMoisture: 'damp',
+      sbVeil: hairFaceCoverageOpts[0],
+      sbOutfit: outfit[0],
+      wardrobeMode: 'ensemble',
+      sbCapeWrap: sbCapesAndExtraApparel[1]
+    },
+    frames: [
+      makeFrame(2, 0, 1, 1, 1, 0, 'Arrival calmly seated in cape before spray bottle arrives'),
+      makeFrame(3, 1, 4, 5, 2, 2, 'Barber spritzing water mist while combing smooth front hair veil'),
+      makeFrame(4, 5, 5, 4, 2, 1, 'Macro close-up on Japanese steel shears trimming clean bob baseline'),
+      makeFrame(3, 1, 16, 1, 1, 2, 'Freshly blown-out dry reveal with soft closing half-smile')
+    ]
+  },
+  {
+    id: 'progressive-veil-arc',
+    title: 'Progressive Hair-Veil Arc (0% → 45% → 85% → 95%)',
+    sub: '4 Frames · Open gaze gradually disappears behind sleek satin hair curtain',
+    icon: '🌊',
+    frameCount: 4,
+    global: {
+      sbVenue: sbWorldVenues[2],
+      sbHair: hair.find(h => h.label.includes('Hollywood')) || hair[14],
+      sbHairMoisture: 'dry',
+      sbVeil: hairFaceCoverageOpts[0],
+      sbOutfit: outfit[1],
+      wardrobeMode: 'ensemble',
+      sbCapeWrap: sbCapesAndExtraApparel[0]
+    },
+    frames: [
+      makeFrame(3, 0, 16, 1, 0, 0, 'Frame 1: 0% unobstructed clear face & relaxed eye contact'),
+      makeFrame(3, 1, 10, 4, 0, 0, 'Frame 2: 40–45% glossy diagonal wave locking smoothly over left eye'),
+      makeFrame(4, 3, 19, 7, 0, 3, 'Frame 3: 80–85% ZERO eyeballs/brows beneath continuous satin front sheet'),
+      makeFrame(5, 4, 14, 8, 0, 5, 'Frame 4: 95–100% total veiled silhouette turned softly away')
+    ]
+  },
+  {
+    id: 'mua-to-monsoon-exit',
+    title: 'Backstage Vanity to Monsoon Night Exit',
+    sub: '4 Frames · Clips pinned → Wing liner close-up → Coat stride → Wet afterglow',
+    icon: '💄',
+    frameCount: 4,
+    global: {
+      sbVenue: sbWorldVenues[1],
+      sbHair: hair.find(h => h.label.includes('Butterfly layers')) || hair[4],
+      sbHairMoisture: 'dry',
+      sbVeil: hairFaceCoverageOpts[2],
+      sbOutfit: outfit[6],
+      wardrobeMode: 'ensemble',
+      sbCapeWrap: sbCapesAndExtraApparel[3]
+    },
+    frames: [
+      makeFrame(2, 0, 2, 1, 1, 1, 'Pinning front butterfly curtain bangs back with matte clips in vanity'),
+      makeFrame(4, 1, 7, 1, 1, 1, '100mm macro shot of male MUA steady hand drawing crisp winged eyeliner'),
+      makeFrame(1, 2, 13, 3, 2, 4, 'Stepping out into wet night breeze with flash pop illuminating coat'),
+      makeFrame(3, 1, 18, 4, 3, 4, 'Wet rainwater slicked strands clinging naturally across collarbone')
+    ]
+  },
+  {
+    id: 'spa-guasha-hydro',
+    title: 'Holistic Facial Spa & Poolside Hydro Ritual',
+    sub: '4 Frames · Heated steam bed → Gua sha macro → Wet comb-back → Golden calm',
+    icon: '💎',
+    frameCount: 4,
+    global: {
+      sbVenue: sbWorldVenues[6],
+      sbHair: hair.find(h => h.label.includes('Wet-look slicked')) || hair[26],
+      sbHairMoisture: 'wet',
+      sbVeil: hairFaceCoverageOpts[0],
+      sbOutfit: outfit[0],
+      wardrobeMode: 'ensemble',
+      sbCapeWrap: sbCapesAndExtraApparel[2]
+    },
+    frames: [
+      makeFrame(2, 3, 3, 1, 2, 2, 'Reclined peacefully inhaling warm translucent eucalyptus spa steam'),
+      makeFrame(4, 1, 8, 2, 2, 1, 'Macro on chilled rose-quartz gua sha gliding smoothly over dewy cheek'),
+      makeFrame(3, 0, 15, 3, 3, 3, 'Backlit fine mist spritzer droplets sparkling across bare collarbones'),
+      makeFrame(1, 0, 18, 2, 3, 2, 'Finished tranquil poolside terrace calm draped in clean towel/robe')
+    ]
+  },
+  {
+    id: 'six-frame-editorial-pack',
+    title: '6-Frame Full Editorial Contact Strip (35mm Story)',
+    sub: '6 Frames · Entrance → Hair prep → Close veil → Full silhouette → Macro → Exit',
+    icon: '🎞️',
+    frameCount: 6,
+    global: {
+      sbVenue: sbWorldVenues[9],
+      sbHair: hair.find(h => h.label.includes('Mid ponytail')) || hair[10],
+      sbHairMoisture: 'dry',
+      sbVeil: hairFaceCoverageOpts[2],
+      sbOutfit: outfit[3],
+      wardrobeMode: 'separates',
+      sbCapeWrap: sbCapesAndExtraApparel[0]
+    },
+    frames: [
+      makeFrame(0, 0, 0, 1, 0, 0, 'Arrival framed inside tall Parisian French doorway'),
+      makeFrame(2, 1, 12, 2, 0, 0, 'Casual mid-sentence temple strand tuck behind ear'),
+      makeFrame(3, 3, 10, 5, 0, 2, 'Deep chin dip with sleek hair curtain sweeping smoothly over cheek'),
+      makeFrame(1, 2, 13, 3, 0, 0, 'Three-quarter stride showing tailored separates movement cleanly'),
+      makeFrame(4, 1, 11, 2, 0, 1, 'Tight macro highlighting cheekbone pores, curls & minimalist cuff'),
+      makeFrame(5, 4, 17, 1, 0, 5, 'Closing rear silhouette turn showing sleek ponytail drop & neckline')
+    ]
+  }
+];
+
+let activeSection = 'sbGlobalCastSec';
+let frameCount = 4; // 3, 4, or 6
+let outputMode = 'pack'; // 'pack' | 'grid'
+let activeShotTab = 'all'; // 'all' | '1'..'6'
+let wardrobeMode = 'ensemble';
+let globalHairMoisture = 'dry';
+let lockedFields = new Set();
+let customPresets = [];
+let activePreset = '';
+let promptHistory = [];
+let customDirection = '';
+let extraNegative = '';
+let frames = [];
+
+const SB_KEY = 'afterglow_storyboarder_v1';
+const SB_HIST_KEY = 'afterglow_storyboarder_hist_v1';
+
+const checkState = {
+  strictIdentity: true,
+  strictWardrobe: true,
+  solitarySubject: true,
+  naturalSkin: true,
+  noText: true
+};
+
+const fields = {
+  // 01 Global Cast & Hair
+  sbHairCategory: { label: 'Global Haircut Family (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
+  sbHair: { label: 'Global Locked Haircut (Identical Across All Frames)', opts: hair, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
+  sbHairColor: { label: 'Locked Hair Color', opts: sbHairColors, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
+  sbVeil: { label: 'Global Baseline Veil % (Can Override Per Frame)', opts: hairFaceCoverageOpts, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
+
+  // 02 Global World & Wardrobe
+  sbVenue: { label: 'Global Environment & Architectural Setting', opts: sbWorldVenues, def: 0, section: 'sbWorldSec', _grp: 'World, Lighting & Cinema Grade' },
+  sbGlobalLight: { label: 'Baseline Lighting Setup', opts: sbGlobalLightings, def: 0, section: 'sbWorldSec', _grp: 'World, Lighting & Cinema Grade' },
+  sbColorGrade: { label: 'Unified Color Grade & Film Stock', opts: sbColorGrades, def: 0, section: 'sbWorldSec', _grp: 'World, Lighting & Cinema Grade' },
+  aspect: { label: 'Sequence Image Aspect Ratio', opts: sbAspects, def: 0, section: 'sbWorldSec', _grp: 'World, Lighting & Cinema Grade' },
+
+  sbOutfitCategory: { label: 'Global Ensemble Family (430+ options)', opts: OUTFIT_FAMILIES, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' },
+  sbOutfit: { label: 'Global Full Outfit Ensemble', opts: outfit, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' },
+  topCategory: { label: 'Top Piece Category', opts: TOP_FAMILIES, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' },
+  topPiece: { label: 'Locked Top Garment', opts: topPieces, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' },
+  bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' },
+  bottomPiece: { label: 'Locked Bottom Garment', opts: bottomPieces, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' },
+  midriffStyling: { label: 'Midriff & Waistline Styling', opts: midriffStylings, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' },
+  sbCapeWrap: { label: 'Optional Prep Drape (Cape / Robe / Spa Wrap Over Outfit)', opts: sbCapesAndExtraApparel, def: 0, section: 'sbWorldSec', _grp: 'Locked Wardrobe & Draping' }
+};
+
+let values = {};
+Object.keys(fields).forEach(k => { values[k] = fields[k].opts[fields[k].def || 0]; });
+
+function initDefaultFrames(){
+  frames = [
+    makeFrame(2, 0, 1, 0, 0, 0, ''),
+    makeFrame(3, 1, 10, 0, 0, 0, ''),
+    makeFrame(4, 2, 12, 0, 0, 0, ''),
+    makeFrame(1, 1, 16, 0, 0, 0, ''),
+    makeFrame(3, 3, 13, 0, 0, 0, ''),
+    makeFrame(5, 4, 17, 0, 0, 0, '')
+  ];
+}
+initDefaultFrames();
+
+function val(k){ return values[k]?.text || ''; }
+
+function save(){
+  try {
+    const o = {
+      fc: frameCount, om: outputMode, ast: activeShotTab, wm: wardrobeMode, hm: globalHairMoisture,
+      sec: activeSection, cs: checkState, ap: activePreset, d: customDirection, n: extraNegative,
+      k: [...lockedFields],
+      v: Object.fromEntries(Object.entries(values).map(([k, v]) => [k, v?.label || ''])),
+      fr: frames,
+      u: customPresets
+    };
+    localStorage.setItem(SB_KEY, JSON.stringify(o));
+  } catch(e){}
+}
+
+function load(){
+  try {
+    const o = JSON.parse(localStorage.getItem(SB_KEY) || 'null');
+    if(o){
+      if([3,4,6].includes(o.fc)) frameCount = o.fc;
+      if(o.om === 'pack' || o.om === 'grid') outputMode = o.om;
+      if(o.ast) activeShotTab = o.ast;
+      if(o.wm === 'ensemble' || o.wm === 'separates') wardrobeMode = o.wm;
+      if(['dry','damp','wet'].includes(o.hm)) globalHairMoisture = o.hm;
+      if(o.sec && sections.some(s => s.id === o.sec)) activeSection = o.sec;
+      if(o.cs) Object.assign(checkState, o.cs);
+      if(o.ap) activePreset = o.ap;
+      if(typeof o.d === 'string') customDirection = o.d;
+      if(typeof o.n === 'string') extraNegative = o.n;
+      if(Array.isArray(o.k)) lockedFields = new Set(o.k);
+      if(o.v){
+        Object.entries(o.v).forEach(([k, lbl]) => {
+          const hit = fields[k]?.opts.find(x => x.label === lbl);
+          if(hit) values[k] = hit;
+        });
+      }
+      if(Array.isArray(o.fr) && o.fr.length >= 3) frames = o.fr.slice(0, 6);
+      if(Array.isArray(o.u)) customPresets = o.u;
+    }
+  } catch(e){}
+  try {
+    promptHistory = JSON.parse(localStorage.getItem(SB_HIST_KEY) || '[]');
+    if(el('historyBadge')) el('historyBadge').textContent = promptHistory.length;
+  } catch(e){}
+}
+
+function renderTabs(){
+  const tabs = el('tabs'); if(!tabs) return;
+  tabs.innerHTML = '';
+  sections.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tab' + (s.id === activeSection ? ' active' : '');
+    b.dataset.section = s.id;
+    b.innerHTML = `<span class="tab-no">0${i+1}</span>${s.name}`;
+    b.addEventListener('click', () => goSection(s.id));
+    tabs.appendChild(b);
+  });
+}
+
+function goSection(secId){
+  activeSection = secId;
+  const s = sections.find(x => x.id === secId); if(!s) return;
+  const idx = sections.indexOf(s);
+  el('stepEyebrow').textContent = `Storyboard studio · 0${idx+1}`;
+  el('stepTitle').textContent = s.name;
+  el('stepDescription').textContent = s.desc;
+  el('stepIcon').textContent = s.icon;
+  el('stepCount').textContent = `Step ${idx+1} of ${sections.length}`;
+  if(el('prevStep')){ el('prevStep').disabled = idx === 0; el('prevStep').style.opacity = idx === 0 ? '.42' : '1'; }
+  if(el('nextStep')) el('nextStep').textContent = (idx === sections.length - 1) ? '← Back to top' : 'Next step →';
+  renderTabs(); renderFields(); save();
+}
+
+function filterChoices(menu, q){
+  let shown = 0;
+  const list = menu.querySelector('.option-list');
+  [...list.querySelectorAll('.choice')].forEach(b => {
+    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    b.classList.toggle('hidden', !ok); if(ok) shown++;
+  });
+  let no = menu.querySelector('.no-results');
+  if(!shown){ if(!no){ no = document.createElement('div'); no.className='no-results'; no.textContent='No matching options.'; list.appendChild(no); } }
+  else if(no) no.remove();
+}
+
+function updateCustom(custom, id){
+  const curr = custom.querySelector('.current');
+  if(curr && values[id]) curr.textContent = values[id].label;
+  custom.querySelectorAll('.choice').forEach(b => {
+    const act = fields[id].opts[Number(b.dataset.index)] === values[id];
+    b.classList.toggle('selected', act);
+    const old = b.querySelector('.checkmark'); if(old) old.remove();
+    if(act){ const cm = document.createElement('span'); cm.className='checkmark'; cm.textContent='✓ '; b.prepend(cm); }
+  });
+}
+
+function getFilteredOpts(id, f){
+  let vis = f.opts;
+  if(id === 'sbHair' && values.sbHairCategory && values.sbHairCategory.text !== 'all') vis = f.opts.filter(o => o.cat === values.sbHairCategory.text);
+  else if(id === 'sbOutfit' && values.sbOutfitCategory && values.sbOutfitCategory.text !== 'all') vis = f.opts.filter(o => o.cat === values.sbOutfitCategory.text);
+  else if(id === 'topPiece' && values.topCategory && values.topCategory.text !== 'all') vis = f.opts.filter(o => o.cat === values.topCategory.text);
+  else if(id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text !== 'all') vis = f.opts.filter(o => o.cat === values.bottomCategory.text);
+  if(!vis.length) vis = f.opts;
+  if(!vis.includes(values[id])) values[id] = vis[0];
+  return vis;
+}
+
+function createFieldElement(id, f){
+  const wrap = document.createElement('div');
+  wrap.className = 'field' + (['sbHair', 'sbVenue', 'sbOutfit', 'sbCapeWrap'].includes(id) ? ' full' : '');
+  const lab = document.createElement('div'); lab.className = 'label-row';
+  const tw = document.createElement('div'); tw.className = 'label-title-wrap';
+  const label = document.createElement('label'); label.textContent = f.label;
+  const isL = lockedFields.has(id);
+  const lockBtn = document.createElement('button'); lockBtn.type = 'button'; lockBtn.className = 'lock-btn' + (isL ? ' locked' : ''); lockBtn.innerHTML = isL ? '🔒' : '🔓';
+  lockBtn.addEventListener('click', () => { if(lockedFields.has(id)) lockedFields.delete(id); else lockedFields.add(id); save(); renderFields(); });
+  tw.append(label, lockBtn);
+
+  const visibleOpts = getFilteredOpts(id, f);
+  const count = document.createElement('span'); count.className = 'option-count'; count.textContent = visibleOpts.length + ' options';
+  lab.append(tw, count);
+
+  const custom = document.createElement('div'); custom.className = 'custom-select'; custom.dataset.id = id;
+  const trigger = document.createElement('button'); trigger.type = 'button'; trigger.className = 'select-trigger'; trigger.setAttribute('aria-expanded','false');
+  trigger.innerHTML = `<span class="current"></span><span class="chevron">⌄</span>`;
+  trigger.querySelector('.current').textContent = values[id]?.label || '';
+
+  const menu = document.createElement('div'); menu.className = 'select-menu';
+  menu.innerHTML = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…"><div class="option-list"></div>`;
+  const list = menu.querySelector('.option-list');
+
+  visibleOpts.forEach(o => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'choice' + (values[id] === o ? ' selected' : ''); b.dataset.index = f.opts.indexOf(o); b.textContent = o.label;
+    b.addEventListener('click', () => {
+      values[id] = o;
+      if(id === 'sbHairCategory' && o.text !== 'all'){ const m = fields.sbHair.opts.find(x => x.cat === o.text); if(m) values.sbHair = m; }
+      else if(id === 'sbOutfitCategory' && o.text !== 'all'){ const m = fields.sbOutfit.opts.find(x => x.cat === o.text); if(m) values.sbOutfit = m; }
+      else if(id === 'topCategory' && o.text !== 'all'){ const m = fields.topPiece.opts.find(x => x.cat === o.text); if(m) values.topPiece = m; }
+      else if(id === 'bottomCategory' && o.text !== 'all'){ const m = fields.bottomPiece.opts.find(x => x.cat === o.text); if(m) values.bottomPiece = m; }
+      updateCustom(custom, id); custom.classList.remove('open'); trigger.setAttribute('aria-expanded','false');
+      if(id.endsWith('Category')) renderFields();
+      buildPrompt();
+    });
+    list.appendChild(b);
+  });
+
+  trigger.addEventListener('click', () => {
+    const was = custom.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(x => { x.classList.remove('open'); x.querySelector('.select-trigger').setAttribute('aria-expanded','false'); });
+    if(!was){ custom.classList.add('open'); trigger.setAttribute('aria-expanded','true'); const i = menu.querySelector('input'); i.value = ''; filterChoices(menu,''); i.focus({preventScroll:true}); }
+  });
+  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  custom.append(trigger, menu); wrap.append(lab, custom); updateCustom(custom, id); return wrap;
+}
+
+function renderFrameDirector(){
+  const sp = el('specialContent'); if(!sp) return;
+  const bar = document.createElement('div');
+  bar.className = 'sb-frame-toolbar';
+  bar.innerHTML = `
+    <div>
+      <strong style="font-size:13px;color:#fff;display:block;">Sequence Length (${frameCount} Shots)</strong>
+      <span style="font-size:11px;color:#94a3b8;">Choose 3-panel triptych, 4-shot 2×2 story, or 6-frame contact strip.</span>
+    </div>
+    <div class="seg-control" style="display:flex;background:rgba(0,0,0,0.45);padding:3px;border-radius:8px;gap:4px;">
+      <button type="button" class="seg-btn ${frameCount===3?'active':''}" data-fc="3" style="padding:6px 12px;font-size:11px;border:none;border-radius:6px;cursor:pointer;background:${frameCount===3?'var(--pink,#ec4899)':'transparent'};color:#fff;font-weight:600;">3 Frames</button>
+      <button type="button" class="seg-btn ${frameCount===4?'active':''}" data-fc="4" style="padding:6px 12px;font-size:11px;border:none;border-radius:6px;cursor:pointer;background:${frameCount===4?'var(--pink,#ec4899)':'transparent'};color:#fff;font-weight:600;">4 Frames</button>
+      <button type="button" class="seg-btn ${frameCount===6?'active':''}" data-fc="6" style="padding:6px 12px;font-size:11px;border:none;border-radius:6px;cursor:pointer;background:${frameCount===6?'var(--pink,#ec4899)':'transparent'};color:#fff;font-weight:600;">6 Frames</button>
+    </div>`;
+  bar.querySelectorAll('[data-fc]').forEach(b => b.addEventListener('click', () => {
+    frameCount = Number(b.dataset.fc);
+    if(activeShotTab !== 'all' && Number(activeShotTab) > frameCount) activeShotTab = 'all';
+    renderFields(); buildPrompt();
+  }));
+  sp.appendChild(bar);
+
+  const grid = document.createElement('div');
+  grid.className = 'sb-frame-grid';
+
+  for(let idx = 0; idx < frameCount; idx++){
+    const fr = frames[idx] || makeFrame(2,0,1,0,0,0,'');
+    const card = document.createElement('div');
+    card.className = 'sb-frame-card';
+    card.dataset.frameIdx = idx;
+
+    const optsHtml = (arr, sel) => arr.map((o, i) => `<option value="${i}" ${i===sel?'selected':''}>${o.label}</option>`).join('');
+
+    card.innerHTML = `
+      <div class="sb-frame-head">
+        <span class="sb-frame-badge">Shot 0${idx+1} · Narrative Beat</span>
+        <div class="sb-frame-controls">
+          <button type="button" class="btn btn-quiet btn-small sb-up" ${idx===0?'disabled':''} title="Move Earlier">↑</button>
+          <button type="button" class="btn btn-quiet btn-small sb-down" ${idx===frameCount-1?'disabled':''} title="Move Later">↓</button>
+          <button type="button" class="btn btn-secondary btn-small sb-roll" title="Randomize this frame">🎲 Roll shot</button>
+        </div>
+      </div>
+      <div class="sb-row-2">
+        <div>
+          <label class="sb-label">Shot Framing &amp; Crop</label>
+          <select class="sb-select sb-crop">${optsHtml(sbFrameCrops, fr.cropIdx)}</select>
+        </div>
+        <div>
+          <label class="sb-label">Camera Angle</label>
+          <select class="sb-select sb-angle">${optsHtml(sbFrameAngles, fr.angleIdx)}</select>
+        </div>
+      </div>
+      <div>
+        <label class="sb-label">Action &amp; Story Progression</label>
+        <select class="sb-select sb-action">${optsHtml(sbFrameActions, fr.actIdx)}</select>
+      </div>
+      <div class="sb-row-3">
+        <div>
+          <label class="sb-label">Frame Veil % Override</label>
+          <select class="sb-select sb-veil">${optsHtml(sbFrameVeilOverrides, fr.veilIdx)}</select>
+        </div>
+        <div>
+          <label class="sb-label">Frame Moisture Override</label>
+          <select class="sb-select sb-moist">${optsHtml(sbFrameMoistureOverrides, fr.moistIdx)}</select>
+        </div>
+        <div>
+          <label class="sb-label">Lighting Accent Twist</label>
+          <select class="sb-select sb-light">${optsHtml(sbFrameLightTwists, fr.lightIdx)}</select>
+        </div>
+      </div>
+      <div>
+        <label class="sb-label">Optional Shot Note (Props, gaze tweak, hand position)</label>
+        <input type="text" class="sb-input sb-note" placeholder="e.g., chin tilted subtly downward catching silver mist bottle glow…" value="${(fr.note||'').replace(/"/g,'&quot;')}">
+      </div>
+    `;
+
+    card.querySelector('.sb-crop').addEventListener('change', e => { fr.cropIdx = Number(e.target.value); buildPrompt(); });
+    card.querySelector('.sb-angle').addEventListener('change', e => { fr.angleIdx = Number(e.target.value); buildPrompt(); });
+    card.querySelector('.sb-action').addEventListener('change', e => { fr.actIdx = Number(e.target.value); buildPrompt(); });
+    card.querySelector('.sb-veil').addEventListener('change', e => { fr.veilIdx = Number(e.target.value); buildPrompt(); });
+    card.querySelector('.sb-moist').addEventListener('change', e => { fr.moistIdx = Number(e.target.value); buildPrompt(); });
+    card.querySelector('.sb-light').addEventListener('change', e => { fr.lightIdx = Number(e.target.value); buildPrompt(); });
+    card.querySelector('.sb-note').addEventListener('input', e => { fr.note = e.target.value; buildPrompt(); });
+
+    card.querySelector('.sb-roll').addEventListener('click', () => {
+      fr.cropIdx = Math.floor(Math.random() * sbFrameCrops.length);
+      fr.angleIdx = Math.floor(Math.random() * sbFrameAngles.length);
+      fr.actIdx = Math.floor(Math.random() * sbFrameActions.length);
+      renderFields(); buildPrompt(); toast(`🎲 Rolled fresh direction for Shot 0${idx+1}`);
+    });
+    card.querySelector('.sb-up').addEventListener('click', () => {
+      if(idx > 0){ [frames[idx-1], frames[idx]] = [frames[idx], frames[idx-1]]; renderFields(); buildPrompt(); }
+    });
+    card.querySelector('.sb-down').addEventListener('click', () => {
+      if(idx < frameCount-1){ [frames[idx], frames[idx+1]] = [frames[idx+1], frames[idx]]; renderFields(); buildPrompt(); }
+    });
+
+    grid.appendChild(card);
+  }
+  sp.appendChild(grid);
+}
+
+function renderFields(){
+  const host = el('fields'); const sp = el('specialContent');
+  if(!host || !sp) return;
+  host.innerHTML = ''; sp.innerHTML = '';
+
+  if(activeSection === 'sbWorldSec'){
+    const isSep = (wardrobeMode === 'separates');
+    const sw = document.createElement('div');
+    sw.className = 'wardrobe-mode-card';
+    sw.style.cssText = 'grid-column:1/-1;margin:0 0 16px 0;padding:14px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;';
+    sw.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div><strong style="font-size:13px;color:#fff;display:block;">Global Locked Wardrobe Mode</strong><span style="font-size:11px;color:#999;">Choose one ensemble or two-piece separates worn consistently across every frame.</span></div>
+        <div class="seg-control" style="display:flex;background:rgba(0,0,0,0.4);padding:3px;border-radius:8px;gap:4px;">
+          <button type="button" class="seg-btn ${!isSep?'active':''}" id="btnSbEnsemble" style="padding:6px 14px;font-size:11px;border:none;border-radius:6px;cursor:pointer;background:${!isSep?'var(--pink,#ec4899)':'transparent'};color:#fff;font-weight:600;">👗 Full Ensembles</button>
+          <button type="button" class="seg-btn ${isSep?'active':''}" id="btnSbSeparates" style="padding:6px 14px;font-size:11px;border:none;border-radius:6px;cursor:pointer;background:${isSep?'var(--pink,#ec4899)':'transparent'};color:#fff;font-weight:600;">👚 Separates</button>
+        </div>
+      </div>`;
+    sw.querySelector('#btnSbEnsemble').addEventListener('click', () => { wardrobeMode = 'ensemble'; renderFields(); buildPrompt(); });
+    sw.querySelector('#btnSbSeparates').addEventListener('click', () => { wardrobeMode = 'separates'; renderFields(); buildPrompt(); });
+    host.appendChild(sw);
+  }
+
+  let secFields = Object.keys(fields).filter(k => fields[k].section === activeSection);
+  if(activeSection === 'sbWorldSec'){
+    secFields = wardrobeMode === 'separates'
+      ? secFields.filter(k => !['sbOutfitCategory', 'sbOutfit'].includes(k))
+      : secFields.filter(k => !['topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling'].includes(k));
+  }
+
+  let lastGrp = '';
+  secFields.forEach(id => {
+    const f = fields[id];
+    if(f._grp && f._grp !== lastGrp){
+      lastGrp = f._grp;
+      const g = document.createElement('h3'); g.className = 'grp'; g.textContent = lastGrp; host.appendChild(g);
+    }
+    host.appendChild(createFieldElement(id, f));
+    if(id === 'sbVeil' && activeSection === 'sbGlobalCastSec'){
+      const mCard = document.createElement('div');
+      mCard.className = 'moisture-toggle-card'; mCard.id = 'moistureToggleCard';
+      mCard.innerHTML = `<div class="moisture-header"><span class="moisture-label">💧 Global Baseline Hair Moisture</span><span class="moisture-hint">Default moisture shared unless overridden per individual frame</span></div>`;
+      const pw = document.createElement('div'); pw.className = 'moisture-pills';
+      [{id:'dry',l:'💨 Dry & Blown-out'},{id:'damp',l:'💦 Damp / Spray-Misted'},{id:'wet',l:'🌊 Soaked / Wet-Look'}].forEach(opt => {
+        const b = document.createElement('button'); b.type='button'; b.className='moisture-pill'+(globalHairMoisture===opt.id?' active':'');
+        b.dataset.moisture = opt.id; b.textContent = opt.l;
+        b.addEventListener('click', () => { globalHairMoisture = opt.id; pw.querySelectorAll('.moisture-pill').forEach(x => x.classList.toggle('active', x.dataset.moisture === opt.id)); buildPrompt(); });
+        pw.appendChild(b);
+      });
+      mCard.appendChild(pw); host.appendChild(mCard);
+    }
+  });
+
+  if(activeSection === 'sbFramesSec'){
+    renderFrameDirector();
+  } else if(activeSection === 'finish'){
+    sp.innerHTML = `
+      <div class="field-card" style="margin-top:16px;padding:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;">
+        <h3 style="font-size:14px;margin:0 0 12px 0;color:#f1f5f9;">Global Series Continuity Safeguards</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-bottom:16px;">
+          <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSId" ${checkState.strictIdentity?'checked':''}> Strict Reference Face Across Every Shot</label>
+          <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSWard" ${checkState.strictWardrobe?'checked':''}> Strict Haircut &amp; Wardrobe Continuity</label>
+          <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSSol" ${checkState.solitarySubject?'checked':''}> Solitary Female Protagonist Rule</label>
+          <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSSkin" ${checkState.naturalSkin?'checked':''}> Natural Skin Micro-Pores (Zero Retouch)</label>
+          <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSText" ${checkState.noText?'checked':''}> Zero Graphic Panel Text or Logos</label>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label for="customDirInput" style="display:block;font-size:12px;font-weight:600;color:#cbd5e1;margin-bottom:6px;">Series Story Note</label>
+            <textarea id="customDirInput" rows="3" placeholder="e.g., maintain identical small nose stud in shots 1 and 2…" style="width:100%;border-radius:10px;padding:10px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);color:#f8fafc;font-size:12px;">${customDirection.replace(/</g,'&lt;')}</textarea>
+          </div>
+          <div>
+            <label for="extraNegInput" style="display:block;font-size:12px;font-weight:600;color:#cbd5e1;margin-bottom:6px;">Global Series Exclusions</label>
+            <textarea id="extraNegInput" rows="3" placeholder="e.g., mismatched outfit color between frames, inconsistent haircut length…" style="width:100%;border-radius:10px;padding:10px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);color:#f8fafc;font-size:12px;">${extraNegative.replace(/</g,'&lt;')}</textarea>
+          </div>
+        </div>
+      </div>`;
+    [['chkSId','strictIdentity'],['chkSWard','strictWardrobe'],['chkSSol','solitarySubject'],['chkSSkin','naturalSkin'],['chkSText','noText']].forEach(([cid,k]) => {
+      el(cid)?.addEventListener('change', e => { checkState[k] = e.target.checked; buildPrompt(); });
+    });
+    el('customDirInput')?.addEventListener('input', e => { customDirection = e.target.value; buildPrompt(); });
+    el('extraNegInput')?.addEventListener('input', e => { extraNegative = e.target.value; buildPrompt(); });
+  }
+}
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.custom-select')) document.querySelectorAll('.custom-select.open').forEach(c => { c.classList.remove('open'); c.querySelector('.select-trigger').setAttribute('aria-expanded','false'); });
+});
+
+function renderPresets(){
+  const host = el('presets'); if(!host) return;
+  host.innerHTML = '';
+  customPresets.forEach(p => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon||'⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" data-del="${p.id}">✕</button></div><small>${p.sub||'Custom Story'}</small>`;
+    b.addEventListener('click', e => {
+      if(e.target.closest('.preset-del')){ customPresets = customPresets.filter(x => x.id !== p.id); save(); renderPresets(); return; }
+      applyStoryPreset(p);
+    });
+    host.appendChild(b);
+  });
+  storyArcPresets.forEach(p => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'preset' + (p.id === activePreset ? ' active' : '');
+    b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
+    b.addEventListener('click', () => { applyStoryPreset(p); toast(`✦ Loaded Story Arc: ${p.title}`); });
+    host.appendChild(b);
+  });
+}
+
+function applyStoryPreset(p){
+  activePreset = p.id;
+  if(p.frameCount) frameCount = p.frameCount;
+  if(p.global){
+    if(p.global.wardrobeMode) wardrobeMode = p.global.wardrobeMode;
+    if(p.global.sbHairMoisture) globalHairMoisture = p.global.sbHairMoisture;
+    Object.entries(p.global).forEach(([k, v]) => {
+      if(fields[k] && v && !lockedFields.has(k)){
+        values[k] = typeof v === 'string' ? (fields[k].opts.find(o => o.label === v) || values[k]) : v;
+      }
+    });
+  }
+  if(Array.isArray(p.frames)){
+    p.frames.forEach((f, i) => { if(f) frames[i] = Object.assign({}, f); });
+  }
+  activeShotTab = 'all';
+  renderPresets(); renderFields(); buildPrompt();
+}
+
+// ==========================================
+// STORYBOARD PROMPT ENGINE
+// ==========================================
+
+function resolveFrameDetails(idx){
+  const fr = frames[idx] || makeFrame(0,0,0,0,0,0,'');
+  const crop = sbFrameCrops[fr.cropIdx] || sbFrameCrops[0];
+  const angle = sbFrameAngles[fr.angleIdx] || sbFrameAngles[0];
+  const action = sbFrameActions[fr.actIdx] || sbFrameActions[0];
+  const veilOverride = sbFrameVeilOverrides[fr.veilIdx] || sbFrameVeilOverrides[0];
+  const moistOverride = sbFrameMoistureOverrides[fr.moistIdx] || sbFrameMoistureOverrides[0];
+  const lightTwist = sbFrameLightTwists[fr.lightIdx] || sbFrameLightTwists[0];
+
+  const hairText = val('sbHair');
+  const hairArch = detectHairArchitecture(values.sbHair, hairText);
+  const effVeilOpt = (veilOverride.text === 'inherit') ? values.sbVeil : veilOverride;
+  const veilTier = parseVeilTier(effVeilOpt?.label || '');
+  const veilRuleObj = getVeilRule(veilTier, hairArch);
+
+  const effMoist = (moistOverride.text === 'inherit') ? globalHairMoisture : moistOverride.text;
+  const moistStr = effMoist === 'wet'
+    ? 'thoroughly soaked wet hair hanging in heavy dark ribbons clinging cleanly to temples and nape'
+    : (effMoist === 'damp'
+      ? 'freshly spray-misted damp strands with fine droplets and cool sheen'
+      : 'completely dry blown-out hair with natural bounce and airy movement');
+
+  const isConcealed = /conceal|shield|lateral side-profile|looking away/i.test(angle.label + ' ' + action.label) || ['65_70','80_85','95_100'].includes(veilTier);
+  const cleanAct = isConcealed ? sanitizeHiddenFaceText(action.text, true, veilTier) : action.text;
+
+  return {
+    idx: idx + 1,
+    crop, angle, action, cleanAct,
+    effVeilOpt, veilTier, veilRuleObj,
+    effMoist, moistStr,
+    lightText: lightTwist.text ? lightTwist.text : val('sbGlobalLight'),
+    note: fr.note ? fr.note.trim() : '',
+    isConcealed
+  };
+}
+
+function buildShotPrompt(det, globalCtx){
+  const lines = [
+    `REFERENCE-IMAGE EDIT — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`,
+    '',
+    'LOCKED SUBJECT & WORLD CONTINUITY:',
+    `• Reference Subject: Preserve identical adult Indian woman from reference (${globalCtx.hairCol}, haircut: ${globalCtx.hairLabel} — ${globalCtx.hairText}).`,
+    `• Locked Apparel: ${globalCtx.wardrobeFull}.`,
+    `• Setting: ${globalCtx.venue}. Color grade: ${globalCtx.grade}.`,
+    '',
+    `FRAME 0${det.idx} CHOREOGRAPHY & STATE:`,
+    `• Framing & Angle: ${det.crop.text} captured from ${det.angle.text}.`,
+    `• Moment & Action: ${det.cleanAct}.`,
+    `• Active Hair Moisture: ${det.moistStr}.`,
+    det.effVeilOpt?.text ? `• Facial Veil Coverage: ${det.effVeilOpt.text}.` : '',
+    det.veilRuleObj?.strict ? `• STRICT VEIL ENFORCEMENT: ${det.veilRuleObj.strict}` : '',
+    `• Lighting & Ratio: ${det.lightText}. Aspect ratio: ${globalCtx.aspect}.`,
+    det.note ? `• Director Note: ${det.note}` : '',
+    globalCtx.customDir ? `• Series Note: ${globalCtx.customDir}` : '',
+    '',
+    'CONTINUITY & REALISM SAFEGUARDS:',
+    globalCtx.checks.map(c => '• ' + c).join('\n'),
+    '',
+    'AVOID / NEGATIVE GUIDANCE:',
+    globalCtx.getNegatives(det).map(n => '• ' + n).join('\n')
+  ].filter(Boolean);
+  return lines.join('\n').replace(/\n{3,}/g, '\n\n');
+}
+
+function buildPrompt(){
+  const hairText = val('sbHair');
+  const hairLabel = values.sbHair?.label || 'cut';
+  const hairCol = val('sbHairColor');
+  const venue = val('sbVenue');
+  const grade = val('sbColorGrade');
+  const aspectText = val('aspect');
+  const capeWrap = val('sbCapeWrap');
+
+  const baseWardrobe = (wardrobeMode === 'separates')
+    ? `a modern two-piece separates outfit featuring ${val('topPiece')} with ${val('bottomPiece')} (${val('midriffStyling')})`
+    : val('sbOutfit');
+  const wardrobeFull = capeWrap ? `${baseWardrobe}, layered with ${capeWrap}` : baseWardrobe;
+
+  const checks = [];
+  if(checkState.strictIdentity) checks.push('Strictly preserve identical facial features, Indian skin tone, and bone structure from the reference image.');
+  if(checkState.strictWardrobe) checks.push(`Keep the exact same haircut (${hairLabel}) and core wardrobe unbroken across all frames.`);
+  if(checkState.solitarySubject) checks.push('Solitary female subject: strictly zero secondary women anywhere in frame or background.');
+  if(checkState.naturalSkin) checks.push('Visible natural skin micro-pores, natural crease detail, zero waxy plastic airbrushing.');
+
+  const getNegatives = (singleDet) => {
+    const negs = [
+      'identity drift, different face across shots, inconsistent haircut length, swapped wardrobe colors',
+      'secondary women, multiple women in background, plastic CGI airbrushed skin, deformed extra fingers'
+    ];
+    if(singleDet?.veilRuleObj?.neg) negs.push(singleDet.veilRuleObj.neg);
+    if(singleDet?.effMoist === 'wet') negs.push('dry fluffy hair, static flyaways');
+    else if(singleDet?.effMoist === 'dry') negs.push('soaked wet dripping clumps');
+    if(checkState.noText) negs.push('text overlays, corner watermarks, frame number typography badges');
+    if(extraNegative.trim()) negs.push(extraNegative.trim());
+    return negs;
+  };
+
+  const globalCtx = { hairText, hairLabel, hairCol, venue, grade, aspect: aspectText, wardrobeFull, checks, customDir: customDirection.trim(), getNegatives };
+  const resolved = [];
+  for(let i = 0; i < frameCount; i++) resolved.push(resolveFrameDetails(i));
+
+  const perShotPrompts = {};
+  resolved.forEach(d => { perShotPrompts[String(d.idx)] = buildShotPrompt(d, globalCtx); });
+
+  let masterText = '';
+  if(outputMode === 'grid'){
+    const layoutName = frameCount === 3 ? '3-PANEL HORIZONTAL TRIPTYCH' : (frameCount === 4 ? '2×2 FOUR-PANEL EDITORIAL COLLAGE' : '6-FRAME 35MM CONTACT SHEET GRID');
+    const gLines = [
+      `REFERENCE-IMAGE EDIT — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`,
+      '',
+      'GLOBAL CAST & CONTINUITY SPINE (ALL PANELS):',
+      `Generate ONE high-definition composite sheet divided cleanly into ${frameCount} distinct narrative panels with ZERO borders/labels:`,
+      `• Protagonist: Identical adult Indian woman from supplied reference image (${hairCol}; cut: ${hairLabel} — ${hairText}).`,
+      `• Wardrobe & Venue: ${wardrobeFull} inside ${venue}. Color science: ${grade}. Ratio: ${aspectText}.`,
+      '',
+      'PANEL-BY-PANEL PROGRESSION:'
+    ];
+    resolved.forEach(d => {
+      gLines.push(`• PANEL 0${d.idx} (${d.action.label.split(':')[0]}): ${d.crop.text}, ${d.angle.text}. ${d.cleanAct}. Moisture: ${d.moistStr}.${d.veilRuleObj?.strict ? ' VEIL LOCK: ' + d.veilRuleObj.strict : ''} Lighting: ${d.lightText}.${d.note ? ' Note: ' + d.note : ''}`);
+    });
+    gLines.push('', 'CONTINUITY & REALISM SAFEGUARDS:', checks.map(c => '• ' + c).join('\n'));
+    if(customDirection.trim()) gLines.push('', 'SERIES DIRECTION:', customDirection.trim());
+    const combinedNegs = [...new Set(resolved.flatMap(d => getNegatives(d)))];
+    gLines.push('', 'AVOID / NEGATIVE GUIDANCE:', combinedNegs.map(n => '• ' + n).join('\n'));
+    masterText = gLines.join('\n').replace(/\n{3,}/g, '\n\n');
+  } else {
+    const packLines = [
+      `AFTERGLOW STORYBOARD SHOOT PACK · ${frameCount} LINKED CONSECUTIVE PROMPTS`,
+      `GLOBAL ANCHOR: Reference Identity + Cut (${hairLabel}) + Wardrobe (${wardrobeFull}) + Venue (${venue}) + Grade (${grade}).`,
+      '='.repeat(60)
+    ];
+    resolved.forEach(d => {
+      packLines.push('', perShotPrompts[String(d.idx)], '', '-'.repeat(48));
+    });
+    masterText = packLines.join('\n').replace(/\n{3,}/g, '\n\n');
+  }
+
+  // Render Shot Tabs cleanly
+  const tabsEl = el('shotTabs');
+  if(tabsEl){
+    tabsEl.classList.remove('hidden');
+    let html = `<button type="button" class="shot-tab ${activeShotTab==='all'?'active':''}" data-shot="all">${outputMode==='grid' ? `Unified ${frameCount}-Panel Grid` : `Full ${frameCount}-Shot Pack`}</button>`;
+    for(let i = 1; i <= frameCount; i++){
+      html += `<button type="button" class="shot-tab ${activeShotTab===String(i)?'active':''}" data-shot="${i}">Shot 0${i}</button>`;
+    }
+    tabsEl.innerHTML = html;
+    tabsEl.querySelectorAll('.shot-tab').forEach(btn => btn.addEventListener('click', () => {
+      activeShotTab = btn.dataset.shot;
+      buildPrompt();
+    }));
+  }
+
+  const displayedText = (activeShotTab !== 'all' && perShotPrompts[activeShotTab])
+    ? perShotPrompts[activeShotTab]
+    : masterText;
+
+  el('prompt').value = displayedText;
+  el('prompt').textContent = displayedText;
+  const words = displayedText.trim().split(/\s+/).length;
+  el('wordCount').textContent = `${words.toLocaleString()} words · ${frameCount} Frames · ${activeShotTab==='all' ? (outputMode==='grid'?'Grid Mode':'Full Pack') : 'Shot 0'+activeShotTab}`;
+  if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
+
+  const moistMap = { dry: 'Dry', damp: 'Damp', wet: 'Wet' };
+  const sumTags = [
+    `<span class="summary-tag">Frames: <strong>${frameCount} Shots</strong></span>`,
+    `<span class="summary-tag">Hair: <strong>${values.sbHair?.label || ''}</strong></span>`,
+    `<span class="summary-tag">Moisture: <strong>${moistMap[globalHairMoisture]}</strong></span>`,
+    `<span class="summary-tag">Venue: <strong>${values.sbVenue?.label || ''}</strong></span>`
+  ];
+  el('summary').innerHTML = sumTags.join('');
+  if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent = `${frameCount} Shots · ${values.sbHair?.label || ''}`;
+
+  document.querySelectorAll('.ratio-chip').forEach(c => c.classList.toggle('active', (values.aspect?.label||'').includes(c.dataset.ratio)));
+  el('btnPackMode')?.classList.toggle('active', outputMode === 'pack');
+  el('btnGridMode')?.classList.toggle('active', outputMode === 'grid');
+  save();
+  return displayedText;
+}
+
+function toast(msg){ const t = el('toast'); if(!t) return; t.textContent = msg; t.classList.remove('flash'); void t.offsetWidth; t.classList.add('flash'); }
+function recordHistory(){
+  const t = el('prompt')?.value.trim(); if(!t) return;
+  if(!promptHistory.length || promptHistory[0].text !== t){
+    promptHistory.unshift({ id: Date.now(), title: `${frameCount}-Shot Story (${outputMode})`, sub: values.sbHair?.label || '', text: t, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), words: t.split(/\s+/).length });
+    if(promptHistory.length > 25) promptHistory.pop();
+    if(el('historyBadge')) el('historyBadge').textContent = promptHistory.length;
+    try { localStorage.setItem(SB_HIST_KEY, JSON.stringify(promptHistory)); } catch(e){}
+  }
+}
+function copy(t){ recordHistory(); if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(()=>toast('Copied storyboard prompt.')).catch(()=>fallbackCopy(t)); else fallbackCopy(t); }
+function fallbackCopy(t){ const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); toast('Copied storyboard prompt.'); }
+
+function randomizeAll(){
+  Object.keys(fields).forEach(k => { if(!lockedFields.has(k) && !k.endsWith('Category')) values[k] = fields[k].opts[Math.floor(Math.random()*fields[k].opts.length)]; });
+  for(let i = 0; i < 6; i++){
+    frames[i].cropIdx = Math.floor(Math.random()*sbFrameCrops.length);
+    frames[i].angleIdx = Math.floor(Math.random()*sbFrameAngles.length);
+    frames[i].actIdx = Math.floor(Math.random()*sbFrameActions.length);
+  }
+  activePreset = ''; renderPresets(); renderFields(); buildPrompt(); toast('✦ Rolled new multi-frame story arc!');
+}
+function resetAll(){
+  Object.keys(fields).forEach(k => { if(!lockedFields.has(k)) values[k] = fields[k].opts[fields[k].def||0]; });
+  frameCount = 4; outputMode = 'pack'; activeShotTab = 'all'; wardrobeMode = 'ensemble'; globalHairMoisture = 'dry';
+  customDirection = ''; extraNegative = ''; activePreset = ''; initDefaultFrames();
+  save(); renderPresets(); renderFields(); buildPrompt(); toast('↺ Reset storyboarder to defaults.');
+}
+function shuffleArcs(){
+  for(let i = storyArcPresets.length-1; i>0; i--){ const j = Math.floor(Math.random()*(i+1)); [storyArcPresets[i], storyArcPresets[j]] = [storyArcPresets[j], storyArcPresets[i]]; }
+  renderPresets(); toast('↻ Shuffled story arc presets.');
+}
+function saveCustomStoryPreset(optName){
+  const name = (typeof optName === 'string' && optName.trim()) ? optName : prompt('Name this custom storyboard:', 'Story ' + (customPresets.length + 1));
+  if(!name || !name.trim()) return null;
+  const gObj = { wardrobeMode, sbHairMoisture: globalHairMoisture };
+  Object.keys(fields).forEach(k => { gObj[k] = values[k]?.label || ''; });
+  const p = { id: 'sb_' + Date.now(), title: name.trim(), sub: `${frameCount} Frames · ${values.sbHair?.label || ''}`, icon: '⭐', frameCount, global: gObj, frames: frames.map(f => Object.assign({}, f)) };
+  customPresets.unshift(p); save(); renderPresets(); toast(`Saved “${p.title}”.`); return p;
+}
+function exportStories(){
+  const payload = { version: 1, studio: 'storyboard', exportedAt: new Date().toISOString(), customPresets };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json;charset=utf-8'});
+  const a = document.createElement('a'), u = URL.createObjectURL(blob); a.href=u; a.download='afterglow-storyboards.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+function importStoriesFromData(parsed){
+  const list = Array.isArray(parsed) ? parsed : (parsed?.customPresets || null);
+  if(!list) throw new Error('Invalid JSON');
+  let added = 0;
+  list.forEach(raw => {
+    if(!raw?.title || customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
+    customPresets.unshift(raw); added++;
+  });
+  save(); renderPresets(); return added;
+}
+
+el('randomTop')?.addEventListener('click', randomizeAll);
+el('copyTop')?.addEventListener('click', () => copy(el('prompt').value));
+el('copy')?.addEventListener('click', () => copy(el('prompt').value));
+el('resetTop')?.addEventListener('click', resetAll);
+el('shuffleLooks')?.addEventListener('click', shuffleArcs);
+el('saveCustomLook')?.addEventListener('click', () => saveCustomStoryPreset());
+el('exportPresetsBtn')?.addEventListener('click', exportStories);
+if(el('importPresetsBtn') && el('importPresetsInput')){
+  el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
+  el('importPresetsInput').addEventListener('change', e => {
+    const f = e.target.files?.[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => { try{ toast(`✓ Imported ${importStoriesFromData(JSON.parse(r.result))} storyboard(s).`); }catch(err){ toast('Invalid JSON file.'); } e.target.value=''; };
+    r.readAsText(f);
+  });
+}
+el('copyPositive')?.addEventListener('click', () => { const t = el('prompt').value; copy(extractPositivePrompt(t) || t); toast('✓ Copied positive prompt only.'); });
+el('copyNegative')?.addEventListener('click', () => { const neg = extractNegativePrompt(el('prompt').value); if(neg){ copy(neg); toast('✓ Copied exclusions only.'); } });
+el('download')?.addEventListener('click', () => {
+  const b = new Blob([el('prompt').value],{type:'text/plain;charset=utf-8'}), a = document.createElement('a'), u = URL.createObjectURL(b);
+  a.href=u; a.download='afterglow-storyboard.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),1000);
+});
+el('selectPrompt')?.addEventListener('click', () => { el('prompt').focus(); el('prompt').select(); });
+el('prevStep')?.addEventListener('click', () => { const i = sections.findIndex(s=>s.id===activeSection); if(i>0) goSection(sections[i-1].id); });
+el('nextStep')?.addEventListener('click', () => { const i = sections.findIndex(s=>s.id===activeSection); goSection(sections[(i+1)%sections.length].id); });
+el('finishJump')?.addEventListener('click', () => goSection('finish'));
+el('btnPackMode')?.addEventListener('click', () => { outputMode = 'pack'; activeShotTab = 'all'; buildPrompt(); });
+el('btnGridMode')?.addEventListener('click', () => { outputMode = 'grid'; activeShotTab = 'all'; buildPrompt(); });
+document.querySelectorAll('.ratio-chip').forEach(c => c.addEventListener('click', () => {
+  const m = fields.aspect.opts.find(o => o.label.includes(c.dataset.ratio));
+  if(m){ values.aspect = m; buildPrompt(); renderFields(); }
+}));
+function generateShareUrl(){ copy(window.location.origin + window.location.pathname); toast('🔗 URL copied!'); }
+el('shareLookBtn')?.addEventListener('click', generateShareUrl);
+el('shareLookTop')?.addEventListener('click', generateShareUrl);
+
+function openHistory(){
+  const l = el('historyList');
+  if(l) l.innerHTML = !promptHistory.length ? '<div class="history-empty"><p>No storyboards copied yet.</p></div>' : promptHistory.map((it,idx)=>`<div class="history-item"><div class="history-item-top"><strong>${it.title}</strong><span>${it.time}</span></div><div class="history-item-sub">${it.sub} · ${it.words} words</div><div class="history-item-actions"><button class="btn btn-primary btn-small copy-h" data-idx="${idx}" type="button">Copy ▣</button></div></div>`).join('');
+  l?.querySelectorAll('.copy-h').forEach(b=>b.addEventListener('click',()=>{ copy(promptHistory[Number(b.dataset.idx)].text); closeHistory(); }));
+  el('historyModal')?.classList.add('active'); el('historyBackdrop')?.classList.add('active');
+}
+function closeHistory(){ el('historyModal')?.classList.remove('active'); el('historyBackdrop')?.classList.remove('active'); }
+el('openHistoryBtn')?.addEventListener('click', openHistory);
+el('closeHistoryBtn')?.addEventListener('click', closeHistory);
+el('historyBackdrop')?.addEventListener('click', closeHistory);
+el('clearHistoryBtn')?.addEventListener('click', () => { promptHistory=[]; localStorage.removeItem(SB_HIST_KEY); if(el('historyBadge')) el('historyBadge').textContent='0'; openHistory(); });
+
+const prev = document.querySelector('.preview'), back = el('drawerBackdrop');
+function openDrawer(){ prev?.classList.add('drawer-open'); back?.classList.add('active'); document.body.style.overflow='hidden'; }
+function closeDrawer(){ prev?.classList.remove('drawer-open'); back?.classList.remove('active'); document.body.style.overflow=''; }
+el('openDrawerBtn')?.addEventListener('click', openDrawer);
+el('closeDrawer')?.addEventListener('click', closeDrawer);
+back?.addEventListener('click', closeDrawer);
+el('sheetHandle')?.addEventListener('click', () => prev?.classList.contains('drawer-open') ? closeDrawer() : openDrawer());
+el('mobileCopyBtn')?.addEventListener('click', () => copy(el('prompt').value));
+el('topQuickCopy')?.addEventListener('click', () => copy(el('prompt').value));
+el('fab')?.addEventListener('click', () => copy(el('prompt').value));
+
+const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts?f.opts.length:0), 0) + sbFrameCrops.length + sbFrameAngles.length + sbFrameActions.length;
+if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + '+ options & frame beats';
+load(); renderPresets(); renderTabs(); goSection(activeSection || 'sbGlobalCastSec'); buildPrompt();
+
+window.AfterglowStoryboard = {
+  getFields: () => fields, getValues: () => values, getFrames: () => frames,
+  getFrameCount: () => frameCount, setFrameCount: n => { frameCount = n; renderFields(); buildPrompt(); },
+  setOutputMode: m => { outputMode = m; buildPrompt(); },
+  setActiveShotTab: s => { activeShotTab = s; buildPrompt(); },
+  buildPrompt, renderFields, save, load, resetAll,
+  saveCustomStoryPreset, importStoriesFromData, getCustomPresets: () => customPresets,
+  getHair: () => hair,
+  getMoisture: () => globalHairMoisture, setMoisture: m => { globalHairMoisture = m; renderFields(); buildPrompt(); },
+  getExtractedPositive: () => extractPositivePrompt(el('prompt').value),
+  getExtractedNegative: () => extractNegativePrompt(el('prompt').value)
+};
+})();
+</script>
+</body>
+</html>

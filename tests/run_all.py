@@ -102,6 +102,8 @@ ok('index_has_photoshoot_link', links.some(h => h.includes('photoshoot.html')));
 ok('index_has_salon_link', links.some(h => h.includes('salon.html')));
 ok('index_has_tattoo_link', links.some(h => h.includes('tattoo.html')));
 ok('index_has_makeup_spa_link', links.some(h => h.includes('makeup_spa.html')));
+ok('index_has_video_link', links.some(h => h.includes('video.html')));
+ok('index_has_storyboard_link', links.some(h => h.includes('storyboard.html')));
 '''
 
 SALON_JS = r'''
@@ -392,6 +394,84 @@ const imp = api.importPrepPresetsFromData({ customPresets: [{ id: 'imp_prep_1', 
 ok('makeup_import_preset_works', imp === 1);
 '''
 
+VIDEO_JS = r'''
+const api = window.AfterglowVideo;
+ok('video_api_exposed', !!api);
+const flds = api.getFields();
+ok('video_rich_option_libraries', api.getHair().length === 261 && flds.vidOutfit.opts.length === 438 && flds.vidCameraMove.opts.length === 32 && flds.vidBeatStart.opts.length >= 25 && flds.vidBeatMid.opts.length >= 30 && flds.vidEnvironment.opts.length >= 15);
+ok('video_starts_in_subject_sec', document.querySelector('.tab.active')?.dataset?.section === 'vidInputSec');
+
+// Moisture toggle in Video Director
+document.querySelector('.moisture-pill[data-moisture="wet"]').click();
+const [vWetPos, vWetNeg] = document.getElementById('prompt').value.split('AVOID / NEGATIVE GUIDANCE:');
+ok('video_wet_motion_physics', vWetPos.includes('Soaked Wet Hair Motion Physics') && vWetNeg.includes('hair magically drying out'));
+
+// Separates switch + 80-85% Veil Lock in Video
+document.getElementById('btnVidSeparates').click();
+ok('video_separates_in_prompt', document.getElementById('prompt').value.includes('topPiece') === false && document.getElementById('prompt').value.includes('separates outfit'));
+const vals = api.getValues();
+vals.vidHair = api.getHair().find(h => h.label.includes('Chin-length French bob'));
+vals.vidHairFaceCoverage = api.getHairFaceCoverageOpts().find(o => o.label.includes('80–85%'));
+const vVeilPrompt = api.buildPrompt();
+ok('video_80_veil_bob_rule', vVeilPrompt.includes('Strictly keep the bob hem ending crisply at chin/jawline level') && vVeilPrompt.includes('ZERO visible eyeballs'));
+
+// Compact Prose vs 3-Beat Detailed mode
+document.getElementById('btnCompactMotion').click();
+ok('video_compact_mode_works', !document.getElementById('prompt').value.includes('TEMPORAL STABILITY & ARTIFACT SAFEGUARDS:'));
+document.getElementById('btnStructuredMode').click();
+ok('video_detailed_mode_restored', document.getElementById('prompt').value.includes('CHRONOLOGICAL 3-BEAT ACTION TIMELINE:'));
+
+// Copy Positive/Negative + Finish textareas + Save & Import
+document.querySelector('[data-section="finish"]').click();
+const cd = document.getElementById('customDirInput');
+const en = document.getElementById('extraNegInput');
+ok('video_finish_inputs_present', !!cd && !!en);
+cd.value = 'wind picks up at 3.2s'; cd.dispatchEvent(new Event('input'));
+ok('video_custom_dir_in_prompt', document.getElementById('prompt').value.includes('wind picks up at 3.2s'));
+ok('video_copy_positive_works', !api.getExtractedPositive().includes('AVOID / NEGATIVE GUIDANCE:'));
+ok('video_copy_negative_works', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
+const saved = api.saveCustomVidPreset('Test Monsoon Motion');
+ok('video_save_preset_localstorage', !!saved && (localStorage.getItem('afterglow_video_director_v1') || '').includes('Test Monsoon Motion'));
+'''
+
+STORYBOARD_JS = r'''
+const api = window.AfterglowStoryboard;
+ok('sb_api_exposed', !!api);
+const flds = api.getFields();
+ok('sb_rich_option_libraries', api.getHair().length === 261 && flds.sbOutfit.opts.length === 438 && flds.sbVenue.opts.length >= 20);
+ok('sb_default_4_frames', api.getFrameCount() === 4);
+
+// Frame Sequencer UI: switch to 6 frames, customize Frame 2 Veil override to 80-85% + Moisture Wet
+document.querySelector('[data-section="sbFramesSec"]').click();
+ok('sb_4_cards_rendered', document.querySelectorAll('.sb-frame-card').length === 4);
+document.querySelector('[data-fc="6"]').click();
+ok('sb_6_cards_rendered', document.querySelectorAll('.sb-frame-card').length === 6);
+
+const card2 = document.querySelectorAll('.sb-frame-card')[1];
+const veilSel = card2.querySelector('.sb-veil');
+const opt80Idx = [...veilSel.options].findIndex(o => o.text.includes('80–85%'));
+veilSel.selectedIndex = opt80Idx;
+veilSel.dispatchEvent(new Event('change'));
+
+// Check individual Shot 02 tab reflects per-frame 80-85% Veil Override
+document.querySelector('.shot-tab[data-shot="2"]').click();
+const shot2Prompt = document.getElementById('prompt').value;
+ok('sb_shot2_has_80_veil_lock', shot2Prompt.includes('STORYBOARD SHOT 02') && shot2Prompt.includes('ZERO visible eyeballs'));
+
+// Switch to Unified Grid mode on Full All Shots
+document.getElementById('btnGridMode').click();
+const gridPrompt = document.getElementById('prompt').value;
+ok('sb_grid_mode_all_6_panels', gridPrompt.includes('6-FRAME 35MM CONTACT SHEET GRID') && gridPrompt.includes('PANEL 06'));
+
+// Copy Positive & Negative + Custom Save & Import JSON
+ok('sb_copy_positive_strips_neg', !api.getExtractedPositive().includes('AVOID / NEGATIVE GUIDANCE:'));
+ok('sb_copy_negative_live', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
+const saved = api.saveCustomStoryPreset('6-Shot Salon Story');
+ok('sb_save_preset_localstorage', !!saved && (localStorage.getItem('afterglow_storyboarder_v1') || '').includes('6-Shot Salon Story'));
+const impCount = api.importStoriesFromData({ customPresets: [{ id: 'imp_sb_1', title: 'Imported 3-Shot Story', frameCount: 3, frames: api.getFrames().slice(0,3) }] });
+ok('sb_import_preset_works', impCount === 1);
+'''
+
 
 def main():
     browser = find_browser()
@@ -401,6 +481,8 @@ def main():
         ('photoshoot.html', PHOTOSHOOT_JS),
         ('tattoo.html', TATTOO_JS),
         ('makeup_spa.html', MAKEUP_SPA_JS),
+        ('video.html', VIDEO_JS),
+        ('storyboard.html', STORYBOARD_JS),
     ]
     total_passed = 0
     total_failed = 0
