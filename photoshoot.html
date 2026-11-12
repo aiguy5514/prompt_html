@@ -946,12 +946,12 @@ const hairFaceCoverageOpts = makeOpts([
   ['Auto · natural haircut default (follow selected style)', ''],
   ['0% Behind Hair — Completely Open Face (Zero Strands Across Face)', '0% of face behind hair: keep the entire face 100% open and unobstructed, sweeping and tucking all front hair cleanly behind temples and ears away from eyebrows, eyes, cheekbones, and jawline while preserving the base haircut shape'],
   ['10–15% Behind Hair — Whisper-Light Temple Wisps (10–15% Veiled)', '10–15% of face behind hair: crisp glossy front temple wisps and cheekbone-skimming tendrils frame both outer edges (~10–15% light perimeter framing), leaving eyes, eyebrows, nose, and lips clearly open while preserving the base haircut silhouette intact'],
-  ['25–30% Behind Hair — Asymmetric Eye-Skimming Curtain (25–30% Veiled)', '25–30% of face behind hair: a cohesive, sleek diagonal side-part swoop or crisp heavy side bang glides smoothly across one forehead corner, eyebrow, and upper outer eye edge (~25–30% styled framing) tailored naturally to the haircut length, while the opposite eye and smile remain clearly visible'],
-  ['40–45% Behind Hair — Heavy Cheek & One-Eye Veil (40–45% Veiled)', '40–45% of face behind hair: a lush, glossy Veronica-Lake-style diagonal swoosh or sculpted thick front fringe curves gracefully across ~40–45% of the face, cleanly shielding one eye, temple, and upper cheekbone at the haircut\'s authentic length without loose nose strings while the opposite uncovered eye and lips stay sharp'],
-  ['50% Behind Hair — Classic Half-Face Cascading Hair Curtain (50% Veiled)', '50% of face behind hair: a sleek, cohesive, combed-together diagonal sheet of hair glides asymmetrically from a deep side part across half (~50%) of the face—smoothly veiling one eye, brow, and cheekbone alongside a subtle head tilt strictly at the haircut\'s natural length, while keeping the rest of the haircut geometry crisp'],
-  ['65–70% Behind Hair — Deep Peek-a-Boo Veil (65–70% Two-Thirds Covered)', '65–70% of face behind hair: a chic, cohesively styled combination of thick swept front bangs / diagonal side-cascade (trimmed strictly to the haircut\'s true length) and a graceful 3/4 head tilt angles ~65–70% of the face naturally behind styled hair shadow, leaving lips, jawline, and a subtle shadowed eye glimpse without messy mouth-hanging strings'],
-  ['80–85% Behind Hair — Dramatic Hair Shield (Only Chin & Lips Peeking)', '80–85% of face behind hair: sleek, cohesive architectural bangs or glossy side-swept cheek cascade matching the exact haircut length paired with a graceful downward-chin / 3/4 angled head pose organically shields ~80–85% of her forehead, brows, eyes, and nose bridge, leaving only her lips and jawline softly visible without vertical loose strings'],
-  ['95–100% Behind Hair — Full Front Hair Veil (Eyes & Face Completely Hidden)', '95–100% of face behind hair: virtually the entire face (95–100%) stays stylishly concealed via a graceful 3/4-to-profile turned or chin-tucked angle combined with lush, cohesive swept hair tailored strictly to the chosen haircut\'s true length and rear silhouette—zero cheap vertical loose strings pasted down over the face']
+  ['25–30% Behind Hair — Asymmetric Eye-Skimming Curtain (25–30% Veiled)', '25–30% of face behind hair: a solid, sleek, combed-together diagonal side sweep completely covers one forehead corner, eyebrow, and upper outer quadrant of that eye (~25–30% glossy continuous coverage with zero skin peeking through that covered brow), while the opposite eye and lips stay clear'],
+  ['40–45% Behind Hair — Heavy Cheek & One-Eye Veil (40–45% Veiled)', '40–45% of face behind hair: a lush, glossy, continuous Veronica-Lake side-swept wave or sculpted sleek front bang sheet completely covers one entire eye, its eyebrow, temple, and upper cheekbone (~40–45% veiled, ZERO eyeball or lash visible on that covered eye) within the haircut\'s authentic length while the opposite eye remains crisp'],
+  ['50% Behind Hair — Classic Half-Face Cascading Hair Curtain (50% Veiled)', '50% of face behind hair: a continuous, glossy, fine-tooth-combed diagonal satin hair sheet completely covers 100% of one vertical half of the face (covered eye, eyebrow, temple, cheekbone, and nose wall completely invisible behind cohesive sleek hair—ZERO eyeball peeking through) matching the haircut\'s real length while the open half stays sharp'],
+  ['65–70% Behind Hair — Deep Peek-a-Boo Veil (65–70% Two-Thirds Covered)', '65–70% of face behind hair: a continuous, sleekly combed heavy diagonal cheek sweep and dense front bangs paired with a 3/4 chin-dipped head tilt completely cover the entire forehead, both eyebrows, nose bridge, and one full eye (~65–70% veiled—zero wide open eyes, at most a narrow dark lash slit + lower lips exposed, zero messy mouth strings)'],
+  ['80–85% Behind Hair — Dramatic Hair Shield (Only Chin & Lips Peeking)', '80–85% of face behind hair: a solid, continuous, fine-tooth-combed sleek satin hair sheet and heavy cut-matched front bangs paired with a slight chin dip completely cover 100% of forehead, BOTH eyebrows, BOTH eyes (ZERO visible eyeballs/pupils/lashes), upper cheeks, and nose bridge—exclusively lower lips and chin peek cleanly below the crisp hair edge with zero stringy wet noodles'],
+  ['95–100% Behind Hair — Full Front Hair Veil (Eyes & Face Completely Hidden)', '95–100% of face behind hair: 95–100% of the entire face (ZERO visible eyes, eyeballs, eyebrows, forehead, nose, or mouth) is completely concealed behind a continuous, sleek, fine-tooth-combed glossy satin cascade tailored strictly to the haircut\'s true hem length paired with a graceful chin-tucked / 3/4-angled pose—zero separated sloppy wet strings over open skin']
 ]);
 
 const salonChairPose = makeOpts([
@@ -1575,7 +1575,7 @@ function getCollageSceneDirective(sceneId, ctx){
   const hasHeavyCollageVeil = ['40_45', '50', '65_70', '80_85', '95_100'].includes(veilTier);
   const hideEyesInCollage = ['65_70', '80_85', '95_100'].includes(veilTier);
   const collageVeilClause = hasHeavyCollageVeil
-    ? ` Cohesive haircut-matched front framing and subtle head angle strictly maintain ${ctx.veilLabel || 'her styled hair veil'} cleanly without loose unstyled strings.`
+    ? ` Cohesive sleek combed hair framing (${hideEyesInCollage ? 'ZERO visible eyeballs/open forehead, ' : ''}${ctx.veilLabel || 'styled hair veil'}) strictly matches her haircut length without separated scraggly mouth strings.`
     : '';
 
   const isBustleEmpty = (ctx.bustleLabel || '').toLowerCase().startsWith('empty');
@@ -4536,12 +4536,13 @@ function detectHairArchitecture(hairObj, hairText){
 
 function getVeilRule(tier, hairArch){
   const archNotes = {
-    tied_slick: ' HAIRCUT ARCHITECTURE RULE: Keep the ponytail, bun, braid, or slicked back crown 100% neatly secured and true to the cut—achieve coverage strictly via sculpted front bangs, an intentional sleek diagonal side-bang, or turned head poise (NEVER untie hair or hang loose chest-length strings down the face).',
-    pixie_crop: ' HAIRCUT ARCHITECTURE RULE: Keep the crisp cropped pixie length intact—achieve coverage strictly via chic brow-to-cheekbone textured side fringe and subtle angled head poise (NEVER sprout long uncropped strands past the jawline).',
-    chin_bob: ' HAIRCUT ARCHITECTURE RULE: Strictly respect the chin/jawline bob length—achieve coverage via glossy geometric bob bangs, a deep Veronica Lake diagonal bob sweep, or a chin-length cheek drape ending cleanly at the jawline (NEVER drop messy extra-long strings below the chin).',
-    long_layered: ' HAIRCUT ARCHITECTURE RULE: Integrate coverage naturally into the haircut using a cohesive, glossy Veronica Lake diagonal S-wave sweep, sculpted designer fringe, or turned shoulder-cascade matching the cut (NEVER separate unstyled vertical strings pasted over the nose and mouth).'
+    tied_slick: ' HAIRCUT ARCHITECTURE RULE: Keep the ponytail, bun, braid, or slicked back crown 100% neatly secured at the back crown—achieve this exact facial coverage via wide, sleek, fine-tooth-combed front/side bang panels draped cleanly across the specified facial landmarks plus a 3/4 chin-tucked head angle.',
+    pixie_crop: ' HAIRCUT ARCHITECTURE RULE: Keep the crisp cropped pixie crown & nape true to cut—achieve coverage via heavy sleek forward-combed side-swept crop fringe firmly covering the specified facial landmarks plus a 3/4 chin-tucked angle (never grow long chest strings).',
+    chin_bob: ' HAIRCUT ARCHITECTURE RULE: Strictly keep the bob hem ending crisply at chin/jawline level—achieve coverage via a continuous, glossy, fine-tooth-combed satin bob front/side sheet ending cleanly at the jawline (never sprout stray chest-length strings below the chin).',
+    long_layered: ' HAIRCUT ARCHITECTURE RULE: Integrate coverage seamlessly into the layered/long cut using a continuous, glossy, fine-tooth-combed Veronica-Lake satin sweep or dense aligned front cascade stopping cleanly at the cut perimeter.'
   };
-  const aNote = archNotes[hairArch] || '';
+  const ribbonCohesion = ' RIBBON COHESION RULE: Hair covering the face MUST read as a continuous, smooth, fine-tooth-combed glossy satin sheet with crisp combed alignment and zero thin patchy skin gaps—NEVER separated messy wet spaghetti strings or scraggly uneven tendrils dangling over mouth and chin.';
+  const aNote = (archNotes[hairArch] || '') + ribbonCohesion;
   const RULES = {
     '0': {
       strict: 'MANDATORY ZERO-VEIL ENFORCEMENT: 100% unobstructed full facial visibility. Every front strand is swept back, tucked cleanly behind ears, or styled completely away from forehead, eyes, cheeks, and jawline. ZERO hair strands crossing or touching the face.',
@@ -4554,34 +4555,34 @@ function getVeilRule(tier, hairArch){
       neg: 'hair pulled strictly behind ears with zero temple strands, heavy hair curtain blocking face, obscured eyes, heavy bangs covering forehead'
     },
     '25_30': {
-      strict: `CHIC ASYMMETRIC SWEEP (25–30% VEILED): Style a glossy, combed-together diagonal side-part swoop or crisp curved side bang skimming smoothly across one brow corner and outer eye edge (~25–30% editorial framing) naturally integrated into her chosen haircut.${aNote}`,
-      primary: '• Styled Asymmetric Hair Sweep (25–30%): Sculpt a cohesive, glossy diagonal sweep or heavy side bang from her natural part across one forehead corner and outer brow/eye quadrant while preserving her exact haircut shape.',
-      neg: 'messy loose unstyled wispy strings hanging over nose or mouth, cheap stringy wet hair pasted vertically over face, both eyes fully bare when diagonal sweep selected'
+      strict: `MANDATORY ASYMMETRIC SWEEP (25–30% VEILED): Smooth continuous glossy diagonal side-part swoop or crisp heavy side bang MUST physically overlap and hide one eyebrow and upper outer eye corner (~25–30% solid coverage) seamlessly integrated into her chosen haircut.${aNote}`,
+      primary: '• Mandatory Asymmetric Hair-Veil Lock (25–30%): Sculpt a continuous, glossy diagonal hair sweep that physically overlaps and hides one eyebrow and outer eye quadrant cleanly within the haircut silhouette.',
+      neg: 'both eyebrows and eyes completely uncovered with zero hair touching brow, separated wispy noodles hanging over mouth, cheap stringy wet hair pasted over open face'
     },
     '40_45': {
-      strict: `GLAMOROUS ONE-EYE SIDE-SWEEP (40–45% VEILED): Shape a lush, cohesive Veronica-Lake diagonal swoosh or sculpted thick front fringe sweeping gracefully across ~40–45% of the face to shield one eye, temple, and upper cheekbone seamlessly—strictly matching the haircut\'s real length and sleek styling (zero ragged vertical nose strings).${aNote}`,
-      primary: '• Cohesive Diagonal Hair-Veil Framing (40–45%): Drape a smooth, glossy, unified side-swept wave or sculpted thick fringe across one forehead side, eye, and upper cheekbone cleanly within her haircut\'s authentic length and structure.',
-      neg: 'messy loose unstyled strands hanging awkwardly over nose and mouth, Sadako horror-movie hair over face, cheap stringy wet hair pasted vertically over lips and chin, mismatched extra-long front strands hanging past haircut length'
+      strict: `MANDATORY ONE-EYE OCCLUSION (40–45% VEILED): A lush, continuous, glossy Veronica-Lake diagonal wave or sleek fine-tooth-combed front panel MUST physically cover 100% of ONE full eye, its eyebrow, temple, and cheekbone—ZERO eyeball, pupil, or eyelashes visible on that covered eye—matched strictly to the haircut\'s real length while the opposite eye remains sharp.${aNote}`,
+      primary: '• Mandatory One-Eye Hair-Veil Lock (40–45%): ONE ENTIRE EYE and its eyebrow MUST BE 100% HIDDEN (zero eyeball/pupil visible on the covered side) behind a smooth, continuous, fine-tooth-combed glossy hair wave/panel matching her haircut length; only the opposite eye stays visible.',
+      neg: 'both eyes visible simultaneously, covered eye peeking through thin transparent bangs, separated messy wet spaghetti strings over mouth and chin, Sadako horror-movie unkempt hair, mismatched chest-length front strings'
     },
     '50': {
-      strict: `EDITORIAL HALF-FACE SIDE-SWEEP (50% VEILED): A sleek, unified, combed-together diagonal sheet of hair glides smoothly from a deep side part across half (~50%) of the face—stylishly veiling one eye, brow, and cheekbone alongside a subtle head turn strictly at the haircut\'s real length, while keeping the rest of the haircut geometry sharp.${aNote}`,
-      primary: '• Editorial Half-Face Side-Sweep (50%): Style a glossy, unified diagonal hair sheet sweeping smoothly across one side of her face (one eye and cheek veiled, opposite eye clear), staying strictly faithful to her haircut\'s length and rear structure.',
-      neg: 'messy loose unstyled strands hanging awkwardly over nose and mouth, Sadako horror-movie vertical hair curtain, cheap stringy wet hair pasted over open face, mismatched front length longer than cut, both eyes wide open facing straight ahead'
+      strict: `MANDATORY 50/50 VERTICAL FACE SPLIT: A continuous, solid, fine-tooth-combed diagonal satin hair sheet MUST glide from a deep side part across 100% of ONE ENTIRE VERTICAL HALF (50%) of the face—covered eye, eyebrow, cheek, and nostril wall MUST be 100% invisible (ZERO eyeball/skin peeking through gaps), matched strictly to her haircut length.${aNote}`,
+      primary: '• Mandatory 50/50 Split Hair-Veil Lock (50%): ONE FULL VERTICAL HALF OF HER FACE (that entire eye, brow, cheek) MUST BE 100% HIDDEN behind a continuous, sleek, fine-tooth-combed satin hair sheet matched to her haircut length, zero skin peeking through.',
+      neg: 'both eyes visible simultaneously, symmetrical open face, thin translucent wisps showing covered eye underneath, separated messy wet spaghetti strings over nose and lips, Sadako unkempt hair, mismatched front length past cut hem'
     },
     '65_70': {
-      strict: `CHIC DEEP PEEK-A-BOO & ANGLED POISE (65–70% VEILED): Pair thick, sleekly styled forward bangs or deep diagonal side-sweep (trimmed strictly to the haircut\'s true length) with a graceful 3/4 turned or dipped head angle so roughly two-thirds of her face rests organically behind cohesive styled hair and chic shadow—never ugly vertical strings dangling over her lips.${aNote}`,
-      primary: '• Chic Deep Peek-a-Boo Framing (65–70%): Pair lush, cohesively styled side-swept hair/sculpted fringe (strictly matching her haircut length) with a graceful 3/4 dipped head angle so ~65–70% of her face is artistically framed in sleek hair shadow rather than vertical loose strings.',
-      neg: 'messy loose unstyled strands hanging awkwardly over nose and mouth, Sadako horror-movie hair curtain, cheap stringy wet strands pasted over lips and chin, frontal mugshot stare with both eyes uncovered, mismatched extra-long front strands'
+      strict: `MANDATORY TWO-THIRDS HEAVY OCCLUSION (65–70% VEILED): A thick, continuous, fine-tooth-combed satin front cascade + diagonal cheek sweep combined with a 3/4 chin-dipped pose MUST cover 100% of her forehead, BOTH eyebrows, nose bridge, and ONE FULL EYE—ZERO wide-open eyes visible (at most a faint dark corner lash glimpse + lower lips exposed, zero patchy skin gaps).${aNote}`,
+      primary: '• Mandatory Two-Thirds Hair-Veil Lock (65–70%): Forehead, BOTH eyebrows, nose bridge, and one full eye MUST BE 100% HIDDEN (zero open wide eyes) behind a sleek, continuous, fine-tooth-combed satin hair sweep matched strictly to her haircut length paired with a 3/4 chin dip.',
+      neg: 'both eyes clearly visible, bare open forehead or visible eyebrows, thin transparent bangs showing eyeballs underneath, separated messy wet spaghetti strings dangling over mouth and chin, Sadako unkempt hair'
     },
     '80_85': {
-      strict: `EDITORIAL HAIR SHIELD & TURNED-PROFILE POISE (80–85% VEILED): Shield ~80–85% of the upper face organically using cohesive heavy designer bangs or a sleek diagonal cheek-cascade matched strictly to her haircut length combined with a graceful chin-dipped / 3/4 angled head pose—hiding forehead, brows, eyes, and upper bridge stylishly beneath sleek sculpted hair while keeping only her jawline and lips softly visible (zero mouth-hanging wet strings).${aNote}`,
-      primary: '• Editorial Hair Shield & Head Angle (80–85%): Combine sleek, cohesively styled fringe/diagonal cheek sweep at the haircut\'s authentic length with a graceful chin-dipped or 3/4 angled head pose so forehead, brows, and eyes stay artistically hidden beneath clean hair (never vertical loose mouth strings).',
-      neg: 'messy loose unstyled strands hanging awkwardly over nose and mouth, Sadako horror-movie vertical hair curtain, cheap stringy wet hair pasted down chin, direct wide-eyed stare at camera, extra-long mismatched front locks hanging onto cape'
+      strict: `ABSOLUTE ZERO VISIBLE EYES RULE (80–85% UPPER-FACE LOCKDOWN): ZERO eyeballs, ZERO pupils, ZERO eyelashes, ZERO eyebrows, and ZERO bare forehead anywhere in frame. A solid, continuous, fine-tooth-combed glossy satin sheet of front/diagonal hair (matched strictly to the haircut\'s true hem length, paired with slight chin dip) cleanly covers 100% of forehead, both eyebrows, both eyes, and nose bridge down to upper-lip level—exclusively lower lips and chin peek cleanly below the smooth hair edge.${aNote}`,
+      primary: '• ABSOLUTE ZERO-EYES HAIR SHIELD (80–85%): ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead anywhere in frame—100% of her upper face (forehead, both eyes, nose bridge) MUST BE HIDDEN behind a sleek, continuous, fine-tooth-combed glossy hair sheet/bangs matched to her haircut length + slight chin dip, leaving only lower lips and chin below.',
+      neg: 'visible eyes, visible eyeballs or pupils, peeking eye through thin bangs, visible eyebrows, bare open forehead, separated messy wet spaghetti strings hanging over mouth and chin, thin patchy strands showing eyes underneath, Sadako horror-movie hair, mismatched long chest strings past cut hem'
     },
     '95_100': {
-      strict: `HIGH-FASHION FULL SILHOUETTE CONCEALMENT (95–100% VEILED): Conceal 95–100% of the face cleanly and stylishly without cheap zombie strings—turn her head into a graceful 3/4-away or side-turned/chin-tucked silhouette where the lush, sleek, cohesive cascade or sculpted fringe of her true haircut naturally hides forehead, eyes, nose, and face from the lens while showcasing the haircut\'s real shape and craftsmanship.${aNote}`,
-      primary: '• High-Fashion Silhouette & Hair Concealment (95–100%): Frame her in an artistic 3/4 turned-away or chin-dipped pose paired with cohesive sleek front-to-side hair drape tailored strictly to her chosen haircut\'s length and structure so 95–100% of her face is hidden cleanly—zero cheap vertical loose strings over the mouth.',
-      neg: 'Sadako or The Ring horror-movie hair hanging vertically over open face, messy loose unstyled wet strings pasted straight down over nose mouth and chin, mismatched extra-long front strands hanging below haircut length, open frontal eye contact, hair pulled behind ears exposing bare forehead, uncovered open forehead'
+      strict: `ABSOLUTE ZERO VISIBLE FACIAL FEATURES RULE (95–100% FULL SILHOUETTE & HAIR VEIL): ZERO eyes, ZERO eyeballs, ZERO eyebrows, ZERO forehead, ZERO nose tip, and ZERO mouth/lips visible anywhere in frame. Achieve 95–100% total facial concealment cleanly by combining a continuous, sleek, fine-tooth-combed glossy satin cascade tailored strictly to the chosen haircut\'s true hem length WITH a chin-tucked / 3/4-angled head pose so her entire face sits cleanly hidden without sloppy dangling wet noodles over open lips.${aNote}`,
+      primary: '• ABSOLUTE ZERO-FACE CONCEALMENT LOCK (95–100%): ZERO visible eyes, ZERO eyebrows, ZERO forehead, ZERO nose, ZERO mouth/lips anywhere in frame—95–100% of her face MUST be cleanly hidden behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked / 3/4-angled poise.',
+      neg: 'hair pulled behind ears exposing bare forehead, visible eyes, visible eyeballs, visible nose tip, visible lips or open mouth, bare open forehead, thin patchy strands revealing eyes, separated messy wet spaghetti strings over open face, Sadako or The Ring horror-movie unkempt strings'
     }
   };
   return RULES[tier] || null;
@@ -5003,16 +5004,16 @@ function buildSalonPrompt(){
       return '• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.';
     }
     if(isSalon95_100){
-      return `• Maintain her authentic Indian heritage features, warm skin tone, lower-cheek skin texture, and hair density while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind descending front hair strands${barberSuffix ? ' as she concentrates on her craft' : ''}.`;
+      return `• Maintain her authentic Indian heritage features, warm skin tone, lower-cheek skin texture, and hair density while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth)${barberSuffix ? ' as she concentrates on her craft' : ''}.`;
     }
     if(isSalon80_85){
-      return `• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face (forehead, both eyes, nose bridge) behind sleek sculpted hair matched cleanly to her haircut length and an angled chin-dipped head pose${barberSuffix ? ' as she concentrates on her craft' : ''}.`;
+      return `• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip${barberSuffix ? ' as she concentrates on her craft' : ''}.`;
     }
     if(isSalon65_70){
-      return `• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-lip/chin texture while framing ~65–70% of her face naturally behind cohesive styled front hair/side-sweep and a subtle 3/4 head turn${barberSuffix ? ' as she focuses on her craft' : ''}.`;
+      return `• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-lip/chin texture while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip${barberSuffix ? ' as she focuses on her craft' : ''}.`;
     }
     if(salonVeilTier === '50' || salonVeilTier === '40_45'){
-      return `• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while styling a sleek cohesive diagonal side-sweep cleanly over the opposite eye strictly true to her haircut length${barberSuffix ? ' as she focuses on grooming her client' : ''}.`;
+      return `• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length${barberSuffix ? ' as she focuses on grooming her client' : ''}.`;
     }
     return barberSuffix
       ? '• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores as she focuses with artisan concentration on grooming her client.'
@@ -5446,13 +5447,13 @@ function buildSalonPrompt(){
     if(isFaceHidden){
       salonChecks.push('• Identity & Silhouette Preservation: Faithfully preserve the adult woman from the reference, maintaining her authentic Indian skin tone, body proportions, and hair fiber, while respecting that her face is turned sideways looking away and shielded from the lens.');
     } else if(isSalonFullVeil){
-      salonChecks.push('• Identity & Veil Preservation: Maintain her authentic Indian heritage features, skin tone, and hair fiber while keeping 95–100% of her face concealed via cohesive haircut-matched front sweep and turned head poise.');
+      salonChecks.push('• Identity & Veil Preservation: Maintain her authentic Indian heritage features, skin tone, and hair fiber while keeping ZERO visible eyes, ZERO eyebrows, ZERO nose, or ZERO mouth—95–100% of her face hidden cleanly behind a sleek continuous fine-tooth-combed satin hair sheet matched to her haircut length.');
     } else if(isSalon80_85){
-      salonChecks.push('• Identity & Shield Preservation: Maintain her authentic Indian heritage features, skin tone, and lower-chin texture while shielding 80–85% of her upper face behind sleek cut-accurate hair framing and angled head poise.');
+      salonChecks.push('• Identity & Shield Preservation: Maintain her authentic Indian heritage features, skin tone, and lower-chin texture with ZERO visible eyeballs/eyebrows/forehead—80–85% of her upper face cleanly hidden behind a sleek fine-tooth-combed satin hair sheet matched to her haircut length.');
     } else if(isSalon65_70){
-      salonChecks.push('• Identity & Deep Veil Preservation: Maintain her authentic Indian heritage features, skin tone, and hair fiber while framing ~65–70% of her face naturally behind cohesive styled hair and a 3/4 turned head angle.');
+      salonChecks.push('• Identity & Deep Veil Preservation: Maintain her authentic Indian heritage features, skin tone, and hair fiber while keeping forehead, both eyebrows, nose bridge, and one full eye 100% hidden behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
     } else if(salonVeilTier === '50' || salonVeilTier === '40_45'){
-      salonChecks.push('• Identity & Half-Veil Preservation: Faithfully preserve her recognizable features on the exposed lower face and single uncovered eye while styling a glossy diagonal side-sweep cleanly over the opposite eye strictly within her haircut length.');
+      salonChecks.push('• Identity & Half-Veil Preservation: Faithfully preserve her recognizable features on the exposed lower face and single uncovered eye while keeping the covered eye 100% hidden behind a continuous sleek glossy diagonal hair sheet matched to her haircut length.');
     } else {
       salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
     }
@@ -5703,13 +5704,13 @@ if(checkState.identity){
   if(isFaceHidden){
     checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone, body proportions, and hair fiber while respecting that her face is turned sideways looking away and not visible to the lens.');
   } else if(isFullVeil){
-    checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone, body proportions, and lower-cheek texture while keeping 95–100% of her face concealed via cohesive haircut-matched front sweep and turned head poise.');
+    checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone, body proportions, and hair fiber with ZERO visible eyes, brows, nose, or lips—95–100% of her face hidden cleanly behind a sleek continuous fine-tooth-combed satin hair sheet matched strictly to her haircut length + 3/4 chin-tucked poise.');
   } else if(isPs80_85){
-    checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone and lower-chin/lip texture while shielding 80–85% of her upper face behind sleek cut-accurate hair framing and angled head poise.');
+    checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone and lower-chin/lip texture with ZERO visible eyeballs/pupils/eyebrows—80–85% of her upper face hidden behind a sleek fine-tooth-combed satin hair sheet matched to her haircut length + slight chin dip.');
   } else if(isPs65_70){
-    checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone and lower-cheek texture while framing ~65–70% of her face naturally behind cohesive styled hair and a 3/4 head turn.');
+    checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone and lower-cheek texture while keeping forehead, both eyebrows, nose bridge, and one full eye 100% hidden behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
   } else if(psTier === '50' || psTier === '40_45'){
-    checks.push('Preserve the same adult woman from the supplied reference through her exposed lower face and single uncovered eye, while styling a glossy diagonal side-sweep cleanly over the opposite eye strictly within her haircut length.');
+    checks.push('Preserve the same adult woman from the supplied reference through her exposed lower face and single uncovered eye, while keeping the covered eye 100% hidden behind a continuous sleek glossy diagonal hair sheet matched strictly to her haircut length.');
   } else {
     checks.push('Preserve the same adult woman from the supplied reference, retaining her recognizable facial identity and features; do not replace her with another person or introduce identity drift.');
   }
@@ -5724,7 +5725,7 @@ if(checkState.body)checks.push('Preserve her natural body proportions; do not sl
 if(checkState.skinTone)checks.push('Keep skin tone consistent with the reference image and maintain believable colors.');
 if(checkState.hairStrands){
   if(isDeepOrHeavyVeil){
-    checks.push('Render cohesive, glossy, sleekly styled hair strands forming an intentional diagonal sweep or sculpted fringe matching the haircut length cleanly without messy stray wisps over the mouth.');
+    checks.push('Render a continuous, smooth, fine-tooth-combed glossy satin sheet of hair over the covered facial zone with zero thin patchy skin gaps and zero separated wet spaghetti strings over the mouth.');
   } else {
     checks.push('Render individual hair strands, believable volume, natural movement and subtle flyaways.');
   }
@@ -5777,13 +5778,13 @@ lines.push('• Strictly preserve the adult woman from the reference image as th
 if(isFaceHidden){
   lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
 } else if(isFullVeil){
-  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, lower-cheek skin texture, and hair density while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled cleanly via sculpted haircut-matched framing and graceful turned head poise.');
+  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, hair density, and silhouette while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
 } else if(isPs80_85){
-  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face (forehead, both eyes, nose bridge) beneath sleek sculpted hair matched to her haircut length and an angled head pose.');
+  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip.');
 } else if(isPs65_70){
-  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, and hair density while framing ~65–70% of her face naturally behind cohesive styled front hair/side-sweep and a subtle 3/4 head turn.');
+  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
 } else if(psTier === '50' || psTier === '40_45'){
-  lines.push('• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while styling a sleek cohesive diagonal side-sweep cleanly over the opposite eye strictly true to her haircut length.');
+  lines.push('• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length.');
 } else {
   lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
 }
