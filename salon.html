@@ -1502,6 +1502,7 @@ function getCollageSceneDirective(sceneId, ctx){
   const staff = ctx.staffText || 'barber staff working';
   const isSoloClient = ctx.isSoloClient !== undefined ? !!ctx.isSoloClient : (ctx.stylistLabel || '').toLowerCase().includes('solo client');
   const isDryMode = (ctx.hairMoisture === 'dry');
+  const isWetMode = (ctx.hairMoisture === 'wet');
   const noMirror = !!ctx.noMirror;
 
   const isBustleEmpty = (ctx.bustleLabel || '').toLowerCase().startsWith('empty');
@@ -1536,12 +1537,12 @@ function getCollageSceneDirective(sceneId, ctx){
     carbon_comb_parting: `Precision sectioning craft: close-medium shot of the male barber's focused hands using the fine metal tail of a carbon comb to carve crisp, razor-sharp parting lines across the ${isDryMode ? 'crown' : 'damp crown'} of the female client. Clean geometric sectioning, butterfly clips securing perimeter of ${h}, focused artisan gaze.`,
     sectioning_clips: `Artisan preparation: the female client's ${isDryMode ? 'hair' : 'damp hair'} is methodically partitioned into four clean quadrants, held securely by matte black salon duckbill clips. The male barber (${sl}) stands poised with shears ready in hand, studying the symmetry of ${h} ${noMirror ? 'under' : 'in the wall mirror under'} ${l}.`,
     scissor_blunt_perimeter: `Hero precision cutting: crisp eye-level close-up of the male barber's hands clamping a horizontal section of ${h} taut and flat between index and middle fingers on the female client, cleanly snipping a blunt baseline perimeter with Japanese stainless steel shears. Authentic barber grip (thumb and ring finger in rings, pinky on tang). Distinct strand tension, crisp cutting line, fine clippings falling onto ${c}.`,
-    scissor_point_cutting: `Texturizing scissor work: the male barber holds shears vertically, delicately point-cutting with the scissor tips into the ends of ${isDryMode ? '' : 'damp '}${h} on the female client to soften the perimeter and create airy, natural movement. Full anatomical arm connection, taut two-finger tension${isDryMode ? ', clean dry strand separation.' : ', realistic micro-droplets on hair fibers.'}`,
+    scissor_point_cutting: `Texturizing scissor work: the male barber holds shears vertically, delicately point-cutting with the scissor tips into the ends of ${isDryMode ? '' : (isWetMode ? 'soaked wet ' : 'damp ')}${h} on the female client to soften the perimeter and create controlled movement. Full anatomical arm connection, taut two-finger tension${isDryMode ? ', clean dry strand separation.' : (isWetMode ? ', heavy glistening water droplets beading down drenched strands.' : ', realistic micro-droplets on hair fibers.')}`,
     scissor_curtain_bangs: `Face-framing fringe craft: the male barber stands facing ${noMirror ? 'the client' : 'the station mirror'}, meticulously point-cutting soft, arched bottleneck curtain bangs around the female client's eyebrows and cheekbones. Client's expressive eyes visible beneath the fringe, delicate fallen hair dust on upper collar of ${c}.`,
     scissor_face_framing: `Angled slide cutting: dynamic angle showing the male barber gently angling his shears downward along the side of the client's face, carving soft jawline-hugging graduated layers in ${h}. Beautiful cheekbone framing, natural hair movement, shop background ${d}.`,
     scissor_over_comb: `Master barber technique: male barber rhythmically works his stainless steel cutting shears over a flat white barber comb, precisely blending graduation and weight along the perimeter of ${h} for the female client. Steady wrists, rhythmic motion blur, lived-in atmosphere of ${v}.`,
     scissor_crown_layers: `Dimensional layering: the male barber elevates a clean rectangular section from the crown straight up at a 90-degree angle, tensioning the hair taut between fingers before trimming to establish fluid cascading layers in ${h} on the client. Cut strands fan out naturally under ${l}.`,
-    thinning_shears_bulk: `Specialized texturizing: macro focus on the male barber's notched Japanese thinning shears cutting midway through a thick ${isDryMode ? '' : 'damp '}hair section of ${h} on the female client. Visible notched teeth on moving blade removing weight while preserving strand length; airy piecey separation.`,
+    thinning_shears_bulk: `Specialized texturizing: macro focus on the male barber's notched Japanese thinning shears cutting midway through a thick ${isDryMode ? '' : (isWetMode ? 'soaked wet ' : 'damp ')}hair section of ${h} on the female client. Visible notched teeth on moving blade removing weight while preserving strand length; ${isWetMode ? 'heavy water-clumped strand separation.' : 'airy piecey separation.'}`,
     razor_perimeter_nape: `Artisan razor detailing: the male barber carefully wields a traditional folding straight razor with warm lather along the lower nape and hairline perimeter below ${h} on the client. Zero shears; deliberate, steady hand control, razor edge gleaming under ${l}.`,
     feathering_razor_ends: `Feathering razor styling: male barber uses a guarded feathering razor to lightly slice through the outer ends of ${h} on the female client, creating soft wispy tips and lightweight airy flick along the collarbone. Natural hair drape over ${c}.`,
     blowout_round_brush: `Thermal blowout styling: professional ceramic round barrel brush lifting roots at the crown of the female client while the male barber directs a narrow-nozzle salon hairdryer with warm smoothing airflow. Zero scissors in this frame; dynamic brush curvature, smooth strand tension, and airy blowout volume on ${h}.`,
@@ -4675,6 +4676,41 @@ function buildSalonPrompt(){
     if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
   }
 
+  let rawStageText = S(val('salonStage'));
+  if(!isSalonPony){
+    rawStageText = rawStageText
+      .replace(/rear ponytail and nape silhouette/gi, 'rear haircut perimeter and nape silhouette')
+      .replace(/ponytail tail ends/gi, 'tapered hair ends')
+      .replace(/gathers the ponytail tail, twisting the ends/gi, 'gathers the damp ends gently, twisting the tips');
+  }
+  const stageText = sanitizeGrooming(sanitizeStool(rawStageText));
+
+  // Moisture vs Stage / Haircut compatibility awareness
+  const stageCheckBlob = (isStool ? ((values.salonIntimateHairAction?.label || '') + ' ' + stoolActVal) : (stageLabelVal + ' ' + stageText)).toLowerCase();
+  const hairCheckBlob = (salonHairLower + ' ' + haircutText).toLowerCase();
+  const isExplicitWetStage = /spray bottle|water mist|mist soak|spray-soak|water-mist soak|towel blotting damp|towel-squeezing|towel-scrubbing|shampoo basin|shampoo bowl|conditioning mask|comb-down veil/i.test(stageCheckBlob);
+  const isExplicitDryStage = /blowout|hairdryer|flat-iron|c-curve beveling|round-brush|curling wand|dry visual carving|dry freehand|dry sculpting|curl-by-curl dry|loose hair blast/i.test(stageCheckBlob);
+  const isExplicitWetCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim/i.test(hairCheckBlob);
+
+  const moistureDescriptions = {
+    dry: (isExplicitWetStage || isExplicitWetCut)
+      ? 'light transitional moisture where active misting/wet detailing appears before finishing with smooth airy dry movement'
+      : 'completely dry and styled with natural bounce, airy volume, smooth strand separation, and zero wetness',
+    damp: isExplicitDryStage
+      ? 'transitional damp-to-blowout hair smoothing smoothly under thermal brush tension into clean separated movement'
+      : 'damp hair with authentic spray-bottle water misting, fine glistening water droplets on hair fibers, realistic damp strand clumping held taut for haircutting',
+    wet: isExplicitDryStage
+      ? 'high-moisture freshly washed hair undergoing partial thermal shaping along the ends with glossy luster'
+      : 'thoroughly drenched, saturated soaked wet hair dripping heavily with water sheen, hair ribbons clinging flush to the scalp, temples, and nape with zero airy puffiness'
+  };
+  const moisturePrimaryBullet = (salonHairMoisture === 'wet' && !isExplicitDryStage)
+    ? '• Mandatory Soaked Wet Hair Physics: The female model\'s hair is thoroughly water-soaked and dripping wet—heavy dark wet hair ribbons clinging flush against her scalp, temples, cheeks, and neck with glistening aquatic water sheen and zero dry fluffy flyaways.'
+    : (salonHairMoisture === 'damp' && !isExplicitDryStage)
+      ? '• Damp Hair Physics: Evenly spray-misted damp hair texture held smoothly in comb tension with fine translucent water droplets catching salon light.'
+      : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
+        ? '• Dry Blown-Out Hair Physics: Completely bone-dry, freshly blown-out airy hair with natural bounce, lightweight separation, and zero water dampness or wet clumping.'
+        : '';
+
   // Header / Subject preservation
   if(isFemaleModelBarber){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT' : 'REFERENCE-GUIDED PORTRAIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT');
@@ -4694,6 +4730,7 @@ function buildSalonPrompt(){
     } else {
       lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores as she focuses with artisan concentration on grooming her client.');
     }
+    if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   } else if(isStool){
     lines.push(`• Strictly preserve the adult woman from the reference image as the client seated on the ${stoolTypeVal}.`);
     if(isFaceHidden){
@@ -4704,6 +4741,7 @@ function buildSalonPrompt(){
       lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
     }
     lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+    if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   } else {
     lines.push('• Strictly preserve the adult woman from the reference image as the client in the barber chair.');
     if(isFaceHidden){
@@ -4714,6 +4752,7 @@ function buildSalonPrompt(){
       lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
     }
     lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+    if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   }
   lines.push('');
 
@@ -4789,15 +4828,6 @@ function buildSalonPrompt(){
   lines.push(venueLine);
   lines.push('');
 
-  let rawStageText = S(val('salonStage'));
-  if(!isSalonPony){
-    rawStageText = rawStageText
-      .replace(/rear ponytail and nape silhouette/gi, 'rear haircut perimeter and nape silhouette')
-      .replace(/ponytail tail ends/gi, 'tapered hair ends')
-      .replace(/gathers the ponytail tail, twisting the ends/gi, 'gathers the damp ends gently, twisting the tips');
-  }
-  const stageText = sanitizeGrooming(sanitizeStool(rawStageText));
-
   let rawCameraText = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
   rawCameraText = sanitizeStool(rawCameraText);
   const salonHairLowerCam = salonHairLower;
@@ -4867,30 +4897,24 @@ function buildSalonPrompt(){
     lines.push('');
   }
 
-  // Moisture vs Stage / Haircut compatibility awareness
-  const stageCheckBlob = (isStool ? ((values.salonIntimateHairAction?.label || '') + ' ' + stoolActVal) : (stageLabelVal + ' ' + stageText)).toLowerCase();
-  const hairCheckBlob = (salonHairLower + ' ' + haircutText).toLowerCase();
-  const isExplicitWetStage = /spray bottle|water mist|mist soak|spray-soak|water-mist soak|towel blotting damp|towel-squeezing|towel-scrubbing|shampoo basin|shampoo bowl|conditioning mask|comb-down veil/i.test(stageCheckBlob);
-  const isExplicitDryStage = /blowout|hairdryer|flat-iron|c-curve beveling|round-brush|curling wand|dry visual carving|dry freehand|dry sculpting|curl-by-curl dry|loose hair blast/i.test(stageCheckBlob);
-  const isExplicitWetCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim/i.test(hairCheckBlob);
-
-  const moistureDescriptions = {
-    dry: (isExplicitWetStage || isExplicitWetCut)
-      ? 'light transitional moisture where active misting/wet detailing appears before finishing with smooth airy dry movement'
-      : 'completely dry and styled with natural bounce, airy volume, smooth strand separation, and zero wetness',
-    damp: isExplicitDryStage
-      ? 'transitional damp-to-blowout hair smoothing smoothly under thermal brush tension into clean separated movement'
-      : 'damp hair with authentic spray-bottle water misting, fine glistening water droplets on hair fibers, realistic damp strand clumping held taut for haircutting',
-    wet: isExplicitDryStage
-      ? 'high-moisture freshly washed hair undergoing partial thermal shaping along the ends with glossy luster'
-      : 'fully saturated wet hair with glossy water sheen, hair clinging to the scalp and nape, heavy aquatic drape'
-  };
+  const wetHaircutNote = (salonHairMoisture === 'wet' && !isExplicitDryStage)
+    ? ' (rendered right now thoroughly water-soaked: hair hangs heavy, dark, and clumped with water droplets rather than dry airy fluff)'
+    : '';
+  const haircutDisplay = `${haircutText}${wetHaircutNote}`;
+  const moistureEnforceDirective = (salonHairMoisture === 'wet' && !isExplicitDryStage)
+    ? 'MANDATORY SOAKED / WET-LOOK PHYSICS: Hair fibers are thoroughly drenched from root to tip; strands clump tightly into glossy dark wet ribbons; roots press flat and heavy against crown and nape; gleaming water droplets bead along temples, neck, and collarbones; zero dry puffy volume or loose flyaways.'
+    : (salonHairMoisture === 'damp' && !isExplicitDryStage)
+      ? 'MANDATORY DAMP / SPRAY-MISTED PHYSICS: Even spray-bottle misting across mid-lengths and ends; fine translucent water droplets catching salon light; clean comb-held damp strand clumping.'
+      : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
+        ? 'MANDATORY BONE-DRY / BLOWN-OUT PHYSICS: Zero water moisture and zero wet clumping; weightless dry strand movement, airy crown lift, natural bounce, and soft feathery ends.'
+        : '';
 
   if(isFemaleModelBarber){
     lines.push('GROOMING SERVICE & MODEL STYLING');
     lines.push(`Grooming service on male client: authentic gentlemen's grooming and hair care—${stageText}. The seated male client has a classic clean gentlemen's taper haircut with natural hair texture.`);
-    const modelPersonalBase = `Her hair is freshly cut and styled into ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain her authentic natural Indian hair strand density and shine sculpted cleanly into this exact haircut silhouette.`;
+    const modelPersonalBase = `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain her authentic natural Indian hair strand density and shine sculpted cleanly into this exact haircut silhouette.`;
     lines.push(`Female model's personal hair: ${modelPersonalBase}${salonFaceCovVal ? ' Face-behind-hair veil on female model: ' + salonFaceCovVal + '.' : ''}`);
+    if(moistureEnforceDirective) lines.push(moistureEnforceDirective);
     if(salonFaceCovVal && !salonFaceCovLabel.startsWith('Auto')){
       let strictEnforce = '';
       if(isSalonZeroVeil){
@@ -4920,7 +4944,8 @@ function buildSalonPrompt(){
     }
   } else {
     lines.push('HAIRSTYLE BEING CUT');
-    lines.push(`Haircut: ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
+    lines.push(`Haircut: ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
+    if(moistureEnforceDirective) lines.push(moistureEnforceDirective);
     if(salonFaceCovVal && !salonFaceCovLabel.startsWith('Auto')){
       let strictEnforce = '';
       if(isSalonZeroVeil){
@@ -4953,12 +4978,19 @@ function buildSalonPrompt(){
   lines.push('');
 
   const capeText = sanitizeCapeText(sanitizeStool(S(val('salonCape'))), isFemaleModelBarber);
+  const capeMoistureNote = (salonHairMoisture === 'wet' && !isExplicitDryStage)
+    ? ' The waterproof cape surface shows glistening specular water droplets, faint dark wet patches around the collar strip, and heavy wet cut strands clinging lightly to cape folds.'
+    : (salonHairMoisture === 'damp' && !isExplicitDryStage)
+      ? ' Subtle water mist speckles and freshly snipped damp clippings rest lightly across the upper shoulders of the cape.'
+      : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
+        ? ' The bone-dry matte cape surface is dotted cleanly with loose feathery dry hair dust brushed lightly downward.'
+        : ' Freshly snipped hair clippings rest naturally across the upper shoulders of the cape.';
 
   lines.push('CUTTING CAPE & SALON DETAILS');
   if(isFemaleModelBarber){
-    lines.push(`Draped cape on male client: ${capeText} draped securely around the seated male client's neck and shoulders over a sanitary collar strip, catching foam and clippings as our female model grooms him.`);
+    lines.push(`Draped cape on male client: ${capeText} draped securely around the seated male client's neck and shoulders over a sanitary collar strip, catching foam and clippings as our female model grooms him.${capeMoistureNote}`);
   } else {
-    lines.push(`Draped cape: ${capeText}.`);
+    lines.push(`Draped cape: ${capeText}.${capeMoistureNote}`);
   }
   lines.push('');
 
@@ -5138,6 +5170,15 @@ function buildSalonPrompt(){
     } else {
       lines.push(`When haircutting action is depicted, the male barber (${stylistLabel}) performs ${stageText} on ${haircutText} using authentic professional Japanese stainless steel cutting shears (thumb and ring finger in rings, pinky on tang) and a black carbon comb, cutting hair held taut between index and middle fingers. The barber's arms and body must be fully connected to his hands with zero floating limbs.`);
     }
+    if(!isSoloClient){
+      if(salonHairMoisture === 'wet' && !isExplicitDryStage){
+        lines.push('Water droplets bead on the steel blades and comb teeth as heavy soaked hair ribbons cling cleanly between the fingers during cutting tension.');
+      } else if(salonHairMoisture === 'damp' && !isExplicitDryStage){
+        lines.push('Fine spray-misted droplets catch light on the metal comb and scissor blades while damp strands hold clean cutting tension.');
+      } else if(salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut){
+        lines.push('Crisp dry strand tension releases loose dry feathery tips cleanly off the steel blades with zero clumping or moisture residue.');
+      }
+    }
     lines.push('');
   }
 
@@ -5169,7 +5210,13 @@ function buildSalonPrompt(){
     salonChecks.push('• Consistent Skin Tone: Authentic skin undertones consistent with the reference image under the venue ambient lighting.');
   }
   if(checkState.hairStrands) {
-    salonChecks.push('• Fine Hair Strand Physics: Distinct individual hair strands, natural parting line, delicate micro-flyaways at the temples and hairline, organic volume.');
+    if(salonHairMoisture === 'wet' && !isExplicitDryStage) {
+      salonChecks.push('• Soaked Hair Strand Physics: Heavy saturated wet strand separation, glossy water-clumped hair ribbons clinging smoothly around temples and hairline, and zero fluffy flyaways.');
+    } else if(salonHairMoisture === 'damp' && !isExplicitDryStage) {
+      salonChecks.push('• Damp Hair Strand Physics: Cleanly aligned damp hair strands held taut, subtle translucent moisture luster along temples and parting line, controlled natural density.');
+    } else {
+      salonChecks.push('• Fine Hair Strand Physics: Distinct individual hair strands, natural parting line, delicate micro-flyaways at the temples and hairline, airy organic volume.');
+    }
   }
   if(checkState.hairTexturePreserve || preserveHairTexture) {
     if(isFemaleModelBarber){
@@ -5212,7 +5259,12 @@ function buildSalonPrompt(){
 
   if(checkState.lightingReal) {
     const bulbSource = checkState.noMirror ? 'overhead studio troffers and vanity bulb strips' : 'overhead studio troffers and vanity mirror bulb strips';
-    salonChecks.push(`• Believable Salon Lighting Physics: Coherent illumination from ${bulbSource}, realistic specular highlights on wet hair strands and scissor blades, soft authentic shadow falloff under chin and cape.`);
+    const hairLightSpec = (salonHairMoisture === 'wet' && !isExplicitDryStage)
+      ? 'crisp liquid specular highlights on drenched hair ribbons and wet skin'
+      : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
+        ? 'soft diffused luster across dry blown-out hair strands and brushed chrome scissor blades'
+        : 'realistic specular highlights on damp hair strands and scissor blades';
+    salonChecks.push(`• Believable Salon Lighting Physics: Coherent illumination from ${bulbSource}, ${hairLightSpec}, soft authentic shadow falloff under chin and cape.`);
   }
   if(checkState.livedIn) {
     if(isFemaleModelBarber){
@@ -5254,8 +5306,12 @@ function buildSalonPrompt(){
     } else {
       salonChecks.push('• Dry Hair Physics: Lightweight individual hair strand movement, airy crown volume, soft natural flyaways, and zero moisture clumping.');
     }
+  } else if(salonHairMoisture === 'wet' && !isExplicitDryStage) {
+    salonChecks.push('• Soaked Wet-Look Aquatic Physics: Thoroughly water-drenched hair hanging heavy and dark with liquid specular sheen, soaked slicked roots against scalp, and glistening water droplets trailing onto skin and cape.');
+  } else if(salonHairMoisture === 'wet' && isExplicitDryStage) {
+    salonChecks.push('• High-Moisture Wash-to-Style Physics: Freshly washed soaked hair sections transitioning under localized thermal shaping along the ends with glossy luster.');
   } else {
-    salonChecks.push("• Water Spray & Wet Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between fingers, and authentic non-plastic water sheen.");
+    salonChecks.push("• Water Spray & Damp Physics: Fine glistening water droplets clinging to hair fibers, believable damp strand tension between fingers, and authentic non-plastic misted sheen.");
   }
 
   lines.push('REALISM, IDENTITY & PHYSICAL SAFEGUARDS');
@@ -5325,10 +5381,14 @@ function buildSalonPrompt(){
     if(hasWashOrSprayPanel || isExplicitWetStage || isExplicitWetCut) {
       salonNegatives.push('greasy hair, artificial oily sheen, completely soaked waterlogged blowout');
     } else {
-      salonNegatives.push('wet hair, damp hair, dripping hair, greasy hair, oily sheen, clumping strands');
+      salonNegatives.push('wet hair, damp hair, dripping hair, soaked clumps, slicked-down wet scalp, water sheen, oily sheen');
     }
   } else if(!isExplicitDryStage) {
-    salonNegatives.push('completely dry fluffy hair, static flyaways, dry blown-out volume, frizzy dryness');
+    if(salonHairMoisture === 'wet') {
+      salonNegatives.push('dry hair, blown-out volume, airy fluffy ends, static flyaways, dry puffy crown, dry un-clumped strands, merely lightly misted dry-looking hair, cottony dryness');
+    } else {
+      salonNegatives.push('completely dry fluffy hair, static flyaways, dry blown-out volume, frizzy dryness');
+    }
   }
   if(checkState.waterReal) salonNegatives.push('artificial plastic gloss, greasy shine, floating water blobs');
   if(checkState.noText) salonNegatives.push('text overlays, salon logos, graphic watermarks, typography');
