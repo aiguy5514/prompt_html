@@ -4657,6 +4657,28 @@ function buildSalonPrompt(){
   const hideEyes = isFaceHidden || isSalonHeavyVeil;
   const stoolPostVal = sanitizeHiddenFaceText(stoolPostRaw, hideEyes);
 
+  const salonHairLower = (values.salonHaircut?.label || '').toLowerCase();
+  const isSalonPony = salonHairLower.includes('pony') || salonHairLower.includes('ponytail') || isPonySelected();
+  const isSalonSweep = salonHairLower.includes('side-swept') || salonHairLower.includes('swept to one side') || salonHairLower.includes('side sweep') || isSideSweepSelected();
+
+  let haircutText = S(val('salonHaircut'));
+  const hairTextureText = S(val('salonHairTexture'));
+
+  if(isSalonPony){
+    const pDetails = [];
+    if(val('ponyBaseHeight')) pDetails.push(`anchored at ${val('ponyBaseHeight')}`);
+    if(val('ponyBaseWrap')) pDetails.push(`base ${val('ponyBaseWrap')}`);
+    if(val('ponyTailFall')) pDetails.push(`tail falling ${val('ponyTailFall')}`);
+    if(val('ponyTailEnd')) pDetails.push(`tail ends ${val('ponyTailEnd')}`);
+    if(pDetails.length) haircutText += ` (${pDetails.join(', ')})`;
+  } else if(isSalonSweep){
+    const sDetails = [];
+    if(val('sideSweepSide')) sDetails.push(val('sideSweepSide'));
+    if(val('sideSweepFlip')) sDetails.push(val('sideSweepFlip'));
+    if(val('sideSweepEnd')) sDetails.push(val('sideSweepEnd'));
+    if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
+  }
+
   // Header / Subject preservation
   if(isFemaleModelBarber){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT' : 'REFERENCE-GUIDED PORTRAIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT');
@@ -4668,6 +4690,7 @@ function buildSalonPrompt(){
   lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
   if(isFemaleModelBarber){
     lines.push('• Strictly preserve the adult woman from the reference image as the skilled female barber / practitioner actively attending to her seated male client.');
+    lines.push(`• Signature Haircut & Styling: Transform our female model's hair into her chosen signature haircut—${haircutText} (${values.salonHaircut?.label || 'selected cut'})—preserving authentic natural Indian hair strand density and texture sculpted into this exact silhouette.`);
     if(isFaceHidden){
       lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
     } else if(isSalonFullVeil){
@@ -4675,7 +4698,6 @@ function buildSalonPrompt(){
     } else {
       lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores as she focuses with artisan concentration on grooming her client.');
     }
-    lines.push('• Maintain her authentic natural Indian hair strand density and texture, styled professionally as a salon practitioner.');
   } else if(isStool){
     lines.push(`• Strictly preserve the adult woman from the reference image as the client seated on the ${stoolTypeVal}.`);
     if(isFaceHidden){
@@ -4771,10 +4793,6 @@ function buildSalonPrompt(){
   lines.push(venueLine);
   lines.push('');
 
-  const salonHairLower = (values.salonHaircut?.label || '').toLowerCase();
-  const isSalonPony = salonHairLower.includes('pony') || salonHairLower.includes('ponytail') || isPonySelected();
-  const isSalonSweep = salonHairLower.includes('side-swept') || salonHairLower.includes('swept to one side') || salonHairLower.includes('side sweep') || isSideSweepSelected();
-
   let rawStageText = S(val('salonStage'));
   if(!isSalonPony){
     rawStageText = rawStageText
@@ -4853,24 +4871,6 @@ function buildSalonPrompt(){
     lines.push('');
   }
 
-  let haircutText = S(val('salonHaircut'));
-  const hairTextureText = S(val('salonHairTexture'));
-
-  if(isSalonPony){
-    const pDetails = [];
-    if(val('ponyBaseHeight')) pDetails.push(`anchored at ${val('ponyBaseHeight')}`);
-    if(val('ponyBaseWrap')) pDetails.push(`base ${val('ponyBaseWrap')}`);
-    if(val('ponyTailFall')) pDetails.push(`tail falling ${val('ponyTailFall')}`);
-    if(val('ponyTailEnd')) pDetails.push(`tail ends ${val('ponyTailEnd')}`);
-    if(pDetails.length) haircutText += ` (${pDetails.join(', ')})`;
-  } else if(isSalonSweep){
-    const sDetails = [];
-    if(val('sideSweepSide')) sDetails.push(val('sideSweepSide'));
-    if(val('sideSweepFlip')) sDetails.push(val('sideSweepFlip'));
-    if(val('sideSweepEnd')) sDetails.push(val('sideSweepEnd'));
-    if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
-  }
-
   // Moisture vs Stage / Haircut compatibility awareness
   const stageCheckBlob = (stageLabelVal + ' ' + stageText + ' ' + (isStool ? stoolActVal : '')).toLowerCase();
   const hairCheckBlob = (salonHairLower + ' ' + haircutText).toLowerCase();
@@ -4892,8 +4892,8 @@ function buildSalonPrompt(){
 
   if(isFemaleModelBarber){
     lines.push('GROOMING SERVICE & MODEL STYLING');
-    lines.push(`Service on male client: grooming and hair work on male client: ${haircutText}. Hair texture of male client: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
-    const modelPersonalBase = `Authentic natural Indian hair, neatly styled (${values.salonHaircut?.label || 'natural blowout'}), maintaining authentic hair strand density and shine while kept clear of her hands as she grooms her client.`;
+    lines.push(`Grooming service on male client: authentic gentlemen's grooming and hair care—${stageText}. The seated male client has a classic clean gentlemen's taper haircut with natural hair texture.`);
+    const modelPersonalBase = `Her hair is freshly cut and styled into ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain her authentic natural Indian hair strand density and shine sculpted cleanly into this exact haircut silhouette.`;
     lines.push(`Female model's personal hair: ${modelPersonalBase}${salonFaceCovVal ? ' Face-behind-hair veil on female model: ' + salonFaceCovVal + '.' : ''}`);
     if(salonFaceCovVal && !salonFaceCovLabel.startsWith('Auto')){
       let strictEnforce = '';
@@ -4920,7 +4920,7 @@ function buildSalonPrompt(){
       lines.push(`• Selected Tier: ${salonFaceCovLabel}`);
       lines.push(`• Drape & Coverage: ${salonFaceCovVal}`);
       lines.push(`• Strict Enforcement: ${strictEnforce}`);
-      lines.push('• Silhouette Integrity: Maintain the female model\'s professional hairstyle while sculpting this exact facial hair coverage over her face.');
+      lines.push(`• Silhouette Integrity: Maintain the female model's signature haircut (${values.salonHaircut?.label || 'selected cut'}) silhouette intact while sculpting this exact facial hair coverage over her face.`);
     }
   } else {
     lines.push('HAIRSTYLE BEING CUT');
@@ -5156,6 +5156,7 @@ function buildSalonPrompt(){
   if(checkState.body) {
     if(isFemaleModelBarber){
       salonChecks.push('• Female Model Artisan Posture: Believable standing or leaning posture of the female model as she works around the chair, authentic spinal ergonomics, and focused concentration.');
+      salonChecks.push(`• Female Barber Haircut Execution: Explicitly render the female model with her selected signature haircut (${values.salonHaircut?.label || 'selected cut'} — ${haircutText}), ensuring her haircut silhouette, length, and layered movement are unmistakably distinct.`);
     } else if(isStool){
       salonChecks.push('• Realistic Seated Stool Posture & Anatomy: Believable seated posture on a low backless stool, natural spinal drape, relaxed shoulders, and convincing physical contact and proximity between the male barber standing directly behind her and the female client.');
     } else {
