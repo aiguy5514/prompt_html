@@ -4644,10 +4644,17 @@ function buildSalonPrompt(){
   const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|zero facial exposure|looking away into shop|face turned away/i.test(salonCamStr + ' ' + salonPoseStageStr);
   const salonFaceCovVal = val('salonFaceHairCoverage') || '';
   const salonFaceCovLabel = values['salonFaceHairCoverage']?.label || '';
-  const isSalonFullVeil = /95–100%|95-100%/i.test(salonFaceCovLabel);
-  const isSalonHeavyVeil = /80–85%|80-85%|95–100%|95-100%/i.test(salonFaceCovLabel);
-  const isSalonZeroVeil = salonFaceCovLabel.startsWith('0% Behind Hair');
-  const hideEyes = isFaceHidden || isSalonFullVeil;
+  const isSalonZeroVeil = salonFaceCovLabel.startsWith('0% Behind Hair') || salonFaceCovLabel.startsWith('0%');
+  const isSalon10_15 = /10–15%|10-15%/i.test(salonFaceCovLabel);
+  const isSalon25_30 = /25–30%|25-30%/i.test(salonFaceCovLabel);
+  const isSalon40_45 = /40–45%|40-45%/i.test(salonFaceCovLabel);
+  const isSalon50 = /50%/i.test(salonFaceCovLabel);
+  const isSalon65_70 = /65–70%|65-70%/i.test(salonFaceCovLabel);
+  const isSalon80_85 = /80–85%|80-85%/i.test(salonFaceCovLabel);
+  const isSalon95_100 = /95–100%|95-100%/i.test(salonFaceCovLabel);
+  const isSalonFullVeil = isSalon95_100;
+  const isSalonHeavyVeil = isSalon80_85 || isSalon95_100;
+  const hideEyes = isFaceHidden || isSalonHeavyVeil;
   const stoolPostVal = sanitizeHiddenFaceText(stoolPostRaw, hideEyes);
 
   // Header / Subject preservation
@@ -4888,11 +4895,63 @@ function buildSalonPrompt(){
     lines.push(`Service on male client: grooming and hair work on male client: ${haircutText}. Hair texture of male client: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
     const modelPersonalBase = `Authentic natural Indian hair, neatly styled (${values.salonHaircut?.label || 'natural blowout'}), maintaining authentic hair strand density and shine while kept clear of her hands as she grooms her client.`;
     lines.push(`Female model's personal hair: ${modelPersonalBase}${salonFaceCovVal ? ' Face-behind-hair veil on female model: ' + salonFaceCovVal + '.' : ''}`);
+    if(salonFaceCovVal && !salonFaceCovLabel.startsWith('Auto')){
+      let strictEnforce = '';
+      if(isSalonZeroVeil){
+        strictEnforce = 'MANDATORY ZERO-VEIL ENFORCEMENT: 100% unobstructed full facial visibility. Every front strand is swept back, tucked cleanly behind ears, or styled completely away from forehead, eyes, cheeks, and jawline. ZERO hair strands crossing or touching the face.';
+      } else if(isSalon95_100){
+        strictEnforce = 'MANDATORY FULL-VEIL ENFORCEMENT: A dense descending frontal veil of thick bangs and elongated front hair strands MUST hang cleanly over forehead, eyes, nose, cheeks, and mouth. All front facial features and eyes are completely hidden from the lens. The AI MUST NOT clear or part hair to reveal facial features.';
+      } else if(isSalon80_85){
+        strictEnforce = 'MANDATORY HAIR SHIELD ENFORCEMENT: Dense cascading front hair layers MUST cover the entire forehead, both eyes, upper cheeks, and nose bridge entirely. The AI MUST NOT render visible eyes or open forehead; only lower lips and chin peek out below the hair curtain.';
+      } else if(isSalon65_70){
+        strictEnforce = 'MANDATORY DEEP PEEK-A-BOO ENFORCEMENT: Heavy forward-draping hair curtain MUST obscure roughly two-thirds (~65–70%) of the face across forehead, cheeks, and outer eyes. Both eyes must NOT be seen clearly together; at most a narrow sliver of one eye peeks through natural strand gaps.';
+      } else if(isSalon50){
+        strictEnforce = 'MANDATORY HALF-FACE ENFORCEMENT: An unmistakable vertical half-curtain of hair falling straight down across one full side of the face (one eye, one eyebrow, one cheek, and jawline completely hidden behind hair). The AI MUST NOT render both eyes fully exposed; exactly one eye is veiled while the opposite side is clear.';
+      } else if(isSalon40_45){
+        strictEnforce = 'MANDATORY ONE-EYE VEIL ENFORCEMENT: Front hair layers and sweeping fringe MUST drape prominently across ~40–45% of the face, veiling one eye, temple, and upper cheek. The AI MUST NOT tuck or clear hair away from this covered eye.';
+      } else if(isSalon25_30){
+        strictEnforce = 'MANDATORY ASYMMETRIC VEIL ENFORCEMENT: Angled curtain bangs and front locks sweep across one side of the forehead, veiling one eyebrow and partially crossing over the outer eye corner (~25–30% coverage).';
+      } else if(isSalon10_15){
+        strictEnforce = 'MANDATORY TEMPLE WISPS ENFORCEMENT: Only whisper-light gossamer wisps at outer temple edges (~10–15% coverage), leaving eyes, brows, nose bridge, and cheeks clearly open.';
+      }
+
+      lines.push('');
+      lines.push('HAIR VEIL DIRECTIVE ON FEMALE MODEL / BARBER (MANDATORY — STRICT FACIAL COVERAGE ENFORCEMENT):');
+      lines.push(`• Selected Tier: ${salonFaceCovLabel}`);
+      lines.push(`• Drape & Coverage: ${salonFaceCovVal}`);
+      lines.push(`• Strict Enforcement: ${strictEnforce}`);
+      lines.push('• Silhouette Integrity: Maintain the female model\'s professional hairstyle while sculpting this exact facial hair coverage over her face.');
+    }
   } else {
     lines.push('HAIRSTYLE BEING CUT');
     lines.push(`Haircut: ${haircutText}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
-    if(salonFaceCovVal){
+    if(salonFaceCovVal && !salonFaceCovLabel.startsWith('Auto')){
+      let strictEnforce = '';
+      if(isSalonZeroVeil){
+        strictEnforce = 'MANDATORY ZERO-VEIL ENFORCEMENT: 100% unobstructed full facial visibility. Every front strand is swept back, tucked cleanly behind ears, or styled completely away from forehead, eyes, cheeks, and jawline. ZERO hair strands crossing or touching the face.';
+      } else if(isSalon95_100){
+        strictEnforce = 'MANDATORY FULL-VEIL ENFORCEMENT: A dense descending frontal veil of thick bangs and elongated front hair strands MUST hang cleanly over forehead, eyes, nose, cheeks, and mouth. All front facial features and eyes are completely hidden from the lens. The AI MUST NOT clear or part hair to reveal facial features.';
+      } else if(isSalon80_85){
+        strictEnforce = 'MANDATORY HAIR SHIELD ENFORCEMENT: Dense cascading front hair layers MUST cover the entire forehead, both eyes, upper cheeks, and nose bridge entirely. The AI MUST NOT render visible eyes or open forehead; only lower lips and chin peek out below the hair curtain.';
+      } else if(isSalon65_70){
+        strictEnforce = 'MANDATORY DEEP PEEK-A-BOO ENFORCEMENT: Heavy forward-draping hair curtain MUST obscure roughly two-thirds (~65–70%) of the face across forehead, cheeks, and outer eyes. Both eyes must NOT be seen clearly together; at most a narrow sliver of one eye peeks through natural strand gaps.';
+      } else if(isSalon50){
+        strictEnforce = 'MANDATORY HALF-FACE ENFORCEMENT: An unmistakable vertical half-curtain of hair falling straight down across one full side of the face (one eye, one eyebrow, one cheek, and jawline completely hidden behind hair). The AI MUST NOT render both eyes fully exposed; exactly one eye is veiled while the opposite side is clear.';
+      } else if(isSalon40_45){
+        strictEnforce = 'MANDATORY ONE-EYE VEIL ENFORCEMENT: Front hair layers and sweeping fringe MUST drape prominently across ~40–45% of the face, veiling one eye, temple, and upper cheek. The AI MUST NOT tuck or clear hair away from this covered eye.';
+      } else if(isSalon25_30){
+        strictEnforce = 'MANDATORY ASYMMETRIC VEIL ENFORCEMENT: Angled curtain bangs and front locks sweep across one side of the forehead, veiling one eyebrow and partially crossing over the outer eye corner (~25–30% coverage).';
+      } else if(isSalon10_15){
+        strictEnforce = 'MANDATORY TEMPLE WISPS ENFORCEMENT: Only whisper-light gossamer wisps at outer temple edges (~10–15% coverage), leaving eyes, brows, nose bridge, and cheeks clearly open.';
+      }
+
       lines.push(`Face-behind-hair veil: ${salonFaceCovVal}. Keep the base haircut silhouette (${values.salonHaircut?.label || 'selected cut'}) intact while applying this exact percentage of facial hair coverage.`);
+      lines.push('');
+      lines.push('HAIR VEIL DIRECTIVE (MANDATORY — STRICT FACIAL COVERAGE ENFORCEMENT):');
+      lines.push(`• Selected Tier: ${salonFaceCovLabel}`);
+      lines.push(`• Drape & Coverage: ${salonFaceCovVal}`);
+      lines.push(`• Strict Enforcement: ${strictEnforce}`);
+      lines.push(`• Silhouette Integrity: Preserve the authentic volume, perimeter, and shape of the chosen haircut (${values.salonHaircut?.label || 'selected cut'}) while sculpting this exact facial hair coverage.`);
     }
   }
   lines.push('');
@@ -5239,9 +5298,21 @@ function buildSalonPrompt(){
     salonNegatives.push('visible face, front facial view, frontal eyes, open direct eye contact, revealing hidden face, artificial frontal facial features');
   }
   if(isSalonZeroVeil){
-    salonNegatives.push('hair strands covering eyes, hair falling across cheeks or obscuring forehead');
-  } else if(isSalonHeavyVeil && !isFemaleModelBarber){
-    salonNegatives.push('hair pulled behind ears exposing bare forehead, completely uncovered open forehead and unobstructed full face');
+    salonNegatives.push('hair strands covering eyes, hair falling across cheeks or obscuring forehead, messy bangs touching eyes, hair obstructing face');
+  } else if(isSalon95_100){
+    salonNegatives.push('hair pulled behind ears exposing bare forehead, completely uncovered open forehead and unobstructed full face, visible eyes, eye contact, visible facial features, visible forehead, visible cheeks, visible lips, hair pulled back or tucked behind ears, open face, uncovered face portrait');
+  } else if(isSalon80_85){
+    salonNegatives.push('visible eyes, direct eye contact, bare open forehead, hair tucked behind ears, hair parted to show face, uncovered eyes or nose bridge, full facial visibility');
+  } else if(isSalon65_70){
+    salonNegatives.push('both eyes clearly visible, open forehead, hair swept back from face, hair tied back or tucked behind ears, unobstructed facial features, clean full-face portrait');
+  } else if(isSalon50){
+    salonNegatives.push('both eyes visible simultaneously, symmetrical open face portrait, hair parted away from face on both sides, hair tucked behind ears exposing both eyes, bare unobstructed forehead');
+  } else if(isSalon40_45){
+    salonNegatives.push('both eyes fully uncovered simultaneously, bare unobstructed forehead, hair tucked behind ears on both sides, open face portrait with zero hair drape');
+  } else if(isSalon25_30){
+    salonNegatives.push('both eyes fully uncovered with zero framing strands, all hair swept back or tied away from face, heavy full-face obscuration');
+  } else if(isSalon10_15){
+    salonNegatives.push('hair pulled strictly behind ears with zero temple strands, heavy hair curtain blocking face, obscured eyes, heavy bangs covering forehead');
   }
   if(checkState.noMirror) salonNegatives.push('mirrors, mirror reflections, duplicated faces, reflective glass distortion');
   if(checkState.retouch) salonNegatives.push('airbrushed skin, waxy skin, heavy beauty filters, CGI plastic sheen');
@@ -5304,10 +5375,17 @@ const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face
                      /face.*hidden|hid\w*.*face|face.*not visible/i.test(gazeStr);
 const psFaceCovVal = val('hairFaceCoverage') || '';
 const psFaceCovLabel = values['hairFaceCoverage']?.label || '';
-const isFullVeil = /95–100%|95-100%/i.test(psFaceCovLabel);
-const isHeavyVeil = /80–85%|80-85%|95–100%|95-100%/i.test(psFaceCovLabel);
-const isZeroVeil = psFaceCovLabel.startsWith('0% Behind Hair');
-const hideEyes = isFaceHidden || isFullVeil;
+const isZeroVeil = psFaceCovLabel.startsWith('0% Behind Hair') || psFaceCovLabel.startsWith('0%');
+const isPs10_15 = /10–15%|10-15%/i.test(psFaceCovLabel);
+const isPs25_30 = /25–30%|25-30%/i.test(psFaceCovLabel);
+const isPs40_45 = /40–45%|40-45%/i.test(psFaceCovLabel);
+const isPs50 = /50%/i.test(psFaceCovLabel);
+const isPs65_70 = /65–70%|65-70%/i.test(psFaceCovLabel);
+const isPs80_85 = /80–85%|80-85%/i.test(psFaceCovLabel);
+const isPs95_100 = /95–100%|95-100%/i.test(psFaceCovLabel);
+const isFullVeil = isPs95_100;
+const isHeavyVeil = isPs80_85 || isPs95_100;
+const hideEyes = isFaceHidden || isHeavyVeil;
 
 const checks=[];
 if(checkState.identity){
@@ -5410,6 +5488,35 @@ if(styleRef && transferToggles && transferToggles.hair){
 } else {
   const psHairLine = `Hairstyle: ${S(getFullHairDescription())}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve base haircut silhouette intact).' : ''} Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${val('makeup')}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`;
   lines.push(psHairLine);
+
+  if(psFaceCovVal && !psFaceCovLabel.startsWith('Auto')){
+    let strictEnforce = '';
+    if(isZeroVeil){
+      strictEnforce = 'MANDATORY ZERO-VEIL ENFORCEMENT: 100% unobstructed full facial visibility. Every front strand is swept back, tucked cleanly behind ears, or styled completely away from forehead, eyes, cheeks, and jawline. ZERO hair strands crossing or touching the face.';
+    } else if(isPs95_100){
+      strictEnforce = 'MANDATORY FULL-VEIL ENFORCEMENT: A dense descending frontal veil of thick bangs and elongated front hair strands MUST hang cleanly over forehead, eyes, nose, cheeks, and mouth. All front facial features and eyes are completely hidden from the lens. The AI MUST NOT clear or part hair to reveal facial features.';
+    } else if(isPs80_85){
+      strictEnforce = 'MANDATORY HAIR SHIELD ENFORCEMENT: Dense cascading front hair layers MUST cover the entire forehead, both eyes, upper cheeks, and nose bridge entirely. The AI MUST NOT render visible eyes or open forehead; only lower lips and chin peek out below the hair curtain.';
+    } else if(isPs65_70){
+      strictEnforce = 'MANDATORY DEEP PEEK-A-BOO ENFORCEMENT: Heavy forward-draping hair curtain MUST obscure roughly two-thirds (~65–70%) of the face across forehead, cheeks, and outer eyes. Both eyes must NOT be seen clearly together; at most a narrow sliver of one eye peeks through natural strand gaps.';
+    } else if(isPs50){
+      strictEnforce = 'MANDATORY HALF-FACE ENFORCEMENT: An unmistakable vertical half-curtain of hair falling straight down across one full side of the face (one eye, one eyebrow, one cheek, and jawline completely hidden behind hair). The AI MUST NOT render both eyes fully exposed; exactly one eye is veiled while the opposite side is clear.';
+    } else if(isPs40_45){
+      strictEnforce = 'MANDATORY ONE-EYE VEIL ENFORCEMENT: Front hair layers and sweeping fringe MUST drape prominently across ~40–45% of the face, veiling one eye, temple, and upper cheek. The AI MUST NOT tuck or clear hair away from this covered eye.';
+    } else if(isPs25_30){
+      strictEnforce = 'MANDATORY ASYMMETRIC VEIL ENFORCEMENT: Angled curtain bangs and front locks sweep across one side of the forehead, veiling one eyebrow and partially crossing over the outer eye corner (~25–30% coverage).';
+    } else if(isPs10_15){
+      strictEnforce = 'MANDATORY TEMPLE WISPS ENFORCEMENT: Only whisper-light gossamer wisps at outer temple edges (~10–15% coverage), leaving eyes, brows, nose bridge, and cheeks clearly open.';
+    }
+
+    lines.push('');
+    lines.push('HAIR VEIL DIRECTIVE (MANDATORY — STRICT FACIAL COVERAGE ENFORCEMENT):');
+    lines.push(`• Selected Tier: ${psFaceCovLabel}`);
+    lines.push(`• Drape & Coverage: ${psFaceCovVal}`);
+    lines.push(`• Strict Enforcement: ${strictEnforce}`);
+    lines.push(`• Silhouette Integrity: Preserve the authentic volume, perimeter, and shape of the chosen haircut (${values.hair?.label || 'selected style'}) while sculpting this exact facial hair coverage.`);
+    lines.push('');
+  }
 }
 lines.push('');
 lines.push('WARDROBE AND STYLING');
@@ -5531,10 +5638,21 @@ if(isFaceHidden){
   negatives.push('visible face, front facial view, frontal eyes, open direct eye contact, revealing hidden face, artificial frontal facial features');
 }
 if(isZeroVeil){
-  negatives.push('hair strands covering eyes, hair falling across cheeks or obscuring forehead');
-} else if(isHeavyVeil){
-  negatives = negatives.filter(n => !n.includes('hair covering eyes'));
-  negatives.push('hair pulled behind ears exposing bare forehead, completely uncovered open forehead and unobstructed full face');
+  negatives.push('hair strands covering eyes, hair falling across cheeks or obscuring forehead, messy bangs touching eyes, hair obstructing face');
+} else if(isPs95_100){
+  negatives.push('hair pulled behind ears exposing bare forehead, completely uncovered open forehead and unobstructed full face, visible eyes, eye contact, visible facial features, visible forehead, visible cheeks, visible lips, hair pulled back or tucked behind ears, open face, uncovered face portrait');
+} else if(isPs80_85){
+  negatives.push('visible eyes, direct eye contact, bare open forehead, hair tucked behind ears, hair parted to show face, uncovered eyes or nose bridge, full facial visibility');
+} else if(isPs65_70){
+  negatives.push('both eyes clearly visible, open forehead, hair swept back from face, hair tied back or tucked behind ears, unobstructed facial features, clean full-face portrait');
+} else if(isPs50){
+  negatives.push('both eyes visible simultaneously, symmetrical open face portrait, hair parted away from face on both sides, hair tucked behind ears exposing both eyes, bare unobstructed forehead');
+} else if(isPs40_45){
+  negatives.push('both eyes fully uncovered simultaneously, bare unobstructed forehead, hair tucked behind ears on both sides, open face portrait with zero hair drape');
+} else if(isPs25_30){
+  negatives.push('both eyes fully uncovered with zero framing strands, all hair swept back or tied away from face, heavy full-face obscuration');
+} else if(isPs10_15){
+  negatives.push('hair pulled strictly behind ears with zero temple strands, heavy hair curtain blocking face, obscured eyes, heavy bangs covering forehead');
 }
 if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered hair texture, artificial curls, synthetic perm, heat-damaged hair texture, unnatural straightener sheen or mismatched ethnic hair texture');
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
@@ -5592,6 +5710,7 @@ const summaryIds = hasMalePresence
   ? ['hair', 'hairFaceCoverage', 'outfit', 'malePresence', 'maleInteraction', 'background', 'placeDetail']
   : ['hair', 'hairFaceCoverage', 'outfit', 'pose', 'expression', 'background', 'placeDetail'];
 el('summary').innerHTML=summaryIds.filter(id=>fields[id]&&values[id]).map(id=>`<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`).join('');
+return text;
 }
 
 
