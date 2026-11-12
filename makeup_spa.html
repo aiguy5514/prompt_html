@@ -1,0 +1,1761 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Afterglow / Makeup Chair &amp; Facial Spa Studio</title>
+<link rel="stylesheet" href="css/shared.css">
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div>
+<nav class="suite-nav" aria-label="Studio Switcher">
+  <a href="index.html" class="suite-nav-link" title="Afterglow Hub">✦ Hub</a>
+  <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
+  <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon &amp; Barbershop</a>
+  <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
+  <a href="makeup_spa.html" class="suite-nav-link active"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa <span class="nav-badge">NEW</span></a>
+</nav>
+<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">Loading choices…</span><span class="pill">Offline · No uploads</span></div></header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow" id="heroEyebrow">Backstage Vanity, Glass-Skin Prep &amp; Holistic Facial Spa</div>
+    <h1 id="heroTitle">Makeup Chair &amp; <span>Facial Spa</span><br>Prep Studio</h1>
+    <p id="heroDescription">Direct candid vanity-bulb makeup sessions, cryo gua sha &amp; hydrosol misting, 24k under-eye prep, satin robes &amp; strapless spa wraps, duckbill section clips, and steamy spa table rituals with strict solitary female model identity continuity.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="randomTop" type="button">✦ Surprise me</button>
+      <button class="btn btn-secondary" id="copyTop" type="button">▣ Copy current prompt</button>
+      <button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button>
+      <button class="btn btn-quiet" id="resetTop" type="button">↺ Start over</button>
+    </div>
+  </div>
+  <aside class="hero-note">
+    <div class="sparkle">✧ ✦ ✧</div>
+    <div>
+      <strong>Tactile skin &amp; backstage truth.</strong>
+      <p>Capture visible micro-pores, serum dewdrops, gentle brush bristles, and unretouched prep elegance without waxy beauty filters.</p>
+      <div class="tags">
+        <span class="tag">Vanity &amp; Spa Suites</span>
+        <span class="tag">Gua Sha &amp; Liner Prep</span>
+        <span class="tag">Moisture &amp; Veil Locks</span>
+        <span class="tag">2×2 Prep Collages</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<div class="layout">
+<main class="builder">
+<section class="preset-strip">
+  <div class="strip-head">
+    <div>
+      <h2>Start with a prep direction</h2>
+      <p>Curated starting points spanning backstage vanity chairs, golden-hour hydrosol misting, cryo spa tables, and velvet lip prep. Customize any choice afterward without losing your direction.</p>
+    </div>
+    <div class="strip-actions">
+      <button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button>
+      <button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button>
+      <button class="btn btn-secondary btn-small" id="exportPresetsBtn" type="button" title="Export custom looks to JSON">⬇ Export</button>
+      <button class="btn btn-secondary btn-small" id="importPresetsBtn" type="button" title="Import custom looks from JSON">⬆ Import</button>
+      <input type="file" id="importPresetsInput" accept=".json,application/json" hidden>
+    </div>
+  </div>
+  <div class="preset-grid" id="presets"></div>
+</section>
+
+<nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
+
+<section class="step-card" id="stepCard">
+  <div class="step-head">
+    <div>
+      <div class="eyebrow" id="stepEyebrow">Creative direction · 01</div>
+      <h2 id="stepTitle">Vanity &amp; Spa Suite</h2>
+      <p id="stepDescription">Choose the dressing room, sunlit bathroom vanity, or tranquil spa suite.</p>
+    </div>
+    <div class="step-icon" id="stepIcon">🪞</div>
+  </div>
+  <div class="field-grid" id="fields"></div>
+  <div id="fineTuneArea"></div>
+  <div id="specialContent"></div>
+  <div class="step-foot">
+    <span class="step-count" id="stepCount">Step 1 of 6</span>
+    <div class="step-buttons">
+      <button class="btn btn-secondary" id="prevStep" type="button">← Previous</button>
+      <button class="btn btn-primary" id="nextStep" type="button">Next step →</button>
+    </div>
+  </div>
+</section>
+
+<section class="advanced-bar">
+  <div>
+    <strong>Want a specific product, shade, or exclusion?</strong>
+    <small>Add custom notes, brush/product details, or negative rules in the Finish &amp; controls step.</small>
+  </div>
+  <button class="btn btn-secondary btn-small" id="finishJump" type="button">Open finish controls ↗</button>
+</section>
+</main>
+
+<aside class="preview">
+  <div class="sheet-handle hidden-desktop" id="sheetHandle"></div>
+  <div class="preview-head">
+    <div class="preview-top">
+      <div class="eyebrow">Live output</div>
+      <div class="preview-top-actions">
+        <button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button>
+        <button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button>
+        <span class="live">Updating</span>
+        <button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button>
+      </div>
+    </div>
+    <h2>Your prompt, assembled</h2>
+    <p>Change any choice. The prompt is rebuilt in real time.</p>
+    <div class="summary" id="summary"></div>
+  </div>
+  <div class="preview-body">
+    <div class="preview-toolbar">
+      <div class="toolbar-row">
+        <div class="seg-control" id="modeSegControl">
+          <button type="button" class="seg-btn active" id="btnSingleMode">Single shot</button>
+          <button type="button" class="seg-btn" id="btnLookbookMode">✦ 2×2 Prep Collage</button>
+        </div>
+        <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+      </div>
+      <div class="ratio-row">
+        <span class="ratio-label">Ratio:</span>
+        <div class="ratio-chips" id="ratioChips">
+          <button type="button" class="ratio-chip" data-ratio="9:16">9:16</button>
+          <button type="button" class="ratio-chip" data-ratio="4:5">4:5</button>
+          <button type="button" class="ratio-chip" data-ratio="3:4">3:4</button>
+          <button type="button" class="ratio-chip" data-ratio="1:1">1:1</button>
+          <button type="button" class="ratio-chip" data-ratio="3:2">3:2</button>
+        </div>
+      </div>
+    </div>
+    <div class="prompt-meta">
+      <span id="wordCount">Prompt ready</span>
+      <button class="btn btn-quiet btn-small" id="selectPrompt" type="button">Select all text</button>
+    </div>
+    <textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated prompt"></textarea>
+    <div class="preview-buttons">
+      <button class="btn btn-primary" id="copy" type="button">▣ Copy prompt</button>
+      <button class="btn btn-secondary" id="download" type="button">↓ Download .txt</button>
+      <button class="btn btn-secondary" id="copyPositive" type="button">Copy positive only</button>
+      <button class="btn btn-secondary" id="copyNegative" type="button">Copy exclusions only</button>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <div class="preview-help"><strong>Use it:</strong> attach your reference photo in your image editor, copy this prompt, and paste it into the editor. Runs 100% locally in your browser with zero uploads.</div>
+</aside>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-bar" id="mobileBar">
+  <div class="mobile-bar-info">
+    <span class="mobile-stat" id="mobileWordCount">Prompt ready</span>
+    <span class="mobile-sub" id="mobileSummaryMini">Makeup &amp; Spa</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="btn btn-secondary btn-small" id="openDrawerBtn" type="button">Preview prompt ↗</button>
+    <button class="btn btn-primary btn-small" id="mobileCopyBtn" type="button">▣ Copy</button>
+  </div>
+</div>
+<button class="btn btn-primary fab" id="fab" type="button">▣ Copy prompt</button>
+
+<div class="history-modal" id="historyModal">
+  <div class="history-head">
+    <div>
+      <h3>Prompt History</h3>
+      <p>Recent Makeup &amp; Spa prompts from this session.</p>
+    </div>
+    <div class="history-head-actions">
+      <button class="btn-quiet btn-small" id="clearHistoryBtn" type="button">Clear</button>
+      <button class="btn-quiet btn-small" id="closeHistoryBtn" type="button">✕ Close</button>
+    </div>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+<div class="modal-backdrop" id="historyBackdrop"></div>
+<p class="fineprint">AFTERGLOW STUDIO · Made for reference-based image editing · Your choices are saved only in this browser</p>
+</div>
+
+<script src="js/shared-veil.js"></script>
+<script src="js/shared-datasets.js"></script>
+<script>
+(function(){
+'use strict';
+
+const {
+  O, makeOpts,
+  HAIR_FAMILIES, hair, hairFaceCoverageOpts,
+  TOP_FAMILIES, topPieces,
+  BOTTOM_FAMILIES, bottomPieces,
+  midriffStylings
+} = window.AfterglowDatasets;
+
+const {
+  parseVeilTier, detectHairArchitecture, getVeilRule,
+  sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
+  extractPositivePrompt, extractNegativePrompt
+} = window.AfterglowVeil;
+
+const el = id => document.getElementById(id);
+
+const sections = [
+  { id: 'prepVenueSec', name: 'Vanity & Spa Suite', short: 'VENUE', icon: '🪞', desc: 'Set the backstage vanity table, candlelit facial treatment cabin, or sunlit suite.' },
+  { id: 'prepHairWardrobeSec', name: 'Hair Prep & Apparel', short: 'PREP', icon: '🧖‍♀️', desc: 'Restrain or release hair with clips, adjust moisture, veil %, robes, or separates.' },
+  { id: 'prepRitualSec', name: 'Skincare & Makeup Action', short: 'RITUAL', icon: '💄', desc: 'Direct live liner/powder strokes, cryo gua sha, hydrosol misting, or steam rituals.' },
+  { id: 'prepGlamSec', name: 'Pose & Glam Detail', short: 'GLAM', icon: '✨', desc: 'Fine-tune chin tilt, serene expression, skin finish, lip balm/tint, and eye prep.' },
+  { id: 'prepCameraSec', name: 'Camera & Vanity Light', short: 'CAMERA', icon: '📷', desc: 'Dial in 85mm/100mm macro framing, Edison vanity bulbs, candlelight, and film feel.' },
+  { id: 'finish', name: 'Finish & Controls', short: 'FINISH', icon: '✦', desc: 'Reference identity locks, 2×2 prep progression collage, custom notes, and exclusions.' }
+];
+
+// ==========================================
+// OPTION BANKS: VANITIES & SPA SUITES
+// ==========================================
+
+const prepLocationCategories = [
+  O('✦ All Vanity & Spa Settings (24 options)', 'all'),
+  O('💡 Backstage Dressing Rooms & Vanity Stations (6 options)', 'vanity'),
+  O('🌿 Luxury Facial Spas & Thermal Suites (6 options)', 'spa'),
+  O('☀️ Sunlit Apartments, Marble Baths & Suites (6 options)', 'bath'),
+  O('🏛️ Heritage Bridal Suites & Velvet Lounges (6 options)', 'heritage')
+];
+
+const prepLocations = makeOpts([
+  // Vanity & Backstage
+  ['Paris Fashion Week backstage vanity framed with warm Edison bulbs', 'an authentic backstage dressing room vanity counter illuminated by warm circular Edison bulbs, cluttered tastefully with open eyeshadow palettes, sable brushes in leather cups, atomizers, and blurred wardrobe racks behind', '', 'vanity'],
+  ['Minimalist marble makeup artist atelier with sleek leather chair', 'a high-end studio makeup atelier featuring a tall reclining black leather hydraulic makeup chair, white Calacatta marble counter, illuminated frameless halo mirror panel, and chrome trays of artist tools', '', 'vanity'],
+  ['Boutique celebrity trailer vanity with brushed aluminum tool cases', 'an intimate production vanity trailer with brushed aluminum train cases opened neatly, warm tungsten sconce glow, soft velvet stool, and crisp cotton towels', '', 'vanity'],
+  ['Dark walnut vanity desk in dim hotel suite before evening gala', 'an atmospheric luxury hotel suite dressing table in dark walnut wood, moody warm brass table lamps, cut crystal perfume bottles, and heavy drapery in soft focus', '', 'vanity'],
+  ['Soho industrial loft prep corner by oversized tall loft window', 'a sunlit Soho loft makeup station positioned right beside industrial black steel-framed windows, casting soft directional morning light across brushes, serum bottles, and linen curtains', '', 'vanity'],
+  ['Velvet theater dressing nook with chrome swivel vanity stool', 'an intimate backstage dressing nook with deep plum velvet curtains, chrome swivel makeup stool, and warm golden practical vanity lighting', '', 'vanity'],
+
+  // Luxury Facial Spas & Steam Suites
+  ['Seoul minimalist glass-skin facial cabin with warm diffused cove glow', 'an ultra-serene Seoul facial treatment cabin featuring warm beige plaster walls, plush cream linen heated facial bed, ceramic bowls of botanical serums, and diffused amber architectural cove lighting', '', 'spa'],
+  ['Volcanic basalt thermal spa suite with rising eucalyptus steam', 'an atmospheric private thermal spa room clad in dark textured basalt stone, subtle plumes of warm herbal facial steam drifting through backlight, and folded dark organic cotton towels', '', 'spa'],
+  ['Kyoto hinoki cedarwood holistic facial room with paper shoji screens', 'a peaceful Kyoto holistics cabin paneled in pale aromatic hinoki cypress wood, diffused daylight filtering through shoji rice-paper screens, ceramic oil warmers, and bamboo trays', '', 'spa'],
+  ['Private Mediterranean stone hammam treatment alcove with marble plinth', 'an authentic stone treatment alcove with warm cream travertine heated marble slabs, hammered brass water bowls, olive-oil vials, and dappled skylight sunbeams', '', 'spa'],
+  ['Luxury botanical cryo-facial conservatory with misty fern foliage', 'an airy glass spa treatment room surrounded by tropical indoor ferns and monstera leaves, plush white spa table, frosted crystal cryo-globes resting on ice', '', 'spa'],
+  ['Five-star resort spa cabana beside calm infinity pool at dusk', 'a breezy luxury resort spa pavilion with sheer cream billowing linen curtains, dark teak wood treatment lounger, glowing candles in hurricane glass, and soft twilight reflection', '', 'spa'],
+
+  // Sunlit Apartments & Marble Baths
+  ['Rain-streaked master marble bathroom vanity at quiet twilight', 'an opulent pale veined Carrara marble master bathroom bathed in moody warm sconce glow, delicate condensation haze near brass faucets, and crisp folded waffle towels', '', 'bath'],
+  ['Sun-drenched whitewashed Parisian bath with vintage gold vanity mirror', 'a sun-drenched Haussmann apartment bathroom with carved wainscoting, freestanding soaking tub softly blurred in background, travertine vanity ledge, and crisp French daylight', '', 'bath'],
+  ['Bright modern sea-facing Mumbai suite dressing ledge at golden hour', 'a contemporary sea-facing luxury apartment dressing counter glowing in warm late-afternoon golden light, alabaster skincare jars, and soft sheer curtains', '', 'bath'],
+  ['Minimalist brutalist concrete bathroom with overhead diffused skylight', 'an architectural minimalist concrete bathroom flooded with clean overhead natural skylight, matte black fixtures, folded stone-grey linen robes, and sculptural shadow play', '', 'bath'],
+  ['Cosy sunlit bedroom morning skincare nook on crisp white linen', 'an intimate sun-washed bedroom corner with rumpled white organic linen sheets, a handheld silver compact, glass dropper serum bottle, and golden morning sunbeams', '', 'bath'],
+  ['Private teak dressing room bathed in soft cloudy north daylight', 'an organized private walnut and teak dressing suite flooded with soft overcast north window light, displaying velvet trays of lipsticks, perfume flacons, and silk robes', '', 'bath'],
+
+  // Heritage Bridal & Lounges
+  ['Rajasthani heritage palace jharokha dressing chamber with brass lamps', 'an exquisite restored Rajasthan heritage dressing chamber with carved sandstone archways, antique inlaid vanity mirror frame, silver rosewater sprinklers, and warm brass diya glow', '', 'heritage'],
+  ['Art Deco velvet vanity salon with curved fluted glass dividers', 'a glamorous 1930s Art Deco vanity lounge featuring curved fluted champagne glass dividers, brushed brass light fixtures, dark rosewood console, and ruby velvet seating', '', 'heritage'],
+  ['Chettinad teakwood heritage verandah bridal prep alcove', 'a tranquil heritage mansion inner verandah with carved Burma teak pillars, colorful Athangudi floor tiles out of focus, brass trays with jasmine flowers and organic ubtan', '', 'heritage'],
+  ['Opulent Venetian palazzo boudoir with soft chandelier bounce', 'an intimate Venetian palazzo dressing room with lime-plastered fresco tones, antique gilt stool, linen drapery, and luminous northern window light', '', 'heritage'],
+  ['Moody speakeasy emerald velvet powder room with amber bulbs', 'a decadent jewel-toned emerald velvet powder room lit by warm amber filament bulbs, fluted marble pedestal basin, and vintage crystal atomizers', '', 'heritage'],
+  ['Intimate Kashmir carved walnut vanity suite overlooking misty morning', 'a richly textured Kashmiri walnut woodwork dressing nook with intricate lattice screens softening the diffused misty dawn daylight', '', 'heritage']
+]);
+
+const prepAtmospheres = makeOpts([
+  ['Calm, intimate personal ritual', 'quiet, unhurried personal beauty ritual energy with zero stiff posing'],
+  ['Energetic backstage pre-shoot hustle', 'electric behind-the-scenes backstage energy minutes before stepping onto set'],
+  ['Deeply tranquil steam-warmed spa serenity', 'deeply serene, warm, humid spa atmosphere with tranquil breathing rhythm'],
+  ['Candid unscripted getting-ready moment', 'spontaneous getting-ready slice-of-life warmth captured mid-motion'],
+  ['Golden-hour slow luxury indulgence', 'slow, luminous late-afternoon indulgence soaked in golden ambient warmth']
+]);
+
+// ==========================================
+// OPTION BANKS: HAIR PREP HOLDS & APPAREL
+// ==========================================
+
+const prepHairHolds = makeOpts([
+  ['Matte black duckbill sectioning clips pinning front wings back', 'two matte black creaseless duckbill sectioning clips slid cleanly into the temples to hold her front strands back off her cheekbones while preserving the rest of the haircut shape'],
+  ['Plush cream spa velcro headband lifting hairline cleanly', 'a plush soft cream terry-cotton spa headband worn snugly across the crown hairline, holding front hair cleanly off her forehead and ears while letting the back haircut lengths rest naturally'],
+  ['Sleek satin wrap headband with loose wispy temple tendrils', 'a lustrous champagne silk spa band tied softly over the crown with a few fine organic wispy tendrils escaping gracefully around the ears'],
+  ['Claw clip twist loosely catching mid-lengths off collarbone', 'a dark tortoiseshell claw clip gathering the bulk gently at the occipital crown while delicate front layers frame her jawline freely'],
+  ['Waffle-weave cotton spa hair wrap with damp nape wisps', 'a neatly wrapped cream waffle-cotton post-wash hair turban leaving fine damp wisps along her temples, ears, and nape'],
+  ['Uncovered & natural (no clips or bands — pure chosen haircut)', 'hair worn completely uncovered without clips or bands so her selected haircut silhouette frames her face organically']
+]);
+
+const PREP_OUTFIT_FAMILIES = [
+  O('✦ All Robes, Wraps & Spa Apparel (20 options)', 'all'),
+  O('👘 Silk & Satin Dressing Robes (6 options)', 'robe'),
+  O('🧖‍♀️ Strapless Spa Towel Wraps & Bandeaus (6 options)', 'wrap'),
+  O('🧶 Bare-Shoulder Slip Camis & Loungewear (8 options)', 'lounge')
+];
+
+const prepEnsembles = makeOpts([
+  // Silk & Satin Robes
+  ['Champagne mulberry silk kimono robe tied loosely at waist', 'a fluid champagne mulberry silk kimono dressing robe belted loosely at the waist with relaxed V-neckline revealing bare collarbones and upper shoulders', '', 'robe'],
+  ['Deep espresso liquid-satin wrap robe slipped slightly off shoulder', 'a rich espresso liquid-satin dressing robe draping softly and slipping slightly off one bare shoulder to expose her collarbone and neck', '', 'robe'],
+  ['Blush pink piping silk pajama shirt worn effortlessly unbuttoned at collar', 'a tailored dusty-blush silk prep pajama set with contrast ivory piping and top two buttons undone along the throat', '', 'robe'],
+  ['Crisp white organic cotton kimono spa robe with wide sleeves', 'a fresh crisp white organic waffle-cotton kimono robe tied loosely, sleeves pushed cleanly above the forearms', '', 'robe'],
+  ['Midnight black sheer chiffon dressing gown over minimalist silk cami', 'a sheer black silk chiffon prep robe layered cleanly over a minimalist delicate satin camisole', '', 'robe'],
+  ['Emerald jewel-tone satin bridal prep robe with clean draping', 'a deep emerald satin prep robe with flowing draped sleeves and bare neckline framing jewelry and skin glow', '', 'robe'],
+
+  // Strapless Towel Wraps & Bandeaus
+  ['Strapless cream cotton spa towel wrap fastened above bust (bare shoulders)', 'a thick plush cream organic cotton spa wrap fastened cleanly straight across the upper bust, leaving neck, collarbones, shoulders, and back completely bare for facial skincare', '', 'wrap'],
+  ['Minimalist black seamless strapless spa tube bandeau', 'a matte black seamless stretch spa tube bandeau hugging cleanly across the chest with completely unobstructed neck and collarbone canvas', '', 'wrap'],
+  ['Charcoal stone-washed linen spa wrap with bare upper decolletage', 'a breathable charcoal stone-washed linen treatment wrap tucked neatly above the chest leaving bare shoulders and radiant hydrated skin visible', '', 'wrap'],
+  ['Soft oat ribbed knit strapless aesthetician prep band + linen drape', 'a soft oat-beige ribbed knit strapless spa chest band paired with a crisp draped linen lap sheet', '', 'wrap'],
+  ['Clean white hotel terry spa sarong wrap with crisp folded top edge', 'a crisp snow-white thick terry cotton spa chest wrap leaving collarbones, throat, and arms cleanly open to mist and warm steam', '', 'wrap'],
+  ['Warm terracotta waffle-knit strapless spa bandeau', 'a warm terracotta waffle-weave cotton strapless prep bandeau framing Indian skin undertones cleanly across open shoulders', '', 'wrap'],
+
+  // Bare-Shoulder Slip Camis & Loungewear
+  ['Ultra-thin black silk bias-cut spaghetti-strap camisole slip', 'a delicate matte-sheen black silk slip camisole with hairline spaghetti straps and fluid cowl neckline exposing collarbones', '', 'lounge'],
+  ['Ivory ribbed cotton square-neck lounge tank top', 'a clean ivory finely ribbed cotton fitted tank top with wide square neckline showing decolletage naturally', '', 'lounge'],
+  ['Oversized crisp white men-tailored cotton shirt draped off one shoulder', 'an oversized unbuttoned white cotton poplin shirt draped casually off one shoulder over a minimalist bralette', '', 'lounge'],
+  ['Pearl-grey cashmere knit off-shoulder lounge sweater', 'a plush featherlight pearl-grey cashmere sweater slipped gracefully off one shoulder to reveal smooth skin glow', '', 'lounge'],
+  ['Delicate chocolate-brown satin lace-trim bralette & silk shorts', 'an understated dark chocolate mulberry silk camisole trimmed subtly with fine matte lace along the neckline', '', 'lounge'],
+  ['Minimalist olive ribbed racerback crop singlet', 'a sporty minimalist olive ribbed cotton racerback crop singlet showcasing natural shoulder contour and clean collarbone shadow', '', 'lounge'],
+  ['Cream waffle-knit button henley left softly open at collarbone', 'a soft cream waffle-knit cotton henley top with small mother-of-pearl buttons undone gently at the throat', '', 'lounge'],
+  ['Warm sand linen slip dress with narrow delicate straps', 'a breathable sand-toned raw linen slip dress with slim shoulder straps and soft organic skin drape', '', 'lounge']
+]);
+
+// ==========================================
+// OPTION BANKS: SKINCARE, SPA & MAKEUP RITUALS
+// ==========================================
+
+const prepRitualCategories = [
+  O('✦ All Makeup & Spa Rituals (28 options)', 'all'),
+  O('🖌️ Live Makeup Artist Chair (8 options)', 'mua'),
+  O('❄️ Glass-Skin Skincare, Serums & Cryo Tools (8 options)', 'skincare'),
+  O('🧖‍♀️ Facial Spa, Steam & Hot Towel (6 options)', 'spa_ritual'),
+  O('💄 Solo Vanity Touch-Up & Mirror Prep (6 options)', 'solo')
+];
+
+const prepActions = makeOpts([
+  // Live MUA Chair (Male Artist / Practitioner)
+  ['Male MUA feathering sharp winged liner with steady pinky rest on cheek', 'a focused male makeup artist resting one steady pinky lightly along her outer cheekbone while drawing a razor-fine jet-black winged eyeliner stroke with a fine angled sable brush', '', 'mua'],
+  ['Male MUA dusting translucent setting powder under eyes with soft fan brush', 'the male makeup artist gently sweeping translucent micro-fine setting powder beneath her lower lash line using a fluffy squirrel-hair tapered brush, fine powder catching backlight faintly', '', 'mua'],
+  ['Male MUA applying glossy berry-nude lip tint with precision studio brush', 'the male makeup artist outlining and filling her gently parted lips with a sleek fine-tip studio lip brush holding rich satin berry-rose pigment', '', 'mua'],
+  ['Male MUA buffing cream blush onto apple of cheek with duo-fiber stippler', 'the male makeup artist blending warm terracotta cream blush organically into the pores of her cheekbone using soft circular stippling brush strokes', '', 'mua'],
+  ['Male MUA misting hydrating setting spray across finished complexion', 'the male makeup artist holding an ultra-fine aerosol mist atomizer ten inches away, enveloping her face in an iridescent backlit veil of settling droplets', '', 'mua'],
+  ['Male MUA pressing damp beauty sponge softly beneath orbital contour', 'the male makeup artist lightly bouncing a soft teardrop blending sponge along her concealer edge and nose bridge while tilting her chin gently', '', 'mua'],
+  ['Male MUA brushing feathery brows upward with clear lamination spoolie', 'the male makeup artist combing her natural brows gently upward with a slender mascara spoolie wand, sculpting airy feather definition without heavy pencil', '', 'mua'],
+  ['Male MUA tapping luminous pearl liquid highlighter along upper cheekbone', 'the male makeup artist tapping tiny drops of champagne glass-skin highlighter cleanly across the high ridge of her cheekbone with his ring fingertip', '', 'mua'],
+
+  // Glass-Skin Skincare, Serums & Cryo
+  ['Gliding smooth rose-quartz gua sha stone upward along sculpted jawline', 'a contoured rose-quartz gua sha tool gliding gently upward from chin along her oiled jawline, catching glistening botanical serum sheen across visible micro-pores', '', 'skincare'],
+  ['Pressing chilled frosted glass cryo ice globes softly under cheekbones', 'a pair of translucent frosted glass cryo-facial globes pressed lightly across her flushed lower cheekbones with dewy condensation droplets', '', 'skincare'],
+  ['Glass dropper squeezing glistening hyaluronic serum bead onto cheekbone', 'a clear apothecary glass dropper held just above her cheek, releasing one viscous crystal-clear serum bead trailing down naturally onto glowing bare skin', '', 'skincare'],
+  ['Spritzing micro-fine rosewater hydrosol mist from frosted bottle', 'spritzing an ultra-fine botanical rosewater mist upward into warm sunbeams so microscopic glowing mist droplets settle softly across her temples and collarbones', '', 'skincare'],
+  ['24k gold hydrogel under-eye patches catching light beneath clean eyes', 'a pair of shimmering translucent 24k gold hydrogel crescent patches resting snugly beneath her eyes on fresh serum-prepped skin with realistic pore texture across cheeks', '', 'skincare'],
+  ['Peeling back sheer hydrogel bio-cellulose sheet mask halfway off cheek', 'gently peeling one corner of a soaked translucent bio-cellulose hydrogel mask away from her lower jawline to reveal luminous plump drenched skin underneath', '', 'skincare'],
+  ['Gentle orbital lymphatic massage with warm dry-oil fingertips', 'skilled male facialist hands performing featherlight rhythmic upward temple and cheekbone lymphatic drainage sweeps over glistening botanical facial oil', '', 'skincare'],
+  ['Fan brush glazing translucent honey-enzyme glow mask cleanly across cheeks', 'a wide soft synthetic fan brush painting a smooth translucent golden enzyme facial glaze evenly across her cheek contour leaving eyes and lips clear', '', 'skincare'],
+
+  // Facial Spa, Steam & Hot Towel
+  ['Warm aromatic micro-mist facial steamer billowing gently past profile', 'a fine warm micro-mist ozone facial steamer nozzle casting a luminous backlit cloud of soft hydrating steam across her tranquil closed-eye profile and damp temple wisps', '', 'spa_ritual'],
+  ['Steamed linen hot towel compress pressed soothingly around jawline', 'steaming rolled thick organic cotton facial towels cradled gently under her jaw and temples by an aesthetician’s hands, softening pores with cozy spa warmth', '', 'spa_ritual'],
+  ['Cool silk eye pillow or fresh rosewater cotton pads during deep spa rest', 'serenely reclining back on fresh linen spa bedding with cool dampened rosewater cotton compresses pressed over closed lids while glowing cheeks gleam softly', '', 'spa_ritual'],
+  ['Chilled polished obsidian facial roller tracing cleanly down neck & clavicle', 'rolling a dark polished obsidian facial stone smoothly down the side of her throat and collarbone to drain puffiness over glistening hydrating oil', '', 'spa_ritual'],
+  ['Satin-gloved facialist smoothing warm cream mask edge away with damp sponge', 'a serene aesthetician using two soft dampened round cellulose facial sponges to wipe away soothing cream mask cleanly along her hairline and jaw', '', 'spa_ritual'],
+  ['Deep shoulder & trap tension release massage at spa treatment edge', 'warm scented massage oil gleaming along bare shoulders and upper trapezius as an aesthetician presses slow relaxing thumb tension cleanly beneath her collarbones', '', 'spa_ritual'],
+
+  // Solo Vanity Touch-Up (Zero Second Person)
+  ['Leaning slightly forward over vanity self-lining lips with velvet lipstick', 'leaning softly closer toward vanity warmth, holding a sleek brushed-gold lipstick bullet lightly near her parted bottom lip for an effortless solo touch-up', '', 'solo'],
+  ['Self-curling lashes with brushed chrome eyelash curler in morning light', 'holding a precision chrome eyelash curler delicately with relaxed fingers while tilting her chin up slightly in clear morning window light', '', 'solo'],
+  ['Unclipping front matte duckbill hair clip at temple after setting makeup', 'sliding two fingers smoothly up to unclip a dark duckbill sectioning clip beside her temple as fresh front hair layers begin to fall around her cheekbone', '', 'solo'],
+  ['Holding frosted glass mist bottle mid-air refreshing dewy cheek glow', 'resting her chin calmly up while her own hand holds a minimalist glass atomizer bottle spritzing fine hydrated mist droplets over freshly finished skin', '', 'solo'],
+  ['Patting subtle translucent rice powder lightly across T-zone with velour puff', 'lightly pressing a soft cream cotton-velour powder puff along her nose bridge while checking finished sheen effortlessly', '', 'solo'],
+  ['Resting chin lightly in cupped palm at vanity gazing serenely in between steps', 'seated comfortably alone before the illuminated vanity, resting her chin lightly near manicured fingertips in a quiet candid pause', '', 'solo']
+]);
+
+const prepPractitioners = makeOpts([
+  ['Solo protagonist only (model prepping herself — zero crew)', 'Strictly solitary solo female model prepping herself at the vanity or spa bed with zero makeup artists, aestheticians, or extra hands anywhere in frame'],
+  ['Male makeup artist attending beside chair (solitary female model rule)', 'A focused male makeup artist (groomed, dark minimalist studio apparel, fully connected arms) stands neatly beside the makeup chair attending to our solitary female model'],
+  ['Male holistic spa facialist / aesthetician (solitary female model rule)', 'A calm, professional male holistic aesthetician (neutral linen spa tunic, clean steady hands fully connected to arms) conducts the facial treatment beside our solitary female protagonist']
+]);
+
+const prepSkinFinishes = makeOpts([
+  ['Glass-skin dewy serum luminescence + visible real micro-pores', 'high-hydration glass-skin luminescence coated softly in translucent serum glow while preserving authentic facial pores, fine peach fuzz, and natural texture'],
+  ['Fresh clean steam-flushed bare skin (zero foundation)', 'fresh bare un-made-up post-steam skin glowing softly with healthy warm rose flush across cheekbones, real pores, and zero heavy foundation'],
+  ['Satin velvet editorial skin (lightweight breathability)', 'refined natural satin-velvet skin finish that evens tone gently while retaining delicate undereye creases, pores, and authentic freckles'],
+  ['Crisp candlelit oil-glazed decolletage & dewy cheeks', 'subtle hydrated sheen catching warm light along collarbone hollows, brow bone, and upper cheekbones with completely natural texture']
+]);
+
+const prepPoses = makeOpts([
+  ['Seated upright with chin raised 20° catching soft light', 'seated relaxed in the styling chair with her chin raised slightly toward the key light, neck elongated and shoulders dropped loosely'],
+  ['Reclining serenely on plush spa pillow with chest open', 'reclining comfortably at a 35-degree angle against crisp stacked linen pillows on the facial bed, exposing throat and bare collarbones cleanly'],
+  ['Leaning elbows lightly on marble vanity resting near chin', 'leaning slightly forward at the vanity counter with forearms propped casually on marble and relaxed open posture'],
+  ['Side-profile 3/4 tilt showcasing cheek & hair prep silhouette', 'head angled gracefully in a 3/4 side profile showing jawline curvature, pinned clips or waves, and brush contact along the cheek'],
+  ['Sideways looking away — hand raised to temple concealing face', 'turned sideways looking away from the lens with one hand raised lightly near her temple/forehead shielding her facial profile from view while highlighting bare collarbone, hair sheen, and serene ritual context'],
+  ['Turned away into soft background — zero direct frontal face view', 'head turned smoothly three-quarters away into the serene suite background so her face remains concealed from the camera while lighting sculpts her jawline perimeter, hair clips/waves, and shoulder drape']
+]);
+
+const prepExpressions = makeOpts([
+  ['Tranquil closed-eyes spa bliss with soft parted lips', 'serene tranquil composure with eyes resting gently shut in blissful relaxation and subtly parted soft lips'],
+  ['Calm poised stillness holding steady during precision liner', 'calm, composed focus holding her facial muscles comfortably still with quiet effortless grace'],
+  ['Soft candid post-prep half-smile & warm eyes', 'an authentic, understated closed-lip half-smile with warm, unforced natural eyes and relaxed cheeks'],
+  ['Contemplative serene gaze slightly past the lens', 'a gentle, contemplative gaze angled slightly away from the lens with soft natural facial asymmetry'],
+  ['Tiny amused behind-the-scenes smirk', 'a playful tiny smirk during an unscripted backstage pause between makeup steps']
+]);
+
+const prepLipLooks = makeOpts([
+  ['Glossed clear hyaluronic peptide lip balm', 'plump bare natural lips glistening softly under clear hydrating peptide balm'],
+  ['Muted rosewood velvet satin lip', 'softly diffused rosewood satin pigment pressed organically into natural lip lines'],
+  ['Warm chai-terracotta sheer blurred stain', 'modern blurred chai-terracotta stain softened seamlessly at the outer lip border'],
+  ['Classic editorial crimson silk lip', 'crisp, richly pigmented deep crimson lipstick with natural skin contrast'],
+  ['Bare hydrated lips cleanly prepped', 'completely natural bare hydrated lips with organic lip grain and gentle sheen']
+]);
+
+const prepEyeLooks = makeOpts([
+  ['Clean bare curled lashes (fresh skincare focus)', 'freshly curled natural bare eyelashes and naturally brushed un-penciled brows'],
+  ['Razor-thin jet-black winged tightliner', 'a delicate, razor-sharp winged black eyeliner accenting natural eye contour without heavy shadow'],
+  ['Warm bronzed lid gloss & lifted fluffy brows', 'translucent warm bronze balm across the eyelids paired with airy soap-brushed brows'],
+  ['Soft smudged kohl waterline editorial gleam', 'understated charcoal-brown smudged kohl softly framing the upper lash line']
+]);
+
+// ==========================================
+// OPTION BANKS: CAMERA, LIGHTING, FILM & OUTPUT
+// ==========================================
+
+const prepCameras = makeOpts([
+  ['85mm f/1.4 intimate vanity portrait framing chest-up', 'shot on an 85mm f/1.4 portrait lens at chest-up beauty distance, keeping skin micro-pores, brush bristles, and hair strands razor-sharp against creamy studio bokeh'],
+  ['100mm f/2.8 extreme macro skin-texture & dropper/brush closeup', 'an intimate 100mm f/2.8 macro beauty framing tightly cropped on cheekbone sheen, liquid serum droplet or fine liner bristle, and natural iris/lash clarity'],
+  ['35mm backstage environmental candid framing full chair & counter', 'a 35mm behind-the-scenes environmental medium shot capturing the vanity table clutter, draped robe silhouette, and full room depth'],
+  ['Over-the-shoulder mirror perspective framing vanity scene', 'an intimate over-the-shoulder perspective looking cleanly past her shoulder toward the illuminated vanity reflection and crisp tool details'],
+  ['Sideways concealed-face 3/4 profile highlighting hair, jaw & bare shoulders', 'a discreet side-angle 3/4 profile where the model is turned away and her face stays naturally hidden from the lens, centering tactile skincare sheen, hair prep clips, and shoulder lighting']
+]);
+
+const prepLightings = makeOpts([
+  ['Warm Edison Hollywood vanity bulbs mixed with cool daylight', 'warm amber tungsten glow from frosted vanity bulbs balanced subtly against cool ambient morning window fill'],
+  ['Pure soft diffused north window light catching dewy droplets', 'clean, directional diffused morning daylight streaming across the skin to illuminate tiny hydrosol mist droplets and natural micro-pores'],
+  ['Intimate amber candlelit spa twilight with subtle rim light', 'warm flickering candlelit amber ambience paired with delicate cool-blue twilight rim separation along hair contours'],
+  ['Focused beauty-dish key sculpt with natural shadow falloff', 'controlled soft beauty-dish key lighting modeling cheekbones and collarbones without flattening authentic skin texture'],
+  ['Raw backstage direct 35mm flash candid contrast', 'spontaneous on-camera flash aesthetic creating crisp specular catches on glossy lips, serum oil, and metallic brush ferrules']
+]);
+
+const prepFilms = makeOpts([
+  ['Kodak Portra 400 organic skin fidelity & fine grain', 'classic Kodak Portra 400 film emulation delivering rich warm golden Indian skin tones, gentle highlight roll-off, and fine organic grain'],
+  ['Hasselblad medium-format raw digital crispness', 'medium-format Hasselblad micro-contrast resolving individual eyebrow hairs, serum glints, and woven linen fibers crisply'],
+  ['Cinestill atmospheric warm halation aesthetic', 'subtle nocturnal halation around warm tungsten vanity bulbs paired with balanced cinematic shadows'],
+  ['Natural ungraded DSLR behind-the-scenes realism', 'unfiltered behind-the-scenes DSLR photography with true-to-life color temperature and authentic indoor texture']
+]);
+
+const aspect = makeOpts([
+  ['Classic portrait 3:4', 'classic 3:4 portrait composition'],
+  ['Portrait 4:5', 'portrait 4:5 composition ideal for beauty editorial'],
+  ['Vertical 9:16', 'vertical 9:16 tall portrait framing'],
+  ['Square 1:1', 'square 1:1 intimate macro composition'],
+  ['Landscape 3:2', 'cinematic 3:2 horizontal composition']
+]);
+
+const prepOutputFormats = makeOpts([
+  ['Single finished candid photograph', 'single'],
+  ['2×2 Prep Progression Collage (4 chronological beauty steps)', 'collage'],
+  ['Three-panel Vanity Triptych (Prep → Action → Glow)', 'triptych'],
+  ['Six-frame Backstage 35mm Contact Sheet', 'contact']
+]);
+
+let wardrobeMode = 'ensemble';
+let prepHairMoisture = 'dry';
+
+const fields = {
+  // 01 Venue & Spa Suite
+  prepLocationCategory: { label: 'Suite Category Filter', opts: prepLocationCategories, def: 0, section: 'prepVenueSec', _grp: 'Setting & Environment' },
+  prepLocation: { label: 'Vanity / Spa Location', opts: prepLocations, def: 0, section: 'prepVenueSec', _grp: 'Setting & Environment' },
+  prepAtmosphere: { label: 'Room Atmosphere & Rhythm', opts: prepAtmospheres, def: 0, section: 'prepVenueSec', _grp: 'Setting & Environment' },
+
+  // 02 Hair Prep, Veil & Apparel
+  prepHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
+  prepHair: { label: 'Chosen Haircut Silhouette', opts: hair, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
+  prepHairHold: { label: 'Hair Clips, Headbands & Restraint', opts: prepHairHolds, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
+  prepHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
+
+  prepOutfitCategory: { label: 'Robe & Spa Apparel Family', opts: PREP_OUTFIT_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  prepOutfit: { label: 'Silk Robe / Strapless Spa Wrap / Loungewear', opts: prepEnsembles, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  topCategory: { label: 'Top Piece Category', opts: TOP_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  topPiece: { label: 'Crop Top / Bralette / Camisole', opts: topPieces, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  bottomPiece: { label: 'Shorts / Lounge Pants / Skirt', opts: bottomPieces, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  midriffStyling: { label: 'Midriff & Waistline Styling', opts: midriffStylings, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+
+  // 03 Skincare & Makeup Action
+  prepDiscipline: { label: 'Ritual Discipline Filter', opts: prepRitualCategories, def: 0, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
+  prepActiveAction: { label: 'Primary Makeup / Spa Moment', opts: prepActions, def: 0, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
+  prepPractitioner: { label: 'Artist / Spa Practitioner Setup', opts: prepPractitioners, def: 1, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
+
+  // 04 Pose & Glam Detail
+  prepPose: { label: 'Chair / Treatment Bed Posture', opts: prepPoses, def: 0, section: 'prepGlamSec', _grp: 'Posture & Composure' },
+  prepExpression: { label: 'Facial Expression & Mood', opts: prepExpressions, def: 0, section: 'prepGlamSec', _grp: 'Posture & Composure' },
+  prepSkinFinish: { label: 'Complexion & Skin Finish', opts: prepSkinFinishes, def: 0, section: 'prepGlamSec', _grp: 'Skin, Lips & Eye Prep' },
+  prepLipLook: { label: 'Lip Prep / Pigment Tone', opts: prepLipLooks, def: 0, section: 'prepGlamSec', _grp: 'Skin, Lips & Eye Prep' },
+  prepEyeDetail: { label: 'Eye Prep & Liner Focus', opts: prepEyeLooks, def: 1, section: 'prepGlamSec', _grp: 'Skin, Lips & Eye Prep' },
+
+  // 05 Camera & Lighting
+  prepCamera: { label: 'Macro Framing & Perspective', opts: prepCameras, def: 0, section: 'prepCameraSec', _grp: 'Optics & Vanity Lighting' },
+  prepLighting: { label: 'Lighting & Practicals', opts: prepLightings, def: 0, section: 'prepCameraSec', _grp: 'Optics & Vanity Lighting' },
+  prepFilmFeel: { label: 'Film Grade & Texture', opts: prepFilms, def: 0, section: 'prepCameraSec', _grp: 'Optics & Vanity Lighting' },
+  aspect: { label: 'Image Aspect Ratio', opts: aspect, def: 0, section: 'prepCameraSec', _grp: 'Optics & Vanity Lighting' },
+
+  // 06 Finish
+  numImages: { label: 'Image Output Format', opts: prepOutputFormats, def: 0, section: 'finish', _grp: 'Output Format' }
+};
+
+const starterPresets = [
+  {
+    id: 'backstage-liner',
+    title: 'Backstage Winged Liner',
+    sub: 'Edison vanity bulbs · Duckbill clips · Male MUA steady hand',
+    icon: '💄',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'dry',
+    values: {
+      prepLocation: prepLocations[0],
+      prepHairHold: prepHairHolds[0],
+      prepOutfit: prepEnsembles[0],
+      prepActiveAction: prepActions[0],
+      prepPractitioner: prepPractitioners[1],
+      prepSkinFinish: prepSkinFinishes[2],
+      prepEyeDetail: prepEyeLooks[1],
+      prepLighting: prepLightings[0]
+    }
+  },
+  {
+    id: 'seoul-glass-guasha',
+    title: 'Seoul Glass-Skin Gua Sha',
+    sub: 'Rose-quartz serum glow · Strapless spa wrap · Soft cove glow',
+    icon: '💎',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      prepLocation: prepLocations[6],
+      prepHairHold: prepHairHolds[1],
+      prepOutfit: prepEnsembles[6],
+      prepActiveAction: prepActions[8],
+      prepPractitioner: prepPractitioners[2],
+      prepSkinFinish: prepSkinFinishes[0],
+      prepLighting: prepLightings[1],
+      prepCamera: prepCameras[1]
+    }
+  },
+  {
+    id: 'gold-eyepatch-morning',
+    title: '24k Eye-Patch Rose Mist',
+    sub: 'Sunlit Parisian marble bath · Silk robe · Backlit mist droplets',
+    icon: '✨',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      prepLocation: prepLocations[13],
+      prepHairHold: prepHairHolds[2],
+      prepOutfit: prepEnsembles[1],
+      prepActiveAction: prepActions[11],
+      prepPractitioner: prepPractitioners[0],
+      prepSkinFinish: prepSkinFinishes[0],
+      prepLighting: prepLightings[1]
+    }
+  },
+  {
+    id: 'steamy-basalt-spa',
+    title: 'Steamy Basalt Facial Steam',
+    sub: 'Eucalyptus steam mist · Hot towel compress · Wet-look wisps',
+    icon: '♨️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'wet',
+    values: {
+      prepLocation: prepLocations[7],
+      prepHairHold: prepHairHolds[4],
+      prepOutfit: prepEnsembles[7],
+      prepActiveAction: prepActions[16],
+      prepPractitioner: prepPractitioners[2],
+      prepSkinFinish: prepSkinFinishes[1],
+      prepLighting: prepLightings[2]
+    }
+  },
+  {
+    id: 'solo-velvet-touchup',
+    title: 'Solo Velvet Lip Touch-Up',
+    sub: 'Hotel dark walnut desk · Unclipping duckbill clip · Rose lip',
+    icon: '🌹',
+    wardrobeMode: 'separates',
+    hairMoisture: 'dry',
+    values: {
+      prepLocation: prepLocations[3],
+      prepHairHold: prepHairHolds[0],
+      prepActiveAction: prepActions[22],
+      prepPractitioner: prepPractitioners[0],
+      prepLipLook: prepLipLooks[1],
+      prepLighting: prepLightings[2]
+    }
+  },
+  {
+    id: 'kyoto-cryo-serum',
+    title: 'Kyoto Hinoki Cryo & Drops',
+    sub: 'Shoji morning light · Hyaluronic serum dropper · Linen wrap',
+    icon: '🌿',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      prepLocation: prepLocations[8],
+      prepHairHold: prepHairHolds[3],
+      prepOutfit: prepEnsembles[8],
+      prepActiveAction: prepActions[10],
+      prepPractitioner: prepPractitioners[0],
+      prepSkinFinish: prepSkinFinishes[0],
+      prepCamera: prepCameras[1]
+    }
+  }
+];
+
+let activeSection = 'prepVenueSec';
+let values = {};
+let lockedFields = new Set();
+let customPresets = [];
+let activePreset = '';
+let promptHistory = [];
+let customDirection = '';
+let extraNegative = '';
+
+const PREP_KEY = 'afterglow_makeup_spa_v1';
+const PREP_HIST_KEY = 'afterglow_makeup_spa_hist_v1';
+
+const checkState = {
+  identity: true,
+  skin: true,
+  retouch: true,
+  body: true,
+  hairStrands: true,
+  hands: true,
+  noMirror: false,
+  noText: true
+};
+
+// Defaults
+Object.keys(fields).forEach(k => {
+  const f = fields[k];
+  values[k] = f.opts[f.def || 0];
+});
+
+function val(k){ return values[k]?.text || ''; }
+
+function serializePresetSet(valMap){
+  const out = {};
+  Object.entries(valMap || {}).forEach(([k, v]) => {
+    if(v && v.label) out[k] = v.label;
+  });
+  return out;
+}
+
+function hydratePresetSet(rawSet){
+  const out = {};
+  Object.entries(rawSet || {}).forEach(([k, lbl]) => {
+    const f = fields[k];
+    if(!f) return;
+    const found = f.opts.find(x => x.label === lbl);
+    if(found) out[k] = found;
+  });
+  return out;
+}
+
+function save(){
+  try {
+    const o = {
+      wm: wardrobeMode,
+      hm: prepHairMoisture,
+      sec: activeSection,
+      cs: checkState,
+      ap: activePreset,
+      d: customDirection,
+      n: extraNegative,
+      k: [...lockedFields],
+      v: serializePresetSet(values),
+      u: customPresets.map(p => ({
+        id: p.id,
+        title: p.title,
+        sub: p.sub,
+        icon: p.icon || '⭐',
+        wardrobeMode: p.wardrobeMode || wardrobeMode,
+        hairMoisture: p.hairMoisture || prepHairMoisture,
+        v: serializePresetSet(p.values)
+      }))
+    };
+    localStorage.setItem(PREP_KEY, JSON.stringify(o));
+  } catch(e){}
+}
+
+function load(){
+  try {
+    const o = JSON.parse(localStorage.getItem(PREP_KEY) || 'null');
+    if(o){
+      if(o.wm === 'ensemble' || o.wm === 'separates') wardrobeMode = o.wm;
+      if(o.hm === 'dry' || o.hm === 'damp' || o.hm === 'wet') prepHairMoisture = o.hm;
+      if(o.sec && sections.some(s => s.id === o.sec)) activeSection = o.sec;
+      if(o.cs) Object.assign(checkState, o.cs);
+      if(o.ap) activePreset = o.ap;
+      if(typeof o.d === 'string') customDirection = o.d;
+      if(typeof o.n === 'string') extraNegative = o.n;
+      if(Array.isArray(o.k)) lockedFields = new Set(o.k);
+      if(o.v) Object.assign(values, hydratePresetSet(o.v));
+      if(Array.isArray(o.u)){
+        customPresets = o.u.map(p => ({
+          id: p.id,
+          title: p.title,
+          sub: p.sub || 'Custom Prep',
+          icon: p.icon || '⭐',
+          isCustom: true,
+          wardrobeMode: p.wardrobeMode,
+          hairMoisture: p.hairMoisture,
+          values: hydratePresetSet(p.v || p.set)
+        }));
+      }
+    }
+  } catch(e){}
+  try {
+    promptHistory = JSON.parse(localStorage.getItem(PREP_HIST_KEY) || '[]');
+    const b = el('historyBadge');
+    if(b) b.textContent = promptHistory.length;
+  } catch(e){}
+}
+
+function sanitizeNoMirrorPrep(text){
+  if(!text || !checkState.noMirror) return text;
+  return text
+    .replace(/over-the-shoulder perspective looking cleanly past her shoulder toward the illuminated vanity reflection/gi, 'direct un-reflected vanity station framing looking cleanly past her shoulder')
+    .replace(/illuminated frameless halo mirror panel/gi, 'illuminated frameless LED backlit vanity wall panel')
+    .replace(/antique inlaid vanity mirror frame/gi, 'antique inlaid vanity wooden frame')
+    .replace(/steamed mirror/gi, 'steamed travertine vanity ledge')
+    .replace(/mirror/gi, 'vanity panel');
+}
+
+function renderTabs(){
+  const tabs = el('tabs');
+  if(!tabs) return;
+  tabs.innerHTML = '';
+  sections.forEach((s, idx) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tab' + (s.id === activeSection ? ' active' : '');
+    b.dataset.section = s.id;
+    b.innerHTML = `<span class="tab-no">0${idx+1}</span>${s.name}`;
+    b.addEventListener('click', () => goSection(s.id));
+    tabs.appendChild(b);
+  });
+}
+
+function goSection(secId){
+  activeSection = secId;
+  const s = sections.find(x => x.id === secId);
+  if(!s) return;
+  const idx = sections.indexOf(s);
+  el('stepEyebrow').textContent = `Creative direction · 0${idx+1}`;
+  el('stepTitle').textContent = s.name;
+  el('stepDescription').textContent = s.desc;
+  el('stepIcon').textContent = s.icon;
+  el('stepCount').textContent = `Step ${idx+1} of ${sections.length}`;
+  const prevBtn = el('prevStep');
+  if(prevBtn){
+    prevBtn.disabled = (idx === 0);
+    prevBtn.style.opacity = (idx === 0) ? '.42' : '1';
+    prevBtn.style.cursor = (idx === 0) ? 'not-allowed' : 'pointer';
+  }
+  const nextBtn = el('nextStep');
+  if(nextBtn){
+    nextBtn.textContent = (idx === sections.length - 1) ? '← Back to top' : 'Next step →';
+  }
+  renderTabs();
+  renderFields();
+  save();
+}
+
+function filterChoices(menu, q){
+  let shown = 0;
+  const list = menu.querySelector('.option-list');
+  [...list.querySelectorAll('.choice')].forEach(b => {
+    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    b.classList.toggle('hidden', !ok);
+    if(ok) shown++;
+  });
+  let no = menu.querySelector('.no-results');
+  if(!shown){
+    if(!no){
+      no = document.createElement('div');
+      no.className = 'no-results';
+      no.textContent = 'No matching options. Try another search.';
+      list.appendChild(no);
+    }
+  } else if(no) no.remove();
+}
+
+function updateCustom(custom, id){
+  const curr = custom.querySelector('.current');
+  if(curr && values[id]) curr.textContent = values[id].label;
+  custom.querySelectorAll('.choice').forEach(b => {
+    const active = fields[id].opts[Number(b.dataset.index)] === values[id];
+    b.classList.toggle('selected', active);
+    const old = b.querySelector('.checkmark');
+    if(old) old.remove();
+    if(active){
+      const cm = document.createElement('span');
+      cm.className = 'checkmark';
+      cm.textContent = '✓ ';
+      b.prepend(cm);
+    }
+  });
+}
+
+function getFilteredOpts(id, f){
+  let visibleOpts = f.opts;
+  if(id === 'prepLocation' && values.prepLocationCategory && values.prepLocationCategory.text !== 'all'){
+    const cat = values.prepLocationCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'prepHair' && values.prepHairCategory && values.prepHairCategory.text !== 'all'){
+    const cat = values.prepHairCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'prepOutfit' && values.prepOutfitCategory && values.prepOutfitCategory.text !== 'all'){
+    const cat = values.prepOutfitCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'prepActiveAction' && values.prepDiscipline && values.prepDiscipline.text !== 'all'){
+    const cat = values.prepDiscipline.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'topPiece' && values.topCategory && values.topCategory.text !== 'all'){
+    const cat = values.topCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text !== 'all'){
+    const cat = values.bottomCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  }
+  if(!visibleOpts.length) visibleOpts = f.opts;
+  if(!visibleOpts.includes(values[id])) values[id] = visibleOpts[0];
+  return visibleOpts;
+}
+
+function createFieldElement(id, f){
+  const wrap = document.createElement('div');
+  wrap.className = 'field' + (['prepLocation', 'prepActiveAction', 'prepHair', 'prepOutfit'].includes(id) ? ' full' : '');
+
+  const lab = document.createElement('div');
+  lab.className = 'label-row';
+
+  const titleWrap = document.createElement('div');
+  titleWrap.className = 'label-title-wrap';
+
+  const label = document.createElement('label');
+  label.textContent = f.label;
+  label.htmlFor = 'field-' + id;
+
+  const isLocked = lockedFields.has(id);
+  const lockBtn = document.createElement('button');
+  lockBtn.type = 'button';
+  lockBtn.className = 'lock-btn' + (isLocked ? ' locked' : '');
+  lockBtn.title = isLocked ? "Locked (won't change during shuffle). Click to unlock." : 'Lock this choice during shuffle';
+  lockBtn.innerHTML = isLocked ? '🔒' : '🔓';
+  lockBtn.addEventListener('click', () => {
+    if(lockedFields.has(id)){
+      lockedFields.delete(id);
+      toast(`Unlocked ${f.label}`);
+    } else {
+      lockedFields.add(id);
+      toast(`Locked ${f.label}`);
+    }
+    save();
+    renderFields();
+  });
+
+  titleWrap.append(label, lockBtn);
+
+  const visibleOpts = getFilteredOpts(id, f);
+  const count = document.createElement('span');
+  count.className = 'option-count';
+  count.textContent = visibleOpts.length + ' options';
+  lab.append(titleWrap, count);
+
+  const custom = document.createElement('div');
+  custom.className = 'custom-select';
+  custom.dataset.id = id;
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'select-trigger';
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.innerHTML = `<span class="current"></span><span class="chevron">⌄</span>`;
+  trigger.querySelector('.current').textContent = values[id]?.label || '';
+
+  const menu = document.createElement('div');
+  menu.className = 'select-menu';
+  menu.innerHTML = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;
+
+  const list = menu.querySelector('.option-list');
+
+  visibleOpts.forEach(o => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choice' + (values[id] === o ? ' selected' : '');
+    b.dataset.index = f.opts.indexOf(o);
+    b.textContent = o.label;
+    b.addEventListener('click', () => {
+      values[id] = o;
+      if(id === 'prepLocationCategory' && o.text !== 'all'){
+        const m = fields.prepLocation.opts.find(x => x.cat === o.text);
+        if(m) values.prepLocation = m;
+      } else if(id === 'prepHairCategory' && o.text !== 'all'){
+        const m = fields.prepHair.opts.find(x => x.cat === o.text);
+        if(m) values.prepHair = m;
+      } else if(id === 'prepOutfitCategory' && o.text !== 'all'){
+        const m = fields.prepOutfit.opts.find(x => x.cat === o.text);
+        if(m) values.prepOutfit = m;
+      } else if(id === 'prepDiscipline' && o.text !== 'all'){
+        const m = fields.prepActiveAction.opts.find(x => x.cat === o.text);
+        if(m) values.prepActiveAction = m;
+      } else if(id === 'topCategory' && o.text !== 'all'){
+        const m = fields.topPiece.opts.find(x => x.cat === o.text);
+        if(m) values.topPiece = m;
+      } else if(id === 'bottomCategory' && o.text !== 'all'){
+        const m = fields.bottomPiece.opts.find(x => x.cat === o.text);
+        if(m) values.bottomPiece = m;
+      } else if(id === 'prepActiveAction'){
+        // Keep practitioner logically coherent if user picks a solo vs MUA vs spa ritual manually
+        if(o.cat === 'solo') values.prepPractitioner = prepPractitioners[0];
+        else if(o.cat === 'mua' && values.prepPractitioner?.text.includes('Zero')) values.prepPractitioner = prepPractitioners[1];
+        else if(o.cat === 'spa_ritual' && values.prepPractitioner?.text.includes('Zero')) values.prepPractitioner = prepPractitioners[2];
+      }
+      updateCustom(custom, id);
+      custom.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      if(id.endsWith('Category') || id === 'prepDiscipline' || id === 'prepActiveAction'){
+        renderFields();
+      }
+      buildPrompt();
+    });
+    list.appendChild(b);
+  });
+
+  trigger.addEventListener('click', () => {
+    const was = custom.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(x => {
+      x.classList.remove('open');
+      x.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+    if(!was){
+      custom.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+      const inp = menu.querySelector('input');
+      inp.value = '';
+      filterChoices(menu, '');
+      inp.focus({ preventScroll: true });
+      const sel = menu.querySelector('.choice.selected:not(.hidden)');
+      if(sel) sel.scrollIntoView({ block: 'nearest' });
+    }
+  });
+
+  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  menu.querySelector('input').addEventListener('keydown', e => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const first = menu.querySelector('.choice:not(.hidden)');
+      if(first) first.click();
+    }
+  });
+
+  custom.append(trigger, menu);
+  wrap.append(lab, custom);
+  updateCustom(custom, id);
+  return wrap;
+}
+
+function createPrepMoistureCard(){
+  const card = document.createElement('div');
+  card.className = 'moisture-toggle-card';
+  card.id = 'moistureToggleCard';
+  const head = document.createElement('div');
+  head.className = 'moisture-header';
+  head.innerHTML = `
+    <span class="moisture-label">💧 Hair Moisture State</span>
+    <span class="moisture-hint">Dry brushed prep vs post-mist damp strands vs soaked post-wash wet ribbons</span>
+  `;
+  const pillsWrap = document.createElement('div');
+  pillsWrap.className = 'moisture-pills';
+  pillsWrap.setAttribute('role', 'radiogroup');
+  pillsWrap.setAttribute('aria-label', 'Hair moisture state');
+  const options = [
+    { id: 'dry', label: '💨 Dry & Blown-out', desc: 'dry organic hair clipped cleanly with soft airy texture' },
+    { id: 'damp', label: '💦 Damp / Spray-Misted', desc: 'lightly misted damp strands catching warm bathroom or spa steam' },
+    { id: 'wet', label: '🌊 Soaked / Wet-Look', desc: 'saturated post-wash wet hair ribbons clinging against temples & neck' }
+  ];
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'moisture-pill' + (prepHairMoisture === opt.id ? ' active' : '');
+    btn.dataset.moisture = opt.id;
+    btn.textContent = opt.label;
+    btn.title = opt.desc;
+    btn.setAttribute('aria-checked', prepHairMoisture === opt.id ? 'true' : 'false');
+    btn.addEventListener('click', () => {
+      prepHairMoisture = opt.id;
+      pillsWrap.querySelectorAll('.moisture-pill').forEach(b => {
+        const isAct = b.dataset.moisture === opt.id;
+        b.classList.toggle('active', isAct);
+        b.setAttribute('aria-checked', isAct ? 'true' : 'false');
+      });
+      buildPrompt();
+      toast(`💧 Hair moisture set to: ${opt.label}`);
+    });
+    pillsWrap.appendChild(btn);
+  });
+  card.append(head, pillsWrap);
+  return card;
+}
+
+function renderFields(){
+  const host = el('fields');
+  if(!host) return;
+  host.innerHTML = '';
+
+  if(activeSection === 'prepHairWardrobeSec'){
+    const isSeparates = (wardrobeMode === 'separates');
+    const switchWrap = document.createElement('div');
+    switchWrap.className = 'wardrobe-mode-card';
+    switchWrap.style.cssText = 'grid-column: 1 / -1; margin: 0 0 16px 0; padding: 14px 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;';
+    switchWrap.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Apparel Mode</strong>
+          <span style="font-size: 11px; color: var(--text-dim, #999);">Choose silk robes &amp; strapless spa towel wraps, or custom two-piece separates (crop tops &amp; shorts).</span>
+        </div>
+        <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); gap: 4px;">
+          <button type="button" class="seg-btn ${!isSeparates ? 'active' : ''}" id="btnPrepEnsemble" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${!isSeparates ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👘 Robes &amp; Spa Wraps</button>
+          <button type="button" class="seg-btn ${isSeparates ? 'active' : ''}" id="btnPrepSeparates" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isSeparates ? 'var(--pink, #ec4899)' : 'transparent'}; color: #fff; font-weight: 600;">👚 Two-Piece Separates</button>
+        </div>
+      </div>
+    `;
+    switchWrap.querySelector('#btnPrepEnsemble').addEventListener('click', () => {
+      wardrobeMode = 'ensemble';
+      renderFields();
+      buildPrompt();
+      toast('Switched to Robes & Spa Wraps.');
+    });
+    switchWrap.querySelector('#btnPrepSeparates').addEventListener('click', () => {
+      wardrobeMode = 'separates';
+      renderFields();
+      buildPrompt();
+      toast('Switched to Two-Piece Separates.');
+    });
+    host.appendChild(switchWrap);
+  }
+
+  let secFields = Object.keys(fields).filter(k => fields[k].section === activeSection);
+  if(activeSection === 'prepHairWardrobeSec'){
+    if(wardrobeMode === 'separates'){
+      secFields = secFields.filter(k => k !== 'prepOutfitCategory' && k !== 'prepOutfit');
+    } else {
+      secFields = secFields.filter(k => !['topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling'].includes(k));
+    }
+  }
+
+  let lastGrp = '';
+  secFields.forEach(id => {
+    const f = fields[id];
+    if(f._grp && f._grp !== lastGrp){
+      lastGrp = f._grp;
+      const g = document.createElement('h3');
+      g.className = 'grp';
+      g.textContent = lastGrp;
+      host.appendChild(g);
+    }
+    host.appendChild(createFieldElement(id, f));
+    if(id === 'prepHairFaceCoverage' && activeSection === 'prepHairWardrobeSec'){
+      host.appendChild(createPrepMoistureCard());
+    }
+  });
+
+  const sp = el('specialContent');
+  if(sp){
+    if(activeSection === 'finish'){
+      sp.innerHTML = `
+        <div class="field-card" style="margin-top:16px; padding:16px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:12px;">
+          <h3 style="font-size:14px; margin:0 0 12px 0; color:#f1f5f9;">Identity &amp; Dermal Realism Safeguards</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px; margin-bottom:16px;">
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkId" ${checkState.identity ? 'checked' : ''}> Preserve Reference Model Identity</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkPores" ${checkState.skin ? 'checked' : ''}> Authentic Pores &amp; Serum Texture</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoAirbrush" ${checkState.retouch ? 'checked' : ''}> Zero Waxy Beauty Filters</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkAnatomy" ${checkState.body ? 'checked' : ''}> Connected Arms &amp; Artist Hands</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoMirror" ${checkState.noMirror ? 'checked' : ''}> Avoid Mirrors / Duplicate Reflections</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoText" ${checkState.noText ? 'checked' : ''}> Exclude Watermarks &amp; Brand Text</label>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label for="customDirInput" style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Additional Creative Direction</label>
+              <textarea id="customDirInput" rows="3" placeholder="e.g., silver rosewater spritzer on counter, subtle kohl smudge under lower lash…" style="width:100%; border-radius:10px; padding:10px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); color:#f8fafc; font-size:12px; resize:vertical;">${customDirection.replace(/</g,'&lt;')}</textarea>
+            </div>
+            <div>
+              <label for="extraNegInput" style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Extra Exclusions (Negative)</label>
+              <textarea id="extraNegInput" rows="3" placeholder="e.g., heavy full-coverage matte cake makeup, sunglasses, earrings…" style="width:100%; border-radius:10px; padding:10px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); color:#f8fafc; font-size:12px; resize:vertical;">${extraNegative.replace(/</g,'&lt;')}</textarea>
+            </div>
+          </div>
+        </div>
+      `;
+      [['chkId', 'identity'], ['chkPores', 'skin'], ['chkNoAirbrush', 'retouch'], ['chkAnatomy', 'hands'], ['chkNoMirror', 'noMirror'], ['chkNoText', 'noText']].forEach(([cid, key]) => {
+        el(cid)?.addEventListener('change', (e) => {
+          checkState[key] = e.target.checked;
+          if(key === 'hands') checkState.body = e.target.checked;
+          buildPrompt();
+        });
+      });
+      el('customDirInput')?.addEventListener('input', (e) => {
+        customDirection = e.target.value;
+        buildPrompt();
+      });
+      el('extraNegInput')?.addEventListener('input', (e) => {
+        extraNegative = e.target.value;
+        buildPrompt();
+      });
+    } else {
+      sp.innerHTML = '';
+    }
+  }
+}
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.custom-select')){
+    document.querySelectorAll('.custom-select.open').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+function renderPresets(){
+  const host = el('presets');
+  if(!host) return;
+  host.innerHTML = '';
+  customPresets.forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
+    b.dataset.preset = p.id;
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon || '⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${p.id}">✕</button></div><small>${p.sub || 'Custom Prep'}</small>`;
+    b.addEventListener('click', (e) => {
+      if(e.target.closest('.preset-del')){
+        deleteCustomPreset(p.id, e);
+        return;
+      }
+      applyPresetObj(p);
+      toast(`✦ Applied custom preset: ${p.title}`);
+    });
+    host.appendChild(b);
+  });
+  starterPresets.forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset' + (p.id === activePreset ? ' active' : '');
+    b.dataset.preset = p.id;
+    b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
+    b.addEventListener('click', () => {
+      applyPresetObj(p);
+      toast(`✦ Applied preset: ${p.title}`);
+    });
+    host.appendChild(b);
+  });
+}
+
+function applyPresetObj(p){
+  activePreset = p.id;
+  if(p.wardrobeMode) wardrobeMode = p.wardrobeMode;
+  if(p.hairMoisture) prepHairMoisture = p.hairMoisture;
+  Object.keys(p.values || {}).forEach(k => {
+    if(p.values[k] && !lockedFields.has(k)) values[k] = p.values[k];
+  });
+  renderPresets();
+  renderFields();
+  buildPrompt();
+}
+
+function deleteCustomPreset(id, e){
+  if(e) e.stopPropagation();
+  customPresets = customPresets.filter(p => p.id !== id);
+  if(activePreset === id) activePreset = '';
+  save();
+  renderPresets();
+  toast('Custom prep preset removed.');
+}
+
+// ==========================================
+// PROMPT ASSEMBLY ENGINE
+// ==========================================
+
+function buildPrompt(){
+  const S = sanitizeNoMirrorPrep;
+  const lines = [];
+
+  const loc = S(val('prepLocation'));
+  const atmo = S(val('prepAtmosphere'));
+  const hairText = S(val('prepHair'));
+  const hairHold = val('prepHairHold');
+  const covLabel = values.prepHairFaceCoverage?.label || '';
+  const covVal = val('prepHairFaceCoverage');
+  const veilTier = parseVeilTier(covLabel);
+  const hairArch = detectHairArchitecture(values.prepHair, hairText);
+  const veilRuleObj = getVeilRule(veilTier, hairArch);
+
+  const actionText = S(val('prepActiveAction'));
+  const practitionerText = val('prepPractitioner');
+  const isSoloPrep = practitionerText.includes('Strictly solitary') || values.prepActiveAction?.cat === 'solo';
+
+  const poseText = S(val('prepPose'));
+  const camText = S(val('prepCamera'));
+  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|hand raised.*temple|turned away.*concealed|face remains concealed/i.test(poseText + ' ' + camText);
+  const isDeepOrHeavyVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
+  const hideEyes = isFaceHidden || isDeepOrHeavyVeil;
+
+  const rawExpr = val('prepExpression');
+  const exprText = hideEyes ? '' : sanitizeHiddenFaceText(rawExpr, false, veilTier);
+  const skinFinishText = val('prepSkinFinish');
+  const lipText = val('prepLipLook');
+  const eyeText = sanitizeMakeupForVeil(val('prepEyeDetail'), veilTier);
+  const lightText = S(val('prepLighting'));
+  const filmText = val('prepFilmFeel');
+  const aspText = val('aspect');
+  const numMode = val('numImages');
+
+  let apparelText = '';
+  if(wardrobeMode === 'separates'){
+    const topT = val('topPiece') || 'a minimalist cream crop cami';
+    const botT = val('bottomPiece') || 'relaxed cutoff shorts';
+    const midT = val('midriffStyling') || 'bare midriff with natural texture';
+    apparelText = `a casual getting-ready two-piece separates pairing featuring ${topT} with ${botT}, with ${midT}`;
+  } else {
+    apparelText = val('prepOutfit') || 'a fluid champagne silk kimono robe loosely belted at the waist';
+  }
+
+  const isExplicitWetCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look/i.test((values.prepHair?.label || '') + ' ' + hairText);
+
+  lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · MAKEUP CHAIR & FACIAL SPA PREP');
+  lines.push('');
+  lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
+  lines.push('• Strictly preserve the adult woman from the reference image as the solitary female model / protagonist in the scene.');
+  if(isFaceHidden){
+    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and concealed from the lens.');
+  } else if(veilTier === '95_100'){
+    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair density, and lower silhouette while keeping 95–100% of her face frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
+  } else if(veilTier === '80_85'){
+    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length.');
+  } else if(veilTier === '65_70'){
+    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero wide open eyes) behind a sleek satin sweep + 3/4 chin dip.');
+  } else if(veilTier === '50' || veilTier === '40_45'){
+    lines.push('• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the covered eye 100% hidden (ZERO covered eyeball visible) behind a continuous diagonal hair wave matched strictly to her haircut length.');
+  } else {
+    lines.push('• Retain her recognizable facial identity, Indian heritage bone structure, natural eye shape, and authentic dermal pore texture without beauty filters.');
+  }
+  if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
+  lines.push('• Maintain her authentic natural Indian hair strand density and fiber behavior.');
+  if(prepHairMoisture === 'wet'){
+    lines.push("• Mandatory Soaked Wet Hair Physics: The model's hair is thoroughly water-soaked and dripping wet—heavy dark wet hair ribbons clinging flush against her scalp, temples, and collarbone with glistening moisture sheen and zero dry fluffy flyaways.");
+  } else if(prepHairMoisture === 'damp'){
+    lines.push('• Damp Hair Physics: Evenly misted damp hair texture with delicate translucent mist droplets and softly clumped organic strand separation.');
+  } else if(!isExplicitWetCut){
+    lines.push('• Dry Blown-Out Hair Physics: Completely dry, soft airy hair strands pinned cleanly or falling smoothly with natural bounce and zero wet clumping.');
+  }
+  lines.push('');
+
+  if(!isSoloPrep){
+    lines.push('SOLITARY FEMALE MODEL & PRACTITIONER DISCIPLINE:');
+    lines.push(`• ${practitionerText}. Strictly zero secondary women, female assistants, or female bystanders anywhere in the frame or background.`);
+    lines.push('');
+  } else {
+    lines.push('SOLO PROTAGONIST RULE:');
+    lines.push(`• ${practitionerText}.`);
+    lines.push('');
+  }
+
+  if(numMode === 'collage'){
+    lines.push('2×2 EDITORIAL PREP COLLAGE PROGRESSION:');
+    lines.push('Create one unified 2×2 four-panel photography collage documenting four chronological prep moments with strict identity and room continuity:');
+    lines.push('• PANEL 1 (TOP-LEFT): Hair restraint prep — model seated calmly wearing ' + apparelText + ' with ' + hairHold + '.');
+    lines.push('• PANEL 2 (TOP-RIGHT): Skincare & serum glaze — 100mm close-up showing ' + skinFinishText + ' with visible pores and tactile preparation.');
+    lines.push('• PANEL 3 (BOTTOM-LEFT): Active moment — ' + actionText + '.');
+    lines.push(hideEyes
+      ? '• PANEL 4 (BOTTOM-RIGHT): Radiant prep pause in tranquil concealed poise beneath ' + lightText + '.'
+      : '• PANEL 4 (BOTTOM-RIGHT): Quiet candid vanity reveal showing ' + lipText + ' and ' + eyeText + ' beneath ' + lightText + '.');
+  } else if(numMode === 'triptych'){
+    lines.push('Create one three-frame horizontal triptych tracing hair clip prep, active serum/makeup stroke (' + actionText + '), and finished luminous skin glow across panels.');
+  } else if(numMode === 'contact'){
+    lines.push('Create a classic six-frame 35mm behind-the-scenes contact sheet capturing unscripted prep gestures, skincare misting, and vanity pauses.');
+  } else {
+    lines.push('Create one finished photorealistic candid beauty-prep / facial-spa photograph.');
+  }
+  lines.push('');
+
+  lines.push('VANITY / SPA SETTING & ACTION');
+  lines.push(`Environment: ${loc}. Atmosphere: ${atmo}.`);
+  lines.push(`Active Prep Moment: ${actionText}.`);
+  lines.push('');
+
+  lines.push('HAIR, APPAREL & GLAM PREPARATION');
+  const moistNote = (prepHairMoisture === 'wet')
+    ? ' Hair moisture: thoroughly water-soaked wet ribbons gleaming cleanly.'
+    : (prepHairMoisture === 'damp'
+      ? ' Hair moisture: lightly misted damp strands with fine droplets.'
+      : (!isExplicitWetCut ? ' Hair moisture: completely dry, natural airy strands with zero wetness.' : ''));
+  lines.push(`Haircut & Prep Hold: ${hairText}; styled with ${hairHold}.${covVal ? ' Face-behind-hair veil: ' + covVal + ' (preserve chosen haircut length).' : ''}${moistNote}`);
+  lines.push(`Prep Apparel: Wearing ${apparelText}.`);
+  lines.push(`Skin, Lips & Eye Prep: ${skinFinishText}. Lip finish: ${lipText}.${!hideEyes ? ' Eye detail: ' + eyeText + '.' : ''}`);
+  if(exprText) lines.push(`Model Posture & Expression: ${poseText}. Expression: ${exprText}.`);
+  else lines.push(`Model Posture: ${poseText}.`);
+  lines.push('');
+
+  if(covVal && veilTier !== 'auto'){
+    lines.push('HAIR VEIL DIRECTIVE (MANDATORY — STRICT FACIAL COVERAGE ENFORCEMENT):');
+    lines.push(`• Selected Tier: ${covLabel}`);
+    lines.push(`• Drape & Coverage: ${covVal}`);
+    lines.push(`• Strict Enforcement: ${veilRuleObj?.strict || ''}`);
+    lines.push(`• Silhouette Integrity: Preserve chosen haircut (${values.prepHair?.label || 'cut'}) architecture cleanly.`);
+    lines.push('');
+  }
+
+  lines.push('CAMERA, OPTICS & LIGHTING');
+  lines.push(`Camera: ${camText}. Lighting: ${lightText}. Film character: ${filmText}. Aspect ratio: ${aspText}.`);
+
+  if(customDirection.trim()){
+    lines.push('');
+    lines.push('ADDITIONAL CREATIVE DIRECTION');
+    lines.push(customDirection.trim());
+  }
+
+  const checks = [];
+  if(checkState.identity) checks.push('Strictly preserve the recognizable adult woman from the reference image without identity drift.');
+  if(checkState.skin) checks.push('Authentic dermal micro-pores, natural skin sheen from serums/steam, and delicate fine vellus texture.');
+  if(checkState.retouch) checks.push('Zero waxy plastic airbrushing, zero digital doll smoothing, and zero fake glamour glow.');
+  if(checkState.hands) checks.push('All artist/model hands naturally articulated with zero floating limbs or disembodied fingers.');
+  if(checkState.hairStrands) checks.push(prepHairMoisture === 'wet' ? 'Glistening wet hair strand ribbons with zero dry fluffy frizz.' : 'Natural individual hair strands and realistic sectioning clip tension.');
+  if(checkState.noMirror) checks.push('Direct un-reflected vanity perspective with zero reflective glass panels or duplicated subjects.');
+  if(checkState.noText) checks.push('Strictly zero brand logos, watermarks, cosmetic typography, or text overlays.');
+
+  lines.push('');
+  lines.push('IDENTITY & REALISM SAFEGUARDS:');
+  checks.forEach(c => lines.push('• ' + c));
+
+  const negs = [
+    'secondary women, multiple women in background, female makeup artist, female aesthetician',
+    'identity drift, plastic waxy skin, heavy Photoshop retouching, artificial CGI smoothness',
+    'floating disembodied hands, malformed fingers, warped brushes, distorted dropper bottles'
+  ];
+  if(isSoloPrep) negs.push('second person standing behind chair, extra hands touching face');
+  if(isFaceHidden) negs.push('visible front facial view, frontal eye contact, revealing turned-away face');
+  if(veilRuleObj?.neg) negs.push(veilRuleObj.neg);
+  if(prepHairMoisture === 'wet') negs.push('dry hair, airy blown-out volume, static flyaways, cottony dryness');
+  else if(prepHairMoisture === 'damp') negs.push('bone-dry fluffy hair, frizzy static dryness');
+  else if(!isExplicitWetCut) negs.push('soaked wet dripping hair, drenched slicked clumps');
+  if(checkState.noMirror) negs.push('mirrors, mirror reflections, duplicated faces in glass');
+  if(checkState.noText) negs.push('text overlays, brand names, cosmetic packaging fonts, watermarks');
+  if(extraNegative.trim()) negs.push(extraNegative.trim());
+
+  lines.push('');
+  lines.push('AVOID / NEGATIVE GUIDANCE:');
+  negs.forEach(n => lines.push('• ' + n));
+
+  const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+  const promptEl = el('prompt');
+  if(promptEl){
+    promptEl.value = text;
+    promptEl.textContent = text;
+  }
+  const words = text.trim().split(/\s+/).length;
+  if(el('wordCount')) el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} characters · Makeup & Spa`;
+  if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
+
+  const moistMap = { dry: 'Dry & Blown-out', damp: 'Damp / Misted', wet: 'Soaked Wet' };
+  const summaryIds = ['prepLocation', 'prepActiveAction', 'prepHair', 'prepHairFaceCoverage', (wardrobeMode === 'separates' ? 'topPiece' : 'prepOutfit'), 'prepLighting'];
+  const sumTags = summaryIds
+    .filter(id => fields[id] && values[id])
+    .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: <strong>${values[id].label}</strong></span>`);
+  sumTags.splice(3, 0, `<span class="summary-tag" title="Hair moisture state">Moisture: <strong>${moistMap[prepHairMoisture] || 'Dry'}</strong></span>`);
+  if(el('summary')) el('summary').innerHTML = sumTags.join('');
+  if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent = `${values.prepActiveAction?.label || 'Prep'} · ${values.prepLocation?.label || ''}`;
+
+  if(values.aspect){
+    document.querySelectorAll('.ratio-chip').forEach(chip => {
+      chip.classList.toggle('active', values.aspect.label.includes(chip.dataset.ratio));
+    });
+  }
+  const isCollage = (values.numImages?.text === 'collage');
+  el('btnSingleMode')?.classList.toggle('active', !isCollage);
+  el('btnLookbookMode')?.classList.toggle('active', isCollage);
+
+  save();
+  return text;
+}
+
+// ==========================================
+// UTILITY & TOOLBAR WIRING
+// ==========================================
+
+function toast(msg){
+  const t = el('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.classList.remove('flash');
+  void t.offsetWidth;
+  t.classList.add('flash');
+}
+
+function recordHistory(){
+  const t = el('prompt')?.value.trim();
+  if(!t) return;
+  if(!promptHistory.length || promptHistory[0].text !== t){
+    promptHistory.unshift({
+      id: Date.now(),
+      title: values.prepActiveAction?.label || 'Makeup & Spa Prompt',
+      sub: values.prepLocation?.label || 'Prep Studio',
+      text: t,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      words: t.split(/\s+/).length
+    });
+    if(promptHistory.length > 30) promptHistory.pop();
+    const b = el('historyBadge');
+    if(b) b.textContent = promptHistory.length;
+    try { localStorage.setItem(PREP_HIST_KEY, JSON.stringify(promptHistory)); } catch(e){}
+  }
+}
+
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e){}
+  ta.remove();
+}
+
+function copy(text){
+  recordHistory();
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(() => toast('Copied prompt to clipboard.')).catch(() => { fallbackCopy(text); toast('Copied prompt to clipboard.'); });
+  } else {
+    fallbackCopy(text);
+    toast('Copied prompt to clipboard.');
+  }
+}
+
+function randomizeAll(){
+  Object.keys(fields).forEach(k => {
+    if(lockedFields.has(k) || k.endsWith('Category') || k === 'prepDiscipline') return;
+    const f = fields[k];
+    values[k] = f.opts[Math.floor(Math.random() * f.opts.length)];
+  });
+  activePreset = '';
+  renderPresets();
+  renderFields();
+  buildPrompt();
+  toast('✦ Generated fresh Makeup & Spa configuration!');
+}
+
+function resetAll(){
+  Object.keys(fields).forEach(k => {
+    if(!lockedFields.has(k)) values[k] = fields[k].opts[fields[k].def || 0];
+  });
+  prepHairMoisture = 'dry';
+  wardrobeMode = 'ensemble';
+  customDirection = '';
+  extraNegative = '';
+  activePreset = '';
+  save();
+  renderPresets();
+  renderFields();
+  buildPrompt();
+  toast(lockedFields.size > 0 ? '↺ Reset choices to defaults (locked choices kept).' : '↺ Reset all selections to defaults.');
+}
+
+function shuffleStarterPresets(){
+  for(let i = starterPresets.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [starterPresets[i], starterPresets[j]] = [starterPresets[j], starterPresets[i]];
+  }
+  renderPresets();
+  toast('↻ Shuffled starter prep directions (your current choices stay intact).');
+}
+
+function saveCustomPrepPreset(optionalName){
+  const name = (typeof optionalName === 'string' && optionalName.trim())
+    ? optionalName
+    : prompt('Enter a name for this custom Makeup & Spa preset:', 'Custom Prep ' + (customPresets.length + 1));
+  if(!name || !name.trim()) return null;
+  const newPreset = {
+    id: 'user_' + Date.now(),
+    title: name.trim(),
+    sub: [values.prepActiveAction?.label, values.prepLocation?.label].filter(Boolean).join(' · ') || 'Custom Prep',
+    icon: '⭐',
+    isCustom: true,
+    wardrobeMode,
+    hairMoisture: prepHairMoisture,
+    values: Object.assign({}, values)
+  };
+  customPresets.unshift(newPreset);
+  save();
+  renderPresets();
+  toast(`Saved “${name.trim()}” to custom presets.`);
+  return newPreset;
+}
+
+function exportPrepPresets(){
+  const payload = {
+    version: 1,
+    studio: 'makeup_spa',
+    exportedAt: new Date().toISOString(),
+    customPresets: customPresets.map(p => ({
+      id: p.id,
+      title: p.title,
+      sub: p.sub,
+      icon: p.icon || '⭐',
+      wardrobeMode: p.wardrobeMode || 'ensemble',
+      hairMoisture: p.hairMoisture || 'dry',
+      set: serializePresetSet(p.values)
+    }))
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = 'afterglow-makeup-spa-presets.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast(customPresets.length ? `✓ Exported ${customPresets.length} custom look(s) as .json.` : '✓ Exported empty template.');
+}
+
+function importPrepPresetsFromData(parsed){
+  const list = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.customPresets) ? parsed.customPresets : null);
+  if(!list) throw new Error('Invalid preset JSON');
+  let added = 0;
+  list.forEach(raw => {
+    if(!raw || !raw.title) return;
+    const hydrated = hydratePresetSet(raw.set || raw.values || raw.v);
+    if(!Object.keys(hydrated).length) return;
+    if(customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
+    customPresets.unshift({
+      id: raw.id || ('user_' + Date.now() + '_' + added),
+      title: String(raw.title).slice(0, 80),
+      sub: raw.sub || 'Imported Prep',
+      icon: raw.icon || '⭐',
+      isCustom: true,
+      wardrobeMode: raw.wardrobeMode,
+      hairMoisture: raw.hairMoisture,
+      values: hydrated
+    });
+    added++;
+  });
+  save();
+  renderPresets();
+  return added;
+}
+
+el('randomTop')?.addEventListener('click', randomizeAll);
+el('copyTop')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('copy')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('resetTop')?.addEventListener('click', resetAll);
+el('shuffleLooks')?.addEventListener('click', shuffleStarterPresets);
+el('saveCustomLook')?.addEventListener('click', () => saveCustomPrepPreset());
+el('exportPresetsBtn')?.addEventListener('click', exportPrepPresets);
+
+if(el('importPresetsBtn') && el('importPresetsInput')){
+  el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
+  el('importPresetsInput').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const c = importPrepPresetsFromData(JSON.parse(reader.result));
+        toast(c ? `✓ Imported ${c} custom look(s).` : 'No new custom looks found in file.');
+      } catch(err){
+        toast('Could not import presets: invalid .json file.');
+      }
+      e.target.value = '';
+    };
+    reader.readAsText(file);
+  });
+}
+
+el('copyPositive')?.addEventListener('click', () => {
+  const t = el('prompt')?.value || '';
+  copy(extractPositivePrompt(t) || t);
+  toast('✓ Copied positive prompt only (exclusions omitted).');
+});
+
+el('copyNegative')?.addEventListener('click', () => {
+  const t = el('prompt')?.value || '';
+  const neg = extractNegativePrompt(t);
+  if(neg){
+    copy(neg);
+    toast('✓ Copied exclusions only to clipboard.');
+  } else {
+    toast('No negative guidance found.');
+  }
+});
+
+el('download')?.addEventListener('click', () => {
+  const t = el('prompt')?.value || '';
+  const blob = new Blob([t], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = 'afterglow-makeup-spa-prompt.txt';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast('Prompt saved as a text file.');
+});
+
+el('selectPrompt')?.addEventListener('click', () => {
+  const p = el('prompt');
+  if(p){ p.focus(); p.select(); toast('Prompt selected. Press Ctrl+C.'); }
+});
+
+el('prevStep')?.addEventListener('click', () => {
+  const i = sections.findIndex(s => s.id === activeSection);
+  if(i > 0) goSection(sections[i - 1].id);
+});
+el('nextStep')?.addEventListener('click', () => {
+  const i = sections.findIndex(s => s.id === activeSection);
+  goSection(sections[(i + 1) % sections.length].id);
+});
+el('finishJump')?.addEventListener('click', () => goSection('finish'));
+
+el('btnSingleMode')?.addEventListener('click', () => {
+  values.numImages = prepOutputFormats[0];
+  buildPrompt();
+  renderFields();
+  toast('Single finished photograph mode activated.');
+});
+el('btnLookbookMode')?.addEventListener('click', () => {
+  values.numImages = prepOutputFormats[1];
+  buildPrompt();
+  renderFields();
+  toast('2×2 Prep Progression Collage mode activated.');
+});
+
+document.querySelectorAll('.ratio-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const ratio = chip.dataset.ratio;
+    const m = fields.aspect.opts.find(o => o.label.includes(ratio));
+    if(m){
+      values.aspect = m;
+      buildPrompt();
+      renderFields();
+      toast(`Aspect ratio set to ${ratio}.`);
+    }
+  });
+});
+
+function generateShareUrl(){
+  try {
+    const params = new URLSearchParams();
+    Object.keys(values).forEach(k => { if(values[k]) params.set(k, values[k].label); });
+    params.set('wm', wardrobeMode);
+    params.set('hm', prepHairMoisture);
+    const url = window.location.origin + window.location.pathname + '?' + params.toString();
+    copy(url);
+    toast('🔗 Shareable look URL copied!');
+  } catch(e){ toast('Could not generate share URL.'); }
+}
+el('shareLookBtn')?.addEventListener('click', generateShareUrl);
+el('shareLookTop')?.addEventListener('click', generateShareUrl);
+
+// History modal
+function openHistory(){
+  const l = el('historyList');
+  if(l){
+    l.innerHTML = !promptHistory.length
+      ? '<div class="history-empty"><p>No saved history yet.</p><small>Prompts you copy are saved locally here.</small></div>'
+      : promptHistory.map((item, idx) => `
+          <div class="history-item">
+            <div class="history-item-top">
+              <strong class="history-item-title">${item.title}</strong>
+              <span class="history-item-time">${item.time}</span>
+            </div>
+            <div class="history-item-sub">${item.sub} · ${item.words} words</div>
+            <div class="history-item-actions"><button class="btn btn-primary btn-small copy-hist" data-idx="${idx}" type="button">Copy ▣</button></div>
+          </div>
+        `).join('');
+    l.querySelectorAll('.copy-hist').forEach(b => b.addEventListener('click', () => {
+      const item = promptHistory[Number(b.dataset.idx)];
+      if(item){ copy(item.text); closeHistory(); }
+    }));
+  }
+  el('historyModal')?.classList.add('active');
+  el('historyBackdrop')?.classList.add('active');
+}
+function closeHistory(){
+  el('historyModal')?.classList.remove('active');
+  el('historyBackdrop')?.classList.remove('active');
+}
+el('openHistoryBtn')?.addEventListener('click', openHistory);
+el('closeHistoryBtn')?.addEventListener('click', closeHistory);
+el('historyBackdrop')?.addEventListener('click', closeHistory);
+el('clearHistoryBtn')?.addEventListener('click', () => {
+  promptHistory = [];
+  try { localStorage.removeItem(PREP_HIST_KEY); } catch(e){}
+  if(el('historyBadge')) el('historyBadge').textContent = '0';
+  openHistory();
+  toast('History cleared.');
+});
+
+// Mobile Drawer & FAB
+const previewEl = document.querySelector('.preview');
+const backdropEl = el('drawerBackdrop');
+function openDrawer(){
+  if(previewEl) previewEl.classList.add('drawer-open');
+  if(backdropEl) backdropEl.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer(){
+  if(previewEl) previewEl.classList.remove('drawer-open');
+  if(backdropEl) backdropEl.classList.remove('active');
+  document.body.style.overflow = '';
+}
+el('openDrawerBtn')?.addEventListener('click', openDrawer);
+el('closeDrawer')?.addEventListener('click', closeDrawer);
+backdropEl?.addEventListener('click', closeDrawer);
+el('sheetHandle')?.addEventListener('click', () => {
+  if(previewEl?.classList.contains('drawer-open')) closeDrawer();
+  else openDrawer();
+});
+el('mobileCopyBtn')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('topQuickCopy')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('fab')?.addEventListener('click', () => {
+  copy(el('prompt')?.value || '');
+  const f = el('fab');
+  if(f){ f.textContent = '✓ Copied'; setTimeout(() => f.textContent = '▣ Copy prompt', 1500); }
+});
+
+// Initialize
+const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
+if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + '+ curated choices';
+load();
+renderPresets();
+renderTabs();
+goSection(activeSection || 'prepVenueSec');
+buildPrompt();
+
+window.AfterglowMakeupSpa = {
+  getFields: () => fields,
+  getValues: () => values,
+  getCheckState: () => checkState,
+  buildPrompt,
+  renderFields,
+  renderPresets,
+  save,
+  load,
+  resetAll,
+  saveCustomPrepPreset,
+  deleteCustomPreset,
+  importPrepPresetsFromData,
+  getCustomPresets: () => customPresets,
+  getStarterPresets: () => starterPresets,
+  getHair: () => hair,
+  getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getMoisture: () => prepHairMoisture,
+  setMoisture: (m) => { prepHairMoisture = m; renderFields(); buildPrompt(); },
+  getWardrobeMode: () => wardrobeMode,
+  setWardrobeMode: (m) => { wardrobeMode = m; renderFields(); buildPrompt(); },
+  getExtractedPositive: () => extractPositivePrompt(el('prompt')?.value || ''),
+  getExtractedNegative: () => extractNegativePrompt(el('prompt')?.value || '')
+};
+})();
+</script>
+</body>
+</html>

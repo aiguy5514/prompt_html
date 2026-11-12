@@ -101,6 +101,7 @@ const links = [...document.querySelectorAll('a')].map(a => a.getAttribute('href'
 ok('index_has_photoshoot_link', links.some(h => h.includes('photoshoot.html')));
 ok('index_has_salon_link', links.some(h => h.includes('salon.html')));
 ok('index_has_tattoo_link', links.some(h => h.includes('tattoo.html')));
+ok('index_has_makeup_spa_link', links.some(h => h.includes('makeup_spa.html')));
 '''
 
 SALON_JS = r'''
@@ -330,6 +331,67 @@ api.load();
 ok('tattoo_reload_restores_custom_preset', api.getCustomPresets().some(p => p.id === 'tattoo_imp_1'));
 '''
 
+MAKEUP_SPA_JS = r'''
+const api = window.AfterglowMakeupSpa;
+ok('makeup_api_exposed', !!api);
+ok('makeup_shared_datasets', api.getHair().length === 261 && api.getFields().topPiece.opts.length === 35);
+ok('makeup_starts_in_venue_sec', document.querySelector('.tab.active')?.dataset?.section === 'prepVenueSec');
+
+// Navigate to Hair Prep & Apparel -> check moisture card & Separates toggle
+document.querySelector('[data-section="prepHairWardrobeSec"]').click();
+ok('makeup_moisture_card_rendered', !!document.getElementById('moistureToggleCard'));
+document.querySelector('.moisture-pill[data-moisture="wet"]').click();
+const [mWetPos, mWetNeg] = document.getElementById('prompt').value.split('AVOID / NEGATIVE GUIDANCE:');
+ok('makeup_wet_physics_enforced', mWetPos.includes('Mandatory Soaked Wet Hair Physics') && mWetNeg.includes('dry hair'));
+ok('makeup_wet_summary_tag', document.getElementById('summary').textContent.includes('Soaked Wet'));
+
+// Toggle to Two-Piece Separates
+document.getElementById('btnPrepSeparates').click();
+ok('makeup_separates_updates_prompt', document.getElementById('prompt').value.includes('separates pairing'));
+
+// Veil landmark lock + haircut architecture preservation + eye detail suppression
+const vals = api.getValues();
+vals.prepHair = api.getHair().find(h => h.label.includes('Chin-length French bob'));
+vals.prepHairFaceCoverage = api.getHairFaceCoverageOpts().find(o => o.label.includes('80–85%'));
+const pVeil = api.buildPrompt();
+ok('makeup_80_veil_chin_bob', pVeil.includes('Strictly keep the bob hem ending crisply at chin/jawline level') && pVeil.includes('ZERO visible eyeballs'));
+ok('makeup_80_veil_suppresses_eye_detail', !pVeil.split('AVOID / NEGATIVE GUIDANCE:')[0].includes('Eye detail:'));
+
+// Check Finish & Controls customDirection + extraNegative + noMirror
+document.querySelector('[data-section="finish"]').click();
+const customDir = document.getElementById('customDirInput');
+const extraNeg = document.getElementById('extraNegInput');
+ok('makeup_finish_textareas_rendered', !!customDir && !!extraNeg);
+customDir.value = 'silver hydrosol bottle beside marble tray';
+customDir.dispatchEvent(new Event('input'));
+extraNeg.value = 'harsh neon lighting';
+extraNeg.dispatchEvent(new Event('input'));
+const finishPrompt = document.getElementById('prompt').value;
+ok('makeup_custom_dir_in_prompt', finishPrompt.includes('silver hydrosol bottle beside marble tray'));
+ok('makeup_extra_neg_in_prompt', finishPrompt.includes('harsh neon lighting'));
+
+document.getElementById('chkNoMirror').click();
+const noMirrorPrompt = document.getElementById('prompt').value;
+ok('makeup_no_mirror_removes_mirrors', !/\bmirror\b/i.test(noMirrorPrompt.split('AVOID / NEGATIVE GUIDANCE:')[0]));
+
+// 2x2 Prep Collage toggle + Copy Positive/Negative
+document.getElementById('btnLookbookMode').click();
+ok('makeup_collage_2x2_panel', document.getElementById('prompt').value.includes('2×2 EDITORIAL PREP COLLAGE PROGRESSION'));
+ok('makeup_copy_positive_strips_neg', !api.getExtractedPositive().includes('AVOID / NEGATIVE GUIDANCE:'));
+ok('makeup_copy_negative_live', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
+
+// Mobile drawer + Custom Preset localStorage persistence + JSON import
+document.getElementById('openDrawerBtn').click();
+ok('makeup_drawer_opens', document.querySelector('.preview').classList.contains('drawer-open'));
+document.getElementById('drawerBackdrop').click();
+ok('makeup_drawer_closes', !document.querySelector('.preview').classList.contains('drawer-open'));
+
+const saved = api.saveCustomPrepPreset('My Gua Sha Night');
+ok('makeup_save_preset_persists', !!saved && (localStorage.getItem('afterglow_makeup_spa_v1') || '').includes('My Gua Sha Night'));
+const imp = api.importPrepPresetsFromData({ customPresets: [{ id: 'imp_prep_1', title: 'Imported Spa Mist', hairMoisture: 'damp', set: { prepLocation: api.getFields().prepLocation.opts[2].label } }] });
+ok('makeup_import_preset_works', imp === 1);
+'''
+
 
 def main():
     browser = find_browser()
@@ -338,6 +400,7 @@ def main():
         ('salon.html', SALON_JS),
         ('photoshoot.html', PHOTOSHOOT_JS),
         ('tattoo.html', TATTOO_JS),
+        ('makeup_spa.html', MAKEUP_SPA_JS),
     ]
     total_passed = 0
     total_failed = 0

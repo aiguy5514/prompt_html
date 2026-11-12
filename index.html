@@ -47,7 +47,7 @@
 }
 .portal-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-top: 20px;
 }
@@ -93,6 +93,9 @@
 .portal-card.card-tattoo:hover::before {
   background: linear-gradient(90deg, #06b6d4, #10b981);
 }
+.portal-card.card-makeup:hover::before {
+  background: linear-gradient(90deg, #f472b6, #f59e0b);
+}
 .portal-card-head {
   display: flex;
   align-items: center;
@@ -121,6 +124,10 @@
 .card-tattoo .portal-icon {
   background: rgba(6, 182, 212, 0.1);
   border-color: rgba(6, 182, 212, 0.25);
+}
+.card-makeup .portal-icon {
+  background: rgba(244, 114, 182, 0.1);
+  border-color: rgba(244, 114, 182, 0.25);
 }
 .portal-badge {
   font-size: 0.7rem;
@@ -254,7 +261,8 @@
     <a href="index.html" class="suite-nav-link active" title="Afterglow Hub">✦ Hub</a>
     <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
     <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon & Barbershop</a>
-    <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio <span class="nav-badge">NEW</span></a>
+    <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
+    <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa <span class="nav-badge">NEW</span></a>
   </nav>
   <div class="top-meta">
     <span class="pill"><span class="pill-dot"></span> Suite v2.5</span>
@@ -338,6 +346,28 @@
       </div>
       <div class="portal-cta">
         <span>Launch Tattoo Studio</span>
+        <span class="portal-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Card 4: Makeup Chair & Facial Spa Studio -->
+    <a href="makeup_spa.html" class="portal-card card-makeup">
+      <div class="portal-card-head">
+        <div class="portal-icon">💄</div>
+        <span class="portal-badge badge-new">New · Vanity &amp; Spa</span>
+      </div>
+      <h2 class="portal-title">Makeup Chair &amp; Facial Spa Studio</h2>
+      <p class="portal-desc">Direct backstage vanity-bulb makeup sessions, cryo rose-quartz gua sha &amp; hydrosol misting, 24k under-eye prep, silk robes &amp; strapless spa wraps, duckbill section clips, steamy facial cabins, and 4-panel prep progression collages.</p>
+      <div class="portal-features">
+        <span class="portal-tag">24 Vanity &amp; Spa Suites</span>
+        <span class="portal-tag">Robes &amp; Strapless Wraps</span>
+        <span class="portal-tag">Gua Sha &amp; Liner Prep</span>
+        <span class="portal-tag">260+ Haircuts</span>
+        <span class="portal-tag">Face-Veil % Control</span>
+        <span class="portal-tag">2×2 Prep Collages</span>
+      </div>
+      <div class="portal-cta">
+        <span>Launch Makeup &amp; Spa Studio</span>
         <span class="portal-cta-arrow">→</span>
       </div>
     </a>
