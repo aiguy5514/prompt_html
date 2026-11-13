@@ -88,7 +88,13 @@ setTimeout(function() {{
         dom = proc.stdout
     finally:
         if os.path.exists(tmp_path):
-            os.remove(tmp_path)
+            import time
+            for _ in range(5):
+                try:
+                    os.remove(tmp_path)
+                    break
+                except OSError:
+                    time.sleep(0.1)
 
     m = re.search(r'<div id="afterglow-test-report">([\s\S]*?)</div>', dom)
     if not m:
@@ -199,6 +205,14 @@ document.getElementById('copyNegative').click();
 ok('salon_toast_copy_negative', document.getElementById('toast').textContent.includes('exclusions'));
 document.getElementById('btnQuickGrooming').click();
 ok('salon_quick_grooming_activates', api.getSeatingMode() === 'grooming_men');
+
+// Theme 3 & 4: Clipper guard depth selector + token estimation + buzzword purge
+ok('salon_clipper_guard_field_exists', !!api.getFields().salonClipperGuard && api.getFields().salonClipperGuard.opts.length === 6);
+api.getValues().salonClipperGuard = api.getFields().salonClipperGuard.opts[3];
+const sGuardPrompt = api.buildSalonPrompt();
+ok('salon_clipper_guard_reflected', sGuardPrompt.includes('#1 magnetic clipper guard'));
+ok('salon_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
+ok('salon_buzzwords_purged', !sGuardPrompt.includes('harmonized with the selected establishment'));
 '''
 
 PHOTOSHOOT_JS = r'''
@@ -256,6 +270,14 @@ document.querySelector('.moisture-pill[data-moisture="damp"]').click();
 ok('ps_localstorage_saves_moisture_damp', (localStorage.getItem('afterglow-prompt-studio-v2') || '').includes('"pm":"damp"'));
 document.getElementById('copyPositive').click();
 ok('ps_toast_copy_positive', document.getElementById('toast').textContent.includes('positive'));
+
+// Theme 3 & 4: 35mm optical detail + dry water check gating + token estimation
+ok('ps_4k_buzzwords_purged', !document.getElementById('prompt').value.includes('4K-style'));
+ok('ps_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
+api.setMoisture('dry');
+api.getCheckState().waterReal = true;
+const psDryPrompt = api.buildPrompt();
+ok('ps_dry_no_water_droplets', !psDryPrompt.includes('Authentic water droplets, believable wet hair clumping'));
 '''
 
 TATTOO_JS = r'''
@@ -331,6 +353,16 @@ api.save();
 api.getCustomPresets().length = 0;
 api.load();
 ok('tattoo_reload_restores_custom_preset', api.getCustomPresets().some(p => p.id === 'tattoo_imp_1'));
+
+// Theme 3 & 4: Dual-placement layer + Finish textareas + Vector buzzwords purged + Token estimation
+document.querySelector('.tab[data-section="finish"]').click();
+ok('tattoo_finish_textareas_exist', !!document.getElementById('customDirInput') && !!document.getElementById('extraNegInput'));
+ok('tattoo_secondary_placement_field_exists', !!api.getFields().tattooSecondaryPlacement && api.getFields().tattooSecondaryPlacement.opts.length === 6);
+api.getValues().tattooSecondaryPlacement = api.getFields().tattooSecondaryPlacement.opts[1];
+const tSecPrompt = api.buildPrompt();
+ok('tattoo_secondary_placement_reflected', tSecPrompt.includes('Dual-placement accent') && tSecPrompt.includes('behind the left earlobe'));
+ok('tattoo_vector_buzzword_purged', !tSecPrompt.includes('Vector-grade') && tSecPrompt.includes('Subdermal single-needle micro-stippling'));
+ok('tattoo_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 '''
 
 MAKEUP_SPA_JS = r'''
@@ -392,6 +424,14 @@ const saved = api.saveCustomPrepPreset('My Gua Sha Night');
 ok('makeup_save_preset_persists', !!saved && (localStorage.getItem('afterglow_makeup_spa_v1') || '').includes('My Gua Sha Night'));
 const imp = api.importPrepPresetsFromData({ customPresets: [{ id: 'imp_prep_1', title: 'Imported Spa Mist', hairMoisture: 'damp', set: { prepLocation: api.getFields().prepLocation.opts[2].label } }] });
 ok('makeup_import_preset_works', imp === 1);
+
+// Theme 3 & 4: Treatment phase + Steam density + Token estimation
+ok('makeup_phase_and_steam_fields', !!api.getFields().prepPhase && !!api.getFields().prepSteamDensity);
+api.getValues().prepSteamDensity = api.getFields().prepSteamDensity.opts[2];
+api.getValues().prepPhase = api.getFields().prepPhase.opts[1];
+const mPrompt = api.buildPrompt();
+ok('makeup_phase_and_steam_reflected', mPrompt.includes('Dense Steam Sanctuary') || mPrompt.includes('warm, deeply humid spa steam'));
+ok('makeup_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 '''
 
 VIDEO_JS = r'''
@@ -432,6 +472,16 @@ ok('video_copy_positive_works', !api.getExtractedPositive().includes('AVOID / NE
 ok('video_copy_negative_works', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
 const saved = api.saveCustomVidPreset('Test Monsoon Motion');
 ok('video_save_preset_localstorage', !!saved && (localStorage.getItem('afterglow_video_director_v1') || '').includes('Test Monsoon Motion'));
+
+// Theme 3 & 4: Speed curve + Seamless loop + Token estimation
+ok('video_speed_curve_field_exists', !!api.getFields().vidSpeedCurve);
+api.getValues().vidSpeedCurve = api.getFields().vidSpeedCurve.opts[1];
+const vCurvePrompt = api.buildPrompt();
+ok('video_speed_curve_reflected', vCurvePrompt.includes('Dynamic Speed Ramp') || vCurvePrompt.includes('cinematic speed ramp curve'));
+document.getElementById('chkLoop').click();
+const vLoopPrompt = api.buildPrompt();
+ok('video_seamless_loop_reflected', vLoopPrompt.includes('Seamless loop requirement') && vLoopPrompt.includes('jump cut at loop point'));
+ok('video_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 '''
 
 STORYBOARD_JS = r'''
@@ -470,6 +520,18 @@ const saved = api.saveCustomStoryPreset('6-Shot Salon Story');
 ok('sb_save_preset_localstorage', !!saved && (localStorage.getItem('afterglow_storyboarder_v1') || '').includes('6-Shot Salon Story'));
 const impCount = api.importStoriesFromData({ customPresets: [{ id: 'imp_sb_1', title: 'Imported 3-Shot Story', frameCount: 3, frames: api.getFrames().slice(0,3) }] });
 ok('sb_import_preset_works', impCount === 1);
+
+// Theme 3 & 4: Filmstrip UI + Per-frame lens override + Token estimation
+const filmstrip = document.getElementById('sbFilmstrip');
+ok('sb_filmstrip_rendered', !!filmstrip && filmstrip.querySelectorAll('.sb-film-box').length === 6);
+const card1 = document.querySelectorAll('.sb-frame-card')[0];
+const lensSel = card1.querySelector('.sb-lens');
+ok('sb_frame_lens_selector_exists', !!lensSel);
+lensSel.selectedIndex = 1;
+lensSel.dispatchEvent(new Event('change'));
+document.querySelector('.shot-tab[data-shot="1"]').click();
+ok('sb_shot1_lens_override_reflected', document.getElementById('prompt').value.includes('85mm f/1.4 telephoto portrait lens'));
+ok('sb_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 '''
 
 

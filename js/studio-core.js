@@ -13,6 +13,7 @@ const {
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
+  cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
   extractPositivePrompt, extractNegativePrompt
 } = window.AfterglowVeil;
 
@@ -79,7 +80,7 @@ const style=[O('Candid luxury editorial','candid luxury fashion editorial photog
 const mood=[O('Fearless and self-assured','fearless, self-assured energy'),O('Playful and cheeky','playful, cheeky energy'),O('Cool and unbothered','cool, unbothered confidence'),O('Glamorous and composed','glamorous, composed energy'),O('Fresh makeover excitement','fresh post-makeover excitement'),O('Edgy rock-chic','edgy rock-chic attitude'),O('Quietly powerful','quietly powerful and grounded mood'),O('Relaxed and spontaneous','relaxed, spontaneous energy'),O('Celebratory reveal','a celebratory makeover-reveal mood'),O('Mysterious and cinematic','a mysterious, cinematic mood'),O('Warm and approachable','warm, approachable confidence'),O('High-fashion intensity','high-fashion intensity without exaggerated posing')];
 const grade=[O('Natural true-to-life color','natural, true-to-life color with balanced skin tones'),O('Warm film warmth','subtle warm film-inspired color'),O('Cool editorial tones','cool editorial color tones with skin kept natural'),O('Rich jewel tones','rich jewel tones with controlled saturation'),O('Soft neutral palette','soft neutral palette with natural contrast'),O('Deep blacks, gentle highlights','deep blacks and gentle highlights without crushed detail'),O('Classic analog grain','subtle classic analog grain'),O('Clean crisp digital','clean crisp digital color with realistic contrast'),O('Muted cinematic palette','muted cinematic color grading'),O('Warm skin, cool shadows','warm natural skin tones with slightly cooler shadows')];
 const aspect=[O('Vertical 9:16','vertical 9:16 portrait composition'),O('Portrait 4:5','portrait 4:5 composition for a social-media post'),O('Classic portrait 3:4','classic 3:4 portrait composition'),O('Square 1:1','square 1:1 composition'),O('Landscape 3:2','landscape 3:2 composition')];
-const quality=[O('Photorealistic 4K detail','highly photorealistic, detailed 4K-style image quality'),O('Natural DSLR realism','natural DSLR realism with believable optical depth'),O('High-quality phone realism','high-quality smartphone realism with natural texture'),O('Magazine-quality finish','magazine-quality finish while preserving photographic authenticity'),O('Subtle film grain','subtle film grain and realistic tonal texture'),O('Crisp but not oversharpened','crisp details without artificial oversharpening')];
+const quality=[O('Photorealistic 35mm optical detail','natural 35mm optical sensor fidelity with unclipped dynamic range and gentle highlight roll-off'),O('Natural DSLR realism','natural DSLR realism with believable optical depth'),O('High-quality phone realism','high-quality smartphone realism with natural texture'),O('Magazine-quality finish','magazine-quality finish while preserving photographic authenticity'),O('Subtle film grain','subtle film grain and realistic tonal texture'),O('Crisp but not oversharpened','crisp details without artificial oversharpening')];
 
 // EXTENDED OPTION LIBRARY — expanded curated combinations plus new micro-control fields.
 
@@ -971,6 +972,15 @@ const salonHairTexture = makeOpts([
   ['Rich oiled traditional Indian hair luster', 'deep rich natural luster reminiscent of traditional herbal hair care, with deep strand nourishment and healthy weight']
 ]);
 
+const salonClipperGuards = makeOpts([
+  ['Auto (Adapts to chosen haircut)', ''],
+  ['#0 Bald Skin Fade (Zero foil shaver down to skin)', 'faded with a zero-gap shaver down to clean skin along the nape and lower perimeter'],
+  ['#0.5 Shadow Fade (1/16" / 1.5mm micro-stubble)', 'tapered with a #0.5 guard creating a soft shadow fade into skin'],
+  ['#1 Clean Fade (1/8" / 3mm clipper guard)', 'sculpted cleanly with a #1 magnetic clipper guard providing crisp edge definition'],
+  ['#2 Taper Length (1/4" / 6mm clipper guard)', 'shaped with a #2 clipper guard leaving smooth uniform clipper density'],
+  ['Scissor-over-comb artisan taper (No electric clippers)', 'blended with fine scissor-over-comb hand technique and carbon comb teeth with zero electric clippers']
+]);
+
 
 const escapeHtml = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
@@ -1693,6 +1703,7 @@ salonHairCategory:{label:'Haircut style family',section:'salonHairSec',opts:HAIR
 salonHaircut:{label:'Haircut being cut',section:'salonHairSec',opts:hair,def:0},
 salonFaceHairCoverage:{label:'% of face behind hair (veil coverage)',section:'salonHairSec',opts:hairFaceCoverageOpts,def:0},
 salonHairTexture:{label:'Hair texture & density',section:'salonHairSec',opts:salonHairTexture,def:0},
+salonClipperGuard:{label:'Fade & clipper guard depth',section:'salonHairSec',opts:salonClipperGuards,def:0},
 salonCape:{label:'Cutting cape & drape',section:'salonCameraSec',opts:salonCape,def:0},
 salonCamera:{label:'Camera angle & mirror POV',section:'salonCameraSec',opts:salonCamera,def:0},
 salonLighting:{label:'Salon lighting & practicals',section:'salonCameraSec',opts:salonLighting,def:0},
@@ -2071,7 +2082,7 @@ const GROUPS=[
 ['salonStageSec','Client Pose, Expression & Reaction',['salonChairPose','salonBarberPose','salonExpression']],
 ['salonStageSec','Stool & Intimate Barber Setup',['salonStoolType','salonBarberProximity']],
 ['salonStageSec','Hair Work & Model Posture',['salonIntimateHairAction','salonStoolModelPosture']],
-['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonFaceHairCoverage','salonHairTexture']],
+['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonFaceHairCoverage','salonHairTexture','salonClipperGuard']],
 ['salonCameraSec','Cutting Cape & Realism',['salonCape']],
 ['salonCameraSec','Mirror Angle & Lighting',['salonCamera','salonLighting','salonQuality']],
 ['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairFaceCoverage','hairTexture','hairLength','hairVolume','fringe','parting']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
@@ -2085,7 +2096,7 @@ const GROUPS=[
 const CORE_FIELD_IDS = {
 salonVenueSec: new Set(['mode', 'salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonTime', 'salonStationProps']),
 salonStageSec: new Set(['salonStage', 'salonStylist', 'salonChairPose', 'salonBarberPose', 'salonExpression', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture']),
-salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonFaceHairCoverage', 'salonHairTexture']),
+salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonFaceHairCoverage', 'salonHairTexture', 'salonClipperGuard']),
 salonCameraSec: new Set(['salonCape', 'salonCamera', 'salonLighting', 'salonQuality']),
 look: new Set(['mode', 'hairCategory', 'hair', 'hairFaceCoverage', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
 wardrobe: new Set(['outfitCategory', 'outfit', 'topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling', 'outfitFit', 'palette', 'makeup', 'accessories']),
@@ -4142,6 +4153,9 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     ? 'capturing the same adult woman as the active barber/groomer performing relaxing grooming services for her seated male partner'
     : 'immediately post-makeover';
 
+  const dedupedNegs = dedupeNegatives(negatives);
+  const negsText = (Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '';
+
   const shot1 = [
     'REFERENCE-IMAGE EDIT — SHOT 1: BEAUTY CLOSE-UP PORTRAIT',
     '',
@@ -4159,7 +4173,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
+    negsText
   ].filter(Boolean).join('\n');
 
   const shot2 = [
@@ -4184,7 +4198,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
+    negsText
   ].filter(Boolean).join('\n');
 
   const shot3 = [
@@ -4209,7 +4223,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
+    negsText
   ].filter(Boolean).join('\n');
 
   const shot4 = [
@@ -4230,7 +4244,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
+    negsText
   ].filter(Boolean).join('\n');
 
   const allShots = [
@@ -4265,7 +4279,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     custNote,
     '',
     'AVOID / NEGATIVE GUIDANCE',
-    (Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : ''
+    negsText
   ].filter(Boolean).join('\n');
 
   return {
@@ -4522,7 +4536,7 @@ function buildSalonPrompt(){
 
   lines.push('VENUE & ATMOSPHERE');
   const venueText = sanitizeGrooming(sanitizeStool(S(val('salonVenue'))));
-  const designText = (val('salonDesign') && !val('salonDesign').startsWith('Preset Default')) ? S(val('salonDesign')) : '';
+  const designText = (val('salonDesign') && !val('salonDesign').startsWith('Preset Default') && !val('salonDesign').startsWith('harmonized with')) ? S(val('salonDesign')) : '';
   const staffText = isSoloClient
     ? 'Solo client seated comfortably alone at her styling station while her stylist has stepped away'
     : sanitizeGrooming(sanitizeStool(S(val('salonBarberStaff'))));
@@ -4615,7 +4629,9 @@ function buildSalonPrompt(){
   const wetHaircutNote = (salonHairMoisture === 'wet' && !isExplicitDryStage)
     ? ' (rendered right now thoroughly water-soaked: hair hangs heavy, dark, and clumped with water droplets rather than dry airy fluff)'
     : '';
-  const haircutDisplay = `${haircutText}${wetHaircutNote}`;
+  const clipperGuardVal = val('salonClipperGuard');
+  const clipperGuardNote = clipperGuardVal ? ` (clipper guard & taper: ${clipperGuardVal})` : '';
+  const haircutDisplay = `${haircutText}${clipperGuardNote}${wetHaircutNote}`;
   const moistureEnforceDirective = (salonHairMoisture === 'wet' && !isExplicitDryStage)
     ? 'MANDATORY SOAKED / WET-LOOK PHYSICS: Hair fibers are thoroughly drenched from root to tip; strands clump tightly into glossy dark wet ribbons; roots press flat and heavy against crown and nape; gleaming water droplets bead along temples, neck, and collarbones; zero dry puffy volume or loose flyaways.'
     : (salonHairMoisture === 'damp' && !isExplicitDryStage)
@@ -5067,19 +5083,21 @@ function buildSalonPrompt(){
   if(checkState.noText) salonNegatives.push('text overlays, salon logos, graphic watermarks, typography');
   if(extraNegative.trim()) salonNegatives.push(extraNegative.trim());
 
-  lines.push(salonNegatives.map(x=>'• '+x).join('\n'));
+  const dedupedNegs = dedupeNegatives(salonNegatives);
+  lines.push(dedupedNegs.map(x=>'• '+x).join('\n'));
 
   save();
   const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
   el('prompt').value = text; el('prompt').textContent = text;
   const words = text.trim().split(/\s+/).length;
-  el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · Salon Mode`;
+  const tokens = estimateTokens(text);
+  el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ~${tokens.toLocaleString()} tokens · Salon Mode`;
 
   const summaryIds = isFemaleModelBarber
-    ? ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonBarberPose', 'salonHaircut', 'salonFaceHairCoverage', 'salonCape', 'salonCamera']
+    ? ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonBarberPose', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']
     : (isStool
-      ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture', 'salonHaircut', 'salonFaceHairCoverage', 'salonCape', 'salonCamera']
-      : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonChairPose', 'salonStylist', 'salonExpression', 'salonHaircut', 'salonFaceHairCoverage', 'salonCape', 'salonCamera']);
+      ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']
+      : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonChairPose', 'salonStylist', 'salonExpression', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']);
   const summaryTags = summaryIds
     .filter(id => fields[id] && values[id])
     .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`);
@@ -5162,7 +5180,7 @@ if(checkState.hairTexturePreserve || preserveHairTexture)checks.push('Strictly p
 if(checkState.fabric)checks.push('Render realistic fabric weight, stitching, folds, seams, fit and garment behavior.');
 if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with natural hand placement.');
 if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');
-if(checkState.waterReal)checks.push('Authentic water droplets, believable wet hair clumping, and damp fabric saturation; realistic physics without artificial plastic gloss.');
+if(checkState.waterReal && (photoHairMoisture !== 'dry' || psIsExplicitWetHair))checks.push('Authentic water droplets, believable wet hair clumping, and damp fabric saturation; realistic physics without artificial plastic gloss.');
 if(checkState.retouch)checks.push('Avoid excessive beauty retouching, plastic skin, synthetic gloss and artificial filters.');
 if(checkState.accessoryKeep)checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');
 if(checkState.backgroundReal)checks.push('Use plausible environmental details and a lived-in scene rather than generic or artificial background elements.');
@@ -5419,7 +5437,8 @@ if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
 if(checkState.noText)negatives.push('text overlays, logos and watermarks');
 if(extraNegative.trim())negatives.push(extraNegative.trim());
-lines.push((Array.isArray(negatives) && negatives.length) ? negatives.map(x=>'• '+x).join('\n') : '');
+const dedupedNegs = dedupeNegatives(negatives);
+lines.push((Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '');
 
 if(detail==='full'){
   lines.push('');
@@ -5461,8 +5480,9 @@ if(lookbookMode){
 }
 el('prompt').value = text; el('prompt').textContent = text;
 const words = text.trim().split(/\s+/).length;
+const tokens = estimateTokens(text);
 const shotSuffix = lookbookMode ? ` · Lookbook (${activeShot === 'all' ? 'All 4 Shots' : 'Shot ' + activeShot})` : '';
-el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars${shotSuffix}`;
+el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ~${tokens.toLocaleString()} tokens${shotSuffix}`;
 syncRatioChips();
 
 if(el('mobileWordCount')) el('mobileWordCount').textContent=`${words} words`;

@@ -200,7 +200,8 @@ const {
 
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
-  sanitizeHiddenFaceText, extractPositivePrompt, extractNegativePrompt
+  sanitizeHiddenFaceText, cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
+  extractPositivePrompt, extractNegativePrompt
 } = window.AfterglowVeil;
 
 const el = id => document.getElementById(id);
@@ -507,6 +508,13 @@ const vidAspects = O_list([
   ['2.39:1 Anamorphic Scope', 'wide 2.39:1 anamorphic cinema scope framing']
 ]);
 
+const vidSpeedCurves = O_list([
+  ['Continuous Realtime 24fps (Natural Momentum)', 'continuous real-time 24fps cadence with organic physical momentum and steady frame timing'],
+  ['Dynamic Speed Ramp (24fps → 120fps Slow-Mo → 24fps)', 'cinematic speed ramp curve: begins at natural 24fps, decelerates smoothly into 120fps hyper-slow motion at the peak movement beat, then ramps gracefully back to 24fps for the resolve'],
+  ['Dreamy Overcranked 120fps Slow-Motion', 'continuous 120fps high-speed overcranked slow motion capturing every airborne micro-strand, falling droplet, and fabric flutter with suspension of time'],
+  ['Hyper-Smooth 60fps High-Fluidity Cadence', 'high-frame-rate 60fps presentation with crystal-clear temporal definition and zero motion stutter']
+]);
+
 let wardrobeMode = 'ensemble';
 let vidHairMoisture = 'dry';
 let compactMotionMode = false;
@@ -534,8 +542,8 @@ const fields = {
 
   // 03 3-Beat Action Timeline
   vidActionDomain: { label: 'Action Beat Domain Filter', opts: vidActionDomains, def: 0, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
-  vidBeatStart: { label: 'Opening Beat (0s–2s Start)', opts: vidBeatStarts, def: 3, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
-  vidBeatMid: { label: 'Peak Action Beat (2s–4s Climax)', opts: vidBeatMids, def: 5, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
+  vidBeatStart: { label: 'Opening Beat (0s–2s Start)', opts: vidBeatStarts, def: 6, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
+  vidBeatMid: { label: 'Peak Action Beat (2s–4s Climax)', opts: vidBeatMids, def: 8, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
   vidBeatEnd: { label: 'Closing Resolve Beat (4s–6s+ End)', opts: vidBeatEnds, def: 0, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
   vidFacialMicroMotion: { label: 'Facial Breathing & Micro-Expression', opts: vidFacialMicroMotions, def: 0, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
 
@@ -546,6 +554,7 @@ const fields = {
 
   // 05 Technical Specs
   vidDuration: { label: 'Clip Length & Pacing', opts: vidDurations, def: 1, section: 'vidTechSec', _grp: 'Generation Parameters' },
+  vidSpeedCurve: { label: 'Motion Speed Ramp & Frame Curve', opts: vidSpeedCurves, def: 0, section: 'vidTechSec', _grp: 'Generation Parameters' },
   vidAmplitude: { label: 'Motion Amplitude (Stability vs Drama)', opts: vidAmplitudes, def: 1, section: 'vidTechSec', _grp: 'Generation Parameters' },
   vidStyleLook: { label: 'Cinema Film Stock & Grade', opts: vidStyles, def: 0, section: 'vidTechSec', _grp: 'Generation Parameters' },
   aspect: { label: 'Video Aspect Ratio', opts: vidAspects, def: 0, section: 'vidTechSec', _grp: 'Generation Parameters' }
@@ -675,6 +684,7 @@ const checkState = {
   fingerLock: true,
   solitaryRule: true,
   bgLock: true,
+  seamlessLoop: false,
   naturalPhysics: true,
   noText: true
 };
@@ -1033,6 +1043,7 @@ function renderFields(){
             <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkFingerLock" ${checkState.fingerLock ? 'checked' : ''}> Consistent Hands, Fingers &amp; Tool Grip</label>
             <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSolitary" ${checkState.solitaryRule ? 'checked' : ''}> Solitary Female Protagonist Rule</label>
             <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkBgLock" ${checkState.bgLock ? 'checked' : ''}> Stable Background Architecture (Zero Melt)</label>
+            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkLoop" ${checkState.seamlessLoop ? 'checked' : ''}> Seamless Infinite Video Loop (Beat 3 resolves to Beat 1 pose)</label>
             <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkNoText" ${checkState.noText ? 'checked' : ''}> Zero Captions, Logos or Watermarks</label>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -1046,7 +1057,7 @@ function renderFields(){
             </div>
           </div>
         </div>`;
-      [['chkNoMorph','noMorph'],['chkHairLock','hairLock'],['chkFingerLock','fingerLock'],['chkSolitary','solitaryRule'],['chkBgLock','bgLock'],['chkNoText','noText']].forEach(([cid, k]) => {
+      [['chkNoMorph','noMorph'],['chkHairLock','hairLock'],['chkFingerLock','fingerLock'],['chkSolitary','solitaryRule'],['chkBgLock','bgLock'],['chkLoop','seamlessLoop'],['chkNoText','noText']].forEach(([cid, k]) => {
         el(cid)?.addEventListener('change', e => { checkState[k] = e.target.checked; buildPrompt(); });
       });
       el('customDirInput')?.addEventListener('input', e => { customDirection = e.target.value; buildPrompt(); });
@@ -1157,13 +1168,17 @@ function buildPrompt(){
     lines.push('');
     lines.push('CAMERA CHOREOGRAPHY & OPTICS:');
     lines.push(`• Camera Path: ${camMove}.`);
-    lines.push(`• Speed & Capture: ${val('vidFramerate')}. Optics: ${val('vidFocalLens')}.`);
+    lines.push(`• Speed & Capture: ${val('vidFramerate')}. Optics: ${val('vidFocalLens')}. Speed curve: ${val('vidSpeedCurve')}.`);
     lines.push(`• Motion Amplitude: ${val('vidAmplitude')}. Clip Target: ${val('vidDuration')}. Aspect Ratio: ${val('aspect')}.`);
     lines.push('');
     lines.push('CHRONOLOGICAL 3-BEAT ACTION TIMELINE:');
     lines.push(`• BEAT 1 (0s–2s · OPENING FRAME): ${beatStart}.`);
     lines.push(`• BEAT 2 (2s–4s · PEAK ACTION & MOTION): ${beatMid}.`);
-    lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & POISE): ${beatEnd}.`);
+    if(checkState.seamlessLoop){
+      lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & SEAMLESS LOOP CLOSURE): ${beatEnd}. Seamless loop requirement: body motion decelerates smoothly into the exact opening starting frame pose and head orientation of Beat 1, forming an infinite seamless cycle with zero jump cut.`);
+    } else {
+      lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & POISE): ${beatEnd}.`);
+    }
     lines.push(`• Micro-Expression & Breathing: ${microSafe}.`);
     lines.push('');
     lines.push('ENVIRONMENT, AMBIENT WIND & LIGHT FLUX:');
@@ -1187,6 +1202,7 @@ function buildPrompt(){
     if(checkState.fingerLock) lines.push('• Smooth Hand & Limb Continuity: Five anatomically coherent fingers per hand with realistic joint inertia and zero extra floating hands.');
     if(checkState.solitaryRule) lines.push('• Solitary Female Subject: Strictly zero secondary women appearing dynamically anywhere in background crowds or passing extras.');
     if(checkState.bgLock) lines.push('• Fixed Environmental Geometry: Walls, mirrors, furniture, and chair legs stay solid and non-warping during camera motion.');
+    if(checkState.seamlessLoop) lines.push('• Seamless Loop Continuity: The concluding frame matches the opening frame in head tilt, gaze vector, and hair drape for seamless endless looping.');
   }
 
   const negs = [
@@ -1198,18 +1214,22 @@ function buildPrompt(){
   if(veilRuleObj?.neg) negs.push(veilRuleObj.neg);
   if(vidHairMoisture === 'wet') negs.push('hair magically drying out mid-shot, dry fluffy frizz');
   else if(vidHairMoisture === 'dry') negs.push('sudden unexplained wet slicked clumps');
+  if(checkState.seamlessLoop) negs.push('jump cut at loop point, jarring pose mismatch between final and first frame');
   if(checkState.noText) negs.push('subtitles, corner watermarks, UI overlays, weird text glyphs');
   if(extraNegative.trim()) negs.push(extraNegative.trim());
 
+  const dedupedNegs = dedupeNegatives(negs);
+
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
-  negs.forEach(n => lines.push('• ' + n));
+  dedupedNegs.forEach(n => lines.push('• ' + n));
 
   const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
   el('prompt').value = text;
   el('prompt').textContent = text;
   const words = text.trim().split(/\s+/).length;
-  el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ${compactMotionMode ? 'Compact Video' : '3-Beat Cinema'}`;
+  const tokens = estimateTokens(text);
+  el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ~${tokens.toLocaleString()} tokens · ${compactMotionMode ? 'Compact Video' : '3-Beat Cinema'}`;
   if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
 
   const moistMap = { dry: 'Dry Blown-out', damp: 'Damp Misted', wet: 'Soaked Wet' };

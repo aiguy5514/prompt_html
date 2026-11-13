@@ -18,6 +18,18 @@
 .sb-label{display:block;font-size:11px;font-weight:600;color:#cbd5e1;margin-bottom:4px}
 .sb-select,.sb-input{width:100%;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:8px 10px;color:#f8fafc;font-size:12px}
 .sb-frame-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:12px 14px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:12px;margin-bottom:10px}
+.sb-filmstrip{display:flex;gap:8px;overflow-x:auto;padding:8px 0;margin:8px 0 4px 0}
+.sb-film-box{flex:1 1 0;min-width:110px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:all .15s ease}
+.sb-film-box:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18)}
+.sb-film-box.active{border-color:var(--pink,#ec4899);background:rgba(236,72,153,.12)}
+.sb-film-head{display:flex;justify-content:space-between;align-items:center;font-size:10px}
+.sb-film-tag{font-weight:700;color:#f472b6;text-transform:uppercase}
+.sb-film-crop{font-size:10px;color:#cbd5e1;background:rgba(255,255,255,.08);padding:1px 5px;border-radius:4px}
+.sb-film-act{font-size:11px;color:#f8fafc;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-film-btns{display:flex;justify-content:space-between;margin-top:2px}
+.sb-film-swap-btn{background:rgba(255,255,255,.08);border:none;color:#cbd5e1;font-size:10px;padding:2px 7px;border-radius:4px;cursor:pointer}
+.sb-film-swap-btn:hover:not(:disabled){background:rgba(255,255,255,.2);color:#fff}
+.sb-film-swap-btn:disabled{opacity:.25;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -148,6 +160,7 @@
           <button type="button" class="ratio-chip" data-ratio="16:9">16:9</button>
         </div>
       </div>
+      <div class="sb-filmstrip" id="sbFilmstrip"></div>
       <div class="shot-tabs" id="shotTabs"></div>
     </div>
     <div class="prompt-meta">
@@ -214,7 +227,8 @@ const {
 
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
-  sanitizeHiddenFaceText, extractPositivePrompt, extractNegativePrompt
+  sanitizeHiddenFaceText, cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
+  extractPositivePrompt, extractNegativePrompt
 } = window.AfterglowVeil;
 
 const el = id => document.getElementById(id);
@@ -405,12 +419,20 @@ const sbFrameLightTwists = [
   ['Overcast silvery open-shade luxury editorial softness', 'diffused open-shade sky casting velvety soft wraps around jawline with zero harsh shadows']
 ].map(x => Array.isArray(x) ? O(x[0], x[1]) : x);
 
+const sbFrameLenses = [
+  O('Inherit Global Lens', 'inherit'),
+  O('85mm f/1.4 Telephoto Portrait (Creamy Bokeh)', '85mm f/1.4 telephoto portrait lens with shallow optical depth of field and soft background blur'),
+  O('35mm f/2.0 Environmental Prime', '35mm wide-angle prime lens capturing contextual architectural depth'),
+  O('50mm f/1.2 Natural Human Eye Prime', '50mm standard prime with organic human-eye perspective and gentle vignette'),
+  O('100mm f/2.8 Macro Close-Up', '100mm f/2.8 dedicated macro lens resolving razor-sharp micro-pores, single-needle ink, and droplet textures')
+];
+
 // ==========================================
 // COMPLETE STORY ARC PRESETS (STARTING POINTS)
 // ==========================================
 
-function makeFrame(cropIdx, angleIdx, actIdx, veilIdx, moistIdx, lightIdx, note = ''){
-  return { cropIdx, angleIdx, actIdx, veilIdx, moistIdx, lightIdx, note };
+function makeFrame(cropIdx, angleIdx, actIdx, veilIdx, moistIdx, lightIdx, note = '', lensIdx = 0){
+  return { cropIdx, angleIdx, actIdx, veilIdx, moistIdx, lightIdx, note, lensIdx };
 }
 
 const storyArcPresets = [
@@ -817,9 +839,15 @@ function renderFrameDirector(){
           <select class="sb-select sb-light">${optsHtml(sbFrameLightTwists, fr.lightIdx)}</select>
         </div>
       </div>
-      <div>
-        <label class="sb-label">Optional Shot Note (Props, gaze tweak, hand position)</label>
-        <input type="text" class="sb-input sb-note" placeholder="e.g., chin tilted subtly downward catching silver mist bottle glow…" value="${(fr.note||'').replace(/"/g,'&quot;')}">
+      <div class="sb-row-2">
+        <div>
+          <label class="sb-label">Frame Lens Override</label>
+          <select class="sb-select sb-lens">${optsHtml(sbFrameLenses, fr.lensIdx || 0)}</select>
+        </div>
+        <div>
+          <label class="sb-label">Optional Shot Note (Props, gaze tweak, hand position)</label>
+          <input type="text" class="sb-input sb-note" placeholder="e.g., chin tilted subtly downward catching silver mist bottle glow…" value="${(fr.note||'').replace(/"/g,'&quot;')}">
+        </div>
       </div>
     `;
 
@@ -829,6 +857,7 @@ function renderFrameDirector(){
     card.querySelector('.sb-veil').addEventListener('change', e => { fr.veilIdx = Number(e.target.value); buildPrompt(); });
     card.querySelector('.sb-moist').addEventListener('change', e => { fr.moistIdx = Number(e.target.value); buildPrompt(); });
     card.querySelector('.sb-light').addEventListener('change', e => { fr.lightIdx = Number(e.target.value); buildPrompt(); });
+    card.querySelector('.sb-lens').addEventListener('change', e => { fr.lensIdx = Number(e.target.value); buildPrompt(); });
     card.querySelector('.sb-note').addEventListener('input', e => { fr.note = e.target.value; buildPrompt(); });
 
     card.querySelector('.sb-roll').addEventListener('click', () => {
@@ -984,13 +1013,15 @@ function applyStoryPreset(p){
 // ==========================================
 
 function resolveFrameDetails(idx){
-  const fr = frames[idx] || makeFrame(0,0,0,0,0,0,'');
+  const fr = frames[idx] || makeFrame(0,0,0,0,0,0,'',0);
   const crop = sbFrameCrops[fr.cropIdx] || sbFrameCrops[0];
   const angle = sbFrameAngles[fr.angleIdx] || sbFrameAngles[0];
   const action = sbFrameActions[fr.actIdx] || sbFrameActions[0];
   const veilOverride = sbFrameVeilOverrides[fr.veilIdx] || sbFrameVeilOverrides[0];
   const moistOverride = sbFrameMoistureOverrides[fr.moistIdx] || sbFrameMoistureOverrides[0];
   const lightTwist = sbFrameLightTwists[fr.lightIdx] || sbFrameLightTwists[0];
+  const lensOverride = sbFrameLenses[fr.lensIdx || 0] || sbFrameLenses[0];
+  const lensText = (lensOverride && lensOverride.text !== 'inherit') ? lensOverride.text : val('sbLens');
 
   const hairText = val('sbHair');
   const hairArch = detectHairArchitecture(values.sbHair, hairText);
@@ -1013,6 +1044,7 @@ function resolveFrameDetails(idx){
     crop, angle, action, cleanAct,
     effVeilOpt, veilTier, veilRuleObj,
     effMoist, moistStr,
+    lensText,
     lightText: lightTwist.text ? lightTwist.text : val('sbGlobalLight'),
     note: fr.note ? fr.note.trim() : '',
     isConcealed
@@ -1029,7 +1061,7 @@ function buildShotPrompt(det, globalCtx){
     `• Setting: ${globalCtx.venue}. Color grade: ${globalCtx.grade}.`,
     '',
     `FRAME 0${det.idx} CHOREOGRAPHY & STATE:`,
-    `• Framing & Angle: ${det.crop.text} captured from ${det.angle.text}.`,
+    `• Framing & Optics: ${det.crop.text} captured from ${det.angle.text} with ${det.lensText}.`,
     `• Moment & Action: ${det.cleanAct}.`,
     `• Active Hair Moisture: ${det.moistStr}.`,
     det.effVeilOpt?.text ? `• Facial Veil Coverage: ${det.effVeilOpt.text}.` : '',
@@ -1042,9 +1074,56 @@ function buildShotPrompt(det, globalCtx){
     globalCtx.checks.map(c => '• ' + c).join('\n'),
     '',
     'AVOID / NEGATIVE GUIDANCE:',
-    globalCtx.getNegatives(det).map(n => '• ' + n).join('\n')
+    dedupeNegatives(globalCtx.getNegatives(det)).map(n => '• ' + n).join('\n')
   ].filter(Boolean);
   return lines.join('\n').replace(/\n{3,}/g, '\n\n');
+}
+
+function renderFilmstrip(resolved){
+  const stripEl = el('sbFilmstrip');
+  if(!stripEl) return;
+  stripEl.innerHTML = '';
+  resolved.forEach((d, idx) => {
+    const box = document.createElement('div');
+    const isAct = (activeShotTab === String(d.idx));
+    box.className = 'sb-film-box' + (isAct ? ' active' : '');
+    const cropLabel = d.crop.label.split(' ')[0] || `Shot 0${d.idx}`;
+    box.innerHTML = `
+      <div class="sb-film-head">
+        <span class="sb-film-tag">Shot 0${d.idx}</span>
+        <span class="sb-film-crop">${cropLabel}</span>
+      </div>
+      <div class="sb-film-act" title="${d.action.label}">${d.action.label}</div>
+      <div class="sb-film-btns">
+        <button type="button" class="sb-film-swap-btn" data-swap="prev" ${idx === 0 ? 'disabled' : ''} title="Move Earlier">◀</button>
+        <button type="button" class="sb-film-swap-btn" data-swap="next" ${idx === frameCount - 1 ? 'disabled' : ''} title="Move Later">▶</button>
+      </div>
+    `;
+    box.addEventListener('click', (e) => {
+      if(e.target.closest('.sb-film-swap-btn')) return;
+      activeShotTab = String(d.idx);
+      buildPrompt();
+    });
+    box.querySelector('[data-swap="prev"]')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if(idx > 0){
+        [frames[idx - 1], frames[idx]] = [frames[idx], frames[idx - 1]];
+        renderFields();
+        buildPrompt();
+        toast(`◀ Swapped Shot 0${idx} & Shot 0${idx + 1}`);
+      }
+    });
+    box.querySelector('[data-swap="next"]')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if(idx < frameCount - 1){
+        [frames[idx], frames[idx + 1]] = [frames[idx + 1], frames[idx]];
+        renderFields();
+        buildPrompt();
+        toast(`▶ Swapped Shot 0${idx + 1} & Shot 0${idx + 2}`);
+      }
+    });
+    stripEl.appendChild(box);
+  });
 }
 
 function buildPrompt(){
@@ -1105,7 +1184,7 @@ function buildPrompt(){
     });
     gLines.push('', 'CONTINUITY & REALISM SAFEGUARDS:', checks.map(c => '• ' + c).join('\n'));
     if(customDirection.trim()) gLines.push('', 'SERIES DIRECTION:', customDirection.trim());
-    const combinedNegs = [...new Set(resolved.flatMap(d => getNegatives(d)))];
+    const combinedNegs = dedupeNegatives(resolved.flatMap(d => getNegatives(d)));
     gLines.push('', 'AVOID / NEGATIVE GUIDANCE:', combinedNegs.map(n => '• ' + n).join('\n'));
     masterText = gLines.join('\n').replace(/\n{3,}/g, '\n\n');
   } else {
@@ -1120,7 +1199,7 @@ function buildPrompt(){
     masterText = packLines.join('\n').replace(/\n{3,}/g, '\n\n');
   }
 
-  // Render Shot Tabs cleanly
+  // Render Shot Tabs & Visual Filmstrip cleanly
   const tabsEl = el('shotTabs');
   if(tabsEl){
     tabsEl.classList.remove('hidden');
@@ -1134,6 +1213,7 @@ function buildPrompt(){
       buildPrompt();
     }));
   }
+  renderFilmstrip(resolved);
 
   const displayedText = (activeShotTab !== 'all' && perShotPrompts[activeShotTab])
     ? perShotPrompts[activeShotTab]
@@ -1142,7 +1222,8 @@ function buildPrompt(){
   el('prompt').value = displayedText;
   el('prompt').textContent = displayedText;
   const words = displayedText.trim().split(/\s+/).length;
-  el('wordCount').textContent = `${words.toLocaleString()} words · ${frameCount} Frames · ${activeShotTab==='all' ? (outputMode==='grid'?'Grid Mode':'Full Pack') : 'Shot 0'+activeShotTab}`;
+  const tokens = estimateTokens(displayedText);
+  el('wordCount').textContent = `${words.toLocaleString()} words · ~${tokens.toLocaleString()} tokens · ${frameCount} Frames · ${activeShotTab==='all' ? (outputMode==='grid'?'Grid Mode':'Full Pack') : 'Shot 0'+activeShotTab}`;
   if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
 
   const moistMap = { dry: 'Dry', damp: 'Damp', wet: 'Wet' };

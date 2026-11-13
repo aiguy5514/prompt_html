@@ -124,17 +124,68 @@ function sanitizeHiddenFaceText(text, hideEyes, veilTier){
   return out.replace(/ {2,}/g, ' ').trim();
 }
 
+function cleanClause(str){
+  if(!str) return '';
+  return String(str)
+    .replace(/^(?:in-progress haircut action|haircut progress|salon moment|active moment)\s*:\s*/i, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\.+$/, '')
+    .trim();
+}
+
+function capFirst(str){
+  if(!str) return '';
+  const s = String(str).trim();
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function stripBuzzwords(str){
+  if(!str) return '';
+  return String(str)
+    .replace(/\bhighly photorealistic,\s*detailed 4K-style image quality\b/gi, 'natural 35mm optical photograph with unclipped dynamic range and organic shadow grain')
+    .replace(/\bdetailed 4K-style image quality\b/gi, 'natural optical sensor fidelity and gentle highlight roll-off')
+    .replace(/\b4K-style\b/gi, 'high-resolution optical')
+    .replace(/\bVector-grade single-needle ink crispness\b/gi, 'Subdermal single-needle micro-stippling with authentic skin pore integration')
+    .replace(/\bvector-grade\b/gi, 'subdermal micro-precise')
+    .replace(/Shop interior design:\s*harmonized with the selected establishment architectural style[.,;]?\s*/gi, '')
+    .replace(/harmonized with the selected establishment architectural style[.,;]?\s*/gi, '');
+}
+
+function dedupeNegatives(arr){
+  const seen = new Set();
+  const out = [];
+  (arr || []).forEach(item => {
+    String(item || '').split(',').forEach(part => {
+      const cleaned = part.trim().replace(/^•\s*/, '');
+      const key = cleaned.toLowerCase();
+      if(cleaned && !seen.has(key)){
+        seen.add(key);
+        out.push(cleaned);
+      }
+    });
+  });
+  return out;
+}
+
+function estimateTokens(text){
+  if(!text) return 0;
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const chars = text.length;
+  // Blended estimate: ~1.3 tokens per word or ~3.8 chars per token
+  return Math.max(1, Math.round((words * 1.25 + chars / 4.0) / 2));
+}
+
 function extractPositivePrompt(fullText){
   if(!fullText) return '';
   return fullText
-    .replace(/\n*AVOID \/ NEGATIVE GUIDANCE:?[\s\S]*?(?=\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY)\b|\n*REFERENCE-IMAGE EDIT|$)/g, '')
+    .replace(/\n*(?:AVOID \/ NEGATIVE GUIDANCE:?|Avoid:)\s*[\s\S]*?(?=\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY)\b|\n*(?:REFERENCE-IMAGE EDIT|Shot \d+|------------------------------------------------)|$)/g, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 
 function extractNegativePrompt(fullText){
   if(!fullText) return '';
-  const m = fullText.match(/AVOID \/ NEGATIVE GUIDANCE:?[\s\S]*?(?=\n\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY)\b|\n*REFERENCE-IMAGE EDIT|$)/);
+  const m = fullText.match(/(?:AVOID \/ NEGATIVE GUIDANCE:?|Avoid:)\s*[\s\S]*?(?=\n\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY)\b|\n*(?:REFERENCE-IMAGE EDIT|------------------------------------------------)|$)/);
   return m ? m[0].trim() : '';
 }
 
@@ -145,6 +196,11 @@ global.AfterglowVeil = {
   sanitizeHairForVeil,
   sanitizeMakeupForVeil,
   sanitizeHiddenFaceText,
+  cleanClause,
+  capFirst,
+  stripBuzzwords,
+  dedupeNegatives,
+  estimateTokens,
   extractPositivePrompt,
   extractNegativePrompt
 };

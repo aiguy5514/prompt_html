@@ -96,6 +96,7 @@ const {
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
+  cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
   extractPositivePrompt, extractNegativePrompt
 } = window.AfterglowVeil;
 const el = id => document.getElementById(id);
@@ -280,6 +281,15 @@ const tattooPlacements = makeOpts([
   ['Upper Thigh & Outer Flank Line', 'positioned along the outer high thigh and flank curve, contouring naturally with the leg silhouette'],
   ['Outer Ankle & Achilles Tendon', 'wrapping subtly around the outer ankle bone (lateral malleolus) and tracing slightly toward the Achilles tendon'],
   ['Hand & Middle Knuckle Micro-Detail', 'delicate miniature single-needle symbols placed cleanly along the top of the middle phalanx of the fingers']
+]);
+
+const tattooSecondaryPlacements = makeOpts([
+  ['None (Single Placement Only)', 'none'],
+  ['Behind-Ear Micro-Whisper', 'accompanied by a secondary miniature micro-symbol tucked delicately behind the left earlobe along the mastoid curve'],
+  ['Inner Wrist Whispered Accent', 'echoed by a delicate secondary single-needle linework whisper along the inner wrist crease'],
+  ['Nape of Neck Anchor Dot', 'paired with a secondary vertical micro-stippling spine anchor at the cervical nape of the neck'],
+  ['Exterior Ankle Delicate Trace', 'subtly echoed by a matching micro-fine accent tracing the outer ankle lateral malleolus'],
+  ['Clavicle Hollow Twin Accent', 'balanced by a miniature companion accent resting in the opposing clavicle hollow']
 ]);
 
 const tattooContourFlows = makeOpts([
@@ -558,6 +568,7 @@ const fields = {
 
   // tattooPlacementSec
   tattooPlacement: { label: 'Anatomical Body Placement', opts: tattooPlacements, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
+  tattooSecondaryPlacement: { label: 'Secondary / Dual Placement Layer', opts: tattooSecondaryPlacements, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
   tattooContour: { label: 'Skeletal Contour & Alignment', opts: tattooContourFlows, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
   tattooSkinSensory: { label: 'Skin Canvas & Pore Detail', opts: tattooSkinSensories, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
 
@@ -753,6 +764,8 @@ let subjectRef = null;
 let styleRef = null;
 let customPresets = [];
 let activePreset = '';
+let customDirection = '';
+let extraNegative = '';
 let promptHistory = [];
 const TATTOO_KEY = 'afterglow_tattoo_v1';
 const TATTOO_HIST_KEY = 'afterglow_tattoo_hist_v1';
@@ -784,6 +797,8 @@ function save(){
       sec: activeSection,
       cs: checkState,
       ap: activePreset,
+      d: customDirection,
+      n: extraNegative,
       v: serializeTattooPresetSet(values),
       u: customPresets.map(p => ({
         id: p.id,
@@ -808,6 +823,8 @@ function load(){
       if(o.sec && sections.some(s => s.id === o.sec)) activeSection = o.sec;
       if(o.cs) Object.assign(checkState, o.cs);
       if(o.ap) activePreset = o.ap;
+      if(typeof o.d === 'string') customDirection = o.d;
+      if(typeof o.n === 'string') extraNegative = o.n;
       if(o.v) Object.assign(values, hydrateTattooPresetSet(o.v));
       if(Array.isArray(o.u)){
         customPresets = o.u.map(p => ({
@@ -1225,6 +1242,16 @@ function renderFields(){
             <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkAnatomy" ${checkState.body ? 'checked' : ''}> Natural Anatomical Curvature</label>
             <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoText" ${checkState.noText ? 'checked' : ''}> Exclude Graphic Watermarks & Logos</label>
           </div>
+          <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label for="customDirInput" style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Additional Ink & Creative Direction</label>
+              <textarea id="customDirInput" rows="3" placeholder="e.g., silver rosewater mist on collarbone, fine stippling gradient fade toward throat…" style="width:100%; border-radius:10px; padding:10px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); color:#f8fafc; font-size:12px; resize:vertical;">${customDirection.replace(/</g,'&lt;')}</textarea>
+            </div>
+            <div>
+              <label for="extraNegInput" style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Extra Exclusions (Negative)</label>
+              <textarea id="extraNegInput" rows="3" placeholder="e.g., heavy blowout lines, dark thick tribal ink, scarred skin, bandages…" style="width:100%; border-radius:10px; padding:10px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); color:#f8fafc; font-size:12px; resize:vertical;">${extraNegative.replace(/</g,'&lt;')}</textarea>
+            </div>
+          </div>
         </div>
       `;
       ['chkId', 'chkPores', 'chkNoAirbrush', 'chkAnatomy', 'chkNoText'].forEach(id => {
@@ -1239,6 +1266,14 @@ function renderFields(){
             buildPrompt();
           });
         }
+      });
+      el('customDirInput')?.addEventListener('input', (e) => {
+        customDirection = e.target.value;
+        buildPrompt();
+      });
+      el('extraNegInput')?.addEventListener('input', (e) => {
+        extraNegative = e.target.value;
+        buildPrompt();
       });
     } else {
       sp.innerHTML = '';
@@ -1323,6 +1358,7 @@ function renderPresets(){
 function buildPrompt(){
   const lines = [];
   const p = val('tattooPlacement');
+  const secP = val('tattooSecondaryPlacement');
   const contour = val('tattooContour');
   const skinSensory = val('tattooSkinSensory');
   const m = val('tattooMotif');
@@ -1433,6 +1469,9 @@ function buildPrompt(){
 
   // Core scene prose
   lines.push(`Photorealistic high-fashion fine-line tattoo portrait focusing on an intricate tattoo placed ${p}.`);
+  if(secP && secP !== 'none' && !secP.startsWith('none')){
+    lines.push(`Dual-placement accent: ${secP}.`);
+  }
   lines.push(`Anatomical alignment: ${contour}. Skin canvas: ${skinSensory}.`);
   lines.push(`The body art features ${m}, executed with ${s}. Scale: ${scale}.`);
   lines.push(`Tattoo condition & skin state: ${f}.`);
@@ -1464,6 +1503,12 @@ function buildPrompt(){
   }
   lines.push('');
 
+  if(customDirection.trim()){
+    lines.push('ADDITIONAL INK & CREATIVE DIRECTION:');
+    lines.push(customDirection.trim());
+    lines.push('');
+  }
+
   // Preservations & Quality Checks
   const checks = [];
   if(checkState.identity){
@@ -1483,7 +1528,7 @@ function buildPrompt(){
   if(checkState.retouch) checks.push('Avoid artificial airbrushing, heavy digital smoothing, or waxy cartoon rendering; preserve micro-pores directly beneath and surrounding the ink lines.');
   if(checkState.body) checks.push('Maintain natural, believable body proportions and authentic skeletal contours without distortion.');
   if(checkState.noText) checks.push('Strictly zero artificial text overlays, graphic watermarks, logo stamps, or digital font typography.');
-  checks.push('Vector-grade single-needle ink crispness with microscopic stippling dots and realistic physical skin interaction.');
+  checks.push('Subdermal single-needle micro-stippling with authentic skin pore integration, organic ink diffusion, and realistic physical dermal interaction.');
 
   lines.push('TECHNICAL & REALISM PRESERVATIONS:');
   checks.forEach(c => lines.push(`• ${c}`));
@@ -1507,8 +1552,12 @@ function buildPrompt(){
   } else if(!isExplicitWetTattooCut){
     negs.push('soaked wet hair, dripping hair, wet slicked scalp, waterlogged clumps');
   }
+  if(extraNegative.trim()){
+    negs.push(extraNegative.trim());
+  }
 
-  negs.forEach(n => lines.push(`• ${n}`));
+  const dedupedNegs = dedupeNegatives(negs);
+  dedupedNegs.forEach(n => lines.push(`• ${n}`));
 
   const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
   const promptEl = el('prompt');
@@ -1517,12 +1566,15 @@ function buildPrompt(){
     promptEl.textContent = text;
   }
   const words = text.trim().split(/\s+/).length;
+  const tokens = estimateTokens(text);
   const wc = el('wordCount');
-  if(wc) wc.textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} characters · Tattoo Studio`;
+  if(wc) wc.textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} characters · ~${tokens.toLocaleString()} tokens · Tattoo Studio`;
 
   // Update summary tags
   const summaryIds = [
-    'tattooPlacement', 'tattooMotif', 'tattooStyle',
+    'tattooPlacement',
+    ...(values.tattooSecondaryPlacement && values.tattooSecondaryPlacement.text !== 'none' ? ['tattooSecondaryPlacement'] : []),
+    'tattooMotif', 'tattooStyle',
     ...(wardrobeMode === 'separates' ? ['topPiece', 'bottomPiece'] : ['outfit']),
     'tattooHair', 'tattooHairFaceCoverage', 'tattooCamera', 'tattooLocation'
   ];
@@ -1617,6 +1669,8 @@ function resetAll(){
   });
   tattooHairMoisture = 'dry';
   activePreset = '';
+  customDirection = '';
+  extraNegative = '';
   save();
   renderPresets();
   renderFields();

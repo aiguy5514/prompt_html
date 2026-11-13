@@ -199,6 +199,7 @@ const {
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
+  cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
   extractPositivePrompt, extractNegativePrompt
 } = window.AfterglowVeil;
 
@@ -267,6 +268,12 @@ const prepAtmospheres = makeOpts([
   ['Golden-hour slow luxury indulgence', 'slow, luminous late-afternoon indulgence soaked in golden ambient warmth']
 ]);
 
+const prepSteamDensities = makeOpts([
+  ['Crisp Ambient Air (No Mist)', 'crisp ambient air with clean optical clarity and zero ambient steam mist'],
+  ['Delicate Facial Mist Plumes', 'delicate plumes of fine translucent hydrosol steam floating softly in the air, catching soft directional rim light'],
+  ['Dense Steam Sanctuary / Condensation', 'warm, deeply humid spa steam atmosphere with soft mist haze diffusing the background and subtle condensation droplets on polished marble surfaces']
+]);
+
 // ==========================================
 // OPTION BANKS: HAIR PREP HOLDS & APPAREL
 // ==========================================
@@ -326,6 +333,13 @@ const prepRitualCategories = [
   O('🧖‍♀️ Facial Spa, Steam & Hot Towel (6 options)', 'spa_ritual'),
   O('💄 Solo Vanity Touch-Up & Mirror Prep (6 options)', 'solo')
 ];
+
+const prepPhases = makeOpts([
+  ['Continuous In-Progress Prep Flow', 'natural unscripted flow mid-session'],
+  ['Phase 1: Pre-Cleanse Steam & Hair Sectioning', 'Phase 1 prep stage: pre-treatment skin priming, warm steam misting, and hair sectioning with creaseless clips'],
+  ['Phase 2: Active Targeted Treatment Stroke', 'Phase 2 active stage: hands-on precision cosmetic application, cold roller glide, or delicate brush stroke mid-motion'],
+  ['Phase 3: Radiant Reveal & Final Moisture Glaze', 'Phase 3 reveal stage: completed skincare infusion, gleaming hydrated skin glaze, and fresh serene composure']
+]);
 
 const prepActions = makeOpts([
   // Live MUA Chair (Male Artist / Practitioner)
@@ -460,6 +474,7 @@ const fields = {
   prepLocationCategory: { label: 'Suite Category Filter', opts: prepLocationCategories, def: 0, section: 'prepVenueSec', _grp: 'Setting & Environment' },
   prepLocation: { label: 'Vanity / Spa Location', opts: prepLocations, def: 0, section: 'prepVenueSec', _grp: 'Setting & Environment' },
   prepAtmosphere: { label: 'Room Atmosphere & Rhythm', opts: prepAtmospheres, def: 0, section: 'prepVenueSec', _grp: 'Setting & Environment' },
+  prepSteamDensity: { label: 'Room Humidity & Mist Density', opts: prepSteamDensities, def: 0, section: 'prepVenueSec', _grp: 'Setting & Environment' },
 
   // 02 Hair Prep, Veil & Apparel
   prepHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
@@ -477,6 +492,7 @@ const fields = {
 
   // 03 Skincare & Makeup Action
   prepDiscipline: { label: 'Ritual Discipline Filter', opts: prepRitualCategories, def: 0, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
+  prepPhase: { label: 'Treatment Phase Stage', opts: prepPhases, def: 0, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
   prepActiveAction: { label: 'Primary Makeup / Spa Moment', opts: prepActions, def: 0, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
   prepPractitioner: { label: 'Artist / Spa Practitioner Setup', opts: prepPractitioners, def: 1, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
 
@@ -1184,6 +1200,8 @@ function buildPrompt(){
 
   const loc = S(val('prepLocation'));
   const atmo = S(val('prepAtmosphere'));
+  const steamDensityText = val('prepSteamDensity');
+  const phaseText = val('prepPhase');
   const hairText = S(val('prepHair'));
   const hairHold = val('prepHairHold');
   const covLabel = values.prepHairFaceCoverage?.label || '';
@@ -1281,8 +1299,8 @@ function buildPrompt(){
   lines.push('');
 
   lines.push('VANITY / SPA SETTING & ACTION');
-  lines.push(`Environment: ${loc}. Atmosphere: ${atmo}.`);
-  lines.push(`Active Prep Moment: ${actionText}.`);
+  lines.push(`Environment: ${loc}. Atmosphere: ${atmo}. Room humidity: ${steamDensityText}.`);
+  lines.push(`Treatment Phase: ${phaseText}. Active Prep Moment: ${actionText}.`);
   lines.push('');
 
   lines.push('HAIR, APPAREL & GLAM PREPARATION');
@@ -1344,9 +1362,11 @@ function buildPrompt(){
   if(checkState.noText) negs.push('text overlays, brand names, cosmetic packaging fonts, watermarks');
   if(extraNegative.trim()) negs.push(extraNegative.trim());
 
+  const dedupedNegs = dedupeNegatives(negs);
+
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
-  negs.forEach(n => lines.push('• ' + n));
+  dedupedNegs.forEach(n => lines.push('• ' + n));
 
   const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
   const promptEl = el('prompt');
@@ -1355,11 +1375,17 @@ function buildPrompt(){
     promptEl.textContent = text;
   }
   const words = text.trim().split(/\s+/).length;
-  if(el('wordCount')) el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} characters · Makeup & Spa`;
+  const tokens = estimateTokens(text);
+  if(el('wordCount')) el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} characters · ~${tokens.toLocaleString()} tokens · Makeup & Spa`;
   if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
 
   const moistMap = { dry: 'Dry & Blown-out', damp: 'Damp / Misted', wet: 'Soaked Wet' };
-  const summaryIds = ['prepLocation', 'prepActiveAction', 'prepHair', 'prepHairFaceCoverage', (wardrobeMode === 'separates' ? 'topPiece' : 'prepOutfit'), 'prepLighting'];
+  const summaryIds = [
+    'prepLocation',
+    ...(values.prepSteamDensity && values.prepSteamDensity.text !== 'crisp ambient air with clean optical clarity and zero ambient steam mist' ? ['prepSteamDensity'] : []),
+    ...(values.prepPhase && values.prepPhase.text !== 'natural unscripted flow mid-session' ? ['prepPhase'] : []),
+    'prepActiveAction', 'prepHair', 'prepHairFaceCoverage', (wardrobeMode === 'separates' ? 'topPiece' : 'prepOutfit'), 'prepLighting'
+  ];
   const sumTags = summaryIds
     .filter(id => fields[id] && values[id])
     .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: <strong>${values[id].label}</strong></span>`);
