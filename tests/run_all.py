@@ -8,6 +8,7 @@ import html as pyhtml
 import json
 import os
 import re
+import shutil
 import sys
 import tempfile
 import subprocess
@@ -69,6 +70,8 @@ setTimeout(function() {{
     with open(tmp_path, 'w', encoding='utf-8') as f:
         f.write(injected)
 
+    user_data_dir = tempfile.mkdtemp(prefix='_tmp_chrome_profile_')
+
     try:
         proc = subprocess.run(
             [
@@ -77,6 +80,7 @@ setTimeout(function() {{
                 '--disable-gpu',
                 '--no-sandbox',
                 '--virtual-time-budget=3500',
+                f'--user-data-dir={user_data_dir}',
                 '--dump-dom',
                 'file:///' + tmp_path.replace('\\', '/'),
             ],
@@ -92,6 +96,14 @@ setTimeout(function() {{
             for _ in range(5):
                 try:
                     os.remove(tmp_path)
+                    break
+                except OSError:
+                    time.sleep(0.1)
+        if os.path.exists(user_data_dir):
+            import time
+            for _ in range(5):
+                try:
+                    shutil.rmtree(user_data_dir, ignore_errors=True)
                     break
                 except OSError:
                     time.sleep(0.1)
@@ -228,6 +240,8 @@ ok('ps_api_exposed', !!api);
 ok('ps_starts_in_photoshoot_mode', api.getMode() === 'photoshoot');
 ok('ps_initial_section', document.querySelector('.tab.active')?.dataset?.section === 'look');
 ok('ps_hero_title', document.getElementById('heroTitle').textContent.includes('Photoshoot'));
+ok('ps_initial_not_lookbook', !document.getElementById('prompt').value.includes('=== SHOT 1:'));
+ok('ps_lookbook_false_by_default', api.getLookbookMode ? api.getLookbookMode() === false : true);
 
 // Track 1: Photoshoot Hair Moisture State UI & Prompt enforcement
 const card = document.getElementById('moistureToggleCard');
@@ -265,6 +279,10 @@ api.setLookbookMode(true, '1');
 const lbPos = document.getElementById('prompt').value.split('AVOID / NEGATIVE GUIDANCE')[0];
 ok('ps_lookbook_65_no_catchlights', !lbPos.includes('catchlights in the eyes'));
 api.setLookbookMode(false, 'all');
+ok('ps_lookbook_reset_clears_shot1', !document.getElementById('prompt').value.includes('=== SHOT 1:'));
+api.setLookbookMode(true, '1');
+document.querySelector('.preset').click();
+ok('ps_preset_click_resets_lookbook', !document.getElementById('prompt').value.includes('=== SHOT 1:') && api.getLookbookMode() === false);
 
 // Positive extraction keeps OUTPUT INSTRUCTIONS & strips AVOID block
 const fullOut = document.getElementById('prompt').value;

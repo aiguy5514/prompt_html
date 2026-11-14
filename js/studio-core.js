@@ -3239,6 +3239,9 @@ if(!p)return;
 if(currentStudioMode==='salon'){
   switchStudioMode('photoshoot');
 }
+lookbookMode=false;
+activeShot='all';
+updateModeButtons();
 activePreset=id;
 document.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active',b.dataset.preset===id));
 rollTheme(p);
@@ -3339,6 +3342,9 @@ if(!lockedFields.has('lightingCategory') && values.lighting){
 }
 activePreset='';
 document.querySelectorAll('.preset').forEach(b=>b.classList.remove('active'));
+lookbookMode=false;
+activeShot='all';
+updateModeButtons();
 goSection(activeSection,false);
 buildPrompt();
 toast(lockedFields.size>0?`Fresh combination generated (${lockedFields.size} locked).`:'A fresh combination is ready.');
@@ -6082,7 +6088,7 @@ try{
     wm:wardrobeMode,
     mode:currentStudioMode,
     pt:preserveHairTexture,
-    lb:lookbookMode,
+    lb:false,
     tt:transferToggles,
     k:[...lockedFields],
     u:customPresets.map(p=>({id:p.id,title:p.title,sub:p.sub,icon:p.icon,set:Object.fromEntries(Object.entries(p.set).map(([k,v])=>[k,v.label]))}))
@@ -6112,7 +6118,8 @@ try{
   if(o.wm==='ensemble'||o.wm==='separates') wardrobeMode=o.wm;
   if(o.mode && (o.mode === 'salon' || o.mode === 'photoshoot')) currentStudioMode=o.mode;
   if(o.pt !== undefined) preserveHairTexture=!!o.pt;
-  if(o.lb !== undefined) lookbookMode=!!o.lb;
+  lookbookMode=false;
+  activeShot='all';
   if(o.tt) transferToggles=Object.assign(transferToggles, o.tt);
   if(Array.isArray(o.k)) lockedFields=new Set(o.k);
   if(Array.isArray(o.u)){
@@ -6144,11 +6151,14 @@ if(window.location.hash === '#salon' || window.location.hash === '#photoshoot'){
 }
 
 currentStudioMode = DEFAULT_MODE;
+lookbookMode = false;
+activeShot = 'all';
 if(currentStudioMode === 'salon'){
   switchStudioMode('salon');
 } else {
   goSection('look', false);
 }
+updateModeButtons();
 buildPrompt();
 initMobileDrawer();
 loadHistory();
@@ -6193,6 +6203,7 @@ window.AfterglowStudio = {
   setWardrobeMode: (m) => { wardrobeMode = m; renderFields(); buildPrompt(); },
   getOutputType: () => outputType,
   setOutputType: (t) => { outputType = t; buildPrompt(); },
+  getLookbookMode: () => lookbookMode,
   setLookbookMode: (b, shot='all') => { lookbookMode = !!b; activeShot = shot; updateModeButtons(); buildPrompt(); },
   setStyleRef: (r) => { styleRef = r; buildPrompt(); },
   getCustomPresets: () => customPresets,
