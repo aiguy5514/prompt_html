@@ -24,7 +24,7 @@
 
 <section class="hero">
   <div>
-    <div class="eyebrow" id="heroEyebrow">Image-to-Video (I2V) Choreography · Veo · Kling · Runway · Sora</div>
+    <div class="eyebrow" id="heroEyebrow">Image-to-Video (I2V) Motion Choreography · Cinema Timing</div>
     <h1 id="heroTitle">Cinema <span>Motion</span><br>Prompt Director</h1>
     <p id="heroDescription">Transform reference photos or concepts into timed 3-beat cinema prompts. Choreograph dolly &amp; 180° orbit cameras, 120fps slow-mo hair sweeps, scissor &amp; spa micro-actions, monsoon wind/water physics, and anti-morph temporal stability locks.</p>
     <div class="hero-actions">
@@ -113,7 +113,7 @@
       </div>
     </div>
     <h2>Your motion prompt, assembled</h2>
-    <p>Ready for Kling, Veo, Runway Gen-4, Sora, or Luma.</p>
+    <p>Ready for your video generator.</p>
     <div class="summary" id="summary"></div>
   </div>
   <div class="preview-body">
@@ -480,7 +480,7 @@ const vidLightingShifts = O_list([
 
 const vidDurations = O_list([
   ['5 Seconds — Focused Single-Arc Micro Reveal', '5-second tight single continuous take pacing'],
-  ['6–8 Seconds — Standard 3-Beat Choreography (Ideal Kling / Veo / Runway)', '6-to-8-second natural cinema pacing smoothly completing Start, Peak, and Resolve beats'],
+  ['6–8 Seconds — Standard 3-Beat Choreography (Universal Timing)', '6-to-8-second natural cinema pacing smoothly completing Start, Peak, and Resolve beats'],
   ['10 Seconds — Unhurried Extended Beauty & Action Study', '10-second deliberate slow-tempo take with unhurried pause between beats'],
   ['15 Seconds — Hypnotic Slow-Motion Atmosphere Study', '15-second dreamy hyper-slow cinema sequence']
 ]);
@@ -1190,7 +1190,7 @@ function buildPrompt(){
     }
     lines.push(`• Micro-Expression & Breathing: ${microSafe}.`);
     lines.push('');
-    lines.push('ENVIRONMENT, AMBIENT WIND & LIGHT FLUX:');
+    lines.push('ENVIRONMENT, AMBIENT WIND & DYNAMIC LIGHTING:');
     lines.push(`• Setting: ${val('vidEnvironment')}.`);
     lines.push(`• Secondary Ambient Motion: ${val('vidEnvPhysics')}.`);
     lines.push(`• Light & Color Grade: ${val('vidLightingShift')}. Film stock: ${val('vidStyleLook')}.`);
