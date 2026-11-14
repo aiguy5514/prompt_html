@@ -237,7 +237,7 @@
   <section class="advanced-bar">
     <div>
       <strong>Looking to fine-tune exclusions or safeguards?</strong>
-      <small>Control face privacy, solitary female rule, and custom notes in the Finish step.</small>
+      <small>Control face privacy, duo cast safeguards, and custom notes in the Finish step.</small>
     </div>
     <button class="btn btn-secondary btn-small" id="finishJump">Open finish controls ↗</button>
   </section>
@@ -353,13 +353,13 @@ const {
 
 const el = id => document.getElementById(id);
 
-// Sections definition
+// Sections definition (Balanced 5-step workflow)
 const sections = [
-  { id: 'romanceCoupleSec', name: 'Couple & Partner Dynamics', short: 'COUPLE', icon: '💕', desc: 'Define partner appearance, motorcycle/date interactions, intimacy distance, and shared expression.' },
-  { id: 'romanceSubjectSec', name: 'Her Look & Face Privacy', short: 'LOOK', icon: '👩', desc: 'Select her signature haircut, face-behind-hair veil %, face concealment method, moisture, and wardrobe.' },
-  { id: 'romanceSceneSec', name: 'Scene, Setting & Light', short: 'SCENE', icon: '🌅', desc: 'Select the highway roadscape, candlelit bistro, rainfall city street, or seaside sunset.' },
-  { id: 'romanceCameraSec', name: 'Camera, Optics & Reel', short: 'CAMERA', icon: '📷', desc: 'Choose framing, angle, lens character, aspect ratio, and optional 2-shot couple video reel.' },
-  { id: 'finish', name: 'Finish & Safeguards', short: 'FINISH', icon: '✦', desc: 'Identity preservation, solitary female rule, custom creative direction, and negative exclusions.' }
+  { id: 'romanceCoupleSec', name: 'Couple & Chemistry', short: 'COUPLE', icon: '💕', desc: 'Define partner appearance, romantic scene, physical proximity, and shared expression.' },
+  { id: 'romanceWardrobeSec', name: 'Her Wardrobe & Makeup', short: 'WARDROBE', icon: '👗', desc: 'Choose between full biker/date ensembles or modular separates (crop tops & denim shorts).' },
+  { id: 'romanceHairSec', name: 'Her Hair, Moisture & Privacy', short: 'HAIR', icon: '✂', desc: 'Select her signature haircut, moisture physics (dry/damp/wet), face privacy mode, and motorcycle helmet gear.' },
+  { id: 'romanceSceneSec', name: 'Setting, Lighting & Optics', short: 'SCENE', icon: '🌅', desc: 'Choose the roadscape or date venue, lighting mood, camera angle, and prime lens.' },
+  { id: 'finish', name: 'Finish & Safeguards', short: 'FINISH', icon: '✦', desc: 'Duo casting integrity, reference fidelity, custom creative direction, and negative exclusions.' }
 ];
 
 // Option sets tailored for Romance Studio
@@ -373,10 +373,10 @@ const partnerAesthetics = [
 ];
 
 const intimacyTouches = [
-  O('Pillion waist embrace — cheek pressed tight to his back', 'her arms locked firmly around his waist, chest pressed closely against the back of his jacket, resting her cheek tenderly near his shoulder blade with complete relaxed trust as they ride at highway speed'),
-  O('Intertwined fingers clasp with tactile skin warmth', 'their fingers deeply and naturally interlaced on the tabletop or motorcycle tank, delicate knuckle contact and warm skin-on-skin intimacy caught in golden side-light'),
-  O('Foreheads resting together with quiet closed eyes', 'foreheads leaning gently together, noses grazing, both eyes softly closed in a moment of tranquil, breathless emotional resonance and tender closeness'),
-  O('Arm looped warmly through his mid-stride with shared laughter', 'her arm securely looped through his elbow as they walk shoulder-to-shoulder, matching stride naturally while laughing candidly at an inside joke'),
+  O('Pillion waist embrace — chest leaning against his jacket', 'her arms locked securely around his waist, chest leaning comfortably against the back of his jacket with complete relaxed trust and balanced body weight at highway speed'),
+  O('Intertwined fingers clasp on table or tank', 'their fingers deeply and naturally interlaced on the tabletop or motorcycle tank, delicate knuckle contact and warm skin-on-skin intimacy caught in golden side-light'),
+  O('Foreheads resting together in tranquil stillness', 'foreheads leaning gently together, noses grazing, both eyes softly closed in a moment of tranquil, breathless emotional resonance and tender closeness'),
+  O('Arm looped warmly through his mid-stride', 'her arm securely looped through his elbow as they walk shoulder-to-shoulder, matching stride naturally while laughing candidly at an inside joke'),
   O('He gently drapes his heavy leather jacket over her bare shoulders', 'he slips his heavy jacket off and drapes it tenderly over her bare shoulders against the evening breeze, resting his hands momentarily over her upper arms as she looks up warmly'),
   O('Protective back-embrace with arms wrapped around her waist', 'standing closely behind her with both hands resting gently at her waist, his chest aligned with her back as she leans back comfortably against him'),
   O('Gentle jawline cup and tender near-kiss proximity', 'he gently cups her jawline with warm fingers, tilting her chin softly upward as their lips pause mere millimeters apart in intense, unhurried romantic anticipation'),
@@ -425,7 +425,7 @@ const romanceFramings = [
   O('Three-quarter cinematic couple shot', 'a three-quarter fashion-editorial shot capturing body language, motorcycle stance or dining table presence, and natural couple posture'),
   O('Close-up beauty portrait with partner in near focus', 'an intimate close-up beauty portrait centered on her face and hair movement, with her partner\'s shoulder or profile resting softly in shallow depth of field'),
   O('Wide environmental roadscape with couple centered', 'a sweeping wide environmental cinema shot framing the motorcycle and couple within the grand scale of the landscape and horizon'),
-  O('Detail crop: Intertwined hands / helmet buckle', 'an editorial detail macro crop focusing closely on their tactile touch, interlaced fingers, jacket leather, or the fastening of a helmet chin strap')
+  O('Detail crop: Intertwined hands / tactile touch', 'an editorial detail macro crop focusing closely on their tactile touch, interlaced fingers, jacket leather, or resting hands')
 ];
 
 const romanceAngles = [
@@ -459,12 +459,19 @@ const romanceMakeups = [
   O('Bare minimal clean skin texture', 'ultra-minimal clean skincare finish with visible micro-pores, natural eyebrow definition, and tinted lip balm')
 ];
 
+// Option B: Motorcycle Helmet Presence Strategy
+const helmetModeOpts = [
+  {"id": "none", "label": "💨 Windblown hair (No helmet on head)", "text": "bareheaded with natural windblown hair", "desc": "Pure hair physics: no helmet on her head; her glossy hair catches the natural wind currents in dynamic buoyant motion with zero plastic helmet distortion."},
+  {"id": "resting", "label": "🛵 Helmets resting on bike mirrors (Scenic stop / Diner)", "text": "helmets resting securely on handlebar mirrors", "desc": "Both riders are bareheaded enjoying the scenery while retro helmets rest on the bike's chrome mirrors."},
+  {"id": "open_face", "label": "🪖 Retro open-face helmet with front hair bangs exposed", "text": "wearing a cream open-face retro 3/4 helmet", "desc": "Classic open-face helmet with leather chin strap, leaving her face open and front bangs/wisps framing cheekbones cleanly without hair melting."}
+];
+
 // Presets for quick romance starters
 const starterRomancePresets = [
   {
     id: 'rom_bike_sunset',
     title: '🏍️ Sunset Coastal Pillion',
-    sub: 'Leather jackets · 70 km/h windblown hair · Royal Enfield',
+    sub: 'Leather jackets · Golden hour highway · Windblown hair',
     icon: '🏍️',
     set: {
       romancePartner: partnerAesthetics[0],
@@ -474,6 +481,7 @@ const starterRomancePresets = [
       romanceSetting: romanceSettings[0],
       romanceLighting: romanceLightings[0],
       romanceFraming: romanceFramings[1],
+      romanceHelmetMode: helmetModeOpts[0],
       romanceHairMoisture: 'dry'
     }
   },
@@ -538,6 +546,7 @@ const starterRomancePresets = [
       romanceSetting: romanceSettings[1],
       romanceLighting: romanceLightings[0],
       romanceFraming: romanceFramings[1],
+      romanceHelmetMode: helmetModeOpts[1],
       romanceHairMoisture: 'dry'
     }
   },
@@ -566,40 +575,40 @@ const allDynamicOpts = [
   ...coupleInteractions.map(c => Object.assign({}, c, { cat: c.cat.toLowerCase() }))
 ];
 
-// Fields dictionary
+// Fields dictionary (Balanced 5-step distribution)
 const fields = {
-  // 01 Couple & Partner Dynamics
+  // 01 Couple & Chemistry
   romanceStoryCategory: { label: 'Romantic Story Filter', opts: [O('All Romance Scenarios', 'all'), O('🏍️ Motorcycle & Bike Journeys', 'bike'), O('🍷 Date Nights & Venues', 'date'), O('💕 Intimate Poses & Embraces', 'intimate'), O('☕ Casual & Candid Banter', 'casual')], def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
   romancePartner: { label: 'Male Partner Aesthetic & Attire', opts: partnerAesthetics, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
   romanceDynamic: { label: 'Couple Interaction & Scene', opts: allDynamicOpts, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
   romanceTouch: { label: 'Intimacy Proximity & Touch Detail', opts: intimacyTouches, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
   romanceExpression: { label: 'Shared Facial Resonance & Mood', opts: romanceExpressions, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
 
-  // 02 Her Styling & Face Privacy
-  romanceHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
-  romanceHair: { label: 'Chosen Haircut Silhouette', opts: hair, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
-  romanceHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
-  romanceFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
+  // 02 Her Wardrobe & Makeup
+  romanceOutfitCategory: { label: 'Wardrobe Ensemble Family', opts: OUTFIT_FAMILIES, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Wardrobe & Styling' },
+  romanceOutfit: { label: 'Full Wardrobe Ensemble', opts: outfit, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Wardrobe & Styling' },
+  topCategory: { label: 'Top Piece Category', opts: TOP_FAMILIES, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Wardrobe & Styling' },
+  topPiece: { label: 'Crop Top / Biker Top / Camisole', opts: topPieces, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Wardrobe & Styling' },
+  bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Wardrobe & Styling' },
+  bottomPiece: { label: 'Denim Shorts / Leather Pants / Skirt', opts: bottomPieces, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Wardrobe & Styling' },
+  midriffStyling: { label: 'Midriff & Waistline Exposure', opts: midriffStylings, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Wardrobe & Styling' },
+  romanceMakeup: { label: 'Her Makeup Direction', opts: romanceMakeups, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Beauty & Makeup' },
 
-  romanceOutfitCategory: { label: 'Wardrobe Ensemble Family', opts: OUTFIT_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
-  romanceOutfit: { label: 'Full Wardrobe Ensemble', opts: outfit, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
-  topCategory: { label: 'Top Piece Category', opts: TOP_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
-  topPiece: { label: 'Crop Top / Biker Top / Camisole', opts: topPieces, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
-  bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
-  bottomPiece: { label: 'Denim Shorts / Leather Pants / Skirt', opts: bottomPieces, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
-  midriffStyling: { label: 'Midriff & Waistline Exposure', opts: midriffStylings, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
-  romanceMakeup: { label: 'Her Makeup Direction', opts: romanceMakeups, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  // 03 Her Hair & Face Privacy
+  romanceHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'romanceHairSec', _grp: 'Her Signature Haircut' },
+  romanceHair: { label: 'Chosen Haircut Silhouette', opts: hair, def: 0, section: 'romanceHairSec', _grp: 'Her Signature Haircut' },
+  romanceHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'romanceHairSec', _grp: 'Face Privacy & Coverage' },
+  romanceFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'romanceHairSec', _grp: 'Face Privacy & Coverage' },
+  romanceHelmetMode: { label: 'Motorcycle Helmet & Hair Flow', opts: helmetModeOpts, def: 0, section: 'romanceHairSec', _grp: 'Motorcycle Road Gear (Option B)' },
 
-  // 03 Scene, Setting & Light
-  romanceSceneType: { label: 'Setting Category', opts: romanceSceneCategories, def: 0, section: 'romanceSceneSec', _grp: 'Location & Environment' },
-  romanceSetting: { label: 'Specific Setting & Background Detail', opts: romanceSettings, def: 0, section: 'romanceSceneSec', _grp: 'Location & Environment' },
-  romanceLighting: { label: 'Lighting Mood & Character', opts: romanceLightings, def: 0, section: 'romanceSceneSec', _grp: 'Lighting & Atmosphere' },
-
-  // 04 Camera, Optics & Reel Mode
-  romanceFraming: { label: 'Camera Framing', opts: romanceFramings, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' },
-  romanceAngle: { label: 'Camera Perspective & Angle', opts: romanceAngles, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' },
-  romanceLens: { label: 'Lens Character & Optics', opts: romanceLenses, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' },
-  aspect: { label: 'Aspect Ratio', opts: romanceAspects, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' }
+  // 04 Setting, Lighting & Optics
+  romanceSceneType: { label: 'Setting Category', opts: romanceSceneCategories, def: 0, section: 'romanceSceneSec', _grp: 'Setting & Environment' },
+  romanceSetting: { label: 'Specific Setting & Background Detail', opts: romanceSettings, def: 0, section: 'romanceSceneSec', _grp: 'Setting & Environment' },
+  romanceLighting: { label: 'Lighting Mood & Character', opts: romanceLightings, def: 0, section: 'romanceSceneSec', _grp: 'Atmosphere & Light' },
+  romanceFraming: { label: 'Camera Framing & Composition', opts: romanceFramings, def: 0, section: 'romanceSceneSec', _grp: 'Camera & Optics' },
+  romanceAngle: { label: 'Camera Perspective & Angle', opts: romanceAngles, def: 0, section: 'romanceSceneSec', _grp: 'Camera & Optics' },
+  romanceLens: { label: 'Lens Character & Optical Bokeh', opts: romanceLenses, def: 0, section: 'romanceSceneSec', _grp: 'Camera & Optics' },
+  aspect: { label: 'Aspect Ratio', opts: romanceAspects, def: 0, section: 'romanceSceneSec', _grp: 'Camera & Optics' }
 };
 
 // State
@@ -609,13 +618,14 @@ let customPresets = [];
 let romanceHairMoisture = 'dry';
 let wardrobeMode = 'ensemble'; // 'ensemble' | 'separates'
 let reelMode = false; // false: single photo shot, true: 2-shot couple video reel
+let currentAspectRatio = '3:4';
 let customDirection = '';
 let extraNegative = '';
 let promptHistory = [];
 
 const checkState = {
   identity: true,
-  solitaryFemale: true,
+  duo: true,
   skinTexture: true,
   hairPhysics: true,
   authenticFabric: true,
@@ -864,12 +874,17 @@ function renderFields(){
   if(!host) return;
   host.innerHTML = '';
 
+  // In Her Wardrobe step, prepend wardrobe mode card (Ensemble vs Separates)
+  if(activeSection === 'romanceWardrobeSec'){
+    host.appendChild(createWardrobeModeCard());
+  }
+
   let lastGrp = '';
   Object.entries(fields).forEach(([id, f]) => {
     if(f.section !== activeSection) return;
 
-    // Filter separates vs ensemble
-    if(activeSection === 'romanceSubjectSec'){
+    // Filter separates vs ensemble in wardrobe section
+    if(activeSection === 'romanceWardrobeSec'){
       if(wardrobeMode === 'ensemble' && ['topCategory','topPiece','bottomCategory','bottomPiece','midriffStyling'].includes(id)) return;
       if(wardrobeMode === 'separates' && ['romanceOutfitCategory','romanceOutfit'].includes(id)) return;
     }
@@ -884,15 +899,9 @@ function renderFields(){
 
     host.appendChild(createFieldElement(id, f));
 
-    // Insert moisture card after face coverage
-    if(id === 'romanceFaceObfuscMode' && activeSection === 'romanceSubjectSec'){
+    // Insert hair moisture card directly after signature haircut in Hair step
+    if(id === 'romanceHair' && activeSection === 'romanceHairSec'){
       host.appendChild(createRomanceMoistureCard());
-      host.appendChild(createWardrobeModeCard());
-    }
-
-    // Insert 2-shot reel card in camera section
-    if(id === 'aspect' && activeSection === 'romanceCameraSec'){
-      host.appendChild(createReelToggleCard());
     }
   });
 
@@ -907,7 +916,7 @@ function renderFields(){
               <input type="checkbox" id="chkIdentity" ${checkState.identity ? 'checked' : ''}> Preserve Reference Woman Identity
             </label>
             <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
-              <input type="checkbox" id="chkSolitaryFemale" ${checkState.solitaryFemale ? 'checked' : ''}> Strictly Solitary Female Model (Zero secondary women)
+              <input type="checkbox" id="chkDuo" ${checkState.duo ? 'checked' : ''}> Duo composition: Exactly 1 woman + 1 man (Zero secondary women)
             </label>
             <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
               <input type="checkbox" id="chkSkin" ${checkState.skinTexture ? 'checked' : ''}> Natural Skin Pores &amp; Facial Asymmetry
@@ -931,7 +940,7 @@ function renderFields(){
         </div>
       `;
       sp.querySelector('#chkIdentity')?.addEventListener('change', e => { checkState.identity = e.target.checked; buildPrompt(); });
-      sp.querySelector('#chkSolitaryFemale')?.addEventListener('change', e => { checkState.solitaryFemale = e.target.checked; buildPrompt(); });
+      sp.querySelector('#chkDuo')?.addEventListener('change', e => { checkState.duo = e.target.checked; buildPrompt(); });
       sp.querySelector('#chkSkin')?.addEventListener('change', e => { checkState.skinTexture = e.target.checked; buildPrompt(); });
       sp.querySelector('#chkHair')?.addEventListener('change', e => { checkState.hairPhysics = e.target.checked; buildPrompt(); });
       sp.querySelector('#chkFabric')?.addEventListener('change', e => { checkState.authenticFabric = e.target.checked; buildPrompt(); });
@@ -974,8 +983,18 @@ function buildPrompt(){
     apparelText = val('romanceOutfit') || 'a cropped black leather moto jacket worn over a ribbed tank and denim';
   }
 
+  const helmetOpt = values.romanceHelmetMode || helmetModeOpts[0];
+  let helmetClause = '';
+  if(helmetOpt.id === 'resting'){
+    helmetClause = 'Motorcycle Helmet Continuity: Both riders are completely bareheaded enjoying the view; classic vintage helmets rest securely hung on the motorcycle\'s chrome handlebar mirrors, leaving her hair completely unencumbered in the natural breeze with zero helmet distortion.';
+  } else if(helmetOpt.id === 'open_face'){
+    helmetClause = 'Motorcycle Helmet Continuity: She wears a classic cream open-face 3/4 retro motorcycle helmet with an authentic leather chin strap, keeping her full facial expression open and visible; delicate front fringe bangs and side wisps frame her cheekbones cleanly outside the helmet edge with crisp boundary separation between helmet shell and hair fibers.';
+  } else {
+    helmetClause = 'Motorcycle Headwear & Physics: Bareheaded with zero helmet on her head; her hair catches the natural wind currents in dynamic buoyant motion with authentic aerodynamic flow and zero plastic helmet distortion.';
+  }
+
   const moistClause = romanceHairMoisture === 'wet'
-    ? 'Mandatory Wet Hair Physics: Thoroughly water-soaked, dripping strands clumping in heavy glossy ribbons against her temples, neck, and leather collar with authentic aquatic luster.'
+    ? 'Mandatory Wet Hair Physics: Thoroughly water-soaked, dripping strands clumping in heavy glossy ribbons against her temples, neck, and collar with authentic aquatic luster.'
     : (romanceHairMoisture === 'damp'
       ? 'Damp Hair Physics: Cleanly misted damp strands holding soft road-spray moisture and fine droplet sheen.'
       : 'Dry Blown-Out Hair Physics: Fresh, lightweight dry hair catching wind currents with voluminous bounce, natural strand separation, and fine organic flyaways.');
@@ -996,11 +1015,13 @@ function buildPrompt(){
     lines.push('');
     lines.push('SCENE OVERVIEW & DUO CAST CONTINUITY:');
     lines.push('• Format: 2-shot continuous narrative video reel (6–8s total duration).');
-    lines.push(`• Solitary Female Model: Identical adult South Asian woman from reference wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
+    lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
     lines.push(`• Male Partner: ${partnerText}.`);
+    lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
+    lines.push(`• ${helmetClause}`);
+    lines.push(`• ${moistClause}`);
     lines.push(`• Intimacy Dynamic: ${dynamicText}. Proximity: ${touchText}.`);
     lines.push(`• Setting & Light: ${settingText} under ${lightingText}. Lens: ${lensText}. Aspect ratio: ${aspectText}.`);
-    lines.push(`• ${moistClause}`);
 
     const obfuscClause = buildObfuscClause(obfuscMode, hairArch);
     if(obfuscClause) lines.push(`• ${obfuscClause}`);
@@ -1010,16 +1031,18 @@ function buildPrompt(){
     lines.push('CHRONOLOGICAL 2-SHOT ACTION TIMELINE:');
     lines.push(`• SHOT 1 (0s–3.5s · ESTABLISHING MOTION): Wide-to-medium camera tracking at matching speed alongside the scene; ${angleText}; ${touchText}; dynamic wind catching her hair in realistic flow.`);
     lines.push(`• SHOT 2 (3.5s–7s · PEAK ROMANCE CLIMAX): Seamless cut into an intimate ${framingText}; ${exprText}; subtle speed deceleration into cinematic slow-motion; mutual eye contact or tender touch resolve.`);
-    lines.push('• AUDIO AMBIENCE: Throaty rumble of the motorcycle engine exhaust, coastal wind rush, distant soft vinyl cafe music.');
+    lines.push('• AUDIO AMBIENCE: Throaty rumble of the motorcycle engine exhaust, coastal wind rush, distant soft ambient music.');
   } else {
     // Single editorial photograph format
-    lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · ROMANTIC COUPLE EDITORIAL');
+    lines.push('CINEMATIC DUO PORTRAIT · ROMANTIC & COUPLE EDITORIAL');
     lines.push('');
-    lines.push('PRIMARY SUBJECT (REFERENCE IMAGE) & SOLITARY FEMALE RULE:');
-    lines.push('• Strictly preserve the adult woman from the reference image as the primary female model.');
-    lines.push('• Solitary Female Model Rule: She is strictly and exclusively the ONLY woman in the entire frame (zero secondary women, zero female passersby, zero extra females).');
-    lines.push(`• Signature Haircut: Authentic natural Indian hair fiber sculpted into ${hairText} (${hairLabel}).`);
-    lines.push(`• Wardrobe: ${apparelText}. Makeup: ${makeupText}.`);
+    lines.push('PRIMARY SUBJECTS & DUO CAST CONTINUITY:');
+    lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; makeup: ${makeupText}.`);
+    lines.push(`• Male Partner: ${partnerText}.`);
+    lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
+    lines.push(`• Her Signature Haircut: Authentic natural hair sculpted into ${hairText} (${hairLabel}).`);
+    lines.push(`• ${helmetClause}`);
+    lines.push(`• ${moistClause}`);
 
     const obfuscClause = buildObfuscClause(obfuscMode, hairArch);
     if(obfuscClause){
@@ -1028,14 +1051,12 @@ function buildPrompt(){
     if(veilRuleObj?.primary){
       lines.push(veilRuleObj.primary);
     }
-    lines.push(`• ${moistClause}`);
 
     lines.push('');
-    lines.push('COUPLE INTERACTION & MALE PARTNER DYNAMICS:');
-    lines.push(`• Male Partner Presence: ${partnerText}.`);
-    lines.push(`• Shared Romantic Moment: ${dynamicText}.`);
+    lines.push('COUPLE SCENE & INTIMACY COMPOSITION:');
+    lines.push(`• Couple Interaction & Dynamic: ${dynamicText}.`);
     lines.push(`• Physical Touch & Proximity: ${touchText}.`);
-    lines.push(`• Expression & Chemistry: ${exprText}.`);
+    lines.push(`• Shared Expression & Chemistry: ${exprText}.`);
 
     lines.push('');
     lines.push('ENVIRONMENT, SETTING & LIGHTING:');
@@ -1065,7 +1086,7 @@ function buildPrompt(){
     checks.push(`Strict Face Privacy (${values.romanceFaceObfuscMode?.label || obfuscMode}): Conceal facial identity zone cleanly in accordance with the specified method with zero recognizable frontal portraits.`);
   }
   if(checkState.identity) checks.push('Preserve identical facial features, Indian heritage skin tone, and natural eye shape from reference without identity drift.');
-  if(checkState.solitaryFemale) checks.push('Exclusively solitary female model: ensure all partners and background bystanders are male with zero secondary women.');
+  if(checkState.duo) checks.push('Duo Cast Safeguard: Exactly one woman and one man in frame; strictly zero secondary women, extra females, or bystanders.');
   if(checkState.skinTexture) checks.push('Authentic dermal micro-pores, natural skin luster, and fine facial asymmetry; zero plastic doll smoothing.');
   if(checkState.hairPhysics) checks.push('Organic kinetic hair strand movement and authentic density; realistic wind drag without synthetic spaghetti clumps.');
   if(checkState.authenticFabric) checks.push('Believable garment weight, natural leather creasing, realistic motorcycle hardware, and believable fabric tension.');
@@ -1076,11 +1097,11 @@ function buildPrompt(){
   checks.forEach(c => lines.push('• ' + c));
 
   const negs = [
-    'secondary women, extra women, multiple women, female bystanders, female riders',
-    'identity drift, plastic airbrushed skin, CGI doll faces, deformed hands or extra fingers',
+    'fused bodies, conjoined twins, mutant anatomy, disembodied hands, floating arms, phantom limbs, extra limbs, missing arms, disconnected hands',
+    'solitary solo portrait, missing partner, single woman alone, third person, extra women, female passersby, female riders',
+    'identity drift, plastic airbrushed skin, CGI doll faces, deformed hands or extra fingers, missing fingers, poorly drawn hands',
     'stiff stock-photo poses, awkward disconnected couple distance, artificial waxy glow',
-    'helmet with full tinted dark visor completely hiding head silhouette when open helmet requested',
-    'impossible motorcycle anatomy, melted engine chrome, floating bike wheels, warped handlebars'
+    'impossible motorcycle anatomy, melted engine chrome, floating bike wheels, warped handlebars, melted helmet plastic'
   ];
   if(obfuscMode && obfuscMode !== 'none' && obfuscMode !== 'hair_veil'){
     const obfNegs = getObfuscNegatives(obfuscMode);
@@ -1112,6 +1133,7 @@ function buildPrompt(){
   const summaryIds = [
     'romanceDynamic',
     'romanceHair',
+    'romanceHelmetMode',
     'romanceHairFaceCoverage',
     ...(hasObfuscation ? ['romanceFaceObfuscMode'] : []),
     'romanceSetting',
@@ -1451,6 +1473,7 @@ window.AfterglowRomanceStudio = {
   getHair: () => hair,
   getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
   getFaceObfuscModeOpts: () => faceObfuscModeOpts,
+  getHelmetModeOpts: () => helmetModeOpts,
   getBikeScenes: () => bikeScenes,
   getDateVenues: () => dateVenues,
   getCoupleInteractions: () => coupleInteractions,

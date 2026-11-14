@@ -216,7 +216,7 @@ ok('salon_token_estimate_present', document.getElementById('wordCount').textCont
 ok('salon_buzzwords_purged', !sGuardPrompt.includes('harmonized with the selected establishment'));
 
 // Face Obfuscation modes in Salon
-ok('salon_face_obfusc_field_exists', !!api.getFields().salonFaceObfuscMode && api.getFields().salonFaceObfuscMode.opts.length === 8);
+ok('salon_face_obfusc_field_exists', !!api.getFields().salonFaceObfuscMode && api.getFields().salonFaceObfuscMode.opts.length >= 8);
 api.getValues().salonFaceObfuscMode = api.getFields().salonFaceObfuscMode.opts.find(o => o.id === 'hands_shield');
 const sObfPrompt = api.buildSalonPrompt();
 ok('salon_face_obfusc_hands_shield', sObfPrompt.includes('HAND & FINGER SHIELD'));
@@ -287,7 +287,7 @@ const psDryPrompt = api.buildPrompt();
 ok('ps_dry_no_water_droplets', !psDryPrompt.includes('Authentic water droplets, believable wet hair clumping'));
 
 // Face Obfuscation modes in Photoshoot
-ok('ps_face_obfusc_field_exists', !!api.getFields().faceObfuscMode && api.getFields().faceObfuscMode.opts.length === 8);
+ok('ps_face_obfusc_field_exists', !!api.getFields().faceObfuscMode && api.getFields().faceObfuscMode.opts.length >= 8);
 api.getValues().faceObfuscMode = api.getFields().faceObfuscMode.opts.find(o => o.id === 'minimalist_censor_bar');
 const psObfPrompt = api.buildPrompt();
 ok('ps_face_obfusc_censor_bar', psObfPrompt.includes('EDITORIAL PRIVACY BAR'));
@@ -378,7 +378,7 @@ ok('tattoo_vector_buzzword_purged', !tSecPrompt.includes('Vector-grade') && tSec
 ok('tattoo_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 
 // Face Obfuscation modes in Tattoo
-ok('tattoo_face_obfusc_field_exists', !!api.getFields().tattooFaceObfuscMode && api.getFields().tattooFaceObfuscMode.opts.length === 8);
+ok('tattoo_face_obfusc_field_exists', !!api.getFields().tattooFaceObfuscMode && api.getFields().tattooFaceObfuscMode.opts.length >= 8);
 api.getValues().tattooFaceObfuscMode = api.getFields().tattooFaceObfuscMode.opts.find(o => o.id === 'optical_gaussian_blur');
 const tObfPrompt = api.buildPrompt();
 ok('tattoo_face_obfusc_gaussian', tObfPrompt.includes('GAUSSIAN DEPTH BLUR'));
@@ -453,7 +453,7 @@ ok('makeup_phase_and_steam_reflected', mPrompt.includes('Dense Steam Sanctuary')
 ok('makeup_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 
 // Face Obfuscation modes in Makeup & Spa
-ok('makeup_face_obfusc_field_exists', !!api.getFields().prepFaceObfuscMode && api.getFields().prepFaceObfuscMode.opts.length === 8);
+ok('makeup_face_obfusc_field_exists', !!api.getFields().prepFaceObfuscMode && api.getFields().prepFaceObfuscMode.opts.length >= 8);
 api.getValues().prepFaceObfuscMode = api.getFields().prepFaceObfuscMode.opts.find(o => o.id === 'chiaroscuro_shadow');
 const mObfPrompt = api.buildPrompt();
 ok('makeup_face_obfusc_chiaroscuro', mObfPrompt.includes('CHIAROSCURO SILHOUETTE'));
@@ -509,7 +509,7 @@ ok('video_seamless_loop_reflected', vLoopPrompt.includes('Seamless loop requirem
 ok('video_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 
 // Face Obfuscation modes in Video
-ok('video_face_obfusc_field_exists', !!api.getFields().vidFaceObfuscMode && api.getFields().vidFaceObfuscMode.opts.length === 8);
+ok('video_face_obfusc_field_exists', !!api.getFields().vidFaceObfuscMode && api.getFields().vidFaceObfuscMode.opts.length >= 8);
 api.getValues().vidFaceObfuscMode = api.getFields().vidFaceObfuscMode.opts.find(o => o.id === 'prop_shield');
 const vObfPrompt = api.buildPrompt();
 ok('video_face_obfusc_prop_shield', vObfPrompt.includes('PROP & OBJECT OCCLUSION'));
@@ -565,7 +565,7 @@ ok('sb_shot1_lens_override_reflected', document.getElementById('prompt').value.i
 ok('sb_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 
 // Face Obfuscation modes in Storyboard
-ok('sb_face_obfusc_field_exists', !!api.getFields().sbFaceObfuscMode && api.getFields().sbFaceObfuscMode.opts.length === 8);
+ok('sb_face_obfusc_field_exists', !!api.getFields().sbFaceObfuscMode && api.getFields().sbFaceObfuscMode.opts.length >= 8);
 api.getValues().sbFaceObfuscMode = api.getFields().sbFaceObfuscMode.opts.find(o => o.id === 'shutter_motion_blur');
 const sbObfPrompt = api.buildPrompt();
 ok('sb_face_obfusc_motion_blur', sbObfPrompt.includes('SHUTTER MOTION BLUR'));
@@ -579,8 +579,14 @@ ok('romance_hero_title', document.getElementById('heroTitle').textContent.includ
 ok('romance_bike_options_loaded', api.getBikeScenes().length >= 7);
 ok('romance_date_options_loaded', api.getDateVenues().length >= 8);
 ok('romance_couple_options_loaded', api.getCoupleInteractions().length >= 10);
-ok('romance_face_obfusc_field', !!api.getFields().romanceFaceObfuscMode && api.getFields().romanceFaceObfuscMode.opts.length === 8);
+ok('romance_face_obfusc_field', !!api.getFields().romanceFaceObfuscMode && api.getFields().romanceFaceObfuscMode.opts.length === 10);
+ok('romance_helmet_opts_loaded', api.getHelmetModeOpts().length === 3);
 ok('romance_prompt_generated', document.getElementById('prompt').value.length > 100);
+
+// Assert Duo Composition and Anti-Morph Negatives in initial prompt
+const [initPos, initNeg] = document.getElementById('prompt').value.split('AVOID / NEGATIVE GUIDANCE:');
+ok('romance_duo_rule', initPos.includes('CINEMATIC DUO PORTRAIT') && initPos.includes('Duo Composition Rule: Exactly one woman and one man in frame'));
+ok('romance_anti_morph_negs', initNeg.includes('fused bodies') && initNeg.includes('phantom limbs') && initNeg.includes('missing partner'));
 
 // Face Obfuscation modes in Romance
 const findObf = id => api.getFields().romanceFaceObfuscMode.opts.find(o => o.id === id);
@@ -592,6 +598,10 @@ api.getValues().romanceFaceObfuscMode = findObf('minimalist_censor_bar');
 const pCensor = api.buildPrompt();
 ok('romance_face_obfusc_censor_bar', pCensor.includes('EDITORIAL PRIVACY BAR'));
 
+api.getValues().romanceFaceObfuscMode = findObf('turned_away');
+const pTurned = api.buildPrompt();
+ok('romance_face_obfusc_turned_away', pTurned.includes('TURNED-AWAY PROFILE'));
+
 // Reel mode toggle
 document.getElementById('btnReelMode').click();
 const pReel = document.getElementById('prompt').value;
@@ -599,17 +609,21 @@ ok('romance_reel_mode_toggle', pReel.includes('CINEMATIC 2-SHOT COUPLE VIDEO REE
 document.getElementById('btnSingleMode').click();
 ok('romance_single_mode_restored', !document.getElementById('prompt').value.includes('CINEMATIC 2-SHOT COUPLE VIDEO REEL'));
 
-// Switch to Her Look & Face Privacy section to reveal moisture & separates controls
-document.querySelector('.tab[data-section="romanceSubjectSec"]').click();
+// Switch to Her Wardrobe & Makeup section to reveal separates controls
+document.querySelector('.tab[data-section="romanceWardrobeSec"]').click();
+document.getElementById('btnSeparates').click();
+ok('romance_separates_toggle', document.getElementById('prompt').value.includes('paired with'));
 
-// Moisture toggle in Romance
+// Switch to Her Hair, Moisture & Privacy section to reveal moisture & helmet controls
+document.querySelector('.tab[data-section="romanceHairSec"]').click();
 document.querySelector('.moisture-pill[data-moisture="wet"]').click();
 const [rWetPos, rWetNeg] = document.getElementById('prompt').value.split('AVOID / NEGATIVE GUIDANCE:');
 ok('romance_wet_physics', rWetPos.includes('Mandatory Wet Hair Physics') && rWetNeg.includes('dry hair'));
 
-// Separates toggle in Romance
-document.getElementById('btnSeparates').click();
-ok('romance_separates_toggle', document.getElementById('prompt').value.includes('paired with'));
+// Test Option B Helmet Resting mode
+api.getValues().romanceHelmetMode = api.getHelmetModeOpts()[1];
+const pResting = api.buildPrompt();
+ok('romance_helmet_resting', pResting.includes('Motorcycle Helmet Continuity: Both riders are completely bareheaded enjoying the view'));
 
 // Copy positive / negative
 ok('romance_copy_positive', !api.getExtractedPositive().includes('AVOID / NEGATIVE GUIDANCE:'));

@@ -194,6 +194,10 @@ function buildObfuscClause(mode, hairArch){
   const m = mode || 'none';
   if(m === 'none' || m === 'hair_veil') return '';
   switch(m){
+    case 'turned_away':
+      return 'FACE CONCEALMENT — TURNED-AWAY PROFILE: natural photographic profile privacy—she rests her cheek sideways against his shoulder blade or turns her head away looking toward the horizon/road; her facial features remain completely hidden by natural camera angle and body posture; only her haircut silhouette, ear contour, and shoulder line are visible; ZERO frontal facial identification.';
+    case 'over_shoulder_pov':
+      return 'FACE CONCEALMENT — OVER-THE-SHOULDER OCCLUSION: cinematic over-the-shoulder framing—the male partner\'s broad shoulder, neck, and jacket collar occupy the close foreground, naturally occluding her eye-line, forehead, and nose bridge; she looks past his shoulder with only her lower jawline and windblown hair visible; ZERO clear frontal facial exposure.';
     case 'hands_shield':
       return 'FACE CONCEALMENT — HAND & FINGER SHIELD: candid organic hand shielding gesture—she lifts one or both hands naturally toward her face with fingers softly splayed or palm turned inward to shield the eye-line, forehead, and bridge of nose; the gesture reads as an instinctive, unforced candid moment (shading eyes from warm sun or laughing shyly into her hands) rather than theatrical staging; tactile skin texture, delicate knuckle creases, and soft organic hand shadows cast across the concealed facial zone; ZERO bare wide-open eyes visible beneath the hand.';
     case 'prop_shield':
@@ -216,6 +220,10 @@ function getObfuscNegatives(mode){
   if(m === 'none' || m === 'hair_veil') return [];
   const base = ['unobscured recognizable face', 'clear frontal facial portrait', 'identifiable face without privacy concealment'];
   switch(m){
+    case 'turned_away':
+      return [...base, 'direct frontal face looking at camera', 'full face portrait', 'unobscured frontal eyes'];
+    case 'over_shoulder_pov':
+      return [...base, 'wide open frontal face view', 'unoccluded face', 'camera facing her directly'];
     case 'hands_shield':
       return [...base, 'hands down by sides', 'unshielded open face', 'both eyes clearly looking at camera'];
     case 'prop_shield':
