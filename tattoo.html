@@ -990,11 +990,19 @@ function createFieldElement(id, f){
 
   titleWrap.append(label, lockBtn);
 
-    let visibleOpts = f.opts;
-  if(id === 'tattooHair' && values.tattooHairCategory && values.tattooHairCategory.text && values.tattooHairCategory.text !== 'all'){
+  let visibleOpts = f.opts;
+  if(id === 'tattooMotif' && values.tattooMotifCategory && values.tattooMotifCategory.text && values.tattooMotifCategory.text !== 'all'){
+    const cat = values.tattooMotifCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+    if(!visibleOpts.includes(values.tattooMotif)) values.tattooMotif = visibleOpts[0] || f.opts[0];
+  } else if(id === 'tattooHair' && values.tattooHairCategory && values.tattooHairCategory.text && values.tattooHairCategory.text !== 'all'){
     const cat = values.tattooHairCategory.text;
     visibleOpts = f.opts.filter(o => o.cat === cat);
     if(!visibleOpts.includes(values.tattooHair)) values.tattooHair = visibleOpts[0] || f.opts[0];
+  } else if(id === 'tattooLocation' && values.tattooLocationCategory && values.tattooLocationCategory.text && values.tattooLocationCategory.text !== 'all'){
+    const cat = values.tattooLocationCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+    if(!visibleOpts.includes(values.tattooLocation)) values.tattooLocation = visibleOpts[0] || f.opts[0];
   } else if(id === 'topPiece' && values.topCategory && values.topCategory.text && values.topCategory.text !== 'all'){
     const cat = values.topCategory.text;
     visibleOpts = f.opts.filter(o => o.cat === cat);
@@ -1007,26 +1015,6 @@ function createFieldElement(id, f){
     const cat = values.outfitCategory.text;
     visibleOpts = f.opts.filter(o => o.cat === cat || (o.label && o.label.toLowerCase().includes(cat)));
     if(!visibleOpts.includes(values.outfit)) values.outfit = visibleOpts[0] || f.opts[0];
-  }
-
-  if(id === 'tattooMotif' && values.tattooMotifCategory && values.tattooMotifCategory.cat && values.tattooMotifCategory.cat !== 'all'){
-    const filterCat = values.tattooMotifCategory.cat;
-    visibleOpts = f.opts.filter(o => o.cat === filterCat);
-    if(!visibleOpts.includes(values.tattooMotif)){
-      values.tattooMotif = visibleOpts[0] || f.opts[0];
-    }
-  } else if(id === 'tattooHair' && values.tattooHairCategory && values.tattooHairCategory.cat && values.tattooHairCategory.cat !== 'all'){
-    const filterCat = values.tattooHairCategory.cat;
-    visibleOpts = f.opts.filter(o => o.cat === filterCat);
-    if(!visibleOpts.includes(values.tattooHair)){
-      values.tattooHair = visibleOpts[0] || f.opts[0];
-    }
-  } else if(id === 'tattooLocation' && values.tattooLocationCategory && values.tattooLocationCategory.cat && values.tattooLocationCategory.cat !== 'all'){
-    const filterCat = values.tattooLocationCategory.cat;
-    visibleOpts = f.opts.filter(o => o.cat === filterCat);
-    if(!visibleOpts.includes(values.tattooLocation)){
-      values.tattooLocation = visibleOpts[0] || f.opts[0];
-    }
   }
 
   const count = document.createElement('span');
@@ -1060,19 +1048,19 @@ function createFieldElement(id, f){
     b.addEventListener('click', () => {
       values[id] = o;
       if(id === 'tattooMotifCategory'){
-        const cat = o.cat || 'all';
+        const cat = o.text || 'all';
         if(cat !== 'all'){
           const matchFirst = fields.tattooMotif.opts.find(opt => opt.cat === cat);
           if(matchFirst) values.tattooMotif = matchFirst;
         }
       } else if(id === 'tattooHairCategory'){
-        const cat = o.cat || 'all';
+        const cat = o.text || 'all';
         if(cat !== 'all'){
           const matchFirst = fields.tattooHair.opts.find(opt => opt.cat === cat);
           if(matchFirst) values.tattooHair = matchFirst;
         }
       } else if(id === 'tattooLocationCategory'){
-        const cat = o.cat || 'all';
+        const cat = o.text || 'all';
         if(cat !== 'all'){
           const matchFirst = fields.tattooLocation.opts.find(opt => opt.cat === cat);
           if(matchFirst) values.tattooLocation = matchFirst;

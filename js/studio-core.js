@@ -5263,40 +5263,76 @@ const outputText={
 const detail=detailLevel||'full';
 const lines=[];
 
-lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · BOLD POST-MAKEOVER PHOTOSHOOT' : 'REFERENCE-GUIDED PORTRAIT · BOLD POST-MAKEOVER PHOTOSHOOT');
+let outfitSummary = '';
+if(wardrobeMode === 'separates'){
+  const topText = val('topPiece') || 'a minimalist white ribbed racerback crop tank top';
+  const bottomText = val('bottomPiece') || 'high-waisted vintage wash denim cutoff shorts';
+  const waistText = val('midriffStyling') || 'bare midriff with natural skin texture & subtle tone';
+  outfitSummary = `a modern two-piece separates ensemble featuring ${topText} paired with ${bottomText}, with ${waistText}`;
+} else {
+  outfitSummary = val('outfit') || 'editorial wardrobe ensemble';
+}
+
+const rawHairBlueprint = (styleRef && transferToggles && transferToggles.hair)
+  ? "authentic salon-styled mid-height ponytail with softly rounded crown and natural scalp volume; delicate arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands curving gracefully outward around the temples to frame the cheekbones with piecey separation; side hair combed smoothly back and tucked behind the ears; ponytail anchored at the mid-occipital back of the head into a relaxed mid ponytail with a straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders with soft tousled ends; 100% authentic natural silky-fine Indian hair texture with organic strand separation and healthy sheen"
+  : psFullHairDesc;
+const hairBlueprint = sanitizeHairForVeil(rawHairBlueprint, psTier);
+const psMakeupSafe = sanitizeMakeupForVeil(val('makeup'), psTier);
+
+let moisturePhysicsLine = 'Completely dry, freshly blown-out airy hair with natural bounce, lightweight separation, and zero water dampness or wet clumping.';
+if(photoHairMoisture === 'wet'){
+  moisturePhysicsLine = "Mandatory Soaked Wet Hair Physics: The female model's hair is thoroughly water-soaked and dripping wet—heavy dark wet hair ribbons clinging flush against her scalp, temples, cheeks, and neck with glistening aquatic water sheen and zero dry fluffy flyaways.";
+} else if(photoHairMoisture === 'damp'){
+  moisturePhysicsLine = 'Damp Hair Physics: Evenly misted damp hair texture with fine translucent water droplets catching light and softly clumped strand separation.';
+} else if(!psIsExplicitWetHair){
+  moisturePhysicsLine = 'Dry Blown-Out Hair Physics: Completely dry, freshly blown-out airy hair with natural bounce, lightweight separation, and zero water dampness or wet clumping.';
+}
+
+let dynamicHeader = 'REFERENCE-IMAGE EDIT · BOLD POST-MAKEOVER PHOTOSHOOT';
+if(isFemaleGroomingMen){
+  dynamicHeader = 'REFERENCE-IMAGE EDIT · FEMALE MODEL GROOMING & PAMPERING SHOOT';
+} else if(hasMalePresence){
+  dynamicHeader = 'REFERENCE-IMAGE EDIT · EDITORIAL CO-STAR & CREW PHOTOSHOOT';
+} else if(!mode.startsWith('Edit')){
+  dynamicHeader = 'REFERENCE-GUIDED PORTRAIT · BOLD POST-MAKEOVER PHOTOSHOOT';
+}
+lines.push(dynamicHeader);
 lines.push('');
+
 const psHairArch = detectHairArchitecture(values.hair, S(getFullHairDescription()));
 const psVeilRuleObj = getVeilRule(psTier, psHairArch);
 
-lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
-lines.push('• Strictly preserve the adult woman from the reference image as the primary model.');
+lines.push('PRIMARY SUBJECT & EDITORIAL STYLING:');
+lines.push(`• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${outfitSummary}; makeup: ${psMakeupSafe || val('makeup') || 'natural editorial makeup'}.`);
+lines.push(`• Signature Post-Makeover Haircut: Authentic natural hair sculpted into ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''}`);
+lines.push(`• Hair Moisture & Fiber: ${moisturePhysicsLine}`);
+
 const psObfuscClause = buildObfuscClause(psObfuscMode, psHairArch);
 if(psObfuscClause){
   lines.push('• ' + psObfuscClause);
 }
+
 if(isFaceHidden){
-  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
+  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
 } else if(isFullVeil){
-  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, hair density, and silhouette while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
+  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, hair density, and silhouette while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
 } else if(isPs80_85){
-  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip.');
+  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip.');
 } else if(isPs65_70){
-  lines.push('• Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
+  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
 } else if(psTier === '50' || psTier === '40_45'){
-  lines.push('• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length.');
+  lines.push('• Identity Rule: Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length.');
 } else {
-  lines.push('• Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
+  lines.push('• Identity Rule: Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
 }
+
 if(psVeilRuleObj?.primary){
   lines.push(psVeilRuleObj.primary);
 }
-lines.push('• Strictly preserve her authentic natural Indian hair strand density and texture.');
-if(photoHairMoisture === 'wet'){
-  lines.push("• Mandatory Soaked Wet Hair Physics: The female model's hair is thoroughly water-soaked and dripping wet—heavy dark wet hair ribbons clinging flush against her scalp, temples, cheeks, and neck with glistening aquatic water sheen and zero dry fluffy flyaways.");
-} else if(photoHairMoisture === 'damp'){
-  lines.push('• Damp Hair Physics: Evenly misted damp hair texture with fine translucent water droplets catching light and softly clumped strand separation.');
-} else if(!psIsExplicitWetHair){
-  lines.push('• Dry Blown-Out Hair Physics: Completely dry, freshly blown-out airy hair with natural bounce, lightweight separation, and zero water dampness or wet clumping.');
+
+if(hasMalePresence){
+  lines.push(`• Shoot Setup & Presence: ${values.malePresence.label} — ${val('maleInteraction')}.`);
+  lines.push('• Cast Continuity Rule: Exactly one female model in frame; all co-stars and crew are male with zero secondary women.');
 }
 lines.push('');
 lines.push('CREATIVE INTENT');
@@ -5327,12 +5363,9 @@ const textureDirective = (preserveHairTexture || (values.hairTexture && values.h
   ? "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)"
   : (val('hairTexture') || "natural hair texture with realistic strand separation");
 
-const psMakeupSafe = sanitizeMakeupForVeil(val('makeup'), psTier);
 const hasActiveHeavyVeil = ['25_30','40_45','50','65_70','80_85','95_100'].includes(psTier);
 
 if(styleRef && transferToggles && transferToggles.hair){
-  const rawBlueprint = "authentic salon-styled mid-height ponytail with softly rounded crown and natural scalp volume; delicate arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands curving gracefully outward around the temples to frame the cheekbones with piecey separation; side hair combed smoothly back and tucked behind the ears; ponytail anchored at the mid-occipital back of the head into a relaxed mid ponytail with a straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders with soft tousled ends; 100% authentic natural silky-fine Indian hair texture with organic strand separation and healthy sheen";
-  const hairBlueprint = sanitizeHairForVeil(rawBlueprint, psTier);
   lines.push(`Hairstyle: ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''} Finished solo hairstyle with zero hairdresser, stylist, or hands touching her hair. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${psMakeupSafe}.`);
 } else {
   const psHairDesc = sanitizeHairForVeil(psFullHairDesc, psTier);
@@ -5357,17 +5390,11 @@ if(psFaceCovVal && psTier !== 'auto' && (!(styleRef && transferToggles && transf
 }
 lines.push('');
 lines.push('WARDROBE AND STYLING');
-let outfitSummary = '';
 if(wardrobeMode === 'separates'){
-  const topText = val('topPiece') || 'a minimalist white ribbed racerback crop tank top';
-  const bottomText = val('bottomPiece') || 'high-waisted vintage wash denim cutoff shorts';
-  const waistText = val('midriffStyling') || 'bare midriff with natural skin texture & subtle tone';
   const fitText = val('outfitFit');
   const accText = val('accessories');
-  outfitSummary = `a modern two-piece separates ensemble featuring ${topText} paired with ${bottomText}, with ${waistText}`;
   lines.push(`Outfit: ${outfitSummary}. Garment fit: ${fitText}. Accessories: ${accText}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction, midriff proportions, and fabric behavior.`);
 } else {
-  outfitSummary = val('outfit');
   lines.push(`Outfit: ${outfitSummary}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
 }
 lines.push('');

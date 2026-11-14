@@ -291,6 +291,10 @@ ok('ps_face_obfusc_field_exists', !!api.getFields().faceObfuscMode && api.getFie
 api.getValues().faceObfuscMode = api.getFields().faceObfuscMode.opts.find(o => o.id === 'minimalist_censor_bar');
 const psObfPrompt = api.buildPrompt();
 ok('ps_face_obfusc_censor_bar', psObfPrompt.includes('EDITORIAL PRIVACY BAR'));
+
+// Prompt Start dynamically reflects styling, hair, and identity in top lines
+const psPromptTopLines = document.getElementById('prompt').value.split('\n').slice(0, 15).join('\n');
+ok('ps_start_has_editorial_styling', psPromptTopLines.includes('PRIMARY SUBJECT & EDITORIAL STYLING:') && psPromptTopLines.includes('Model (Reference Subject)') && psPromptTopLines.includes('Signature Post-Makeover Haircut'));
 '''
 
 TATTOO_JS = r'''
@@ -382,6 +386,25 @@ ok('tattoo_face_obfusc_field_exists', !!api.getFields().tattooFaceObfuscMode && 
 api.getValues().tattooFaceObfuscMode = api.getFields().tattooFaceObfuscMode.opts.find(o => o.id === 'optical_gaussian_blur');
 const tObfPrompt = api.buildPrompt();
 ok('tattoo_face_obfusc_gaussian', tObfPrompt.includes('GAUSSIAN DEPTH BLUR'));
+
+// Category filter tests: Hair, Motif, and Location
+const hCats = api.getFields().tattooHairCategory.opts;
+const bobCat = hCats.find(o => o.text === 'bob');
+api.getValues().tattooHairCategory = bobCat;
+api.renderFields();
+ok('tattoo_hair_category_bob_filter', api.getValues().tattooHair?.cat === 'bob', `hair cat should be bob, got: ${api.getValues().tattooHair?.cat}`);
+
+const mCats = api.getFields().tattooMotifCategory.opts;
+const botanicalCat = mCats.find(o => o.text === 'botanical');
+api.getValues().tattooMotifCategory = botanicalCat;
+api.renderFields();
+ok('tattoo_motif_category_botanical_filter', api.getValues().tattooMotif?.cat === 'botanical', `motif cat should be botanical, got: ${api.getValues().tattooMotif?.cat}`);
+
+const lCats = api.getFields().tattooLocationCategory.opts;
+const studioCat = lCats.find(o => o.text === 'studio');
+api.getValues().tattooLocationCategory = studioCat;
+api.renderFields();
+ok('tattoo_location_category_studio_filter', api.getValues().tattooLocation?.cat === 'studio', `location cat should be studio, got: ${api.getValues().tattooLocation?.cat}`);
 '''
 
 MAKEUP_SPA_JS = r'''
