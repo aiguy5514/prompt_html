@@ -110,6 +110,7 @@ ok('index_has_tattoo_link', links.some(h => h.includes('tattoo.html')));
 ok('index_has_makeup_spa_link', links.some(h => h.includes('makeup_spa.html')));
 ok('index_has_video_link', links.some(h => h.includes('video.html')));
 ok('index_has_storyboard_link', links.some(h => h.includes('storyboard.html')));
+ok('index_has_romance_link', links.some(h => h.includes('romance.html')));
 '''
 
 SALON_JS = r'''
@@ -213,6 +214,12 @@ const sGuardPrompt = api.buildSalonPrompt();
 ok('salon_clipper_guard_reflected', sGuardPrompt.includes('#1 magnetic clipper guard'));
 ok('salon_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 ok('salon_buzzwords_purged', !sGuardPrompt.includes('harmonized with the selected establishment'));
+
+// Face Obfuscation modes in Salon
+ok('salon_face_obfusc_field_exists', !!api.getFields().salonFaceObfuscMode && api.getFields().salonFaceObfuscMode.opts.length === 8);
+api.getValues().salonFaceObfuscMode = api.getFields().salonFaceObfuscMode.opts.find(o => o.id === 'hands_shield');
+const sObfPrompt = api.buildSalonPrompt();
+ok('salon_face_obfusc_hands_shield', sObfPrompt.includes('HAND & FINGER SHIELD'));
 '''
 
 PHOTOSHOOT_JS = r'''
@@ -278,6 +285,12 @@ api.setMoisture('dry');
 api.getCheckState().waterReal = true;
 const psDryPrompt = api.buildPrompt();
 ok('ps_dry_no_water_droplets', !psDryPrompt.includes('Authentic water droplets, believable wet hair clumping'));
+
+// Face Obfuscation modes in Photoshoot
+ok('ps_face_obfusc_field_exists', !!api.getFields().faceObfuscMode && api.getFields().faceObfuscMode.opts.length === 8);
+api.getValues().faceObfuscMode = api.getFields().faceObfuscMode.opts.find(o => o.id === 'minimalist_censor_bar');
+const psObfPrompt = api.buildPrompt();
+ok('ps_face_obfusc_censor_bar', psObfPrompt.includes('EDITORIAL PRIVACY BAR'));
 '''
 
 TATTOO_JS = r'''
@@ -363,6 +376,12 @@ const tSecPrompt = api.buildPrompt();
 ok('tattoo_secondary_placement_reflected', tSecPrompt.includes('Dual-placement accent') && tSecPrompt.includes('behind the left earlobe'));
 ok('tattoo_vector_buzzword_purged', !tSecPrompt.includes('Vector-grade') && tSecPrompt.includes('Subdermal single-needle micro-stippling'));
 ok('tattoo_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
+
+// Face Obfuscation modes in Tattoo
+ok('tattoo_face_obfusc_field_exists', !!api.getFields().tattooFaceObfuscMode && api.getFields().tattooFaceObfuscMode.opts.length === 8);
+api.getValues().tattooFaceObfuscMode = api.getFields().tattooFaceObfuscMode.opts.find(o => o.id === 'optical_gaussian_blur');
+const tObfPrompt = api.buildPrompt();
+ok('tattoo_face_obfusc_gaussian', tObfPrompt.includes('GAUSSIAN DEPTH BLUR'));
 '''
 
 MAKEUP_SPA_JS = r'''
@@ -432,6 +451,12 @@ api.getValues().prepPhase = api.getFields().prepPhase.opts[1];
 const mPrompt = api.buildPrompt();
 ok('makeup_phase_and_steam_reflected', mPrompt.includes('Dense Steam Sanctuary') || mPrompt.includes('warm, deeply humid spa steam'));
 ok('makeup_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
+
+// Face Obfuscation modes in Makeup & Spa
+ok('makeup_face_obfusc_field_exists', !!api.getFields().prepFaceObfuscMode && api.getFields().prepFaceObfuscMode.opts.length === 8);
+api.getValues().prepFaceObfuscMode = api.getFields().prepFaceObfuscMode.opts.find(o => o.id === 'chiaroscuro_shadow');
+const mObfPrompt = api.buildPrompt();
+ok('makeup_face_obfusc_chiaroscuro', mObfPrompt.includes('CHIAROSCURO SILHOUETTE'));
 '''
 
 VIDEO_JS = r'''
@@ -482,6 +507,12 @@ document.getElementById('chkLoop').click();
 const vLoopPrompt = api.buildPrompt();
 ok('video_seamless_loop_reflected', vLoopPrompt.includes('Seamless loop requirement') && vLoopPrompt.includes('jump cut at loop point'));
 ok('video_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
+
+// Face Obfuscation modes in Video
+ok('video_face_obfusc_field_exists', !!api.getFields().vidFaceObfuscMode && api.getFields().vidFaceObfuscMode.opts.length === 8);
+api.getValues().vidFaceObfuscMode = api.getFields().vidFaceObfuscMode.opts.find(o => o.id === 'prop_shield');
+const vObfPrompt = api.buildPrompt();
+ok('video_face_obfusc_prop_shield', vObfPrompt.includes('PROP & OBJECT OCCLUSION'));
 '''
 
 STORYBOARD_JS = r'''
@@ -532,6 +563,71 @@ lensSel.dispatchEvent(new Event('change'));
 document.querySelector('.shot-tab[data-shot="1"]').click();
 ok('sb_shot1_lens_override_reflected', document.getElementById('prompt').value.includes('85mm f/1.4 telephoto portrait lens'));
 ok('sb_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
+
+// Face Obfuscation modes in Storyboard
+ok('sb_face_obfusc_field_exists', !!api.getFields().sbFaceObfuscMode && api.getFields().sbFaceObfuscMode.opts.length === 8);
+api.getValues().sbFaceObfuscMode = api.getFields().sbFaceObfuscMode.opts.find(o => o.id === 'shutter_motion_blur');
+const sbObfPrompt = api.buildPrompt();
+ok('sb_face_obfusc_motion_blur', sbObfPrompt.includes('SHUTTER MOTION BLUR'));
+'''
+
+ROMANCE_JS = r'''
+const api = window.AfterglowRomance;
+ok('romance_api_exposed', !!api);
+ok('romance_initial_section', document.querySelector('.tab.active')?.dataset?.section === 'romanceCoupleSec');
+ok('romance_hero_title', document.getElementById('heroTitle').textContent.includes('Romantic'));
+ok('romance_bike_options_loaded', api.getBikeScenes().length >= 7);
+ok('romance_date_options_loaded', api.getDateVenues().length >= 8);
+ok('romance_couple_options_loaded', api.getCoupleInteractions().length >= 10);
+ok('romance_face_obfusc_field', !!api.getFields().romanceFaceObfuscMode && api.getFields().romanceFaceObfuscMode.opts.length === 8);
+ok('romance_prompt_generated', document.getElementById('prompt').value.length > 100);
+
+// Face Obfuscation modes in Romance
+const findObf = id => api.getFields().romanceFaceObfuscMode.opts.find(o => o.id === id);
+api.getValues().romanceFaceObfuscMode = findObf('hands_shield');
+const pHand = api.buildPrompt();
+ok('romance_face_obfusc_hand_shield', pHand.includes('HAND & FINGER SHIELD'));
+
+api.getValues().romanceFaceObfuscMode = findObf('minimalist_censor_bar');
+const pCensor = api.buildPrompt();
+ok('romance_face_obfusc_censor_bar', pCensor.includes('EDITORIAL PRIVACY BAR'));
+
+// Reel mode toggle
+document.getElementById('btnReelMode').click();
+const pReel = document.getElementById('prompt').value;
+ok('romance_reel_mode_toggle', pReel.includes('CINEMATIC 2-SHOT COUPLE VIDEO REEL') && pReel.includes('SHOT 1') && pReel.includes('SHOT 2'));
+document.getElementById('btnSingleMode').click();
+ok('romance_single_mode_restored', !document.getElementById('prompt').value.includes('CINEMATIC 2-SHOT COUPLE VIDEO REEL'));
+
+// Switch to Her Look & Face Privacy section to reveal moisture & separates controls
+document.querySelector('.tab[data-section="romanceSubjectSec"]').click();
+
+// Moisture toggle in Romance
+document.querySelector('.moisture-pill[data-moisture="wet"]').click();
+const [rWetPos, rWetNeg] = document.getElementById('prompt').value.split('AVOID / NEGATIVE GUIDANCE:');
+ok('romance_wet_physics', rWetPos.includes('Mandatory Wet Hair Physics') && rWetNeg.includes('dry hair'));
+
+// Separates toggle in Romance
+document.getElementById('btnSeparates').click();
+ok('romance_separates_toggle', document.getElementById('prompt').value.includes('paired with'));
+
+// Copy positive / negative
+ok('romance_copy_positive', !api.getExtractedPositive().includes('AVOID / NEGATIVE GUIDANCE:'));
+ok('romance_copy_negative', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
+
+// Finish custom direction & extra negative
+document.querySelector('.tab[data-section="finish"]').click();
+const cd = document.getElementById('customDirInput');
+const en = document.getElementById('extraNegInput');
+ok('romance_finish_inputs', !!cd && !!en);
+cd.value = 'midnight neon highway reflections'; cd.dispatchEvent(new Event('input'));
+ok('romance_custom_dir_reflected', document.getElementById('prompt').value.includes('midnight neon highway reflections'));
+
+// Custom Presets save & import
+const saved = api.saveCustomRomancePreset('My Bike Road Trip');
+ok('romance_save_preset', !!saved && (localStorage.getItem('afterglow_romance_v1') || '').includes('My Bike Road Trip'));
+const imp = api.importRomancePresetsFromData({ customPresets: [{ id: 'imp_rom_1', title: 'Imported Cafe Romance', hairMoisture: 'damp', set: { romanceSetting: api.getFields().romanceSetting.opts[1].label } }] });
+ok('romance_import_preset', imp === 1);
 '''
 
 
@@ -545,6 +641,7 @@ def main():
         ('makeup_spa.html', MAKEUP_SPA_JS),
         ('video.html', VIDEO_JS),
         ('storyboard.html', STORYBOARD_JS),
+        ('romance.html', ROMANCE_JS),
     ]
     total_passed = 0
     total_failed = 0

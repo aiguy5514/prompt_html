@@ -18,6 +18,7 @@
   <a href="makeup_spa.html" class="suite-nav-link active"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
   <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director <span class="nav-badge">NEW</span></a>
   <a href="storyboard.html" class="suite-nav-link"><span class="studio-btn-icon">🎞️</span> Storyboarder <span class="nav-badge">NEW</span></a>
+  <a href="romance.html" class="suite-nav-link"><span class="studio-btn-icon">💕</span> Romance <span class="nav-badge">NEW</span></a>
 </nav>
 <div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">Loading choices…</span><span class="pill">Offline · No uploads</span></div></header>
 
@@ -193,14 +194,16 @@ const {
   HAIR_FAMILIES, hair, hairFaceCoverageOpts,
   TOP_FAMILIES, topPieces,
   BOTTOM_FAMILIES, bottomPieces,
-  midriffStylings
+  midriffStylings,
+  faceObfuscModeOpts
 } = window.AfterglowDatasets;
 
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
   cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
-  extractPositivePrompt, extractNegativePrompt
+  extractPositivePrompt, extractNegativePrompt,
+  buildObfuscClause, getObfuscNegatives
 } = window.AfterglowVeil;
 
 const el = id => document.getElementById(id);
@@ -481,6 +484,7 @@ const fields = {
   prepHair: { label: 'Chosen Haircut Silhouette', opts: hair, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
   prepHairHold: { label: 'Hair Clips, Headbands & Restraint', opts: prepHairHolds, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
   prepHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
+  prepFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
 
   prepOutfitCategory: { label: 'Robe & Spa Apparel Family', opts: PREP_OUTFIT_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
   prepOutfit: { label: 'Silk Robe / Strapless Spa Wrap / Loungewear', opts: prepEnsembles, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
@@ -1217,8 +1221,10 @@ function buildPrompt(){
   const poseText = S(val('prepPose'));
   const camText = S(val('prepCamera'));
   const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|hand raised.*temple|turned away.*concealed|face remains concealed/i.test(poseText + ' ' + camText);
+  const prepObfuscMode = values.prepFaceObfuscMode?.text || 'none';
+  const hasPrepObfusc = (prepObfuscMode !== 'none' && prepObfuscMode !== 'hair_veil');
   const isDeepOrHeavyVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
-  const hideEyes = isFaceHidden || isDeepOrHeavyVeil;
+  const hideEyes = isFaceHidden || isDeepOrHeavyVeil || hasPrepObfusc;
 
   const rawExpr = val('prepExpression');
   const exprText = hideEyes ? '' : sanitizeHiddenFaceText(rawExpr, false, veilTier);
@@ -1246,6 +1252,10 @@ function buildPrompt(){
   lines.push('');
   lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
   lines.push('• Strictly preserve the adult woman from the reference image as the solitary female model / protagonist in the scene.');
+  const prepObfuscClause = buildObfuscClause(prepObfuscMode, hairArch);
+  if(prepObfuscClause){
+    lines.push('• ' + prepObfuscClause);
+  }
   if(isFaceHidden){
     lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and concealed from the lens.');
   } else if(veilTier === '95_100'){
@@ -1335,6 +1345,9 @@ function buildPrompt(){
   }
 
   const checks = [];
+  if(hasPrepObfusc){
+    checks.push(`Apply strict face privacy (${values.prepFaceObfuscMode?.label || prepObfuscMode}): facial features must remain concealed per chosen obfuscation method with zero clear identity portraits.`);
+  }
   if(checkState.identity) checks.push('Strictly preserve the recognizable adult woman from the reference image without identity drift.');
   if(checkState.skin) checks.push('Authentic dermal micro-pores, natural skin sheen from serums/steam, and delicate fine vellus texture.');
   if(checkState.retouch) checks.push('Zero waxy plastic airbrushing, zero digital doll smoothing, and zero fake glamour glow.');
@@ -1354,6 +1367,10 @@ function buildPrompt(){
   ];
   if(isSoloPrep) negs.push('second person standing behind chair, extra hands touching face');
   if(isFaceHidden) negs.push('visible front facial view, frontal eye contact, revealing turned-away face');
+  const prepObfuscNegs = getObfuscNegatives(prepObfuscMode);
+  if(prepObfuscNegs.length){
+    negs.push(...prepObfuscNegs);
+  }
   if(veilRuleObj?.neg) negs.push(veilRuleObj.neg);
   if(prepHairMoisture === 'wet') negs.push('dry hair, airy blown-out volume, static flyaways, cottony dryness');
   else if(prepHairMoisture === 'damp') negs.push('bone-dry fluffy hair, frizzy static dryness');
@@ -1384,7 +1401,9 @@ function buildPrompt(){
     'prepLocation',
     ...(values.prepSteamDensity && values.prepSteamDensity.text !== 'crisp ambient air with clean optical clarity and zero ambient steam mist' ? ['prepSteamDensity'] : []),
     ...(values.prepPhase && values.prepPhase.text !== 'natural unscripted flow mid-session' ? ['prepPhase'] : []),
-    'prepActiveAction', 'prepHair', 'prepHairFaceCoverage', (wardrobeMode === 'separates' ? 'topPiece' : 'prepOutfit'), 'prepLighting'
+    'prepActiveAction', 'prepHair', 'prepHairFaceCoverage',
+    ...(hasPrepObfusc ? ['prepFaceObfuscMode'] : []),
+    (wardrobeMode === 'separates' ? 'topPiece' : 'prepOutfit'), 'prepLighting'
   ];
   const sumTags = summaryIds
     .filter(id => fields[id] && values[id])
@@ -1776,6 +1795,7 @@ window.AfterglowMakeupSpa = {
   getStarterPresets: () => starterPresets,
   getHair: () => hair,
   getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getFaceObfuscModeOpts: () => faceObfuscModeOpts,
   getMoisture: () => prepHairMoisture,
   setMoisture: (m) => { prepHairMoisture = m; renderFields(); buildPrompt(); },
   getWardrobeMode: () => wardrobeMode,

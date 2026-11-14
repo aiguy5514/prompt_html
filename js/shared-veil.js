@@ -96,12 +96,13 @@ function sanitizeMakeupForVeil(makeupText, tier){
     .replace(/\beyes\b/gi, 'skin');
 }
 
-function sanitizeHiddenFaceText(text, hideEyes, veilTier){
+function sanitizeHiddenFaceText(text, hideEyes, veilTier, obfuscMode){
   if(!text) return text;
   let out = text;
   const partialVeil = ['40_45', '50'].includes(veilTier);
   const deepVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
-  if(hideEyes || deepVeil){
+  const isObfusc = !!(obfuscMode && obfuscMode !== 'none' && obfuscMode !== 'hair_veil');
+  if(hideEyes || deepVeil || isObfusc){
     out = out
       .replace(/holding direct, confident eye contact with [^,.]+,?/gi, 'keeping serene facial composure,')
       .replace(/holding direct, confident eye contact/gi, 'keeping serene facial composure')
@@ -189,6 +190,49 @@ function extractNegativePrompt(fullText){
   return m ? m[0].trim() : '';
 }
 
+function buildObfuscClause(mode, hairArch){
+  const m = mode || 'none';
+  if(m === 'none' || m === 'hair_veil') return '';
+  switch(m){
+    case 'hands_shield':
+      return 'FACE CONCEALMENT — HAND & FINGER SHIELD: candid organic hand shielding gesture—she lifts one or both hands naturally toward her face with fingers softly splayed or palm turned inward to shield the eye-line, forehead, and bridge of nose; the gesture reads as an instinctive, unforced candid moment (shading eyes from warm sun or laughing shyly into her hands) rather than theatrical staging; tactile skin texture, delicate knuckle creases, and soft organic hand shadows cast across the concealed facial zone; ZERO bare wide-open eyes visible beneath the hand.';
+    case 'prop_shield':
+      return 'FACE CONCEALMENT — PROP & OBJECT OCCLUSION: purposeful editorial prop shielding—she holds a realistic storytelling prop directly in front of her facial identity zone: a vintage chrome 35mm rangefinder camera raised to one eye, a takeaway paper coffee cup tilted near the cheek, a dense rustic peony bouquet held high, an open folding silk fan, or oversized dark acetate sunglasses tilted forward; the prop is sharply rendered with crisp tactile material detail while the facial features behind it remain cleanly obscured and out of view.';
+    case 'shutter_motion_blur':
+      return 'FACE CONCEALMENT — SHUTTER MOTION BLUR: photographic shutter-drag facial blur—captured at an authentic 1/15s slow shutter speed as her head turns briskly mid-motion; her face dissolves into a directional, luminous lateral motion streak and soft kinetic camera-drag blur while her stationary torso, shoulders, and surrounding setting retain sharp focus; a genuine optical shutter-drag artifact with authentic photographic blur streaks, completely dissolving sharp facial identification without plastic artificial smudging.';
+    case 'optical_gaussian_blur':
+      return 'FACE CONCEALMENT — EDITORIAL GAUSSIAN DEPTH BLUR: soft optical frosted-glass Gaussian depth blur—a gentle, high-fashion circular privacy Gaussian blur disc smoothly envelops her central facial identity zone (eyes, nose bridge, and cheeks) as if diffused through a physical frosted optical filter or extreme focal falloff; her haircut silhouette, ear contours, neck, and outfit remain tack-sharp and crystalline in the foreground, creating a striking avant-garde contrast between razor-sharp hair textures and the silky blurred facial zone.';
+    case 'minimalist_censor_bar':
+      return 'FACE CONCEALMENT — EDITORIAL PRIVACY BAR: high-fashion editorial censor block—a crisp, matte-black horizontal privacy rectangle or high-resolution geometric pixel mosaic bar is precisely positioned across the eye-line and eyebrow plane; the graphic bar features razor-clean horizontal edges with zero feathering or spill into surrounding skin; her cheeks, nose tip, lips, jawline, and haircut remain photographically sharp and lifelike beneath and around the designer privacy element.';
+    case 'chiaroscuro_shadow':
+      return 'FACE CONCEALMENT — CHIAROSCURO SILHOUETTE: deep chiaroscuro facial shadow—extreme directional backlight and rim illumination leave the entire facial plane in deep, impenetrable photographic underexposure and velvet shadow; ZERO visible eyeballs, ZERO pupils, ZERO nose highlights, ZERO facial recognition; only the luminous golden rim light along her hair perimeter and shoulder contour defines her form against atmospheric darkness, preserving total facial anonymity through dramatic lighting contrast.';
+    default:
+      return '';
+  }
+}
+
+function getObfuscNegatives(mode){
+  const m = mode || 'none';
+  if(m === 'none' || m === 'hair_veil') return [];
+  const base = ['unobscured recognizable face', 'clear frontal facial portrait', 'identifiable face without privacy concealment'];
+  switch(m){
+    case 'hands_shield':
+      return [...base, 'hands down by sides', 'unshielded open face', 'both eyes clearly looking at camera'];
+    case 'prop_shield':
+      return [...base, 'prop held down', 'unobstructed open face', 'clear face without prop'];
+    case 'shutter_motion_blur':
+      return [...base, 'pin-sharp frozen face', 'motionless static head', 'sharp eye pupils'];
+    case 'optical_gaussian_blur':
+      return [...base, 'sharp facial skin pores in blur zone', 'clear sharp eyes', 'unblurred open face'];
+    case 'minimalist_censor_bar':
+      return [...base, 'uncovered eyes', 'missing privacy bar', 'clear eyes visible'];
+    case 'chiaroscuro_shadow':
+      return [...base, 'front flash on face', 'brightly illuminated face', 'clear facial features in shadow'];
+    default:
+      return base;
+  }
+}
+
 global.AfterglowVeil = {
   parseVeilTier,
   detectHairArchitecture,
@@ -202,6 +246,8 @@ global.AfterglowVeil = {
   dedupeNegatives,
   estimateTokens,
   extractPositivePrompt,
-  extractNegativePrompt
+  extractNegativePrompt,
+  buildObfuscClause,
+  getObfuscNegatives
 };
 })(window);

@@ -858,10 +858,59 @@ const midriffStylings = [
   {"label": "Ultra-low-rise waistband revealing hip bones and flank silhouette", "text": "an ultra-low-rise waistband sitting low across the hips, fully showcasing the flank silhouette, waist indent, and lower abdominal contour", "desc": "", "cat": "General"}
 ];
 
+const faceObfuscModeOpts = [
+  {"id": "none", "label": "None · Clear facial visibility (default)", "text": "none", "desc": "Full facial visibility without intentional blurring, shielding, or occlusion.", "cat": "General"},
+  {"id": "hair_veil", "label": "Hair veil only (use % coverage selector)", "text": "hair_veil", "desc": "Facial concealment relies purely on the haircut bangs, curtain, or side swoop % specified above.", "cat": "Natural"},
+  {"id": "hands_shield", "label": "🤲 Hand / finger shield — palm or fingers across face", "text": "hands_shield", "desc": "Her own hand(s) instinctively shield eyes, forehead, or lower face in an unforced candid gesture.", "cat": "Natural"},
+  {"id": "prop_shield", "label": "📷 Prop shield — camera, cup, bouquet, fan", "text": "prop_shield", "desc": "A realistic held prop (vintage rangefinder camera, coffee cup, flower bouquet, folding fan) conceals facial identity.", "cat": "Natural"},
+  {"id": "shutter_motion_blur", "label": "💨 Shutter motion blur — 1/15s candid head-turn blur", "text": "shutter_motion_blur", "desc": "Authentic 1/15s optical shutter-drag motion blur across a turning head while surroundings stay sharp.", "cat": "Photographic"},
+  {"id": "optical_gaussian_blur", "label": "🌫️ Soft Gaussian / frosted editorial blur over face", "text": "optical_gaussian_blur", "desc": "Editorial soft radial Gaussian blur / frosted-glass disc diffusing the central facial identity zone.", "cat": "Photographic"},
+  {"id": "minimalist_censor_bar", "label": "⬛ Minimalist editorial censor bar / pixel bar", "text": "minimalist_censor_bar", "desc": "Clean matte-black rectangle or sharp graphic pixelation mosaic bar across the eye-line.", "cat": "Digital"},
+  {"id": "chiaroscuro_shadow", "label": "🌑 Chiaroscuro deep shadow — full silhouette darkness", "text": "chiaroscuro_shadow", "desc": "Dramatic rim lighting and backlight leaving the facial plane in total unclipped photographic darkness.", "cat": "Lighting"}
+];
+
+const bikeScenes = [
+  {"label": "Pillion rider — arms wrapped tight around his waist at speed", "text": "pillion rider on open highway: she rides behind him on a classic cafe-racer motorcycle, arms wrapped snugly around his waist, chest pressed against his leather jacket, dark hair whipped by the 70 km/h wind under an open-face retro helmet, coastal sunset horizon blurring past in golden light", "desc": "", "cat": "Bike"},
+  {"label": "Scenic mountain highway rest stop — leaning against the bike", "text": "scenic mountain road pull-off: both leaning casually against a matte-black Triumph Bonneville parked on gravel, helmets resting on the handlebar mirrors, her head tilted tenderly against his leather-jacketed shoulder while late afternoon sun glints off chrome exhaust pipes", "desc": "", "cat": "Bike"},
+  {"label": "He fastens her retro helmet strap — tender eye-level gaze", "text": "tender pre-ride moment beside the motorcycle: he stands close in front of her with both hands gently fastening and adjusting the leather chin strap of her cream open-face helmet, as she looks up into his eyes with genuine warmth and playful anticipation on a sunlit city street", "desc": "", "cat": "Bike"},
+  {"label": "Windblown hair exhilaration — 60 km/h open-road portrait", "text": "dynamic moving road portrait at speed: seated pillion with one hand holding his hip and the other catching her hair, wind catching glossy dark tresses in an ecstatic kinetic sweep, joyful parted lips and radiant energy as asphalt lines streak into motion blur behind them", "desc": "", "cat": "Bike"},
+  {"label": "Dusk silhouette ridge — couple astride motorcycle", "text": "panoramic dusk silhouette: the couple astride a vintage scrambler motorcycle at the crest of an overlook hill, framed against a rich gradient sunset sky of burnt orange and indigo, crisp graphic silhouette of rider profiles, bike tank, and spoked wheels with soft rim light", "desc": "", "cat": "Bike"},
+  {"label": "Night city tunnel cruise — amber sodium neon reflections", "text": "night urban motorcycle cruise through an illuminated tunnel: warm amber sodium lights and neon streaks reflecting across bike chrome and his dark leather jacket, she rests her chin over his shoulder taking in the hypnotic cinematic city glow", "desc": "", "cat": "Bike"},
+  {"label": "Roadside vintage diner stop — curb seated beside the bike", "text": "roadside vintage neon diner stop: motorcycle parked at an angle near the curb, both sitting on the curb step sipping cold glass-bottle sodas, laughter and relaxed travel fatigue, dust on motorcycle boots, retro americana road-trip romance", "desc": "", "cat": "Bike"}
+];
+
+const dateVenues = [
+  {"label": "Candlelight rustic bistro dinner — warm wine & Edison glow", "text": "intimate candlelight bistro dinner: cozy rustic brick alcove with soft amber Edison bulb glow, low flickering candles on dark wood table, wine glasses half-raised in a private toast, deep eye contact and warm romantic resonance", "desc": "", "cat": "Date"},
+  {"label": "Rainy cobblestone street stroll — sharing a compact umbrella", "text": "rainy evening city walk: huddled close together beneath a single black umbrella on glistening wet cobblestone streets, his arm around her shoulder pulling her in from the drizzle, raindrops catching golden reflections of warm shopfronts", "desc": "", "cat": "Date"},
+  {"label": "Heritage rooftop terrace café at dusk — overlooking city lights", "text": "heritage rooftop cafe at dusk: terracotta planters filled with flowering bougainvillea, wrought-iron railing overlooking a sprawling city as dusk turns deep sapphire and streetlights flicker on, steam rising from ceramic coffee cups between them", "desc": "", "cat": "Date"},
+  {"label": "Vibrant night street-food market stroll — candid laughter", "text": "lively night street-food stroll: weaving hand-in-hand through colorful market stalls lit with warm hanging paper lanterns and festive string lights, she feeds him a bite with a spontaneous laugh, ambient steam and bokeh creating energetic intimacy", "desc": "", "cat": "Date"},
+  {"label": "Cozy vintage vinyl record shop — browsing crates together", "text": "warm-wood vintage record shop: browsing side-by-side through wooden vinyl crates, she holds up a retro album sleeve with an amused smile while he leans over her shoulder reading the liner notes in dusty afternoon sunbeams", "desc": "", "cat": "Date"},
+  {"label": "Golden hour coastal promenade — sunset seaside walk", "text": "golden-hour beach promenade: strolling along a seaside boardwalk at sunset, shoes dangling from one hand, coastal breeze gently lifting her hair, warm amber sidelight sculpting their laughing profiles against rolling ocean waves", "desc": "", "cat": "Date"},
+  {"label": "Rain-streaked yellow taxi backseat — cozy city transit", "text": "backseat of a vintage yellow taxi cab in evening rain: water droplets streaking across the window blurring neon city lights, heads leaning together in comfortable closeness, shared private warmth inside the moving vehicle", "desc": "", "cat": "Date"},
+  {"label": "Fairy-lit rooftop terrace stargazing — cozy knit blanket", "text": "rooftop terrace stargazing under night sky: wrapped together in a heavy textured knit blanket on low floor cushions, warm fairy lights woven along the pergola, holding steaming mugs with fingers lightly intertwined under the stars", "desc": "", "cat": "Date"}
+];
+
+const coupleInteractions = [
+  {"label": "Pillion motorcycle embrace — cheek against his back", "text": "riding pillion on a moving motorcycle with both arms locked securely around his waist, cheek resting tenderly against the back of his jacket, serene surrendered trust and effortless romance at highway speed", "desc": "", "cat": "Bike"},
+  {"label": "Sharing one pair of wireless earbuds — lost in song", "text": "sharing a pair of wireless earbuds with one earbud each, seated close with foreheads nearly touching, listening to the same song with gentle half-smiles and soft eye contact in an unhurried private world", "desc": "", "cat": "Intimate"},
+  {"label": "He gently drapes his jacket over her bare shoulders", "text": "he slips his heavy jacket off and drapes it gently over her shoulders against the evening chill, resting his hands momentarily on her upper arms while she looks up with an appreciative, glowing smile", "desc": "", "cat": "Intimate"},
+  {"label": "Intertwined fingers detail — close-up hands clasp", "text": "editorial detail focus on clasped hands: fingers tightly and naturally interlaced on the cafe tabletop or motorcycle tank, realistic skin warmth and subtle ring accents, communicating deep bond through touch alone", "desc": "", "cat": "Intimate"},
+  {"label": "Foreheads resting together — eyes closed in quiet tender peace", "text": "foreheads resting gently against each other with both eyes softly closed, noses almost touching, quiet contented breathing and total emotional intimacy caught in soft natural ambient light", "desc": "", "cat": "Intimate"},
+  {"label": "Playful mid-stride stroll — arm looped through his with candid grin", "text": "walking along a picturesque street with her arm warmly looped through his, matching stride and sharing a spontaneous burst of laughter at an inside joke, natural body language and vibrant couple chemistry", "desc": "", "cat": "Casual"},
+  {"label": "He tucks a windblown hair strand behind her ear", "text": "he reaches up with gentle fingers to tuck a stray windblown lock of hair behind her ear, grazing her cheekbone lightly while she holds his gaze with a tender, fond expression", "desc": "", "cat": "Intimate"},
+  {"label": "Impromptu slow dance — kitchen or terrace evening light", "text": "impromptu gentle slow dance in warm low light: her hand resting flat over his heart and his hand resting at her lower waist, barefoot on hardwood floor, turning slowly with genuine affectionate contentment", "desc": "", "cat": "Intimate"},
+  {"label": "Playful shared dessert / drink with two straws", "text": "playful cafe scene sharing a vintage dessert or milkshake with two striped straws, laughing eye-to-eye over the table, catching a lively moment of lighthearted romance and flirtatious warmth", "desc": "", "cat": "Casual"},
+  {"label": "Seated back-to-back in relaxed companionable stillness", "text": "seated back-to-back on a wooden bench or motorcycle seat, shoulders leaning into each other with relaxed mutual support, looking out in opposite directions at the scenery in comfortable, effortless silence", "desc": "", "cat": "Casual"}
+];
+
 global.AfterglowDatasets = {
   O, makeOpts, addOptions,
   HAIR_FAMILIES, hair, hairFaceCoverageOpts,
   OUTFIT_FAMILIES, outfit,
-  TOP_FAMILIES, topPieces, BOTTOM_FAMILIES, bottomPieces, midriffStylings
+  TOP_FAMILIES, topPieces, BOTTOM_FAMILIES, bottomPieces, midriffStylings,
+  faceObfuscModeOpts,
+  bikeScenes,
+  dateVenues,
+  coupleInteractions
 };
 })(window);

@@ -7,14 +7,19 @@ const {
   OUTFIT_FAMILIES, outfit,
   TOP_FAMILIES, topPieces,
   BOTTOM_FAMILIES, bottomPieces,
-  midriffStylings
+  midriffStylings,
+  faceObfuscModeOpts,
+  bikeScenes,
+  dateVenues,
+  coupleInteractions
 } = window.AfterglowDatasets;
 
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
   cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
-  extractPositivePrompt, extractNegativePrompt
+  extractPositivePrompt, extractNegativePrompt,
+  buildObfuscClause, getObfuscNegatives
 } = window.AfterglowVeil;
 
 const hairColor=[O('Keep reference hair color','the original hair color from the reference image'),O('Deep natural black','deep natural black with subtle realistic highlights'),O('Espresso brunette','rich espresso brunette'),O('Chocolate brown','warm chocolate brown'),O('Soft chestnut','soft chestnut brown'),O('Caramel ribbons','subtle caramel ribbons blended naturally through the hair'),O('Cool ash brown','cool ash brown with restrained dimension'),O('Copper auburn','rich copper auburn'),O('Burgundy tint','deep burgundy-tinted hair'),O('Blue-black sheen','blue-black hair with a subtle cool sheen'),O('Dark roots + balayage','dark roots blended into soft balayage ends'),O('Honey blonde balayage','honey-blonde balayage with natural-looking dimension'),O('Platinum blonde','platinum blonde with believable root depth'),O('Rose-brown tint','subtle rose-brown tint'),O('Warm mahogany','warm mahogany brown')];
@@ -1538,6 +1543,8 @@ const placeDetail = makeOpts([
 const malePresenceOpts = makeOpts([
   ['Solo female model (Zero men / completely alone in frame)', 'solo'],
   ['Romantic chemistry & intimacy with male colleague', 'romantic'],
+  ['Couple bike ride & road journey (Motorcycle / cafe-racer)', 'romantic_bike'],
+  ['Romantic date scene (Candlelight, café, street stroll)', 'romantic_date'],
   ['Candid backstage & colleague interaction', 'candid_colleague'],
   ['Male creative crew & backstage prep (Makeup, hair & wardrobe)', 'crew_prep'],
   ['BTS grooming & body shaving prep', 'bts_shaving'],
@@ -1557,6 +1564,25 @@ const maleInteractionOpts = makeOpts([
   ['Playful side hug with linked arms stroll', 'playful side hug and stroll: casual arm-in-arm stroll with her handsome male colleague, his arm wrapped around her shoulder in a relaxed, friendly embrace while they smile candidly', 'Romantic & Intimate Colleague Interactions', 'romantic'],
   ['Editorial power-couple pose (back-to-back seated)', 'editorial power couple: seated back-to-back on a minimalist bench, male model in sharp tailored tuxedo and female model in her designer outfit, shoulders touching with hands grazing at their sides in a poised high-fashion stance', 'Romantic & Intimate Colleague Interactions', 'romantic'],
   ['Male co-model whispering softly in her ear', 'intimate whisper: male colleague leaning in close to whisper something amusing in her ear, capturing an intrigued, radiant smile on her lips as she reacts spontaneously', 'Romantic & Intimate Colleague Interactions', 'romantic'],
+
+  // Couple Bike Ride & Road Journey
+  ['Pillion rider — arms wrapped tight around his waist at speed', 'pillion rider on open highway: she rides behind him on a classic cafe-racer motorcycle, arms wrapped snugly around his waist, chest pressed against his leather jacket, dark hair whipped by the 70 km/h wind under an open-face retro helmet, coastal sunset horizon blurring past in golden light', 'Couple Bike Ride & Road Journey', 'romantic_bike'],
+  ['Scenic mountain highway rest stop — leaning against the bike', 'scenic mountain road pull-off: both leaning casually against a matte-black Triumph Bonneville parked on gravel, helmets resting on the handlebar mirrors, her head tilted tenderly against his leather-jacketed shoulder while late afternoon sun glints off chrome exhaust pipes', 'Couple Bike Ride & Road Journey', 'romantic_bike'],
+  ['He fastens her retro helmet strap — tender eye-level gaze', 'tender pre-ride moment beside the motorcycle: he stands close in front of her with both hands gently fastening and adjusting the leather chin strap of her cream open-face helmet, as she looks up into his eyes with genuine warmth and playful anticipation on a sunlit city street', 'Couple Bike Ride & Road Journey', 'romantic_bike'],
+  ['Windblown hair exhilaration — 60 km/h open-road portrait', 'dynamic moving road portrait at speed: seated pillion with one hand holding his hip and the other catching her hair, wind catching glossy dark tresses in an ecstatic kinetic sweep, joyful parted lips and radiant energy as asphalt lines streak into motion blur behind them', 'Couple Bike Ride & Road Journey', 'romantic_bike'],
+  ['Dusk silhouette ridge — couple astride motorcycle', 'panoramic dusk silhouette: the couple astride a vintage scrambler motorcycle at the crest of an overlook hill, framed against a rich gradient sunset sky of burnt orange and indigo, crisp graphic silhouette of rider profiles, bike tank, and spoked wheels with soft rim light', 'Couple Bike Ride & Road Journey', 'romantic_bike'],
+  ['Night city tunnel cruise — amber sodium neon reflections', 'night urban motorcycle cruise through an illuminated tunnel: warm amber sodium lights and neon streaks reflecting across bike chrome and his dark leather jacket, she rests her chin over his shoulder taking in the hypnotic cinematic city glow', 'Couple Bike Ride & Road Journey', 'romantic_bike'],
+  ['Roadside vintage diner stop — curb seated beside the bike', 'roadside vintage neon diner stop: motorcycle parked at an angle near the curb, both sitting on the curb step sipping cold glass-bottle sodas, laughter and relaxed travel fatigue, dust on motorcycle boots, retro americana road-trip romance', 'Couple Bike Ride & Road Journey', 'romantic_bike'],
+
+  // Romantic Date & Venue Scenes
+  ['Candlelight rustic bistro dinner — warm wine & Edison glow', 'intimate candlelight bistro dinner: cozy rustic brick alcove with soft amber Edison bulb glow, low flickering candles on dark wood table, wine glasses half-raised in a private toast, deep eye contact and warm romantic resonance', 'Romantic Date & Venue Scenes', 'romantic_date'],
+  ['Rainy cobblestone street stroll — sharing a compact umbrella', 'rainy evening city walk: huddled close together beneath a single black umbrella on glistening wet cobblestone streets, his arm around her shoulder pulling her in from the drizzle, raindrops catching golden reflections of warm shopfronts', 'Romantic Date & Venue Scenes', 'romantic_date'],
+  ['Heritage rooftop terrace café at dusk — overlooking city lights', 'heritage rooftop cafe at dusk: terracotta planters filled with flowering bougainvillea, wrought-iron railing overlooking a sprawling city as dusk turns deep sapphire and streetlights flicker on, steam rising from ceramic coffee cups between them', 'Romantic Date & Venue Scenes', 'romantic_date'],
+  ['Vibrant night street-food market stroll — candid laughter', 'lively night street-food stroll: weaving hand-in-hand through colorful market stalls lit with warm hanging paper lanterns and festive string lights, she feeds him a bite with a spontaneous laugh, ambient steam and bokeh creating energetic intimacy', 'Romantic Date & Venue Scenes', 'romantic_date'],
+  ['Cozy vintage vinyl record shop — browsing crates together', 'warm-wood vintage record shop: browsing side-by-side through wooden vinyl crates, she holds up a retro album sleeve with an amused smile while he leans over her shoulder reading the liner notes in dusty afternoon sunbeams', 'Romantic Date & Venue Scenes', 'romantic_date'],
+  ['Golden hour coastal promenade — sunset seaside walk', 'golden-hour beach promenade: strolling along a seaside boardwalk at sunset, shoes dangling from one hand, coastal breeze gently lifting her hair, warm amber sidelight sculpting their laughing profiles against rolling ocean waves', 'Romantic Date & Venue Scenes', 'romantic_date'],
+  ['Rain-streaked yellow taxi backseat — cozy city transit', 'backseat of a vintage yellow taxi cab in evening rain: water droplets streaking across the window blurring neon city lights, heads leaning together in comfortable closeness, shared private warmth inside the moving vehicle', 'Romantic Date & Venue Scenes', 'romantic_date'],
+  ['Fairy-lit rooftop terrace stargazing — cozy knit blanket', 'rooftop terrace stargazing under night sky: wrapped together in a heavy textured knit blanket on low floor cushions, warm fairy lights woven along the pergola, holding steaming mugs with fingers lightly intertwined under the stars', 'Romantic Date & Venue Scenes', 'romantic_date'],
   // Candid Colleague Interactions
   ['Candid laughing conversation between takes with male colleague', 'candid conversation between takes: genuine mid-sentence laughter and expressive hand gestures with her handsome male co-model between camera setups, sharing an inside joke', 'Candid Colleague Interactions', 'candid_colleague'],
   ['Casual coffee break chatting on set with male co-model', 'casual coffee break: female model and male colleague holding ceramic espresso cups, chatting comfortably beside production gear with relaxed posture and easy banter', 'Candid Colleague Interactions', 'candid_colleague'],
@@ -1702,6 +1728,7 @@ salonStoolModelPosture:{label:'Model posture & expression on stool',section:'sal
 salonHairCategory:{label:'Haircut style family',section:'salonHairSec',opts:HAIR_FAMILIES,def:0},
 salonHaircut:{label:'Haircut being cut',section:'salonHairSec',opts:hair,def:0},
 salonFaceHairCoverage:{label:'% of face behind hair (veil coverage)',section:'salonHairSec',opts:hairFaceCoverageOpts,def:0},
+salonFaceObfuscMode:{label:'Face concealment method',section:'salonHairSec',opts:faceObfuscModeOpts,def:0},
 salonHairTexture:{label:'Hair texture & density',section:'salonHairSec',opts:salonHairTexture,def:0},
 salonClipperGuard:{label:'Fade & clipper guard depth',section:'salonHairSec',opts:salonClipperGuards,def:0},
 salonCape:{label:'Cutting cape & drape',section:'salonCameraSec',opts:salonCape,def:0},
@@ -1737,7 +1764,9 @@ ponyBaseWrap:{label:'Ponytail base wrap & hardware',section:'look',opts:ponyBase
 ponyTailStyle:{label:'Ponytail tail texture & finish',section:'look',opts:ponyTailStyleOpts,def:0},
 makeover:{label:'Makeover moment',section:'look',opts:[O('Solo reveal after salon styling','the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject'),O('Reveal right after salon','the makeover has just been completed, and she is excited to reveal her new look'),O('Just stepped out of salon','she has just stepped out of the salon, showing off her new hairstyle'),O('Fresh salon finish','the finished styling has settled beautifully with natural bounce and clean movement just after the makeover'),O('Candid reveal reaction','she is enjoying a spontaneous makeover reveal moment'),O('First look in studio','she has just entered the studio for the first shots after her makeover'),O('Between-shot reset','the photographer catches a natural moment between formal poses'),O('Showcasing finished haircut','she is casually showcasing the finished haircut to the photographer'),O('Fresh styling, still settling','her freshly styled hair is settling naturally as she moves'),O('Mid-makeover pause with butterfly section clips still pinned in crown','mid-makeover hair-work moment: colorful salon butterfly sectioning clips remain neatly pinned across her upper crown while freshly cut lower layers frame her cheekbones'),O('Mid-cut damp hair restyle pause with fresh wispy ends','in-progress styling moment: freshly trimmed hair hangs gleaming and lightly damp with sharp piecey separation along her jawline between cutting stages'),O('Self-adjusting damp curtain bangs & tucking strays between takes','live hair-work reset: captured mid-motion as she lightly rakes and adjusts glistening damp curtain bangs and tucks stray locks between studio takes'),O('Holding brushed aluminum mist bottle during live hair reset','between-frame misting moment: holding a brushed aluminum salon water spritzer casually in one hand after misting moisture into restless hair strands'),O('Freshly razor-feathered ends with clipped wisps resting on shoulders','raw mid-makeover moment: newly razor-feathered ends settle organically around her neck with a few delicate freshly cut hair wisps resting visibly along her bare shoulders'),O('Half-clipped aluminum duckbill wave-set framing cheekbones','sculptural in-progress pin-wave moment: flat matte metal aluminum duckbill clips hold glossy combed wave ridges along one temple while the opposite side drapes naturally'),O('Pausing mid-parting change with steel pintail comb at hairline','live restyle pause: holding a slender carbon pintail comb gently at her parting line mid-way through switching from a center part into a sweeping deep side part'),O('Running spread fingers upward through damp crown blowout pause','active between-pass pause: fingers slid softly upward through warm damp-to-dry blowout layers to let fresh crown volume settle before key lighting'),O('Freshly blunted jawline perimeter straight out of cutting chair','immediate post-cut pause: crisp freshly blunted ends hold raw geometric salon precision just moments after standing up from the cut'),O('Between-shot bang micro-trim pause on low studio stool','in-progress detail pause: seated upright on a studio stool immediately between micro-trim passes as fine front wisps settle across her brow'),O('Mid-blowout thermal round-brush bend cooling along cheekbones','in-progress blowout transition: freshly heated, curved C-bend lengths cool down into bouncy glass-smooth shape right around her chin and collarbones'),O('Stepping onto mark straight out of active mist-and-comb restyle','live editorial changeover: stepping effortlessly onto the studio floor moments after fresh spray-bottle misting and fine comb shaping'),O('Mid-shoot flat-iron C-curve bevel touch-up under key lights','live thermal touch-up pause: glassy freshly beveled front ends catch crisp studio specular light immediately after a titanium straightener pass')],def:0},
 mode:{label:'Reference workflow',section:'look',opts:[O('Edit the supplied reference','Edit the supplied reference image, preserving the same adult woman and making only the requested styling and photoshoot changes'),O('New image using reference identity','Create a new photograph using the supplied reference image as identity guidance for the same adult woman')],def:0},hair:{label:'Specific haircut',section:'look',opts:hair,def:0},
-hairFaceCoverage:{label:'% of face behind hair (veil coverage)',section:'look',opts:hairFaceCoverageOpts,def:0},hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
+hairFaceCoverage:{label:'% of face behind hair (veil coverage)',section:'look',opts:hairFaceCoverageOpts,def:0},
+faceObfuscMode:{label:'Face concealment method',section:'look',opts:faceObfuscModeOpts,def:0},
+hairColor:{label:'Hair color',section:'look',opts:hairColor,def:0},hairFinish:{label:'Hair finish',section:'look',opts:hairFinish,def:0},
 outfit:{label:'Specific outfit',section:'wardrobe',opts:outfit,def:0},outfitFit:{label:'Fabric and fit',section:'wardrobe',opts:outfitFit,def:0},accessories:{label:'Accessories',section:'wardrobe',opts:accessories,def:12},makeup:{label:'Makeup direction',section:'wardrobe',opts:makeup,def:0},
 pose:{label:'Specific pose',section:'pose',opts:pose,def:0},malePresence:{label:'Male presence / Co-stars & crew',section:'pose',opts:malePresenceOpts,def:0},maleInteraction:{label:'Male colleague & crew interaction',section:'pose',opts:maleInteractionOpts,def:0},expression:{label:'Expression',section:'pose',opts:expression,def:0},gesture:{label:'Hand / gesture detail',section:'pose',opts:gesture,def:0},mood:{label:'Overall attitude',section:'pose',opts:mood,def:0},
 framing:{label:'Specific framing',section:'camera',opts:framing,def:3},angle:{label:'Camera angle',section:'camera',opts:angle,def:0},lens:{label:'Lens / perspective',section:'camera',opts:lens,def:1},composition:{label:'Composition',section:'camera',opts:composition,def:2},aspect:{label:'Image ratio',section:'camera',opts:aspect,def:0},
@@ -2082,10 +2111,10 @@ const GROUPS=[
 ['salonStageSec','Client Pose, Expression & Reaction',['salonChairPose','salonBarberPose','salonExpression']],
 ['salonStageSec','Stool & Intimate Barber Setup',['salonStoolType','salonBarberProximity']],
 ['salonStageSec','Hair Work & Model Posture',['salonIntimateHairAction','salonStoolModelPosture']],
-['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonFaceHairCoverage','salonHairTexture','salonClipperGuard']],
+['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonFaceHairCoverage','salonFaceObfuscMode','salonHairTexture','salonClipperGuard']],
 ['salonCameraSec','Cutting Cape & Realism',['salonCape']],
 ['salonCameraSec','Mirror Angle & Lighting',['salonCamera','salonLighting','salonQuality']],
-['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairFaceCoverage','hairTexture','hairLength','hairVolume','fringe','parting']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
+['look','The moment',['makeover','mode']],['look','Cut & shape',['hairCategory','hair','hairFaceCoverage','faceObfuscMode','hairTexture','hairLength','hairVolume','fringe','parting']],['look','Colour & finish',['hairColor','hairColorTechnique','hairFinish','hairAccessories']],
 ['wardrobe','Outfit',['outfitCategory','outfit']],
 ['wardrobe','Top Piece & Styling',['topCategory','topPiece']],
 ['wardrobe','Bottom Piece & Cut',['bottomCategory','bottomPiece','midriffStyling']],
@@ -2096,9 +2125,9 @@ const GROUPS=[
 const CORE_FIELD_IDS = {
 salonVenueSec: new Set(['mode', 'salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonTime', 'salonStationProps']),
 salonStageSec: new Set(['salonStage', 'salonStylist', 'salonChairPose', 'salonBarberPose', 'salonExpression', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture']),
-salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonFaceHairCoverage', 'salonHairTexture', 'salonClipperGuard']),
+salonHairSec: new Set(['salonHairCategory', 'salonHaircut', 'salonFaceHairCoverage', 'salonFaceObfuscMode', 'salonHairTexture', 'salonClipperGuard']),
 salonCameraSec: new Set(['salonCape', 'salonCamera', 'salonLighting', 'salonQuality']),
-look: new Set(['mode', 'hairCategory', 'hair', 'hairFaceCoverage', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
+look: new Set(['mode', 'hairCategory', 'hair', 'hairFaceCoverage', 'faceObfuscMode', 'hairTexture', 'hairLength', 'hairColor', 'hairFinish']),
 wardrobe: new Set(['outfitCategory', 'outfit', 'topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling', 'outfitFit', 'palette', 'makeup', 'accessories']),
 pose: new Set(['poseCategory', 'pose', 'malePresence', 'maleInteraction', 'expression', 'gesture', 'mood']),
 camera: new Set(['shotCategory', 'framing', 'angle', 'lens', 'aspect']),
@@ -2729,7 +2758,7 @@ visibleOpts.forEach((o)=>{
     custom.classList.remove('open');
     trigger.setAttribute('aria-expanded','false');
 
-    const RE_RENDER_IDS = new Set(['salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonHairCategory', 'salonHaircut', 'salonCollageFlow', 'salonCollageFrame1', 'salonCollageFrame2', 'salonCollageFrame3', 'salonCollageFrame4', 'hairCategory', 'hair', 'outfitCategory', 'outfit', 'topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling', 'poseCategory', 'pose', 'malePresence', 'maleInteraction', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
+    const RE_RENDER_IDS = new Set(['salonVenueCategory', 'salonVenue', 'salonDesign', 'salonBarberStaff', 'salonBustle', 'salonHairCategory', 'salonHaircut', 'salonFaceObfuscMode', 'salonCollageFlow', 'salonCollageFrame1', 'salonCollageFrame2', 'salonCollageFrame3', 'salonCollageFrame4', 'hairCategory', 'hair', 'faceObfuscMode', 'outfitCategory', 'outfit', 'topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling', 'poseCategory', 'pose', 'malePresence', 'maleInteraction', 'shotCategory', 'framing', 'sceneCategory', 'background', 'lightingCategory', 'lighting', 'ponyTailFall', 'ponyTailEnd', 'sideSweepSide', 'sideSweepFlip', 'sideSweepEnd', 'sideSweepFinish']);
     if (id === 'salonStage' && currentStudioMode === 'salon' && outputType === 'collage') {
       const curFlow = values.salonCollageFlow?.text || 'journey';
       if (curFlow === 'journey') {
@@ -4354,7 +4383,9 @@ function buildSalonPrompt(){
       ? ((values.salonStoolModelPosture?.label || '') + ' ' + (val('salonStoolModelPosture') || '') + ' ' + (values.salonIntimateHairAction?.label || '') + ' ' + (val('salonIntimateHairAction') || ''))
       : ((values.salonStage?.label || '') + ' ' + (val('salonStage') || '') + ' ' + (values.salonChairPose?.label || '') + ' ' + (val('salonChairPose') || '')))
   ).toLowerCase();
-  const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|zero facial exposure|looking away into shop|face turned away/i.test(salonCamStr + ' ' + salonPoseStageStr);
+  const salonObfuscMode = values.salonFaceObfuscMode?.text || 'none';
+  const hasSalonObfusc = (salonObfuscMode !== 'none' && salonObfuscMode !== 'hair_veil');
+  const isFaceHidden = hasSalonObfusc || /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|zero facial exposure|looking away into shop|face turned away/i.test(salonCamStr + ' ' + salonPoseStageStr);
   const salonFaceCovVal = val('salonFaceHairCoverage') || '';
   const salonFaceCovLabel = values['salonFaceHairCoverage']?.label || '';
   const salonVeilTier = parseVeilTier(salonFaceCovLabel);
@@ -4365,9 +4396,9 @@ function buildSalonPrompt(){
   const isSalonFullVeil = isSalon95_100;
   const isSalonHeavyVeil = isSalon80_85 || isSalon95_100;
   const isSalonDeepVeil = isSalon65_70 || isSalonHeavyVeil;
-  const hideEyes = isFaceHidden || isSalonDeepVeil;
-  const stoolActVal = sanitizeHiddenFaceText(rawStoolActVal, hideEyes, salonVeilTier);
-  const stoolPostVal = sanitizeHiddenFaceText(stoolPostRaw, hideEyes, salonVeilTier);
+  const hideEyes = isFaceHidden || isSalonDeepVeil || hasSalonObfusc;
+  const stoolActVal = sanitizeHiddenFaceText(rawStoolActVal, hideEyes, salonVeilTier, salonObfuscMode);
+  const stoolPostVal = sanitizeHiddenFaceText(stoolPostRaw, hideEyes, salonVeilTier, salonObfuscMode);
 
   const salonHairLower = (values.salonHaircut?.label || '').toLowerCase();
   const isSalonPony = salonHairLower.includes('pony') || salonHairLower.includes('ponytail') || isPonySelected();
@@ -4459,6 +4490,8 @@ function buildSalonPrompt(){
   const salonVeilPrimaryBullet = salonVeilRuleObj?.primary || '';
 
   lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
+  const salonObfuscClause = buildObfuscClause(salonObfuscMode, salonHairArch);
+  if(salonObfuscClause) lines.push('• ' + salonObfuscClause);
   if(isFemaleModelBarber){
     lines.push('• Strictly preserve the adult woman from the reference image as the skilled female barber / practitioner actively attending to her seated male client.');
     lines.push(`• Signature Haircut & Styling: Transform our female model's hair into her chosen signature haircut—${haircutText} (${values.salonHaircut?.label || 'selected cut'})—preserving authentic natural Indian hair strand density and texture sculpted into this exact silhouette.`);
@@ -4896,6 +4929,9 @@ function buildSalonPrompt(){
       salonChecks.push('• Facial Identity Preservation: Faithfully preserve the recognizable facial structure, natural eye shape, jawline, and adult features of the reference woman; zero facial drift or face replacement.');
     }
   }
+  if(hasSalonObfusc){
+    salonChecks.push('• Face Privacy & Concealment: Apply strict face privacy (' + (values.salonFaceObfuscMode?.label || salonObfuscMode) + ')—facial features must remain concealed per chosen obfuscation method with zero clear identity portraits.');
+  }
   if(checkState.skin) {
     salonChecks.push('• Authentic Skin Texture: Visible micro-pores, natural skin luster, authentic facial asymmetry; zero plastic airbrushing or digital doll smoothing.');
   }
@@ -5059,6 +5095,10 @@ function buildSalonPrompt(){
   if(isFaceHidden){
     salonNegatives.push('visible face, front facial view, frontal eyes, open direct eye contact, revealing hidden face, artificial frontal facial features');
   }
+  const salonObfuscNegs = getObfuscNegatives(salonObfuscMode);
+  if(salonObfuscNegs.length){
+    salonNegatives.push(...salonObfuscNegs);
+  }
   if(salonVeilRuleObj?.neg){
     salonNegatives.push(salonVeilRuleObj.neg);
   }
@@ -5098,6 +5138,10 @@ function buildSalonPrompt(){
     : (isStool
       ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']
       : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonChairPose', 'salonStylist', 'salonExpression', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']);
+  if(hasSalonObfusc){
+    const covIdx = summaryIds.indexOf('salonFaceHairCoverage');
+    if(covIdx >= 0) summaryIds.splice(covIdx + 1, 0, 'salonFaceObfuscMode');
+  }
   const summaryTags = summaryIds
     .filter(id => fields[id] && values[id])
     .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`);
@@ -5127,6 +5171,8 @@ const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face
                      /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(poseStr) ||
                      /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple/i.test(gestStr) ||
                      /face.*hidden|hid\w*.*face|face.*not visible/i.test(gazeStr);
+const psObfuscMode = values.faceObfuscMode?.text || 'none';
+const hasPsObfusc = (psObfuscMode !== 'none' && psObfuscMode !== 'hair_veil');
 const psFaceCovVal = val('hairFaceCoverage') || '';
 const psFaceCovLabel = values['hairFaceCoverage']?.label || '';
 const psTier = parseVeilTier(psFaceCovLabel);
@@ -5137,9 +5183,12 @@ const isPs65_70 = (psTier === '65_70');
 const isFullVeil = isPs95_100;
 const isHeavyVeil = isPs80_85 || isPs95_100;
 const isDeepOrHeavyVeil = isPs65_70 || isHeavyVeil;
-const hideEyes = isFaceHidden || isDeepOrHeavyVeil;
+const hideEyes = isFaceHidden || isDeepOrHeavyVeil || hasPsObfusc;
 
 const checks=[];
+if(hasPsObfusc){
+  checks.push(`Apply strict face privacy (${values.faceObfuscMode?.label || psObfuscMode}): facial features must remain concealed per chosen obfuscation method with zero clear identity portraits.`);
+}
 if(checkState.identity){
   if(isFaceHidden){
     checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone, body proportions, and hair fiber while respecting that her face is turned sideways looking away and not visible to the lens.');
@@ -5221,6 +5270,10 @@ const psVeilRuleObj = getVeilRule(psTier, psHairArch);
 
 lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
 lines.push('• Strictly preserve the adult woman from the reference image as the primary model.');
+const psObfuscClause = buildObfuscClause(psObfuscMode, psHairArch);
+if(psObfuscClause){
+  lines.push('• ' + psObfuscClause);
+}
 if(isFaceHidden){
   lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
 } else if(isFullVeil){
@@ -5423,6 +5476,10 @@ if(styleRef && transferToggles && transferToggles.hair){
 if(isFaceHidden){
   negatives.push('visible face, front facial view, frontal eyes, open direct eye contact, revealing hidden face, artificial frontal facial features');
 }
+const psObfuscNegs = getObfuscNegatives(psObfuscMode);
+if(psObfuscNegs.length){
+  negatives.push(...psObfuscNegs);
+}
 if(psVeilRuleObj?.neg){
   negatives.push(psVeilRuleObj.neg);
 }
@@ -5491,6 +5548,10 @@ if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent=`${values.hair?.
 const summaryIds = hasMalePresence
   ? ['hair', 'hairFaceCoverage', 'outfit', 'malePresence', 'maleInteraction', 'background', 'placeDetail']
   : ['hair', 'hairFaceCoverage', 'outfit', 'pose', 'expression', 'background', 'placeDetail'];
+if(hasPsObfusc){
+  const covIdx = summaryIds.indexOf('hairFaceCoverage');
+  if(covIdx >= 0) summaryIds.splice(covIdx + 1, 0, 'faceObfuscMode');
+}
 const psMoistLabels = { dry: 'Dry & Blown-out', damp: 'Damp / Misted', wet: 'Soaked Wet' };
 const psSummaryTags = summaryIds.filter(id=>fields[id]&&values[id]).map(id=>`<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: ${values[id].label}</span>`);
 psSummaryTags.splice(2, 0, `<span class="summary-tag" title="Hair moisture state: ${psMoistLabels[photoHairMoisture] || 'Dry'}">Moisture: ${psMoistLabels[photoHairMoisture] || 'Dry'}</span>`);
@@ -6090,6 +6151,10 @@ window.AfterglowStudio = {
   load,
   getHair: () => hair,
   getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getFaceObfuscModeOpts: () => faceObfuscModeOpts,
+  getBikeScenes: () => bikeScenes,
+  getDateVenues: () => dateVenues,
+  getCoupleInteractions: () => coupleInteractions,
   getFields: () => fields,
   getValues: () => values,
   getCheckState: () => checkState,

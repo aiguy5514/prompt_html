@@ -1,0 +1,1471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Afterglow / Romantic &amp; Couple Studio</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+:root {
+  --romance-rose: #f43f5e;
+  --romance-amber: #f59e0b;
+  --romance-gradient: linear-gradient(115deg, #f43f5e, #fb923c);
+  --romance-glow: rgba(244, 63, 94, 0.22);
+}
+.brand-mark.brand-romance {
+  background: var(--romance-gradient);
+  box-shadow: 0 6px 26px var(--romance-glow);
+}
+.hero.hero-romance {
+  border-color: rgba(244, 63, 94, 0.35);
+  background: linear-gradient(118deg, rgba(50, 18, 30, 0.95), rgba(30, 20, 32, 0.95) 58%, rgba(45, 24, 38, 0.95));
+}
+.hero.hero-romance .eyebrow {
+  color: #fb7185;
+}
+.btn-primary.btn-romance {
+  background: var(--romance-gradient);
+  color: #240c14;
+}
+.reel-toggle-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.08) 0%, rgba(33, 28, 39, 0.85) 100%);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 10px 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.reel-toggle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.reel-toggle-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 850;
+  color: var(--text, #fff);
+}
+.reel-badge {
+  background: rgba(244, 63, 94, 0.2);
+  color: #fda4af;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.reel-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: all 0.15s ease;
+}
+.reel-btn.active {
+  background: var(--romance-gradient);
+  color: #240c14;
+  border-color: transparent;
+  font-weight: 850;
+  box-shadow: 0 2px 10px rgba(244, 63, 94, 0.35);
+}
+.moisture-toggle-card {
+  grid-column: 1 / -1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 4px 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.moisture-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.moisture-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text);
+}
+.moisture-hint {
+  font-size: 11px;
+  color: var(--muted);
+}
+.moisture-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.moisture-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.moisture-pill.active {
+  background: var(--romance-gradient);
+  color: #240c14;
+  border-color: transparent;
+  font-weight: 850;
+}
+.wardrobe-mode-card {
+  grid-column: 1 / -1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 4px 0 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark brand-romance">💕</span>
+    <span>Afterglow / Romantic Studio</span>
+  </div>
+  <nav class="suite-nav" aria-label="Studio Switcher">
+    <a href="index.html" class="suite-nav-link" title="Afterglow Hub">✦ Hub</a>
+    <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
+    <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon &amp; Barbershop</a>
+    <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
+    <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
+    <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director</a>
+    <a href="storyboard.html" class="suite-nav-link"><span class="studio-btn-icon">🎞️</span> Storyboarder</a>
+    <a href="romance.html" class="suite-nav-link active"><span class="studio-btn-icon">💕</span> Romance <span class="nav-badge">NEW</span></a>
+  </nav>
+  <div class="top-meta">
+    <span class="pill"><span class="pill-dot" style="background:#f43f5e;"></span> Duo Chemistry</span>
+    <span class="pill" id="totalOptionCount">Motorcycle &amp; Date Romance</span>
+    <span class="pill">Offline · No uploads</span>
+  </div>
+</header>
+
+<section class="hero hero-romance">
+  <div>
+    <div class="eyebrow" id="heroEyebrow">Cinematic Couple Intimacy · Road Journeys · Date Nights</div>
+    <h1 id="heroTitle">Romantic &amp; <span>Couple</span><br>Editorial Studio</h1>
+    <p id="heroDescription">Build evocative cinematic prompts featuring our model with her partner: high-speed motorcycle pillion rides, leather jackets, candlelit bistro tables, rainy shared umbrellas, and candid laughter—complete with 8 face concealment methods and an optional 2-shot couple video reel.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-romance" id="randomTop">✦ Surprise romance</button>
+      <button class="btn btn-secondary" id="copyTop">▣ Copy prompt</button>
+      <button class="btn btn-quiet" id="resetTop">↺ Reset</button>
+    </div>
+  </div>
+  <aside class="hero-note">
+    <div class="sparkle" style="color:#fb7185;">✧ 💕 ✧</div>
+    <div>
+      <strong>Authentic Chemistry</strong>
+      <p>True physical presence, organic touch, windblown hair physics, and believable duo lighting without generic AI stock poses.</p>
+      <div class="tags">
+        <span class="tag">🏍️ Highway Pillion</span>
+        <span class="tag">🍷 Date Nights</span>
+        <span class="tag">🤲 Face Concealment</span>
+        <span class="tag">🎬 2-Shot Reel</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<div class="layout">
+<main class="builder">
+  <section class="preset-strip">
+    <div class="strip-head">
+      <div>
+        <h2>Romantic Presets &amp; Starter Stories</h2>
+        <p>Curated couple scenarios with synchronized poses, motorcycle styling, lighting, and wardrobe.</p>
+      </div>
+      <div class="strip-actions">
+        <button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button>
+        <button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button>
+        <button class="btn btn-secondary btn-small" id="exportPresetsBtn" type="button" title="Export custom looks to JSON">⬇ Export</button>
+        <button class="btn btn-secondary btn-small" id="importPresetsBtn" type="button" title="Import custom looks from JSON">⬆ Import</button>
+        <input type="file" id="importPresetsInput" accept=".json,application/json" hidden>
+      </div>
+    </div>
+    <div class="preset-grid" id="presets"></div>
+  </section>
+
+  <nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
+
+  <section class="step-card" id="stepCard">
+    <div class="step-head">
+      <div>
+        <div class="eyebrow" id="stepEyebrow">Couple Direction · 01</div>
+        <h2 id="stepTitle">Couple &amp; Partner Dynamics</h2>
+        <p id="stepDescription">Choose the male partner aesthetic, romantic interaction, proximity, and shared expression.</p>
+      </div>
+      <div class="step-icon" id="stepIcon">💕</div>
+    </div>
+    <div class="field-grid" id="fields"></div>
+    <div id="specialContent"></div>
+    <div class="step-foot">
+      <span class="step-count" id="stepCount">Step 1 of 5</span>
+      <div class="step-buttons">
+        <button class="btn btn-secondary" id="prevStep">← Previous</button>
+        <button class="btn btn-primary btn-romance" id="nextStep">Next step →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="advanced-bar">
+    <div>
+      <strong>Looking to fine-tune exclusions or safeguards?</strong>
+      <small>Control face privacy, solitary female rule, and custom notes in the Finish step.</small>
+    </div>
+    <button class="btn btn-secondary btn-small" id="finishJump">Open finish controls ↗</button>
+  </section>
+</main>
+
+<aside class="preview">
+  <div class="sheet-handle hidden-desktop" id="sheetHandle"></div>
+  <div class="preview-head">
+    <div class="preview-top">
+      <div class="eyebrow">Live output</div>
+      <div class="preview-top-actions">
+        <button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button>
+        <button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button>
+        <span class="live">Updating</span>
+        <button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button>
+      </div>
+    </div>
+    <h2>Your romantic prompt, assembled</h2>
+    <p>Every dynamic interaction, setting detail, and face concealment method updates live.</p>
+    <div class="summary" id="summary"></div>
+  </div>
+
+  <div class="preview-body">
+    <div class="preview-toolbar">
+      <div class="toolbar-row">
+        <div class="seg-control" id="modeSegControl">
+          <button type="button" class="seg-btn active" id="btnSingleMode">Single photo shot</button>
+          <button type="button" class="seg-btn" id="btnReelMode">🎬 2-Shot couple reel</button>
+        </div>
+      </div>
+      <div class="ratio-row">
+        <span class="ratio-label">Ratio:</span>
+        <div class="ratio-chips" id="ratioChips">
+          <button type="button" class="ratio-chip" data-ratio="9:16">9:16</button>
+          <button type="button" class="ratio-chip" data-ratio="4:5">4:5</button>
+          <button type="button" class="ratio-chip active" data-ratio="3:4">3:4</button>
+          <button type="button" class="ratio-chip" data-ratio="1:1">1:1</button>
+          <button type="button" class="ratio-chip" data-ratio="16:9">16:9</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-meta">
+      <span id="wordCount">Prompt ready</span>
+      <button class="btn btn-quiet btn-small" id="selectPrompt">Select all text</button>
+    </div>
+
+    <textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated prompt"></textarea>
+
+    <div class="preview-buttons">
+      <button class="btn btn-primary btn-romance" id="copy">▣ Copy prompt</button>
+      <button class="btn btn-secondary" id="download">↓ Download .txt</button>
+      <button class="btn btn-secondary" id="copyPositive" type="button">Copy positive only</button>
+      <button class="btn btn-secondary" id="copyNegative" type="button">Copy exclusions only</button>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <div class="preview-help">
+    <strong>Use it:</strong> Attach your reference photo in your image generator, copy this prompt, and render. Runs entirely offline in your browser.
+  </div>
+</aside>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-bar" id="mobileBar">
+  <div class="mobile-bar-info">
+    <span class="mobile-stat" id="mobileWordCount">Prompt ready</span>
+    <span class="mobile-sub" id="mobileSummaryMini">Romantic Studio</span>
+  </div>
+  <button class="btn btn-primary btn-small btn-romance" id="openDrawerBtn" type="button">View prompt ↗</button>
+</div>
+
+<div class="history-drawer" id="historyDrawer">
+  <div class="history-head">
+    <h3>Prompt history (This session)</h3>
+    <button class="btn-quiet btn-small" id="closeHistory" type="button">✕ Close</button>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+<div class="modal-backdrop" id="historyBackdrop"></div>
+
+<p class="fineprint">AFTERGLOW STUDIO · Romantic &amp; Couple Suite · All choices saved locally in browser</p>
+</div>
+
+<script src="js/shared-veil.js"></script>
+<script src="js/shared-datasets.js"></script>
+<script>
+(function(){
+'use strict';
+
+const {
+  O, makeOpts,
+  HAIR_FAMILIES, hair, hairFaceCoverageOpts,
+  OUTFIT_FAMILIES, outfit,
+  TOP_FAMILIES, topPieces,
+  BOTTOM_FAMILIES, bottomPieces,
+  midriffStylings,
+  faceObfuscModeOpts,
+  bikeScenes,
+  dateVenues,
+  coupleInteractions
+} = window.AfterglowDatasets;
+
+const {
+  parseVeilTier, detectHairArchitecture, getVeilRule,
+  sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
+  cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
+  extractPositivePrompt, extractNegativePrompt,
+  buildObfuscClause, getObfuscNegatives
+} = window.AfterglowVeil;
+
+const el = id => document.getElementById(id);
+
+// Sections definition
+const sections = [
+  { id: 'romanceCoupleSec', name: 'Couple & Partner Dynamics', short: 'COUPLE', icon: '💕', desc: 'Define partner appearance, motorcycle/date interactions, intimacy distance, and shared expression.' },
+  { id: 'romanceSubjectSec', name: 'Her Look & Face Privacy', short: 'LOOK', icon: '👩', desc: 'Select her signature haircut, face-behind-hair veil %, face concealment method, moisture, and wardrobe.' },
+  { id: 'romanceSceneSec', name: 'Scene, Setting & Light', short: 'SCENE', icon: '🌅', desc: 'Select the highway roadscape, candlelit bistro, rainfall city street, or seaside sunset.' },
+  { id: 'romanceCameraSec', name: 'Camera, Optics & Reel', short: 'CAMERA', icon: '📷', desc: 'Choose framing, angle, lens character, aspect ratio, and optional 2-shot couple video reel.' },
+  { id: 'finish', name: 'Finish & Safeguards', short: 'FINISH', icon: '✦', desc: 'Identity preservation, solitary female rule, custom creative direction, and negative exclusions.' }
+];
+
+// Option sets tailored for Romance Studio
+const partnerAesthetics = [
+  O('Tall handsome partner in black moto leather jacket', 'a tall, athletic, handsome South Asian male partner in a fitted black matte leather cafe-racer jacket, white cotton tee, dark denim trousers, and rugged leather boots with tousled dark hair'),
+  O('Sharp stylish partner in unbuttoned linen shirt', 'a handsome, well-groomed male partner in a relaxed unbuttoned cream linen collared shirt showing slight chest, tailored chinos, and understated leather wristwatch'),
+  O('Chic tailored partner in dark evening blazer', 'a stylish handsome male partner in a slim-cut charcoal structured blazer worn open over a fine knit crewneck, with clean jawline grooming and effortless urban charm'),
+  O('Casual rugged partner in denim jacket & vintage boots', 'a charismatic male partner in a distressed medium-wash denim jacket layered over a washed graphite t-shirt, relaxed dark jeans, and worn suede Chelsea boots'),
+  O('Cozy knitwear partner in relaxed cashmere sweater', 'a handsome male partner in a cozy oversized oatmeal-colored cashmere sweater, textured wool trousers, and a warm, relaxed companionable demeanor'),
+  O('Sleek black turtleneck & tailored overcoat', 'a handsome male partner in a fine-gauge black merino turtleneck underneath a tailored camel wool overcoat, presenting refined cinematic sophistication')
+];
+
+const intimacyTouches = [
+  O('Pillion waist embrace — cheek pressed tight to his back', 'her arms locked firmly around his waist, chest pressed closely against the back of his jacket, resting her cheek tenderly near his shoulder blade with complete relaxed trust as they ride at highway speed'),
+  O('Intertwined fingers clasp with tactile skin warmth', 'their fingers deeply and naturally interlaced on the tabletop or motorcycle tank, delicate knuckle contact and warm skin-on-skin intimacy caught in golden side-light'),
+  O('Foreheads resting together with quiet closed eyes', 'foreheads leaning gently together, noses grazing, both eyes softly closed in a moment of tranquil, breathless emotional resonance and tender closeness'),
+  O('Arm looped warmly through his mid-stride with shared laughter', 'her arm securely looped through his elbow as they walk shoulder-to-shoulder, matching stride naturally while laughing candidly at an inside joke'),
+  O('He gently drapes his heavy leather jacket over her bare shoulders', 'he slips his heavy jacket off and drapes it tenderly over her bare shoulders against the evening breeze, resting his hands momentarily over her upper arms as she looks up warmly'),
+  O('Protective back-embrace with arms wrapped around her waist', 'standing closely behind her with both hands resting gently at her waist, his chest aligned with her back as she leans back comfortably against him'),
+  O('Gentle jawline cup and tender near-kiss proximity', 'he gently cups her jawline with warm fingers, tilting her chin softly upward as their lips pause mere millimeters apart in intense, unhurried romantic anticipation'),
+  O('He tucks a windblown hair lock softly behind her ear', 'he reaches up with delicate fingertips to brush a loose windblown lock of hair back over her ear, his hand grazing her cheekbone with fond affectionate tenderness'),
+  O('Shared umbrella closeness with shoulders touching', 'huddled together beneath a compact black umbrella, his arm pulled snugly around her outer shoulder to shield her from the drizzle, wet coats brushing side-by-side')
+];
+
+const romanceExpressions = [
+  O('Radiant candid laughter and crinkled eyes', 'spontaneous, uninhibited joyful laughter with crinkled eyes and relaxed facial muscles, capturing authentic duo happiness in the moment'),
+  O('Tender, smoldering gaze with soft parted lips', 'an intense, smoldering gaze locked onto her partner with soft, naturally parted lips and subtle romantic tension'),
+  O('Serene peaceful trust and contented half-smile', 'a calm, deeply contented half-smile with soft relaxed brow and serene facial peace, radiating effortless trust and affection'),
+  O('Playful flirtatious smirk and raised eyebrow', 'a playful, flirtatious smirk with one subtly raised eyebrow and amused eyes, exchanging lighthearted banter'),
+  O('Breathless windblown exhilaration mid-ride', 'exhilarated, wind-touched expression with parted lips, wide sparkling eyes, and the sheer adrenaline joy of open-road riding'),
+  O('Quiet, vulnerable tenderness with lowered eyelashes', 'a quiet, vulnerable moment of tenderness with softly lowered dark eyelashes and a gentle, private half-smile')
+];
+
+const romanceSceneCategories = [
+  O('🏍️ Motorcycle & Road Journeys', 'bike'),
+  O('🍷 Candlelight & Dining Dates', 'date'),
+  O('🌧️ City Street & Atmospheric Walks', 'street'),
+  O('🌅 Coastal, Sunset & Outdoor Overlooks', 'outdoor')
+];
+
+const romanceSettings = [
+  O('Coastal highway cliffside at golden hour', 'a scenic winding coastal highway perched above ocean cliffs at golden hour, sea breeze, blurred guardrails, and warm amber light sweeping across asphalt'),
+  O('Mountain pass highway rest stop pull-off', 'a gravel pull-off overlooking sweeping alpine mountain valleys, late afternoon sun glinting off road signs and motorcycle chrome, crisp mountain air'),
+  O('Historic stone-wall candlelit bistro alcove', 'a cozy, intimate rustic bistro alcove with warm exposed brick, low amber candlelight on dark timber table, and wine glasses half-filled with ruby wine'),
+  O('Rainy cobblestone alleyway under golden streetlights', 'a wet European cobblestone alleyway in evening drizzle, glowing golden sodium streetlights, rain-slicked stones reflecting neon shopfronts, quiet private city atmosphere'),
+  O('Heritage rooftop café terrace at dusk', 'a terracotta rooftop terrace overlooking city skyline lights at dusk, overflowing bougainvillea planters, ambient fairy-light strings, and two ceramic cups'),
+  O('Vibrant night street-food market lane', 'a bustling night street-food market lane lit with hanging paper lanterns and festive string lights, aromatic steam rising, candid urban couple warmth'),
+  O('Vintage vinyl record shop aisle', 'a warm-wood retro vinyl record store with wooden record bins, warm afternoon sunlight raking through dust-mote sunbeams and retro album art'),
+  O('Desert highway straightaway at sunset', 'an endless desert highway cutting through rolling sandstone hills under an enormous magenta and burnt-orange sunset sky, heat haze on the horizon'),
+  O('Rain-streaked yellow taxi backseat transit', 'the backseat of a vintage yellow taxi cab moving through rainy night city streets, blurred traffic lights and water droplets streaking across window glass')
+];
+
+const romanceLightings = [
+  O('Golden-hour warm rim light & backlit lens flare', 'rich golden-hour sunlight low on the horizon, casting warm amber rim illumination along hair silhouettes and shoulder contours with organic anamorphic lens flares'),
+  O('Intimate flickering candlelight & amber Edison glow', 'warm intimate candlelight from low table votives complemented by soft 2400K Edison bulbs, creating deep cozy shadows and golden cheekbone highlights'),
+  O('Rainy night neon bokeh & reflective sodium glow', 'cinematic nocturnal lighting with warm sodium streetlights and cool neon signs reflected across wet pavement and leather jackets, beautiful circular bokeh'),
+  O('Crisp twilight blue hour with warm tungsten accents', 'atmospheric blue-hour dusk sky providing deep indigo fill light, contrasted against warm tungsten lanterns and bike headlights in the foreground'),
+  O('Soft diffuse afternoon window light', 'gentle, flattering soft window light wrapping naturally around facial profiles and fabric textures with clean, organic highlight roll-off')
+];
+
+const romanceFramings = [
+  O('Waist-up medium intimate portrait', 'a waist-up medium portrait framing both subjects in natural proximity, showcasing facial expressions, haircut movement, and upper wardrobe textures'),
+  O('Three-quarter cinematic couple shot', 'a three-quarter fashion-editorial shot capturing body language, motorcycle stance or dining table presence, and natural couple posture'),
+  O('Close-up beauty portrait with partner in near focus', 'an intimate close-up beauty portrait centered on her face and hair movement, with her partner\'s shoulder or profile resting softly in shallow depth of field'),
+  O('Wide environmental roadscape with couple centered', 'a sweeping wide environmental cinema shot framing the motorcycle and couple within the grand scale of the landscape and horizon'),
+  O('Detail crop: Intertwined hands / helmet buckle', 'an editorial detail macro crop focusing closely on their tactile touch, interlaced fingers, jacket leather, or the fastening of a helmet chin strap')
+];
+
+const romanceAngles = [
+  O('Eye-level candid viewpoint', 'an eye-level candid camera angle creating immediate, unforced documentary realism'),
+  O('Dynamic three-quarter side angle', 'a dynamic three-quarter side angle capturing the profile of the motorcycle, pillion posture, and windblown hair movement'),
+  O('Over-the-partner\'s-shoulder POV', 'a cinematic over-the-shoulder camera viewpoint looking past his shoulder toward her, capturing her expressive reaction directly'),
+  O('Slightly low highway angle looking up', 'a slightly low road-level camera angle looking up, lending heroic scale and kinetic motion to the couple and motorcycle'),
+  O('Direct side profile tracking angle', 'a sleek direct side-profile tracking angle capturing rider and pillion in aerodynamic unity against the moving background')
+];
+
+const romanceLenses = [
+  O('35mm f/1.4 documentary prime (environmental intimacy)', 'shot on a 35mm f/1.4 prime lens with natural field of view, crisp center subject separation, and organic environmental depth'),
+  O('50mm f/1.2 high-speed portrait prime (creamy bokeh)', 'shot on a 50mm f/1.2 lens wide open, producing razor-sharp subject detail and velvety creamy background blur'),
+  O('85mm f/1.4 telephoto compression (intimate isolation)', 'shot on an 85mm f/1.4 telephoto lens with cinematic background compression, isolating the couple intimately from the setting'),
+  O('Anamorphic 40mm T2.0 (cinematic widescreen flares)', 'shot on an anamorphic cinema lens with subtle horizontal light streaks, oval bokeh, and natural filmic barrel roll-off')
+];
+
+const romanceAspects = [
+  O('3:4 Portrait (Editorial standard)', '3:4'),
+  O('9:16 Vertical (Story / Mobile format)', '9:16'),
+  O('4:5 Instagram Portrait', '4:5'),
+  O('16:9 Cinematic Widescreen', '16:9'),
+  O('1:1 Square Format', '1:1')
+];
+
+const romanceMakeups = [
+  O('Fresh dewy radiance with soft rose tint', 'fresh dewy makeup with authentic luminous skin texture, soft rose-tinted lips, and understated natural lash definition'),
+  O('Smoky kohl eyes & neutral nude lip', 'subtle smoky kohl-lined eyes with smudged lower lashline and a satin nude lip for sultry evening romantic intensity'),
+  O('Classic crimson bold red lip', 'a striking classic velvet red lip with clean restrained eye makeup, creating bold high-fashion contrast'),
+  O('Sun-kissed bronze glow with glossy balm', 'warm bronzed cheekbones with natural freckle visibility, sun-kissed warmth, and hydrated glossy lip sheen'),
+  O('Bare minimal clean skin texture', 'ultra-minimal clean skincare finish with visible micro-pores, natural eyebrow definition, and tinted lip balm')
+];
+
+// Presets for quick romance starters
+const starterRomancePresets = [
+  {
+    id: 'rom_bike_sunset',
+    title: '🏍️ Sunset Coastal Pillion',
+    sub: 'Leather jackets · 70 km/h windblown hair · Royal Enfield',
+    icon: '🏍️',
+    set: {
+      romancePartner: partnerAesthetics[0],
+      romanceDynamic: bikeScenes[0],
+      romanceTouch: intimacyTouches[0],
+      romanceExpression: romanceExpressions[4],
+      romanceSetting: romanceSettings[0],
+      romanceLighting: romanceLightings[0],
+      romanceFraming: romanceFramings[1],
+      romanceHairMoisture: 'dry'
+    }
+  },
+  {
+    id: 'rom_bistro_date',
+    title: '🍷 Candlelight Rustic Bistro',
+    sub: 'Brick alcove · Wine toast · Intimate gaze',
+    icon: '🍷',
+    set: {
+      romancePartner: partnerAesthetics[1],
+      romanceDynamic: dateVenues[0],
+      romanceTouch: intimacyTouches[1],
+      romanceExpression: romanceExpressions[1],
+      romanceSetting: romanceSettings[2],
+      romanceLighting: romanceLightings[1],
+      romanceFraming: romanceFramings[0],
+      romanceHairMoisture: 'dry'
+    }
+  },
+  {
+    id: 'rom_rain_umbrella',
+    title: '🌧️ Rainy Street Umbrella Stroll',
+    sub: 'Wet cobblestones · Sodium reflections · Shared umbrella',
+    icon: '🌧️',
+    set: {
+      romancePartner: partnerAesthetics[3],
+      romanceDynamic: dateVenues[1],
+      romanceTouch: intimacyTouches[8],
+      romanceExpression: romanceExpressions[0],
+      romanceSetting: romanceSettings[3],
+      romanceLighting: romanceLightings[2],
+      romanceFraming: romanceFramings[1],
+      romanceHairMoisture: 'damp'
+    }
+  },
+  {
+    id: 'rom_rooftop_chai',
+    title: '☕ Heritage Rooftop Dusk',
+    sub: 'Bougainvillea · City skyline · Warm chai cups',
+    icon: '☕',
+    set: {
+      romancePartner: partnerAesthetics[4],
+      romanceDynamic: dateVenues[2],
+      romanceTouch: intimacyTouches[3],
+      romanceExpression: romanceExpressions[2],
+      romanceSetting: romanceSettings[4],
+      romanceLighting: romanceLightings[3],
+      romanceFraming: romanceFramings[0],
+      romanceHairMoisture: 'dry'
+    }
+  },
+  {
+    id: 'rom_bonneville_rest',
+    title: '🛵 Mountain Highway Overlook',
+    sub: 'Triumph Bonneville · Helmet on mirrors · Chrome sun',
+    icon: '🛵',
+    set: {
+      romancePartner: partnerAesthetics[0],
+      romanceDynamic: bikeScenes[1],
+      romanceTouch: intimacyTouches[4],
+      romanceExpression: romanceExpressions[2],
+      romanceSetting: romanceSettings[1],
+      romanceLighting: romanceLightings[0],
+      romanceFraming: romanceFramings[1],
+      romanceHairMoisture: 'dry'
+    }
+  },
+  {
+    id: 'rom_vinyl_shop',
+    title: '💿 Vintage Vinyl Record Browse',
+    sub: 'Wooden crates · Playful laughter · Sunbeams',
+    icon: '💿',
+    set: {
+      romancePartner: partnerAesthetics[3],
+      romanceDynamic: dateVenues[4],
+      romanceTouch: intimacyTouches[3],
+      romanceExpression: romanceExpressions[0],
+      romanceSetting: romanceSettings[6],
+      romanceLighting: romanceLightings[4],
+      romanceFraming: romanceFramings[0],
+      romanceHairMoisture: 'dry'
+    }
+  }
+];
+
+// Combine all possible romance dynamic options
+const allDynamicOpts = [
+  ...bikeScenes.map(b => Object.assign({}, b, { cat: 'bike' })),
+  ...dateVenues.map(d => Object.assign({}, d, { cat: 'date' })),
+  ...coupleInteractions.map(c => Object.assign({}, c, { cat: c.cat.toLowerCase() }))
+];
+
+// Fields dictionary
+const fields = {
+  // 01 Couple & Partner Dynamics
+  romanceStoryCategory: { label: 'Romantic Story Filter', opts: [O('All Romance Scenarios', 'all'), O('🏍️ Motorcycle & Bike Journeys', 'bike'), O('🍷 Date Nights & Venues', 'date'), O('💕 Intimate Poses & Embraces', 'intimate'), O('☕ Casual & Candid Banter', 'casual')], def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
+  romancePartner: { label: 'Male Partner Aesthetic & Attire', opts: partnerAesthetics, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
+  romanceDynamic: { label: 'Couple Interaction & Scene', opts: allDynamicOpts, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
+  romanceTouch: { label: 'Intimacy Proximity & Touch Detail', opts: intimacyTouches, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
+  romanceExpression: { label: 'Shared Facial Resonance & Mood', opts: romanceExpressions, def: 0, section: 'romanceCoupleSec', _grp: 'Couple & Partner Dynamics' },
+
+  // 02 Her Styling & Face Privacy
+  romanceHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
+  romanceHair: { label: 'Chosen Haircut Silhouette', opts: hair, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
+  romanceHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
+  romanceFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'romanceSubjectSec', _grp: 'Her Haircut & Styling' },
+
+  romanceOutfitCategory: { label: 'Wardrobe Ensemble Family', opts: OUTFIT_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  romanceOutfit: { label: 'Full Wardrobe Ensemble', opts: outfit, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  topCategory: { label: 'Top Piece Category', opts: TOP_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  topPiece: { label: 'Crop Top / Biker Top / Camisole', opts: topPieces, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  bottomPiece: { label: 'Denim Shorts / Leather Pants / Skirt', opts: bottomPieces, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  midriffStyling: { label: 'Midriff & Waistline Exposure', opts: midriffStylings, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+  romanceMakeup: { label: 'Her Makeup Direction', opts: romanceMakeups, def: 0, section: 'romanceSubjectSec', _grp: 'Her Wardrobe & Makeup' },
+
+  // 03 Scene, Setting & Light
+  romanceSceneType: { label: 'Setting Category', opts: romanceSceneCategories, def: 0, section: 'romanceSceneSec', _grp: 'Location & Environment' },
+  romanceSetting: { label: 'Specific Setting & Background Detail', opts: romanceSettings, def: 0, section: 'romanceSceneSec', _grp: 'Location & Environment' },
+  romanceLighting: { label: 'Lighting Mood & Character', opts: romanceLightings, def: 0, section: 'romanceSceneSec', _grp: 'Lighting & Atmosphere' },
+
+  // 04 Camera, Optics & Reel Mode
+  romanceFraming: { label: 'Camera Framing', opts: romanceFramings, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' },
+  romanceAngle: { label: 'Camera Perspective & Angle', opts: romanceAngles, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' },
+  romanceLens: { label: 'Lens Character & Optics', opts: romanceLenses, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' },
+  aspect: { label: 'Aspect Ratio', opts: romanceAspects, def: 0, section: 'romanceCameraSec', _grp: 'Camera & Cinematography' }
+};
+
+// State
+let activeSection = 'romanceCoupleSec';
+let activePreset = '';
+let customPresets = [];
+let romanceHairMoisture = 'dry';
+let wardrobeMode = 'ensemble'; // 'ensemble' | 'separates'
+let reelMode = false; // false: single photo shot, true: 2-shot couple video reel
+let customDirection = '';
+let extraNegative = '';
+let promptHistory = [];
+
+const checkState = {
+  identity: true,
+  solitaryFemale: true,
+  skinTexture: true,
+  hairPhysics: true,
+  authenticFabric: true,
+  noWatermark: true
+};
+
+const values = {};
+Object.keys(fields).forEach(k => {
+  values[k] = fields[k].opts[fields[k].def || 0];
+});
+
+function val(id){
+  return values[id]?.text || '';
+}
+
+function getItemCategory(id, opt){
+  return opt.cat || 'General';
+}
+
+function renderTabs(){
+  const host = el('tabs');
+  if(!host) return;
+  host.innerHTML = '';
+  sections.forEach((s, idx) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tab' + (s.id === activeSection ? ' active' : '');
+    b.dataset.section = s.id;
+    b.innerHTML = `<span class="tab-icon">${s.icon}</span><span class="tab-text">${s.name}</span>`;
+    b.addEventListener('click', () => goSection(s.id));
+    host.appendChild(b);
+  });
+}
+
+function goSection(id){
+  activeSection = id;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.section === id));
+  const s = sections.find(x => x.id === id);
+  if(s){
+    if(el('stepEyebrow')) el('stepEyebrow').textContent = `Couple Direction · 0${sections.indexOf(s) + 1}`;
+    if(el('stepTitle')) el('stepTitle').textContent = s.name;
+    if(el('stepDescription')) el('stepDescription').textContent = s.desc;
+    if(el('stepIcon')) el('stepIcon').textContent = s.icon;
+    if(el('stepCount')) el('stepCount').textContent = `Step ${sections.indexOf(s) + 1} of ${sections.length}`;
+  }
+  renderFields();
+  updateStepButtons();
+}
+
+function updateStepButtons(){
+  const idx = sections.findIndex(s => s.id === activeSection);
+  const prevBtn = el('prevStep');
+  const nextBtn = el('nextStep');
+  if(prevBtn) prevBtn.disabled = (idx <= 0);
+  if(nextBtn){
+    if(idx >= sections.length - 1){
+      nextBtn.textContent = 'Finish & Copy';
+      nextBtn.onclick = () => copy(el('prompt').value);
+    } else {
+      nextBtn.textContent = 'Next step →';
+      nextBtn.onclick = () => goSection(sections[idx + 1].id);
+    }
+  }
+}
+
+el('prevStep')?.addEventListener('click', () => {
+  const idx = sections.findIndex(s => s.id === activeSection);
+  if(idx > 0) goSection(sections[idx - 1].id);
+});
+
+function createFieldElement(id, f){
+  const wrap = document.createElement('div');
+  wrap.className = 'field';
+  wrap.dataset.id = id;
+
+  const lab = document.createElement('label');
+  const titleWrap = document.createElement('span');
+  titleWrap.className = 'label-title-wrap';
+  const label = document.createElement('span');
+  label.className = 'label-title';
+  label.textContent = f.label;
+  titleWrap.appendChild(label);
+
+  let visibleOpts = f.opts;
+  if(id === 'romanceDynamic' && values.romanceStoryCategory && values.romanceStoryCategory.text !== 'all'){
+    const cat = values.romanceStoryCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat || cat === 'all');
+    if(!visibleOpts.includes(values.romanceDynamic)){
+      values.romanceDynamic = visibleOpts[0] || f.opts[0];
+    }
+  } else if(id === 'romanceHair' && values.romanceHairCategory && values.romanceHairCategory.text !== 'all'){
+    const cat = values.romanceHairCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+    if(!visibleOpts.includes(values.romanceHair)){
+      values.romanceHair = visibleOpts[0] || f.opts[0];
+    }
+  }
+
+  const count = document.createElement('span');
+  count.className = 'option-count';
+  count.textContent = visibleOpts.length + ' options';
+  lab.append(titleWrap, count);
+
+  const custom = document.createElement('div');
+  custom.className = 'custom-select';
+  custom.dataset.id = id;
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'select-trigger';
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.innerHTML = `<span class="current">${values[id]?.label || ''}</span><span class="chevron">⌄</span>`;
+
+  const menu = document.createElement('div');
+  menu.className = 'select-menu';
+  menu.innerHTML = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;
+
+  const list = menu.querySelector('.option-list');
+  visibleOpts.forEach(o => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choice' + (values[id] === o ? ' selected' : '');
+    b.textContent = o.label;
+    b.addEventListener('click', () => {
+      values[id] = o;
+      trigger.querySelector('.current').textContent = o.label;
+      custom.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      if(id === 'romanceStoryCategory' || id === 'romanceHairCategory'){
+        renderFields();
+      }
+      buildPrompt();
+    });
+    list.appendChild(b);
+  });
+
+  const searchInput = menu.querySelector('.select-search');
+  searchInput.addEventListener('input', e => {
+    const q = e.target.value.toLowerCase().trim();
+    list.querySelectorAll('.choice').forEach(btn => {
+      btn.style.display = btn.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+
+  trigger.addEventListener('click', e => {
+    e.stopPropagation();
+    const wasOpen = custom.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(x => {
+      x.classList.remove('open');
+      x.querySelector('.select-trigger')?.setAttribute('aria-expanded', 'false');
+    });
+    if(!wasOpen){
+      custom.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+      searchInput.value = '';
+      list.querySelectorAll('.choice').forEach(b => b.style.display = '');
+      setTimeout(() => searchInput.focus(), 50);
+    }
+  });
+
+  custom.append(trigger, menu);
+  wrap.append(lab, custom);
+  return wrap;
+}
+
+function createRomanceMoistureCard(){
+  const card = document.createElement('div');
+  card.className = 'moisture-toggle-card';
+  card.id = 'romanceMoistureCard';
+  card.innerHTML = `
+    <div class="moisture-header">
+      <span class="moisture-label">💧 Hair Moisture State</span>
+      <span class="moisture-hint">Enforces water spray, wind, or dry blown-out hair movement</span>
+    </div>
+    <div class="moisture-pills">
+      <button type="button" class="moisture-pill${romanceHairMoisture === 'dry' ? ' active' : ''}" data-moisture="dry">💨 Dry &amp; Blown-Out</button>
+      <button type="button" class="moisture-pill${romanceHairMoisture === 'damp' ? ' active' : ''}" data-moisture="damp">💦 Damp / Road-Misted</button>
+      <button type="button" class="moisture-pill${romanceHairMoisture === 'wet' ? ' active' : ''}" data-moisture="wet">🌊 Wet / Storm-Soaked</button>
+    </div>
+  `;
+  card.querySelectorAll('.moisture-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      romanceHairMoisture = btn.dataset.moisture;
+      card.querySelectorAll('.moisture-pill').forEach(b => b.classList.toggle('active', b === btn));
+      buildPrompt();
+    });
+  });
+  return card;
+}
+
+function createWardrobeModeCard(){
+  const card = document.createElement('div');
+  card.className = 'wardrobe-mode-card';
+  card.innerHTML = `
+    <div>
+      <strong style="font-size:12px;color:var(--text);">Wardrobe Assembly Style:</strong>
+      <div style="font-size:11px;color:var(--muted);">Toggle between ready-made ensembles or custom 2-piece separates</div>
+    </div>
+    <div class="seg-control">
+      <button type="button" class="seg-btn${wardrobeMode === 'ensemble' ? ' active' : ''}" id="btnEnsemble">Full Ensemble</button>
+      <button type="button" class="seg-btn${wardrobeMode === 'separates' ? ' active' : ''}" id="btnSeparates">Separates (Top + Bottom)</button>
+    </div>
+  `;
+  card.querySelector('#btnEnsemble')?.addEventListener('click', () => {
+    wardrobeMode = 'ensemble';
+    renderFields();
+    buildPrompt();
+  });
+  card.querySelector('#btnSeparates')?.addEventListener('click', () => {
+    wardrobeMode = 'separates';
+    renderFields();
+    buildPrompt();
+  });
+  return card;
+}
+
+function createReelToggleCard(){
+  const card = document.createElement('div');
+  card.className = 'reel-toggle-card';
+  card.innerHTML = `
+    <div class="reel-toggle-header">
+      <div class="reel-toggle-title">
+        <span>🎬 2-Shot Couple Video Clip Reel</span>
+        <span class="reel-badge">Video Mode</span>
+      </div>
+      <button type="button" class="reel-btn${reelMode ? ' active' : ''}" id="btnToggleReel">
+        ${reelMode ? '✓ Reel Script Active' : '+ Enable 2-Shot Reel Script'}
+      </button>
+    </div>
+    <div style="font-size:11px;color:var(--muted);line-height:1.4;">
+      When active, formats the output prompt with a 2-beat cinematic video timeline (Shot 1 setup + Shot 2 climax, speed curve, and ambient sound) for Gen-2/Runway/Pika video generation.
+    </div>
+  `;
+  card.querySelector('#btnToggleReel')?.addEventListener('click', () => {
+    reelMode = !reelMode;
+    card.querySelector('#btnToggleReel')?.classList.toggle('active', reelMode);
+    card.querySelector('#btnToggleReel').textContent = reelMode ? '✓ Reel Script Active' : '+ Enable 2-Shot Reel Script';
+    syncReelModeButtons();
+    buildPrompt();
+  });
+  return card;
+}
+
+function renderFields(){
+  const host = el('fields');
+  if(!host) return;
+  host.innerHTML = '';
+
+  let lastGrp = '';
+  Object.entries(fields).forEach(([id, f]) => {
+    if(f.section !== activeSection) return;
+
+    // Filter separates vs ensemble
+    if(activeSection === 'romanceSubjectSec'){
+      if(wardrobeMode === 'ensemble' && ['topCategory','topPiece','bottomCategory','bottomPiece','midriffStyling'].includes(id)) return;
+      if(wardrobeMode === 'separates' && ['romanceOutfitCategory','romanceOutfit'].includes(id)) return;
+    }
+
+    if(f._grp && f._grp !== lastGrp){
+      lastGrp = f._grp;
+      const g = document.createElement('h3');
+      g.className = 'grp';
+      g.textContent = lastGrp;
+      host.appendChild(g);
+    }
+
+    host.appendChild(createFieldElement(id, f));
+
+    // Insert moisture card after face coverage
+    if(id === 'romanceFaceObfuscMode' && activeSection === 'romanceSubjectSec'){
+      host.appendChild(createRomanceMoistureCard());
+      host.appendChild(createWardrobeModeCard());
+    }
+
+    // Insert 2-shot reel card in camera section
+    if(id === 'aspect' && activeSection === 'romanceCameraSec'){
+      host.appendChild(createReelToggleCard());
+    }
+  });
+
+  const sp = el('specialContent');
+  if(sp){
+    if(activeSection === 'finish'){
+      sp.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+          <h3 class="grp" style="margin-top:0;">Duo Identity &amp; Physical Safeguards</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px;">
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="chkIdentity" ${checkState.identity ? 'checked' : ''}> Preserve Reference Woman Identity
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="chkSolitaryFemale" ${checkState.solitaryFemale ? 'checked' : ''}> Strictly Solitary Female Model (Zero secondary women)
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="chkSkin" ${checkState.skinTexture ? 'checked' : ''}> Natural Skin Pores &amp; Facial Asymmetry
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="chkHair" ${checkState.hairPhysics ? 'checked' : ''}> Kinetic Hair Physics &amp; Authentic Strand Density
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="chkFabric" ${checkState.authenticFabric ? 'checked' : ''}> Believable Garment Weight, Leather &amp; Folds
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);cursor:pointer;">
+              <input type="checkbox" id="chkText" ${checkState.noWatermark ? 'checked' : ''}> Exclude Text Overlays, Logos &amp; Watermarks
+            </label>
+          </div>
+
+          <h3 class="grp" style="margin-top:10px;">Custom Creative Direction</h3>
+          <textarea id="customDirInput" class="prompt-area" style="min-height:70px;" placeholder="Add custom romantic storyline, specific motorcycle brand (e.g. Royal Enfield Meteor 350 / cafe racer), or jewelry detail...">${customDirection}</textarea>
+
+          <h3 class="grp" style="margin-top:10px;">Extra Exclusions / Negative Guidance</h3>
+          <textarea id="extraNegInput" class="prompt-area" style="min-height:55px;" placeholder="Add extra unwanted elements (e.g. helmets with full face shields, crowded tourist background)...">${extraNegative}</textarea>
+        </div>
+      `;
+      sp.querySelector('#chkIdentity')?.addEventListener('change', e => { checkState.identity = e.target.checked; buildPrompt(); });
+      sp.querySelector('#chkSolitaryFemale')?.addEventListener('change', e => { checkState.solitaryFemale = e.target.checked; buildPrompt(); });
+      sp.querySelector('#chkSkin')?.addEventListener('change', e => { checkState.skinTexture = e.target.checked; buildPrompt(); });
+      sp.querySelector('#chkHair')?.addEventListener('change', e => { checkState.hairPhysics = e.target.checked; buildPrompt(); });
+      sp.querySelector('#chkFabric')?.addEventListener('change', e => { checkState.authenticFabric = e.target.checked; buildPrompt(); });
+      sp.querySelector('#chkText')?.addEventListener('change', e => { checkState.noWatermark = e.target.checked; buildPrompt(); });
+      sp.querySelector('#customDirInput')?.addEventListener('input', e => { customDirection = e.target.value; buildPrompt(); });
+      sp.querySelector('#extraNegInput')?.addEventListener('input', e => { extraNegative = e.target.value; buildPrompt(); });
+    } else {
+      sp.innerHTML = '';
+    }
+  }
+}
+
+function buildPrompt(){
+  const hairText = val('romanceHair');
+  const hairLabel = values.romanceHair?.label || 'cut';
+  const covLabel = values.romanceHairFaceCoverage?.label || '';
+  const covVal = val('romanceHairFaceCoverage');
+  const veilTier = parseVeilTier(covLabel);
+  const hairArch = detectHairArchitecture(values.romanceHair, hairText);
+  const veilRuleObj = getVeilRule(veilTier, hairArch);
+
+  const obfuscMode = values.romanceFaceObfuscMode?.text || 'none';
+  const hasObfuscation = (obfuscMode !== 'none' && obfuscMode !== 'hair_veil');
+  const isDeepVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
+  const hideEyes = isDeepVeil || hasObfuscation;
+
+  const partnerText = val('romancePartner');
+  const dynamicText = val('romanceDynamic');
+  const touchText = val('romanceTouch');
+  const exprRaw = val('romanceExpression');
+  const exprText = hideEyes ? sanitizeHiddenFaceText(exprRaw, true, veilTier, obfuscMode) : exprRaw;
+
+  let apparelText = '';
+  if(wardrobeMode === 'separates'){
+    const topT = val('topPiece') || 'a cropped black biker camisole';
+    const botT = val('bottomPiece') || 'distressed micro denim cutoff shorts';
+    const midT = val('midriffStyling') || 'bare midriff with natural skin texture';
+    apparelText = `${topT} paired with ${botT} (${midT})`;
+  } else {
+    apparelText = val('romanceOutfit') || 'a cropped black leather moto jacket worn over a ribbed tank and denim';
+  }
+
+  const moistClause = romanceHairMoisture === 'wet'
+    ? 'Mandatory Wet Hair Physics: Thoroughly water-soaked, dripping strands clumping in heavy glossy ribbons against her temples, neck, and leather collar with authentic aquatic luster.'
+    : (romanceHairMoisture === 'damp'
+      ? 'Damp Hair Physics: Cleanly misted damp strands holding soft road-spray moisture and fine droplet sheen.'
+      : 'Dry Blown-Out Hair Physics: Fresh, lightweight dry hair catching wind currents with voluminous bounce, natural strand separation, and fine organic flyaways.');
+
+  const settingText = val('romanceSetting');
+  const lightingText = val('romanceLighting');
+  const framingText = val('romanceFraming');
+  const angleText = val('romanceAngle');
+  const lensText = val('romanceLens');
+  const aspectText = val('aspect');
+  const makeupText = val('romanceMakeup');
+
+  const lines = [];
+
+  if(reelMode){
+    // 2-Shot Couple Video Clip Reel format
+    lines.push('CINEMATIC 2-SHOT COUPLE VIDEO REEL · HIGHWAY & INTIMACY SEQUENCE');
+    lines.push('');
+    lines.push('SCENE OVERVIEW & DUO CAST CONTINUITY:');
+    lines.push('• Format: 2-shot continuous narrative video reel (6–8s total duration).');
+    lines.push(`• Solitary Female Model: Identical adult South Asian woman from reference wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
+    lines.push(`• Male Partner: ${partnerText}.`);
+    lines.push(`• Intimacy Dynamic: ${dynamicText}. Proximity: ${touchText}.`);
+    lines.push(`• Setting & Light: ${settingText} under ${lightingText}. Lens: ${lensText}. Aspect ratio: ${aspectText}.`);
+    lines.push(`• ${moistClause}`);
+
+    const obfuscClause = buildObfuscClause(obfuscMode, hairArch);
+    if(obfuscClause) lines.push(`• ${obfuscClause}`);
+    if(veilRuleObj?.strict) lines.push(`• HAIR VEIL CONTINUITY: ${veilRuleObj.strict}`);
+
+    lines.push('');
+    lines.push('CHRONOLOGICAL 2-SHOT ACTION TIMELINE:');
+    lines.push(`• SHOT 1 (0s–3.5s · ESTABLISHING MOTION): Wide-to-medium camera tracking at matching speed alongside the scene; ${angleText}; ${touchText}; dynamic wind catching her hair in realistic flow.`);
+    lines.push(`• SHOT 2 (3.5s–7s · PEAK ROMANCE CLIMAX): Seamless cut into an intimate ${framingText}; ${exprText}; subtle speed deceleration into cinematic slow-motion; mutual eye contact or tender touch resolve.`);
+    lines.push('• AUDIO AMBIENCE: Throaty rumble of the motorcycle engine exhaust, coastal wind rush, distant soft vinyl cafe music.');
+  } else {
+    // Single editorial photograph format
+    lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · ROMANTIC COUPLE EDITORIAL');
+    lines.push('');
+    lines.push('PRIMARY SUBJECT (REFERENCE IMAGE) & SOLITARY FEMALE RULE:');
+    lines.push('• Strictly preserve the adult woman from the reference image as the primary female model.');
+    lines.push('• Solitary Female Model Rule: She is strictly and exclusively the ONLY woman in the entire frame (zero secondary women, zero female passersby, zero extra females).');
+    lines.push(`• Signature Haircut: Authentic natural Indian hair fiber sculpted into ${hairText} (${hairLabel}).`);
+    lines.push(`• Wardrobe: ${apparelText}. Makeup: ${makeupText}.`);
+
+    const obfuscClause = buildObfuscClause(obfuscMode, hairArch);
+    if(obfuscClause){
+      lines.push('• ' + obfuscClause);
+    }
+    if(veilRuleObj?.primary){
+      lines.push(veilRuleObj.primary);
+    }
+    lines.push(`• ${moistClause}`);
+
+    lines.push('');
+    lines.push('COUPLE INTERACTION & MALE PARTNER DYNAMICS:');
+    lines.push(`• Male Partner Presence: ${partnerText}.`);
+    lines.push(`• Shared Romantic Moment: ${dynamicText}.`);
+    lines.push(`• Physical Touch & Proximity: ${touchText}.`);
+    lines.push(`• Expression & Chemistry: ${exprText}.`);
+
+    lines.push('');
+    lines.push('ENVIRONMENT, SETTING & LIGHTING:');
+    lines.push(`• Location & Backdrop: ${settingText}.`);
+    lines.push(`• Lighting Mood: ${lightingText}.`);
+
+    lines.push('');
+    lines.push('CAMERA, FRAMING & OPTICS:');
+    lines.push(`• Framing: ${framingText}. Perspective: ${angleText}.`);
+    lines.push(`• Optical Character: ${lensText}. Aspect ratio: ${aspectText}.`);
+  }
+
+  if(veilRuleObj?.strict && !reelMode){
+    lines.push('');
+    lines.push('HAIR VEIL ENFORCEMENT:');
+    lines.push(`• ${veilRuleObj.strict}`);
+  }
+
+  if(customDirection.trim()){
+    lines.push('');
+    lines.push('ADDITIONAL CREATIVE DIRECTION:');
+    lines.push(customDirection.trim());
+  }
+
+  const checks = [];
+  if(hasObfuscation){
+    checks.push(`Strict Face Privacy (${values.romanceFaceObfuscMode?.label || obfuscMode}): Conceal facial identity zone cleanly in accordance with the specified method with zero recognizable frontal portraits.`);
+  }
+  if(checkState.identity) checks.push('Preserve identical facial features, Indian heritage skin tone, and natural eye shape from reference without identity drift.');
+  if(checkState.solitaryFemale) checks.push('Exclusively solitary female model: ensure all partners and background bystanders are male with zero secondary women.');
+  if(checkState.skinTexture) checks.push('Authentic dermal micro-pores, natural skin luster, and fine facial asymmetry; zero plastic doll smoothing.');
+  if(checkState.hairPhysics) checks.push('Organic kinetic hair strand movement and authentic density; realistic wind drag without synthetic spaghetti clumps.');
+  if(checkState.authenticFabric) checks.push('Believable garment weight, natural leather creasing, realistic motorcycle hardware, and believable fabric tension.');
+  if(checkState.noWatermark) checks.push('Strictly zero text overlays, brand logos, watermarks, or typography.');
+
+  lines.push('');
+  lines.push('CONTINUITY & REALISM SAFEGUARDS:');
+  checks.forEach(c => lines.push('• ' + c));
+
+  const negs = [
+    'secondary women, extra women, multiple women, female bystanders, female riders',
+    'identity drift, plastic airbrushed skin, CGI doll faces, deformed hands or extra fingers',
+    'stiff stock-photo poses, awkward disconnected couple distance, artificial waxy glow',
+    'helmet with full tinted dark visor completely hiding head silhouette when open helmet requested',
+    'impossible motorcycle anatomy, melted engine chrome, floating bike wheels, warped handlebars'
+  ];
+  if(obfuscMode && obfuscMode !== 'none' && obfuscMode !== 'hair_veil'){
+    const obfNegs = getObfuscNegatives(obfuscMode);
+    if(obfNegs.length) negs.push(...obfNegs);
+  }
+  if(veilRuleObj?.neg) negs.push(veilRuleObj.neg);
+  if(romanceHairMoisture === 'wet') negs.push('dry hair, dry fluffy hair, static flyaways, dry puffy crown');
+  else if(romanceHairMoisture === 'dry') negs.push('soaked wet hair, water-drenched hair, dripping clumps');
+  if(extraNegative.trim()) negs.push(extraNegative.trim());
+
+  const dedupedNegs = dedupeNegatives(negs);
+
+  lines.push('');
+  lines.push('AVOID / NEGATIVE GUIDANCE:');
+  dedupedNegs.forEach(n => lines.push('• ' + n));
+
+  const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+  const promptEl = el('prompt');
+  if(promptEl){
+    promptEl.value = text;
+    promptEl.textContent = text;
+  }
+  const words = text.trim().split(/\s+/).length;
+  const tokens = estimateTokens(text);
+  if(el('wordCount')) el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ~${tokens.toLocaleString()} tokens · ${reelMode ? '2-Shot Reel' : 'Photo Shot'}`;
+  if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
+
+  const moistMap = { dry: 'Dry Blown-out', damp: 'Damp Misted', wet: 'Soaked Wet' };
+  const summaryIds = [
+    'romanceDynamic',
+    'romanceHair',
+    'romanceHairFaceCoverage',
+    ...(hasObfuscation ? ['romanceFaceObfuscMode'] : []),
+    'romanceSetting',
+    'romanceLighting'
+  ];
+  const sumTags = summaryIds
+    .filter(id => fields[id] && values[id])
+    .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: <strong>${values[id].label}</strong></span>`);
+  sumTags.splice(3, 0, `<span class="summary-tag" title="Hair moisture">Moisture: <strong>${moistMap[romanceHairMoisture]}</strong></span>`);
+  if(reelMode) sumTags.unshift('<span class="summary-tag" style="border-color:#f43f5e;color:#fda4af;">Mode: <strong>2-Shot Reel</strong></span>');
+  if(el('summary')) el('summary').innerHTML = sumTags.join('');
+  if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent = `${values.romanceDynamic?.label || 'Romance'} · ${values.romanceSetting?.label || ''}`;
+
+  document.querySelectorAll('.ratio-chip').forEach(c => c.classList.toggle('active', (values.aspect?.label || '').includes(c.dataset.ratio)));
+  save();
+  return text;
+}
+
+function syncReelModeButtons(){
+  el('btnSingleMode')?.classList.toggle('active', !reelMode);
+  el('btnReelMode')?.classList.toggle('active', reelMode);
+}
+
+el('btnSingleMode')?.addEventListener('click', () => { reelMode = false; syncReelModeButtons(); renderFields(); buildPrompt(); });
+el('btnReelMode')?.addEventListener('click', () => { reelMode = true; syncReelModeButtons(); renderFields(); buildPrompt(); });
+
+function renderPresets(){
+  const host = el('presets');
+  if(!host) return;
+  host.innerHTML = '';
+  const allPresets = [...customPresets, ...starterRomancePresets];
+  allPresets.forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset' + (p.id === activePreset ? ' active' : '');
+    b.innerHTML = `
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="font-size:16px;">${p.icon || '💕'}</span>
+        <strong style="font-size:13px;color:var(--text);">${p.title}</strong>
+      </div>
+      <small style="color:var(--muted);font-size:11px;line-height:1.3;">${p.sub || ''}</small>
+    `;
+    b.addEventListener('click', () => {
+      activePreset = p.id;
+      if(p.set){
+        Object.entries(p.set).forEach(([k, v]) => {
+          if(k === 'romanceHairMoisture') romanceHairMoisture = v;
+          else if(fields[k]) values[k] = v;
+        });
+      }
+      document.querySelectorAll('.preset').forEach(x => x.classList.toggle('active', x === b));
+      renderFields();
+      buildPrompt();
+      toast(`Applied preset “${p.title}”.`);
+    });
+    host.appendChild(b);
+  });
+}
+
+function randomizeAll(){
+  Object.keys(fields).forEach(k => {
+    const opts = fields[k].opts;
+    values[k] = opts[Math.floor(Math.random() * opts.length)];
+  });
+  const moistures = ['dry', 'damp', 'wet'];
+  romanceHairMoisture = moistures[Math.floor(Math.random() * moistures.length)];
+  activePreset = '';
+  document.querySelectorAll('.preset').forEach(x => x.classList.remove('active'));
+  renderFields();
+  buildPrompt();
+  toast('✦ Surprised you with a new romantic direction!');
+}
+
+function resetAll(){
+  Object.keys(fields).forEach(k => { values[k] = fields[k].opts[fields[k].def || 0]; });
+  romanceHairMoisture = 'dry';
+  wardrobeMode = 'ensemble';
+  reelMode = false;
+  activePreset = '';
+  customDirection = '';
+  extraNegative = '';
+  syncReelModeButtons();
+  document.querySelectorAll('.preset').forEach(x => x.classList.remove('active'));
+  renderFields();
+  buildPrompt();
+  toast('Reset to default romantic baseline.');
+}
+
+function saveCustomRomancePreset(optName){
+  const name = (typeof optName === 'string' && optName.trim()) ? optName : prompt('Name this custom romantic look:', 'Romance ' + (customPresets.length + 1));
+  if(!name || !name.trim()) return null;
+  const setObj = { romanceHairMoisture, wardrobeMode };
+  Object.keys(fields).forEach(k => { setObj[k] = values[k]; });
+  const p = { id: 'rom_' + Date.now(), title: name.trim(), sub: `${values.romanceDynamic?.label || ''} · ${values.romanceHair?.label || ''}`, icon: '⭐', set: setObj };
+  customPresets.unshift(p);
+  save();
+  renderPresets();
+  toast(`Saved “${p.title}”.`);
+  return p;
+}
+
+function exportPresets(){
+  const payload = { version: 1, studio: 'romance', exportedAt: new Date().toISOString(), customPresets };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a'), u = URL.createObjectURL(blob);
+  a.href = u; a.download = 'afterglow-romance-presets.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 1000);
+}
+
+function importPresetsFromData(parsed){
+  const list = Array.isArray(parsed) ? parsed : (parsed?.customPresets || null);
+  if(!list) throw new Error('Invalid JSON');
+  let added = 0;
+  list.forEach(raw => {
+    if(!raw?.title || customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
+    customPresets.unshift(raw); added++;
+  });
+  save(); renderPresets(); return added;
+}
+
+function toast(msg){
+  const t = el('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.classList.remove('flash');
+  void t.offsetWidth;
+  t.classList.add('flash');
+}
+
+function recordHistory(){
+  const t = el('prompt')?.value.trim();
+  if(!t) return;
+  if(!promptHistory.length || promptHistory[0].text !== t){
+    promptHistory.unshift({ id: Date.now(), title: `${values.romanceDynamic?.label || 'Romantic Moment'}`, sub: values.romanceSetting?.label || '', text: t, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), words: t.split(/\s+/).length });
+    if(promptHistory.length > 25) promptHistory.pop();
+    if(el('historyBadge')) el('historyBadge').textContent = promptHistory.length;
+    try { localStorage.setItem('afterglow_romance_hist', JSON.stringify(promptHistory)); } catch(e){}
+  }
+}
+
+function copy(text){
+  recordHistory();
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(() => toast('Copied prompt to clipboard.')).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); toast('Copied prompt.'); } catch(e){ toast('Please copy manually.'); }
+  document.body.removeChild(ta);
+}
+
+function downloadTxt(){
+  const t = el('prompt')?.value || '';
+  const blob = new Blob([t], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a'), u = URL.createObjectURL(blob);
+  a.href = u; a.download = 'afterglow-romantic-prompt.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 1000);
+}
+
+function save(){
+  try {
+    const data = {
+      values: {},
+      romanceHairMoisture,
+      wardrobeMode,
+      reelMode,
+      customPresets,
+      customDirection,
+      extraNegative
+    };
+    Object.keys(fields).forEach(k => { data.values[k] = values[k]?.label || ''; });
+    localStorage.setItem('afterglow_romance_v1', JSON.stringify(data));
+  } catch(e){}
+}
+
+function load(){
+  try {
+    const raw = localStorage.getItem('afterglow_romance_v1');
+    if(!raw) return;
+    const d = JSON.parse(raw);
+    if(d.values){
+      Object.keys(fields).forEach(k => {
+        if(d.values[k]){
+          const match = fields[k].opts.find(o => o.label === d.values[k]);
+          if(match) values[k] = match;
+        }
+      });
+    }
+    if(d.romanceHairMoisture) romanceHairMoisture = d.romanceHairMoisture;
+    if(d.wardrobeMode) wardrobeMode = d.wardrobeMode;
+    if(typeof d.reelMode === 'boolean') reelMode = d.reelMode;
+    if(Array.isArray(d.customPresets)) customPresets = d.customPresets;
+    if(typeof d.customDirection === 'string') customDirection = d.customDirection;
+    if(typeof d.extraNegative === 'string') extraNegative = d.extraNegative;
+  } catch(e){}
+}
+
+// UI Wire-up
+el('randomTop')?.addEventListener('click', randomizeAll);
+el('copyTop')?.addEventListener('click', () => copy(el('prompt').value));
+el('copy')?.addEventListener('click', () => copy(el('prompt').value));
+el('resetTop')?.addEventListener('click', resetAll);
+el('download')?.addEventListener('click', downloadTxt);
+el('copyPositive')?.addEventListener('click', () => {
+  const pos = extractPositivePrompt(el('prompt').value);
+  copy(pos);
+  toast('Copied positive prompt only.');
+});
+el('copyNegative')?.addEventListener('click', () => {
+  const neg = extractNegativePrompt(el('prompt').value);
+  copy(neg);
+  toast('Copied negative exclusions only.');
+});
+el('selectPrompt')?.addEventListener('click', () => {
+  const p = el('prompt');
+  p.focus(); p.select();
+});
+el('saveCustomLook')?.addEventListener('click', () => saveCustomRomancePreset());
+el('exportPresetsBtn')?.addEventListener('click', exportPresets);
+if(el('importPresetsBtn') && el('importPresetsInput')){
+  el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
+  el('importPresetsInput').addEventListener('change', e => {
+    const f = e.target.files?.[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => { try { toast(`✓ Imported ${importPresetsFromData(JSON.parse(r.result))} preset(s).`); } catch(err){ toast('Invalid JSON file.'); } e.target.value = ''; };
+    r.readAsText(f);
+  });
+}
+el('finishJump')?.addEventListener('click', () => goSection('finish'));
+
+// Ratio chips
+document.querySelectorAll('.ratio-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const r = chip.dataset.ratio;
+    const match = fields.aspect.opts.find(o => o.text.includes(r) || o.label.includes(r));
+    if(match){
+      values.aspect = match;
+      document.querySelectorAll('.ratio-chip').forEach(c => c.classList.toggle('active', c === chip));
+      buildPrompt();
+    }
+  });
+});
+
+// Mobile drawer & History modal
+const prev = document.querySelector('.preview'), back = el('drawerBackdrop');
+function openDrawer(){ prev?.classList.add('drawer-open'); back?.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeDrawer(){ prev?.classList.remove('drawer-open'); back?.classList.remove('active'); document.body.style.overflow = ''; }
+el('openDrawerBtn')?.addEventListener('click', openDrawer);
+el('closeDrawer')?.addEventListener('click', closeDrawer);
+back?.addEventListener('click', closeDrawer);
+el('sheetHandle')?.addEventListener('click', () => prev?.classList.contains('drawer-open') ? closeDrawer() : openDrawer());
+el('topQuickCopy')?.addEventListener('click', () => copy(el('prompt').value));
+
+function renderHistory(){
+  const hList = el('historyList');
+  if(!hList) return;
+  hList.innerHTML = '';
+  if(!promptHistory.length){
+    hList.innerHTML = '<div style="color:var(--muted);padding:14px;font-size:12px;">No saved history yet in this session.</div>';
+    return;
+  }
+  promptHistory.forEach((item, idx) => {
+    const row = document.createElement('div');
+    row.className = 'history-item';
+    row.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <strong style="color:var(--text);font-size:12px;">${item.title}</strong>
+        <small style="color:var(--muted);font-size:10px;">${item.time}</small>
+      </div>
+      <div style="color:var(--muted);font-size:11px;margin-bottom:6px;">${item.sub} · ${item.words} words</div>
+      <button type="button" class="btn btn-secondary btn-small" style="font-size:10px;padding:3px 8px;">Restore / View</button>
+    `;
+    row.querySelector('button')?.addEventListener('click', () => {
+      el('prompt').value = item.text;
+      el('prompt').textContent = item.text;
+      closeHistoryDrawer();
+      toast('Restored history entry.');
+    });
+    hList.appendChild(row);
+  });
+}
+function openHistoryDrawer(){
+  renderHistory();
+  el('historyDrawer')?.classList.add('active');
+  el('historyBackdrop')?.classList.add('active');
+}
+function closeHistoryDrawer(){
+  el('historyDrawer')?.classList.remove('active');
+  el('historyBackdrop')?.classList.remove('active');
+}
+el('openHistoryBtn')?.addEventListener('click', openHistoryDrawer);
+el('closeHistory')?.addEventListener('click', closeHistoryDrawer);
+el('historyBackdrop')?.addEventListener('click', closeHistoryDrawer);
+
+// Global click dismiss for select menus
+document.addEventListener('click', e => {
+  if(!e.target.closest('.custom-select')){
+    document.querySelectorAll('.custom-select.open').forEach(x => {
+      x.classList.remove('open');
+      x.querySelector('.select-trigger')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+// Initialization
+load();
+renderPresets();
+renderTabs();
+goSection(activeSection || 'romanceCoupleSec');
+buildPrompt();
+
+window.AfterglowRomanceStudio = {
+  getFields: () => fields,
+  getValues: () => values,
+  getCheckState: () => checkState,
+  buildPrompt,
+  renderFields,
+  renderPresets,
+  save,
+  load,
+  resetAll,
+  randomizeAll,
+  saveCustomRomancePreset,
+  importPresetsFromData,
+  importRomancePresetsFromData: importPresetsFromData,
+  getCustomPresets: () => customPresets,
+  getStarterPresets: () => starterRomancePresets,
+  getHair: () => hair,
+  getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getFaceObfuscModeOpts: () => faceObfuscModeOpts,
+  getBikeScenes: () => bikeScenes,
+  getDateVenues: () => dateVenues,
+  getCoupleInteractions: () => coupleInteractions,
+  getMoisture: () => romanceHairMoisture,
+  setMoisture: (m) => { romanceHairMoisture = m; renderFields(); buildPrompt(); },
+  getWardrobeMode: () => wardrobeMode,
+  setWardrobeMode: (m) => { wardrobeMode = m; renderFields(); buildPrompt(); },
+  getReelMode: () => reelMode,
+  setReelMode: (b) => { reelMode = !!b; syncReelModeButtons(); renderFields(); buildPrompt(); },
+  getExtractedPositive: () => extractPositivePrompt(el('prompt')?.value || ''),
+  getExtractedNegative: () => extractNegativePrompt(el('prompt')?.value || '')
+};
+window.AfterglowRomance = window.AfterglowRomanceStudio;
+
+})();
+</script>
+</body>
+</html>

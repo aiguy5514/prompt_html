@@ -43,6 +43,7 @@
   <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
   <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director</a>
   <a href="storyboard.html" class="suite-nav-link active"><span class="studio-btn-icon">🎞️</span> Storyboarder <span class="nav-badge">NEW</span></a>
+  <a href="romance.html" class="suite-nav-link"><span class="studio-btn-icon">💕</span> Romance <span class="nav-badge">NEW</span></a>
 </nav>
 <div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live sequence builder</span><span class="pill" id="totalOptionCount">Loading choices…</span><span class="pill">Offline · No uploads</span></div></header>
 
@@ -222,13 +223,15 @@ const {
   OUTFIT_FAMILIES, outfit,
   TOP_FAMILIES, topPieces,
   BOTTOM_FAMILIES, bottomPieces,
-  midriffStylings
+  midriffStylings,
+  faceObfuscModeOpts
 } = window.AfterglowDatasets;
 
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHiddenFaceText, cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
-  extractPositivePrompt, extractNegativePrompt
+  extractPositivePrompt, extractNegativePrompt,
+  buildObfuscClause, getObfuscNegatives
 } = window.AfterglowVeil;
 
 const el = id => document.getElementById(id);
@@ -581,6 +584,7 @@ const fields = {
   sbHair: { label: 'Global Locked Haircut (Identical Across All Frames)', opts: hair, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
   sbHairColor: { label: 'Locked Hair Color', opts: sbHairColors, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
   sbVeil: { label: 'Global Baseline Veil % (Can Override Per Frame)', opts: hairFaceCoverageOpts, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
+  sbFaceObfuscMode: { label: 'Global Face Concealment Method', opts: faceObfuscModeOpts, def: 0, section: 'sbGlobalCastSec', _grp: 'Haircut, Color & Baseline Veil' },
 
   // 02 Global World & Wardrobe
   sbVenue: { label: 'Global Environment & Architectural Setting', opts: sbWorldVenues, def: 0, section: 'sbWorldSec', _grp: 'World, Lighting & Cinema Grade' },
@@ -1036,8 +1040,11 @@ function resolveFrameDetails(idx){
       ? 'freshly spray-misted damp strands with fine droplets and cool sheen'
       : 'completely dry blown-out hair with natural bounce and airy movement');
 
-  const isConcealed = /conceal|shield|lateral side-profile|looking away/i.test(angle.label + ' ' + action.label) || ['65_70','80_85','95_100'].includes(veilTier);
-  const cleanAct = isConcealed ? sanitizeHiddenFaceText(action.text, true, veilTier) : action.text;
+  const sbObfuscMode = values.sbFaceObfuscMode?.text || 'none';
+  const hasSbObfusc = (sbObfuscMode !== 'none' && sbObfuscMode !== 'hair_veil');
+  const isConcealed = /conceal|shield|lateral side-profile|looking away/i.test(angle.label + ' ' + action.label) || ['65_70','80_85','95_100'].includes(veilTier) || hasSbObfusc;
+  const cleanAct = isConcealed ? sanitizeHiddenFaceText(action.text, true, veilTier, sbObfuscMode) : action.text;
+  const sbObfuscClause = buildObfuscClause(sbObfuscMode, hairArch);
 
   return {
     idx: idx + 1,
@@ -1047,7 +1054,9 @@ function resolveFrameDetails(idx){
     lensText,
     lightText: lightTwist.text ? lightTwist.text : val('sbGlobalLight'),
     note: fr.note ? fr.note.trim() : '',
-    isConcealed
+    isConcealed,
+    sbObfuscClause,
+    hasSbObfusc
   };
 }
 
@@ -1064,6 +1073,7 @@ function buildShotPrompt(det, globalCtx){
     `• Framing & Optics: ${det.crop.text} captured from ${det.angle.text} with ${det.lensText}.`,
     `• Moment & Action: ${det.cleanAct}.`,
     `• Active Hair Moisture: ${det.moistStr}.`,
+    det.sbObfuscClause ? `• Face Privacy: ${det.sbObfuscClause}` : '',
     det.effVeilOpt?.text ? `• Facial Veil Coverage: ${det.effVeilOpt.text}.` : '',
     det.veilRuleObj?.strict ? `• STRICT VEIL ENFORCEMENT: ${det.veilRuleObj.strict}` : '',
     `• Lighting & Ratio: ${det.lightText}. Aspect ratio: ${globalCtx.aspect}.`,
@@ -1141,6 +1151,9 @@ function buildPrompt(){
   const wardrobeFull = capeWrap ? `${baseWardrobe}, layered with ${capeWrap}` : baseWardrobe;
 
   const checks = [];
+  const sbGlobalObfuscMode = values.sbFaceObfuscMode?.text || 'none';
+  const hasSbGlobalObfusc = (sbGlobalObfuscMode !== 'none' && sbGlobalObfuscMode !== 'hair_veil');
+  if(hasSbGlobalObfusc) checks.push(`Apply strict face privacy (${values.sbFaceObfuscMode?.label || sbGlobalObfuscMode}): facial features must remain concealed per chosen obfuscation method across all panels.`);
   if(checkState.strictIdentity) checks.push('Strictly preserve identical facial features, Indian skin tone, and bone structure from the reference image.');
   if(checkState.strictWardrobe) checks.push(`Keep the exact same haircut (${hairLabel}) and core wardrobe unbroken across all frames.`);
   if(checkState.solitarySubject) checks.push('Solitary female subject: strictly zero secondary women anywhere in frame or background.');
@@ -1151,6 +1164,8 @@ function buildPrompt(){
       'identity drift, different face across shots, inconsistent haircut length, swapped wardrobe colors',
       'secondary women, multiple women in background, plastic CGI airbrushed skin, deformed extra fingers'
     ];
+    const sbObfuscNegs = getObfuscNegatives(sbGlobalObfuscMode);
+    if(sbObfuscNegs.length) negs.push(...sbObfuscNegs);
     if(singleDet?.veilRuleObj?.neg) negs.push(singleDet.veilRuleObj.neg);
     if(singleDet?.effMoist === 'wet') negs.push('dry fluffy hair, static flyaways');
     else if(singleDet?.effMoist === 'dry') negs.push('soaked wet dripping clumps');
@@ -1230,6 +1245,7 @@ function buildPrompt(){
   const sumTags = [
     `<span class="summary-tag">Frames: <strong>${frameCount} Shots</strong></span>`,
     `<span class="summary-tag">Hair: <strong>${values.sbHair?.label || ''}</strong></span>`,
+    ...(hasSbGlobalObfusc ? [`<span class="summary-tag">Privacy: <strong>${values.sbFaceObfuscMode?.label || ''}</strong></span>`] : []),
     `<span class="summary-tag">Moisture: <strong>${moistMap[globalHairMoisture]}</strong></span>`,
     `<span class="summary-tag">Venue: <strong>${values.sbVenue?.label || ''}</strong></span>`
   ];
@@ -1370,6 +1386,8 @@ window.AfterglowStoryboard = {
   buildPrompt, renderFields, save, load, resetAll,
   saveCustomStoryPreset, importStoriesFromData, getCustomPresets: () => customPresets,
   getHair: () => hair,
+  getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getFaceObfuscModeOpts: () => faceObfuscModeOpts,
   getMoisture: () => globalHairMoisture, setMoisture: m => { globalHairMoisture = m; renderFields(); buildPrompt(); },
   getExtractedPositive: () => extractPositivePrompt(el('prompt').value),
   getExtractedNegative: () => extractNegativePrompt(el('prompt').value)

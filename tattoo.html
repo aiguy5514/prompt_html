@@ -18,6 +18,7 @@
   <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
   <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director <span class="nav-badge">NEW</span></a>
   <a href="storyboard.html" class="suite-nav-link"><span class="studio-btn-icon">🎞️</span> Storyboarder <span class="nav-badge">NEW</span></a>
+  <a href="romance.html" class="suite-nav-link"><span class="studio-btn-icon">💕</span> Romance <span class="nav-badge">NEW</span></a>
 </nav>
 <div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">180+ curated choices</span><span class="pill">Offline · No uploads</span></div></header>
 <section class="hero"><div><div class="eyebrow" id="heroEyebrow">Reference-led creative direction · Fine-Line & Macro Body Art</div><h1 id="heroTitle">Tattoo & <span>Body Art</span><br>Experience Studio</h1><p id="heroDescription">Direct intimate, tactile, photorealistic fine-line tattoo portraits on your reference model. Choose anatomical body placements, signature haircuts, cinematic shoot locations, fine-line ink motifs, and extreme macro optics.</p><div class="hero-actions"><button class="btn btn-primary" id="randomTop">✦ Surprise me</button><button class="btn btn-secondary" id="copyTop">▣ Copy current prompt</button><button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button><button class="btn btn-quiet" id="resetTop">↺ Start over</button></div></div><aside class="hero-note"><div class="sparkle">✧ ✦ ✧</div><div><strong>Bold, not generic.</strong><p>Shape the entire shoot, not just the outfit. Every choice updates a detailed prompt in real time.</p><div class="tags"><span class="tag">13 Body Placements</span><span class="tag">Expanded Haircuts</span><span class="tag">Cinematic Locations</span><span class="tag">100mm Macro Framing</span></div></div></aside></section>
@@ -91,13 +92,15 @@ const {
   OUTFIT_FAMILIES, outfit,
   TOP_FAMILIES, topPieces,
   BOTTOM_FAMILIES, bottomPieces,
-  midriffStylings
+  midriffStylings,
+  faceObfuscModeOpts
 } = window.AfterglowDatasets;
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
   cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
-  extractPositivePrompt, extractNegativePrompt
+  extractPositivePrompt, extractNegativePrompt,
+  buildObfuscClause, getObfuscNegatives
 } = window.AfterglowVeil;
 const el = id => document.getElementById(id);
 
@@ -565,6 +568,7 @@ const fields = {
   tattooHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
   tattooHair: { label: 'Haircut & Hair Styling (260+ styles)', opts: hair, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
   tattooHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
+  tattooFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
 
   // tattooPlacementSec
   tattooPlacement: { label: 'Anatomical Body Placement', opts: tattooPlacements, def: 0, section: 'tattooPlacementSec', _grp: 'Anatomical Placement' },
@@ -1398,7 +1402,9 @@ function buildPrompt(){
   const poseStr = (poseObj?.label || '') + ' ' + (pose || '');
   const isFaceHidden = /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(camStr) ||
                        /shield\w*.*face|conceal\w*.*face|face.*hidden|hid\w*.*face|touching temple|face.*not visible|face.*turned away|turned.*looking away|gazing away|gaze.*away|turned.*away|sideways.*away|gazing.*distance/i.test(poseStr);
-  const hideEyes = isFaceHidden || isTattooHeavyVeil || isTattoo65_70;
+  const tattooObfuscMode = values.tattooFaceObfuscMode?.text || 'none';
+  const hasTattooObfusc = (tattooObfuscMode !== 'none' && tattooObfuscMode !== 'hair_veil');
+  const hideEyes = isFaceHidden || isTattooHeavyVeil || isTattoo65_70 || hasTattooObfusc;
 
   const expr = hideEyes
     ? ''
@@ -1419,6 +1425,10 @@ function buildPrompt(){
   lines.push('');
   lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
   lines.push('• Strictly preserve the adult woman from the reference image as the sole female model in the frame.');
+  const tattooObfuscClause = buildObfuscClause(tattooObfuscMode, tattooHairArch);
+  if(tattooObfuscClause){
+    lines.push('• ' + tattooObfuscClause);
+  }
   if(isFaceHidden){
     lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
   } else if(isTattoo95_100){
@@ -1511,6 +1521,9 @@ function buildPrompt(){
 
   // Preservations & Quality Checks
   const checks = [];
+  if(hasTattooObfusc){
+    checks.push(`Apply strict face privacy (${values.tattooFaceObfuscMode?.label || tattooObfuscMode}): facial features must remain concealed per chosen obfuscation method with zero clear identity portraits.`);
+  }
   if(checkState.identity){
     if(isFaceHidden){
       checks.push('Preserve the same adult woman from the reference, maintaining her warm Indian skin tone, body proportions, and natural hair texture, while respecting that her face is turned sideways looking away and not visible to the lens.');
@@ -1540,6 +1553,10 @@ function buildPrompt(){
     isHealedMatte ? 'fresh red inflammation, shiny oily bandage ointment gloss' : 'faded chalky washed-out ink when fresh ink requested'
   ];
   if(isFaceHidden) negs.push('visible front facial view, frontal eye contact, revealing turned-away face');
+  const tattooObfuscNegs = getObfuscNegatives(tattooObfuscMode);
+  if(tattooObfuscNegs.length){
+    negs.push(...tattooObfuscNegs);
+  }
 
   // Tier-matched negatives
   if(tattooVeilRuleObj?.neg){
@@ -1576,7 +1593,9 @@ function buildPrompt(){
     ...(values.tattooSecondaryPlacement && values.tattooSecondaryPlacement.text !== 'none' ? ['tattooSecondaryPlacement'] : []),
     'tattooMotif', 'tattooStyle',
     ...(wardrobeMode === 'separates' ? ['topPiece', 'bottomPiece'] : ['outfit']),
-    'tattooHair', 'tattooHairFaceCoverage', 'tattooCamera', 'tattooLocation'
+    'tattooHair', 'tattooHairFaceCoverage',
+    ...(hasTattooObfusc ? ['tattooFaceObfuscMode'] : []),
+    'tattooCamera', 'tattooLocation'
   ];
   const summaryEl = el('summary');
   if(summaryEl){
@@ -2031,6 +2050,7 @@ window.AfterglowTattoo = {
   getTattooPresets: () => tattooPresets,
   getHair: () => hair,
   getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getFaceObfuscModeOpts: () => faceObfuscModeOpts,
   getMoisture: () => tattooHairMoisture,
   setMoisture: (m) => { tattooHairMoisture = m; renderFields(); buildPrompt(); },
   getExtractedPositive: () => extractPositivePrompt(el('prompt')?.value || ''),
