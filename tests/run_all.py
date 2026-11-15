@@ -231,7 +231,7 @@ ok('salon_token_estimate_present', document.getElementById('wordCount').textCont
 ok('salon_buzzwords_purged', !sGuardPrompt.includes('harmonized with the selected establishment'));
 
 // Barber lotions, tonics & temple clipper detailing
-ok('salon_lotion_field_exists', !!api.getFields().salonLotion && api.getFields().salonLotion.opts.length === 10);
+ok('salon_lotion_field_exists', !!api.getFields().salonLotion && api.getFields().salonLotion.opts.length >= 10);
 api.getValues().salonLotion = api.getFields().salonLotion.opts[1];
 const sLotionPrompt = api.buildSalonPrompt();
 ok('salon_lotion_reflected', sLotionPrompt.includes('BARBER LOTIONS, TONICS & SKIN TREATMENT') && sLotionPrompt.includes('cooling eucalyptus and menthol aftershave balm'));

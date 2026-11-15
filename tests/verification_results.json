@@ -60,7 +60,7 @@
     "id": "1b",
     "title": "POSE_FAMILIES Option Count Sync",
     "status": "PASS",
-    "evidence": "POSE_FAMILIES label '\u2726 All Poses (264 options)' matches actual count 264."
+    "evidence": "POSE_FAMILIES label '\u2726 All Poses (288 options)' matches actual count 288."
   },
   {
     "auditor": "datasets_auditor",
@@ -74,7 +74,7 @@
     "id": "1d",
     "title": "salonVenue Category Option Synchronization",
     "status": "PASS",
-    "evidence": "salonVenue label: '\u2726 All Establishments (52 choices)' matches actual count 52."
+    "evidence": "salonVenue label: '\u2726 All Establishments (66 choices)' matches actual count 66."
   },
   {
     "auditor": "datasets_auditor",

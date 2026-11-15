@@ -122,7 +122,32 @@ addOptions(pose, makeOpts([
   ['Intimate collarbone touch with parted lips', 'touching her collarbone lightly with one hand, lips slightly parted and eyes fixed directly on the lens'],
   ['One knee raised, leaning against wall', 'resting one foot back against a textured wall with relaxed hip tilt and self-assured composure'],
   ['High-fashion hand-on-hip silhouette', 'standing with hands pressing firmly into her waist, elbows flared in a commanding high-fashion silhouette'],
-  ['Pivoting mid-turn with hair whipping around', 'caught in the split-second of a quick pivot as her newly styled hair whips dynamically through the frame']
+  ['Pivoting mid-turn with hair whipping around', 'caught in the split-second of a quick pivot as her newly styled hair whips dynamically through the frame'],
+  // Kinetic, Architectural & Editorial Poses Expansion
+  ['180-degree kinetic pivot with hair whip', 'executing a sudden 180-degree kinetic pivot as her hair whips dynamically across the frame in a radial arc with airborne flyaways', '', 'motion'],
+  ['Over-shoulder glance mid-stride on runway', 'captured mid-stride along a runway, glancing sharply over one shoulder with fierce editorial intensity while fabric moves with inertia', '', 'motion'],
+  ['Forward athletic power stride toward lens', 'walking aggressively forward toward the lens with a long athletic stride, arms swinging with deliberate symmetry and eyes locked on camera', '', 'motion'],
+  ['Spiral turn with cascading hair centrifugal arc', 'spinning in a graceful spiral rotation as centrifugal force fans her hair outward in a wide, sweeping halo of motion', '', 'motion'],
+  ['Studio industrial wind-machine dramatic billow', 'standing planted against the blast of a studio wind machine, her hair and outfit billowing dramatically backwards in sculptural aerodynamic folds', '', 'motion'],
+  ['Vertical updraft floating hair suspension', 'facing the camera as a vertical wind updraft lifts fine hair strands straight upward into weightless airy suspension around her crown', '', 'motion'],
+  ['Curtain fringe flutter in coastal breeze', 'chin tilted softly into an ocean breeze, wispy curtain bangs fluttering gently across her eyes and temple', '', 'motion'],
+  ['Back-arch hair cascade with floating hemline', 'arching her back gracefully with hands on waist, letting long hair cascade freely toward the floor while her garment hemline floats in air', '', 'motion'],
+  ['Brutalist concrete wall lean with angled hip', 'leaning sideways against a raw board-formed concrete wall with one hip angled out, one hand resting on the textured stone and direct relaxed gaze', '', 'leaning'],
+  ['Sandstone archway frame lean with crossed ankles', 'leaning casually inside an antique scalloped sandstone archway, ankles crossed comfortably, arms resting loosely against the stonework', '', 'leaning'],
+  ['Balcony balustrade lean overlooking city dusk', 'leaning forward over a stone balcony balustrade with forearms resting on the ledge, looking pensively out over the dusk skyline bokeh', '', 'leaning'],
+  ['Fluted architectural pillar lean with silhouette profile', 'leaning one shoulder and upper arm against a tall classical fluted pillar, head turned into profile to highlight jawline and haircut perimeter', '', 'leaning'],
+  ['Editorial floor lounge on polished concrete', 'reclining low on the polished concrete floor propped up on one elbow, legs extended gracefully with relaxed posture and intense direct camera contact', '', 'seated'],
+  ['Low velvet chaise lounge dramatic sprawl', 'sprawled dramatically across a low modernist velvet chaise, head draped gently backward over the armrest with neck elongated and eyes half-closed', '', 'seated'],
+  ['Radial hair halo spread on studio paper floor', 'lying flat on her back on seamless studio backdrop paper, hair fanned out radially in a meticulous geometric halo around her face, looking straight up into the lens', '', 'seated'],
+  ['Cross-legged perch on architectural stone block', 'perched comfortably cross-legged atop a minimal travertine block, hands loosely cupping her ankles, shoulders relaxed with quiet confidence', '', 'seated'],
+  ['Monolithic power stance with hands planted on hips', 'standing tall in a wide commanding stance with both palms planted firmly on hips, elbows flared, chest open and chin held high with unshakeable authority', '', 'standing'],
+  ['Sculptural classical contrapposto stance', 'standing in an effortless high-fashion contrapposto with weight resting solidly on one leg, hips angled subtly, and spine curved in an organic S-line', '', 'standing'],
+  ['Backwards high-collar silhouette with sharp head turn', 'standing with back squarely turned to the camera wearing a structured high collar, suddenly turning her head 90 degrees to pierce the lens with an over-shoulder stare', '', 'standing'],
+  ['One-foot-forward freeze frame with coat sweep', 'freezing mid-motion with one boot planted forward and hand sweeping her tailored coat back to reveal the silhouette of the outfit', '', 'standing'],
+  ['Crinkled-nose genuine laugh between takes', 'crinkling her nose in an unscripted spontaneous laugh between formal takes, shoulders dropping naturally with believable facial warmth', '', 'candid'],
+  ['Lip-bite contemplation during lighting adjustment', 'biting her lower lip pensively with eyes looking slightly down and to the side while the photographer adjusts a reflector screen', '', 'candid'],
+  ['Amused side-smirk reacting to crew banter', 'flashing an amused, knowing side-smirk toward someone just out of frame while keeping her posture poised and elegant', '', 'candid'],
+  ['Sharp breath intake with parted lips before pose freeze', 'captured in the micro-second of a sharp breath intake, lips softly parted, eyes wide with electric anticipation as the shutter fires', '', 'candid']
 ]));
 
 addOptions(background, makeOpts([
@@ -131,7 +156,13 @@ addOptions(background, makeOpts([
   ['High-end marble dressing suite', 'an opulent marble dressing suite with garment rails, warm brass sconces, and soft ambient reflections'],
   ['Sunset rooftop terrace with skyline bokeh', 'a private city rooftop terrace at dusk with shimmering urban skyline bokeh lights'],
   ['Private luxury yacht deck', 'a sun-drenched teakwood deck of a private luxury yacht with glistening sea water caustics in the background'],
-  ['Mirrored salon suite with zero reflections', 'a glamorous architectural salon suite with warm designer lighting and uncluttered surfaces']
+  ['Mirrored salon suite with zero reflections', 'a glamorous architectural salon suite with warm designer lighting and uncluttered surfaces'],
+  // High-Fashion Locations Expansion
+  ['Brutalist concrete sky terrace with panoramic horizon', 'a dramatic rooftop terrace of board-formed raw concrete cantilevered high above the city skyline, open horizon and architectural parapet', '', 'architecture'],
+  ['Parisian wrought-iron hotel balcony overlooking limestone avenues', 'an ornate black wrought-iron hotel balcony overlooking Haussmann limestone boulevards with zinc rooftops in soft distant focus', '', 'luxury'],
+  ['Glass botanical greenhouse atrium with exotic palms', 'a soaring Victorian cast-iron and glass conservatory filled with towering tropical palms, hanging ferns, and misty diffused daylight', '', 'nature'],
+  ['Neon cyber night market alleyway with wet reflections', 'a vibrant narrow night market alley illuminated by glowing neon street signs, hanging paper lanterns, and glistening wet cobblestones', '', 'nightlife'],
+  ['Coastal cliffside stone pavilion overlooking crashing waves', 'a minimalist open stone pavilion perched atop a rugged coastal cliff, sea spray rising in the distance and crisp oceanic air', '', 'aquatic']
 ]));
 
 addOptions(lighting, makeOpts([
@@ -139,7 +170,16 @@ addOptions(lighting, makeOpts([
   ['Pool water caustics light reflection', 'shimmering pool water light caustics dancing across her skin and hair with warm atmospheric glow'],
   ['High-contrast chiaroscuro spotlight', 'a focused high-contrast chiaroscuro spotlight sculpting her facial contours with deep cinematic shadows'],
   ['Neon noir cyan and amber split light', 'atmospheric neon-noir lighting with a cool cyan key light balanced by a warm amber rim light'],
-  ['Sunset rim light with subtle lens flare', 'rich sunset rim lighting catching the outer silhouette of her hair and outfit with a subtle optical flare']
+  ['Sunset rim light with subtle lens flare', 'rich sunset rim lighting catching the outer silhouette of her hair and outfit with a subtle optical flare'],
+  // Cinematic & Prismatic Lighting Expansion
+  ['Prismatic rainbow crystal glass refractions', 'a directional beam of light passing through heavy beveled crystal glass, projecting delicate spectral rainbow refractions and chromatic flares across her cheek and collarbone', '', 'studio'],
+  ['Neon noir rain reflections on wet pavement', 'cinematic nighttime street lighting reflecting saturated magenta and cyan neon signs off glistening wet asphalt, casting vivid colorful rim accents across her silhouette', '', 'moody'],
+  ['Venetian blind sunbeam slats across face & eyes', 'crisp morning sunlight cutting through narrow Venetian blind slats, painting graphic alternating stripes of bright illumination and velvet shadow across her eyes and hair', '', 'daylight'],
+  ['Classical Rembrandt chiaroscuro with triangle highlight', 'dramatic classical chiaroscuro key lighting from a 45-degree high angle, creating a luminous signature inverted triangle highlight beneath the cheekbone on the shadowed side of her face', '', 'moody'],
+  ['Backstage 2700K tungsten vanity warmth', 'warm, intimate 2700K tungsten illumination pouring from incandescent makeup mirror vanity bulbs, wrapping her skin and hair in golden incandescent radiance against a dim studio', '', 'warm'],
+  ['Architectural Gobo shadow grid & leaf silhouettes', 'a focused ellipsoidal spotlight projecting crisp architectural windowpane and tropical monstera leaf shadow patterns across her body and the background', '', 'studio'],
+  ['Dual-tone teal and papaya editorial gels', 'high-fashion color contrast with a deep saturated teal key light from camera left and a warm vibrant papaya rim light carving the opposite hair edge', '', 'moody'],
+  ['Direct high-fashion ring light with circular iris catches', 'a large professional ring light placed on-axis around the camera lens, providing shadowless high-contrast beauty illumination with luminous circular catchlights in both irises', '', 'flash']
 ]));
 
 addOptions(accessories, makeOpts([
@@ -148,7 +188,12 @@ addOptions(accessories, makeOpts([
   ['Avant-garde chrome choker', 'an avant-garde polished chrome choker necklace with minimalist elegance'],
   ['Sheer black opera gloves', 'sheer black mesh opera gloves reaching above the elbows'],
   ['Oversized architectural sunglasses', 'statement oversized architectural sunglasses held casually or worn as a styling accent'],
-  ['Delicate waist chain jewelry', 'a fine metallic waist chain accentuating the outfit silhouette']
+  ['Delicate waist chain jewelry', 'a fine metallic waist chain accentuating the outfit silhouette'],
+  // On-Set Styling Props Expansion
+  ['Vintage tortoiseshell sunglasses dipped low down nose', 'vintage tortoiseshell sunglasses dipped low down the nose bridge while looking over the rims'],
+  ['Ivory vintage instant Polaroid camera held casually', 'an ivory vintage instant Polaroid camera held casually with a test print developing'],
+  ['Chilled crystal champagne coupe held by slender stem', 'a chilled vintage crystal champagne coupe held delicately by the slender stem'],
+  ['Matte silver reflector board prop on equipment case', 'a compact matte silver reflector board resting against a nearby equipment case']
 ]));
 
 
@@ -193,7 +238,25 @@ const stance=makeOpts([['Relaxed offset stance','a relaxed offset stance with on
 const gaze=makeOpts([['Direct lens contact','direct eye contact with the lens'],['Just beside the lens','looking just beside the lens'],['Over photographer shoulder','looking over the photographer’s shoulder'],['Off-frame to camera left','looking off-frame to camera left'],['Off-frame to camera right','looking off-frame to camera right'],['Down toward hands','looking down briefly toward her hands'],['Up toward soft light','looking slightly upward toward the soft light'],['Side glance mid-turn','a side glance captured mid-turn'],['Looking toward a person off-frame','looking toward someone just outside the frame'],['Eyes following movement','eyes following movement outside the frame'],['Looking at hairstyle in hand','glancing at the new hairstyle as she lightly touches it'],['Looking past camera with confidence','looking past the camera with quiet confidence'],['Closed-eye laugh moment','eyes softly closed in a genuine laugh'],['Downward reflective glance','a reflective downward glance'],['Direct gaze with head turned','direct lens contact while her head remains turned three-quarter'],
 ['Turned away into background (face hidden)','head turned away into the background with face completely hidden from camera view']]);
 const motion=makeOpts([['Almost-still candid','an almost-still candid moment with subtle natural movement'],['Hair moving from a turn','hair moving naturally from a recent turn'],['Caught mid-step','a clear but natural mid-step moment'],['Jacket moving slightly','a jacket moving slightly with her body movement'],['Hand gesture frozen in motion','a hand gesture frozen at a natural point in motion'],['Fabric moving at the hem','the fabric moving gently at the hem'],['Loose strands in motion','a few loose strands moving independently'],['Turning into the light','turning naturally into a patch of light'],['Settling after a laugh','settling after a laugh with shoulders dropping naturally'],['Reaching for a styling prop','reaching for a styling prop between takes'],['Tiny hair adjustment','a tiny hair adjustment captured in motion'],['Movement-free polished frame','a nearly still frame that emphasizes the finished look'],['Walking with natural stride','walking with a natural stride and believable limb positions'],['Mid-turn fabric sweep','a small fabric sweep captured during a turn'],['Candid hand movement','a candid hand movement rather than a posed gesture'],['Soft wind movement','subtle environmental movement in hair and fabric']]);
-const interaction=makeOpts([['Photographer gives a cue','responding to a photographer’s cue between shots'],['Quick hair adjustment between takes', 'a quick natural hair adjustment between takes before settling into pose'],['Friend says something amusing','reacting to something amusing said just outside the frame'],['Checking the finished look','taking a quick moment to appreciate the finished makeover'],['Between takes conversation','a brief conversation between takes'],['Adjusting a clothing detail herself','adjusting a small clothing detail herself before the next frame'],['Hearing her name','turning as someone calls her name'],['Receiving a final styling check','receiving a final styling check just before the shoot'],['Taking a relaxed pause','taking a comfortable pause between more directed poses'],['Showing the haircut to the photographer','briefly showing the haircut to the photographer'],['Moving toward the setup mark','moving toward her position on the set'],['Laughing at an outtake','laughing at a moment from the previous take']]);
+const interaction=makeOpts([
+  ['Photographer gives a cue','responding to a photographer’s cue between shots'],
+  ['Quick hair adjustment between takes', 'a quick natural hair adjustment between takes before settling into pose'],
+  ['Friend says something amusing','reacting to something amusing said just outside the frame'],
+  ['Checking the finished look','taking a quick moment to appreciate the finished makeover'],
+  ['Between takes conversation','a brief conversation between takes'],
+  ['Adjusting a clothing detail herself','adjusting a small clothing detail herself before the next frame'],
+  ['Hearing her name','turning as someone calls her name'],
+  ['Receiving a final styling check','receiving a final styling check just before the shoot'],
+  ['Taking a relaxed pause','taking a comfortable pause between more directed poses'],
+  ['Showing the haircut to the photographer','briefly showing the haircut to the photographer'],
+  ['Moving toward the setup mark','moving toward her position on the set'],
+  ['Laughing at an outtake','laughing at a moment from the previous take'],
+  // On-Set BTS Moments Expansion
+  ['BTS stylist lint-roller lapel reset between takes', 'a spontaneous BTS moment as a stylist briefly steps in to lint-roll the jacket lapel before backing out of frame'],
+  ['Studio fan spinning up with sudden hair billow', 'reacting with a delighted gasp as the high-velocity studio fan suddenly spins up, sending hair billowing'],
+  ['Examining instant Polaroid test frames with photographer', 'glancing curiously at freshly developed instant Polaroid test prints held near the edge of frame'],
+  ['Blotting paper T-zone makeup touch-up pause', 'pausing candidly while gently dabbing a translucent blotting paper square across the forehead before the next shutter roll']
+]);
 const setProps=makeOpts([['No extra props','no extra props; keep focus on her makeover and styling'],['Architectural floor lamp softly blurred in background','an architectural floor lamp softly blurred in the background'],['Styling tools on a counter','a few styling tools placed naturally on a counter, not distracting'],['Clothing rail in background','a clothing rail in soft focus'],['Minimal stool','a simple stool used naturally in the composition'],['Tall director chair','a tall director chair used as a subtle studio prop'],['Structured handbag','a structured handbag used as a styling prop'],['Sunglasses in hand','sunglasses held naturally in one hand'],['Small makeup pouch','a small makeup pouch placed on a nearby counter'],['Unbranded coffee cup','an unbranded coffee cup as a casual backstage prop'],['Soft curtain movement','a soft curtain in the background with slight movement'],['Low side table','a low side table with restrained surface details'],['Minimalist pedestal with sculptural ceramic piece','a clean gallery pedestal with a minimalist ceramic sculpture in soft focus'],['Coat draped over chair','a coat draped casually over a chair'],['Neutral flower arrangement','a small neutral flower arrangement in the distant background'],['Simple modern lamp','a simple modern lamp with realistic warm light'],['Editorial plinth','a minimal editorial plinth used as a studio prop'],['Camera bag out of focus','a photographer’s camera bag out of focus near the edge of frame'],['Magazine stack with unreadable covers','a small stack of magazines with no readable text'],['A hairbrush on counter','a hairbrush resting naturally on a counter'],['No mirrors in set','no visible mirrors or reflection-heavy set pieces'],['Subtle architectural column','a subtle architectural column in the background'],['Neutral bench','a neutral bench used as a natural resting point'],['No text or branded props','no readable text or branded props']]);
 const timeOfDay=makeOpts([['Mid-morning daylight','mid-morning daylight with neutral color temperature'],['Bright noon studio light','bright noon daylight balanced naturally'],['Late afternoon glow','late-afternoon glow with restrained warmth'],['Golden hour','golden-hour light with natural skin-tone fidelity'],['Blue hour city mood','blue-hour city ambience with realistic cool background tones'],['Early evening interior','early-evening interior light with practical lamps'],['Nighttime studio session','a nighttime studio session with controlled lighting'],['Overcast afternoon','overcast afternoon daylight with soft shadows'],['Morning studio buzz with soft dawn daylight','morning studio atmosphere with fresh dawn daylight'],['Quiet late-night editorial set','a quiet late-night editorial set with moody but realistic illumination']]);
 const weather=makeOpts([['No weather emphasis','no visible weather effects; keep the scene neutral'],['Soft overcast outdoors','soft overcast outdoor conditions'],['Light breeze','a light breeze creating subtle hair and fabric movement'],['After-rain city ambience','subtle after-rain city ambience with no dramatic wetness'],['Clear dry evening','a clear, dry evening environment'],['Warm summer air','warm summer air with natural outdoor light'],['Cool crisp air','cool crisp air with restrained environmental cues'],['Light mist in distance','a very light distant mist that does not obscure the subject'],['Cloud-filtered sunlight','cloud-filtered sunlight with natural contrast'],['Sheltered indoor setting','a sheltered indoor setting unaffected by weather']]);
@@ -301,13 +364,13 @@ const ponyTailStyleOpts = [
 
 
 const POSE_FAMILIES = [
-  O('✦ All Poses (264 options)', 'all'),
-  O('🧍‍♀️ Standing & Power Stances (49 variations)', 'standing'),
+  O('✦ All Poses (288 options)', 'all'),
+  O('🧍‍♀️ Standing & Power Stances (53 variations)', 'standing'),
   O('💆‍♀️ Hair-Touch & Beauty Gestures (86 variations)', 'beauty'),
-  O('🚶‍♀️ Motion, Walking & Turns (41 variations)', 'motion'),
-  O('🧱 Leaning & Architectural (29 variations)', 'leaning'),
-  O('💫 Candid & In-Between Takes (31 variations)', 'candid'),
-  O('🪑 Seated & Floor Lounging (16 variations)', 'seated'),
+  O('🚶‍♀️ Motion, Walking & Turns (49 variations)', 'motion'),
+  O('🧱 Leaning & Architectural (33 variations)', 'leaning'),
+  O('💫 Candid & In-Between Takes (35 variations)', 'candid'),
+  O('🪑 Seated & Floor Lounging (20 variations)', 'seated'),
   O('💧 Wet-Look & Aquatic Action (12 variations)', 'wet')
 ];
 
@@ -319,31 +382,34 @@ const SHOT_FAMILIES = [
 ];
 
 const SCENE_FAMILIES = [
-  O('✦ All Locations (159 options)', 'all'),
+  O('✦ All Locations (164 options)', 'all'),
   O('📸 Studio Backdrops & Cycs (29 variations)', 'studio'),
   O('🌆 Urban Streets & Rooftops (24 variations)', 'urban'),
-  O('🛋️ Luxury Interiors & Suites (18 variations)', 'luxury'),
-  O('🏢 Modernist Architecture & Museums (13 variations)', 'architecture'),
-  O('🌿 Exotic Nature, Botanical & Dunes (8 variations)', 'nature'),
+  O('🛋️ Luxury Interiors & Suites (19 variations)', 'luxury'),
+  O('🏢 Modernist Architecture & Museums (14 variations)', 'architecture'),
+  O('🌿 Exotic Nature, Botanical & Dunes (9 variations)', 'nature'),
   O('✨ Runways, Catwalks & Backstages (7 variations)', 'runway'),
-  O('🍸 Luxury Nightlife & Speakeasies (7 variations)', 'nightlife'),
+  O('🍸 Luxury Nightlife & Speakeasies (8 variations)', 'nightlife'),
   O('✂️ Salons & Makeover Backstages (7 variations)', 'salon'),
   O('🏛️ Palaces, Heritage Havelis & Estates (6 variations)', 'heritage'),
-  O('🌊 Aquatic Pools & Coastal (5 variations)', 'aquatic')
+  O('🌊 Aquatic Pools & Coastal (6 variations)', 'aquatic')
 ];
 
 const LIGHTING_FAMILIES = [
-  O('✦ All Lighting (62 options)', 'all'),
-  O('💡 Studio Key & Beauty Dish (25 variations)', 'studio'),
-  O('☀️ Natural Window & Daylight (11 variations)', 'daylight'),
+  O('✦ All Lighting (70 options)', 'all'),
+  O('☀️ Natural Window & Daylight (20 variations)', 'daylight'),
+  O('💡 Studio Key & Beauty Dish (19 variations)', 'studio'),
+  O('🎬 Cinematic, Low-Key & Cool (10 variations)', 'moody'),
   O('🌅 Golden Hour & Warm Tungsten (9 variations)', 'warm'),
-  O('⚡ Direct Flash & Hard Sunlight (7 variations)', 'flash'),
-  O('🎬 Cinematic, Low-Key & Cool (6 variations)', 'moody'),
-  O('💧 Aquatic Caustics & Water Rim (4 variations)', 'aquatic')
+  O('⚡ Direct Flash & Hard Sunlight (6 variations)', 'flash'),
+  O('💧 Aquatic Caustics & Water Rim (6 variations)', 'aquatic')
 ];
 
 function getItemCategory(id, item) {
   if (!item) return 'all';
+  if (item.cat && item.cat !== 'General' && item.cat !== 'all') {
+    return item.cat;
+  }
   const text = ((item.label || '') + ' ' + (item.text || '')).toLowerCase();
   if (id === 'salonVenue') {
     if (/barber\s*shop|gent\S*\s*saloon|shaving/i.test(text)) return 'barbershop';
@@ -415,81 +481,87 @@ function getItemCategory(id, item) {
 // SALON & BARBERSHOP STUDIO DATASETS
 // ==========================================
 const SALON_VENUE_CATEGORIES = [
-  O('✦ All Establishments (52 choices)', 'all'),
-  O('💈 Barber Shop (Traditional, street & modern barbershops)', 'barbershop'),
-  O('✂️ Salon (Commercial, unisex, mall & luxury salons)', 'salon'),
-  O('🪞 Parlour (Neighborhood, air-conditioned & market parlours)', 'parlour'),
-  O('🏢 Hair Studio (Boutique, industrial, minimalist & creative studios)', 'studio')
+  O('✦ All Establishments (66 choices)', 'all'),
+  O('💈 Barber Shop (Traditional, street & modern barbershops - 18 choices)', 'barbershop'),
+  O('🏢 Hair Studio (Boutique, industrial, minimalist & creative studios - 17 choices)', 'studio'),
+  O('✂️ Salon (Commercial, unisex, mall & luxury salons - 16 choices)', 'salon'),
+  O('🪞 Parlour (Neighborhood, air-conditioned & market parlours - 15 choices)', 'parlour')
 ];
 
 const salonVenue = makeOpts([
-  // BARBER SHOPS
-  ['Traditional Neighborhood Barber Shop', 'an authentic neighborhood Indian male barber shop with turquoise oil-painted walls, large wooden-framed mirrors, a vintage black ceiling fan whirling overhead, and a classic chrome hydraulic barber chair'],
-  ['Local Street-Side Barber Shop with Open Shutter', 'a compact street-side Indian barber shop with a large open roll-up shutter showing the bustling outdoor bazaar, classic vinyl barber chair with chrome footrest, buzzing clippers, white towel on the chair back, and powder-scented air'],
-  ['Vintage Retro Barber Shop with Belmont Chair', 'a classic vintage barber shop with checkerboard tile flooring, antique Belmont hydraulic chair, leather strop hanging beside the mirror, blue Barbicide jar on the marble ledge, and retro wall decor'],
-  ['Modern Urban Barber Shop with Dark Wood', 'a contemporary male barber shop with matte-charcoal walls, rich dark walnut cabinetry, black leather reclining barber chairs, warm directional track spotlights, and clean masculine aesthetic'],
-  ['Local Corner Barber Shop with Shaded Canopy', 'a bustling corner street barber shop with a striped awning canopy outside, open doorway, whirring wall fan, stainless steel scissor tray, and energetic shop tempo'],
-  ['Multi-Chair Bustling Commercial Barber Shop', 'a lively high-energy barber shop with a row of five active chrome hydraulic chairs, male patrons receiving haircuts and hot towel shaves, large mirrored wall, and buzzing background chatter'],
-  ['Traditional Shaving & Haircut Barber Shop', 'a dedicated traditional men\'s grooming barbershop with hot lather machine, straight razor hone, magnetic tool bar holding precision shears, and deep tufted leather chairs'],
-  ['Express Quick-Cut Barber Shop Kiosk', 'a brightly lit, compact express barber shop with functional stainless steel cabinetry, blue disinfectant comb jar, and efficient urban layout'],
-  ['Retro 1970s Barber Shop with Faux-Wood Laminates', 'a nostalgic 1970s retro barber shop featuring warm woodgrain laminate walls, rounded vanity mirrors, vintage transistor radio playing soft melodies, and padded vinyl styling chairs'],
+  // BARBER SHOPS (18)
+  ['Traditional Neighborhood Barber Shop', 'an authentic neighborhood Indian male barber shop with turquoise oil-painted walls, large wooden-framed mirrors, a vintage black ceiling fan whirling overhead, and a classic chrome hydraulic barber chair', '', 'barbershop'],
+  ['Local Street-Side Barber Shop with Open Shutter', 'a compact street-side Indian barber shop with a large open roll-up shutter showing the bustling outdoor bazaar, classic vinyl barber chair with chrome footrest, buzzing clippers, white towel on the chair back, and powder-scented air', '', 'barbershop'],
+  ['Vintage Retro Barber Shop with Belmont Chair', 'a classic vintage barber shop with checkerboard tile flooring, antique Belmont hydraulic chair, leather strop hanging beside the mirror, blue Barbicide jar on the marble ledge, and retro wall decor', '', 'barbershop'],
+  ['Modern Urban Barber Shop with Dark Wood', 'a contemporary male barber shop with matte-charcoal walls, rich dark walnut cabinetry, black leather reclining barber chairs, warm directional track spotlights, and clean masculine aesthetic', '', 'barbershop'],
+  ['Local Corner Barber Shop with Shaded Canopy', 'a bustling corner street barber shop with a striped awning canopy outside, open doorway, whirring wall fan, stainless steel scissor tray, and energetic shop tempo', '', 'barbershop'],
+  ['Multi-Chair Bustling Commercial Barber Shop', 'a lively high-energy barber shop with a row of five active chrome hydraulic chairs, male patrons receiving haircuts and hot towel shaves, large mirrored wall, and buzzing background chatter', '', 'barbershop'],
+  ['Traditional Shaving & Haircut Barber Shop', 'a dedicated traditional men\'s grooming barbershop with hot lather machine, straight razor hone, magnetic tool bar holding precision shears, and deep tufted leather chairs', '', 'barbershop'],
+  ['Express Quick-Cut Barber Shop Kiosk', 'a brightly lit, compact express barber shop with functional stainless steel cabinetry, blue disinfectant comb jar, and efficient urban layout', '', 'barbershop'],
+  ['Retro 1970s Barber Shop with Faux-Wood Laminates', 'a nostalgic 1970s retro barber shop featuring warm woodgrain laminate walls, rounded vanity mirrors, vintage transistor radio playing soft melodies, and padded vinyl styling chairs', '', 'barbershop'],
+  ['Old Delhi Chawri Bazaar Heritage Barber Shop', 'an authentic historic Old Delhi narrow lane barber shop with aged Burma teak framing, brass talcum shaker, ornate antique mirror reflecting passing cycle-rickshaws, and vintage revolving chrome chair', '', 'barbershop'],
+  ['Mumbai Colaba Art Deco Barber Saloon', 'a 1930s Mumbai Art Deco barber saloon with seafoam-green mosaic tile floors, curved geometric mirrors, polished brass coat tree, and overhead slow revolving ceiling fan', '', 'barbershop'],
+  ['Goan Portuguese-Villa Heritage Barber Shop', 'a breezy heritage Goan barber shop with whitewashed laterite stone walls, azure-blue wooden louvered shutters, terracotta floor tiles, and a vintage hydraulic leather chair', '', 'barbershop'],
+  ['Railway Colony Express Barber Shop', 'a nostalgic Indian railway colony barber shop with mint-green enamel wainscoting, overhead slow-spinning ceiling fan, stainless steel scissor magnetic bar, and quiet midday hum', '', 'barbershop'],
+  ['Varanasi Dashashwamedh Ghat Banyan Tree Stall', 'an open-air heritage Varanasi riverside barber stall beneath the roots of an ancient banyan tree overlooking the sacred Dashashwamedh Ghat, with a wooden-frame mirror tied to the trunk, a low wooden stool, brass water spritzer, and distant temple bells in the air', '', 'barbershop'],
+  ['Jodhpur Blue City Haveli Archway Barber Saloon', 'a nostalgic street barber alcove carved into an indigo-blue painted stone haveli in Old Jodhpur, with ornate scalloped sandstone archways, vintage chrome revolving chair, brass talc shaker, and sunbeams dancing across polished limestone flags', '', 'barbershop'],
+  ['Kolkata Kumartuli Clay-Lane Barber Shop', 'an authentic artisanal Kolkata barber shop nestled among the idol-sculptor clay lanes of Kumartuli, with exposed lime-plaster brick, vintage Belgian mirrors with beveled corners, humming black ceiling fan, and soft Rabindra Sangeet murmuring from a radio', '', 'barbershop'],
+  ['Old Amritsar Walled City Heritage Barber', 'a bustling traditional Punjabi barber shop inside the historic walled city near the Golden Temple, featuring deep-blue enamel cabinetry, hanging leather strops, steaming copper water vessels, and warm hospitality', '', 'barbershop'],
+  ['1950s Chicago Midtown Barber Lounge', 'a mid-century 1950s Chicago barber shop with deep oxblood leather Belmont chairs, green Banker\'s desk lamps on dark mahogany counters, checkerboard floor tiles, and neon sign glow in the evening window', '', 'barbershop'],
 
-  // SALONS
-  ['Modern Unisex Salon Floor', 'a contemporary unisex salon interior with clean minimalist design, plush black leather styling chairs, frameless backlit LED vanity mirrors, branded hair product display shelves, and pale oak wood flooring'],
-  ['Full-Service Commercial Salon Floor', 'a busy commercial salon floor with multiple styling stations, polished tile flooring, wall-mounted mirror islands, and active background energy'],
-  ['High-End Luxury Salon Suite', 'an exclusive private VIP salon suite with white marble countertops, gold-trimmed architectural mirrors, deep plush reclining leather styling chair, warm designer cove lighting, and private serene atmosphere'],
-  ['Shopping Mall Glass-Fronted Salon Studio', 'an upscale glass-fronted salon inside a modern shopping mall, polished granite flooring, recessed warm spotlighting, sleek chrome stations, and sophisticated contemporary aesthetics'],
-  ['Suburban Family Salon with Product Displays', 'a warm neighborhood family salon with polished ceramic tile floor, product display glass cases, comfortable armchairs, and familiar community buzz'],
-  ['VIP Private Haircut Suite in Salon', 'an intimate, soundproof single-station VIP room within a premier salon, featuring an oversized reclining leather chair, private vanity mirror, and tranquil personal attention'],
-  ['Open-Plan Commercial Hair Salon', 'an airy open-plan salon with high ceilings, polished concrete floors, parallel rows of hydraulic chairs, and diffuse daylight filtering through large windows'],
-  ['Exclusive Penthouse Salon with Skyline View', 'a luxurious top-floor penthouse salon with panoramic floor-to-ceiling city skyline views, white quartz styling islands, and sleek floating mirrors'],
-  ['Modern Glass & Steel Salon Studio', 'an ultra-clean contemporary salon with frosted glass partition walls, brushed stainless steel cabinetry, and cool balanced daylight illumination'],
+  // SALONS (16)
+  ['Modern Unisex Salon Floor', 'a contemporary unisex salon interior with clean minimalist design, plush black leather styling chairs, frameless backlit LED vanity mirrors, branded hair product display shelves, and pale oak wood flooring', '', 'salon'],
+  ['Full-Service Commercial Salon Floor', 'a busy commercial salon floor with multiple styling stations, polished tile flooring, wall-mounted mirror islands, and active background energy', '', 'salon'],
+  ['High-End Luxury Salon Suite', 'an exclusive private VIP salon suite with white marble countertops, gold-trimmed architectural mirrors, deep plush reclining leather styling chair, warm designer cove lighting, and private serene atmosphere', '', 'salon'],
+  ['Shopping Mall Glass-Fronted Salon Studio', 'an upscale glass-fronted salon inside a modern shopping mall, polished granite flooring, recessed warm spotlighting, sleek chrome stations, and sophisticated contemporary aesthetics', '', 'salon'],
+  ['Suburban Family Salon with Product Displays', 'a warm neighborhood family salon with polished ceramic tile floor, product display glass cases, comfortable armchairs, and familiar community buzz', '', 'salon'],
+  ['VIP Private Haircut Suite in Salon', 'an intimate, soundproof single-station VIP room within a premier salon, featuring an oversized reclining leather chair, private vanity mirror, and tranquil personal attention', '', 'salon'],
+  ['Open-Plan Commercial Hair Salon', 'an airy open-plan salon with high ceilings, polished concrete floors, parallel rows of hydraulic chairs, and diffuse daylight filtering through large windows', '', 'salon'],
+  ['Exclusive Penthouse Salon with Skyline View', 'a luxurious top-floor penthouse salon with panoramic floor-to-ceiling city skyline views, white quartz styling islands, and sleek floating mirrors', '', 'salon'],
+  ['Modern Glass & Steel Salon Studio', 'an ultra-clean contemporary salon with frosted glass partition walls, brushed stainless steel cabinetry, and cool balanced daylight illumination', '', 'salon'],
+  ['Bandra West Sunlit Bohemian Chic Salon', 'a trendy Mumbai Bandra West salon with fluted lime-wash plaster walls, arched brass vanity niches, natural rattan chairs, and warm filtered coastal daylight', '', 'salon'],
+  ['Bangalore Indiranagar Biophilic Glasshouse Salon', 'an airy glass-roofed Bangalore salon filled with hanging fiddle-leaf figs and monstera vines, terrazzo floors, and minimalist natural ash-wood styling stations', '', 'salon'],
+  ['New Delhi Mehrauli Heritage Courtyard Salon', 'a high-fashion salon situated in a historic Mehrauli sandstone courtyard, scalloped Mughal archways in soft focus, and modern minimalist halo mirrors', '', 'salon'],
+  ['South Mumbai Victorian Stone Heritage Salon Suite', 'an exclusive salon suite inside a Victorian Gothic stone heritage building with 16-foot vaulted ceilings, arched leaded-glass windows, and plush emerald leather styling chairs', '', 'salon'],
+  ['1930s Mumbai Marine Drive Art Deco Saloon', 'a glamorous 1930s Art Deco salon along Marine Drive with curved oceanfront fluted glass blocks, sea-green terrazzo flooring, streamline chrome-banded styling chairs, and ambient coastal light', '', 'salon'],
+  ['1920s Parisian Haussmann Boulevard Salon', 'an opulent 1920s Parisian salon in a Haussmannian apartment with chevron parquet floors, gilded Rococo mirrors reaching to 14-foot carved cornices, velvet-upholstered styling chairs, and sheer tall French windows', '', 'salon'],
+  ['Dubai Marina High-Floor Glass Salon Suite', 'an exclusive 40th-floor Dubai Marina penthouse salon suite with floor-to-ceiling glass panoramic views of mega-yachts below, white Calacatta gold-veined marble counters, and brushed brass fixtures', '', 'salon'],
 
-  // PARLOURS
-  ['Classic Neighborhood Hair Parlour', 'a cheerful neighborhood hair parlour with pastel cream walls, vanity mirror with warm bulb strip, clean tiled floor, and a comfortable cushioned swivel styling chair'],
-  ['Air-Conditioned Market Hair Parlour', 'a cool air-conditioned hair parlour located in a bustling market complex, tinted glass entry door, neat rows of tonic bottles, and quiet hum of the AC unit'],
-  ['Traditional Gent\'s Hair Parlour', 'an authentic classic gent\'s parlour with dark wood mirror moldings, glass display cabinets holding hair grooming tonics, vintage wall clock, and comfortable vinyl swivel chairs'],
-  ['Local High-Street Hair Parlour', 'a ground-floor high-street hair parlour with constant foot traffic outside, colorful wall trim, stainless steel instrument cart, and bright overhead lights'],
-  ['Compact Two-Chair Hair Parlour', 'an intimate two-station neighborhood parlour with two chrome hydraulic chairs, shared center mirror ledge, fresh white towels, and relaxed neighborly atmosphere'],
-  ['Busy Municipal Bazaar Hair Parlour', 'an energetic municipal bazaar hair parlour with open doorway, whirring wall-mounted fans, male customers seated on the waiting bench, and vibrant market murmurs'],
-  ['Second-Floor Balcony Hair Parlour', 'a quiet second-story hair parlour overlooking the market square below, breeze through open windows, clean mirrors, and relaxed afternoon tempo'],
-  ['Cozy Suburban AC Hair Parlour', 'a modern suburban air-conditioned parlour with beige porcelain tile flooring, chrome armchairs, and amber-lit styling station'],
-  ['Classic Street Corner Hair Parlour', 'a long-standing corner parlour with vintage tile wainscoting, large street-facing window, and classic hydraulic pump styling chair'],
+  // PARLOURS (15)
+  ['Classic Neighborhood Hair Parlour', 'a cheerful neighborhood hair parlour with pastel cream walls, vanity mirror with warm bulb strip, clean tiled floor, and a comfortable cushioned swivel styling chair', '', 'parlour'],
+  ['Air-Conditioned Market Hair Parlour', 'a cool air-conditioned hair parlour located in a bustling market complex, tinted glass entry door, neat rows of tonic bottles, and quiet hum of the AC unit', '', 'parlour'],
+  ['Traditional Gent\'s Hair Parlour', 'an authentic classic gent\'s parlour with dark wood mirror moldings, glass display cabinets holding hair grooming tonics, vintage wall clock, and comfortable vinyl swivel chairs', '', 'parlour'],
+  ['Local High-Street Hair Parlour', 'a ground-floor high-street hair parlour with constant foot traffic outside, colorful wall trim, stainless steel instrument cart, and bright overhead lights', '', 'parlour'],
+  ['Compact Two-Chair Hair Parlour', 'an intimate two-station neighborhood parlour with two chrome hydraulic chairs, shared center mirror ledge, fresh white towels, and relaxed neighborly atmosphere', '', 'parlour'],
+  ['Busy Municipal Bazaar Hair Parlour', 'an energetic municipal bazaar hair parlour with open doorway, whirring wall-mounted fans, male customers seated on the waiting bench, and vibrant market murmurs', '', 'parlour'],
+  ['Second-Floor Balcony Hair Parlour', 'a quiet second-story hair parlour overlooking the market square below, breeze through open windows, clean mirrors, and relaxed afternoon tempo', '', 'parlour'],
+  ['Cozy Suburban AC Hair Parlour', 'a modern suburban air-conditioned parlour with beige porcelain tile flooring, chrome armchairs, and amber-lit styling station', '', 'parlour'],
+  ['Classic Street Corner Hair Parlour', 'a long-standing corner parlour with vintage tile wainscoting, large street-facing window, and classic hydraulic pump styling chair', '', 'parlour'],
+  ['Kolkata North Heritage Marble-Top Parlour', 'a historic North Kolkata neighbourhood parlour with Belgian glass mirrors, marble-top vanity shelf, antique brass wall sconces, and gentle street chatter outside', '', 'parlour'],
+  ['Chennai Mylapore Traditional Brahmin Market Parlour', 'an authentic Mylapore temple-district parlour with brass oil lamp on the counter, fresh jasmine garland, polished red-oxide floors, and humming wall fan', '', 'parlour'],
+  ['Jaipur Pink City Johari Bazaar Parlour', 'a vibrant Pink City market parlour with terracotta-pink arched doorway, brass mirror frames, traditional block-print curtains, and energetic bazaar sounds', '', 'parlour'],
+  ['Pune Deccan Gymkhana Shaded Corner Parlour', 'a serene suburban Pune parlour shaded by ancient banyan trees, white tiled walls, vintage radio playing classic melodies, and comfortable reclining vinyl chairs', '', 'parlour'],
+  ['Chettinad Heritage Mansion Veranda Parlour', 'a serene open-courtyard heritage parlour in an authentic Chettinad mansion, flanked by carved Burma teak pillars, polished Athangudi patterned floor tiles, antique brass water bowls, and tropical veranda breeze', '', 'parlour'],
+  ['London Mayfair Private Mews Townhouse Atelier', 'an ultra-exclusive private hair atelier inside a discrete Mayfair mews townhouse with dark fumed-oak wall paneling, antique Persian runner rugs, warm amber library sconces, and bespoke leather armchairs', '', 'parlour'],
 
-  // HAIR STUDIOS
-  ['Boutique Hair Studio with Warm Brick & Plants', 'a charming boutique hair studio with warm exposed red brick accents, potted indoor plants, brass vanity fixtures, and a plush emerald-green velvet styling chair'],
-  ['Industrial Loft Hair Studio with Exposed Pipes', 'a trendy industrial loft hair studio with exposed brick walls, high ceilings, dark ductwork, reclaimed wood counters, steel-framed swivel mirrors, and Edison bulb pendants'],
-  ['Clean Minimalist Monochrome Hair Studio', 'an airy open-concept hair studio with polished concrete floors, matte-black steel styling stations, floor-to-ceiling seamless mirrors, and diffuse daylight'],
-  ['Creative Atelier Hair Studio', 'an artistic open hair studio with light birch woodwork, brass pendant lighting, clean uncluttered countertops, and serene creative focus'],
-  ['Sunlit Rooftop Terrace Hair Studio', 'a modern rooftop hair studio bathed in 360-degree daylight, sheer white curtains, potted plants, and outdoor terrace breeze'],
-  ['Private One-Chair Styling Studio', 'an intimate private studio with a single bespoke leather styling chair, acoustic wall panels, custom halo-lit mirror, and zero distractions'],
-  ['Artisan Raw Concrete Hair Studio', 'a modern architectural hair studio featuring textured micro-cement walls, minimalist black iron stations, and sculptural lighting'],
-  ['Garden Veranda Hair Studio', 'a peaceful semi-outdoor veranda studio with terracotta pavers, leafy palm fronds reflecting in mirrors, and gentle warm breeze'],
-  ['Underground Speakeasy Hair Studio', 'an intimate speakeasy-inspired studio with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance'],
-
-  // BARBER SHOPS EXPANSION
-  ['Old Delhi Chawri Bazaar Heritage Barber Shop', 'an authentic historic Old Delhi narrow lane barber shop with aged Burma teak framing, brass talcum shaker, ornate antique mirror reflecting passing cycle-rickshaws, and vintage revolving chrome chair'],
-  ['Mumbai Colaba Art Deco Barber Saloon', 'a 1930s Mumbai Art Deco barber saloon with seafoam-green mosaic tile floors, curved geometric mirrors, polished brass coat tree, and overhead slow revolving ceiling fan'],
-  ['Goan Portuguese-Villa Heritage Barber Shop', 'a breezy heritage Goan barber shop with whitewashed laterite stone walls, azure-blue wooden louvered shutters, terracotta floor tiles, and a vintage hydraulic leather chair'],
-  ['Railway Colony Express Barber Shop', 'a nostalgic Indian railway colony barber shop with mint-green enamel wainscoting, overhead slow-spinning ceiling fan, stainless steel scissor magnetic bar, and quiet midday hum'],
-
-  // SALONS EXPANSION
-  ['Bandra West Sunlit Bohemian Chic Salon', 'a trendy Mumbai Bandra West salon with fluted lime-wash plaster walls, arched brass vanity niches, natural rattan chairs, and warm filtered coastal daylight'],
-  ['Bangalore Indiranagar Biophilic Glasshouse Salon', 'an airy glass-roofed Bangalore salon filled with hanging fiddle-leaf figs and monstera vines, terrazzo floors, and minimalist natural ash-wood styling stations'],
-  ['New Delhi Mehrauli Heritage Courtyard Salon', 'a high-fashion salon situated in a historic Mehrauli sandstone courtyard, scalloped Mughal archways in soft focus, and modern minimalist halo mirrors'],
-  ['South Mumbai Victorian Stone Heritage Salon Suite', 'an exclusive salon suite inside a Victorian Gothic stone heritage building with 16-foot vaulted ceilings, arched leaded-glass windows, and plush emerald leather styling chairs'],
-
-  // PARLOURS EXPANSION
-  ['Kolkata North Heritage Marble-Top Parlour', 'a historic North Kolkata neighbourhood parlour with Belgian glass mirrors, marble-top vanity shelf, antique brass wall sconces, and gentle street chatter outside'],
-  ['Chennai Mylapore Traditional Brahmin Market Parlour', 'an authentic Mylapore temple-district parlour with brass oil lamp on the counter, fresh jasmine garland, polished red-oxide floors, and humming wall fan'],
-  ['Jaipur Pink City Johari Bazaar Parlour', 'a vibrant Pink City market parlour with terracotta-pink arched doorway, brass mirror frames, traditional block-print curtains, and energetic bazaar sounds'],
-  ['Pune Deccan Gymkhana Shaded Corner Parlour', 'a serene suburban Pune parlour shaded by ancient banyan trees, white tiled walls, vintage radio playing classic melodies, and comfortable reclining vinyl chairs'],
-
-  // HAIR STUDIOS EXPANSION
-  ['Goa Fontainhas Heritage Quarter Atelier', 'an artistic private hair studio in Fontainhas with ochre-yellow stucco facade, dark timber rafters, hand-painted Portuguese azulejo tiles, and a private garden patio'],
-  ['Kochi Fort Kochi Colonial Waterfront Studio', 'an airy waterfront studio in Fort Kochi with exposed Dutch brickwork, antique maritime brass lamps, and sea breeze through tall louvered casement windows'],
-  ['Himalayan Dehradun Pine Valley Retreat Studio', 'a serene mountain hair studio with knotty pine timber walls, panoramic valley views of mist-clad Himalayan hills, and a warm stone hearth'],
-  ['Rishikesh Riverside Zen Bamboo Studio', 'a tranquil riverside hair studio with split-bamboo screens, natural slate flooring, soft sound of flowing Ganga river water, and diffused mountain daylight']
+  // HAIR STUDIOS (17)
+  ['Boutique Hair Studio with Warm Brick & Plants', 'a charming boutique hair studio with warm exposed red brick accents, potted indoor plants, brass vanity fixtures, and a plush emerald-green velvet styling chair', '', 'studio'],
+  ['Industrial Loft Hair Studio with Exposed Pipes', 'a trendy industrial loft hair studio with exposed brick walls, high ceilings, dark ductwork, reclaimed wood counters, steel-framed swivel mirrors, and Edison bulb pendants', '', 'studio'],
+  ['Clean Minimalist Monochrome Hair Studio', 'an airy open-concept hair studio with polished concrete floors, matte-black steel styling stations, floor-to-ceiling seamless mirrors, and diffuse daylight', '', 'studio'],
+  ['Creative Atelier Hair Studio', 'an artistic open hair studio with light birch woodwork, brass pendant lighting, clean uncluttered countertops, and serene creative focus', '', 'studio'],
+  ['Sunlit Rooftop Terrace Hair Studio', 'a modern rooftop hair studio bathed in 360-degree daylight, sheer white curtains, potted plants, and outdoor terrace breeze', '', 'studio'],
+  ['Private One-Chair Styling Studio', 'an intimate private studio with a single bespoke leather styling chair, acoustic wall panels, custom halo-lit mirror, and zero distractions', '', 'studio'],
+  ['Artisan Raw Concrete Hair Studio', 'a modern architectural hair studio featuring textured micro-cement walls, minimalist black iron stations, and sculptural lighting', '', 'studio'],
+  ['Garden Veranda Hair Studio', 'a peaceful semi-outdoor veranda studio with terracotta pavers, leafy palm fronds reflecting in mirrors, and gentle warm breeze', '', 'studio'],
+  ['Underground Speakeasy Hair Studio', 'an intimate speakeasy-inspired studio with dim amber Edison bulbs, dark tufted leather seating, exposed masonry walls, and low-key jazz ambiance', '', 'studio'],
+  ['Goa Fontainhas Heritage Quarter Atelier', 'an artistic private hair studio in Fontainhas with ochre-yellow stucco facade, dark timber rafters, hand-painted Portuguese azulejo tiles, and a private garden patio', '', 'studio'],
+  ['Kochi Fort Kochi Colonial Waterfront Studio', 'an airy waterfront studio in Fort Kochi with exposed Dutch brickwork, antique maritime brass lamps, and sea breeze through tall louvered casement windows', '', 'studio'],
+  ['Himalayan Dehradun Pine Valley Retreat Studio', 'a serene mountain hair studio with knotty pine timber walls, panoramic valley views of mist-clad Himalayan hills, and a warm stone hearth', '', 'studio'],
+  ['Rishikesh Riverside Zen Bamboo Studio', 'a tranquil riverside hair studio with split-bamboo screens, natural slate flooring, soft sound of flowing Ganga river water, and diffused mountain daylight', '', 'studio'],
+  ['Tokyo Shinjuku Neon Cyberpunk Grooming Pod', 'a high-tech futuristic grooming atelier in Shinjuku with brushed titanium surfaces, integrated violet-cyan LED light channels, frameless smart-mirror displays, and ergonomic minimalist floating chairs', '', 'studio'],
+  ['Neo-Seoul Bioluminescent Minimalist Lab', 'an ultra-contemporary Seoul hair lab with pale translucent acrylic panels, soft botanical moss walls, diffused 5500K daylight ceiling grids, and whisper-quiet ergonomic misting stations', '', 'studio'],
+  ['Milanese Brutalist Cast-Concrete Hair Atelier', 'an avant-garde Milanese fashion hair studio featuring textured raw board-formed concrete walls, monolithic blackened-steel styling stations, dramatic linear skylight shafts, and sculptural brutalist minimalism', '', 'studio'],
+  ['Bali Ubud Open Bamboo Forest Pavilion', 'a tranquil open-sided bamboo pavilion hair studio overlooking the emerald jungle river valley of Ubud, split-bamboo screens, natural volcanic slate water basin, and soft tropical mountain breeze', '', 'studio']
 ]);
 
 const salonDesign = makeOpts([
@@ -610,6 +682,23 @@ const salonStage = makeOpts([
   ['Micro-shears point-cutting fine temple baby hairs', 'microscopic shear work: the male barber holds miniature Japanese detailing shears right beside her temple, delicately point-cutting soft wispy baby hairs into an effortless organic frame'],
   ['Zero-gap trimmer squaring the sideburn & temple box', 'crisp box lineup: the male barber stands flush beside her cheek, squaring off the temple box and sideburn angle with zero-gap T-blade trimmers, cut hair dust clinging to the skin'],
   ['Rotary shaver smoothing neck and lower temple perimeter', 'smooth finishing pass: the male barber glides a quiet rotary shaver in smooth circular passes along the lower temple margin and behind the ear, ensuring zero stray stubble remains'],
+  // Authentic Indian Barbershop Rituals & Sensory Detailing
+  ['Authentic Indian champi head massage with rhythmic thapki drumming', 'traditional head massage ritual: the barber works warm herbal mustard or coconut oil deeply into the client\'s scalp, performing firm rhythmic acupressure, knuckle rolls, and resonant thapki cupped-palm percussion across the crown and temples while the client relaxes serenely with eyes closed'],
+  ['Natural fitkari (alum) crystal glide across freshly shaved nape hairline', 'traditional barbershop finish: the barber dips a smooth crystal block of fitkari (potash alum) in cold water and glides it deliberately across the freshly cleaned nape hairline and temple points, soothing bare skin and closing pores with authentic artisan care'],
+  ['Neem wood comb sectioning with brass alligator clips', 'organic salon prep: the barber uses a handcrafted wide-tooth neem wood comb to cleanly section damp hair into balanced quadrants, pinning upper tiers securely with heavy brass alligator clips before making the initial cut'],
+  ['Horsehair talcum powder duster clearing neck with fragrant cloud', 'nostalgic barbershop cleanup: the barber dips a wooden-handled horsehair neck duster into fine fragrant talcum powder and gently sweeps away clipped hair needles from the client\'s neck, ear arches, and collarbone, sending a faint translucent powder cloud into the beam of light'],
+  ['Stropping straight razor on hanging Russian leather strop', 'artisan blade prep: the barber briskly strops a gleaming carbon steel folding straight razor back and forth along a hanging Russian leather strop with a crisp rhythmic snap before leaning in to detail the hairline'],
+  ['Turkish flame singeing technique for temple and ear peach fuzz', 'traditional flame technique: the barber quickly glides a burning alcohol-soaked cotton wand around the perimeter of the ear and temples, safely singeing away fine micro-fuzz with theatrical artisan mastery'],
+  ['Vibrating Oster shoulder massage wand relaxing client after haircut', 'vintage barbershop post-cut comfort: the barber straps a chrome-plated vibrating hand-held massage wand to the back of his palm, working rhythmic vibrating waves across the client\'s neck and shoulders over the draped cape'],
+  ['Precision shavette lineup along forehead arch and sideburns', 'close razor edge-up: the barber pulls forehead and temple skin taut with dry fingertips, gliding a disposable-blade stainless steel shavette with millimeter precision to carve a crisp architectural hairline perimeter'],
+  ['Micro-bangs texturizing grazing brow bone with Japanese swivel shears', 'precision fringe artistry: the barber holds damp micro-fringe flat against the brow bone with a carbon comb and vertically point-cuts feather-light separation into the tips with miniature Japanese swivel shears'],
+  ['Dual-mirror reveal: barber adjusting second mirror reflecting nape angle', 'reveal moment in chair: the haircut is complete as the barber holds an angled wooden-frame handheld mirror behind the client\'s crown, coordinating with the large wall mirror so she can admire the crisp tapered nape and rear graduation'],
+  ['Barber briskly snapping warm waffle towel across shoulders', 'rhythmic barber hospitality: the barber snaps a freshly warmed white waffle-weave cotton towel with a crisp acoustic pop before gently pressing it across the client\'s shoulders and neck to clear every last hair fragment'],
+  ['Cold water splash & splash-slap citrus kolonya finish on temples', 'revitalizing barber finale: the barber mists ice-cold rosewater across the face and follows with a splash of 80-degree citrus kolonya briskly patted across the temples with a satisfying rhythmic palm clap'],
+  ['Male barber resting reassuring hand on draped cape shoulder during mirror check', 'warm professional rapport: the barber rests one warm hand comfortably on the client\'s draped shoulder, both gazing into the wall mirror reflection while evaluating the cheekbone framing and hair silhouette'],
+  ['Cordless fade clipper flicking up the temple curve', 'clipper fade mastery: the barber uses a light upward C-scoop wrist flick with cordless magnetic clippers along the temple and sideburn edge, blending high-density crown hair into an ultra-clean micro-taper'],
+  ['Aluminum spray bottle misting with gentle laugh during consultation', 'candid salon moment: the barber spritzes fine glistening water droplets from a brushed aluminum spray bottle while sharing a spontaneous chuckle with the client as damp bangs fall forward'],
+  ['Deliberate scissor pivot and deep breath before final crown snip', 'intense artisan focus: the barber pauses with shears positioned at the apex of the crown, taking a slow deliberate breath while evaluating three-dimensional balance before executing the defining final snip'],
   // Female Model (Barber) Grooming Male Client
   ['Female model (barber) straight-razor shaving male client\'s beard with warm lather', 'barber action: the adult female model acts as the skilled barber standing beside the hydraulic chair, holding a traditional chrome straight razor at a precise angle to shave rich lather off the male client\'s jawline as he reclines comfortably with a draped cape'],
   ['Female model (barber) performing traditional hot oil champi (head massage) on male client', 'barber action: the adult female model stands behind the seated male client, skillfully massaging warm herbal oil into his scalp and temples with rhythmic finger kneading as he leans back into the headrest with eyes closed'],
@@ -746,7 +835,24 @@ const salonIntimateHairAction = makeOpts([
   ['Guarded razor scraping downward along temple edge with artisan tension', 'holding her brow gently steady with one palm while drawing a guarded Japanese feathering razor downward along her temple edge with deliberate artisan tension and satisfying raspy clicks'],
   ['Warm shaving lather brushed onto temple hairline with badger brush', 'dipping a soft badger-hair brush into warm aromatic shaving bowl and gently painting rich foamy lather across her temple hairline and sideburn points, his body leaning warmly behind her'],
   ['Cooling menthol aftershave balm smoothed into freshly faded temples', 'smoothing soothing menthol aftershave balm into her freshly faded temples and neckline with warm, gentle circular finger-pad massage as she closes her eyes in relaxed bliss'],
-  ['Dusting away temple hair clippings with soft goat-hair powder brush', 'holding a soft goat-hair powder duster loaded with barber talcum, gently sweeping tiny temple clippings away from her cheekbone and eyes with feathery, attentive strokes']
+  ['Dusting away temple hair clippings with soft goat-hair powder brush', 'holding a soft goat-hair powder duster loaded with barber talcum, gently sweeping tiny temple clippings away from her cheekbone and eyes with feathery, attentive strokes'],
+  // Authentic Indian Barbershop Rituals & Sensory Detailing on Low Stool
+  ['Authentic Indian champi head massage with rhythmic thapki drumming on stool', 'leaning over her from directly behind the low stool, working warm herbal mustard or coconut oil deeply into her scalp with rhythmic acupressure, knuckle rolls, and resonant thapki cupped-palm percussion while she relaxes with eyes closed'],
+  ['Natural fitkari (alum) crystal glide across freshly shaved nape hairline on stool', 'standing inches behind her bare neck, dipping a smooth crystal block of fitkari (potash alum) in cold water and gliding it deliberately across the freshly cleaned nape hairline and temple points'],
+  ['Neem wood comb sectioning with brass alligator clips on stool', 'standing directly behind the low stool, using a handcrafted wide-tooth neem wood comb to cleanly section damp hair into balanced quadrants, pinning upper tiers securely with heavy brass alligator clips'],
+  ['Horsehair talcum powder duster clearing neck with fragrant cloud on stool', 'dipping a wooden-handled horsehair neck duster into fragrant talcum powder and gently sweeping away clipped hair needles from her neck, ear arches, and collarbone, sending a faint powder cloud into the studio light'],
+  ['Stropping straight razor on hanging Russian leather strop beside stool', 'standing beside the backless stool briskly stropping a gleaming carbon steel folding straight razor back and forth along a hanging Russian leather strop with a crisp rhythmic snap before detailing her hairline'],
+  ['Turkish flame singeing technique for temple and ear peach fuzz on stool', 'leaning close beside her cheek, quickly gliding a burning alcohol-soaked cotton wand around the perimeter of her ear and temples, safely singeing away fine peach fuzz with artisan mastery'],
+  ['Vibrating Oster shoulder massage wand relaxing client after haircut on stool', 'strapping a chrome-plated vibrating hand-held massage wand to the back of his palm, working rhythmic vibrating waves across her neck and shoulders over the draped cape on the low stool'],
+  ['Precision shavette lineup along forehead arch and sideburns on stool', 'pulling forehead and temple skin taut with dry fingertips, gliding a disposable-blade stainless steel shavette with millimeter precision to carve a crisp architectural hairline perimeter inches from her eyes'],
+  ['Micro-bangs texturizing grazing brow bone with Japanese swivel shears on stool', 'reaching over her forehead from behind the low stool, holding damp micro-fringe flat against the brow bone with a carbon comb and vertically point-cuts feather-light separation into the tips with Japanese swivel shears'],
+  ['Dual-mirror reveal: barber adjusting second mirror reflecting nape angle on stool', 'standing behind the low stool holding an angled wooden-frame handheld mirror behind her crown, coordinating with the large wall mirror so she can admire the crisp tapered nape and rear graduation'],
+  ['Barber briskly snapping warm waffle towel across shoulders on stool', 'snapping a freshly warmed white waffle-weave cotton towel with a crisp acoustic pop before gently pressing it across her shoulders and neck to clear every last hair fragment on the stool'],
+  ['Cold water splash & splash-slap citrus kolonya finish on temples on stool', 'misting ice-cold rosewater across her face and following with a splash of 80-degree citrus kolonya briskly patted across her temples with a satisfying rhythmic palm clap beside the stool'],
+  ['Male barber resting reassuring hand on draped cape shoulder during mirror check on stool', 'resting one warm hand comfortably on her draped shoulder from behind the low stool, both gazing into the wall mirror reflection while evaluating the cheekbone framing and hair silhouette'],
+  ['Cordless fade clipper flicking up the temple curve on stool', 'using a light upward C-scoop wrist flick with cordless magnetic clippers along her temple and sideburn edge, blending high-density crown hair into an ultra-clean micro-taper inches from her cheek'],
+  ['Aluminum spray bottle misting with gentle laugh during consultation on stool', 'spritzing fine glistening water droplets from a brushed aluminum spray bottle while sharing a spontaneous chuckle with the client as damp bangs fall forward over the low stool'],
+  ['Deliberate scissor pivot and deep breath before final crown snip on stool', 'pausing with shears positioned at the apex of her crown from behind the stool, taking a slow deliberate breath while evaluating three-dimensional balance before executing the defining final snip']
 ]);
 
 const salonStoolModelPosture = makeOpts([
@@ -872,7 +978,18 @@ const salonCape = makeOpts([
   ['Classic striped barber cape over black bandeau crop top & low-rise denim', 'a retro pinstriped barber cape draped across the lap, leaving a black stretch bandeau crop top and low-rise denim shorts visible at the chest and waist'],
   ['Silky black salon cape parted over asymmetric crop top and cutoff denim shorts', 'a silky black cape parted slightly over the torso, showing an asymmetric one-shoulder ribbed crop top and cutoff denim shorts with subtle frayed hem detail'],
   ['Clean white salon cape loosely draped over cropped baby tee & distressed denim', 'a crisp white salon cape loosely draped around the neck over a soft grey cropped baby tee and distressed denim shorts dusted with hair clippings'],
-  ['Vintage leather barber chair seating with cape falling back over crop top & denim shorts', 'the client seated in the vintage leather hydraulic chair with the cutting cape falling naturally back over her shoulders, revealing a fitted ribbed crop top, silver navel accent, and denim cutoffs']
+  ['Vintage leather barber chair seating with cape falling back over crop top & denim shorts', 'the client seated in the vintage leather hydraulic chair with the cutting cape falling naturally back over her shoulders, revealing a fitted ribbed crop top, silver navel accent, and denim cutoffs'],
+  // Tactile Material & Cultural Heritage Cape Expansions
+  ['Clear-window phone-peek black nylon cape', 'an innovative black salon cape featuring a clear vinyl transparent window across the lap allowing the client to view her phone beneath the drape while clipped hair strands scatter across the nylon chest'],
+  ['Snap-collar heavy black vinyl industrial cape with water beading', 'a heavyweight glossy black vinyl waterproof salon cape snapped tightly at the throat over a paper neck strip, with fine water droplets and thick fallen dark hair ribbons beading across the slick vinyl surface'],
+  ['Vintage barber-pole striped piqué cape with brass snaps', 'an authentic vintage barber cape with bold red, white, and navy diagonal barber-pole striping, heavy brass snap fasteners, and a light dusting of cut hair clippings across the lap'],
+  ['Satin kimono wrap cutting gown with sash tie', 'an elegant black silk-satin kimono-style cutting robe tied snugly at the waist with an obi sash, draped smoothly over the chair arms with scattered fine hair wisps'],
+  ['Tailored chalkstripe charcoal flannel barber drape', 'a bespoke charcoal-grey wool flannel drape with subtle white chalkstripes and an adjustable snap collar, exuding old-world sartorial barbershop elegance with freshly fallen hair fragments'],
+  ['Translucent frosted polyurethane modern salon cape', 'an ultra-modern translucent frosted-poly cutting cape that softly diffuses the outfit colors beneath while displaying crisp dark cut hair clippings clearly across the shoulders'],
+  ['Deep saffron & crimson raw Matka silk heritage drape', 'a rich Indian heritage cutting drape woven from raw textured Matka silk in deep saffron and crimson red with gold border trim, draped over a traditional embroidered kurti with scattered hair snippets'],
+  ['Rubberized neoprene shampoo backwash cape with contoured neck seal', 'a waterproof matte-black rubberized neoprene cape with a flexible magnetic neck seal designed for basin wash and wet razor passes, shedding water and hair effortlessly'],
+  ['Crisp white piqué cotton barber cape with embroidered crest', 'a crisp white honeycomb piqué cotton barber drape with a vintage embroidered barbershop crest over the chest, contrasting sharply with freshly snipped dark hair wisps'],
+  ['Retro micro-gingham check cape with red contrast binding', 'a nostalgic black-and-white micro-gingham check cutting cape with bright cherry-red bias tape binding around the perimeter and collar, dusted with fine hair dust']
 ]);
 
 const salonStationProps = makeOpts([
@@ -1028,7 +1145,16 @@ const salonLotions = makeOpts([
   ['Sea salt texturizing lotion & cutting lotion combed through damp crown', 'lightweight mineral sea salt and botanical cutting lotion combed smoothly through damp hair to provide clean scissor tension and effortless piecey separation'],
   ['Leave-in keratin moisturizing lotion smoothed through hair ends', 'velvety leave-in keratin lotion smoothed through hair lengths and ends with flat palms to seal cuticles with glossy salon luster'],
   ['Astringent splash & barber talc dusting away clippings from temples and collarbone', 'brisk refreshing citrus astringent splash followed by a soft dusting of barbershop talcum powder to sweep micro-clippings cleanly off temples, neck, and collarbones'],
-  ['Herbal hair & scalp oil treatment massaged with warm towel wrap', 'traditional warm ayurvedic herbal oil droplets worked into the scalp, temples, and hair strands, accompanied by a steaming rolled white towel wrap']
+  ['Herbal hair & scalp oil treatment massaged with warm towel wrap', 'traditional warm ayurvedic herbal oil droplets worked into the scalp, temples, and hair strands, accompanied by a steaming rolled white towel wrap'],
+  // Authentic Cultural Grooming Rituals & Scalp Treatments
+  ['Mustard oil (Sarson tel) thermal scalp rub & temple massage', 'traditional pure warm mustard oil (sarson tel) massaged deeply into the scalp and temples with firm rhythmic thapki palm pats, infusing roots with a rich golden organic sheen and authentic herbal thermal warmth'],
+  ['Fitkari (potash alum) block glide over freshly faded nape & neckline', 'a wet crystal block of natural fitkari (potash alum) glided smoothly across the bare neck and freshly faded nape skin, instantly tightening pores with authentic barber astringent care'],
+  ['Virgin coconut & fresh curry leaf champi oil infusion', 'fragrant warm virgin coconut oil infused with crushed fresh curry leaves, worked gently through scalp partings and smoothed into hair lengths for deep gloss and cuticle nourishment'],
+  ['Turkish 80° lemon kolonya splash & brisk barber palm slap', 'an invigorating splash of authentic 80-degree citrus lemon kolonya briskly patted and clapped across the freshly groomed temples, neck, and shoulders with classic barber vitality'],
+  ['Steaming eucalyptus & peppermint towel cocoon wrap', 'a thick steaming white barber towel infused with pure eucalyptus and peppermint essential oils wrapped snugly around the face, temples, and neck, opening pores before final detailing'],
+  ['Sandalwood (Chandan) & rosewater cooling paste along forehead hairline', 'cooling golden sandalwood (chandan) paste whipped with pure Kannauj rosewater lightly applied along the forehead margin and temples, leaving a soothing aromatic matte finish'],
+  ['Spiced bay rum & clove barbershop aftershave splash', 'a splash of classic Caribbean spiced bay rum with notes of clove, cedar, and orange peel smoothed into freshly clipped temple points and sideburns with a refreshing tingling finish'],
+  ['Ceramic scuttle badger-bristle hot lather foaming beard & nape prep', 'steaming hot shaving lather whisked to stiff peaks in a heavy ceramic scuttle and painted generously across the neckline with a silver-tipped badger-hair brush']
 ]);
 
 
@@ -1109,6 +1235,12 @@ const salonCollageFlow = makeOpts([
   ['Dual-Mirror Reveal & Aftercare (Face Framing → Duster → Rear Mirror → Admire)', 'dual_mirror'],
   ['Close-Up Precision Craft (Parting → Macro Fingers → Thinning → POV)', 'precision_craft'],
   ['Barber Grooming & Body Shave (Consultation → Armpit Shave → Chest Shave → Reveal)', 'grooming_shave'],
+  ['Traditional Barber Ritual (Chai → Hot Lather → Scissor → Alum & Kolonya)', 'barber_ritual'],
+  ['Authentic Indian Champi Flow (Neem Comb → Champi Massage → Precision Cut → Reveal)', 'indian_champi_flow'],
+  ['Glass Bob Precision Arc (Misting → Blunt Baseline → C-Bevel → Profile Check)', 'glass_bob_transformation'],
+  ['Artisan Razor & Clipper Sculpt (Clips → Feather Razor → Foil Nape → Rear Mirror)', 'razor_sculpt_flow'],
+  ['Backstage Editorial Session (Wide Shop → Macro Shears → Diffuser → Master Finish)', 'backstage_editorial_flow'],
+  ['Close Sensory Macro Flow (Parting → Finger Pivot → Pin Wave → Talc Duster)', 'close_sensory_macro'],
   ['✦ Custom 4-Panel Selection (Individually Chosen Below)', 'custom']
 ]);
 
@@ -1120,7 +1252,13 @@ const COLLAGE_PRESETS = {
   wash_and_cut: ['shampoo_basin', 'spray_misting', 'scissor_blunt_perimeter', 'blowout_curved_ends'],
   dual_mirror: ['scissor_face_framing', 'talcum_neck_duster', 'handheld_mirror_reveal', 'front_mirror_admire'],
   precision_craft: ['carbon_comb_parting', 'macro_hands_tools', 'thinning_shears_bulk', 'over_shoulder_mirror'],
-  grooming_shave: ['consultation_chair', 'armpit_shave', 'chest_hair_shave', 'front_mirror_admire']
+  grooming_shave: ['consultation_chair', 'armpit_shave', 'chest_hair_shave', 'front_mirror_admire'],
+  barber_ritual: ['consultation_chai', 'chest_hair_shave', 'scissor_blunt_perimeter', 'post_shave_balm'],
+  indian_champi_flow: ['comb_through_dry', 'scalp_massage_rinse', 'scissor_face_framing', 'front_mirror_admire'],
+  glass_bob_transformation: ['spray_misting', 'scissor_blunt_perimeter', 'flat_iron_c_bevel', 'side_profile_check'],
+  razor_sculpt_flow: ['sectioning_clips', 'feathering_razor_ends', 'foil_nape_shave', 'handheld_mirror_reveal'],
+  backstage_editorial_flow: ['wide_shop_bustle', 'macro_hands_tools', 'diffuser_volume', 'barber_satisfied_finish'],
+  close_sensory_macro: ['carbon_comb_parting', 'macro_hands_tools', 'duckbill_wave_set', 'talcum_neck_duster']
 };
 
 const STAGE_SCENE_MAP = {
@@ -2911,6 +3049,43 @@ if(currentStudioMode === 'salon' && activeSection === 'salonCameraSec'){
     buildPrompt();
   });
   host.appendChild(banner);
+
+  const capeChipsWrap = document.createElement('div');
+  capeChipsWrap.className = 'quick-chips-card';
+  capeChipsWrap.style.cssText = 'grid-column: 1 / -1; margin: 0 0 14px 0; padding: 12px 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;';
+  capeChipsWrap.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 13px;">🛡️</span>
+      <strong style="font-size: 12px; color: var(--text, #fff);">Cape Quick-Select:</strong>
+    </div>
+    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+      <button type="button" class="btn btn-secondary btn-small" data-cape="classic" style="padding: 4px 10px; font-size: 11px;">Classic Black</button>
+      <button type="button" class="btn btn-secondary btn-small" data-cape="phone" style="padding: 4px 10px; font-size: 11px;">📱 Phone-Peek</button>
+      <button type="button" class="btn btn-secondary btn-small" data-cape="vinyl" style="padding: 4px 10px; font-size: 11px;">Heavy Vinyl</button>
+      <button type="button" class="btn btn-secondary btn-small" data-cape="stripe" style="padding: 4px 10px; font-size: 11px;">💈 Vintage Stripe</button>
+      <button type="button" class="btn btn-secondary btn-small" data-cape="silk" style="padding: 4px 10px; font-size: 11px;">🥻 Saffron Silk</button>
+      <button type="button" class="btn btn-secondary btn-small" data-cape="unsnap" style="padding: 4px 10px; font-size: 11px;">🔓 Unsnapped Reveal</button>
+    </div>
+  `;
+  capeChipsWrap.querySelectorAll('button[data-cape]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.cape;
+      let match = null;
+      if(type === 'classic') match = fields.salonCape.opts[0];
+      else if(type === 'phone') match = fields.salonCape.opts.find(o => o.label.includes('Clear-window') || o.label.includes('Translucent viewing-window'));
+      else if(type === 'vinyl') match = fields.salonCape.opts.find(o => o.label.includes('Snap-collar heavy black vinyl') || o.label.includes('Heavyweight black vinyl'));
+      else if(type === 'stripe') match = fields.salonCape.opts.find(o => o.label.includes('barber-pole') || o.label.includes('Vintage blue and white pinstriped'));
+      else if(type === 'silk') match = fields.salonCape.opts.find(o => o.label.includes('Matka silk') || o.label.includes('saffron'));
+      else if(type === 'unsnap') match = fields.salonCape.opts.find(o => o.label.includes('Unsnapped cape collar') || o.label.includes('Loosened cape neckline'));
+      if(match){
+        values.salonCape = match;
+        renderFields();
+        buildPrompt();
+        toast(`Cape set to: ${match.label.split('(')[0].trim()}`);
+      }
+    });
+  });
+  host.appendChild(capeChipsWrap);
 }
 
 if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
@@ -2966,6 +3141,51 @@ if(currentStudioMode === 'photoshoot' && activeSection === 'pose'){
   });
 
   host.appendChild(switchWrap);
+
+  const windChipsWrap = document.createElement('div');
+  windChipsWrap.className = 'quick-chips-card';
+  windChipsWrap.style.cssText = 'grid-column: 1 / -1; margin: 0 0 14px 0; padding: 10px 14px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;';
+  windChipsWrap.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 13px;">💨</span>
+      <strong style="font-size: 12px; color: var(--text, #fff);">Wind Dynamics:</strong>
+    </div>
+    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+      <button type="button" class="btn btn-secondary btn-small" data-wind="still" style="padding: 4px 10px; font-size: 11px;">🍃 Still / Studio</button>
+      <button type="button" class="btn btn-secondary btn-small" data-wind="breeze" style="padding: 4px 10px; font-size: 11px;">🌬️ Light Breeze</button>
+      <button type="button" class="btn btn-secondary btn-small" data-wind="fan" style="padding: 4px 10px; font-size: 11px;">💨 Studio Fan</button>
+      <button type="button" class="btn btn-secondary btn-small" data-wind="billow" style="padding: 4px 10px; font-size: 11px;">🌪️ Runway Billow</button>
+    </div>
+  `;
+  windChipsWrap.querySelectorAll('button[data-wind]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.wind;
+      if(type === 'still'){
+        const wMatch = fields.weather?.opts.find(o => o.label.includes('neutral') || o.label.includes('No weather'));
+        if(wMatch) values.weather = wMatch;
+        toast('Wind: Still / Studio Calm 🍃');
+      } else if(type === 'breeze'){
+        const wMatch = fields.weather?.opts.find(o => o.label.includes('Light breeze'));
+        if(wMatch) values.weather = wMatch;
+        toast('Wind: Light Breeze 🌬️');
+      } else if(type === 'fan'){
+        const mMatch = fields.motion?.opts.find(o => o.label.includes('Soft wind'));
+        if(mMatch) values.motion = mMatch;
+        const vMatch = fields.hairVolume?.opts.find(o => o.label.includes('Wind-touched'));
+        if(vMatch) values.hairVolume = vMatch;
+        toast('Wind: Studio Fan 💨');
+      } else if(type === 'billow'){
+        const pMatch = fields.pose?.opts.find(o => o.label.includes('wind-machine') || o.label.includes('billowing'));
+        if(pMatch) values.pose = pMatch;
+        const vMatch = fields.hairVolume?.opts.find(o => o.label.includes('Windblown runway'));
+        if(vMatch) values.hairVolume = vMatch;
+        toast('Wind: Runway Billow 🌪️');
+      }
+      renderFields();
+      buildPrompt();
+    });
+  });
+  host.appendChild(windChipsWrap);
 }
 
 if(activeSection === 'wardrobe'){
@@ -4194,6 +4414,8 @@ function sanitizeSoloClientCamera(camText){
     .replace(/ {2,}/g, ' ').replace(/,\s*,/g, ',').trim();
 }
 
+let lookbookFormat = 'campaign_4';
+
 function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts = {}){
   const isFaceHidden = !!opts.isFaceHidden;
   const isFullVeil = !!opts.isFullVeil;
@@ -4254,6 +4476,419 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     ? 'REFERENCE-IMAGE EDIT'
     : 'REFERENCE-GUIDED PORTRAIT';
 
+  // --- 1. TRIPTYCH (3 PANELS) ---
+  if(lookbookFormat === 'triptych_3'){
+    const panel1 = [
+      `${lbPrefix} — PANEL 1: INTIMATE PROFILE & HAIRCUT ARCHITECTURE`,
+      '',
+      'CREATIVE INTENT',
+      `Close-up beauty and side-profile study of the same adult woman (${intentContext}). Critical focus on the ${facePortraitFocusText} and cheekbone-grazing haircut graduation.${hasMalePresence ? ' Solitary female model rule: zero secondary women.' : ''}`,
+      '',
+      'HAIR & BEAUTY SPECIFICATION',
+      `Hairstyle: ${hairDesc}.${veilLine}${moistClause} Color: ${hairCol}. Finish: ${hairFin}. Makeup: ${makeupDesc}. Pristine individual strand separation and natural flyaways.`,
+      '',
+      'CAMERA & LIGHTING',
+      `Framing: Intimate side-profile close-up. ${eyeFocusText} Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      '',
+      'CONTINUITY & SAFEGUARDS',
+      (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '• Maintain exact facial identity, realistic skin pores and believable facial anatomy.',
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const panel2 = [
+      `${lbPrefix} — PANEL 2: THREE-QUARTER KINETIC & TAILORING POSE`,
+      '',
+      'CREATIVE INTENT',
+      `Three-quarter medium torso fashion portrait capturing spontaneous posture and wardrobe tailoring (${intentContext}).`,
+      '',
+      'WARDROBE & STYLING',
+      `Outfit: ${outfitDesc}. Garment fit: ${outfitFitDesc}. Accessories: ${accDesc}. Natural fabric drape and realistic seam lines.`,
+      '',
+      'POSE, EXPRESSION & INTERACTION',
+      hasMalePresence
+        ? `Interaction-driven posture: ${maleInterDesc}. Expression: ${exprDesc}. Hair: ${hairDesc}${veilLine} (${hairCol}).`
+        : `Pose: ${poseDesc}. Expression: ${exprDesc}. Hand detail: ${gestDesc}. Hair: ${hairDesc}${veilLine} (${hairCol}).`,
+      '',
+      'SETTING & LIGHTING',
+      `Location: ${bgDesc}. Lighting: ${lightDesc}. Color grade: ${gradeDesc}. Camera framing: Medium 3/4 crop.${palNote}`,
+      '',
+      'CONTINUITY & SAFEGUARDS',
+      '• Unbroken continuity: exact same woman, haircut, outfit, and palette as Panel 1.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const panel3 = [
+      `${lbPrefix} — PANEL 3: FULL ENVIRONMENTAL SILHOUETTE & SCALE`,
+      '',
+      'CREATIVE INTENT',
+      `Full-length head-to-toe environmental editorial photograph of the same adult woman in ${bgDesc}.${hasMalePresence ? ` Interaction: ${maleInterDesc}.` : ''}`,
+      '',
+      'FULL SILHOUETTE & WARDROBE',
+      `Complete head-to-toe styling of ${outfitDesc}. Dynamic movement and authentic garment silhouette against architectural depth.`,
+      '',
+      'HAIR & POSE IN MOTION',
+      hasMalePresence
+        ? `Hairstyle: ${hairDesc}${veilLine} in natural motion. Interaction: ${maleInterDesc}. Expression: ${exprDesc}.`
+        : `Hairstyle: ${hairDesc}${veilLine} in natural motion. Pose: ${poseDesc}. Expression: ${exprDesc}.`,
+      '',
+      'PERSPECTIVE & CAMERA',
+      `Wide environmental composition showing authentic scale and architectural depth. Lighting: ${lightDesc}. Color grade: ${gradeDesc}. Aspect ratio: ${aspDesc}.${palNote}`,
+      '',
+      'CONTINUITY & SAFEGUARDS',
+      '• Strict series continuity with Panels 1 and 2.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const allPanels = [
+      `${lbPrefix} — 3-PANEL EDITORIAL TRIPTYCH STORY`,
+      '',
+      'SERIES CONCEPT & CONTINUITY',
+      `Capture the same adult woman across a 3-panel editorial triptych narrative (${intentContext}). Identical identity, exact same haircut (${hairDesc})${veilLine}, matching hair color (${hairCol}), consistent wardrobe (${outfitDesc}), and unified color grade (${gradeDesc}) across all three panels.${palNote}`,
+      '',
+      '=== PANEL 1: INTIMATE PROFILE & HAIRCUT ARCHITECTURE ===',
+      `Tight beauty crop. Razor-sharp focus on the hairstyle (${hairDesc})${veilLine}, natural skin texture, and ${hideEyes ? 'veiled profile' : 'expressive facial gaze'}. Finish: ${hairFin}. Makeup: ${makeupDesc}.`,
+      '',
+      '=== PANEL 2: THREE-QUARTER KINETIC & TAILORING POSE ===',
+      hasMalePresence
+        ? `Medium torso crop. Garment: ${outfitDesc} (${outfitFitDesc}). Interaction: ${maleInterDesc}. Expression: ${exprDesc}.`
+        : `Medium torso crop. Garment: ${outfitDesc} (${outfitFitDesc}). Pose: ${poseDesc}. Expression: ${exprDesc}. Hand detail: ${gestDesc}.`,
+      '',
+      '=== PANEL 3: FULL ENVIRONMENTAL SILHOUETTE & SCALE ===',
+      hasMalePresence
+        ? `Head-to-toe wide composition in ${bgDesc}. Full outfit silhouette, architectural depth, and interaction: ${maleInterDesc}.`
+        : `Head-to-toe wide composition in ${bgDesc}. Full outfit silhouette, architectural depth, and dynamic motion.`,
+      '',
+      'LIGHTING, CAMERA & FINISH',
+      `Lighting: ${lightDesc}. Camera angle & lens: ${val('angle')}, ${val('lens')}. Photography style: ${val('style')}. Color grade: ${gradeDesc}. Quality: ${qualDesc}. Aspect ratio: ${aspDesc}.`,
+      '',
+      (extraLines && extraLines.length ? 'ADDITIONAL STYLING DETAILS\n' + extraLines.join('\n') + '\n\n' : '') +
+      'IDENTITY & REALISM SAFEGUARDS',
+      (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '• Natural photographic texture, consistent identity and believable materials.',
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    return {
+      all: allPanels.replace(/\n{3,}/g, '\n\n'),
+      '1': panel1.replace(/\n{3,}/g, '\n\n'),
+      '2': panel2.replace(/\n{3,}/g, '\n\n'),
+      '3': panel3.replace(/\n{3,}/g, '\n\n')
+    };
+  }
+
+  // --- 2. FEATURE (5 SHOTS) ---
+  if(lookbookFormat === 'feature_5'){
+    const fShot1 = [
+      `${lbPrefix} — SHOT 1: MACRO BEAUTY PORTRAIT & SKIN LUSTER`,
+      '',
+      'CREATIVE INTENT',
+      `Extreme close-up beauty portrait of the same adult woman ${intentContext}. Razor-sharp photographic focus on the ${facePortraitFocusText}.`,
+      '',
+      'HAIR & BEAUTY FOCUS',
+      `Hairstyle: ${hairDesc}.${veilLine}${moistClause} Color: ${hairCol}. Finish: ${hairFin}. Makeup: ${makeupDesc}. Visible skin micro-pores and delicate volume.`,
+      '',
+      'FRAMING & LIGHTING',
+      `Framing: Intimate macro headshot. ${eyeFocusText} Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      '',
+      'IDENTITY & SAFEGUARDS',
+      (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '• Exact facial identity and natural anatomy.',
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const fShot2 = [
+      `${lbPrefix} — SHOT 2: HALF-LENGTH PROFILE & ACCESSORY DETAIL`,
+      '',
+      'CREATIVE INTENT',
+      `Waist-up profile editorial crop capturing neckline, accessories (${accDesc}), and hair silhouette (${intentContext}).`,
+      '',
+      'WARDROBE & STYLING',
+      `Outfit: ${outfitDesc} (${outfitFitDesc}). Accessories: ${accDesc}. Natural fabric behavior and authentic jewelry styling.`,
+      '',
+      'POSE & EXPRESSION',
+      hasMalePresence
+        ? `Interaction: ${maleInterDesc}. Expression: ${exprDesc}. Hair: ${hairDesc}${veilLine}.`
+        : `Pose: ${poseDesc}. Expression: ${exprDesc}. Hand detail: ${gestDesc}. Hair: ${hairDesc}${veilLine}.`,
+      '',
+      'SETTING & LIGHTING',
+      `Location: ${bgDesc}. Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      '',
+      'SERIES CONTINUITY',
+      '• Unbroken continuity with Shot 1.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const fShot3 = [
+      `${lbPrefix} — SHOT 3: FULL-LENGTH ARCHITECTURAL SILHOUETTE`,
+      '',
+      'CREATIVE INTENT',
+      `Full-length head-to-toe editorial silhouette of the same adult woman against the architectural depth of ${bgDesc}.`,
+      '',
+      'WARDROBE & POSTURE',
+      `Complete styling of ${outfitDesc} with authentic garment movement and footwear. Pose: ${poseDesc}. Expression: ${exprDesc}.`,
+      '',
+      'PERSPECTIVE & SCALE',
+      `Wide environmental composition. Lighting: ${lightDesc}. Color grade: ${gradeDesc}. Aspect ratio: ${aspDesc}.${palNote}`,
+      '',
+      'SERIES CONTINUITY',
+      '• Unbroken continuity with Shots 1 and 2.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const fShot4 = [
+      `${lbPrefix} — SHOT 4: DYNAMIC IN-BETWEEN MOVEMENT & TURN`,
+      '',
+      'CREATIVE INTENT',
+      `Candid editorial in-motion take capturing hair inertia, natural fabric sweep, and authentic spontaneous reaction (${intentContext}).`,
+      '',
+      'KINETIC DYNAMICS',
+      `Hair: ${hairDesc}${veilLine} moving naturally mid-turn. Pose: dynamic kinetic motion with natural unforced posture. Expression: ${exprDesc}.`,
+      '',
+      'SETTING & LIGHTING',
+      `Location: ${bgDesc}. Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      '',
+      'SERIES CONTINUITY',
+      '• Unbroken continuity across the editorial spread.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const fShot5 = [
+      `${lbPrefix} — SHOT 5: TACTILE TEXTURE & ACCESSORY MACRO`,
+      '',
+      'CREATIVE INTENT',
+      `Artistic close-up macro accent showcasing tactile textile weave, jewelry craftsmanship, and atmospheric light caustics.`,
+      '',
+      'TEXTURE ACCENT',
+      `Focus on accessories (${accDesc}), tactile texture of ${outfitDesc}, and individual hair strand luster of ${hairDesc}${veilLine}.`,
+      '',
+      'OPTICAL FINISH',
+      `Creamy background bokeh and cinematic highlight roll-off. Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      '',
+      'SERIES CONTINUITY',
+      '• Harmonized material and grading continuity with complete 5-shot spread.\n' + ((Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : ''),
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const allFeature = [
+      `${lbPrefix} — 5-SHOT HIGH-FASHION EDITORIAL SPREAD`,
+      '',
+      'SERIES CONCEPT & CONTINUITY',
+      `Capture the same adult woman across an extensive 5-shot high-fashion editorial spread (${intentContext}). Identical identity, exact same haircut (${hairDesc})${veilLine}, matching hair color (${hairCol}), consistent wardrobe (${outfitDesc}), and unified color grade (${gradeDesc}) across all five frames.${palNote}`,
+      '',
+      '=== SHOT 1: MACRO BEAUTY PORTRAIT & SKIN LUSTER ===',
+      `Tight macro headshot. Razor-sharp focus on hairstyle (${hairDesc})${veilLine}, skin pores, and ${hideEyes ? 'veiled profile' : 'direct eye contact'}. Finish: ${hairFin}. Makeup: ${makeupDesc}.`,
+      '',
+      '=== SHOT 2: HALF-LENGTH PROFILE & ACCESSORY DETAIL ===',
+      `Waist-up torso crop. Garment: ${outfitDesc}. Accessories: ${accDesc}. Natural tailoring and profile silhouette.`,
+      '',
+      '=== SHOT 3: FULL-LENGTH ARCHITECTURAL SILHOUETTE ===',
+      `Head-to-toe wide composition in ${bgDesc}. Full outfit silhouette, footwear, and architectural depth.`,
+      '',
+      '=== SHOT 4: DYNAMIC IN-BETWEEN MOVEMENT & TURN ===',
+      `Kinetic mid-motion frame. Hair: ${hairDesc}${veilLine} moving with inertia. Expression: ${exprDesc}. Spontaneous editorial energy.`,
+      '',
+      '=== SHOT 5: TACTILE TEXTURE & ACCESSORY MACRO ===',
+      `Artistic close-up accent. Tactile fabric texture, signature jewelry (${accDesc}), and specular light highlights.`,
+      '',
+      'LIGHTING, CAMERA & FINISH',
+      `Lighting: ${lightDesc}. Camera angle & lens: ${val('angle')}, ${val('lens')}. Photography style: ${val('style')}. Color grade: ${gradeDesc}. Quality: ${qualDesc}. Aspect ratio: ${aspDesc}.`,
+      '',
+      (extraLines && extraLines.length ? 'ADDITIONAL STYLING DETAILS\n' + extraLines.join('\n') + '\n\n' : '') +
+      'IDENTITY & REALISM SAFEGUARDS',
+      (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '• Natural photographic texture, consistent identity and believable materials.',
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    return {
+      all: allFeature.replace(/\n{3,}/g, '\n\n'),
+      '1': fShot1.replace(/\n{3,}/g, '\n\n'),
+      '2': fShot2.replace(/\n{3,}/g, '\n\n'),
+      '3': fShot3.replace(/\n{3,}/g, '\n\n'),
+      '4': fShot4.replace(/\n{3,}/g, '\n\n'),
+      '5': fShot5.replace(/\n{3,}/g, '\n\n')
+    };
+  }
+
+  // --- 3. CONTACT SHEET (6 FRAMES) ---
+  if(lookbookFormat === 'contact_6'){
+    const cFrame1 = [
+      `${lbPrefix} — FRAME 1: SETTING ARRIVAL & ENVIRONMENTAL CONTEXT`,
+      '',
+      'CREATIVE INTENT',
+      `Medium-wide establishing shot of the same adult woman arriving in ${bgDesc} (${intentContext}).`,
+      '',
+      'WARDROBE & STYLING',
+      `Outfit: ${outfitDesc} (${outfitFitDesc}). Accessories: ${accDesc}. Establishing scale and atmospheric depth.`,
+      '',
+      'CAMERA & LIGHTING',
+      `Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const cFrame2 = [
+      `${lbPrefix} — FRAME 2: MACRO BEAUTY HEADSHOT & GAZE`,
+      '',
+      'CREATIVE INTENT',
+      `Intimate beauty macro headshot. Razor-sharp iris detail, natural skin pores, and haircut architecture (${hairDesc}${veilLine}).`,
+      '',
+      'BEAUTY SPECIFICATION',
+      `Finish: ${hairFin}. Makeup: ${makeupDesc}. Color: ${hairCol}.${moistClause}`,
+      '',
+      'CAMERA & LIGHTING',
+      `Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const cFrame3 = [
+      `${lbPrefix} — FRAME 3: MEDIUM POSED LOOK & GARMENT SILHOUETTE`,
+      '',
+      'CREATIVE INTENT',
+      `Three-quarter fashion crop capturing poised garment tailoring and confident stance (${intentContext}).`,
+      '',
+      'POSE & WARDROBE',
+      `Outfit: ${outfitDesc}. Pose: ${poseDesc}. Expression: ${exprDesc}. Hand detail: ${gestDesc}.`,
+      '',
+      'CAMERA & LIGHTING',
+      `Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const cFrame4 = [
+      `${lbPrefix} — FRAME 4: KINETIC IN-MOTION TURN & HAIR DYNAMICS`,
+      '',
+      'CREATIVE INTENT',
+      `Action freeze frame capturing hair and garment in motion mid-pivot with natural inertia.`,
+      '',
+      'DYNAMICS',
+      `Hair: ${hairDesc}${veilLine} caught mid-turn with natural airborne flyaways. Expression: ${exprDesc}.`,
+      '',
+      'CAMERA & LIGHTING',
+      `Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const cFrame5 = [
+      `${lbPrefix} — FRAME 5: LOW-ANGLE FULL ENVIRONMENTAL SWEEP`,
+      '',
+      'CREATIVE INTENT',
+      `Low-angle full-length composition emphasizing statuesque poise, footwear, and ceiling/sky scale in ${bgDesc}.`,
+      '',
+      'SILHOUETTE & POSTURE',
+      `Complete head-to-toe styling of ${outfitDesc}. Stance: commanding power stance. Expression: ${exprDesc}.`,
+      '',
+      'CAMERA & LIGHTING',
+      `Low-angle perspective. Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const cFrame6 = [
+      `${lbPrefix} — FRAME 6: CANDID POST-SHOT LAUGH & NATURAL RESET`,
+      '',
+      'CREATIVE INTENT',
+      `Authentic in-between candid frame capturing a genuine laugh and natural shoulder drop between formal takes.`,
+      '',
+      'EXPRESSION & TEXTURE',
+      `Spontaneous candid laughter with relaxed facial muscles. Hair settling naturally. Garment folds in relaxed state.`,
+      '',
+      'CAMERA & LIGHTING',
+      `Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    const allContact = [
+      `${lbPrefix} — 6-FRAME EDITORIAL CONTACT SHEET`,
+      '',
+      'SERIES CONCEPT & CONTINUITY',
+      `Capture the same adult woman across a 6-frame editorial contact sheet sequence (${intentContext}). Exact same identity, consistent haircut (${hairDesc})${veilLine}, matching color (${hairCol}), unified wardrobe (${outfitDesc}), and continuous color grade (${gradeDesc}) across all six frames.${palNote}`,
+      '',
+      '=== FRAME 1: SETTING ARRIVAL & ENVIRONMENTAL CONTEXT ===',
+      `Medium-wide establishing composition in ${bgDesc}. Outfit: ${outfitDesc}.`,
+      '',
+      '=== FRAME 2: MACRO BEAUTY HEADSHOT & GAZE ===',
+      `Tight macro headshot. Razor-sharp iris detail, skin texture, and hair finish: ${hairFin}. Makeup: ${makeupDesc}.`,
+      '',
+      '=== FRAME 3: MEDIUM POSED LOOK & GARMENT SILHOUETTE ===',
+      `Three-quarter fashion crop. Garment: ${outfitDesc} (${outfitFitDesc}). Pose: ${poseDesc}. Expression: ${exprDesc}.`,
+      '',
+      '=== FRAME 4: KINETIC IN-MOTION TURN & HAIR DYNAMICS ===',
+      `Kinetic freeze frame. Hair: ${hairDesc}${veilLine} moving in aerodynamic flight mid-turn.`,
+      '',
+      '=== FRAME 5: LOW-ANGLE FULL ENVIRONMENTAL SWEEP ===',
+      `Low-angle full-length composition in ${bgDesc}. Complete silhouette and footwear.`,
+      '',
+      '=== FRAME 6: CANDID POST-SHOT LAUGH & NATURAL RESET ===',
+      `Spontaneous candid outtake. Authentic laughter, relaxed shoulders, and natural post-shot composure.`,
+      '',
+      'LIGHTING, CAMERA & FINISH',
+      `Lighting: ${lightDesc}. Camera angle & lens: ${val('angle')}, ${val('lens')}. Photography style: ${val('style')}. Color grade: ${gradeDesc}. Quality: ${qualDesc}. Aspect ratio: ${aspDesc}.`,
+      '',
+      (extraLines && extraLines.length ? 'ADDITIONAL STYLING DETAILS\n' + extraLines.join('\n') + '\n\n' : '') +
+      'IDENTITY & REALISM SAFEGUARDS',
+      (Array.isArray(checks) && checks.length) ? checks.map(x=>'• '+x).join('\n') : '• Natural photographic texture, consistent identity and believable materials.',
+      custNote,
+      '',
+      'AVOID / NEGATIVE GUIDANCE',
+      negsText
+    ].filter(Boolean).join('\n');
+
+    return {
+      all: allContact.replace(/\n{3,}/g, '\n\n'),
+      '1': cFrame1.replace(/\n{3,}/g, '\n\n'),
+      '2': cFrame2.replace(/\n{3,}/g, '\n\n'),
+      '3': cFrame3.replace(/\n{3,}/g, '\n\n'),
+      '4': cFrame4.replace(/\n{3,}/g, '\n\n'),
+      '5': cFrame5.replace(/\n{3,}/g, '\n\n'),
+      '6': cFrame6.replace(/\n{3,}/g, '\n\n')
+    };
+  }
+
+  // --- 4. CAMPAIGN (4 SHOTS) (DEFAULT) ---
   const shot1 = [
     `${lbPrefix} — SHOT 1: BEAUTY CLOSE-UP PORTRAIT`,
     '',
@@ -4412,6 +5047,9 @@ function buildSalonPrompt(){
       .replace(/tall styling chair/gi, 'low backless stool')
       .replace(/styling chair/gi, 'low backless salon stool')
       .replace(/barber chair/gi, 'low backless stool')
+      .replace(/hydraulic\s+pump\s+lever/gi, 'low stool frame')
+      .replace(/chair\s+back/gi, 'open seating perimeter')
+      .replace(/back\s+of\s+the\s+chair/gi, 'open stool perimeter')
       .replace(/tufted Belmont leather headrest|padded leather headrest|crescent headrest|headrest/gi, 'open seating perimeter behind her neck')
       .replace(/chrome leather armrests|chrome armrests|chair armrest|leather armrest|armrests?/gi, 'the open stool rim')
       .replace(/the chrome pump pedal/gi, 'the stool perimeter')
@@ -4526,13 +5164,17 @@ function buildSalonPrompt(){
       ? 'high-moisture freshly washed hair undergoing partial thermal shaping along the ends with glossy luster'
       : 'thoroughly drenched, saturated soaked wet hair dripping heavily with water sheen, hair ribbons clinging flush to the scalp, temples, and nape with zero airy puffiness'
   };
+  const salonLotionVal = val('salonLotion') || '';
+  const isHerbalOilTreatment = /mustard oil|sarson tel|champi|coconut oil|chandan|herbal oil/i.test(salonLotionVal);
   const moisturePrimaryBullet = (salonHairMoisture === 'wet' && !isExplicitDryStage)
     ? '• Mandatory Soaked Wet Hair Physics: The female model\'s hair is thoroughly water-soaked and dripping wet—heavy dark wet hair ribbons clinging flush against her scalp, temples, cheeks, and neck with glistening aquatic water sheen and zero dry fluffy flyaways.'
-    : (salonHairMoisture === 'damp' && !isExplicitDryStage)
-      ? '• Damp Hair Physics: Evenly spray-misted damp hair texture held smoothly in comb tension with fine translucent water droplets catching salon light.'
-      : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
-        ? '• Dry Blown-Out Hair Physics: Completely bone-dry, freshly blown-out airy hair with natural bounce, lightweight separation, and zero water dampness or wet clumping.'
-        : '';
+    : (isHerbalOilTreatment)
+      ? '• Herbal Oil Conditioning Luster: Rich organic herbal oil treatment infusing hair strands with a healthy warm luster, supple strand clumping, and authentic nourishing gloss without synthetic greasy film or bone-dry frizz.'
+      : (salonHairMoisture === 'damp' && !isExplicitDryStage)
+        ? '• Damp Hair Physics: Evenly spray-misted damp hair texture held smoothly in comb tension with fine translucent water droplets catching salon light.'
+        : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
+          ? '• Dry Blown-Out Hair Physics: Completely bone-dry, freshly blown-out airy hair with natural bounce, lightweight separation, and zero water dampness or wet clumping.'
+          : '';
 
   // Header / Subject preservation
   if(isFemaleModelBarber){
@@ -4744,11 +5386,13 @@ function buildSalonPrompt(){
   const haircutDisplay = `${haircutText}${clipperGuardNote}${wetHaircutNote}`;
   const moistureEnforceDirective = (salonHairMoisture === 'wet' && !isExplicitDryStage)
     ? 'MANDATORY SOAKED / WET-LOOK PHYSICS: Hair fibers are thoroughly drenched from root to tip; strands clump tightly into glossy dark wet ribbons; roots press flat and heavy against crown and nape; gleaming water droplets bead along temples, neck, and collarbones; zero dry puffy volume or loose flyaways.'
-    : (salonHairMoisture === 'damp' && !isExplicitDryStage)
-      ? 'MANDATORY DAMP / SPRAY-MISTED PHYSICS: Even spray-bottle misting across mid-lengths and ends; fine translucent water droplets catching salon light; clean comb-held damp strand clumping.'
-      : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
-        ? 'MANDATORY BONE-DRY / BLOWN-OUT PHYSICS: Zero water moisture and zero wet clumping; weightless dry strand movement, airy crown lift, natural bounce, and soft feathery ends.'
-        : '';
+    : (isHerbalOilTreatment)
+      ? 'HERBAL OIL TREATMENT PHYSICS: Warm herbal oil nourishment imparting natural supple luster and rich scalp conditioning; clean strand definition with healthy organic shine.'
+      : (salonHairMoisture === 'damp' && !isExplicitDryStage)
+        ? 'MANDATORY DAMP / SPRAY-MISTED PHYSICS: Even spray-bottle misting across mid-lengths and ends; fine translucent water droplets catching salon light; clean comb-held damp strand clumping.'
+        : (salonHairMoisture === 'dry' && !isExplicitWetStage && !isExplicitWetCut)
+          ? 'MANDATORY BONE-DRY / BLOWN-OUT PHYSICS: Zero water moisture and zero wet clumping; weightless dry strand movement, airy crown lift, natural bounce, and soft feathery ends.'
+          : '';
 
   if(isFemaleModelBarber){
     lines.push('GROOMING SERVICE & MODEL STYLING');
@@ -4782,7 +5426,6 @@ function buildSalonPrompt(){
   }
   lines.push('');
 
-  const salonLotionVal = val('salonLotion');
   if(salonLotionVal && !salonLotionVal.toLowerCase().includes('none')){
     lines.push('BARBER LOTIONS, TONICS & SKIN TREATMENT');
     lines.push(`• Barber treatment: ${salonLotionVal}.`);
@@ -5201,6 +5844,8 @@ function buildSalonPrompt(){
   if(salonHairMoisture === 'dry') {
     if(hasWashOrSprayPanel || isExplicitWetStage || isExplicitWetCut) {
       salonNegatives.push('greasy hair, artificial oily sheen, completely soaked waterlogged blowout');
+    } else if(isHerbalOilTreatment) {
+      salonNegatives.push('completely soaked waterlogged blowout, bone-dry frizz');
     } else {
       salonNegatives.push('wet hair, damp hair, dripping hair, soaked clumps, slicked-down wet scalp, water sheen, oily sheen');
     }
@@ -5446,6 +6091,9 @@ if(hasMalePresence && (values.malePresence.text === 'crew_prep' || values.malePr
 } else if(!hasMalePresence && ((styleRef && transferToggles && transferToggles.hair) || checkState.soloSubject)){
   if(moVal.includes('stylist') || moVal.includes('styling chair') || moVal.includes('barber detailing') || moVal.includes('straight razor')){
     moVal = 'the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject';
+  }
+  if(checkState.soloSubject){
+    moVal = moVal.replace(/stylist briefly steps in to lint-roll the jacket lapel/gi, 'she takes a spontaneous pause to smooth her jacket lapel herself');
   }
 }
 lines.push(moVal + '.');
@@ -5740,16 +6388,79 @@ function syncRatioChips(){
   });
 }
 
+function renderShotTabs(){
+  const tabsContainer=el('shotTabs');
+  if(!tabsContainer)return;
+  const config = {
+    campaign_4: [
+      { id: 'all', label: 'All 4 Shots' },
+      { id: '1', label: 'Shot 1 · Close-up' },
+      { id: '2', label: 'Shot 2 · 3/4 Pose' },
+      { id: '3', label: 'Shot 3 · Full Body' },
+      { id: '4', label: 'Shot 4 · Detail Macro' }
+    ],
+    triptych_3: [
+      { id: 'all', label: 'All 3 Panels' },
+      { id: '1', label: 'Panel 1 · Beauty Profile' },
+      { id: '2', label: 'Panel 2 · 3/4 Kinetic' },
+      { id: '3', label: 'Panel 3 · Environmental' }
+    ],
+    feature_5: [
+      { id: 'all', label: 'All 5 Shots' },
+      { id: '1', label: 'Shot 1 · Macro Headshot' },
+      { id: '2', label: 'Shot 2 · 1/2 Profile' },
+      { id: '3', label: 'Shot 3 · Full Silhouette' },
+      { id: '4', label: 'Shot 4 · Dynamic Turn' },
+      { id: '5', label: 'Shot 5 · Tactile Macro' }
+    ],
+    contact_6: [
+      { id: 'all', label: 'All 6 Frames' },
+      { id: '1', label: 'Frame 1 · Setting Arrival' },
+      { id: '2', label: 'Frame 2 · Beauty Close-up' },
+      { id: '3', label: 'Frame 3 · 3/4 Pose' },
+      { id: '4', label: 'Frame 4 · Kinetic Turn' },
+      { id: '5', label: 'Frame 5 · Low Angle Full' },
+      { id: '6', label: 'Frame 6 · Candid Outtake' }
+    ]
+  };
+  const currentList = config[lookbookFormat] || config.campaign_4;
+  if(!currentList.some(s => s.id === activeShot)){
+    activeShot = 'all';
+  }
+  tabsContainer.innerHTML = currentList.map(s => 
+    `<button type="button" class="shot-tab ${s.id === activeShot ? 'active' : ''}" data-shot="${s.id}">${s.label}</button>`
+  ).join('');
+
+  tabsContainer.querySelectorAll('.shot-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabsContainer.querySelectorAll('.shot-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeShot = tab.dataset.shot;
+      if(lookbookShots && (lookbookShots[activeShot] || lookbookShots.all)){
+        el('prompt').value = lookbookShots[activeShot] || lookbookShots.all;
+        const words = el('prompt').value.trim().split(/\s+/).length;
+        const shotObj = currentList.find(x => x.id === activeShot);
+        const shotLabel = shotObj ? shotObj.label : `Shot ${activeShot}`;
+        el('wordCount').textContent = `${words.toLocaleString()} words · ${el('prompt').value.length.toLocaleString()} characters · Lookbook (${shotLabel})`;
+        toast(`Viewing Lookbook: ${shotLabel}`);
+      }
+    });
+  });
+}
+
 function updateModeButtons(){
   const bSingle=el('btnSingleMode');
   const bLookbook=el('btnLookbookMode');
   const segWrap=bSingle?.parentElement;
+  const fmtBar=el('lookbookFormatBar');
   const tabs=el('shotTabs');
   const isSalon = (currentStudioMode === 'salon');
   if(segWrap) segWrap.style.display = isSalon ? 'none' : 'flex';
+  if(fmtBar) fmtBar.style.display = (!isSalon && lookbookMode) ? 'flex' : 'none';
   if(bSingle)bSingle.classList.toggle('active',!lookbookMode);
   if(bLookbook)bLookbook.classList.toggle('active',lookbookMode);
   if(tabs)tabs.classList.toggle('hidden', isSalon || !lookbookMode);
+  if(!isSalon && lookbookMode) renderShotTabs();
 }
 
 function loadHistory(){
@@ -6104,24 +6815,24 @@ if(btnLookbook){
     activeShot='all';
     updateModeButtons();
     buildPrompt();
-    toast('Lookbook 4-shot series mode activated. Shot framing is fixed (macro → 3/4 → wide → detail). Your Angle & Lens choices still apply within each shot.');
+    toast('Lookbook series mode activated. Choose between 4-Shot Campaign, 3-Panel Triptych, 5-Shot Feature, or 6-Frame Contact Sheet.');
   });
 }
 
-// Shot tabs
-document.querySelectorAll('.shot-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    if(currentStudioMode === 'salon') return;
-    document.querySelectorAll('.shot-tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    activeShot=tab.dataset.shot;
-    el('prompt').value=lookbookShots[activeShot]||lookbookShots.all;
-    const words=el('prompt').value.trim().split(/\s+/).length;
-    const shotLabel=activeShot==='all'?'All 4 Shots':`Shot ${activeShot}`;
-    el('wordCount').textContent=`${words.toLocaleString()} words · ${el('prompt').value.length.toLocaleString()} characters · Lookbook (${shotLabel})`;
-    toast(`Viewing Lookbook: ${shotLabel}`);
+const fmtBar = el('lookbookFormatBar');
+if(fmtBar){
+  fmtBar.querySelectorAll('.seg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      fmtBar.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      lookbookFormat = btn.dataset.format || 'campaign_4';
+      activeShot = 'all';
+      renderShotTabs();
+      buildPrompt();
+      toast(`Lookbook format changed to ${btn.textContent.trim()}`);
+    });
   });
-});
+}
 
 // Ratio chips
 document.querySelectorAll('.ratio-chip').forEach(chip=>{
@@ -6301,10 +7012,26 @@ window.AfterglowStudio = {
   setOutputType: (t) => { outputType = t; buildPrompt(); },
   getLookbookMode: () => lookbookMode,
   setLookbookMode: (b, shot='all') => { lookbookMode = !!b; activeShot = shot; updateModeButtons(); buildPrompt(); },
+  getLookbookFormat: () => lookbookFormat,
+  setLookbookFormat: (fmt) => {
+    if(['campaign_4', 'triptych_3', 'feature_5', 'contact_6'].includes(fmt)){
+      lookbookFormat = fmt;
+      activeShot = 'all';
+      const fmtBar = el('lookbookFormatBar');
+      if(fmtBar){
+        fmtBar.querySelectorAll('.seg-btn').forEach(b => b.classList.toggle('active', b.dataset.format === fmt));
+      }
+      renderShotTabs();
+      buildPrompt();
+    }
+  },
   setStyleRef: (r) => { styleRef = r; buildPrompt(); },
   getCustomPresets: () => customPresets,
   getExtractedPositive: () => extractPositivePrompt(el('prompt').value),
-  getExtractedNegative: () => extractNegativePrompt(el('prompt').value)
+  getExtractedNegative: () => extractNegativePrompt(el('prompt').value),
+  getItemCategory: (id, item) => getItemCategory(id, item),
+  COLLAGE_PRESETS,
+  buildLookbookSeries
 };
 
 startRotation();
