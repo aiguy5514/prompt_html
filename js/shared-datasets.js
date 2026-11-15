@@ -14,7 +14,8 @@ const addOptions = (target, items) => {
 };
 
 const HAIR_FAMILIES = [
-  {"label": "✦ All Styles (261 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "✦ All Styles (276 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "⚡ Clippers, Fades & Buzz (15 variations)", "text": "fade", "desc": "", "cat": "General"},
   {"label": "🦋 Layers & Blowouts (50 variations)", "text": "layer", "desc": "", "cat": "General"},
   {"label": "💇‍♀️ Bobs & Lobs (83 variations)", "text": "bob", "desc": "", "cat": "General"},
   {"label": "🐎 Ponytails & Updos (41 variations)", "text": "pony", "desc": "", "cat": "General"},
@@ -287,7 +288,22 @@ const hair = [
   {"label": "Damp slick middle-part razor-tailored midi bob", "text": "a sleek dark damp midi-bob hovering mid-neck with pinpoint razor-sliced ends and heavy center-part drape", "desc": "", "cat": "bob"},
   {"label": "Feathered shaggy lip-length micro-shag bob", "text": "a playful lip-length micro-shag bob with ruffled messy crown layers and soft brow-grazing curtain tendrils", "desc": "", "cat": "bob"},
   {"label": "Ultra-sleek razor-cut collarbone blunt midi", "text": "a heavyweight mirror-smooth collarbone midi-bob cut razor-flat with zero layers and lustrous natural hair density", "desc": "", "cat": "bob"},
-  {"label": "Soft undone air-waved clavicle bob (curtain tendrils)", "text": "a relaxed clavicle-length air-waved bob with organic bend and long fine tendrils curling loosely across the cheekbones", "desc": "", "cat": "bob"}
+  {"label": "Soft undone air-waved clavicle bob (curtain tendrils)", "text": "a relaxed clavicle-length air-waved bob with organic bend and long fine tendrils curling loosely across the cheekbones", "desc": "", "cat": "bob"},
+  {"label": "Low Temple Skin Fade Buzz Cut", "text": "an ultra-clean #1.5 buzz cut on the crown with temples and sideburns faded seamlessly to skin using dual foil shavers, razor-sharp hairline perimeter, and velvety dark texture", "desc": "", "cat": "fade"},
+  {"label": "Textured French Crop with Tapered Temples", "text": "a textured French crop with point-cut scissor separation on top, a blunt textured micro-fringe, and clean electric-clipper tapered temples and neckline (#1 guard)", "desc": "", "cat": "fade"},
+  {"label": "High & Tight Induction Cut", "text": "a military-precision ultra-short #0.5 clipper induction cut with laser-straight T-blade trimmer edge-up along forehead, temples, and sideburns", "desc": "", "cat": "fade"},
+  {"label": "Mid Taper Fade with Natural Waves", "text": "a smooth mid-taper fade around ears and temples faded to bare skin, retaining rich natural hair density and organic waves across the crown", "desc": "", "cat": "fade"},
+  {"label": "Drop Fade Textured Crop", "text": "a low drop fade curving cleanly behind the ears with foil-clean skin at the temples, contrasting against a piecey scissor-cut textured crown", "desc": "", "cat": "fade"},
+  {"label": "Burst Fade Faux-Hawk", "text": "a radial burst fade tapering cleanly in a semi-circle around each ear and temple, leaving thick textured hair density along the center crest and crown", "desc": "", "cat": "fade"},
+  {"label": "Disconnected Razor Undercut Bob", "text": "a sleek chin-length glass bob over an electric-clippered (#1) and foil-shaved temple and nape undercut, revealed with a casual ear tuck", "desc": "", "cat": "fade"},
+  {"label": "Asymmetric Foil-Shaved Pixie", "text": "long sweeping feathered crown layers falling to one side, contrasted against a bare foil-shaved temple and tapered sideburn on the other", "desc": "", "cat": "fade"},
+  {"label": "Japanese Feather-Razor Layered Lob", "text": "a collarbone-grazing long bob carved entirely with a straight guarded feathering razor for airy shattered ends, soft temple drapes, and weightless movement", "desc": "", "cat": "fade"},
+  {"label": "Precision Razor-Edged French Bob", "text": "a crisp chin-length French bob with razor-sharpened perimeter, soft micro-bangs, and delicately thinned temple wisps", "desc": "", "cat": "fade"},
+  {"label": "Classic Gentleman's Scissor & Clipper Taper", "text": "a timeless barbershop taper with #2 clipper sides blending into hand-sheared finger-length crown parting and neat temple lines", "desc": "", "cat": "fade"},
+  {"label": "Temple Fade Slick-Back Under-Taper", "text": "a comb-held slicked-back crown length paired with crisp clipper-tapered temples (#1 to skin) and razor-detailed neckline", "desc": "", "cat": "fade"},
+  {"label": "Skin-Faded Bixie with Shaved Temples", "text": "a textured bob-pixie hybrid with electric-clippered temples, soft ear-skimming wisps, and feathered nape taper", "desc": "", "cat": "fade"},
+  {"label": "Edged-Up Buzz with Temple Fade & Razor Part", "text": "a crisp T-blade trimmer edge-up along forehead and temples, velvet buzz on top, and clean straight razor parting slit", "desc": "", "cat": "fade"},
+  {"label": "Soft Tapered Shag with Razor-Sliced Temples", "text": "a lived-in 70s-inspired shag cut with razor-carved temple pieces hugging the cheekbones and a tapered nape", "desc": "", "cat": "fade"}
 ];
 
 const hairFaceCoverageOpts = [

@@ -131,7 +131,7 @@ ok('studio_api_exposed', !!api);
 ok('salon_starts_in_salon_mode', api.getMode() === 'salon');
 ok('salon_initial_section', document.querySelector('.tab.active')?.dataset?.section === 'salonVenueSec');
 ok('salon_hero_title', document.getElementById('heroTitle').textContent.includes('Salon'));
-ok('shared_datasets_loaded', api.getHair().length === 261 && api.getFields().outfit.opts.length === 438, `hair=${api.getHair().length}, outfit=${api.getFields().outfit.opts.length}`);
+ok('shared_datasets_loaded', api.getHair().length === 276 && api.getFields().outfit.opts.length === 438, `hair=${api.getHair().length}, outfit=${api.getFields().outfit.opts.length}`);
 
 // Moisture tests in Salon Chair, Stool, Female Barber
 const clickSeating = (mode) => {
@@ -220,12 +220,33 @@ document.getElementById('btnQuickGrooming').click();
 ok('salon_quick_grooming_activates', api.getSeatingMode() === 'grooming_men');
 
 // Theme 3 & 4: Clipper guard depth selector + token estimation + buzzword purge
-ok('salon_clipper_guard_field_exists', !!api.getFields().salonClipperGuard && api.getFields().salonClipperGuard.opts.length === 6);
-api.getValues().salonClipperGuard = api.getFields().salonClipperGuard.opts[3];
+ok('salon_clipper_guard_field_exists', !!api.getFields().salonClipperGuard && api.getFields().salonClipperGuard.opts.length === 12);
+api.getValues().salonClipperGuard = api.getFields().salonClipperGuard.opts[5];
 const sGuardPrompt = api.buildSalonPrompt();
 ok('salon_clipper_guard_reflected', sGuardPrompt.includes('#1 magnetic clipper guard'));
+api.getValues().salonClipperGuard = api.getFields().salonClipperGuard.opts[1];
+const sFoilPrompt = api.buildSalonPrompt();
+ok('salon_foil_shaver_guard', sFoilPrompt.includes('dual-foil titanium electric shavers'));
 ok('salon_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
 ok('salon_buzzwords_purged', !sGuardPrompt.includes('harmonized with the selected establishment'));
+
+// Barber lotions, tonics & temple clipper detailing
+ok('salon_lotion_field_exists', !!api.getFields().salonLotion && api.getFields().salonLotion.opts.length === 10);
+api.getValues().salonLotion = api.getFields().salonLotion.opts[1];
+const sLotionPrompt = api.buildSalonPrompt();
+ok('salon_lotion_reflected', sLotionPrompt.includes('BARBER LOTIONS, TONICS & SKIN TREATMENT') && sLotionPrompt.includes('cooling eucalyptus and menthol aftershave balm'));
+
+const templeClipperStage = api.getFields().salonStage.opts.find(o => o.label.includes('Electric clippers buzzing up the temple taper'));
+ok('salon_temple_clipper_stage_exists', !!templeClipperStage);
+api.getValues().salonStage = templeClipperStage;
+const sTempleStagePrompt = api.buildSalonPrompt();
+ok('salon_temple_clipper_stage_reflected', sTempleStagePrompt.includes('buzzing smoothly upward with an audible hum to blend a tight temple taper'));
+
+const fadeHaircut = api.getHair().find(h => h.label.includes('Low Temple Skin Fade Buzz Cut'));
+ok('salon_fade_haircut_exists', !!fadeHaircut && fadeHaircut.cat === 'fade');
+api.getValues().salonHaircut = fadeHaircut;
+const sFadeCutPrompt = api.buildSalonPrompt();
+ok('salon_fade_haircut_reflected', sFadeCutPrompt.includes('Low Temple Skin Fade Buzz Cut'));
 
 // Face Obfuscation modes in Salon
 ok('salon_face_obfusc_field_exists', !!api.getFields().salonFaceObfuscMode && api.getFields().salonFaceObfuscMode.opts.length >= 8);
@@ -283,6 +304,9 @@ ok('ps_lookbook_reset_clears_shot1', !document.getElementById('prompt').value.in
 api.setLookbookMode(true, '1');
 document.querySelector('.preset').click();
 ok('ps_preset_click_resets_lookbook', !document.getElementById('prompt').value.includes('=== SHOT 1:') && api.getLookbookMode() === false);
+vals.hair = api.getHair().find(h => h.label.includes('Sleek high ponytail'));
+vals.hairFaceCoverage = findCov('65–70%');
+api.buildPrompt();
 
 // Positive extraction keeps OUTPUT INSTRUCTIONS & strips AVOID block
 const fullOut = document.getElementById('prompt').value;
@@ -313,12 +337,25 @@ ok('ps_face_obfusc_censor_bar', psObfPrompt.includes('EDITORIAL PRIVACY BAR'));
 // Prompt Start dynamically reflects styling, hair, and identity in top lines
 const psPromptTopLines = document.getElementById('prompt').value.split('\n').slice(0, 15).join('\n');
 ok('ps_start_has_editorial_styling', psPromptTopLines.includes('PRIMARY SUBJECT & EDITORIAL STYLING:') && psPromptTopLines.includes('Model (Reference Subject)') && psPromptTopLines.includes('Signature Post-Makeover Haircut'));
+
+// Makeover moments with clipper touch-up & temple fade haircuts
+const clipperMakeover = api.getFields().makeover.opts.find(o => o.label.includes('Backstage cordless clipper fade touch-up'));
+ok('ps_clipper_makeover_exists', !!clipperMakeover);
+api.getValues().makeover = clipperMakeover;
+const psMakeoverPrompt = api.buildPrompt();
+ok('ps_clipper_makeover_reflected', psMakeoverPrompt.includes('cordless clippers') && psMakeoverPrompt.includes('temple fade'));
+
+const psFadeHaircut = api.getHair().find(h => h.label.includes('Textured French Crop with Tapered Temples'));
+ok('ps_fade_haircut_exists', !!psFadeHaircut && psFadeHaircut.cat === 'fade');
+api.getValues().hair = psFadeHaircut;
+const psFadePrompt = api.buildPrompt();
+ok('ps_fade_haircut_reflected', psFadePrompt.includes('Textured French Crop with Tapered Temples'));
 '''
 
 TATTOO_JS = r'''
 const api = window.AfterglowTattoo;
 ok('tattoo_api_exposed', !!api);
-ok('tattoo_shared_datasets', api.getHair().length === 261 && api.getFields().outfit.opts.length === 438);
+ok('tattoo_shared_datasets', api.getHair().length === 276 && api.getFields().outfit.opts.length === 438);
 
 // Track 1 Bugfix #1: Mobile Drawer (.drawer-open) & Backdrop & Handle & FAB
 document.getElementById('openDrawerBtn').click();
@@ -406,7 +443,14 @@ const tObfPrompt = api.buildPrompt();
 ok('tattoo_face_obfusc_gaussian', tObfPrompt.includes('GAUSSIAN DEPTH BLUR'));
 
 // Category filter tests: Hair, Motif, and Location
+document.querySelector('[data-section="tattooSubjectSec"]').click();
 const hCats = api.getFields().tattooHairCategory.opts;
+const fadeCat = hCats.find(o => o.text === 'fade');
+ok('tattoo_hair_category_fade_exists', !!fadeCat);
+api.getValues().tattooHairCategory = fadeCat;
+api.renderFields();
+ok('tattoo_hair_category_fade_filter', api.getValues().tattooHair?.cat === 'fade', `hair cat should be fade, got: ${api.getValues().tattooHair?.cat}`);
+
 const bobCat = hCats.find(o => o.text === 'bob');
 api.getValues().tattooHairCategory = bobCat;
 api.renderFields();
@@ -428,7 +472,7 @@ ok('tattoo_location_category_studio_filter', api.getValues().tattooLocation?.cat
 MAKEUP_SPA_JS = r'''
 const api = window.AfterglowMakeupSpa;
 ok('makeup_api_exposed', !!api);
-ok('makeup_shared_datasets', api.getHair().length === 261 && api.getFields().topPiece.opts.length === 35);
+ok('makeup_shared_datasets', api.getHair().length === 276 && api.getFields().topPiece.opts.length === 35);
 ok('makeup_starts_in_venue_sec', document.querySelector('.tab.active')?.dataset?.section === 'prepVenueSec');
 
 // Navigate to Hair Prep & Apparel -> check moisture card & Separates toggle
@@ -504,7 +548,7 @@ VIDEO_JS = r'''
 const api = window.AfterglowVideo;
 ok('video_api_exposed', !!api);
 const flds = api.getFields();
-ok('video_rich_option_libraries', api.getHair().length === 261 && flds.vidOutfit.opts.length === 438 && flds.vidCameraMove.opts.length === 32 && flds.vidBeatStart.opts.length >= 25 && flds.vidBeatMid.opts.length >= 30 && flds.vidEnvironment.opts.length >= 15);
+ok('video_rich_option_libraries', api.getHair().length === 276 && flds.vidOutfit.opts.length === 438 && flds.vidCameraMove.opts.length === 32 && flds.vidBeatStart.opts.length >= 25 && flds.vidBeatMid.opts.length >= 30 && flds.vidEnvironment.opts.length >= 15);
 ok('video_starts_in_subject_sec', document.querySelector('.tab.active')?.dataset?.section === 'vidInputSec');
 
 // Moisture toggle in Video Director
@@ -560,7 +604,7 @@ STORYBOARD_JS = r'''
 const api = window.AfterglowStoryboard;
 ok('sb_api_exposed', !!api);
 const flds = api.getFields();
-ok('sb_rich_option_libraries', api.getHair().length === 261 && flds.sbOutfit.opts.length === 438 && flds.sbVenue.opts.length >= 20);
+ok('sb_rich_option_libraries', api.getHair().length === 276 && flds.sbOutfit.opts.length === 438 && flds.sbVenue.opts.length >= 20);
 ok('sb_default_4_frames', api.getFrameCount() === 4);
 
 // Frame Sequencer UI: switch to 6 frames, customize Frame 2 Veil override to 80-85% + Moisture Wet

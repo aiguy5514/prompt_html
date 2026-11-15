@@ -21,7 +21,7 @@ function detectHairArchitecture(hairObj, hairText){
   if(cat === 'pony' || cat === 'braid' || /ponytail|\bpony\b|\bbun\b|chignon|\bbraid|updo|french twist|topknot|claw clip|slicked[- ]back|comb[- ]back/i.test(blob)){
     return 'tied_slick';
   }
-  if(cat === 'pixie' || /\bpixie\b|\bbixie\b|\bmixie\b|garçonne|short textured crop|short side-part crop/i.test(blob)){
+  if(cat === 'pixie' || cat === 'fade' || /\bpixie\b|\bbixie\b|\bmixie\b|\bbuzz\b|\bfade\b|\bcrop\b|taper|undercut|garçonne|short textured crop|short side-part crop/i.test(blob)){
     return 'pixie_crop';
   }
   if(/\bmicro bob\b|french bob|\bchin-length\b|\bchin-grazing\b|\bchin bob\b|\bbox bob\b|\bpageboy\b|\bwedge bob\b|\bear-length\b/i.test(blob) || (cat === 'bob' && !/lob|shoulder|collarbone|clavicle|waterfall|long|midi/i.test(blob))){
