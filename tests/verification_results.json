@@ -1,0 +1,233 @@
+[
+  {
+    "auditor": "studio_auditor",
+    "id": "1",
+    "title": "Dead Button #shuffleLooks in romance.html",
+    "status": "VERIFIED",
+    "evidence": "Button #shuffleLooks exists in DOM at line 206 but is never referenced in JS/listeners."
+  },
+  {
+    "auditor": "studio_auditor",
+    "id": "2",
+    "title": "Category Filtering Broken in romance.html",
+    "status": "VERIFIED",
+    "evidence": "Selecting topCategory does not filter topPiece (catFilterApplied=False)."
+  },
+  {
+    "auditor": "studio_auditor",
+    "id": "3",
+    "title": "Cross-Session History Loss in romance.html",
+    "status": "VERIFIED",
+    "evidence": "load() in romance.html never reads afterglow_romance_hist; promptHistory remains empty on refresh."
+  },
+  {
+    "auditor": "studio_auditor",
+    "id": "4",
+    "title": "Category Filtering Broken for Garments in tattoo.html",
+    "status": "VERIFIED",
+    "evidence": "tattoo.html choice click listener omits outfitCategory, topCategory, and bottomCategory."
+  },
+  {
+    "auditor": "studio_auditor",
+    "id": "5",
+    "title": "Lock State Persistence Loss in tattoo.html",
+    "status": "VERIFIED",
+    "evidence": "lockedFields is omitted from both save() and load() in tattoo.html."
+  },
+  {
+    "auditor": "studio_auditor",
+    "id": "6",
+    "title": "Drawer Handle Glitch in studio-core.js",
+    "status": "VERIFIED",
+    "evidence": "studio-core.js line attaches closeDrawer directly to #sheetHandle: if(handle)handle.addEventListener('click',closeDrawer);"
+  },
+  {
+    "auditor": "studio_auditor",
+    "id": "7",
+    "title": "Dead DOM #shotTabs in tattoo.html",
+    "status": "VERIFIED",
+    "evidence": "#shotTabs markup exists in tattoo.html with class hidden and is never referenced in JS."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "1a",
+    "title": "OUTFIT_FAMILIES Separates & Leather Count Mismatch",
+    "status": "VERIFIED",
+    "evidence": "separates claims 71 (actual: 91), leather claims 12 (actual: 14)."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "1b",
+    "title": "POSE_FAMILIES Severe Option Mismatch",
+    "status": "VERIFIED",
+    "evidence": "POSE_FAMILIES claims 108 options (actual: 264)."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "1c",
+    "title": "tattooLocation and tattooMotif Option Count Mismatches",
+    "status": "DISPROVED",
+    "evidence": "Auditor claimed 44 and 37. Actual: locations=47 (claimed in label: \u2726 All Shoot Locations (47 options)), motifs=38 (claimed in label: \u2726 All Motif Families (38 styles)). Perfectly matched."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "1d",
+    "title": "salonVenue Category Claims 52 vs Actual 50",
+    "status": "DISPROVED",
+    "evidence": "Auditor claimed salonVenue has only 50 items. Actual length: 52 (matching \u2726 All Establishments (52 choices))."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "1e",
+    "title": "Stale 260+ Haircuts Labels Across Suite",
+    "status": "VERIFIED",
+    "evidence": "Commit 88e94d4 increased hair to 276 options, but 260+ remains in: index.html (5 occurrences), makeup_spa.html (1 occurrences), romance.html (1 occurrences), storyboard.html (1 occurrences), tattoo.html (2 occurrences), video.html (2 occurrences)."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "2",
+    "title": "Orphaned tattooHairCategories & tattooHairStylings in tattoo.html",
+    "status": "VERIFIED",
+    "evidence": "tattooHairCategories and tattooHairStylings are defined but never hooked into fields or UI."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "3",
+    "title": "Zero Duplicate Labels in shared-datasets.js",
+    "status": "VERIFIED",
+    "evidence": "Audit confirmed 0 duplicates across shared-datasets.js."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "4",
+    "title": "Absence of Forbidden External AI Brands",
+    "status": "VERIFIED",
+    "evidence": "Zero external generative model brands found: Clean across entire codebase."
+  },
+  {
+    "auditor": "datasets_auditor",
+    "id": "5",
+    "title": "Zero Syntax & UTF-8 Encoding Defects",
+    "status": "VERIFIED",
+    "evidence": "All JS and HTML files are valid UTF-8 with zero replacement chars."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "1",
+    "title": "fefefemale model (barber) Recursive Corruption in studio-core.js",
+    "status": "VERIFIED",
+    "evidence": "Resulting string: 'photographed directly into the large salon wall mirror, capturing the client's front reflection, the fefefemale model (barber)'s hands, and the full styling station reflected with optical depth'. Line 4649 replaces 'male barber' inside 'female barber'."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "2",
+    "title": "Solo Client Camera Absurdity (styling station fingers)",
+    "status": "VERIFIED",
+    "evidence": "Generated prompt contains: '[\"Camera angle: a macro close-up focused exclusively on the styling station's fingers holding a taut wet hair strand as the scissor blades slice cleanly through. Lighting: authentic salon lighting with cool fluorescent ceiling tubes balanced by warm vanity mirror practical lights, rendering realistic highlights on hair. Quality: raw documentary salon photo, 35mm lens, natural film grain, authentic skin texture with visible pores, realistic stray hair physics, zero plastic smoothing, zero artificial AI sheen.\"]'."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "3",
+    "title": "sanitizeCapeText Color Wipeout Falling Back to Black Cape",
+    "status": "VERIFIED",
+    "evidence": "Greedy prefix regex wiped white cape completely, fallback became: 'a silky black nylon cutting cape'."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "4",
+    "title": "detectHairArchitecture Misclassifies Long Tapered Hair as pixie_crop",
+    "status": "VERIFIED",
+    "evidence": "Long hair with tapered ends classified as: pixie_crop, undercut as: pixie_crop."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "5",
+    "title": "Facial Veil (Zero Eyes) Contradicted by Expressions with Eyes",
+    "status": "VERIFIED",
+    "evidence": "Prompt simultaneously commands ZERO visible eyeballs while expressing confident eye gaze in subject pose/expression."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "6",
+    "title": "Incomplete Makeup Sanitization in Deep & Partial Veil",
+    "status": "VERIFIED",
+    "evidence": "Sanitized 80% retains eyelashes: 'dramatic subtle skin-matched finish with fluttery false eyelashes and subtle skin-matched finish'; 50% retains winged liner: 'winged black eyeliner with kohl-lined eyes'."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "7",
+    "title": "sanitizeMirrorProse Leaking Direct Eye Gaze / Expressive Eyes under Veil",
+    "status": "VERIFIED",
+    "evidence": "Prompt contains eye mention under 80-85% zero-eye veil: ['Client expression & reaction: watching her hair transformation from the styling chair with quiet satisfaction, relaxed eyes, and a subtle self-assured smile.', \"Camera angle: photographed directly from the front styling station angle, capturing the client's expressive eyes and posture in the hydraulic chair, the male barber's skilled hands, and the styling station with crisp optical depth. Lighting: authentic salon lighting with cool fluorescent ceiling tubes balanced by warm vanity practical lights, rendering realistic highlights on hair. Quality: raw documentary salon photo, 35mm lens, natural film grain, authentic skin texture with visible pores, realistic stray hair physics, zero plastic smoothing, zero artificial AI sheen.\"]."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "8",
+    "title": "Male Partner Leak in Solo Subject Modes (turned_away & over_shoulder_pov)",
+    "status": "VERIFIED",
+    "evidence": "turned_away references cheek against his shoulder blade, and over_shoulder_pov references male partner broad shoulder."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "9",
+    "title": "Makeover Option 26 Leaking Barber Detailing in Solo Mode",
+    "status": "VERIFIED",
+    "evidence": "Makeover option 26 only checks for \"stylist\", so \"Straight-razor clean-up pause\" leaks barber detailing into solo subject photoshoot."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "10",
+    "title": "makeup & accessories Dropped in buildSalonPrompt",
+    "status": "VERIFIED",
+    "evidence": "buildSalonPrompt never calls val('makeup') or val('accessories'); user selections are completely ignored."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "11",
+    "title": "ponyTailStyle & sideSweepFinish Dropped in buildSalonPrompt",
+    "status": "VERIFIED",
+    "evidence": "buildSalonPrompt checks ponyBaseHeight/Wrap/Fall/End and sideSweepSide/Flip/End, omitting ponyTailStyle and sideSweepFinish."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "12",
+    "title": "salonHairCategory & salonVenueCategory Not Synced in rollTheme()",
+    "status": "VERIFIED",
+    "evidence": "rollTheme() syncs hairCategory, outfitCategory, poseCategory, etc., but omits salonHairCategory and salonVenueCategory."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "13",
+    "title": "Multiple Female Barbers Contradiction in Female Barber Mode",
+    "status": "VERIFIED",
+    "evidence": "Sanitization replaces both male barbers, producing \"a second female model (barber)\" and violating solitary female rule."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "14",
+    "title": "Photoshoot Moisture Wet vs Freshly Blown-Out Finish Contradiction",
+    "status": "VERIFIED",
+    "evidence": "Positive prompt asks for wet physics AND freshly blown-out finish; negative prompt bans blown-out airy volume."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "15",
+    "title": "Photoshoot Moisture Dry vs Damp Makeover Contradiction",
+    "status": "VERIFIED",
+    "evidence": "psIsExplicitWetHair ignores makeover, adding wet exclusions that contradict damp makeover moments."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "16",
+    "title": "Lookbook Mode Hardcodes REFERENCE-IMAGE EDIT Headers",
+    "status": "VERIFIED",
+    "evidence": "Lookbook mode always emits \"REFERENCE-IMAGE EDIT\" even when user selects \"New image using reference identity\"."
+  },
+  {
+    "auditor": "core_auditor",
+    "id": "17",
+    "title": "Dead Imports (cleanClause, capFirst, stripBuzzwords) in studio-core.js",
+    "status": "VERIFIED",
+    "evidence": "cleanClause, capFirst, and stripBuzzwords are destructured at line 20 and never used elsewhere in studio-core.js."
+  }
+]
