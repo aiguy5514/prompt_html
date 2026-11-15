@@ -17,7 +17,7 @@ const {
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
-  cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
+  dedupeNegatives, estimateTokens,
   extractPositivePrompt, extractNegativePrompt,
   buildObfuscClause, getObfuscNegatives
 } = window.AfterglowVeil;
@@ -301,14 +301,14 @@ const ponyTailStyleOpts = [
 
 
 const POSE_FAMILIES = [
-  O('✦ All Poses (108 options)', 'all'),
-  O('🧍‍♀️ Standing & Power Stances (31 variations)', 'standing'),
-  O('💆‍♀️ Hair-Touch & Beauty Gestures (22 variations)', 'beauty'),
-  O('🚶‍♀️ Motion, Walking & Turns (18 variations)', 'motion'),
-  O('🧱 Leaning & Architectural (12 variations)', 'leaning'),
-  O('💫 Candid & In-Between Takes (9 variations)', 'candid'),
-  O('🪑 Seated & Floor Lounging (9 variations)', 'seated'),
-  O('💧 Wet-Look & Aquatic Action (7 variations)', 'wet')
+  O('✦ All Poses (264 options)', 'all'),
+  O('🧍‍♀️ Standing & Power Stances (49 variations)', 'standing'),
+  O('💆‍♀️ Hair-Touch & Beauty Gestures (86 variations)', 'beauty'),
+  O('🚶‍♀️ Motion, Walking & Turns (41 variations)', 'motion'),
+  O('🧱 Leaning & Architectural (29 variations)', 'leaning'),
+  O('💫 Candid & In-Between Takes (31 variations)', 'candid'),
+  O('🪑 Seated & Floor Lounging (16 variations)', 'seated'),
+  O('💧 Wet-Look & Aquatic Action (12 variations)', 'wet')
 ];
 
 const SHOT_FAMILIES = [
@@ -2094,7 +2094,7 @@ const photoshootSections=[
 const salonSections=[
   {id:'salonVenueSec',name:'Salon & Vibe',short:'VENUE',icon:'💈',desc:'Reference workflow, authentic salon venue, and neighborhood bustle.'},
   {id:'salonStageSec',name:'Haircut & Barber',short:'STAGE',icon:'✂',desc:'Pick the in-progress cutting moment and barber presence in frame.'},
-  {id:'salonHairSec',name:'Haircut Style',short:'HAIR',icon:'💇‍♀️',desc:'Specify the haircut being cut from 260+ styles, face-behind-hair veil %, and authentic hair texture.'},
+  {id:'salonHairSec',name:'Haircut Style',short:'HAIR',icon:'💇‍♀️',desc:'Specify the haircut being cut from 276 styles, face-behind-hair veil %, and authentic hair texture.'},
   {id:'wardrobe',name:'Wardrobe & Styling',short:'WARDROBE',icon:'👗',desc:'Choose full-look ensembles or two-piece separates (tops & bottoms) for our model.'},
   {id:'salonCameraSec',name:'Cape & Camera',short:'CAMERA',icon:'📸',desc:'Set the draped cutting cape, mirror perspective POV, and salon lighting. (💡 Note: To direct 2×2 Storyboard Collage panels, choose \'2×2 collage\' under Output format in Finish.)'},
   {id:'finish',name:'Finish & controls',short:'FINISH',icon:'✦',desc:'Control identity preservation, realism, exclusions, and custom instructions.'}
@@ -2550,6 +2550,16 @@ if(values.lighting){
   const lCat = getItemCategory('lighting', values.lighting);
   const match = fields.lightingCategory.opts.find(c => c.text === lCat);
   if(match) values.lightingCategory = match;
+}
+if(values.salonHaircut && fields.salonHairCategory){
+  const sCat = values.salonHaircut.cat || getItemCategory('hair', values.salonHaircut);
+  const match = fields.salonHairCategory.opts.find(c => c.text === sCat);
+  if(match) values.salonHairCategory = match;
+}
+if(values.salonVenue && fields.salonVenueCategory){
+  const vCat = values.salonVenue.cat || getItemCategory('salonVenue', values.salonVenue);
+  const match = fields.salonVenueCategory.opts.find(c => c.text === vCat);
+  if(match) values.salonVenueCategory = match;
 }
 }
 
@@ -4153,13 +4163,12 @@ function sanitizeCapeText(capeText, isFemaleModelBarber){
     return capeText;
   }
   if(hasHardcodedGarment && wardrobeMode !== 'separates'){
-    const capeBase = capeText
-      .replace(/^(?:.*?,\s*)?(?:draped loosely over|revealing|peeking out beneath|showing|over a|over the|leaving a|over cropped|over graphic|over asymmetric|over black).*$/i, '')
-      .replace(/peeking open over[\s\S]*/i, 'loosely parted down the front')
-      .replace(/(?:draped loosely|loosely fastened|partially unfastened|partially unsnapped|parted slightly|loosely draped|falling back)[\s\S]*/i, m => m.split(/\b(?:over|revealing|showing|leaving)\b/i)[0].trim())
+    let capeBase = capeText
+      .split(/\b(?:revealing|showing|peeking open over|peeking out beneath|leaving a|over a soft|over a black|over an asymmetric|over cropped|over graphic|over fitted|over distressed)\b/i)[0]
       .replace(/,\s*$/, '')
       .trim();
-    return `${capeBase || 'a silky black nylon cutting cape'}, loosely draped to reveal subtle hints of her chosen under-cape wardrobe`;
+    if(!capeBase) capeBase = 'a professional salon cutting cape';
+    return `${capeBase}, loosely draped to reveal subtle hints of her chosen under-cape wardrobe`;
   }
   return capeText;
 }
@@ -4169,6 +4178,8 @@ function sanitizeSoloClientCamera(camText){
   return camText
     .replace(/while the male barber leans[^,.]+/gi, 'with zero barbers in the frame')
     .replace(/while the barber leans[^,.]+/gi, 'with zero barbers in the frame')
+    .replace(/(?:the )?(?:male )?barber's fingers holding a taut wet hair strand as the scissor blades slice cleanly through/gi, 'the client\'s freshly cut hair strand held in tension with crisp precision')
+    .replace(/(?:the )?(?:male )?barber holding up a small handheld mirror[^,.]*/gi, 'an oval handheld mirror resting neatly on the station tray')
     .replace(/the male barber's skilled hands,?\s*/gi, '')
     .replace(/the male barber's hands,?\s*/gi, '')
     .replace(/the barber's[^,.]*(?:hands|fingers|knuckles|profile|focused face|gloved)[^,.]*/gi, 'delicate salon tools resting on the tray beside the chair')
@@ -4177,7 +4188,9 @@ function sanitizeSoloClientCamera(camText){
     .replace(/showing the male barber proudly presenting /gi, 'framing ')
     .replace(/and the male barber standing beside inspecting balance/gi, 'with empty styling space beside the chair')
     .replace(/capturing the barber presenting /gi, 'capturing ')
-    .replace(/\bmale barber\b/gi, 'styling station')
+    .replace(/over-barber's-forearm perspective framing shears/gi, 'framing shears and hair strand tension')
+    .replace(/\b(?:the )?male barber\b/gi, 'empty styling space')
+    .replace(/\bbarber\b/gi, 'styling station')
     .replace(/ {2,}/g, ' ').replace(/,\s*,/g, ',').trim();
 }
 
@@ -4237,9 +4250,12 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
 
   const dedupedNegs = dedupeNegatives(negatives);
   const negsText = (Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '';
+  const lbPrefix = (values.mode?.text === 'edit_supplied' || (val('mode') || '').startsWith('Edit'))
+    ? 'REFERENCE-IMAGE EDIT'
+    : 'REFERENCE-GUIDED PORTRAIT';
 
   const shot1 = [
-    'REFERENCE-IMAGE EDIT — SHOT 1: BEAUTY CLOSE-UP PORTRAIT',
+    `${lbPrefix} — SHOT 1: BEAUTY CLOSE-UP PORTRAIT`,
     '',
     'CREATIVE INTENT',
     `Extreme close-up beauty portrait of the same adult woman ${intentContext}. Razor-sharp photographic focus on the ${facePortraitFocusText}.${hasMalePresence ? ' The female model is strictly the only woman in the frame (solitary female model rule).' : ''}`,
@@ -4259,7 +4275,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   ].filter(Boolean).join('\n');
 
   const shot2 = [
-    'REFERENCE-IMAGE EDIT — SHOT 2: 3/4 MEDIUM FASHION POSE',
+    `${lbPrefix} — SHOT 2: 3/4 MEDIUM FASHION POSE`,
     '',
     'CREATIVE INTENT',
     `Three-quarter torso editorial portrait of the same adult woman (${intentContext}). Captures spontaneous posture and wardrobe tailoring.${hasMalePresence ? ' The shoot incorporates authentic interaction with her male colleague / partner.' : ''}`,
@@ -4284,7 +4300,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   ].filter(Boolean).join('\n');
 
   const shot3 = [
-    'REFERENCE-IMAGE EDIT — SHOT 3: FULL-LENGTH ENVIRONMENTAL SILHOUETTE',
+    `${lbPrefix} — SHOT 3: FULL-LENGTH ENVIRONMENTAL SILHOUETTE`,
     '',
     'CREATIVE INTENT',
     `Full-length head-to-toe editorial action photograph of the same adult woman in ${bgDesc}.${hasMalePresence ? ` Interaction: ${maleInterDesc}.` : ''}`,
@@ -4309,7 +4325,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   ].filter(Boolean).join('\n');
 
   const shot4 = [
-    'REFERENCE-IMAGE EDIT — SHOT 4: CINEMATIC DETAIL MACRO',
+    `${lbPrefix} — SHOT 4: CINEMATIC DETAIL MACRO`,
     '',
     'CREATIVE INTENT',
     `Artistic editorial detail macro shot highlighting craftsmanship, accessories and rich photographic textures.${hasMalePresence ? ' Solitary female model rule: zero secondary women.' : ''}`,
@@ -4330,7 +4346,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   ].filter(Boolean).join('\n');
 
   const allShots = [
-    'REFERENCE-IMAGE EDIT — 4-SHOT EDITORIAL LOOKBOOK SERIES',
+    `${lbPrefix} — 4-SHOT EDITORIAL LOOKBOOK SERIES`,
     '',
     'SERIES CONCEPT & CONTINUITY',
     `Capture the same adult woman across a coordinated 4-shot high-fashion editorial story (${intentContext}).${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / partner while strictly maintaining her as the sole woman in the frame.' : ''}`,
@@ -4417,6 +4433,11 @@ function buildSalonPrompt(){
       .replace(/the female client(?:'s)?/gi, m => m.endsWith('s') || m.endsWith('S') ? "the seated male client's" : 'the seated male client')
       .replace(/female client/gi, 'male client')
       .replace(/female customer/gi, 'male customer')
+      .replace(/two male barbers actively working in the shop: one male barber cutting our female client, and a second male barber cutting another male patron's hair at the neighboring station/gi, 'our female model (barber) actively attending to her male client at her station, while a male barber cuts another male patron\'s hair at the neighboring station (our female model is strictly the only woman in the shop)')
+      .replace(/three male barbers working simultaneously along the mirrored counter: the lead male barber detailing our female client's haircut, while two other male barbers attend to male clients in adjacent chairs/gi, 'our female model (barber) detailing her male client\'s grooming at the central station, while two male barbers attend to other male clients in adjacent chairs (she is strictly the solitary female in the shop)')
+      .replace(/two male barbers present: an experienced lead male barber actively cutting the female client's hair, while a junior male apprentice stands nearby/gi, 'our female model (barber) actively grooming the male client, while a junior male apprentice stands nearby observing attentively')
+      .replace(/a second male barber/gi, 'a male assistant barber')
+      .replace(/two other male barbers/gi, 'two male barbers')
       .replace(/\bThe male barber\b/g, 'Our female model (barber)')
       .replace(/\bthe male barber\b/g, 'our female model (barber)')
       .replace(/\bmale barber\b/gi, 'female model (barber)')
@@ -4466,12 +4487,14 @@ function buildSalonPrompt(){
     if(val('ponyBaseWrap')) pDetails.push(`base ${val('ponyBaseWrap')}`);
     if(val('ponyTailFall')) pDetails.push(`tail falling ${val('ponyTailFall')}`);
     if(val('ponyTailEnd')) pDetails.push(`tail ends ${val('ponyTailEnd')}`);
+    if(val('ponyTailStyle')) pDetails.push(`tail finish ${val('ponyTailStyle')}`);
     if(pDetails.length) haircutText += ` (${pDetails.join(', ')})`;
   } else if(isSalonSweep){
     const sDetails = [];
     if(val('sideSweepSide')) sDetails.push(val('sideSweepSide'));
     if(val('sideSweepFlip')) sDetails.push(val('sideSweepFlip'));
     if(val('sideSweepEnd')) sDetails.push(val('sideSweepEnd'));
+    if(val('sideSweepFinish')) sDetails.push(val('sideSweepFinish'));
     if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
   }
   const salonHairArch = detectHairArchitecture(values.salonHaircut, haircutText);
@@ -4543,7 +4566,7 @@ function buildSalonPrompt(){
   const salonVeilPrimaryBullet = salonVeilRuleObj?.primary || '';
 
   lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
-  const salonObfuscClause = buildObfuscClause(salonObfuscMode, salonHairArch);
+  const salonObfuscClause = buildObfuscClause(salonObfuscMode, salonHairArch, { hasPartner: isFemaleModelBarber });
   if(salonObfuscClause) lines.push('• ' + salonObfuscClause);
   if(isFemaleModelBarber){
     lines.push('• Strictly preserve the adult woman from the reference image as the skilled female barber / practitioner actively attending to her seated male client.');
@@ -4645,12 +4668,13 @@ function buildSalonPrompt(){
   let cameraText = isPonyCam ? rawCameraText : rawCameraText.replace(/ponytail profile/gi, 'haircut silhouette');
   if(isFemaleModelBarber){
     cameraText = cameraText
-      .replace(/the male barber's hands/gi, "the female barber's hands")
-      .replace(/male barber's hands/gi, "female barber's hands")
-      .replace(/male barber/gi, "female model (barber)")
-      .replace(/the client's front reflection/gi, "the seated male client and standing female barber")
-      .replace(/the client's reflection/gi, "the male client and female barber reflection")
-      .replace(/client's front reflection/gi, "seated male client and standing female barber");
+      .replace(/\bthe male barber's hands\b/gi, "the female barber's hands")
+      .replace(/\bmale barber's hands\b/gi, "female barber's hands")
+      .replace(/\bthe male barber\b/gi, "the female model (barber)")
+      .replace(/\bmale barber\b/gi, "female model (barber)")
+      .replace(/\bthe client's front reflection\b/gi, "the seated male client and standing female barber")
+      .replace(/\bthe client's reflection\b/gi, "the male client and female barber reflection")
+      .replace(/\bclient's front reflection\b/gi, "seated male client and standing female barber");
   } else if(isSoloClient){
     cameraText = sanitizeSoloClientCamera(cameraText);
   }
@@ -4804,6 +4828,14 @@ function buildSalonPrompt(){
     } else {
       lines.push(`Client under-cape wardrobe: ${outfitText}. Garment fit: ${fitText}. Fabric drape visible beneath the draped cutting cape neckline and lap.`);
     }
+  }
+  const salonMakeupVal = val('makeup');
+  const salonAccVal = val('accessories');
+  if(salonMakeupVal || salonAccVal){
+    const stylingBits = [];
+    if(salonMakeupVal) stylingBits.push(`Makeup: ${sanitizeMakeupForVeil(salonMakeupVal, salonVeilTier)}`);
+    if(salonAccVal) stylingBits.push(`Accessories: ${salonAccVal}`);
+    lines.push(`Styling & details: ${stylingBits.join('. ')}.`);
   }
   lines.push('');
 
@@ -5273,7 +5305,7 @@ if(checkState.skin)checks.push('Keep natural skin texture, visible pores, realis
 if(checkState.body)checks.push('Preserve her natural body proportions; do not slim, reshape or exaggerate anatomy.');
 if(checkState.skinTone)checks.push('Keep skin tone consistent with the reference image and maintain believable colors.');
 const psFullHairDesc = S(getFullHairDescription());
-const psIsExplicitWetHair = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look/i.test((values.hair?.label || '') + ' ' + psFullHairDesc);
+const psIsExplicitWetHair = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look/i.test((values.hair?.label || '') + ' ' + psFullHairDesc + ' ' + (values.makeover?.text || ''));
 if(checkState.hairStrands){
   if(isDeepOrHeavyVeil){
     checks.push('Render a continuous, smooth, fine-tooth-combed glossy satin sheet over the covered facial zone with zero thin patchy skin gaps and zero separated wet spaghetti strings over the mouth.');
@@ -5367,7 +5399,7 @@ lines.push(`• Model (Reference Subject): Identical adult South Asian woman fro
 lines.push(`• Signature Post-Makeover Haircut: Authentic natural hair sculpted into ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''}`);
 lines.push(`• Hair Moisture & Fiber: ${moisturePhysicsLine}`);
 
-const psObfuscClause = buildObfuscClause(psObfuscMode, psHairArch);
+const psObfuscClause = buildObfuscClause(psObfuscMode, psHairArch, { hasMalePresence });
 if(psObfuscClause){
   lines.push('• ' + psObfuscClause);
 }
@@ -5412,7 +5444,7 @@ if(hasMalePresence && (values.malePresence.text === 'crew_prep' || values.malePr
 } else if(isFemaleGroomingMen){
   moVal = 'the adult female model is captured in an intimate, artisan grooming and pampering session as the active practitioner shaving, detailing, or performing soothing massage on her seated male partner';
 } else if(!hasMalePresence && ((styleRef && transferToggles && transferToggles.hair) || checkState.soloSubject)){
-  if(moVal.includes('stylist') || moVal.includes('styling chair')){
+  if(moVal.includes('stylist') || moVal.includes('styling chair') || moVal.includes('barber detailing') || moVal.includes('straight razor')){
     moVal = 'the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject';
   }
 }
@@ -5425,8 +5457,13 @@ const textureDirective = (preserveHairTexture || (values.hairTexture && values.h
 
 const hasActiveHeavyVeil = ['25_30','40_45','50','65_70','80_85','95_100'].includes(psTier);
 
+const rawHairFinish = val('hairFinish') || 'touchable salon texture';
+const psHairFinish = (photoHairMoisture === 'wet')
+  ? (rawHairFinish.replace(/airy ends.*|soft polished blowout.*|freshly blown-out.*|subtle natural static flyaways/gi, 'high-gloss wet finish with clumped strand separation and natural liquid sheen') || 'high-gloss wet finish with clumped strand separation and natural liquid sheen')
+  : rawHairFinish;
+
 if(styleRef && transferToggles && transferToggles.hair){
-  lines.push(`Hairstyle: ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''} Finished solo hairstyle with zero hairdresser, stylist, or hands touching her hair. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${psMakeupSafe}.`);
+  lines.push(`Hairstyle: ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''} Finished solo hairstyle with zero hairdresser, stylist, or hands touching her hair. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${psHairFinish}. Makeup: ${psMakeupSafe}.`);
 } else {
   const psHairDesc = sanitizeHairForVeil(psFullHairDesc, psTier);
   const psMoistureClause = (photoHairMoisture === 'wet')
@@ -5434,7 +5471,7 @@ if(styleRef && transferToggles && transferToggles.hair){
     : (photoHairMoisture === 'damp')
       ? ' Hair moisture: evenly spray-misted damp strands with fine droplets and cool sheen.'
       : (!psIsExplicitWetHair ? ' Hair moisture: completely dry, airy, blown-out strands with zero wet clumping.' : '');
-  const psHairLine = `Hairstyle: ${psHairDesc}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve back haircut length and silhouette intact).' : ''}${psMoistureClause} Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${val('hairFinish')}. Makeup: ${psMakeupSafe}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`;
+  const psHairLine = `Hairstyle: ${psHairDesc}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve back haircut length and silhouette intact).' : ''}${psMoistureClause} Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${psHairFinish}. Makeup: ${psMakeupSafe}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`;
   lines.push(psHairLine);
 }
 
@@ -5990,10 +6027,15 @@ function closeDrawer(){
   document.body.style.overflow='';
 }
 
+function toggleDrawer(){
+  if(preview && preview.classList.contains('drawer-open')) closeDrawer();
+  else openDrawer();
+}
+
 if(drawerBtn)drawerBtn.addEventListener('click',openDrawer);
 if(closeBtn)closeBtn.addEventListener('click',closeDrawer);
 if(backdrop)backdrop.addEventListener('click',closeDrawer);
-if(handle)handle.addEventListener('click',closeDrawer);
+if(handle)handle.addEventListener('click',toggleDrawer);
 if(mobileCopy){
   mobileCopy.addEventListener('click',()=>{
     copy(el('prompt').value);

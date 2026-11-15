@@ -21,7 +21,8 @@ function detectHairArchitecture(hairObj, hairText){
   if(cat === 'pony' || cat === 'braid' || /ponytail|\bpony\b|\bbun\b|chignon|\bbraid|updo|french twist|topknot|claw clip|slicked[- ]back|comb[- ]back/i.test(blob)){
     return 'tied_slick';
   }
-  if(cat === 'pixie' || cat === 'fade' || /\bpixie\b|\bbixie\b|\bmixie\b|\bbuzz\b|\bfade\b|\bcrop\b|taper|undercut|garçonne|short textured crop|short side-part crop/i.test(blob)){
+  const isLongCut = cat === 'shag' || cat === 'layer' || cat === 'wave' || /long|collarbone|shoulder|clavicle|flowing|cascading|chest|mid-back/i.test(blob);
+  if((cat === 'pixie' || cat === 'fade' || /\bpixie\b|\bbixie\b|\bmixie\b|\bbuzz\b|\bfade\b|\bcrop\b|garçonne|short textured crop|short side-part crop/i.test(blob)) && !isLongCut){
     return 'pixie_crop';
   }
   if(/\bmicro bob\b|french bob|\bchin-length\b|\bchin-grazing\b|\bchin bob\b|\bbox bob\b|\bpageboy\b|\bwedge bob\b|\bear-length\b/i.test(blob) || (cat === 'bob' && !/lob|shoulder|collarbone|clavicle|waterfall|long|midi/i.test(blob))){
@@ -90,10 +91,16 @@ function sanitizeHairForVeil(hairText, tier){
 }
 
 function sanitizeMakeupForVeil(makeupText, tier){
-  if(!makeupText || !['65_70', '80_85', '95_100'].includes(tier)) return makeupText;
-  return makeupText
-    .replace(/\b(?:winged black eyeliner|winged eyeliner|dramatic eyeliner|smoky eye shadow|smoky eyes|kohl-rimmed eyes|kohl-lined eyes|mascara|defined dark eyebrows|sculpted brows)\b/gi, 'subtle skin-matched finish')
-    .replace(/\beyes\b/gi, 'skin');
+  if(!makeupText) return makeupText;
+  if(['65_70', '80_85', '95_100'].includes(tier)){
+    return makeupText
+      .replace(/\b(?:winged black eyeliner|winged eyeliner|dramatic eyeliner|smoky eye shadow|smoky eyes|kohl-rimmed eyes|kohl-lined eyes|mascara|defined dark eyebrows|sculpted brows|fluttery false eyelashes|false eyelashes|eyelashes)\b/gi, 'subtle skin-matched finish')
+      .replace(/\beyes?\b/gi, 'skin')
+      .replace(/\beyelids?\b/gi, 'skin');
+  } else if(['40_45', '50'].includes(tier)){
+    return makeupText + ' (makeup applied and visible exclusively on her single uncovered eye, with covered eye fully veiled)';
+  }
+  return makeupText;
 }
 
 function sanitizeHiddenFaceText(text, hideEyes, veilTier, obfuscMode){
@@ -114,7 +121,20 @@ function sanitizeHiddenFaceText(text, hideEyes, veilTier, obfuscMode){
       .replace(/bright natural eyes/gi, 'serene expression')
       .replace(/bright eyes,/gi, 'relaxed expression,')
       .replace(/crinkled eyes/gi, 'warm natural smile')
-      .replace(/attentive, appreciative gaze focused on[^,.]+/gi, 'calm, contented expression');
+      .replace(/attentive, appreciative gaze focused on[^,.]+/gi, 'calm, contented expression')
+      .replace(/\b(?:playful smirk and )?confident eyes\b/gi, 'a playful smirk and serene composure')
+      .replace(/\bfierce direct gaze\b/gi, 'calm self-assured poise')
+      .replace(/\bpiercing (?:editorial )?stare\b/gi, 'focused, serene posture')
+      .replace(/\bexpressive (?:direct )?eyes?\b/gi, 'expressive lower lips and serene poise')
+      .replace(/\bconfident direct eyes\b/gi, 'serene, centered composure')
+      .replace(/\bsteady (?:and )?direct gaze\b/gi, 'steady composure')
+      .replace(/\bsteady gaze\b/gi, 'serene poise')
+      .replace(/\bdirect eyes\b/gi, 'serene composure')
+      .replace(/\bfocused eyes\b/gi, 'focused composure')
+      .replace(/\brelaxed eyes\b/gi, 'relaxed composure')
+      .replace(/\bquiet satisfaction, relaxed eyes, and a subtle self-assured smile\b/gi, 'quiet satisfaction and a subtle self-assured smile')
+      .replace(/\beyes\b/gi, 'facial composure')
+      .replace(/\bgaze\b/gi, 'poise');
   } else if(partialVeil){
     out = out
       .replace(/both eyes/gi, 'her single uncovered eye')
@@ -190,14 +210,19 @@ function extractNegativePrompt(fullText){
   return m ? m[0].trim() : '';
 }
 
-function buildObfuscClause(mode, hairArch){
+function buildObfuscClause(mode, hairArch, context = {}){
   const m = mode || 'none';
   if(m === 'none' || m === 'hair_veil') return '';
+  const hasPartner = Boolean(context.hasPartner || context.hasMalePresence || context.isRomance);
   switch(m){
     case 'turned_away':
-      return 'FACE CONCEALMENT — TURNED-AWAY PROFILE: natural photographic profile privacy—she rests her cheek sideways against his shoulder blade or turns her head away looking toward the horizon/road; her facial features remain completely hidden by natural camera angle and body posture; only her haircut silhouette, ear contour, and shoulder line are visible; ZERO frontal facial identification.';
+      return hasPartner
+        ? 'FACE CONCEALMENT — TURNED-AWAY PROFILE: natural photographic profile privacy—she rests her cheek sideways against his shoulder blade or turns her head away looking toward the horizon/road; her facial features remain completely hidden by natural camera angle and body posture; only her haircut silhouette, ear contour, and shoulder line are visible; ZERO frontal facial identification.'
+        : 'FACE CONCEALMENT — TURNED-AWAY PROFILE: natural photographic profile privacy—she turns her head sideways looking away toward the setting/background; her facial features remain completely hidden by natural camera angle and body posture; only her haircut silhouette, ear contour, and shoulder line are visible; zero other people in frame; ZERO frontal facial identification.';
     case 'over_shoulder_pov':
-      return 'FACE CONCEALMENT — OVER-THE-SHOULDER OCCLUSION: cinematic over-the-shoulder framing—the male partner\'s broad shoulder, neck, and jacket collar occupy the close foreground, naturally occluding her eye-line, forehead, and nose bridge; she looks past his shoulder with only her lower jawline and windblown hair visible; ZERO clear frontal facial exposure.';
+      return hasPartner
+        ? 'FACE CONCEALMENT — OVER-THE-SHOULDER OCCLUSION: cinematic over-the-shoulder framing—the male partner\'s broad shoulder, neck, and jacket collar occupy the close foreground, naturally occluding her eye-line, forehead, and nose bridge; she looks past his shoulder with only her lower jawline and windblown hair visible; ZERO clear frontal facial exposure.'
+        : 'FACE CONCEALMENT — OVER-THE-SHOULDER OCCLUSION: cinematic over-the-shoulder framing—a blurred, anonymous foreground shoulder silhouette or architectural pillar occupies the close foreground, naturally occluding her eye-line, forehead, and nose bridge; she is framed looking past the foreground element with only her lower jawline and hair visible (solo female subject); ZERO clear frontal facial exposure.';
     case 'hands_shield':
       return 'FACE CONCEALMENT — HAND & FINGER SHIELD: candid organic hand shielding gesture—she lifts one or both hands naturally toward her face with fingers softly splayed or palm turned inward to shield the eye-line, forehead, and bridge of nose; the gesture reads as an instinctive, unforced candid moment (shading eyes from warm sun or laughing shyly into her hands) rather than theatrical staging; tactile skin texture, delicate knuckle creases, and soft organic hand shadows cast across the concealed facial zone; ZERO bare wide-open eyes visible beneath the hand.';
     case 'prop_shield':

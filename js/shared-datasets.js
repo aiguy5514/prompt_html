@@ -322,12 +322,12 @@ const OUTFIT_FAMILIES = [
   {"label": "✦ All Outfits (438 options)", "text": "all", "desc": "", "cat": "General"},
   {"label": "👗 Evening Gowns (81 variations)", "text": "gown", "desc": "", "cat": "General"},
   {"label": "🕴️ Suits & Tailoring (76 variations)", "text": "suit", "desc": "", "cat": "General"},
-  {"label": "👚 Tops, Denim & Separates (71 variations)", "text": "separates", "desc": "", "cat": "General"},
+  {"label": "👚 Tops, Denim & Separates (91 variations)", "text": "separates", "desc": "", "cat": "General"},
   {"label": "🩲 Jumpsuits & Bodysuits (60 variations)", "text": "jumpsuit", "desc": "", "cat": "General"},
   {"label": "🦹 Cocktail & Party (51 variations)", "text": "cocktail", "desc": "", "cat": "General"},
   {"label": "🥻 Sarees & Fusion (45 variations)", "text": "saree", "desc": "", "cat": "General"},
   {"label": "🩱 Monokinis & Swimwear (20 variations)", "text": "swim", "desc": "", "cat": "General"},
-  {"label": "🧥 Leather, Vinyl & Trench (12 variations)", "text": "leather", "desc": "", "cat": "General"}
+  {"label": "🧥 Leather, Vinyl & Trench (14 variations)", "text": "leather", "desc": "", "cat": "General"}
 ];
 
 const outfit = [

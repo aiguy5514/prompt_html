@@ -595,7 +595,7 @@ const fields = {
   romanceMakeup: { label: 'Her Makeup Direction', opts: romanceMakeups, def: 0, section: 'romanceWardrobeSec', _grp: 'Her Beauty & Makeup' },
 
   // 03 Her Hair & Face Privacy
-  romanceHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'romanceHairSec', _grp: 'Her Signature Haircut' },
+  romanceHairCategory: { label: 'Haircut Family Filter (276 styles)', opts: HAIR_FAMILIES, def: 0, section: 'romanceHairSec', _grp: 'Her Signature Haircut' },
   romanceHair: { label: 'Chosen Haircut Silhouette', opts: hair, def: 0, section: 'romanceHairSec', _grp: 'Her Signature Haircut' },
   romanceHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'romanceHairSec', _grp: 'Face Privacy & Coverage' },
   romanceFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'romanceHairSec', _grp: 'Face Privacy & Coverage' },
@@ -722,6 +722,24 @@ function createFieldElement(id, f){
     if(!visibleOpts.includes(values.romanceHair)){
       values.romanceHair = visibleOpts[0] || f.opts[0];
     }
+  } else if(id === 'topPiece' && values.topCategory && values.topCategory.text && values.topCategory.text !== 'all'){
+    const cat = values.topCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+    if(!visibleOpts.includes(values.topPiece)){
+      values.topPiece = visibleOpts[0] || f.opts[0];
+    }
+  } else if(id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text && values.bottomCategory.text !== 'all'){
+    const cat = values.bottomCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+    if(!visibleOpts.includes(values.bottomPiece)){
+      values.bottomPiece = visibleOpts[0] || f.opts[0];
+    }
+  } else if(id === 'romanceOutfit' && values.romanceOutfitCategory && values.romanceOutfitCategory.text && values.romanceOutfitCategory.text !== 'all'){
+    const cat = values.romanceOutfitCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat || (o.label && o.label.toLowerCase().includes(cat)));
+    if(!visibleOpts.includes(values.romanceOutfit)){
+      values.romanceOutfit = visibleOpts[0] || f.opts[0];
+    }
   }
 
   const count = document.createElement('span');
@@ -751,10 +769,29 @@ function createFieldElement(id, f){
     b.textContent = o.label;
     b.addEventListener('click', () => {
       values[id] = o;
+      if(id === 'romanceOutfitCategory'){
+        const cat = o.text || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.romanceOutfit.opts.find(opt => opt.cat === cat || (opt.label && opt.label.toLowerCase().includes(cat)));
+          if(matchFirst) values.romanceOutfit = matchFirst;
+        }
+      } else if(id === 'topCategory'){
+        const cat = o.text || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.topPiece.opts.find(opt => opt.cat === cat);
+          if(matchFirst) values.topPiece = matchFirst;
+        }
+      } else if(id === 'bottomCategory'){
+        const cat = o.text || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.bottomPiece.opts.find(opt => opt.cat === cat);
+          if(matchFirst) values.bottomPiece = matchFirst;
+        }
+      }
       trigger.querySelector('.current').textContent = o.label;
       custom.classList.remove('open');
       trigger.setAttribute('aria-expanded', 'false');
-      if(id === 'romanceStoryCategory' || id === 'romanceHairCategory'){
+      if(id === 'romanceStoryCategory' || id === 'romanceHairCategory' || id === 'romanceOutfitCategory' || id === 'topCategory' || id === 'bottomCategory'){
         renderFields();
       }
       buildPrompt();
@@ -1023,7 +1060,7 @@ function buildPrompt(){
     lines.push(`• Intimacy Dynamic: ${dynamicText}. Proximity: ${touchText}.`);
     lines.push(`• Setting & Light: ${settingText} under ${lightingText}. Lens: ${lensText}. Aspect ratio: ${aspectText}.`);
 
-    const obfuscClause = buildObfuscClause(obfuscMode, hairArch);
+    const obfuscClause = buildObfuscClause(obfuscMode, hairArch, { isRomance: true });
     if(obfuscClause) lines.push(`• ${obfuscClause}`);
     if(veilRuleObj?.strict) lines.push(`• HAIR VEIL CONTINUITY: ${veilRuleObj.strict}`);
 
@@ -1044,7 +1081,7 @@ function buildPrompt(){
     lines.push(`• ${helmetClause}`);
     lines.push(`• ${moistClause}`);
 
-    const obfuscClause = buildObfuscClause(obfuscMode, hairArch);
+    const obfuscClause = buildObfuscClause(obfuscMode, hairArch, { isRomance: true });
     if(obfuscClause){
       lines.push('• ' + obfuscClause);
     }
@@ -1321,27 +1358,34 @@ function save(){
 function load(){
   try {
     const raw = localStorage.getItem('afterglow_romance_v1');
-    if(!raw) return;
-    const d = JSON.parse(raw);
-    if(d.values){
-      Object.keys(fields).forEach(k => {
-        if(d.values[k]){
-          const match = fields[k].opts.find(o => o.label === d.values[k]);
-          if(match) values[k] = match;
-        }
-      });
+    if(raw){
+      const d = JSON.parse(raw);
+      if(d.values){
+        Object.keys(fields).forEach(k => {
+          if(d.values[k]){
+            const match = fields[k].opts.find(o => o.label === d.values[k]);
+            if(match) values[k] = match;
+          }
+        });
+      }
+      if(d.romanceHairMoisture) romanceHairMoisture = d.romanceHairMoisture;
+      if(d.wardrobeMode) wardrobeMode = d.wardrobeMode;
+      if(typeof d.reelMode === 'boolean') reelMode = d.reelMode;
+      if(Array.isArray(d.customPresets)) customPresets = d.customPresets;
+      if(typeof d.customDirection === 'string') customDirection = d.customDirection;
+      if(typeof d.extraNegative === 'string') extraNegative = d.extraNegative;
     }
-    if(d.romanceHairMoisture) romanceHairMoisture = d.romanceHairMoisture;
-    if(d.wardrobeMode) wardrobeMode = d.wardrobeMode;
-    if(typeof d.reelMode === 'boolean') reelMode = d.reelMode;
-    if(Array.isArray(d.customPresets)) customPresets = d.customPresets;
-    if(typeof d.customDirection === 'string') customDirection = d.customDirection;
-    if(typeof d.extraNegative === 'string') extraNegative = d.extraNegative;
+  } catch(e){}
+  try {
+    const hist = localStorage.getItem('afterglow_romance_hist');
+    if(hist) promptHistory = JSON.parse(hist) || [];
+    if(el('historyBadge')) el('historyBadge').textContent = promptHistory.length;
   } catch(e){}
 }
 
 // UI Wire-up
 el('randomTop')?.addEventListener('click', randomizeAll);
+el('shuffleLooks')?.addEventListener('click', randomizeAll);
 el('copyTop')?.addEventListener('click', () => copy(el('prompt').value));
 el('copy')?.addEventListener('click', () => copy(el('prompt').value));
 el('resetTop')?.addEventListener('click', resetAll);
@@ -1463,6 +1507,7 @@ window.AfterglowRomanceStudio = {
   renderPresets,
   save,
   load,
+  goSection,
   resetAll,
   randomizeAll,
   saveCustomRomancePreset,

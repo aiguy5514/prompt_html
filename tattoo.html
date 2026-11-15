@@ -46,13 +46,6 @@
       <button type="button" class="ratio-chip" data-ratio="3:2">3:2</button>
     </div>
   </div>
-  <div class="shot-tabs hidden" id="shotTabs">
-    <button type="button" class="shot-tab active" data-shot="all">All 4 Shots Series</button>
-    <button type="button" class="shot-tab" data-shot="1">Shot 1 · Close-up</button>
-    <button type="button" class="shot-tab" data-shot="2">Shot 2 · 3/4 Pose</button>
-    <button type="button" class="shot-tab" data-shot="3">Shot 3 · Full Body</button>
-    <button type="button" class="shot-tab" data-shot="4">Shot 4 · Detail Macro</button>
-  </div>
 </div>
 <div class="prompt-meta"><span id="wordCount">Prompt ready</span><button class="btn btn-quiet btn-small" id="selectPrompt">Select all text</button></div><textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated prompt"></textarea><div class="preview-buttons"><button class="btn btn-primary" id="copy">▣ Copy prompt</button><button class="btn btn-secondary" id="download">↓ Download .txt</button><button class="btn btn-secondary" id="copyPositive" type="button">Copy positive only</button><button class="btn btn-secondary" id="copyNegative" type="button">Copy exclusions only</button></div><div class="toast" id="toast" role="status" aria-live="polite"></div></div><div class="preview-help"><strong>Use it:</strong> attach your reference photo in your image editor, copy this prompt, and paste it into the editor. This page runs locally; it never uploads or stores your photo.</div></aside></div>
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
@@ -115,69 +108,6 @@ const tattooSections = [
   { id: 'tattooCameraSec', name: 'Camera & Macro Light', short: 'CAMERA', icon: '📷', desc: '100mm macro lenses, tactile glancing sidelight, and film grade.' },
   { id: 'finish', name: 'Finish & Controls', short: 'FINISH', icon: '✦', desc: 'Model reference preservation, 2x2 macro collage, and negative guidance.' }
 ];
-
-// ==========================================
-// OPTION BANKS: HAIRCUTS & STYLING
-// ==========================================
-
-const tattooHairCategories = [
-  O('✦ All Haircut Styles (30 options)', 'all'),
-  O('👑 High Buns, Topknots & Updos (exposing neck & spine)', 'updo'),
-  O('👱‍♀️ Ponytails, Curtain Bangs & Sweeps', 'pony'),
-  O('✂️ Precision Bobs & Collarbone Lobs', 'bob'),
-  O('🌿 Butterfly Layers, Shags & Wolf Cuts', 'shag'),
-  O('💧 Sleek Wet-Look & Hydro Post-Swim', 'wet'),
-  O('🌊 Natural Indian Waves & Blowouts', 'waves'),
-  O('⚡ Pixies, Crops & Architectural Bixies', 'pixie')
-];
-
-const tattooHairStylings = makeOpts([
-  // High Buns & Updos (exposing neck, ear, spine)
-  ['High textured messy topknot with wispy temple tendrils', 'hair swept cleanly up into a high, textured messy topknot bun anchored at the crown, with delicate wispy flyaways around the hairline and temples, leaving the nape of the neck, earlobes, and shoulders completely bare', '', 'updo'],
-  ['Architectural French twist with swept crown', 'a sculptural, elegant French twist pinned flat against the occipital curve, sweeping hair up seamlessly from the nape to expose the cervical spine and neck', '', 'updo'],
-  ['Sleek high origami chignon with lacquered hold', 'a polished high origami chignon tied firmly at the high crown with glossy lacquered hold, exposing the entire nape, neck, and collarbone', '', 'updo'],
-  ['Romantic loose undone bun with face-framing pieces', 'a softly undone romantic low-to-mid bun with soft wavy strands escaping around the jawline, keeping the back of the neck gracefully visible', '', 'updo'],
-  ['Crown milkmaid braid halo lifting hair away from neck', 'an intricate double crown milkmaid braid encircling the head like a halo, lifting all hair cleanly away from the ears, nape, and back', '', 'updo'],
-  ['Sleek tight ballerina bun with center part', 'a clean, minimalist ballerina bun pinned firmly at the mid-crown with a pristine center part, emphasizing facial symmetry and ear curves', '', 'updo'],
-
-  // Ponytails & Dramatic Sweeps
-  ['Mid ponytail with arched bottleneck curtain bangs', 'an authentic salon-styled mid-height ponytail with soft naturally rounded crown volume, featuring soft arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands that curve naturally outward around the temples to upper cheekbones with piecey separation, side hair tucked behind ears, and a smooth straight tail resting flush against the upper back', '', 'pony'],
-  ['Sleek high snatched ponytail with hair-wrapped base', 'a high snatched ponytail sitting high on the crown with a seamless hair-wrapped elastic base, straight glossy lengths fanning down with natural movement', '', 'pony'],
-  ['Asymmetric shoulder drape (all hair swept to opposite side)', 'all long natural silky black Indian hair thrown dramatically over the opposite shoulder in loose organic waves, leaving the tattooed shoulder, collarbone, and upper chest completely exposed', '', 'pony'],
-  ['Low relaxed ponytail with soft side-swept fringe', 'a relaxed low ponytail tied loosely at the nape with a silk ribbon, featuring a soft side-swept fringe skimming one eyebrow and exposing one ear', '', 'pony'],
-  ['Bubble ponytail with spaced metallic cuffs', 'an editorial bubble ponytail with evenly spaced voluminous segments down the back, held by minimalist brushed metal bands', '', 'pony'],
-
-  // Bobs & Collarbone Lobs
-  ['French chin-grazing bob with soft eyelash fringe', 'a chic French chin-length bob with soft, slightly undercut ends that curve inward along the jawline, paired with a delicate eyelash-skimming brow fringe', '', 'bob'],
-  ['Collarbone-length blunt lob with glass-hair finish', 'a crisp, geometric collarbone-length long bob with razor-sharp blunt perimeter lines, high mirror-like glass hair shine, and a pristine center part', '', 'bob'],
-  ['Italian voluminous rounded bob', 'a classic Italian bob cut with full, airy, bouncy ends and subtle inward bevel, stopping right at the jaw to frame the throat and clavicle', '', 'bob'],
-  ['Airy layered micro-bob with exposed nape', 'a graduated micro-bob cropped high in the back to leave the upper nape bare, with longer textured pieces angling forward along the cheekbones', '', 'bob'],
-  ['Asymmetrical angled lob (higher back, longer front)', 'an architectural asymmetrical lob that rises higher in the back to expose the neckline and sweeps down into sharp face-framing front points', '', 'bob'],
-
-  // Shags, Wolf Cuts & Layered Volume
-  ['Modern butterfly cut with bouncy face-framing layers', 'a modern butterfly cut with feathery, cascading face-framing layers that fan outward at cheekbone and collarbone levels, maintaining buoyant volume', '', 'shag'],
-  ['Soft wolf cut with wispy curtain fringe', 'a soft, textured wolf cut featuring lightweight choppy layers throughout the crown and length, paired with airy curtain bangs that open over the forehead', '', 'shag'],
-  ['70s feathered shag with swept-back wings', 'a retro 1970s-inspired feather cut with airy, outward-swept winged layers along the temples and shoulders', '', 'shag'],
-  ['Long U-shaped blowout layers', 'long flowing layers cut in a graceful U-shaped silhouette, styled in a voluminous salon blowout with soft natural bounce', '', 'shag'],
-
-  // Wet-Look & Hydro Post-Swim
-  ['Editorial wet-look slicked comb-back', 'a high-editorial wet-look comb-back with visible wide-tooth comb striations through the crown, hair swept cleanly back off the face and ears, clinging sleekly to the head with a damp, dewy sheen', '', 'wet'],
-  ['Drenched post-swim strands clinging to bare skin', 'natural drenched wet hair texture fresh from the water, with separated glossy dark strands clinging organically to the collarbone and shoulders', '', 'wet'],
-  ['Slicked wet finger waves hugging the hairline', 'delicate vintage-inspired wet finger waves molded flat against the temples and cheekbones, leaving the ears and neck completely unobstructed', '', 'wet'],
-
-  // Natural Indian Waves & Blowouts
-  ['Air-dried organic Indian silk waves', 'natural air-dried Indian hair with authentic silky straight-to-subtle-wave texture, organic strand separation, and healthy natural luster', '', 'waves'],
-  ['Deep side-part with cascading Hollywood glamour waves', 'a dramatic deep side part with rich, glossy cascading waves draped over one arm, leaving the opposite neck and clavicle bare', '', 'waves'],
-  ['Soft natural curl halo with defined ringlets', 'soft, defined natural curls with bouncy ringlet definition framing the face and lifted gracefully off the neck', '', 'waves'],
-
-  // Pixies, Crops & Architectural Bixies
-  ['Textured bixie cut (bob-pixie hybrid) with airy nape', 'a chic textured bixie cut combining the lightness of a pixie with soft bob layers, feathery at the crown with a closely tapered nape exposing the neckline', '', 'pixie'],
-  ['Sculptural pixie crop with side-swept micro-fringe', 'a clean sculptural pixie crop with delicate scissor-tapered sides, exposing the ear contours and jawline with a soft textured top', '', 'pixie'],
-
-  // Signature Clipped Lobs & High Sleek Ponytails
-  ['Shoulder-length cut with clip holding hair back', 'a shoulder-length haircut with the upper front and side hair cleanly brushed and held back securely with a sleek clip at the back of the head, leaving delicate face-framing strands around the temples and loose shoulder-grazing ends with natural body', '', 'bob'],
-  ['Sleek tightly brushed-back high ponytail with smooth crown & wavy neck-length ends', 'a sleek, tightly brushed-back high ponytail anchored high at the crown with a pristine smooth crown and zero flyaways, cascading into naturally gathered, slightly wavy ends that finish cleanly right at the nape of the neck', '', 'pony']
-]);
 
 // ==========================================
 // OPTION BANKS: SHOOT LOCATIONS & SETTINGS
@@ -565,8 +495,8 @@ const fields = {
   bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'tattooSubjectSec', _grp: 'Revealing Wardrobe & Separates' },
   bottomPiece: { label: 'Denim Shorts / Jeans / Skirt', opts: bottomPieces, def: 0, section: 'tattooSubjectSec', _grp: 'Revealing Wardrobe & Separates' },
   midriffStyling: { label: 'Midriff & Waistline Exposure', opts: midriffStylings, def: 0, section: 'tattooSubjectSec', _grp: 'Revealing Wardrobe & Separates' },
-  tattooHairCategory: { label: 'Haircut Family Filter (260+ styles)', opts: HAIR_FAMILIES, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
-  tattooHair: { label: 'Haircut & Hair Styling (260+ styles)', opts: hair, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
+  tattooHairCategory: { label: 'Haircut Family Filter (276 styles)', opts: HAIR_FAMILIES, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
+  tattooHair: { label: 'Haircut & Hair Styling (276 styles)', opts: hair, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
   tattooHairFaceCoverage: { label: '% of face behind hair (veil coverage)', opts: hairFaceCoverageOpts, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
   tattooFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'tattooSubjectSec', _grp: 'Haircut & Styling' },
 
@@ -803,6 +733,7 @@ function save(){
       ap: activePreset,
       d: customDirection,
       n: extraNegative,
+      lk: Array.from(lockedFields),
       v: serializeTattooPresetSet(values),
       u: customPresets.map(p => ({
         id: p.id,
@@ -829,6 +760,7 @@ function load(){
       if(o.ap) activePreset = o.ap;
       if(typeof o.d === 'string') customDirection = o.d;
       if(typeof o.n === 'string') extraNegative = o.n;
+      if(Array.isArray(o.lk)) lockedFields = new Set(o.lk.filter(k => fields[k]));
       if(o.v) Object.assign(values, hydrateTattooPresetSet(o.v));
       if(Array.isArray(o.u)){
         customPresets = o.u.map(p => ({
@@ -985,6 +917,7 @@ function createFieldElement(id, f){
       lockedFields.add(id);
       toast(`Locked ${f.label}`);
     }
+    save();
     renderFields();
   });
 
@@ -1065,11 +998,29 @@ function createFieldElement(id, f){
           const matchFirst = fields.tattooLocation.opts.find(opt => opt.cat === cat);
           if(matchFirst) values.tattooLocation = matchFirst;
         }
+      } else if(id === 'outfitCategory'){
+        const cat = o.text || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.outfit.opts.find(opt => opt.cat === cat || (opt.label && opt.label.toLowerCase().includes(cat)));
+          if(matchFirst) values.outfit = matchFirst;
+        }
+      } else if(id === 'topCategory'){
+        const cat = o.text || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.topPiece.opts.find(opt => opt.cat === cat);
+          if(matchFirst) values.topPiece = matchFirst;
+        }
+      } else if(id === 'bottomCategory'){
+        const cat = o.text || 'all';
+        if(cat !== 'all'){
+          const matchFirst = fields.bottomPiece.opts.find(opt => opt.cat === cat);
+          if(matchFirst) values.bottomPiece = matchFirst;
+        }
       }
       updateCustom(custom, id);
       custom.classList.remove('open');
       trigger.setAttribute('aria-expanded', 'false');
-      if(id === 'tattooMotifCategory' || id === 'tattooHairCategory' || id === 'tattooLocationCategory'){
+      if(id === 'tattooMotifCategory' || id === 'tattooHairCategory' || id === 'tattooLocationCategory' || id === 'outfitCategory' || id === 'topCategory' || id === 'bottomCategory'){
         renderFields();
       }
       buildPrompt();
