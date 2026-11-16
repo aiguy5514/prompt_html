@@ -2726,6 +2726,11 @@ const label=document.createElement('label');
 label.textContent=f.label;
 label.htmlFor='field-'+id;
 
+const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+if(isRefLocked){
+  wrap.classList.add('ref-locked');
+}
+
 const isLocked = lockedFields.has(id);
 const lockBtn=document.createElement('button');
 lockBtn.type='button';
@@ -2735,6 +2740,30 @@ lockBtn.innerHTML=isLocked?'🔒':'🔓';
 lockBtn.addEventListener('click',()=>toggleLock(id));
 
 titleWrap.append(label, lockBtn);
+
+if(isRefLocked){
+  const badge = document.createElement('span');
+  badge.className = 'ref-locked-badge';
+  badge.textContent = '📷 From Ref Photo';
+  titleWrap.appendChild(badge);
+
+  const unlockBtn = document.createElement('button');
+  unlockBtn.type = 'button';
+  unlockBtn.className = 'btn-ref-unlock';
+  unlockBtn.textContent = '✕ Unlock';
+  unlockBtn.title = 'Unlock to choose custom choice from menu';
+  unlockBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const feat = window.AfterglowRefPicker.getFeatureForField(id);
+    if(feat){
+      window.AfterglowRefPicker.setFeature(feat, false);
+      renderFields();
+      buildPrompt();
+      toast(`Unlocked ${f.label} from reference inheritance`);
+    }
+  });
+  titleWrap.appendChild(unlockBtn);
+}
 
 // Determine options to display (filtered by category if applicable)
 let visibleOpts = f.opts;
@@ -2980,6 +3009,10 @@ visibleOpts.forEach((o)=>{
 trigger.querySelector('.current').textContent = values[id]?.label || '';
 
 trigger.addEventListener('click',()=>{
+  if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){
+    toast('Inherited from reference image. Click "Unlock" on the label to choose from menu.');
+    return;
+  }
   const was=custom.classList.contains('open');
   document.querySelectorAll('.custom-select.open').forEach(x=>{
     x.classList.remove('open');
@@ -3036,6 +3069,13 @@ const host=el('fields');
 const fineArea=el('fineTuneArea');
 host.innerHTML='';
 if(fineArea) fineArea.innerHTML='';
+
+if(window.AfterglowRefPicker && ((currentStudioMode === 'photoshoot' && activeSection === 'look') || (currentStudioMode === 'salon' && activeSection === 'salonHairSec'))){
+  host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+    renderFields();
+    buildPrompt();
+  }));
+}
 
 if(currentStudioMode === 'salon' && activeSection === 'salonCameraSec'){
   const banner = document.createElement('div');
@@ -3440,9 +3480,16 @@ if(!shown){
 
 function updateCustom(custom,id){
 const curr=custom.querySelector('.current');
-if(curr && values[id])curr.textContent=values[id].label;
+const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+if(curr){
+  if(isRefLocked){
+    curr.textContent='📷 Preserved from Reference Photo';
+  } else if(values[id]){
+    curr.textContent=values[id].label;
+  }
+}
 custom.querySelectorAll('.choice').forEach(b=>{
-  const active=fields[id].opts[Number(b.dataset.index)]===values[id];
+  const active=!isRefLocked && fields[id].opts[Number(b.dataset.index)]===values[id];
   b.classList.toggle('selected',active);
   const old=b.querySelector('.checkmark');
   if(old)old.remove();
@@ -4470,11 +4517,15 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     ? 'capturing the same adult woman as the active barber/groomer performing relaxing grooming services for her seated male partner'
     : 'immediately post-makeover';
 
+  const isAiFace = !!opts.isAiFace || window.AfterglowRefPicker?.getFaceMode() === 'ai_generated';
+  const lbRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot' });
   const dedupedNegs = dedupeNegatives(negatives);
   const negsText = (Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '';
-  const lbPrefix = (values.mode?.text === 'edit_supplied' || (val('mode') || '').startsWith('Edit'))
-    ? 'REFERENCE-IMAGE EDIT'
-    : 'REFERENCE-GUIDED PORTRAIT';
+  const lbPrefix = isAiFace
+    ? 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'
+    : ((values.mode?.text === 'edit_supplied' || (val('mode') || '').startsWith('Edit'))
+        ? 'REFERENCE-IMAGE EDIT'
+        : 'REFERENCE-GUIDED PORTRAIT');
 
   // --- 1. TRIPTYCH (3 PANELS) ---
   if(lookbookFormat === 'triptych_3'){
@@ -5177,7 +5228,12 @@ function buildSalonPrompt(){
           : '';
 
   // Header / Subject preservation
-  if(isFemaleModelBarber){
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'salon', isFemaleModelBarber });
+  const isAiFace = refDirectives?.isAiFace;
+
+  if(isAiFace){
+    lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · AUTHENTIC SALON & BARBERSHOP SCENE');
+  } else if(isFemaleModelBarber){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT' : 'REFERENCE-GUIDED PORTRAIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT');
   } else {
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
@@ -5207,12 +5263,20 @@ function buildSalonPrompt(){
   const salonVeilRuleObj = getVeilRule(salonVeilTier, salonHairArch);
   const salonVeilPrimaryBullet = salonVeilRuleObj?.primary || '';
 
-  lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
+  lines.push(isAiFace ? 'PRIMARY SUBJECT & AI-GENERATED FACE:' : 'PRIMARY SUBJECT (REFERENCE IMAGE):');
   const salonObfuscClause = buildObfuscClause(salonObfuscMode, salonHairArch, { hasPartner: isFemaleModelBarber });
   if(salonObfuscClause) lines.push('• ' + salonObfuscClause);
-  if(isFemaleModelBarber){
+  if(isAiFace){
+    refDirectives.primaryBullets.forEach(b => lines.push(b));
+    if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
+    if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
+  } else if(isFemaleModelBarber){
     lines.push('• Strictly preserve the adult woman from the reference image as the skilled female barber / practitioner actively attending to her seated male client.');
-    lines.push(`• Signature Haircut & Styling: Transform our female model's hair into her chosen signature haircut—${haircutText} (${values.salonHaircut?.label || 'selected cut'})—preserving authentic natural Indian hair strand density and texture sculpted into this exact silhouette.`);
+    if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+      lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
+    } else {
+      lines.push(`• Signature Haircut & Styling: Transform our female model's hair into her chosen signature haircut—${haircutText} (${values.salonHaircut?.label || 'selected cut'})—preserving authentic natural Indian hair strand density and texture sculpted into this exact silhouette.`);
+    }
     lines.push(buildSalonSubjectIdentityBullet(true));
     if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
     if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
@@ -5220,14 +5284,28 @@ function buildSalonPrompt(){
     lines.push(`• Strictly preserve the adult woman from the reference image as the client seated on the ${stoolTypeVal}.`);
     lines.push(buildSalonSubjectIdentityBullet(false));
     if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
+    if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+      lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
+    }
     lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
     if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   } else {
     lines.push('• Strictly preserve the adult woman from the reference image as the client in the barber chair.');
     lines.push(buildSalonSubjectIdentityBullet(false));
     if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
+    if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+      lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
+    }
     lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
     if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
+  }
+  if(!isAiFace && refDirectives?.hasAnyFeature){
+    ['hairTexture', 'hairColor', 'wardrobe', 'makeup', 'accessories', 'pose', 'background'].forEach(fKey => {
+      if(window.AfterglowRefPicker?.isFeatureInherited(fKey)){
+        const bullet = refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label));
+        if(bullet) lines.push(bullet);
+      }
+    });
   }
   lines.push('');
 
@@ -5859,6 +5937,9 @@ function buildSalonPrompt(){
   if(checkState.waterReal) salonNegatives.push('artificial plastic gloss, greasy shine, floating water blobs');
   if(checkState.noText) salonNegatives.push('text overlays, salon logos, graphic watermarks, typography');
   if(extraNegative.trim()) salonNegatives.push(extraNegative.trim());
+  if(isAiFace && refDirectives?.negativeAdditions?.length){
+    salonNegatives.push(...refDirectives.negativeAdditions);
+  }
 
   const dedupedNegs = dedupeNegatives(salonNegatives);
   lines.push(dedupedNegs.map(x=>'• '+x).join('\n'));
@@ -5923,10 +6004,15 @@ const isDeepOrHeavyVeil = isPs65_70 || isHeavyVeil;
 const hideEyes = isFaceHidden || isDeepOrHeavyVeil || hasPsObfusc;
 
 const checks=[];
+const psRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot', hasMalePresence, isFemaleGroomingMen });
+const isPsAiFace = psRefDirectives?.isAiFace;
+
 if(hasPsObfusc){
   checks.push(`Apply strict face privacy (${values.faceObfuscMode?.label || psObfuscMode}): facial features must remain concealed per chosen obfuscation method with zero clear identity portraits.`);
 }
-if(checkState.identity){
+if(isPsAiFace){
+  checks.push('Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and authentic facial proportions; completely decoupled from reference facial identity.');
+} else if(checkState.identity){
   if(isFaceHidden){
     checks.push('Preserve the same adult woman from the supplied reference, retaining her warm Indian skin tone, body proportions, and hair fiber while respecting that her face is turned sideways looking away and not visible to the lens.');
   } else if(isFullVeil){
@@ -6026,7 +6112,9 @@ if(photoHairMoisture === 'wet'){
 }
 
 let dynamicHeader = 'REFERENCE-IMAGE EDIT · BOLD POST-MAKEOVER PHOTOSHOOT';
-if(isFemaleGroomingMen){
+if(isPsAiFace){
+  dynamicHeader = 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · BOLD POST-MAKEOVER PHOTOSHOOT';
+} else if(isFemaleGroomingMen){
   dynamicHeader = 'REFERENCE-IMAGE EDIT · FEMALE MODEL GROOMING & PAMPERING SHOOT';
 } else if(hasMalePresence){
   dynamicHeader = 'REFERENCE-IMAGE EDIT · EDITORIAL CO-STAR & CREW PHOTOSHOOT';
@@ -6039,32 +6127,59 @@ lines.push('');
 const psHairArch = detectHairArchitecture(values.hair, S(getFullHairDescription()));
 const psVeilRuleObj = getVeilRule(psTier, psHairArch);
 
-lines.push('PRIMARY SUBJECT & EDITORIAL STYLING:');
-lines.push(`• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${outfitSummary}; makeup: ${psMakeupSafe || val('makeup') || 'natural editorial makeup'}.`);
-lines.push(`• Signature Post-Makeover Haircut: Authentic natural hair sculpted into ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''}`);
-lines.push(`• Hair Moisture & Fiber: ${moisturePhysicsLine}`);
-
-const psObfuscClause = buildObfuscClause(psObfuscMode, psHairArch, { hasMalePresence });
-if(psObfuscClause){
-  lines.push('• ' + psObfuscClause);
-}
-
-if(isFaceHidden){
-  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
-} else if(isFullVeil){
-  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, hair density, and silhouette while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
-} else if(isPs80_85){
-  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip.');
-} else if(isPs65_70){
-  lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
-} else if(psTier === '50' || psTier === '40_45'){
-  lines.push('• Identity Rule: Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length.');
+lines.push(isPsAiFace ? 'PRIMARY SUBJECT & AI-GENERATED FACE:' : 'PRIMARY SUBJECT & EDITORIAL STYLING:');
+if(isPsAiFace){
+  psRefDirectives.primaryBullets.forEach(b => lines.push(b));
+  lines.push(`• Hair Moisture & Fiber: ${moisturePhysicsLine}`);
+  if(psFaceCovVal) lines.push(`• Face-behind-hair veil: ${psFaceCovVal}.`);
+  const psObfuscClause = buildObfuscClause(psObfuscMode, psHairArch, { hasMalePresence });
+  if(psObfuscClause) lines.push('• ' + psObfuscClause);
+  if(psVeilRuleObj?.primary) lines.push(psVeilRuleObj.primary);
 } else {
-  lines.push('• Identity Rule: Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
-}
+  let outfitLine = `• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${outfitSummary}; makeup: ${psMakeupSafe || val('makeup') || 'natural editorial makeup'}.`;
+  if(window.AfterglowRefPicker?.isFeatureInherited('wardrobe')){
+    outfitLine = `• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing exact wardrobe & garment construction from reference photo; makeup: ${psMakeupSafe || val('makeup') || 'natural editorial makeup'}.`;
+  }
+  lines.push(outfitLine);
 
-if(psVeilRuleObj?.primary){
-  lines.push(psVeilRuleObj.primary);
+  if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+    lines.push(`• Signature Post-Makeover Haircut: Replicate the exact hairstyle silhouette, length, haircut, and parting directly from the reference photo.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''}`);
+  } else {
+    lines.push(`• Signature Post-Makeover Haircut: Authentic natural hair sculpted into ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''}`);
+  }
+  lines.push(`• Hair Moisture & Fiber: ${moisturePhysicsLine}`);
+
+  const psObfuscClause = buildObfuscClause(psObfuscMode, psHairArch, { hasMalePresence });
+  if(psObfuscClause){
+    lines.push('• ' + psObfuscClause);
+  }
+
+  if(isFaceHidden){
+    lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
+  } else if(isFullVeil){
+    lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, hair density, and silhouette while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
+  } else if(isPs80_85){
+    lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, hair density, and lower-chin/lip skin texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip.');
+  } else if(isPs65_70){
+    lines.push('• Identity Rule: Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
+  } else if(psTier === '50' || psTier === '40_45'){
+    lines.push('• Identity Rule: Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length.');
+  } else {
+    lines.push('• Identity Rule: Retain her recognizable facial identity, Indian heritage facial structure, natural eye shape, and realistic skin texture with visible pores.');
+  }
+
+  if(psVeilRuleObj?.primary){
+    lines.push(psVeilRuleObj.primary);
+  }
+
+  if(psRefDirectives?.hasAnyFeature){
+    ['hairTexture', 'hairColor', 'makeup', 'accessories', 'pose', 'background'].forEach(fKey => {
+      if(window.AfterglowRefPicker?.isFeatureInherited(fKey)){
+        const bullet = psRefDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label));
+        if(bullet) lines.push(bullet);
+      }
+    });
+  }
 }
 
 if(hasMalePresence){
@@ -6235,6 +6350,12 @@ if(customDirection.trim()){
 lines.push('');
 lines.push('AVOID / NEGATIVE GUIDANCE');
 let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
+if(isPsAiFace){
+  negatives = negatives.filter(n => !n.includes('identity drift') && !n.includes('unrequested facial feature'));
+  if(psRefDirectives?.negativeAdditions?.length){
+    negatives.push(...psRefDirectives.negativeAdditions);
+  }
+}
 if(hasMalePresence){
   negatives.push('any secondary woman, female co-model, female stylist, female makeup artist, female assistant, or other women in background (strictly solitary female model)');
 } else if(checkState.soloSubject || (styleRef && transferToggles && transferToggles.hair) || styleRef){
@@ -6297,7 +6418,8 @@ lookbookShots = buildLookbookSeries(checks, negatives, extraLines, {
   isFullVeil,
   veilTier: psTier,
   isFemaleGroomingMen,
-  outfitDesc: outfitSummary
+  outfitDesc: outfitSummary,
+  isAiFace: isPsAiFace
 });
 
 save();
@@ -6863,6 +6985,25 @@ const shareTop=el('shareLookTop');
 const shareSide=el('shareLookBtn');
 if(shareTop)shareTop.addEventListener('click',generateShareUrl);
 if(shareSide)shareSide.addEventListener('click',generateShareUrl);
+
+// Reference Picker Button
+const refToggleBtn = el('btnToggleRefPicker');
+if(refToggleBtn){
+  refToggleBtn.addEventListener('click', () => {
+    const targetSection = currentStudioMode === 'salon' ? 'salonHairSec' : 'look';
+    if(activeSection !== targetSection){
+      activeSection = targetSection;
+      renderTabs();
+      renderFields();
+    }
+    const card = document.getElementById('refPickerCard');
+    if(card){
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.add('pulse-highlight');
+      setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+    }
+  });
+}
 
 
 document.addEventListener('click',e=>{

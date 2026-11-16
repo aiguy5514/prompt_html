@@ -34,7 +34,10 @@
       <button type="button" class="seg-btn active" id="btnSingleMode">Single shot</button>
       <button type="button" class="seg-btn" id="btnLookbookMode">✦ Lookbook 4-shot series</button>
     </div>
-    <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+    <div style="display: flex; gap: 6px;">
+      <button class="btn btn-secondary btn-small" id="btnToggleRefPicker" type="button" title="Reference Image & Face Direction">📷 Ref Transfer</button>
+      <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+    </div>
   </div>
   <div class="ratio-row">
     <span class="ratio-label">Ratio:</span>
@@ -78,6 +81,7 @@
 </div>
 <script src="js/shared-veil.js"></script>
 <script src="js/shared-datasets.js"></script>
+<script src="js/shared-ref-picker.js"></script>
 <script>
 const {
   O, makeOpts, addOptions,
@@ -874,9 +878,16 @@ function filterChoices(menu, q){
 
 function updateCustom(custom, id){
   const curr = custom.querySelector('.current');
-  if(curr && values[id]) curr.textContent = values[id].label;
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(curr){
+    if(isRefLocked){
+      curr.textContent = '📷 Preserved from Reference Photo';
+    } else if(values[id]){
+      curr.textContent = values[id].label;
+    }
+  }
   custom.querySelectorAll('.choice').forEach(b => {
-    const active = fields[id].opts[Number(b.dataset.index)] === values[id];
+    const active = !isRefLocked && fields[id].opts[Number(b.dataset.index)] === values[id];
     b.classList.toggle('selected', active);
     const old = b.querySelector('.checkmark');
     if(old) old.remove();
@@ -893,6 +904,11 @@ function createFieldElement(id, f){
   const wrap = document.createElement('div');
   wrap.className = 'field' + (['tattooPlacement', 'tattooMotif', 'tattooHair', 'tattooLocation'].includes(id) ? ' full' : '');
   
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(isRefLocked){
+    wrap.classList.add('ref-locked');
+  }
+
   const lab = document.createElement('div');
   lab.className = 'label-row';
 
@@ -922,6 +938,30 @@ function createFieldElement(id, f){
   });
 
   titleWrap.append(label, lockBtn);
+
+  if(isRefLocked){
+    const badge = document.createElement('span');
+    badge.className = 'ref-locked-badge';
+    badge.textContent = '📷 From Ref Photo';
+    titleWrap.appendChild(badge);
+
+    const unlockBtn = document.createElement('button');
+    unlockBtn.type = 'button';
+    unlockBtn.className = 'btn-ref-unlock';
+    unlockBtn.textContent = '✕ Unlock';
+    unlockBtn.title = 'Unlock to choose custom choice from menu';
+    unlockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const feat = window.AfterglowRefPicker.getFeatureForField(id);
+      if(feat){
+        window.AfterglowRefPicker.setFeature(feat, false);
+        renderFields();
+        buildPrompt();
+        toast(`Unlocked ${f.label} from reference inheritance`);
+      }
+    });
+    titleWrap.appendChild(unlockBtn);
+  }
 
   let visibleOpts = f.opts;
   if(id === 'tattooMotif' && values.tattooMotifCategory && values.tattooMotifCategory.text && values.tattooMotifCategory.text !== 'all'){
@@ -1029,6 +1069,10 @@ function createFieldElement(id, f){
   });
 
   trigger.addEventListener('click', () => {
+    if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){
+      toast('Inherited from reference image. Click "Unlock" on the label to choose from menu.');
+      return;
+    }
     const was = custom.classList.contains('open');
     document.querySelectorAll('.custom-select.open').forEach(x => {
       x.classList.remove('open');
@@ -1067,6 +1111,13 @@ function renderFields(){
   if(!host) return;
   host.innerHTML = '';
   if(fineArea) fineArea.innerHTML = '';
+
+  if(window.AfterglowRefPicker && activeSection === 'tattooSubjectSec'){
+    host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      renderFields();
+      buildPrompt();
+    }));
+  }
 
   if(activeSection === 'tattooSubjectSec'){
     const isSeparates = (wardrobeMode === 'separates');
@@ -1359,30 +1410,55 @@ function buildPrompt(){
   const scale = val('tattooScale');
   const numMode = val('numImages');
 
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'tattoo' });
+  const isAiFace = refDirectives?.isAiFace;
+
   // Header / Reference Subject preservation
-  lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · FINE-LINE TATTOO BEAUTY EDITORIAL');
-  lines.push('');
-  lines.push('PRIMARY SUBJECT (REFERENCE IMAGE):');
-  lines.push('• Strictly preserve the adult woman from the reference image as the sole female model in the frame.');
-  const tattooObfuscClause = buildObfuscClause(tattooObfuscMode, tattooHairArch);
-  if(tattooObfuscClause){
-    lines.push('• ' + tattooObfuscClause);
-  }
-  if(isFaceHidden){
-    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
-  } else if(isTattoo95_100){
-    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair density, and silhouette while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
-  } else if(isTattoo80_85){
-    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair density, and lower-chin/lip texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip.');
-  } else if(isTattoo65_70){
-    lines.push('• Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
-  } else if(isTattoo50 || isTattoo40_45){
-    lines.push('• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length.');
+  if(isAiFace){
+    lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · FINE-LINE TATTOO BEAUTY EDITORIAL');
   } else {
-    lines.push('• Retain her recognizable facial structure, authentic Indian heritage features, warm skin tone, and natural skin pores without airbrushing.');
+    lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · FINE-LINE TATTOO BEAUTY EDITORIAL');
   }
-  if(tattooVeilRuleObj?.primary){
-    lines.push(tattooVeilRuleObj.primary);
+  lines.push('');
+  lines.push(isAiFace ? 'PRIMARY SUBJECT & AI-GENERATED FACE:' : 'PRIMARY SUBJECT (REFERENCE IMAGE):');
+  if(isAiFace){
+    refDirectives.primaryBullets.forEach(b => lines.push(b));
+    if(tattooVeilRuleObj?.primary){
+      lines.push(tattooVeilRuleObj.primary);
+    }
+  } else {
+    lines.push('• Strictly preserve the adult woman from the reference image as the sole female model in the frame.');
+    if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+      lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
+    }
+    const tattooObfuscClause = buildObfuscClause(tattooObfuscMode, tattooHairArch);
+    if(tattooObfuscClause){
+      lines.push('• ' + tattooObfuscClause);
+    }
+    if(isFaceHidden){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair texture, and silhouette while respecting that her face is turned sideways looking away and not visible to the lens.');
+    } else if(isTattoo95_100){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair density, and silhouette while keeping 95–100% of her face (forehead, eyes, nose) frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
+    } else if(isTattoo80_85){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair density, and lower-chin/lip texture while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length + slight chin dip.');
+    } else if(isTattoo65_70){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero open wide eyes) behind a sleek fine-tooth-combed satin sweep + 3/4 chin dip.');
+    } else if(isTattoo50 || isTattoo40_45){
+      lines.push('• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the opposite eye 100% hidden (ZERO covered eyeball visible) behind a continuous, sleek, fine-tooth-combed diagonal hair wave matched strictly to her haircut length.');
+    } else {
+      lines.push('• Retain her recognizable facial structure, authentic Indian heritage features, warm skin tone, and natural skin pores without airbrushing.');
+    }
+    if(tattooVeilRuleObj?.primary){
+      lines.push(tattooVeilRuleObj.primary);
+    }
+    if(refDirectives?.hasAnyFeature){
+      ['hairTexture', 'hairColor', 'wardrobe', 'makeup', 'accessories', 'pose', 'background'].forEach(fKey => {
+        if(window.AfterglowRefPicker?.isFeatureInherited(fKey)){
+          const bullet = refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label));
+          if(bullet) lines.push(bullet);
+        }
+      });
+    }
   }
   const isExplicitWetTattooCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look/i.test((values.tattooHair?.label || '') + ' ' + hairVal);
   lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
@@ -1463,7 +1539,9 @@ function buildPrompt(){
   if(hasTattooObfusc){
     checks.push(`Apply strict face privacy (${values.tattooFaceObfuscMode?.label || tattooObfuscMode}): facial features must remain concealed per chosen obfuscation method with zero clear identity portraits.`);
   }
-  if(checkState.identity){
+  if(isAiFace){
+    checks.push('Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and authentic facial proportions; completely decoupled from reference facial identity.');
+  } else if(checkState.identity){
     if(isFaceHidden){
       checks.push('Preserve the same adult woman from the reference, maintaining her warm Indian skin tone, body proportions, and natural hair texture, while respecting that her face is turned sideways looking away and not visible to the lens.');
     } else if(isTattooHeavyVeil){
@@ -1488,9 +1566,14 @@ function buildPrompt(){
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
   const negs = [
-    'secondary women, multiple women, identity drift, plastic waxy airbrushed skin, blurry distorted tattoo lines, misspelled lettering',
+    isAiFace
+      ? 'secondary women, multiple women, plastic waxy airbrushed skin, blurry distorted tattoo lines, misspelled lettering'
+      : 'secondary women, multiple women, identity drift, plastic waxy airbrushed skin, blurry distorted tattoo lines, misspelled lettering',
     isHealedMatte ? 'fresh red inflammation, shiny oily bandage ointment gloss' : 'faded chalky washed-out ink when fresh ink requested'
   ];
+  if(isAiFace && refDirectives?.negativeAdditions?.length){
+    negs.push(...refDirectives.negativeAdditions);
+  }
   if(isFaceHidden) negs.push('visible front facial view, frontal eye contact, revealing turned-away face');
   const tattooObfuscNegs = getObfuscNegatives(tattooObfuscMode);
   if(tattooObfuscNegs.length){
@@ -1755,6 +1838,24 @@ function generateShareUrl(){
 }
 el('shareLookBtn')?.addEventListener('click', generateShareUrl);
 el('shareLookTop')?.addEventListener('click', generateShareUrl);
+
+// Reference Picker Button
+const refToggleBtn = el('btnToggleRefPicker');
+if(refToggleBtn){
+  refToggleBtn.addEventListener('click', () => {
+    if(activeSection !== 'tattooSubjectSec'){
+      activeSection = 'tattooSubjectSec';
+      renderTabs();
+      renderFields();
+    }
+    const card = document.getElementById('refPickerCard');
+    if(card){
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.add('pulse-highlight');
+      setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+    }
+  });
+}
 
 el('topQuickCopy')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
 function shuffleTattooPresets(){

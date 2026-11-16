@@ -267,6 +267,9 @@
           <button type="button" class="seg-btn active" id="btnSingleMode">Single photo shot</button>
           <button type="button" class="seg-btn" id="btnReelMode">🎬 2-Shot couple reel</button>
         </div>
+        <div style="display: flex; gap: 6px;">
+          <button class="btn btn-secondary btn-small" id="btnToggleRefPicker" type="button" title="Reference Image & Face Direction">📷 Ref Transfer</button>
+        </div>
       </div>
       <div class="ratio-row">
         <span class="ratio-label">Ratio:</span>
@@ -326,6 +329,7 @@
 
 <script src="js/shared-veil.js"></script>
 <script src="js/shared-datasets.js"></script>
+<script src="js/shared-ref-picker.js"></script>
 <script>
 (function(){
 'use strict';
@@ -701,6 +705,11 @@ function createFieldElement(id, f){
   wrap.className = 'field';
   wrap.dataset.id = id;
 
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(isRefLocked){
+    wrap.classList.add('ref-locked');
+  }
+
   const lab = document.createElement('label');
   const titleWrap = document.createElement('span');
   titleWrap.className = 'label-title-wrap';
@@ -708,6 +717,30 @@ function createFieldElement(id, f){
   label.className = 'label-title';
   label.textContent = f.label;
   titleWrap.appendChild(label);
+
+  if(isRefLocked){
+    const badge = document.createElement('span');
+    badge.className = 'ref-locked-badge';
+    badge.textContent = '📷 From Ref Photo';
+    titleWrap.appendChild(badge);
+
+    const unlockBtn = document.createElement('button');
+    unlockBtn.type = 'button';
+    unlockBtn.className = 'btn-ref-unlock';
+    unlockBtn.textContent = '✕ Unlock';
+    unlockBtn.title = 'Unlock to choose custom choice from menu';
+    unlockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const feat = window.AfterglowRefPicker.getFeatureForField(id);
+      if(feat){
+        window.AfterglowRefPicker.setFeature(feat, false);
+        renderFields();
+        buildPrompt();
+        toast(`Unlocked ${f.label} from reference inheritance`);
+      }
+    });
+    titleWrap.appendChild(unlockBtn);
+  }
 
   let visibleOpts = f.opts;
   if(id === 'romanceDynamic' && values.romanceStoryCategory && values.romanceStoryCategory.text !== 'all'){
@@ -755,7 +788,8 @@ function createFieldElement(id, f){
   trigger.type = 'button';
   trigger.className = 'select-trigger';
   trigger.setAttribute('aria-expanded', 'false');
-  trigger.innerHTML = `<span class="current">${values[id]?.label || ''}</span><span class="chevron">⌄</span>`;
+  const currentText = isRefLocked ? '📷 Preserved from Reference Photo' : (values[id]?.label || '');
+  trigger.innerHTML = `<span class="current">${currentText}</span><span class="chevron">⌄</span>`;
 
   const menu = document.createElement('div');
   menu.className = 'select-menu';
@@ -809,6 +843,10 @@ function createFieldElement(id, f){
 
   trigger.addEventListener('click', e => {
     e.stopPropagation();
+    if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){
+      toast('Inherited from reference image. Click "Unlock" on the label to choose from menu.');
+      return;
+    }
     const wasOpen = custom.classList.contains('open');
     document.querySelectorAll('.custom-select.open').forEach(x => {
       x.classList.remove('open');
@@ -910,6 +948,13 @@ function renderFields(){
   const host = el('fields');
   if(!host) return;
   host.innerHTML = '';
+
+  if(window.AfterglowRefPicker && activeSection === 'romanceCoupleSec'){
+    host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      renderFields();
+      buildPrompt();
+    }));
+  }
 
   // In Her Wardrobe step, prepend wardrobe mode card (Ensemble vs Separates)
   if(activeSection === 'romanceWardrobeSec'){
@@ -1044,15 +1089,26 @@ function buildPrompt(){
   const aspectText = val('aspect');
   const makeupText = val('romanceMakeup');
 
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'romance' });
+  const isAiFace = refDirectives?.isAiFace;
+
   const lines = [];
 
   if(reelMode){
     // 2-Shot Couple Video Clip Reel format
-    lines.push('CINEMATIC 2-SHOT COUPLE VIDEO REEL · HIGHWAY & INTIMACY SEQUENCE');
+    if(isAiFace){
+      lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · HIGHWAY & INTIMACY SEQUENCE');
+    } else {
+      lines.push('CINEMATIC 2-SHOT COUPLE VIDEO REEL · HIGHWAY & INTIMACY SEQUENCE');
+    }
     lines.push('');
     lines.push('SCENE OVERVIEW & DUO CAST CONTINUITY:');
     lines.push('• Format: 2-shot continuous narrative video reel (6–8s total duration).');
-    lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
+    if(isAiFace){
+      lines.push(`• Female Model & AI-Generated Face: Fresh autonomous face with selective transfer: ${refDirectives.summaryText}. Wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
+    } else {
+      lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
+    }
     lines.push(`• Male Partner: ${partnerText}.`);
     lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
     lines.push(`• ${helmetClause}`);
@@ -1071,22 +1127,43 @@ function buildPrompt(){
     lines.push('• AUDIO AMBIENCE: Throaty rumble of the motorcycle engine exhaust, coastal wind rush, distant soft ambient music.');
   } else {
     // Single editorial photograph format
-    lines.push('CINEMATIC DUO PORTRAIT · ROMANTIC & COUPLE EDITORIAL');
+    if(isAiFace){
+      lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · ROMANTIC & COUPLE EDITORIAL');
+    } else {
+      lines.push('CINEMATIC DUO PORTRAIT · ROMANTIC & COUPLE EDITORIAL');
+    }
     lines.push('');
     lines.push('PRIMARY SUBJECTS & DUO CAST CONTINUITY:');
-    lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; makeup: ${makeupText}.`);
-    lines.push(`• Male Partner: ${partnerText}.`);
-    lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
-    lines.push(`• Her Signature Haircut: Authentic natural hair sculpted into ${hairText} (${hairLabel}).`);
-    lines.push(`• ${helmetClause}`);
-    lines.push(`• ${moistClause}`);
-
     const obfuscClause = buildObfuscClause(obfuscMode, hairArch, { isRomance: true });
-    if(obfuscClause){
-      lines.push('• ' + obfuscClause);
-    }
-    if(veilRuleObj?.primary){
-      lines.push(veilRuleObj.primary);
+    if(isAiFace){
+      refDirectives.primaryBullets.forEach(b => lines.push(b));
+      lines.push(`• Male Partner: ${partnerText}.`);
+      lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
+      lines.push(`• ${helmetClause}`);
+      lines.push(`• ${moistClause}`);
+      if(obfuscClause) lines.push('• ' + obfuscClause);
+      if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
+    } else {
+      lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; makeup: ${makeupText}.`);
+      lines.push(`• Male Partner: ${partnerText}.`);
+      lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
+      if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+        lines.push(`• Her Signature Haircut: Replicate the exact hairstyle silhouette, length, haircut, and parting directly from the reference photo.`);
+      } else {
+        lines.push(`• Her Signature Haircut: Authentic natural hair sculpted into ${hairText} (${hairLabel}).`);
+      }
+      lines.push(`• ${helmetClause}`);
+      lines.push(`• ${moistClause}`);
+      if(obfuscClause) lines.push('• ' + obfuscClause);
+      if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
+      if(refDirectives?.hasAnyFeature){
+        ['hairTexture', 'hairColor', 'wardrobe', 'makeup', 'accessories', 'pose', 'background'].forEach(fKey => {
+          if(window.AfterglowRefPicker?.isFeatureInherited(fKey)){
+            const bullet = refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label));
+            if(bullet) lines.push(bullet);
+          }
+        });
+      }
     }
 
     lines.push('');
@@ -1122,7 +1199,11 @@ function buildPrompt(){
   if(hasObfuscation){
     checks.push(`Strict Face Privacy (${values.romanceFaceObfuscMode?.label || obfuscMode}): Conceal facial identity zone cleanly in accordance with the specified method with zero recognizable frontal portraits.`);
   }
-  if(checkState.identity) checks.push('Preserve identical facial features, Indian heritage skin tone, and natural eye shape from reference without identity drift.');
+  if(isAiFace){
+    checks.push('Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and authentic facial proportions, completely decoupled from reference facial identity.');
+  } else if(checkState.identity){
+    checks.push('Preserve identical facial features, Indian heritage skin tone, and natural eye shape from reference without identity drift.');
+  }
   if(checkState.duo) checks.push('Duo Cast Safeguard: Exactly one woman and one man in frame; strictly zero secondary women, extra females, or bystanders.');
   if(checkState.skinTexture) checks.push('Authentic dermal micro-pores, natural skin luster, and fine facial asymmetry; zero plastic doll smoothing.');
   if(checkState.hairPhysics) checks.push('Organic kinetic hair strand movement and authentic density; realistic wind drag without synthetic spaghetti clumps.');
@@ -1136,10 +1217,15 @@ function buildPrompt(){
   const negs = [
     'fused bodies, conjoined twins, mutant anatomy, disembodied hands, floating arms, phantom limbs, extra limbs, missing arms, disconnected hands',
     'solitary solo portrait, missing partner, single woman alone, third person, extra women, female passersby, female riders',
-    'identity drift, plastic airbrushed skin, CGI doll faces, deformed hands or extra fingers, missing fingers, poorly drawn hands',
+    isAiFace
+      ? 'plastic airbrushed skin, CGI doll faces, deformed hands or extra fingers, missing fingers, poorly drawn hands'
+      : 'identity drift, plastic airbrushed skin, CGI doll faces, deformed hands or extra fingers, missing fingers, poorly drawn hands',
     'stiff stock-photo poses, awkward disconnected couple distance, artificial waxy glow',
     'impossible motorcycle anatomy, melted engine chrome, floating bike wheels, warped handlebars, melted helmet plastic'
   ];
+  if(isAiFace && refDirectives?.negativeAdditions?.length){
+    negs.push(...refDirectives.negativeAdditions);
+  }
   if(obfuscMode && obfuscMode !== 'none' && obfuscMode !== 'hair_veil'){
     const obfNegs = getObfuscNegatives(obfuscMode);
     if(obfNegs.length) negs.push(...obfNegs);
@@ -1196,6 +1282,24 @@ function syncReelModeButtons(){
 
 el('btnSingleMode')?.addEventListener('click', () => { reelMode = false; syncReelModeButtons(); renderFields(); buildPrompt(); });
 el('btnReelMode')?.addEventListener('click', () => { reelMode = true; syncReelModeButtons(); renderFields(); buildPrompt(); });
+
+// Reference Picker Button
+const refToggleBtn = el('btnToggleRefPicker');
+if(refToggleBtn){
+  refToggleBtn.addEventListener('click', () => {
+    if(activeSection !== 'romanceCoupleSec'){
+      activeSection = 'romanceCoupleSec';
+      renderTabs();
+      renderFields();
+    }
+    const card = document.getElementById('refPickerCard');
+    if(card){
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.add('pulse-highlight');
+      setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+    }
+  });
+}
 
 function renderPresets(){
   const host = el('presets');

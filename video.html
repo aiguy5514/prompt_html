@@ -123,7 +123,10 @@
           <button type="button" class="seg-btn active" id="btnStructuredMode">Detailed Timeline</button>
           <button type="button" class="seg-btn" id="btnCompactMotion">✦ Compact Prose</button>
         </div>
-        <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+        <div style="display: flex; gap: 6px;">
+          <button class="btn btn-secondary btn-small" id="btnToggleRefPicker" type="button" title="Reference Image & Face Direction">📷 Ref Transfer</button>
+          <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+        </div>
       </div>
       <div class="ratio-row">
         <span class="ratio-label">Ratio:</span>
@@ -186,6 +189,7 @@
 
 <script src="js/shared-veil.js"></script>
 <script src="js/shared-datasets.js"></script>
+<script src="js/shared-ref-picker.js"></script>
 <script>
 (function(){
 'use strict';
@@ -819,9 +823,16 @@ function filterChoices(menu, q){
 
 function updateCustom(custom, id){
   const curr = custom.querySelector('.current');
-  if(curr && values[id]) curr.textContent = values[id].label;
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(curr){
+    if(isRefLocked){
+      curr.textContent = '📷 Preserved from Reference Photo';
+    } else if(values[id]){
+      curr.textContent = values[id].label;
+    }
+  }
   custom.querySelectorAll('.choice').forEach(b => {
-    const active = fields[id].opts[Number(b.dataset.index)] === values[id];
+    const active = !isRefLocked && fields[id].opts[Number(b.dataset.index)] === values[id];
     b.classList.toggle('selected', active);
     const old = b.querySelector('.checkmark');
     if(old) old.remove();
@@ -859,6 +870,11 @@ function createFieldElement(id, f){
   const wrap = document.createElement('div');
   wrap.className = 'field' + (['vidPipelineMode', 'vidHair', 'vidOutfit', 'vidCameraMove', 'vidBeatStart', 'vidBeatMid', 'vidBeatEnd', 'vidEnvironment', 'vidEnvPhysics'].includes(id) ? ' full' : '');
 
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(isRefLocked){
+    wrap.classList.add('ref-locked');
+  }
+
   const lab = document.createElement('div');
   lab.className = 'label-row';
   const tw = document.createElement('div');
@@ -877,6 +893,30 @@ function createFieldElement(id, f){
     renderFields();
   });
   tw.append(label, lockBtn);
+
+  if(isRefLocked){
+    const badge = document.createElement('span');
+    badge.className = 'ref-locked-badge';
+    badge.textContent = '📷 From Ref Photo';
+    tw.appendChild(badge);
+
+    const unlockBtn = document.createElement('button');
+    unlockBtn.type = 'button';
+    unlockBtn.className = 'btn-ref-unlock';
+    unlockBtn.textContent = '✕ Unlock';
+    unlockBtn.title = 'Unlock to choose custom choice from menu';
+    unlockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const feat = window.AfterglowRefPicker.getFeatureForField(id);
+      if(feat){
+        window.AfterglowRefPicker.setFeature(feat, false);
+        renderFields();
+        buildPrompt();
+        toast(`Unlocked ${f.label} from reference inheritance`);
+      }
+    });
+    tw.appendChild(unlockBtn);
+  }
 
   const visibleOpts = getFilteredOpts(id, f);
   const count = document.createElement('span');
@@ -931,6 +971,10 @@ function createFieldElement(id, f){
   });
 
   trigger.addEventListener('click', () => {
+    if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){
+      toast('Inherited from reference image. Click "Unlock" on the label to choose from menu.');
+      return;
+    }
     const was = custom.classList.contains('open');
     document.querySelectorAll('.custom-select.open').forEach(x => {
       x.classList.remove('open');
@@ -993,6 +1037,13 @@ function renderFields(){
   const host = el('fields');
   if(!host) return;
   host.innerHTML = '';
+
+  if(window.AfterglowRefPicker && activeSection === 'vidInputSec'){
+    host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      renderFields();
+      buildPrompt();
+    }));
+  }
 
   if(activeSection === 'vidInputSec'){
     const isSep = (wardrobeMode === 'separates');
@@ -1154,10 +1205,17 @@ function buildPrompt(){
       ? 'Damp Misted Hair Physics: Lightly spray-misted strands move with cohesive slightly clumped inertia and fine catching droplet sheen.'
       : 'Dry Blown-Out Motion Physics: Lightweight airy dry hair layers catch soft air currents with bouncy volume and delicate shimmering flyaways.');
 
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'video' });
+  const isAiFace = refDirectives?.isAiFace;
+
   const lines = [];
   if(compactMotionMode){
     lines.push(`${val('vidPipelineMode')}. Duration: ${val('vidDuration')}, ${val('vidFramerate')}, ${val('vidFocalLens')}, aspect ${val('aspect')}.`);
-    lines.push(`Subject: Preserve reference adult woman's Indian heritage identity seamlessly wearing ${wardrobeText}; haircut: ${hairText}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
+    if(isAiFace){
+      lines.push(`Subject: Synthesize a fresh, autonomous AI-generated face; selectively transfer from reference photo: ${refDirectives.summaryText}. Wearing ${wardrobeText}; haircut: ${hairText}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
+    } else {
+      lines.push(`Subject: Preserve reference adult woman's Indian heritage identity seamlessly wearing ${wardrobeText}; haircut: ${hairText}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
+    }
     lines.push(`Camera Choreography: ${camMove}.`);
     lines.push(`Action Sequence: (0–2s) ${beatStart}. (2–4s) ${beatMid}. (4–6s+) ${beatEnd}. Facial rhythm: ${microSafe}.`);
     lines.push(`Environment & Physics: ${val('vidEnvironment')}. Ambient movement: ${val('vidEnvPhysics')}. Lighting: ${val('vidLightingShift')}. Film look: ${val('vidStyleLook')}. Amplitude: ${val('vidAmplitude')}.`);
@@ -1165,11 +1223,30 @@ function buildPrompt(){
     if(vidObfuscClause) lines.push(`FACE PRIVACY: ${vidObfuscClause}`);
     if(customDirection.trim()) lines.push(`Direction: ${customDirection.trim()}`);
   } else {
-    lines.push('REFERENCE-GUIDED LIVE-ACTION VIDEO PROMPT · CINEMA MOTION DIRECTOR');
+    if(isAiFace){
+      lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · CINEMA MOTION DIRECTOR');
+    } else {
+      lines.push('REFERENCE-GUIDED LIVE-ACTION VIDEO PROMPT · CINEMA MOTION DIRECTOR');
+    }
     lines.push('');
     lines.push('WORKFLOW & SUBJECT CONTINUITY:');
     lines.push(`• Input Mode: ${val('vidPipelineMode')}.`);
-    lines.push(`• Subject & Solitary Rule: Maintain the exact adult Indian woman from reference throughout all frames wearing ${wardrobeText}.`);
+    if(isAiFace){
+      refDirectives.primaryBullets.forEach(b => lines.push(b));
+    } else {
+      lines.push(`• Subject & Solitary Rule: Maintain the exact adult Indian woman from reference throughout all frames wearing ${wardrobeText}.`);
+      if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+        lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
+      }
+      if(refDirectives?.hasAnyFeature){
+        ['hairTexture', 'hairColor', 'wardrobe', 'makeup', 'accessories', 'pose', 'background'].forEach(fKey => {
+          if(window.AfterglowRefPicker?.isFeatureInherited(fKey)){
+            const bullet = refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label));
+            if(bullet) lines.push(bullet);
+          }
+        });
+      }
+    }
     lines.push(`• Hair Architecture & Motion Weight: ${hairText}${covVal ? '. Active face-veil tier: ' + covVal : ''}.`);
     if(vidObfuscClause) lines.push(`• ${vidObfuscClause}`);
     if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
@@ -1207,7 +1284,11 @@ function buildPrompt(){
     lines.push('');
     lines.push('TEMPORAL STABILITY & ARTIFACT SAFEGUARDS:');
     if(hasVidObfusc) lines.push(`• Face Privacy Safeguard: Conceal facial features strictly per chosen obfuscation method (${values.vidFaceObfuscMode?.label || vidObfuscMode}) across all motion frames without revealing clear identity portraits.`);
-    if(checkState.noMorph) lines.push('• Zero Facial Morphing: Facial bone structure, skin tone, and micro-pores remain 100% locked cleanly across head rotation.');
+    if(isAiFace){
+      lines.push('• AI-Generated Face & Dermal Coherence: Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and coherent temporal geometry across all frames, completely decoupled from reference facial identity.');
+    } else if(checkState.noMorph){
+      lines.push('• Zero Facial Morphing: Facial bone structure, skin tone, and micro-pores remain 100% locked cleanly across head rotation.');
+    }
     if(checkState.hairLock) lines.push(`• Exact Hair Geometry Lock: Keep selected haircut (${values.vidHair?.label || 'style'}) length and crown constant without morphing length mid-clip.`);
     if(checkState.fingerLock) lines.push('• Smooth Hand & Limb Continuity: Five anatomically coherent fingers per hand with realistic joint inertia and zero extra floating hands.');
     if(checkState.solitaryRule) lines.push('• Solitary Female Subject: Strictly zero secondary women appearing dynamically anywhere in background crowds or passing extras.');
@@ -1216,11 +1297,16 @@ function buildPrompt(){
   }
 
   const negs = [
-    'facial identity morphing during head turn, melting jaw features, fluctuating skin tone',
+    isAiFace
+      ? 'temporal face jitter, rubber melting features, fluctuating skin tone'
+      : 'facial identity morphing during head turn, melting jaw features, fluctuating skin tone',
     'hair suddenly growing longer or changing cut mid-clip, flickering stray bangs',
     'extra fingers, rubber warping arms, floating disembodied barber/MUA tools',
     'secondary women walking into frame, warping walls, flickering strobe noise'
   ];
+  if(isAiFace && refDirectives?.negativeAdditions?.length){
+    negs.push(...refDirectives.negativeAdditions);
+  }
   const vidObfuscNegs = getObfuscNegatives(vidObfuscMode);
   if(vidObfuscNegs.length) negs.push(...vidObfuscNegs);
   if(veilRuleObj?.neg) negs.push(veilRuleObj.neg);
@@ -1375,6 +1461,24 @@ function generateShareUrl(){
 }
 el('shareLookBtn')?.addEventListener('click', generateShareUrl);
 el('shareLookTop')?.addEventListener('click', generateShareUrl);
+
+// Reference Picker Button
+const refToggleBtn = el('btnToggleRefPicker');
+if(refToggleBtn){
+  refToggleBtn.addEventListener('click', () => {
+    if(activeSection !== 'vidInputSec'){
+      activeSection = 'vidInputSec';
+      renderTabs();
+      renderFields();
+    }
+    const card = document.getElementById('refPickerCard');
+    if(card){
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.add('pulse-highlight');
+      setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+    }
+  });
+}
 
 function openHistory(){
   const l = el('historyList');

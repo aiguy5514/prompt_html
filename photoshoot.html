@@ -34,7 +34,10 @@
       <button type="button" class="seg-btn active" id="btnSingleMode">Single shot</button>
       <button type="button" class="seg-btn" id="btnLookbookMode">✦ Lookbook series</button>
     </div>
-    <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+    <div style="display: flex; gap: 6px;">
+      <button class="btn btn-secondary btn-small" id="btnToggleRefPicker" type="button" title="Reference Image & Face Direction">📷 Ref Transfer</button>
+      <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+    </div>
   </div>
   <div class="seg-control" id="lookbookFormatBar" style="display: none; margin-top: 8px; width: 100%;">
     <button type="button" class="seg-btn active" data-format="campaign_4">4-Shot Campaign</button>
@@ -92,6 +95,7 @@
 <script>window.DEFAULT_STUDIO_MODE = "photoshoot";</script>
 <script src="js/shared-veil.js"></script>
 <script src="js/shared-datasets.js"></script>
+<script src="js/shared-ref-picker.js"></script>
 <script src="js/studio-core.js"></script>
 </body>
 </html>

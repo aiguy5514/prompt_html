@@ -148,7 +148,10 @@
           <button type="button" class="seg-btn active" id="btnPackMode">Full Pack (All Shots)</button>
           <button type="button" class="seg-btn" id="btnGridMode">✦ Unified Grid Prompt</button>
         </div>
-        <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+        <div style="display: flex; gap: 6px;">
+          <button class="btn btn-secondary btn-small" id="btnToggleRefPicker" type="button" title="Reference Image & Face Direction">📷 Ref Transfer</button>
+          <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+        </div>
       </div>
       <div class="ratio-row">
         <span class="ratio-label">Ratio:</span>
@@ -213,6 +216,7 @@
 
 <script src="js/shared-veil.js"></script>
 <script src="js/shared-datasets.js"></script>
+<script src="js/shared-ref-picker.js"></script>
 <script>
 (function(){
 'use strict';
@@ -706,9 +710,16 @@ function filterChoices(menu, q){
 
 function updateCustom(custom, id){
   const curr = custom.querySelector('.current');
-  if(curr && values[id]) curr.textContent = values[id].label;
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(curr){
+    if(isRefLocked){
+      curr.textContent = '📷 Preserved from Reference Photo';
+    } else if(values[id]){
+      curr.textContent = values[id].label;
+    }
+  }
   custom.querySelectorAll('.choice').forEach(b => {
-    const act = fields[id].opts[Number(b.dataset.index)] === values[id];
+    const act = !isRefLocked && fields[id].opts[Number(b.dataset.index)] === values[id];
     b.classList.toggle('selected', act);
     const old = b.querySelector('.checkmark'); if(old) old.remove();
     if(act){ const cm = document.createElement('span'); cm.className='checkmark'; cm.textContent='✓ '; b.prepend(cm); }
@@ -729,6 +740,12 @@ function getFilteredOpts(id, f){
 function createFieldElement(id, f){
   const wrap = document.createElement('div');
   wrap.className = 'field' + (['sbHair', 'sbVenue', 'sbOutfit', 'sbCapeWrap'].includes(id) ? ' full' : '');
+
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(isRefLocked){
+    wrap.classList.add('ref-locked');
+  }
+
   const lab = document.createElement('div'); lab.className = 'label-row';
   const tw = document.createElement('div'); tw.className = 'label-title-wrap';
   const label = document.createElement('label'); label.textContent = f.label;
@@ -736,6 +753,30 @@ function createFieldElement(id, f){
   const lockBtn = document.createElement('button'); lockBtn.type = 'button'; lockBtn.className = 'lock-btn' + (isL ? ' locked' : ''); lockBtn.innerHTML = isL ? '🔒' : '🔓';
   lockBtn.addEventListener('click', () => { if(lockedFields.has(id)) lockedFields.delete(id); else lockedFields.add(id); save(); renderFields(); });
   tw.append(label, lockBtn);
+
+  if(isRefLocked){
+    const badge = document.createElement('span');
+    badge.className = 'ref-locked-badge';
+    badge.textContent = '📷 From Ref Photo';
+    tw.appendChild(badge);
+
+    const unlockBtn = document.createElement('button');
+    unlockBtn.type = 'button';
+    unlockBtn.className = 'btn-ref-unlock';
+    unlockBtn.textContent = '✕ Unlock';
+    unlockBtn.title = 'Unlock to choose custom choice from menu';
+    unlockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const feat = window.AfterglowRefPicker.getFeatureForField(id);
+      if(feat){
+        window.AfterglowRefPicker.setFeature(feat, false);
+        renderFields();
+        buildPrompt();
+        toast(`Unlocked ${f.label} from reference inheritance`);
+      }
+    });
+    tw.appendChild(unlockBtn);
+  }
 
   const visibleOpts = getFilteredOpts(id, f);
   const count = document.createElement('span'); count.className = 'option-count'; count.textContent = visibleOpts.length + ' options';
@@ -766,6 +807,10 @@ function createFieldElement(id, f){
   });
 
   trigger.addEventListener('click', () => {
+    if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){
+      toast('Inherited from reference image. Click "Unlock" on the label to choose from menu.');
+      return;
+    }
     const was = custom.classList.contains('open');
     document.querySelectorAll('.custom-select.open').forEach(x => { x.classList.remove('open'); x.querySelector('.select-trigger').setAttribute('aria-expanded','false'); });
     if(!was){ custom.classList.add('open'); trigger.setAttribute('aria-expanded','true'); const i = menu.querySelector('input'); i.value = ''; filterChoices(menu,''); i.focus({preventScroll:true}); }
@@ -886,6 +931,13 @@ function renderFields(){
   const host = el('fields'); const sp = el('specialContent');
   if(!host || !sp) return;
   host.innerHTML = ''; sp.innerHTML = '';
+
+  if(window.AfterglowRefPicker && activeSection === 'sbGlobalCastSec'){
+    host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      renderFields();
+      buildPrompt();
+    }));
+  }
 
   if(activeSection === 'sbWorldSec'){
     const isSep = (wardrobeMode === 'separates');
@@ -1061,11 +1113,20 @@ function resolveFrameDetails(idx){
 }
 
 function buildShotPrompt(det, globalCtx){
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'storyboard' });
+  const isAiFace = refDirectives?.isAiFace;
+  const shotHeader = isAiFace
+    ? `AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`
+    : `REFERENCE-IMAGE EDIT — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`;
+  const subjectLine = isAiFace
+    ? `• AI-Generated Protagonist: Fresh autonomous face with selective transfer: ${refDirectives.summaryText} (${globalCtx.hairCol}, haircut: ${globalCtx.hairLabel} — ${globalCtx.hairText}).`
+    : `• Reference Subject: Preserve identical adult Indian woman from reference (${globalCtx.hairCol}, haircut: ${globalCtx.hairLabel} — ${globalCtx.hairText}).`;
+
   const lines = [
-    `REFERENCE-IMAGE EDIT — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`,
+    shotHeader,
     '',
     'LOCKED SUBJECT & WORLD CONTINUITY:',
-    `• Reference Subject: Preserve identical adult Indian woman from reference (${globalCtx.hairCol}, haircut: ${globalCtx.hairLabel} — ${globalCtx.hairText}).`,
+    subjectLine,
     `• Locked Apparel: ${globalCtx.wardrobeFull}.`,
     `• Setting: ${globalCtx.venue}. Color grade: ${globalCtx.grade}.`,
     '',
@@ -1150,20 +1211,30 @@ function buildPrompt(){
     : val('sbOutfit');
   const wardrobeFull = capeWrap ? `${baseWardrobe}, layered with ${capeWrap}` : baseWardrobe;
 
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'storyboard' });
+  const isAiFace = refDirectives?.isAiFace;
+
   const checks = [];
   const sbGlobalObfuscMode = values.sbFaceObfuscMode?.text || 'none';
   const hasSbGlobalObfusc = (sbGlobalObfuscMode !== 'none' && sbGlobalObfuscMode !== 'hair_veil');
   if(hasSbGlobalObfusc) checks.push(`Apply strict face privacy (${values.sbFaceObfuscMode?.label || sbGlobalObfuscMode}): facial features must remain concealed per chosen obfuscation method across all panels.`);
-  if(checkState.strictIdentity) checks.push('Strictly preserve identical facial features, Indian skin tone, and bone structure from the reference image.');
+  if(isAiFace){
+    checks.push('Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and authentic facial proportions across all panels, completely decoupled from reference facial identity.');
+  } else if(checkState.strictIdentity){
+    checks.push('Strictly preserve identical facial features, Indian skin tone, and bone structure from the reference image.');
+  }
   if(checkState.strictWardrobe) checks.push(`Keep the exact same haircut (${hairLabel}) and core wardrobe unbroken across all frames.`);
   if(checkState.solitarySubject) checks.push('Solitary female subject: strictly zero secondary women anywhere in frame or background.');
   if(checkState.naturalSkin) checks.push('Visible natural skin micro-pores, natural crease detail, zero waxy plastic airbrushing.');
 
   const getNegatives = (singleDet) => {
     const negs = [
-      'identity drift, different face across shots, inconsistent haircut length, swapped wardrobe colors',
+      isAiFace
+        ? 'temporal face jitter across shots, inconsistent haircut length, swapped wardrobe colors'
+        : 'identity drift, different face across shots, inconsistent haircut length, swapped wardrobe colors',
       'secondary women, multiple women in background, plastic CGI airbrushed skin, deformed extra fingers'
     ];
+    if(isAiFace && refDirectives?.negativeAdditions?.length) negs.push(...refDirectives.negativeAdditions);
     const sbObfuscNegs = getObfuscNegatives(sbGlobalObfuscMode);
     if(sbObfuscNegs.length) negs.push(...sbObfuscNegs);
     if(singleDet?.veilRuleObj?.neg) negs.push(singleDet.veilRuleObj.neg);
@@ -1184,12 +1255,18 @@ function buildPrompt(){
   let masterText = '';
   if(outputMode === 'grid'){
     const layoutName = frameCount === 3 ? '3-PANEL HORIZONTAL TRIPTYCH' : (frameCount === 4 ? '2×2 FOUR-PANEL EDITORIAL COLLAGE' : '6-FRAME 35MM CONTACT SHEET GRID');
+    const gridTitle = isAiFace
+      ? `AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`
+      : `REFERENCE-IMAGE EDIT — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`;
+    const protagonistBullet = isAiFace
+      ? `• Protagonist: ${refDirectives.primaryBullets[0]} (${hairCol}; cut: ${hairLabel} — ${hairText}).`
+      : `• Protagonist: Identical adult Indian woman from supplied reference image (${hairCol}; cut: ${hairLabel} — ${hairText}).`;
     const gLines = [
-      `REFERENCE-IMAGE EDIT — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`,
+      gridTitle,
       '',
       'GLOBAL CAST & CONTINUITY SPINE (ALL PANELS):',
       `Generate ONE high-definition composite sheet divided cleanly into ${frameCount} distinct narrative panels with ZERO borders/labels:`,
-      `• Protagonist: Identical adult Indian woman from supplied reference image (${hairCol}; cut: ${hairLabel} — ${hairText}).`,
+      protagonistBullet,
       `• Wardrobe & Venue: ${wardrobeFull} inside ${venue}. Color science: ${grade}. Ratio: ${aspectText}.`,
       '',
       'PANEL-BY-PANEL PROGRESSION:'
@@ -1350,6 +1427,24 @@ document.querySelectorAll('.ratio-chip').forEach(c => c.addEventListener('click'
 function generateShareUrl(){ copy(window.location.origin + window.location.pathname); toast('🔗 URL copied!'); }
 el('shareLookBtn')?.addEventListener('click', generateShareUrl);
 el('shareLookTop')?.addEventListener('click', generateShareUrl);
+
+// Reference Picker Button
+const refToggleBtn = el('btnToggleRefPicker');
+if(refToggleBtn){
+  refToggleBtn.addEventListener('click', () => {
+    if(activeSection !== 'sbGlobalCastSec'){
+      activeSection = 'sbGlobalCastSec';
+      renderTabs();
+      renderFields();
+    }
+    const card = document.getElementById('refPickerCard');
+    if(card){
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.add('pulse-highlight');
+      setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+    }
+  });
+}
 
 function openHistory(){
   const l = el('historyList');
