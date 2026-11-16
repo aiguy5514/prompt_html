@@ -65,43 +65,43 @@
       id: 'auto',
       label: '✨ Auto Distinct',
       shortLabel: 'Auto Distinct',
-      tokens: 'distinct high-fashion bone structure with defined cheekbones, sculpted facial anatomy: wide-set luminous almond eyes with defined supratarsal double-eyelid crease and subtle lifted lateral canthus, slender straight nasal bridge with refined supratip break and sculpted gently upturned tip, crisp pronounced Cupid\'s bow with defined vertical philtral columns and plush lower vermilion border, high sculpted zygomatic cheekbones tapering cleanly to an elegant defined jawline and delicate tapered chin with a soft submental crease'
+      tokens: 'distinct high-fashion bone structure with defined cheekbones, ((sculpted facial anatomy: wide-set luminous almond eyes with defined supratarsal double-eyelid crease:1.2)), ((slender straight nasal bridge with refined supratip break and sculpted gently upturned tip:1.15)), ((crisp pronounced Cupid\'s bow with defined vertical philtral columns and plush lower vermilion border:1.15)), ((high sculpted zygomatic cheekbones tapering cleanly to an elegant defined jawline and delicate tapered chin with a soft submental crease:1.25))'
     },
     chiseled: {
       id: 'chiseled',
       label: '💎 Chiseled / Editorial',
       shortLabel: 'Chiseled',
-      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones, haute-couture bone structure: elongated feline-angled piercing almond eyes with taut upper lid crease and wide intercanthal spacing, razor-straight ultra-narrow nasal bridge with chiseled pinpoint-projected tip, sculpted architectural lips with razor-delineated geometric Cupid\'s bow and flat vermilion contours, deep sunken submalar hollows, razor-sharp 115-degree mandibular jawline, and a firm chiseled square-tapered chin'
+      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones, haute-couture bone structure: ((elongated feline-angled piercing almond eyes with taut upper lid crease and wide intercanthal spacing:1.2)), ((razor-straight ultra-narrow nasal bridge with chiseled pinpoint-projected tip:1.2)), ((sculpted architectural lips with razor-delineated geometric Cupid\'s bow and flat vermilion contours:1.15)), ((deep sunken submalar hollows, razor-sharp 115-degree mandibular jawline, and a firm chiseled square-tapered chin:1.25))'
     },
     soft_oval: {
       id: 'soft_oval',
       label: '🌸 Soft Oval / Almond Eyes',
       shortLabel: 'Soft Oval',
-      tokens: 'classic soft oval facial silhouette with a gentle rounded jawline, harmonious facial geometry: large warm luminous rounded-almond eyes with soft delicate double eyelid folds and balanced symmetrical spacing, slender gently sloping nasal bridge with smooth continuous dorsal lines and soft naturally rounded petite tip, petal-soft balanced lips with smooth curving Cupid\'s bow and even vermilion fullness, seamless curved oval jawline with zero harsh angles, and a soft naturally rounded feminine chin'
+      tokens: 'classic soft oval facial silhouette with a gentle rounded jawline, harmonious facial geometry: ((large warm luminous rounded-almond eyes with soft delicate double eyelid folds and balanced symmetrical spacing:1.2)), ((slender gently sloping nasal bridge with smooth continuous dorsal lines and soft naturally rounded petite tip:1.15)), ((petal-soft balanced lips with smooth curving Cupid\'s bow and even vermilion fullness:1.15)), ((seamless curved oval jawline with zero harsh angles, and a soft naturally rounded feminine chin:1.2))'
     },
     heart: {
       id: 'heart',
       label: '💖 Heart-Shaped',
       shortLabel: 'Heart-Shaped',
-      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, radiant expressive wide doe eyes with deep supratarsal crease and lifted outer corners, delicate petite nose with narrow slightly scooped concave bridge and tiny perky upturned button tip, plush doll-like pout with accentuated heart-peaked Cupid\'s bow, and wide prominent anterior cheekbones tapering steeply inward to a dainty pointed micro-chin'
+      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, ((radiant expressive wide doe eyes with deep supratarsal crease and lifted outer corners:1.2)), ((delicate petite nose with narrow slightly scooped concave bridge and tiny perky upturned button tip:1.2)), ((plush doll-like pout with accentuated heart-peaked Cupid\'s bow:1.15)), ((wide prominent anterior cheekbones tapering steeply inward to a dainty pointed micro-chin:1.25))'
     },
     square: {
       id: 'square',
       label: '🏛️ Square Runway',
       shortLabel: 'Square Runway',
-      tokens: 'bold high-fashion square jawline with clean angular bone structure, commanding square facial architecture: intense deep-set horizontal eyes under a structured straight brow ridge with taut hooded upper eyelid crease, strong broad straight nasal bridge with uniform width and firm squared-off tip profile, wide horizontal lip span with crisp wide-peaked Cupid\'s bow, flat structured cheek planes, and sharp bilateral mandibular angles with a wide squared chin pad'
+      tokens: 'bold high-fashion square jawline with clean angular bone structure, commanding square facial architecture: ((intense deep-set horizontal eyes under a structured straight brow ridge with taut hooded upper eyelid crease:1.2)), ((strong broad straight nasal bridge with uniform width and firm squared-off tip profile:1.2)), ((wide horizontal lip span with crisp wide-peaked Cupid\'s bow:1.15)), ((flat structured cheek planes, sharp bilateral mandibular angles, and a wide flat chiseled square chin:1.25))'
     },
     round: {
       id: 'round',
       label: '✨ Round Soft',
       shortLabel: 'Round Soft',
-      tokens: 'youthful soft rounded facial contours, gently curved jawline, large bright circular rounded eyes with wide-open aperture and prominent curved lower lid contour, short petite nose with gentle low bridge and cute softly rounded fleshy button tip, ultra-full plush cushion lips with pillowy lower lip volume and soft curving Cupid\'s bow, supple rounded apple cheeks, and a short rounded button chin'
+      tokens: 'youthful soft rounded facial contours, gently curved jawline, ((large bright circular rounded eyes with wide-open aperture and prominent curved lower lid contour:1.2)), ((short petite nose with gentle low bridge and cute softly rounded fleshy button tip:1.2)), ((ultra-full plush cushion lips with pillowy lower lip volume and soft curving Cupid\'s bow:1.15)), ((supple rounded apple cheeks and a short rounded button chin:1.2))'
     },
     diamond: {
       id: 'diamond',
       label: '💠 Diamond Sculpted',
       shortLabel: 'Diamond',
-      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, dramatic slanted feline almond eyes with tight epicanthal taper and deep outer orbital recess, slender high-contrast nasal bridge with sharp geometric facets and an acutely sculpted tapered tip, sharply contoured angular lips with an ultra-defined sharp V-notch Cupid\'s bow, ultra-wide high-projecting zygomatic arches, and a sharp narrow triangular V-line chin'
+      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, ((dramatic slanted feline almond eyes with tight epicanthal taper and deep outer orbital recess:1.2)), ((slender high-contrast nasal bridge with sharp geometric facets and an acutely sculpted tapered tip:1.2)), ((sharply contoured angular lips with an ultra-defined sharp V-notch Cupid\'s bow:1.15)), ((ultra-wide high-projecting zygomatic arches and a sharp narrow triangular V-line chin:1.25))'
     }
   };
 
@@ -470,7 +470,7 @@
     if (isAiFace) {
       const arch = FACE_ARCHETYPES[state.faceArchetype] || FACE_ARCHETYPES.auto;
       const isDramatic = (state.divergenceIntensity === 'dramatic');
-      const DEFAULT_DISTINCT_TRAITS = 'distinct individual anatomical landmarks: a sharply defined vertical philtrum column groove, photorealistic subtle facial asymmetry between brow arches, refined infraorbital contour depth, and a clean distinct submental chin crease';
+      const DEFAULT_DISTINCT_TRAITS = 'a sharply defined vertical philtrum column groove, photorealistic subtle facial asymmetry between brow arches, refined infraorbital contour depth, and a clean distinct submental chin crease';
       const customTraits = state.customFaceTraits
         ? ` Unique distinguishing facial details: ${state.customFaceTraits}.`
         : ` Distinct individual facial landmarks: ${DEFAULT_DISTINCT_TRAITS}.`;
@@ -532,10 +532,10 @@
         }
 
         primaryBullets.push(
-          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): The subject is an entirely autonomous adult woman with her own unique, photorealistic facial architecture. Synthesize a completely fresh face from scratch with natural skin pores, realistic facial asymmetry, authentic skin texture with visible dermis detail, and a fully independent biological appearance featuring ${arch.tokens}.${customTraits}${intensityClause} Autonomous Individual Model: She possesses completely independent facial anatomy and distinct facial bone structure.`
+          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): ((A completely different female model, entirely new face:1.35)) featuring ${arch.tokens}.${customTraits}${intensityClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
         );
         negativeAdditions.push(
-          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, same face as reference, reference facial likeness, duplicate facial features of reference, reference face clone, identical twin to reference, same person as reference, duplicate woman face, matching reference face, facial identity bleed'
         );
       }
 
@@ -544,7 +544,7 @@
           ? 'execute mandatory sibling facial reconstruction to synthesize a distinct biological sister with different facial geometry'
           : (state.faceSynthesisMode === 'reimagined')
             ? 'execute haute couture editorial remodeling to drastically elevate and re-sculpt her bone structure into a runway supermodel'
-            : 'synthesize a completely fresh, photorealistic adult woman\'s face with unique facial features, authentic skin pores, and realistic bone structure possessing completely independent facial anatomy';
+            : 'synthesize a completely fresh, photorealistic adult woman\'s face with unique, photorealistic facial architecture, authentic skin pores, and realistic bone structure possessing completely independent facial anatomy';
         primaryBullets.push(
           `• Master Synthesis Directive (Retain Original Look + Fresh AI Face): Strictly retain the complete original look—exact hairstyle silhouette, hair texture, hair color, wardrobe garments, makeup palette, jewelry, body pose, and background environment—from the reference photo, but ${modeDesc}.`
         );
@@ -583,23 +583,29 @@
     if (state.features.haircut) {
       primaryBullets.push(
         isAiFace
-          ? '• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image onto the new face.'
+          ? '• Hairstyle & Silhouette: Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image onto the new face.'
           : '• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image.'
       );
     }
     if (state.features.hairTexture) {
       primaryBullets.push(
-        '• Hair Texture & Density (From Reference Photo): Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image.'
+        isAiFace
+          ? '• Hair Texture & Density: Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image.'
+          : '• Hair Texture & Density (From Reference Photo): Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image.'
       );
     }
     if (state.features.hairColor) {
       primaryBullets.push(
-        '• Hair Color (From Reference Photo): Match the exact natural hair color, undertones, and highlights shown in the reference image.'
+        isAiFace
+          ? '• Hair Color: Match the exact natural hair color, undertones, and highlights shown in the reference image.'
+          : '• Hair Color (From Reference Photo): Match the exact natural hair color, undertones, and highlights shown in the reference image.'
       );
     }
     if (state.features.wardrobe) {
       primaryBullets.push(
-        '• Wardrobe & Clothing (From Reference Photo): Faithfully replicate the exact outfit, clothing design, tailoring, fabric weave, and color scheme worn in the reference image.'
+        isAiFace
+          ? '• Wardrobe & Clothing: Faithfully replicate the exact outfit, clothing design, tailoring, fabric weave, and color scheme worn in the reference image.'
+          : '• Wardrobe & Clothing (From Reference Photo): Faithfully replicate the exact outfit, clothing design, tailoring, fabric weave, and color scheme worn in the reference image.'
       );
     }
     if (state.features.makeup) {
@@ -618,7 +624,9 @@
     }
     if (state.features.pose) {
       primaryBullets.push(
-        '• Pose & Stance (From Reference Photo): Mirror the subject\'s exact body pose, shoulder angle, and stance from the reference photo.'
+        isAiFace
+          ? '• Pose & Stance: Mirror the subject\'s exact body pose, shoulder angle, and stance from the reference photo.'
+          : '• Pose & Stance (From Reference Photo): Mirror the subject\'s exact body pose, shoulder angle, and stance from the reference photo.'
       );
     }
     if (state.features.background) {
@@ -728,11 +736,12 @@
             <div class="ref-tip-box">
               <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
                 <strong>💡 Pro-Tip for External Image Generators:</strong>
-                <span style="font-size: 9.5px; color: #a855f7; background: rgba(168,85,247,0.15); padding: 1px 6px; border-radius: 4px;">Seed Stabilization Guide</span>
+                <span style="font-size: 9.5px; color: #a855f7; background: rgba(168,85,247,0.15); padding: 1px 6px; border-radius: 4px;">Fresh Face Setup Guide</span>
               </div>
               <div style="font-size: 10px; line-height: 1.45; color: #cbd5e1;">
-                • <strong>Character Reference Tools:</strong> If using character-reference flags (such as <code>--cw</code>), always set character weight to <code>--cw 0</code> so the AI transfers <em>only</em> hair &amp; wardrobe while generating this fresh face.<br>
-                • <strong>Style &amp; Image Conditioning:</strong> Use <em>Style Reference / Image Conditioning</em> (weight 0.4–0.6) or <em>ControlNet (OpenPose)</em> for pose rather than FaceID / Face-Cloner tools to prevent reference face bleed across random seeds.
+                • <strong>Avoid Face-Cloning Tools:</strong> Turn OFF FaceSwap, FaceID, or InstantID (which forcibly clone the reference face).<br>
+                • <strong>Transfer Hair &amp; Pose Cleanly:</strong> Use <em>Image Prompt / Style Conditioning</em> (weight 0.4–0.5) or <em>ControlNet (OpenPose)</em>. Do NOT use Character Reference with face-locking parameters.<br>
+                • <strong>Seed Stabilization:</strong> The prompt specifies strong distinct facial landmarks and negative tokens to guarantee a completely new person across seeds.
               </div>
             </div>
           </div>
