@@ -1505,7 +1505,17 @@ function buildPrompt(){
     : (tattooHairMoisture === 'damp'
       ? ' Hair moisture: evenly spray-misted damp strands with fine droplets and cool luster.'
       : (!isExplicitWetTattooCut ? ' Hair moisture: completely dry, airy blown-out strands with zero wetness.' : ''));
-  lines.push(`Model stance & styling: the female subject is ${pose}, wearing ${w}. Haircut & styling: ${hairVal}.${tattooFaceCovVal ? ' Face-behind-hair veil: ' + tattooFaceCovVal + ' (preserve base haircut silhouette intact).' : ''}${tattooMoistClause}`);
+  const isTatRefPose = window.AfterglowRefPicker?.isFeatureInherited('pose');
+  const isTatRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isTatRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isTatRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+
+  const effPose = isTatRefPose ? window.AfterglowRefPicker.getInheritedFieldText('pose') : pose;
+  const effWardrobe = isTatRefWardrobe ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe') : `wearing ${w}`;
+  const effHaircut = isTatRefHaircut ? window.AfterglowRefPicker.getInheritedFieldText('haircut') : hairVal;
+  const effLoc = isTatRefBg ? window.AfterglowRefPicker.getInheritedFieldText('background') : loc;
+
+  lines.push(`Model stance & styling: the female subject is ${effPose}, ${effWardrobe}. Haircut & styling: ${effHaircut}.${tattooFaceCovVal ? ' Face-behind-hair veil: ' + tattooFaceCovVal + ' (preserve base haircut silhouette intact).' : ''}${tattooMoistClause}`);
   if(expr) lines.push(`Model expression & attitude: ${expr}.`);
 
   // Dedicated Hair Veil Directive
@@ -1520,7 +1530,7 @@ function buildPrompt(){
     lines.push('');
   }
 
-  lines.push(`Session moment: ${act}. Shoot location & environment: ${loc}.`);
+  lines.push(`Session moment: ${act}. Shoot location & environment: ${effLoc}.`);
   lines.push(`Camera direction & optics: ${cam}. Color grade & film feel: ${film}.`);
   lines.push(`Lighting & ambiance: ${light}.${asp ? ' Aspect ratio: ' + asp + '.' : ''}`);
   if(isFaceHidden){

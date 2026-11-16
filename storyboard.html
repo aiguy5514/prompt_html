@@ -1252,6 +1252,20 @@ function buildPrompt(){
   const perShotPrompts = {};
   resolved.forEach(d => { perShotPrompts[String(d.idx)] = buildShotPrompt(d, globalCtx); });
 
+  const isSbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isSbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isSbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+
+  const effSbWardrobe = isSbRefWardrobe
+    ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
+    : wardrobeFull;
+  const effSbHair = isSbRefHaircut
+    ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
+    : `${hairLabel} — ${hairText}`;
+  const effSbVenue = isSbRefBg
+    ? window.AfterglowRefPicker.getInheritedFieldText('background')
+    : venue;
+
   let masterText = '';
   if(outputMode === 'grid'){
     const layoutName = frameCount === 3 ? '3-PANEL HORIZONTAL TRIPTYCH' : (frameCount === 4 ? '2×2 FOUR-PANEL EDITORIAL COLLAGE' : '6-FRAME 35MM CONTACT SHEET GRID');
@@ -1259,15 +1273,15 @@ function buildPrompt(){
       ? `AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`
       : `REFERENCE-IMAGE EDIT — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`;
     const protagonistBullet = isAiFace
-      ? `• Protagonist: ${refDirectives.primaryBullets[0]} (${hairCol}; cut: ${hairLabel} — ${hairText}).`
-      : `• Protagonist: Identical adult Indian woman from supplied reference image (${hairCol}; cut: ${hairLabel} — ${hairText}).`;
+      ? `• Protagonist: ${refDirectives.primaryBullets[0]} (${hairCol}; cut: ${effSbHair}).`
+      : `• Protagonist: Identical adult Indian woman from supplied reference image (${hairCol}; cut: ${effSbHair}).`;
     const gLines = [
       gridTitle,
       '',
       'GLOBAL CAST & CONTINUITY SPINE (ALL PANELS):',
       `Generate ONE high-definition composite sheet divided cleanly into ${frameCount} distinct narrative panels with ZERO borders/labels:`,
       protagonistBullet,
-      `• Wardrobe & Venue: ${wardrobeFull} inside ${venue}. Color science: ${grade}. Ratio: ${aspectText}.`,
+      `• Wardrobe & Venue: ${effSbWardrobe} inside ${effSbVenue}. Color science: ${grade}. Ratio: ${aspectText}.`,
       '',
       'PANEL-BY-PANEL PROGRESSION:'
     ];

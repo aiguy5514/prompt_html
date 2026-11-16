@@ -217,6 +217,18 @@ def run_all_studio_tests(browser):
       ok('ai_face_negatives_present', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
       ok('identity_drift_removed_from_negs', !pAi.includes('• identity drift or a different face'));
 
+      // Test Retain Original Look + Fresh AI Face (all 8 features active)
+      rp.applyPreset('original_look_fresh_face');
+      api.buildPrompt();
+      const pFull = document.getElementById('prompt').value;
+      ok('full_look_ai_face_header', pFull.includes('AI-GENERATED FACE WITH FULL REFERENCE LOOK RETENTION · BOLD POST-MAKEOVER PHOTOSHOOT'));
+      ok('full_look_ai_face_master_directive', pFull.includes('Master Synthesis Directive (Retain Original Look + Fresh AI Face)'));
+      ok('full_look_wardrobe_replicated', pFull.includes('Faithfully retain and replicate the exact original wardrobe'));
+      ok('full_look_no_builder_dress_collision', !pFull.includes('bold red asymmetrical off-shoulder'));
+      ok('full_look_no_builder_hair_collision', !pFull.includes('shoulder-length bob with soft wispy bangs'));
+      ok('full_look_no_builder_studio_collision', !pFull.includes('clean, seamless white studio'));
+      ok('full_look_no_creative_intent_contradiction', !pFull.includes('preserving the same adult woman'));
+
       // Test 1-click unlock
       rp.setFeature('haircut', false);
       ok('hair_unlocked_after_toggle', !rp.isFieldLocked('hair'));
@@ -257,6 +269,14 @@ def run_all_studio_tests(browser):
       const pAi = document.getElementById('prompt').value;
       ok('salon_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · AUTHENTIC SALON & BARBERSHOP SCENE'));
       ok('salon_ai_face_anti_clone_neg', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+
+      // Test Retain Original Look + Fresh AI Face in salon
+      rp.applyPreset('original_look_fresh_face');
+      api.buildPrompt();
+      const pSalonFull = document.getElementById('prompt').value;
+      ok('salon_full_look_no_builder_hair_collision', !pSalonFull.includes('shoulder-length bob with soft wispy bangs'));
+      ok('salon_full_look_retains_ref_venue', pSalonFull.includes('Venue & Atmosphere: Faithfully maintain the exact original background environment'));
+      ok('salon_full_look_no_creative_intent_contradiction', !pSalonFull.includes('preserving the same adult woman'));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');

@@ -1094,6 +1094,24 @@ function buildPrompt(){
 
   const lines = [];
 
+  const isRomRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isRomRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isRomRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+  const isRomRefMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup');
+
+  const effRomWardrobe = isRomRefWardrobe
+    ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
+    : apparelText;
+  const effRomHair = isRomRefHaircut
+    ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
+    : hairText;
+  const effRomSetting = isRomRefBg
+    ? window.AfterglowRefPicker.getInheritedFieldText('background')
+    : settingText;
+  const effRomMakeup = isRomRefMakeup
+    ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
+    : makeupText;
+
   if(reelMode){
     // 2-Shot Couple Video Clip Reel format
     if(isAiFace){
@@ -1105,16 +1123,16 @@ function buildPrompt(){
     lines.push('SCENE OVERVIEW & DUO CAST CONTINUITY:');
     lines.push('• Format: 2-shot continuous narrative video reel (6–8s total duration).');
     if(isAiFace){
-      lines.push(`• Female Model & AI-Generated Face: Fresh autonomous face with selective transfer: ${refDirectives.summaryText}. Wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
+      lines.push(`• Female Model & AI-Generated Face: Fresh autonomous face with selective transfer: ${refDirectives.summaryText}. Wearing ${effRomWardrobe}; haircut: ${effRomHair}${covVal ? ' (' + covVal + ')' : ''}.`);
     } else {
-      lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; haircut: ${hairText}${covVal ? ' (' + covVal + ')' : ''}.`);
+      lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${effRomWardrobe}; haircut: ${effRomHair}${covVal ? ' (' + covVal + ')' : ''}.`);
     }
     lines.push(`• Male Partner: ${partnerText}.`);
     lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
     lines.push(`• ${helmetClause}`);
     lines.push(`• ${moistClause}`);
     lines.push(`• Intimacy Dynamic: ${dynamicText}. Proximity: ${touchText}.`);
-    lines.push(`• Setting & Light: ${settingText} under ${lightingText}. Lens: ${lensText}. Aspect ratio: ${aspectText}.`);
+    lines.push(`• Setting & Light: ${effRomSetting} under ${lightingText}. Lens: ${lensText}. Aspect ratio: ${aspectText}.`);
 
     const obfuscClause = buildObfuscClause(obfuscMode, hairArch, { isRomance: true });
     if(obfuscClause) lines.push(`• ${obfuscClause}`);
@@ -1144,7 +1162,7 @@ function buildPrompt(){
       if(obfuscClause) lines.push('• ' + obfuscClause);
       if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
     } else {
-      lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${apparelText}; makeup: ${makeupText}.`);
+      lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${effRomWardrobe}; makeup: ${effRomMakeup}.`);
       lines.push(`• Male Partner: ${partnerText}.`);
       lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
       if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){

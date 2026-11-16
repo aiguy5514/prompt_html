@@ -1208,17 +1208,31 @@ function buildPrompt(){
   const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'video' });
   const isAiFace = refDirectives?.isAiFace;
 
+  const isVidRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isVidRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isVidRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+
+  const effVidWardrobe = isVidRefWardrobe
+    ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
+    : wardrobeText;
+  const effVidHair = isVidRefHaircut
+    ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
+    : hairText;
+  const effVidEnv = isVidRefBg
+    ? window.AfterglowRefPicker.getInheritedFieldText('background')
+    : val('vidEnvironment');
+
   const lines = [];
   if(compactMotionMode){
     lines.push(`${val('vidPipelineMode')}. Duration: ${val('vidDuration')}, ${val('vidFramerate')}, ${val('vidFocalLens')}, aspect ${val('aspect')}.`);
     if(isAiFace){
-      lines.push(`Subject: Synthesize a fresh, autonomous AI-generated face; selectively transfer from reference photo: ${refDirectives.summaryText}. Wearing ${wardrobeText}; haircut: ${hairText}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
+      lines.push(`Subject: Synthesize a fresh, autonomous AI-generated face; selectively transfer from reference photo: ${refDirectives.summaryText}. Wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
     } else {
-      lines.push(`Subject: Preserve reference adult woman's Indian heritage identity seamlessly wearing ${wardrobeText}; haircut: ${hairText}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
+      lines.push(`Subject: Preserve reference adult woman's Indian heritage identity seamlessly wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
     }
     lines.push(`Camera Choreography: ${camMove}.`);
     lines.push(`Action Sequence: (0–2s) ${beatStart}. (2–4s) ${beatMid}. (4–6s+) ${beatEnd}. Facial rhythm: ${microSafe}.`);
-    lines.push(`Environment & Physics: ${val('vidEnvironment')}. Ambient movement: ${val('vidEnvPhysics')}. Lighting: ${val('vidLightingShift')}. Film look: ${val('vidStyleLook')}. Amplitude: ${val('vidAmplitude')}.`);
+    lines.push(`Environment & Physics: ${effVidEnv}. Ambient movement: ${val('vidEnvPhysics')}. Lighting: ${val('vidLightingShift')}. Film look: ${val('vidStyleLook')}. Amplitude: ${val('vidAmplitude')}.`);
     if(veilRuleObj?.strict) lines.push(`HAIR VEIL LOCK: ${veilRuleObj.strict}`);
     if(vidObfuscClause) lines.push(`FACE PRIVACY: ${vidObfuscClause}`);
     if(customDirection.trim()) lines.push(`Direction: ${customDirection.trim()}`);
@@ -1234,7 +1248,7 @@ function buildPrompt(){
     if(isAiFace){
       refDirectives.primaryBullets.forEach(b => lines.push(b));
     } else {
-      lines.push(`• Subject & Solitary Rule: Maintain the exact adult Indian woman from reference throughout all frames wearing ${wardrobeText}.`);
+      lines.push(`• Subject & Solitary Rule: Maintain the exact adult Indian woman from reference throughout all frames wearing ${effVidWardrobe}.`);
       if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
         lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
       }
@@ -1247,7 +1261,7 @@ function buildPrompt(){
         });
       }
     }
-    lines.push(`• Hair Architecture & Motion Weight: ${hairText}${covVal ? '. Active face-veil tier: ' + covVal : ''}.`);
+    lines.push(`• Hair Architecture & Motion Weight: ${effVidHair}${covVal ? '. Active face-veil tier: ' + covVal : ''}.`);
     if(vidObfuscClause) lines.push(`• ${vidObfuscClause}`);
     if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
     lines.push(`• ${moistMotionClause}`);
@@ -1268,7 +1282,7 @@ function buildPrompt(){
     lines.push(`• Micro-Expression & Breathing: ${microSafe}.`);
     lines.push('');
     lines.push('ENVIRONMENT, AMBIENT WIND & DYNAMIC LIGHTING:');
-    lines.push(`• Setting: ${val('vidEnvironment')}.`);
+    lines.push(`• Setting: ${effVidEnv}.`);
     lines.push(`• Secondary Ambient Motion: ${val('vidEnvPhysics')}.`);
     lines.push(`• Light & Color Grade: ${val('vidLightingShift')}. Film stock: ${val('vidStyleLook')}.`);
     if(veilRuleObj?.strict){

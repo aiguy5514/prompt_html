@@ -1383,7 +1383,19 @@ function buildPrompt(){
   lines.push('');
 
   lines.push('VANITY / SPA SETTING & ACTION');
-  lines.push(`Environment: ${loc}. Atmosphere: ${atmo}. Room humidity: ${steamDensityText}.`);
+  const isPrepRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+  const isPrepRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isPrepRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isPrepRefMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup');
+  const isPrepRefPose = window.AfterglowRefPicker?.isFeatureInherited('pose');
+
+  const effPrepLoc = isPrepRefBg ? window.AfterglowRefPicker.getInheritedFieldText('background') : `Environment: ${loc}. Atmosphere: ${atmo}. Room humidity: ${steamDensityText}.`;
+  const effPrepHair = isPrepRefHaircut ? window.AfterglowRefPicker.getInheritedFieldText('haircut') : `${hairText}; styled with ${hairHold}`;
+  const effPrepWardrobe = isPrepRefWardrobe ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe') : `Wearing ${apparelText}`;
+  const effPrepMakeup = isPrepRefMakeup ? window.AfterglowRefPicker.getInheritedFieldText('makeup') : `${skinFinishText}. Lip finish: ${lipText}.${!hideEyes ? ' Eye detail: ' + eyeText + '.' : ''}`;
+  const effPrepPose = isPrepRefPose ? window.AfterglowRefPicker.getInheritedFieldText('pose') : poseText;
+
+  lines.push(isPrepRefBg ? `Environment: ${effPrepLoc}` : `Environment: ${loc}. Atmosphere: ${atmo}. Room humidity: ${steamDensityText}.`);
   lines.push(`Treatment Phase: ${phaseText}. Active Prep Moment: ${actionText}.`);
   lines.push('');
 
@@ -1393,11 +1405,11 @@ function buildPrompt(){
     : (prepHairMoisture === 'damp'
       ? ' Hair moisture: lightly misted damp strands with fine droplets.'
       : (!isExplicitWetCut ? ' Hair moisture: completely dry, natural airy strands with zero wetness.' : ''));
-  lines.push(`Haircut & Prep Hold: ${hairText}; styled with ${hairHold}.${covVal ? ' Face-behind-hair veil: ' + covVal + ' (preserve chosen haircut length).' : ''}${moistNote}`);
-  lines.push(`Prep Apparel: Wearing ${apparelText}.`);
-  lines.push(`Skin, Lips & Eye Prep: ${skinFinishText}. Lip finish: ${lipText}.${!hideEyes ? ' Eye detail: ' + eyeText + '.' : ''}`);
-  if(exprText) lines.push(`Model Posture & Expression: ${poseText}. Expression: ${exprText}.`);
-  else lines.push(`Model Posture: ${poseText}.`);
+  lines.push(`Haircut & Prep Hold: ${effPrepHair}.${covVal ? ' Face-behind-hair veil: ' + covVal + ' (preserve chosen haircut length).' : ''}${moistNote}`);
+  lines.push(`Prep Apparel: ${effPrepWardrobe}.`);
+  lines.push(`Skin, Lips & Eye Prep: ${effPrepMakeup}.`);
+  if(exprText && !isPrepRefPose) lines.push(`Model Posture & Expression: ${effPrepPose}. Expression: ${exprText}.`);
+  else lines.push(`Model Posture: ${effPrepPose}.`);
   lines.push('');
 
   if(covVal && veilTier !== 'auto'){

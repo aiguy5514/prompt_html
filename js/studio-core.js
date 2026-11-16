@@ -4472,27 +4472,48 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const hideEyes = isFaceHidden || isDeepOrFullVeil;
   const S = t => (checkState.noMirror && typeof sanitizeMirrorProse === 'function') ? sanitizeMirrorProse(t) : t;
 
-  const hairDesc = sanitizeHairForVeil(S(getEffectiveHairstyle()), veilTier);
+  const isLbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isLbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isLbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+  const isLbRefPose = window.AfterglowRefPicker?.isFeatureInherited('pose');
+  const isLbRefMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup');
+  const isLbRefAcc = window.AfterglowRefPicker?.isFeatureInherited('accessories');
+
+  const hairDesc = isLbRefHaircut
+    ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
+    : sanitizeHairForVeil(S(getEffectiveHairstyle()), veilTier);
   const faceCovVal = val('hairFaceCoverage') || '';
-  const hairCol = val('hairColor');
+  const hairCol = window.AfterglowRefPicker?.isFeatureInherited('hairColor')
+    ? window.AfterglowRefPicker.getInheritedFieldText('hairColor')
+    : val('hairColor');
   const hairFin = val('hairFinish');
   const moistClause = (photoHairMoisture === 'wet')
     ? ' Hair moisture: thoroughly water-soaked drenched wet ribbons with glistening aquatic sheen.'
-    : (photoHairMoisture === 'damp'
+    : (photoHairMoisture === 'damp')
       ? ' Hair moisture: evenly spray-misted damp hair with cool hydrated luster.'
-      : ' Hair moisture: completely dry, airy blowout with natural bounce.');
-  const makeupDesc = sanitizeMakeupForVeil(val('makeup'), veilTier);
-  const outfitDesc = opts.outfitDesc || ((wardrobeMode === 'separates')
-    ? `a modern two-piece separates ensemble featuring ${val('topPiece')} paired with ${val('bottomPiece')}, with ${val('midriffStyling')}`
-    : val('outfit'));
+      : ' Hair moisture: completely dry, airy blowout with natural bounce.';
+  const makeupDesc = isLbRefMakeup
+    ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
+    : sanitizeMakeupForVeil(val('makeup'), veilTier);
+  const outfitDesc = isLbRefWardrobe
+    ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
+    : (opts.outfitDesc || ((wardrobeMode === 'separates')
+        ? `a modern two-piece separates ensemble featuring ${val('topPiece')} paired with ${val('bottomPiece')}, with ${val('midriffStyling')}`
+        : val('outfit')));
   const outfitFitDesc = val('outfitFit');
-  const accDesc = val('accessories');
-  const poseDesc = sanitizeHiddenFaceText(S(val('pose')), hideEyes, veilTier);
+  const accDesc = isLbRefAcc
+    ? window.AfterglowRefPicker.getInheritedFieldText('accessories')
+    : val('accessories');
+  const poseDesc = isLbRefPose
+    ? window.AfterglowRefPicker.getInheritedFieldText('pose')
+    : sanitizeHiddenFaceText(S(val('pose')), hideEyes, veilTier);
   const exprDesc = sanitizeHiddenFaceText(S(val('expression')), hideEyes, veilTier);
   const gestDesc = val('gesture');
-  const bgDesc = S(val('background'))
-    .replace(/tri-fold mirrors/gi, checkState.noMirror ? 'architectural folding screens' : 'tri-fold mirrors')
-    .replace(/wall mirrors/gi, checkState.noMirror ? 'wall paneling' : 'wall mirrors');
+  const bgDesc = isLbRefBg
+    ? window.AfterglowRefPicker.getInheritedFieldText('background')
+    : S(val('background'))
+        .replace(/tri-fold mirrors/gi, checkState.noMirror ? 'architectural folding screens' : 'tri-fold mirrors')
+        .replace(/wall mirrors/gi, checkState.noMirror ? 'wall paneling' : 'wall mirrors');
   const lightDesc = val('lighting');
   const gradeDesc = val('grade');
   const qualDesc = val('quality');
@@ -4522,7 +4543,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const dedupedNegs = dedupeNegatives(negatives);
   const negsText = (Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '';
   const lbPrefix = isAiFace
-    ? 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'
+    ? (lbRefDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER')
     : ((values.mode?.text === 'edit_supplied' || (val('mode') || '').startsWith('Edit'))
         ? 'REFERENCE-IMAGE EDIT'
         : 'REFERENCE-GUIDED PORTRAIT');
@@ -5167,24 +5188,29 @@ function buildSalonPrompt(){
   const isSalonPony = salonHairLower.includes('pony') || salonHairLower.includes('ponytail') || isPonySelected();
   const isSalonSweep = salonHairLower.includes('side-swept') || salonHairLower.includes('swept to one side') || salonHairLower.includes('side sweep') || isSideSweepSelected();
 
-  let haircutText = S(val('salonHaircut'));
+  const isSalonRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  let haircutText = isSalonRefHaircut
+    ? 'the exact haircut and hairstyle silhouette from the reference photo'
+    : S(val('salonHaircut'));
   const hairTextureText = S(val('salonHairTexture'));
 
-  if(isSalonPony){
-    const pDetails = [];
-    if(val('ponyBaseHeight')) pDetails.push(`anchored at ${val('ponyBaseHeight')}`);
-    if(val('ponyBaseWrap')) pDetails.push(`base ${val('ponyBaseWrap')}`);
-    if(val('ponyTailFall')) pDetails.push(`tail falling ${val('ponyTailFall')}`);
-    if(val('ponyTailEnd')) pDetails.push(`tail ends ${val('ponyTailEnd')}`);
-    if(val('ponyTailStyle')) pDetails.push(`tail finish ${val('ponyTailStyle')}`);
-    if(pDetails.length) haircutText += ` (${pDetails.join(', ')})`;
-  } else if(isSalonSweep){
-    const sDetails = [];
-    if(val('sideSweepSide')) sDetails.push(val('sideSweepSide'));
-    if(val('sideSweepFlip')) sDetails.push(val('sideSweepFlip'));
-    if(val('sideSweepEnd')) sDetails.push(val('sideSweepEnd'));
-    if(val('sideSweepFinish')) sDetails.push(val('sideSweepFinish'));
-    if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
+  if(!isSalonRefHaircut){
+    if(isSalonPony){
+      const pDetails = [];
+      if(val('ponyBaseHeight')) pDetails.push(`anchored at ${val('ponyBaseHeight')}`);
+      if(val('ponyBaseWrap')) pDetails.push(`base ${val('ponyBaseWrap')}`);
+      if(val('ponyTailFall')) pDetails.push(`tail falling ${val('ponyTailFall')}`);
+      if(val('ponyTailEnd')) pDetails.push(`tail ends ${val('ponyTailEnd')}`);
+      if(val('ponyTailStyle')) pDetails.push(`tail finish ${val('ponyTailStyle')}`);
+      if(pDetails.length) haircutText += ` (${pDetails.join(', ')})`;
+    } else if(isSalonSweep){
+      const sDetails = [];
+      if(val('sideSweepSide')) sDetails.push(val('sideSweepSide'));
+      if(val('sideSweepFlip')) sDetails.push(val('sideSweepFlip'));
+      if(val('sideSweepEnd')) sDetails.push(val('sideSweepEnd'));
+      if(val('sideSweepFinish')) sDetails.push(val('sideSweepFinish'));
+      if(sDetails.length) haircutText += ` (${sDetails.join(', ')})`;
+    }
   }
   const salonHairArch = detectHairArchitecture(values.salonHaircut, haircutText);
 
@@ -5232,7 +5258,7 @@ function buildSalonPrompt(){
   const isAiFace = refDirectives?.isAiFace;
 
   if(isAiFace){
-    lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · AUTHENTIC SALON & BARBERSHOP SCENE');
+    lines.push(`${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · AUTHENTIC SALON & BARBERSHOP SCENE`);
   } else if(isFemaleModelBarber){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT' : 'REFERENCE-GUIDED PORTRAIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT');
   } else {
@@ -5356,15 +5382,26 @@ function buildSalonPrompt(){
   };
 
   lines.push('CREATIVE INTENT');
+  let aiSalonMode = mode;
+  if(isAiFace){
+    aiSalonMode = mode.includes('Create a new photograph') || mode.includes('identity guidance')
+      ? 'Create a new photograph synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo'
+      : 'Edit the supplied reference image by synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo';
+  }
   if(isFemaleModelBarber){
-    lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture the female model as the skilled barber executing an authentic grooming service on a male client with realistic salon details.`);
+    lines.push(`${isAiFace ? aiSalonMode : mode}. ${outputText[outputType] || outputText.single} Capture the female model as the skilled barber executing an authentic grooming service on a male client with realistic salon details.`);
+  } else if(isAiFace){
+    lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene that strictly retains the full original look, hairstyle, styling, and atmosphere from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the client.`);
   } else {
     lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
   }
   lines.push('');
 
   lines.push('VENUE & ATMOSPHERE');
-  const venueText = sanitizeGrooming(sanitizeStool(S(val('salonVenue'))));
+  const isSalonRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+  const venueText = isSalonRefBg
+    ? window.AfterglowRefPicker.getInheritedFieldText('background')
+    : sanitizeGrooming(sanitizeStool(S(val('salonVenue'))));
   const designText = (val('salonDesign') && !val('salonDesign').startsWith('Preset Default') && !val('salonDesign').startsWith('harmonized with')) ? S(val('salonDesign')) : '';
   const staffText = isSoloClient
     ? 'Solo client seated comfortably alone at her styling station while her stylist has stepped away'
@@ -5374,11 +5411,15 @@ function buildSalonPrompt(){
   const timeText = S(val('salonTime'));
   const rawStationProps = val('salonStationProps') ? sanitizeStool(S(val('salonStationProps'))) : '';
 
-  let venueLine = `${venueText}.`;
-  if(designText) venueLine += ` Shop interior design: ${designText}.`;
-  venueLine += ` Barber staffing: ${staffText}. Crowd density: ${bustleText}. Time & ambient light: ${timeText}.`;
-  if(rawStationProps) venueLine += ` Station props: ${rawStationProps}.`;
-  lines.push(venueLine);
+  if(isSalonRefBg){
+    lines.push(`Venue & Atmosphere: ${venueText}`);
+  } else {
+    let venueLine = `${venueText}.`;
+    if(designText) venueLine += ` Shop interior design: ${designText}.`;
+    venueLine += ` Barber staffing: ${staffText}. Crowd density: ${bustleText}. Time & ambient light: ${timeText}.`;
+    if(rawStationProps) venueLine += ` Station props: ${rawStationProps}.`;
+    lines.push(venueLine);
+  }
   lines.push('');
 
   let rawCameraText = checkState.noMirror ? (SALON_CAMERA_MIRROR_FREE[val('salonCamera')] || sanitizeMirrorProse(val('salonCamera'))) : val('salonCamera');
@@ -5438,7 +5479,10 @@ function buildSalonPrompt(){
     } else {
       lines.push(`Haircut progress: ${stageText}.`);
     }
-    if(val('salonChairPose')){
+    const isSalonRefPose = window.AfterglowRefPicker?.isFeatureInherited('pose');
+    if(isSalonRefPose){
+      lines.push(`Client chair pose & body posture: ${window.AfterglowRefPicker.getInheritedFieldText('pose')}`);
+    } else if(val('salonChairPose')){
       lines.push(`Client chair pose & body posture: ${sanitizeHiddenFaceText(S(val('salonChairPose')), hideEyes, salonVeilTier)}.`);
     }
     if(cleanSalonExpr){
@@ -5489,7 +5533,15 @@ function buildSalonPrompt(){
     }
   } else {
     lines.push('HAIRSTYLE BEING CUT');
-    lines.push(`Haircut: ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
+    const isSalonRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+    const isSalonRefTexture = window.AfterglowRefPicker?.isFeatureInherited('hairTexture');
+    const effCutText = isSalonRefHaircut
+      ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
+      : haircutDisplay;
+    const effTexText = isSalonRefTexture
+      ? window.AfterglowRefPicker.getInheritedFieldText('hairTexture')
+      : hairTextureText;
+    lines.push(`Haircut: ${effCutText}. Hair texture: ${effTexText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}.`);
     if(moistureEnforceDirective) lines.push(moistureEnforceDirective);
     if(salonFaceCovVal && salonVeilTier !== 'auto'){
       const strictEnforce = salonVeilRuleObj?.strict || '';
@@ -5531,7 +5583,10 @@ function buildSalonPrompt(){
   lines.push(`Camera angle: ${cameraText}. Lighting: ${lightingText}. Quality: ${qualityText}.`);
   lines.push('');
   lines.push(isFemaleModelBarber ? 'MODEL BARBER WARDROBE & STYLING' : 'CLIENT UNDER-CAPE WARDROBE & STYLING');
-  if(wardrobeMode === 'separates'){
+  const isSalonRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  if(isSalonRefWardrobe){
+    lines.push(`Client under-cape wardrobe: ${window.AfterglowRefPicker.getInheritedFieldText('wardrobe')}`);
+  } else if(wardrobeMode === 'separates'){
     const topText = val('topPiece') || 'a minimalist white ribbed racerback crop tank top';
     const bottomText = val('bottomPiece') || 'high-waisted vintage wash denim cutoff shorts';
     const waistText = val('midriffStyling') || 'bare midriff with natural skin texture & subtle tone';
@@ -5550,11 +5605,13 @@ function buildSalonPrompt(){
       lines.push(`Client under-cape wardrobe: ${outfitText}. Garment fit: ${fitText}. Fabric drape visible beneath the draped cutting cape neckline and lap.`);
     }
   }
-  const salonMakeupVal = val('makeup');
-  const salonAccVal = val('accessories');
+  const isSalonRefMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup');
+  const isSalonRefAcc = window.AfterglowRefPicker?.isFeatureInherited('accessories');
+  const salonMakeupVal = isSalonRefMakeup ? window.AfterglowRefPicker.getInheritedFieldText('makeup') : val('makeup');
+  const salonAccVal = isSalonRefAcc ? window.AfterglowRefPicker.getInheritedFieldText('accessories') : val('accessories');
   if(salonMakeupVal || salonAccVal){
     const stylingBits = [];
-    if(salonMakeupVal) stylingBits.push(`Makeup: ${sanitizeMakeupForVeil(salonMakeupVal, salonVeilTier)}`);
+    if(salonMakeupVal) stylingBits.push(`Makeup: ${isSalonRefMakeup ? salonMakeupVal : sanitizeMakeupForVeil(salonMakeupVal, salonVeilTier)}`);
     if(salonAccVal) stylingBits.push(`Accessories: ${salonAccVal}`);
     lines.push(`Styling & details: ${stylingBits.join('. ')}.`);
   }
@@ -5727,7 +5784,9 @@ function buildSalonPrompt(){
 
   const salonChecks = [];
 
-  if(checkState.identity) {
+  if(isAiFace){
+    salonChecks.push('• AI-Generated Facial Synthesis: Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and authentic facial proportions; completely decoupled from reference facial identity.');
+  } else if(checkState.identity) {
     if(isFaceHidden){
       salonChecks.push('• Identity & Silhouette Preservation: Faithfully preserve the adult woman from the reference, maintaining her authentic Indian skin tone, body proportions, and hair fiber, while respecting that her face is turned sideways looking away and shielded from the lens.');
     } else if(isSalonFullVeil){
@@ -6113,7 +6172,7 @@ if(photoHairMoisture === 'wet'){
 
 let dynamicHeader = 'REFERENCE-IMAGE EDIT · BOLD POST-MAKEOVER PHOTOSHOOT';
 if(isPsAiFace){
-  dynamicHeader = 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · BOLD POST-MAKEOVER PHOTOSHOOT';
+  dynamicHeader = `${psRefDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · BOLD POST-MAKEOVER PHOTOSHOOT`;
 } else if(isFemaleGroomingMen){
   dynamicHeader = 'REFERENCE-IMAGE EDIT · FEMALE MODEL GROOMING & PAMPERING SHOOT';
 } else if(hasMalePresence){
@@ -6188,8 +6247,16 @@ if(hasMalePresence){
 }
 lines.push('');
 lines.push('CREATIVE INTENT');
+let aiPsMode = mode;
+if(isPsAiFace){
+  aiPsMode = mode.includes('Create a new photograph') || mode.includes('identity guidance')
+    ? 'Create a new photograph synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, wardrobe, and scene attributes from the reference photo'
+    : 'Edit the supplied reference image by synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, wardrobe, and scene attributes from the reference photo';
+}
 if(isFemaleGroomingMen){
-  lines.push(`${mode}. Capture the same adult woman as the active barber/grooming practitioner attending to a seated male client with artisan poise and authentic editorial realism (she is strictly the solitary woman in the frame). Overall attitude: ${val('mood')}.`);
+  lines.push(`${isPsAiFace ? aiPsMode : mode}. Capture the same adult woman as the active barber/grooming practitioner attending to a seated male client with artisan poise and authentic editorial realism (she is strictly the solitary woman in the frame). Overall attitude: ${val('mood')}.`);
+} else if(isPsAiFace){
+  lines.push(`${aiPsMode}. Capture a bold, confident, candid fashion photoshoot that strictly retains the full original look, hairstyle, wardrobe, pose, and aesthetic environment from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the subject. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
 } else {
   lines.push(`${mode}. Capture the same adult woman just after her makeover, during a bold, confident, candid fashion photoshoot. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
 }
@@ -6214,9 +6281,28 @@ if(hasMalePresence && (values.malePresence.text === 'crew_prep' || values.malePr
 lines.push(moVal + '.');
 lines.push('');
 lines.push('HAIR AND BEAUTY');
-const textureDirective = (preserveHairTexture || (values.hairTexture && values.hairTexture.label.includes('Preserve original')))
-  ? "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)"
-  : (val('hairTexture') || "natural hair texture with realistic strand separation");
+const isRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+const isRefHairTexture = window.AfterglowRefPicker?.isFeatureInherited('hairTexture');
+const isRefHairColor = window.AfterglowRefPicker?.isFeatureInherited('hairColor');
+const isRefMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup');
+const isRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+const isRefAccessories = window.AfterglowRefPicker?.isFeatureInherited('accessories');
+const isRefPose = window.AfterglowRefPicker?.isFeatureInherited('pose');
+const isRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+
+const textureDirective = isRefHairTexture
+  ? window.AfterglowRefPicker.getInheritedFieldText('hairTexture')
+  : ((preserveHairTexture || (values.hairTexture && values.hairTexture.label.includes('Preserve original')))
+      ? "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)"
+      : (val('hairTexture') || "natural hair texture with realistic strand separation"));
+
+const hairColorDirective = isRefHairColor
+  ? window.AfterglowRefPicker.getInheritedFieldText('hairColor')
+  : val('hairColor');
+
+const makeupDirective = isRefMakeup
+  ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
+  : (psMakeupSafe || val('makeup') || 'natural editorial makeup');
 
 const hasActiveHeavyVeil = ['25_30','40_45','50','65_70','80_85','95_100'].includes(psTier);
 
@@ -6225,8 +6311,10 @@ const psHairFinish = (photoHairMoisture === 'wet')
   ? (rawHairFinish.replace(/airy ends.*|soft polished blowout.*|freshly blown-out.*|subtle natural static flyaways/gi, 'high-gloss wet finish with clumped strand separation and natural liquid sheen') || 'high-gloss wet finish with clumped strand separation and natural liquid sheen')
   : rawHairFinish;
 
-if(styleRef && transferToggles && transferToggles.hair){
-  lines.push(`Hairstyle: ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''} Finished solo hairstyle with zero hairdresser, stylist, or hands touching her hair. Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${psHairFinish}. Makeup: ${psMakeupSafe}.`);
+if(isRefHaircut){
+  lines.push(`Hairstyle: ${window.AfterglowRefPicker.getInheritedFieldText('haircut')}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve reference haircut silhouette intact).' : ''} Hair texture: ${textureDirective}. Hair color: ${hairColorDirective}. Finish: ${psHairFinish}. Makeup: ${makeupDirective}.`);
+} else if(styleRef && transferToggles && transferToggles.hair){
+  lines.push(`Hairstyle: ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''} Finished solo hairstyle with zero hairdresser, stylist, or hands touching her hair. Hair texture: ${textureDirective}. Hair color: ${hairColorDirective}. Finish: ${psHairFinish}. Makeup: ${makeupDirective}.`);
 } else {
   const psHairDesc = sanitizeHairForVeil(psFullHairDesc, psTier);
   const psMoistureClause = (photoHairMoisture === 'wet')
@@ -6234,7 +6322,7 @@ if(styleRef && transferToggles && transferToggles.hair){
     : (photoHairMoisture === 'damp')
       ? ' Hair moisture: evenly spray-misted damp strands with fine droplets and cool sheen.'
       : (!psIsExplicitWetHair ? ' Hair moisture: completely dry, airy, blown-out strands with zero wet clumping.' : '');
-  const psHairLine = `Hairstyle: ${psHairDesc}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve back haircut length and silhouette intact).' : ''}${psMoistureClause} Hair texture: ${textureDirective}. Hair color: ${val('hairColor')}. Finish: ${psHairFinish}. Makeup: ${psMakeupSafe}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`;
+  const psHairLine = `Hairstyle: ${psHairDesc}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve back haircut length and silhouette intact).' : ''}${psMoistureClause} Hair texture: ${textureDirective}. Hair color: ${hairColorDirective}. Finish: ${psHairFinish}. Makeup: ${makeupDirective}. Make the haircut immediately readable, with a convincing silhouette, realistic strand separation, natural volume and movement.`;
   lines.push(psHairLine);
 }
 
@@ -6250,17 +6338,25 @@ if(psFaceCovVal && psTier !== 'auto' && (!(styleRef && transferToggles && transf
 }
 lines.push('');
 lines.push('WARDROBE AND STYLING');
-if(wardrobeMode === 'separates'){
+const accDirective = isRefAccessories
+  ? window.AfterglowRefPicker.getInheritedFieldText('accessories')
+  : val('accessories');
+
+if(isRefWardrobe){
+  lines.push(`Outfit: ${window.AfterglowRefPicker.getInheritedFieldText('wardrobe')} Accessories: ${accDirective}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
+} else if(wardrobeMode === 'separates'){
   const fitText = val('outfitFit');
-  const accText = val('accessories');
-  lines.push(`Outfit: ${outfitSummary}. Garment fit: ${fitText}. Accessories: ${accText}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction, midriff proportions, and fabric behavior.`);
+  lines.push(`Outfit: ${outfitSummary}. Garment fit: ${fitText}. Accessories: ${accDirective}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction, midriff proportions, and fabric behavior.`);
 } else {
-  lines.push(`Outfit: ${outfitSummary}. Garment fit: ${val('outfitFit')}. Accessories: ${val('accessories')}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
+  lines.push(`Outfit: ${outfitSummary}. Garment fit: ${val('outfitFit')}. Accessories: ${accDirective}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
 }
 lines.push('');
 const exprCleaned = sanitizeHiddenFaceText(S(val('expression')), hideEyes, psTier);
 const poseCleaned = sanitizeHiddenFaceText(S(val('pose')), hideEyes, psTier);
-if(hasMalePresence){
+if(isRefPose){
+  lines.push('POSE AND EXPRESSION');
+  lines.push(`Pose: ${window.AfterglowRefPicker.getInheritedFieldText('pose')}. Expression: ${isPsAiFace ? 'Natural, confident facial expression and realistic gaze.' : exprCleaned}. Hand / gesture detail: natural, relaxed hands with believable finger positions. Keep the body language open, believable and relaxed.`);
+} else if(hasMalePresence){
   if(isFemaleGroomingMen){
     lines.push('FEMALE MODEL PROTAGONIST & ACTIVE GROOMING ACTION');
     lines.push('• Active Practitioner Role: The adult woman from the reference image is the primary protagonist and active practitioner (grooming stylist / therapist) standing cleanly over or seated attentively beside her male partner.');
@@ -6310,17 +6406,21 @@ const cameraAnglePart = angleImpliedByFraming ? '' : ` Camera angle: ${angleText
 lines.push(`Framing: ${val('framing')}.${cameraAnglePart} Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements cleanly without awkward cropping or distorted perspective.`);
 lines.push('');
 lines.push('SCENE, LIGHT AND FINISH');
-let bgValText = val('background');
-let placeDetailText = val('placeDetail');
-if(checkState.noMirror && typeof sanitizeMirrorProse === 'function'){
-  bgValText = sanitizeMirrorProse(bgValText)
-    .replace(/tri-fold mirrors/gi, 'architectural folding screens')
-    .replace(/wall mirrors/gi, 'wall paneling')
-    .replace(/mirrors/gi, 'studio panels');
-  placeDetailText = sanitizeMirrorProse(placeDetailText);
+if(isRefBg){
+  lines.push(`Location: ${window.AfterglowRefPicker.getInheritedFieldText('background')} Lighting: ${val('lighting')}. Photography style: ${val('style')}. Color grade: ${val('grade')}. Image quality: ${val('quality')}. Aim for believable depth, balanced colors, coherent shadows, authentic photographic texture and realistic environment details.`);
+} else {
+  let bgValText = val('background');
+  let placeDetailText = val('placeDetail');
+  if(checkState.noMirror && typeof sanitizeMirrorProse === 'function'){
+    bgValText = sanitizeMirrorProse(bgValText)
+      .replace(/tri-fold mirrors/gi, 'architectural folding screens')
+      .replace(/wall mirrors/gi, 'wall paneling')
+      .replace(/mirrors/gi, 'studio panels');
+    placeDetailText = sanitizeMirrorProse(placeDetailText);
+  }
+  const locDetail = placeDetailText ? ` Setting detail: ${placeDetailText}.` : '';
+  lines.push(`Location: ${bgValText}.${locDetail} Lighting: ${val('lighting')}. Photography style: ${val('style')}. Color grade: ${val('grade')}. Image quality: ${val('quality')}. Aim for believable depth, balanced colors, coherent shadows, authentic photographic texture and realistic environment details.`);
 }
-const locDetail = placeDetailText ? ` Setting detail: ${placeDetailText}.` : '';
-lines.push(`Location: ${bgValText}.${locDetail} Lighting: ${val('lighting')}. Photography style: ${val('style')}. Color grade: ${val('grade')}. Image quality: ${val('quality')}. Aim for believable depth, balanced colors, coherent shadows, authentic photographic texture and realistic environment details.`);
 lines.push('');
 const HAIR_MICRO_FIELD_IDS = new Set([
   'fringe', 'parting', 'hairVolume', 'hairAccessories', 'hairTexture', 'hairLength',
@@ -6333,6 +6433,11 @@ const extraLines=detail==='compact'?[]:Object.entries(extraFields).filter(([id])
   if(hasMalePresence && (id === 'stance' || id === 'gesture' || id === 'motion')) return false;
   if(isTightFraming && id === 'footwear') return false;
   if(hideEyes && (id === 'eyewear' || id === 'eyeLook' || id === 'gaze' || id === 'browStyle')) return false;
+  if(isRefWardrobe && (id === 'outfitFit' || id === 'fabric' || id === 'neckline' || id === 'sleeves' || id === 'layering' || id === 'palette')) return false;
+  if(isRefAccessories && (id === 'accessories' || id === 'eyewear' || id === 'bag' || id === 'footwear' || id === 'nailStyle' || id === 'hairAccessories')) return false;
+  if(isRefMakeup && (id === 'makeup' || id === 'lipLook' || id === 'eyeLook' || id === 'browStyle' || id === 'complexion')) return false;
+  if(isRefPose && (id === 'pose' || id === 'stance' || id === 'gesture' || id === 'motion')) return false;
+  if(isRefBg && (id === 'background' || id === 'placeDetail' || id === 'sceneCategory')) return false;
   return val(id);
 }).map(([id,f])=>`${f.label}: ${sanitizeHiddenFaceText(S(val(id)), hideEyes, psTier)}.`);
 if(extraLines.length){

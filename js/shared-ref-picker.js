@@ -187,6 +187,14 @@
 
   function applyPreset(presetKey) {
     switch(presetKey) {
+      case 'original_look_fresh_face':
+        state.faceMode = 'ai_generated';
+        Object.keys(state.features).forEach(k => { state.features[k] = true; });
+        break;
+      case 'retain_full_reference':
+        state.faceMode = 'reference';
+        Object.keys(state.features).forEach(k => { state.features[k] = true; });
+        break;
       case 'keep_hair':
         state.faceMode = 'reference';
         Object.keys(state.features).forEach(k => { state.features[k] = (k === 'haircut'); });
@@ -247,6 +255,44 @@
     } catch (e) {}
   }
 
+  function isFieldInherited(fieldId) {
+    const feat = getFeatureForField(fieldId);
+    return feat ? !!state.features[feat] : false;
+  }
+
+  function getInheritedFieldText(keyOrField, defaultVal) {
+    let feat = keyOrField;
+    if (!(feat in FEATURES)) {
+      feat = getFeatureForField(keyOrField);
+    }
+    if (!feat || !state.features[feat]) {
+      return defaultVal !== undefined ? defaultVal : '';
+    }
+    const isAi = (state.faceMode === 'ai_generated');
+    switch (feat) {
+      case 'haircut':
+        return isAi
+          ? 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo onto this new face (strictly do not substitute with custom haircuts).'
+          : 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo (strictly do not substitute with custom haircuts).';
+      case 'hairTexture':
+        return 'Faithfully retain the authentic natural hair strand texture, thickness, follicle density, and organic wave/curl pattern directly from the reference photo.';
+      case 'hairColor':
+        return 'Match the exact original hair color, undertones, and highlights from the reference photo.';
+      case 'wardrobe':
+        return 'Faithfully retain and replicate the exact original wardrobe, garments, tailoring, fabric weave, and color scheme worn in the reference photo (strictly do not substitute with custom garments).';
+      case 'makeup':
+        return 'Faithfully retain the exact original makeup styling, lip shade, eyeliner, and cosmetic skin finish from the reference photo.';
+      case 'accessories':
+        return 'Faithfully retain all signature jewelry, piercings, earrings, and accessories visible in the reference photo.';
+      case 'pose':
+        return 'Faithfully mirror the subject\'s exact original body pose, shoulder orientation, head angle, and stance from the reference photo.';
+      case 'background':
+        return 'Faithfully maintain the exact original background environment, room setting, and architectural ambiance from the reference photo.';
+      default:
+        return defaultVal !== undefined ? defaultVal : '';
+    }
+  }
+
   // Generate prompt directives
   function getPromptDirectives(opts = {}) {
     const isAiFace = (state.faceMode === 'ai_generated');
@@ -258,11 +304,17 @@
     // Header prefix
     let headerPrefix = '';
     if (isAiFace) {
-      headerPrefix = hasAnyFeature
-        ? 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'
-        : 'AI-GENERATED FACE & AUTONOMOUS STYLING';
+      if (activeFeats.length === 8) {
+        headerPrefix = 'AI-GENERATED FACE WITH FULL REFERENCE LOOK RETENTION';
+      } else if (hasAnyFeature) {
+        headerPrefix = 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER';
+      } else {
+        headerPrefix = 'AI-GENERATED FACE & AUTONOMOUS STYLING';
+      }
     } else {
-      headerPrefix = 'REFERENCE-IMAGE GUIDED PORTRAIT';
+      headerPrefix = (activeFeats.length === 8)
+        ? 'FULL REFERENCE LOOK & IDENTITY GUIDED PORTRAIT'
+        : 'REFERENCE-IMAGE GUIDED PORTRAIT';
     }
 
     const primaryBullets = [];
@@ -274,7 +326,11 @@
       );
       negativeAdditions.push('cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face');
 
-      if (hasAnyFeature) {
+      if (activeFeats.length === 8) {
+        primaryBullets.push(
+          '• Master Synthesis Directive (Retain Original Look + Fresh AI Face): Strictly retain the complete original look—exact hairstyle, hair texture, hair color, wardrobe garments, makeup, jewelry, body pose, and background environment—from the reference photo, but synthesize a completely fresh, photorealistic adult woman\'s face with unique facial features, authentic skin pores, and realistic bone structure that does not clone the reference face.'
+        );
+      } else if (hasAnyFeature) {
         primaryBullets.push(
           '• Selective Reference Attributes Applied: Transfer and apply ONLY the specified reference attributes below onto this newly generated face. All non-selected attributes must follow the custom studio specifications below.'
         );
@@ -355,7 +411,9 @@
       headerPrefix,
       primaryBullets,
       negativeAdditions,
-      isLocked: isFieldLocked
+      isLocked: isFieldLocked,
+      isFieldInherited,
+      getFieldText: getInheritedFieldText
     };
   }
 
@@ -385,7 +443,7 @@
           <div class="ref-section-row">
             <div class="ref-row-label">
               <strong>1. Face Identity Direction</strong>
-              <small>${isAi ? 'AI invents a fresh realistic face; only selected reference items are applied onto it.' : 'Strictly retains the exact facial structure & identity of the woman in the reference photo.'}</small>
+              <small>${isAi ? '✨ AI generates a fresh, unique face on the model. Her outfit, hair, pose, and setting will be preserved from your reference photo per the chips selected below.' : '👤 Retains the actual face and identity of the woman from your reference photo.'}</small>
             </div>
             <div class="seg-control ref-face-seg">
               <button type="button" class="seg-btn ${!isAi ? 'active' : ''}" data-face="reference">👤 Retain Reference Face</button>
@@ -415,6 +473,8 @@
           <div class="ref-presets-row">
             <span class="ref-presets-label">Quick Presets:</span>
             <div class="ref-presets-buttons">
+              <button type="button" class="ref-preset-btn" data-preset="original_look_fresh_face">✨ Original Look + Fresh AI Face</button>
+              <button type="button" class="ref-preset-btn" data-preset="retain_full_reference">📷 Full Original Look + Ref Face</button>
               <button type="button" class="ref-preset-btn" data-preset="reset">✦ Default (Face only)</button>
               <button type="button" class="ref-preset-btn" data-preset="keep_hair">💇‍♀️ Keep Hair</button>
               <button type="button" class="ref-preset-btn" data-preset="keep_clothes">👗 Keep Clothes</button>
@@ -472,6 +532,8 @@
     toggleFeature,
     getFeatureForField,
     isFieldLocked,
+    isFieldInherited,
+    getInheritedFieldText,
     resetAll,
     applyPreset,
     save,
