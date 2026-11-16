@@ -1230,7 +1230,7 @@ function renderFields(){
         <div class="field-card" style="margin-top:16px; padding:16px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:12px;">
           <h3 style="font-size:14px; margin:0 0 12px 0; color:#f1f5f9;">Technical & Realism Preservations</h3>
           <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;">
-            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkId" ${checkState.identity ? 'checked' : ''}> Preserve Reference Model Identity</label>
+            <label class="toggle-pill" style="display:${window.AfterglowRefPicker?.getFaceMode() === 'ai_generated' ? 'none' : 'flex'}; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkId" ${checkState.identity ? 'checked' : ''}> Preserve Reference Model Identity</label>
             <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkPores" ${checkState.skin ? 'checked' : ''}> Authentic Skin Pores & Micro-Texture</label>
             <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoAirbrush" ${checkState.retouch ? 'checked' : ''}> Zero Airbrushing or Plastic Skin</label>
             <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkAnatomy" ${checkState.body ? 'checked' : ''}> Natural Anatomical Curvature</label>

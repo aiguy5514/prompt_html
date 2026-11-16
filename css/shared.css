@@ -671,4 +671,142 @@
   color: #fca5a5;
 }
 
+/* Fresh AI Face Architecture & Divergence Controls */
+.ref-archetype-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.32);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 10px;
+}
+
+.ref-archetype-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ref-archetype-head strong {
+  font-size: 11.5px;
+  color: #f3e8ff;
+}
+
+.ref-archetype-head small {
+  font-size: 10px;
+  color: #c084fc;
+}
+
+.ref-archetype-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ref-archetype-btn {
+  padding: 5px 10px;
+  font-size: 11px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ref-archetype-btn:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.5);
+  color: #fff;
+}
+
+.ref-archetype-btn.active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.45), rgba(236, 72, 153, 0.45));
+  border-color: #d8b4fe;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+}
+
+.ref-divergence-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.ref-divergence-label {
+  font-size: 10.5px;
+  color: #ccc;
+  font-weight: 600;
+}
+
+.ref-divergence-seg {
+  display: inline-flex;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 2px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ref-divergence-btn {
+  padding: 3px 8px;
+  font-size: 10px;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ref-divergence-btn:hover {
+  color: #fff;
+}
+
+.ref-divergence-btn.active {
+  background: #a855f7;
+  color: #fff;
+  font-weight: 700;
+}
+
+.ref-custom-input {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.ref-custom-input:focus {
+  outline: none;
+  border-color: #a855f7;
+}
+
+.ref-tip-box {
+  font-size: 10px;
+  color: #d1d5db;
+  background: rgba(30, 27, 46, 0.85);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 7px;
+  padding: 6px 10px;
+  line-height: 1.4;
+}
+
+.ref-tip-box strong {
+  color: #f3e8ff;
+}
+
+
 

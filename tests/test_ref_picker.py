@@ -160,7 +160,11 @@ def test_static_markup():
         '.ref-preset-btn',
         '.field.ref-locked',
         '.ref-locked-badge',
-        '.btn-ref-unlock'
+        '.btn-ref-unlock',
+        '.ref-archetype-box',
+        '.ref-archetype-grid',
+        '.ref-archetype-btn',
+        '.ref-tip-box'
     ]
     for c in css_classes:
         has_cls = c in css
@@ -228,6 +232,19 @@ def run_all_studio_tests(browser):
       ok('full_look_no_builder_hair_collision', !pFull.includes('shoulder-length bob with soft wispy bangs'));
       ok('full_look_no_builder_studio_collision', !pFull.includes('clean, seamless white studio'));
       ok('full_look_no_creative_intent_contradiction', !pFull.includes('preserving the same adult woman'));
+      ok('full_look_radical_face_replacement', pFull.includes('COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON)'));
+      ok('full_look_discard_reference_face', pFull.includes('100% DISCARD, OVERWRITE, and REPLACE the facial identity'));
+      ok('full_look_archetype_tokens', pFull.includes('distinct high-fashion bone structure with defined cheekbones'));
+      ok('full_look_anti_resemblance_negs', pFull.includes('same person as reference image') && pFull.includes('reference model likeness') && pFull.includes('identical facial features'));
+      ok('full_look_decoupled_makeup', pFull.includes("without copying the reference subject's lips or facial structure"));
+      ok('full_look_decoupled_accessories', pFull.includes("fitted naturally onto this new model"));
+
+      // Test archetype switching
+      rp.setFaceArchetype('chiseled');
+      api.buildPrompt();
+      const pChiseled = document.getElementById('prompt').value;
+      ok('archetype_chiseled_tokens_emitted', pChiseled.includes('chiseled architectural bone structure with sharp prominent high cheekbones'));
+      rp.setFaceArchetype('auto');
 
       // Test 1-click unlock
       rp.setFeature('haircut', false);

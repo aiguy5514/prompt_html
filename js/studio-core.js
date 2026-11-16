@@ -3503,7 +3503,11 @@ custom.querySelectorAll('.choice').forEach(b=>{
 }
 
 function finishMarkup(){
-const visibleChecks=finishChecks.filter(c=>currentStudioMode==='photoshoot'||c.id!=='soloSubject');
+const visibleChecks=finishChecks.filter(c => {
+  if (currentStudioMode !== 'photoshoot' && c.id === 'soloSubject') return false;
+  if (window.AfterglowRefPicker?.getFaceMode() === 'ai_generated' && c.id === 'identity') return false;
+  return true;
+});
 const showCollageDirector = (currentStudioMode === 'salon' && outputType === 'collage');
 return `<div class="field-grid" style="margin-top:22px"><div class="field full"><div class="label-row"><label for="customDirection">Your own creative direction</label><span class="option-count">Optional</span></div><textarea id="customDirection" placeholder="Add details: hairstyle length, jewelry to retain, room details, exact outfit color, pose adjustments…"></textarea><p class="help">This text is added to the generated prompt as your custom instructions.</p></div><div class="field full"><div class="label-row"><label for="negative">Extra exclusions / negative prompt</label><span class="option-count">Optional</span></div><textarea id="negative" placeholder="e.g. no mirror, no blurry face, no extra fingers, no artificial hair…"></textarea><p class="help">Additional things the image model should avoid.</p></div><div class="field full"><label>Identity, realism and output safeguards</label><div class="checks" id="finishChecks">${visibleChecks.map(c=>`<label class="check"><input type="checkbox" data-check="${c.id}" ${checkState[c.id]?'checked':''}><span>${c.label}<small>${c.detail}</small></span></label>`).join('')}</div></div><div class="field"><div class="label-row"><label for="numImages">Output format</label></div><div class="select-wrap"><select id="numImages"><option value="single">One final image</option>${currentStudioMode === 'salon' ? '<option value="collage">One 2×2 collage · 4 haircut stages</option>' : '<option value="collage">One 2×2 collage · 4 poses</option>'}<option value="set">Four separate images</option><option value="triptych">Three-panel editorial triptych</option><option value="contact">Six-frame contact sheet</option></select></div></div><div class="field"><div class="label-row"><label for="detailLevel">Prompt detail</label></div><div class="select-wrap"><select id="detailLevel"><option value="full">Highly detailed</option><option value="balanced">Balanced detail</option><option value="compact">Compact prompt</option></select></div></div><div class="collage-director-wrap full" id="finishCollageDirectorWrap" style="${showCollageDirector?'':'display:none;'}"></div></div>`;
 }
@@ -5385,8 +5389,8 @@ function buildSalonPrompt(){
   let aiSalonMode = mode;
   if(isAiFace){
     aiSalonMode = mode.includes('Create a new photograph') || mode.includes('identity guidance')
-      ? 'Create a new photograph synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo'
-      : 'Edit the supplied reference image by synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo';
+      ? 'Create a new photograph featuring a completely different adult woman with a newly synthesized face. Discard the reference face completely, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo'
+      : 'Face Replacement & Styling Transfer: Create an authentic salon scene featuring a completely different adult woman with a newly synthesized face. Discard the reference face completely, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo';
   }
   if(isFemaleModelBarber){
     lines.push(`${isAiFace ? aiSalonMode : mode}. ${outputText[outputType] || outputText.single} Capture the female model as the skilled barber executing an authentic grooming service on a male client with realistic salon details.`);
@@ -6250,8 +6254,8 @@ lines.push('CREATIVE INTENT');
 let aiPsMode = mode;
 if(isPsAiFace){
   aiPsMode = mode.includes('Create a new photograph') || mode.includes('identity guidance')
-    ? 'Create a new photograph synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, wardrobe, and scene attributes from the reference photo'
-    : 'Edit the supplied reference image by synthesizing a fresh, photorealistic, unique face autonomously on the subject, while faithfully retaining all selected styling, wardrobe, and scene attributes from the reference photo';
+    ? 'Create a new photograph featuring a completely different adult woman with a newly synthesized face. Discard the reference face completely, while faithfully retaining all selected styling, wardrobe, and scene attributes from the reference photo'
+    : 'Face Replacement & Styling Transfer: Create a bold, candid fashion photoshoot featuring a completely different adult woman with a newly synthesized face. Discard the facial identity from the reference photo completely, while strictly retaining all selected styling, wardrobe, and scene attributes from the reference photo';
 }
 if(isFemaleGroomingMen){
   lines.push(`${isPsAiFace ? aiPsMode : mode}. Capture the same adult woman as the active barber/grooming practitioner attending to a seated male client with artisan poise and authentic editorial realism (she is strictly the solitary woman in the frame). Overall attitude: ${val('mood')}.`);
