@@ -529,7 +529,7 @@
         }
 
         primaryBullets.push(
-          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): The subject is an entirely autonomous adult woman with her own unique, photorealistic facial architecture. Synthesize a fresh face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits}${intensityClause} Autonomous Individual Model: She possesses completely independent facial anatomy and distinct facial bone structure.`
+          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): The subject is an entirely autonomous adult woman with her own unique, photorealistic facial architecture. Synthesize a completely fresh face from scratch with natural skin pores, realistic facial asymmetry, authentic skin texture with visible dermis detail, and a fully independent biological appearance featuring ${arch.tokens}.${customTraits}${intensityClause} Autonomous Individual Model: She possesses completely independent facial anatomy and distinct facial bone structure.`
         );
         negativeAdditions.push(
           'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy'

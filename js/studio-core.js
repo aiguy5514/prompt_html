@@ -6370,7 +6370,10 @@ const psHairFinish = (photoHairMoisture === 'wet')
   : rawHairFinish;
 
 if(isRefHaircut){
-  lines.push(`Hairstyle: ${window.AfterglowRefPicker.getInheritedFieldText('haircut')}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve reference haircut silhouette intact).' : ''} Hair texture: ${textureDirective}. Hair color: ${hairColorDirective}. Finish: ${psHairFinish}. Makeup: ${makeupDirective}.`);
+  const hcBase = window.AfterglowRefPicker.getInheritedFieldText('haircut').replace(/\.+$/, '');
+  const texBase = textureDirective.replace(/\.+$/, '');
+  const colBase = hairColorDirective.replace(/\.+$/, '');
+  lines.push(`Hairstyle: ${hcBase}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + ' (preserve reference haircut silhouette intact).' : ''} Hair texture: ${texBase}. Hair color: ${colBase}. Finish: ${psHairFinish}. Makeup: ${makeupDirective}.`);
 } else if(styleRef && transferToggles && transferToggles.hair){
   lines.push(`Hairstyle: ${hairBlueprint}.${psFaceCovVal ? ' Face-behind-hair veil: ' + psFaceCovVal + '.' : ''} Finished solo hairstyle with zero hairdresser, stylist, or hands touching her hair. Hair texture: ${textureDirective}. Hair color: ${hairColorDirective}. Finish: ${psHairFinish}. Makeup: ${makeupDirective}.`);
 } else {
