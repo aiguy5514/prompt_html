@@ -4488,9 +4488,12 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
     : sanitizeHairForVeil(S(getEffectiveHairstyle()), veilTier);
   const faceCovVal = val('hairFaceCoverage') || '';
+  const rawHairCol = val('hairColor');
   const hairCol = window.AfterglowRefPicker?.isFeatureInherited('hairColor')
     ? window.AfterglowRefPicker.getInheritedFieldText('hairColor')
-    : val('hairColor');
+    : (isAiFace && /reference/i.test(rawHairCol)
+        ? 'natural rich dark hair color with realistic depth and healthy shine'
+        : rawHairCol);
   const hairFin = val('hairFinish');
   const moistClause = (photoHairMoisture === 'wet')
     ? ' Hair moisture: thoroughly water-soaked drenched wet ribbons with glistening aquatic sheen.'
@@ -6345,9 +6348,12 @@ const textureDirective = isRefHairTexture
       ? "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)"
       : (val('hairTexture') || "natural hair texture with realistic strand separation"));
 
+const rawHairColorVal = val('hairColor');
 const hairColorDirective = isRefHairColor
   ? window.AfterglowRefPicker.getInheritedFieldText('hairColor')
-  : val('hairColor');
+  : (isPsAiFace && /reference/i.test(rawHairColorVal)
+      ? 'natural rich dark hair color with realistic depth, dimensional undertones, and healthy shine'
+      : rawHairColorVal);
 
 const rawMakeupVal = psMakeupSafe || val('makeup') || 'natural editorial makeup';
 const makeupDirective = isRefMakeup

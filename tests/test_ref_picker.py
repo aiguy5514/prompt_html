@@ -221,7 +221,7 @@ def run_all_studio_tests(browser):
       const pAi = document.getElementById('prompt').value;
       ok('ai_face_header_present', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · BOLD POST-MAKEOVER PHOTOSHOOT'));
       ok('ai_face_subject_bullet_present', pAi.includes('Synthesize a fresh, photorealistic, unique face autonomously'));
-      ok('ai_face_negatives_present', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('ai_face_negatives_present', pAi.includes('cloned face') || pAi.includes('duplicate face'));
       ok('identity_drift_removed_from_negs', !pAi.includes('• identity drift or a different face'));
 
       // Test Retain Original Look + Fresh AI Face (all 8 features active)
@@ -238,7 +238,7 @@ def run_all_studio_tests(browser):
       ok('full_look_radical_face_replacement', pFull.includes('FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY)'));
       ok('full_look_discard_reference_face', pFull.includes('unique, photorealistic facial architecture') && pFull.includes('completely independent facial anatomy'));
       ok('full_look_archetype_tokens', pFull.includes('distinct high-fashion bone structure with defined cheekbones'));
-      ok('full_look_anti_resemblance_negs', pFull.includes('same person as reference image') && pFull.includes('reference model likeness') && pFull.includes('identical facial features'));
+      ok('full_look_anti_resemblance_negs', pFull.includes('cloned face') && pFull.includes('duplicate face') && pFull.includes('twin likeness'));
       ok('full_look_decoupled_makeup', pFull.includes("without copying the reference subject's lips"));
       ok('full_look_decoupled_accessories', pFull.includes("fitted naturally onto this new model"));
       ok('full_look_skin_tone_decoupled', !pFull.includes('Keep skin tone consistent with the reference image') && pFull.includes('rendered on this newly synthesized model'));
@@ -257,7 +257,7 @@ def run_all_studio_tests(browser):
       ok('synthesis_mode_sibling_directive', pSibling.includes('MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE)'));
       ok('synthesis_mode_sibling_header', pSibling.includes('AI SIBLING VARIATION FACE WITH FULL REFERENCE LOOK RETENTION'));
       ok('synthesis_mode_sibling_alter_jaw', pSibling.includes('alter the jawline width and chin contour, reshape the eye contour'));
-      ok('synthesis_mode_sibling_anti_clone_neg', pSibling.includes('same woman as reference photo') && pSibling.includes('duplicate reference face'));
+      ok('synthesis_mode_sibling_anti_clone_neg', pSibling.includes('cloned face') && pSibling.includes('twin likeness'));
 
       // Test Sibling with Dramatic Intensity
       rp.setDivergenceIntensity('dramatic');
@@ -274,7 +274,7 @@ def run_all_studio_tests(browser):
       ok('synthesis_mode_reimagined_header', pReimagined.includes('AI RE-IMAGINED EDITORIAL FACE WITH FULL REFERENCE LOOK RETENTION'));
       ok('synthesis_mode_reimagined_cheekbones', pReimagined.includes('carve razor-sharp, prominent high cheekbones with sculpted hollows'));
       ok('synthesis_mode_reimagined_no_preserve_eyes', !pReimagined.toLowerCase().includes('preserve her eye shape'));
-      ok('synthesis_mode_reimagined_anti_casual_neg', pReimagined.includes('unmodified reference face') && pReimagined.includes('casual snapshot face'));
+      ok('synthesis_mode_reimagined_anti_casual_neg', pReimagined.includes('casual snapshot face'));
 
       // Test Editorial with Dramatic Intensity
       rp.setDivergenceIntensity('dramatic');
@@ -301,7 +301,7 @@ def run_all_studio_tests(browser):
       const pUserConfig = document.getElementById('prompt').value;
 
       ok('unrelated_dramatic_mandate', pUserConfig.includes('Mandatory dramatic face swap: total anatomical decoupling'));
-      ok('unrelated_anti_bleed_negs', pUserConfig.includes('reference face bleed') && pUserConfig.includes('identical facial bone structure'));
+      ok('unrelated_anti_bleed_negs', pUserConfig.includes('identical facial structure') && pUserConfig.includes('duplicate facial geometry'));
       ok('unrelated_no_ref_makeup_leak', !pUserConfig.includes('makeup consistent with the reference image'));
       ok('unrelated_no_ref_acc_leak', !pUserConfig.includes('retain any signature jewelry or nose ring visible in the reference'));
       ok('unrelated_no_checklist_acc_leak', !pUserConfig.includes('Retain signature reference accessories when visible and requested'));
@@ -310,7 +310,19 @@ def run_all_studio_tests(browser):
       ok('unrelated_has_neutral_acc', pUserConfig.includes("tasteful contemporary accessories chosen to complement the outfit (strictly zero reference jewelry or nose ring)"));
       ok('unrelated_has_selective_intent', pUserConfig.includes("transferring strictly her selected reference elements [Hairstyle & Cut, Hair Texture, Hair Color, Pose & Stance]"));
       ok('unrelated_skin_tone_decoupled', !pUserConfig.includes('Keep skin tone consistent with the reference image') && pUserConfig.includes('rendered on this newly synthesized model'));
-      ok('unrelated_seed_stabilization_negs', pUserConfig.includes('subtle reference facial resemblance') && pUserConfig.includes('accidental reference twin') && pUserConfig.includes('latent face bleeding'));
+      ok('unrelated_seed_stabilization_negs', pUserConfig.includes('cloned face') && pUserConfig.includes('artificial face twin') && pUserConfig.includes('digital face swap mask'));
+
+      // Test User Scenario 2: Soft Oval + Dramatic + Unchecked Hair Color
+      rp.setFaceArchetype('soft_oval');
+      rp.setFeature('hairColor', false);
+      api.buildPrompt();
+      const pSoftOval = document.getElementById('prompt').value;
+      ok('soft_oval_dramatic_harmonious', pSoftOval.includes('unmistakably distinct soft oval silhouette') && !pSoftOval.includes('sharply sculpted mandibular angle'));
+      ok('hair_color_unchecked_no_leak', !pSoftOval.includes('the original hair color from the reference image') && pSoftOval.includes('natural rich dark hair color'));
+      const negBlock = pSoftOval.split('AVOID / NEGATIVE GUIDANCE')[1] || '';
+      ok('zero_reference_photo_in_negatives', !negBlock.includes('reference photo') && !negBlock.includes('reference image'));
+      rp.setFaceArchetype('auto');
+      rp.setFeature('hairColor', true);
 
       // Test Lookbook Mode Neutralization
       const btnLookbook = document.getElementById('btnLookbookMode');
@@ -362,7 +374,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('salon_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · AUTHENTIC SALON & BARBERSHOP SCENE'));
-      ok('salon_ai_face_anti_clone_neg', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('salon_ai_face_anti_clone_neg', pAi.includes('cloned face') || pAi.includes('duplicate face'));
       ok('salon_ai_face_skin_tone_decoupled', !pAi.includes('Consistent with the reference image') && pAi.includes('rendered on this newly synthesized model'));
 
       // Test Retain Original Look + Fresh AI Face in salon
@@ -403,7 +415,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('tattoo_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · FINE-LINE TATTOO BEAUTY EDITORIAL'));
-      ok('tattoo_ai_face_negatives', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('tattoo_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face'));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');
@@ -435,7 +447,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('prep_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · MAKEUP CHAIR & FACIAL SPA PREP'));
-      ok('prep_ai_face_negatives', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('prep_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face'));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');
@@ -467,7 +479,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('vid_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · CINEMA MOTION DIRECTOR'));
-      ok('vid_ai_face_negatives', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('vid_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face'));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');
@@ -496,7 +508,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('sb_ai_face_grid_title', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER — UNIFIED'));
-      ok('sb_ai_face_negatives', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('sb_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face'));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');
@@ -529,7 +541,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('romance_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · ROMANTIC & COUPLE EDITORIAL'));
-      ok('romance_ai_face_negatives', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('romance_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face'));
 
       // Test reel mode with AI face
       api.setReelMode(true);

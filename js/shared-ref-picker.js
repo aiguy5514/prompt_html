@@ -482,7 +482,7 @@
           `• MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE): The subject is her biological sister, NOT the same woman. While sharing her natural Indian heritage, eye coloration, and warm skin undertones, you MUST visibly and noticeably differentiate her facial anatomy: alter the jawline width and chin contour, reshape the eye contour and eyelid fold, sculpt a noticeably different nasal bridge and tip, and modify the lip fullness featuring ${arch.tokens}.${customTraits}${intensityClause}`
         );
         negativeAdditions.push(
-          'same woman as reference photo, duplicate reference face, identical face structure, 100% clone, identical twin copy, photo duplicate, unmodified reference face, facial identity clone, twin likeness, identical eye shape, identical nose bridge, identical jawline, identical facial proportions, copied reference facial geometry, digital clone of reference photo, unmodified reference photo cutout, subtle reference facial resemblance, partial reference likeness, accidental reference twin'
+          'cloned face, duplicate face, identical face structure, 100% clone, identical twin copy, facial identity clone, twin likeness, duplicate facial geometry, digital clone face, twin copy, identical eye shape, identical nose bridge, identical jawline, identical facial proportions'
         );
       } else if (state.faceSynthesisMode === 'reimagined') {
         // Editorial Re-imagination: Haute couture runway remodeling & sculpted elevation (zero "preserve eye shape" blockers)
@@ -494,19 +494,45 @@
           `• HAUTE COUTURE EDITORIAL FACIAL RE-SCULPTING & STRUCTURAL REMODELING: Drastically elevate and structurally remodel the reference facial architecture into a world-class high-fashion runway supermodel. Transform the underlying bone structure: carve razor-sharp, prominent high cheekbones with sculpted hollows, chisel the jawline into a sleek, razor-defined editorial contour, reshape the eyes into an elongated, piercing editorial gaze with lifted outer corners, and sculpt an architectural slender nasal bridge featuring ${arch.tokens}.${customTraits}${intensityClause}`
         );
         negativeAdditions.push(
-          'unmodified reference face, casual snapshot face, soft un-sculpted jawline, plain casual bone structure, un-chiseled face, identical casual reference face, duplicate reference photo face, un-elevated facial features, snapshot facial structure, rounded un-sculpted cheeks, unmodified reference jaw, plain un-sculpted face, distorted facial morphing, unnatural CGI smoothness, waxy plastic skin, warped facial features, unflattering facial distortion, digital doll face'
+          'casual snapshot face, soft un-sculpted jawline, plain casual bone structure, un-chiseled face, un-elevated facial features, snapshot facial structure, rounded un-sculpted cheeks, plain un-sculpted face, distorted facial morphing, unnatural CGI smoothness, waxy plastic skin, warped facial features, unflattering facial distortion, digital doll face'
         );
       } else {
         // Unrelated Person (Default): 100% Face Swap, affirmative independent anatomy
-        const intensityClause = isDramatic
-          ? ' Mandatory dramatic face swap: total anatomical decoupling with pronounced facial plane contrast, sculpted high-set zygomatic arches, wide-set luminous eyes with distinct orbital depth, custom contoured nasal bridge with refined tip definition, and a sharply sculpted mandibular angle with a tapered chin (autonomous facial geometry that actively prevents reference face convergence across all seeds).'
-          : ' Render distinct, natural facial geometry with an independently proportioned jawline, custom eyelid contour, and unique facial symmetry.';
+        let intensityClause = '';
+        if (isDramatic) {
+          switch (state.faceArchetype) {
+            case 'soft_oval':
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring an unmistakably distinct soft oval silhouette, deeply luminous warm almond eyes, gentle rounded jaw contours, and unique individual facial symmetry (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              break;
+            case 'round':
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring distinctly soft rounded facial contours, gently curved jawline, large expressive bright rounded eyes, and natural full lips (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              break;
+            case 'heart':
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a delicate tapered chin, high arched brows, radiant expressive wide eyes, and softly defined cheekbones (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              break;
+            case 'square':
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a bold high-fashion square jawline with clean angular bone structure, piercing editorial gaze, and sculpted cheek contours (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              break;
+            case 'diamond':
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring wide prominent cheekbones, narrow refined temple planes, and a sharp tapered chin (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              break;
+            case 'chiseled':
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring extreme high-fashion bone architecture with sharp prominent cheekbones, razor-sharp jawline definition, and piercing wide-set eyes (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              break;
+            case 'auto':
+            default:
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling with pronounced facial plane contrast, sculpted high-fashion cheekbones, wide-set luminous almond eyes with distinct orbital depth, a slender sculpted nasal bridge, and an elegant tapered jawline (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              break;
+          }
+        } else {
+          intensityClause = ' Render distinct, natural facial geometry with an independently proportioned jawline, custom eyelid contour, and unique facial symmetry.';
+        }
 
         primaryBullets.push(
           `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): The subject is an entirely autonomous adult woman with her own unique, photorealistic facial architecture. Synthesize a fresh face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits}${intensityClause} Autonomous Individual Model: She possesses completely independent facial anatomy and distinct facial bone structure.`
         );
         negativeAdditions.push(
-          'same woman as reference photo, cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate, reference face bleed, identical facial bone structure, copied reference nose, copied reference eyes, copied reference lips, duplicate identity, subtle reference facial resemblance, partial reference likeness, accidental reference twin, recognizable reference facial structure, latent face bleeding, reference face leak, identical eye spacing, identical nose shape, duplicate reference facial features'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy'
         );
       }
 
