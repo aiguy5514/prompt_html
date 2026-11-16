@@ -151,8 +151,8 @@
   // Global state
   const state = {
     faceMode: 'reference', // 'reference' | 'ai_generated'
+    faceSynthesisMode: 'unrelated', // 'unrelated' | 'sibling' | 'reimagined'
     faceArchetype: 'auto', // 'auto' | 'chiseled' | 'soft_oval' | 'heart' | 'square' | 'round' | 'diamond'
-    divergenceLevel: 'maximum', // 'maximum' | 'distinct'
     customFaceTraits: '',
     features: {
       haircut: false,
@@ -187,6 +187,18 @@
     }
   }
 
+  function getFaceSynthesisMode() {
+    return state.faceSynthesisMode;
+  }
+
+  function setFaceSynthesisMode(mode) {
+    if (['unrelated', 'sibling', 'reimagined'].includes(mode)) {
+      state.faceSynthesisMode = mode;
+      save();
+      notify();
+    }
+  }
+
   function getFaceArchetype() {
     return state.faceArchetype;
   }
@@ -200,15 +212,11 @@
   }
 
   function getDivergenceLevel() {
-    return state.divergenceLevel;
+    return state.faceSynthesisMode === 'unrelated' ? 'maximum' : 'distinct';
   }
 
   function setDivergenceLevel(lvl) {
-    if (lvl === 'maximum' || lvl === 'distinct') {
-      state.divergenceLevel = lvl;
-      save();
-      notify();
-    }
+    setFaceSynthesisMode(lvl === 'maximum' ? 'unrelated' : 'sibling');
   }
 
   function getCustomFaceTraits() {
@@ -263,8 +271,8 @@
 
   function resetAll() {
     state.faceMode = 'reference';
+    state.faceSynthesisMode = 'unrelated';
     state.faceArchetype = 'auto';
-    state.divergenceLevel = 'maximum';
     state.customFaceTraits = '';
     Object.keys(state.features).forEach(k => { state.features[k] = false; });
     save();
@@ -275,7 +283,7 @@
     switch(presetKey) {
       case 'original_look_fresh_face':
         state.faceMode = 'ai_generated';
-        state.divergenceLevel = 'maximum';
+        state.faceSynthesisMode = 'unrelated';
         Object.keys(state.features).forEach(k => { state.features[k] = true; });
         break;
       case 'retain_full_reference':
@@ -335,8 +343,12 @@
           if (d.faceArchetype && d.faceArchetype in FACE_ARCHETYPES) {
             state.faceArchetype = d.faceArchetype;
           }
-          if (d.divergenceLevel === 'maximum' || d.divergenceLevel === 'distinct') {
-            state.divergenceLevel = d.divergenceLevel;
+          if (['unrelated', 'sibling', 'reimagined'].includes(d.faceSynthesisMode)) {
+            state.faceSynthesisMode = d.faceSynthesisMode;
+          } else if (d.divergenceLevel === 'maximum') {
+            state.faceSynthesisMode = 'unrelated';
+          } else if (d.divergenceLevel === 'distinct') {
+            state.faceSynthesisMode = 'sibling';
           }
           if (typeof d.customFaceTraits === 'string') {
             state.customFaceTraits = d.customFaceTraits;
@@ -414,12 +426,18 @@
     // Header prefix
     let headerPrefix = '';
     if (isAiFace) {
-      if (activeFeats.length === 8) {
-        headerPrefix = 'AI-GENERATED FACE WITH FULL REFERENCE LOOK RETENTION';
-      } else if (hasAnyFeature) {
-        headerPrefix = 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER';
+      if (state.faceSynthesisMode === 'sibling') {
+        headerPrefix = activeFeats.length === 8
+          ? 'AI SIBLING VARIATION FACE WITH FULL REFERENCE LOOK RETENTION'
+          : (hasAnyFeature ? 'AI SIBLING VARIATION FACE WITH SELECTIVE REFERENCE TRANSFER' : 'AI SIBLING VARIATION FACE & AUTONOMOUS STYLING');
+      } else if (state.faceSynthesisMode === 'reimagined') {
+        headerPrefix = activeFeats.length === 8
+          ? 'AI RE-IMAGINED EDITORIAL FACE WITH FULL REFERENCE LOOK RETENTION'
+          : (hasAnyFeature ? 'AI RE-IMAGINED EDITORIAL FACE WITH SELECTIVE REFERENCE TRANSFER' : 'AI RE-IMAGINED EDITORIAL FACE & AUTONOMOUS STYLING');
       } else {
-        headerPrefix = 'AI-GENERATED FACE & AUTONOMOUS STYLING';
+        headerPrefix = activeFeats.length === 8
+          ? 'AI-GENERATED FACE WITH FULL REFERENCE LOOK RETENTION'
+          : (hasAnyFeature ? 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER' : 'AI-GENERATED FACE & AUTONOMOUS STYLING');
       }
     } else {
       headerPrefix = (activeFeats.length === 8)
@@ -433,21 +451,41 @@
     if (isAiFace) {
       const arch = FACE_ARCHETYPES[state.faceArchetype] || FACE_ARCHETYPES.auto;
       const customTraits = state.customFaceTraits ? ` Unique distinguishing facial details: ${state.customFaceTraits}.` : '';
-      const divergenceNote = (state.divergenceLevel === 'maximum')
-        ? ' Radical Face Swap: Under NO circumstances should this image resemble, clone, or preserve the facial identity, eye contour, nose bridge, or jawline of the woman in the reference photo.'
-        : ' Distinct Face: Ensure complete facial identity separation from the reference photo.';
 
-      primaryBullets.push(
-        `• COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON): The subject in this photograph is a COMPLETELY DIFFERENT WOMAN from the person in the reference photograph. You must 100% DISCARD, OVERWRITE, and REPLACE the facial identity, facial structure, eye shape, nose shape, lips, and bone architecture of the reference woman. Synthesize a fresh, photorealistic, unique face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits}${divergenceNote}`
-      );
-
-      negativeAdditions.push(
-        'cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate'
-      );
+      if (state.faceSynthesisMode === 'sibling') {
+        // Sibling Variation: Original face plays a genetic / familial role
+        primaryBullets.push(
+          `• SIBLING / GENETIC FACIAL VARIATION (REFERENCE-INSPIRED FACE): Synthesize a fresh, unique adult woman who shares subtle familial, ethnic, and genetic harmony with the reference woman (like an older or younger sister or close relative)—sharing her natural eye coloration, warm skin undertones, and family spirit, but sculpted with her own distinct facial structure, different jawline architecture, unique eye contour, and separate individual identity featuring ${arch.tokens}.${customTraits} She is NOT an identical twin or photo duplicate, but an unmistakably distinct individual carrying the reference subject\'s genetic essence.`
+        );
+        negativeAdditions.push(
+          'exact photo clone, duplicate reference face, identical twin copy, 100% identical face duplicate, digital clone of reference photo, unmodified reference photo cutout'
+        );
+      } else if (state.faceSynthesisMode === 'reimagined') {
+        // Editorial Re-imagination: Original face serves as direct mold re-sculpted & elevated
+        primaryBullets.push(
+          `• FACIAL RE-IMAGINATION & EDITORIAL ENHANCEMENT (REFERENCE-DERIVED FACE): Use the woman\'s face from the reference photo as the foundational anatomical mold, but artistically re-imagine and elevate it into a fresh, high-fashion editorial version featuring ${arch.tokens}.${customTraits} Preserve her recognizable facial spirit, eye shape, and authentic beauty while refining her bone structure, elevating cheekbone definition, and sculpting an enhanced jawline. It is a fresh, elevated AI re-interpretation of the reference woman\'s face, blending her original essence with freshly generated editorial elegance.`
+        );
+        negativeAdditions.push(
+          'distorted facial morphing, unnatural CGI smoothness, waxy plastic skin, warped facial features, unflattering facial distortion, digital doll face'
+        );
+      } else {
+        // Unrelated Person (Default): 100% Face Swap, zero resemblance
+        primaryBullets.push(
+          `• COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON): The subject in this photograph is a COMPLETELY DIFFERENT WOMAN from the person in the reference photograph. You must 100% DISCARD, OVERWRITE, and REPLACE the facial identity, facial structure, eye shape, nose shape, lips, and bone architecture of the reference woman. Synthesize a fresh, photorealistic, unique face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits} Radical Face Swap: Under NO circumstances should this image resemble, clone, or preserve the facial identity, eye contour, nose bridge, or jawline of the woman in the reference photo.`
+        );
+        negativeAdditions.push(
+          'cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate'
+        );
+      }
 
       if (activeFeats.length === 8) {
+        const modeDesc = (state.faceSynthesisMode === 'sibling')
+          ? 'synthesize a fresh, unique adult woman sharing genetic/familial harmony (sister variation)'
+          : (state.faceSynthesisMode === 'reimagined')
+            ? 'synthesize a fresh, elevated editorial re-imagination of her face'
+            : 'synthesize a completely fresh, photorealistic adult woman\'s face with unique facial features, authentic skin pores, and realistic bone structure that does not clone the reference face';
         primaryBullets.push(
-          '• Master Synthesis Directive (Retain Original Look + Fresh AI Face): Strictly retain the complete original look—exact hairstyle silhouette, hair texture, hair color, wardrobe garments, makeup palette, jewelry, body pose, and background environment—from the reference photo, but synthesize a completely fresh, photorealistic adult woman\'s face with unique facial features, authentic skin pores, and realistic bone structure that does not clone the reference face.'
+          `• Master Synthesis Directive (Retain Original Look + Fresh AI Face): Strictly retain the complete original look—exact hairstyle silhouette, hair texture, hair color, wardrobe garments, makeup palette, jewelry, body pose, and background environment—from the reference photo, but ${modeDesc}.`
         );
       } else if (hasAnyFeature) {
         primaryBullets.push(
@@ -531,8 +569,9 @@
     return {
       faceMode: state.faceMode,
       isAiFace,
+      faceSynthesisMode: state.faceSynthesisMode,
       faceArchetype: state.faceArchetype,
-      divergenceLevel: state.divergenceLevel,
+      divergenceLevel: getDivergenceLevel(),
       customFaceTraits: state.customFaceTraits,
       hasAnyFeature,
       activeFeatures: activeFeats,
@@ -582,25 +621,42 @@
           ${isAi ? `
           <div class="ref-archetype-box">
             <div class="ref-archetype-head">
-              <strong>Fresh AI Face Architecture (Overpowers Clear Reference Faces)</strong>
-              <small>Concrete bone structure &amp; eye shape break the reference face\'s latent pull</small>
+              <strong>Fresh AI Face Architecture &amp; Identity Relationship</strong>
+              <small>Choose how the original face influences the new AI face</small>
             </div>
-            <div class="ref-archetype-grid">
-              ${Object.values(FACE_ARCHETYPES).map(a => {
-                const active = (state.faceArchetype === a.id);
-                return `<button type="button" class="ref-archetype-btn ${active ? 'active' : ''}" data-archetype="${a.id}">${a.label}</button>`;
-              }).join('')}
-            </div>
+
             <div class="ref-divergence-row">
-              <span class="ref-divergence-label">Anti-Clone Divergence Strength:</span>
+              <span class="ref-divergence-label">Face Relationship to Reference:</span>
               <div class="ref-divergence-seg">
-                <button type="button" class="ref-divergence-btn ${state.divergenceLevel === 'maximum' ? 'active' : ''}" data-divergence="maximum">⚡ Maximum Face Swap</button>
-                <button type="button" class="ref-divergence-btn ${state.divergenceLevel === 'distinct' ? 'active' : ''}" data-divergence="distinct">✨ Distinct Features</button>
+                <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'unrelated' ? 'active' : ''}" data-synthesismode="unrelated" title="100% Face Swap: Total brand new person, zero resemblance">⚡ Unrelated Person</button>
+                <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'sibling' ? 'active' : ''}" data-synthesismode="sibling" title="Genetic Sister: Shares family essence & eye tone, but with different bone structure">🧬 Sibling Variation</button>
+                <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'reimagined' ? 'active' : ''}" data-synthesismode="reimagined" title="Editorial Re-imagining: Uses reference face as a direct mold, re-sculpting contours">✨ Editorial Re-imagination</button>
               </div>
             </div>
+
+            <div style="font-size: 10.5px; color: #c084fc; margin-top: -3px; line-height: 1.35;">
+              ${state.faceSynthesisMode === 'sibling'
+                ? '🧬 <strong>Sibling Variation:</strong> The AI uses the reference face as genetic inspiration (like a sister), sharing eye color, skin undertones, and family essence, but gives her distinct bone structure, different jawline, and unique personal identity.'
+                : (state.faceSynthesisMode === 'reimagined'
+                  ? '✨ <strong>Editorial Re-imagination:</strong> The AI uses the reference face as a foundational mold, re-sculpting and elevating facial contours, cheekbone definition, and jawline into a fresh, high-fashion version.'
+                  : '⚡ <strong>Unrelated Person:</strong> 100% Face Swap. The reference face is completely discarded and replaced with an entirely unrelated model with zero resemblance.')
+              }
+            </div>
+
+            <div style="margin-top: 4px;">
+              <span style="font-size: 10.5px; color: #ccc; font-weight: 600; display: block; margin-bottom: 5px;">Facial Bone Structure Archetype:</span>
+              <div class="ref-archetype-grid">
+                ${Object.values(FACE_ARCHETYPES).map(a => {
+                  const active = (state.faceArchetype === a.id);
+                  return `<button type="button" class="ref-archetype-btn ${active ? 'active' : ''}" data-archetype="${a.id}">${a.label}</button>`;
+                }).join('')}
+              </div>
+            </div>
+
             <input type="text" class="ref-custom-input" id="refCustomFaceTraits" placeholder="Optional specific facial features (e.g. sharp jawline, beauty mark, deep hazel eyes)" value="${escapeHtml(state.customFaceTraits || '')}">
+
             <div class="ref-tip-box">
-              <strong>💡 Pro-Tip for External Image Generators:</strong> When your reference image has a very clear face, use this prompt with <em>Style Reference / Image Conditioning</em> instead of Face/Character Cloner tools so the AI transfers styling while generating this 100% fresh face.
+              <strong>💡 Pro-Tip for External Image Generators:</strong> When your reference image has a very clear face, use this prompt with <em>Style Reference / Image Conditioning</em> instead of Face/Character Cloner tools so the AI transfers styling while generating this fresh face.
             </div>
           </div>
           ` : ''}
@@ -650,17 +706,17 @@
         });
       });
 
-      card.querySelectorAll('[data-archetype]').forEach(btn => {
+      card.querySelectorAll('[data-synthesismode]').forEach(btn => {
         btn.addEventListener('click', () => {
-          setFaceArchetype(btn.dataset.archetype);
+          setFaceSynthesisMode(btn.dataset.synthesismode);
           renderContent();
           if (typeof onChangeCallback === 'function') onChangeCallback();
         });
       });
 
-      card.querySelectorAll('[data-divergence]').forEach(btn => {
+      card.querySelectorAll('[data-archetype]').forEach(btn => {
         btn.addEventListener('click', () => {
-          setDivergenceLevel(btn.dataset.divergence);
+          setFaceArchetype(btn.dataset.archetype);
           renderContent();
           if (typeof onChangeCallback === 'function') onChangeCallback();
         });
@@ -707,6 +763,8 @@
     getState: () => ({ ...state, features: { ...state.features } }),
     getFaceMode,
     setFaceMode,
+    getFaceSynthesisMode,
+    setFaceSynthesisMode,
     getFaceArchetype,
     setFaceArchetype,
     getDivergenceLevel,

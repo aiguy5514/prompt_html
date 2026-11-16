@@ -246,6 +246,25 @@ def run_all_studio_tests(browser):
       ok('archetype_chiseled_tokens_emitted', pChiseled.includes('chiseled architectural bone structure with sharp prominent high cheekbones'));
       rp.setFaceArchetype('auto');
 
+      // Test Sibling Variation mode
+      rp.setFaceSynthesisMode('sibling');
+      api.buildPrompt();
+      const pSibling = document.getElementById('prompt').value;
+      ok('synthesis_mode_sibling_directive', pSibling.includes('SIBLING / GENETIC FACIAL VARIATION (REFERENCE-INSPIRED FACE)'));
+      ok('synthesis_mode_sibling_header', pSibling.includes('AI SIBLING VARIATION FACE WITH FULL REFERENCE LOOK RETENTION'));
+      ok('synthesis_mode_sibling_harmony', pSibling.includes('shares subtle familial, ethnic, and genetic harmony with the reference woman'));
+
+      // Test Editorial Re-imagination mode
+      rp.setFaceSynthesisMode('reimagined');
+      api.buildPrompt();
+      const pReimagined = document.getElementById('prompt').value;
+      ok('synthesis_mode_reimagined_directive', pReimagined.includes('FACIAL RE-IMAGINATION & EDITORIAL ENHANCEMENT (REFERENCE-DERIVED FACE)'));
+      ok('synthesis_mode_reimagined_header', pReimagined.includes('AI RE-IMAGINED EDITORIAL FACE WITH FULL REFERENCE LOOK RETENTION'));
+      ok('synthesis_mode_reimagined_mold', pReimagined.includes('foundational anatomical mold, but artistically re-imagine and elevate it'));
+
+      // Restore to unrelated
+      rp.setFaceSynthesisMode('unrelated');
+
       // Test 1-click unlock
       rp.setFeature('haircut', false);
       ok('hair_unlocked_after_toggle', !rp.isFieldLocked('hair'));
