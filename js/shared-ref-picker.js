@@ -499,14 +499,14 @@
       } else {
         // Unrelated Person (Default): 100% Face Swap, zero resemblance
         const intensityClause = isDramatic
-          ? ' Absolute facial identity decoupling: zero facial resemblance or shared features with the reference woman.'
+          ? ' Mandatory dramatic face swap: total anatomical decoupling with strongly contrasted facial planes, zero shared facial identity, and completely independent facial proportions from the reference woman.'
           : '';
 
         primaryBullets.push(
           `• COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON): The subject in this photograph is a COMPLETELY DIFFERENT WOMAN from the person in the reference photograph. You must 100% DISCARD, OVERWRITE, and REPLACE the facial identity, facial structure, eye shape, nose shape, lips, and bone architecture of the reference woman. Synthesize a fresh, photorealistic, unique face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits}${intensityClause} Radical Face Swap: Under NO circumstances should this image resemble, clone, or preserve the facial identity, eye contour, nose bridge, or jawline of the woman in the reference photo.`
         );
         negativeAdditions.push(
-          'cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate'
+          'same woman as reference photo, cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate, reference face bleed, identical facial bone structure, copied reference nose, copied reference eyes, copied reference lips, duplicate identity'
         );
       }
 

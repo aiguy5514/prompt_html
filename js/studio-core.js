@@ -4476,6 +4476,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const hideEyes = isFaceHidden || isDeepOrFullVeil;
   const S = t => (checkState.noMirror && typeof sanitizeMirrorProse === 'function') ? sanitizeMirrorProse(t) : t;
 
+  const isAiFace = !!opts.isAiFace || window.AfterglowRefPicker?.getFaceMode() === 'ai_generated';
   const isLbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
   const isLbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
   const isLbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
@@ -4496,18 +4497,24 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     : (photoHairMoisture === 'damp')
       ? ' Hair moisture: evenly spray-misted damp hair with cool hydrated luster.'
       : ' Hair moisture: completely dry, airy blowout with natural bounce.';
+  const rawMakeupDesc = sanitizeMakeupForVeil(val('makeup'), veilTier);
   const makeupDesc = isLbRefMakeup
     ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
-    : sanitizeMakeupForVeil(val('makeup'), veilTier);
+    : (isAiFace && /reference/i.test(rawMakeupDesc)
+        ? "fresh, natural editorial makeup tailored to this new model's distinct facial features (clean neutral tones, soft eyeliner, and natural lip finish)"
+        : rawMakeupDesc);
   const outfitDesc = isLbRefWardrobe
     ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
     : (opts.outfitDesc || ((wardrobeMode === 'separates')
         ? `a modern two-piece separates ensemble featuring ${val('topPiece')} paired with ${val('bottomPiece')}, with ${val('midriffStyling')}`
         : val('outfit')));
   const outfitFitDesc = val('outfitFit');
+  const rawAccDesc = val('accessories') || 'minimal tasteful jewelry';
   const accDesc = isLbRefAcc
     ? window.AfterglowRefPicker.getInheritedFieldText('accessories')
-    : val('accessories');
+    : (isAiFace && /reference/i.test(rawAccDesc)
+        ? "tasteful contemporary accessories chosen to complement the outfit (strictly zero reference jewelry or nose ring)"
+        : rawAccDesc);
   const poseDesc = isLbRefPose
     ? window.AfterglowRefPicker.getInheritedFieldText('pose')
     : sanitizeHiddenFaceText(S(val('pose')), hideEyes, veilTier);
@@ -4542,7 +4549,6 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     ? 'capturing the same adult woman as the active barber/groomer performing relaxing grooming services for her seated male partner'
     : 'immediately post-makeover';
 
-  const isAiFace = !!opts.isAiFace || window.AfterglowRefPicker?.getFaceMode() === 'ai_generated';
   const lbRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot' });
   const dedupedNegs = dedupeNegatives(negatives);
   const negsText = (Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '';
@@ -5091,13 +5097,26 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     negsText
   ].filter(Boolean).join('\n');
 
-  return {
+  const res = {
     all: allShots.replace(/\n{3,}/g, '\n\n'),
     '1': shot1.replace(/\n{3,}/g, '\n\n'),
     '2': shot2.replace(/\n{3,}/g, '\n\n'),
     '3': shot3.replace(/\n{3,}/g, '\n\n'),
     '4': shot4.replace(/\n{3,}/g, '\n\n')
   };
+
+  if(isAiFace){
+    Object.keys(res).forEach(k => {
+      res[k] = res[k]
+        .replace(/the same adult woman/g, 'this newly synthesized adult model')
+        .replace(/Identical identity from reference/g, 'Consistent newly synthesized model identity across all frames')
+        .replace(/exact same woman/g, 'exact same newly synthesized model')
+        .replace(/same woman/g, 'same newly synthesized model')
+        .replace(/Maintain exact facial identity/g, 'Maintain consistent facial continuity of this newly synthesized model');
+    });
+  }
+
+  return res;
 }
 
 
@@ -5611,8 +5630,18 @@ function buildSalonPrompt(){
   }
   const isSalonRefMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup');
   const isSalonRefAcc = window.AfterglowRefPicker?.isFeatureInherited('accessories');
-  const salonMakeupVal = isSalonRefMakeup ? window.AfterglowRefPicker.getInheritedFieldText('makeup') : val('makeup');
-  const salonAccVal = isSalonRefAcc ? window.AfterglowRefPicker.getInheritedFieldText('accessories') : val('accessories');
+  const rawSalonMakeup = val('makeup');
+  const salonMakeupVal = isSalonRefMakeup
+    ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
+    : (isAiFace && /reference/i.test(rawSalonMakeup)
+        ? "fresh, natural editorial makeup tailored to this new model's distinct facial features (clean neutral tones, soft eyeliner, and natural lip finish)"
+        : rawSalonMakeup);
+  const rawSalonAcc = val('accessories');
+  const salonAccVal = isSalonRefAcc
+    ? window.AfterglowRefPicker.getInheritedFieldText('accessories')
+    : (isAiFace && /reference/i.test(rawSalonAcc)
+        ? "tasteful contemporary accessories chosen to complement the styling (strictly zero reference jewelry or nose ring)"
+        : rawSalonAcc);
   if(salonMakeupVal || salonAccVal){
     const stylingBits = [];
     if(salonMakeupVal) stylingBits.push(`Makeup: ${isSalonRefMakeup ? salonMakeupVal : sanitizeMakeupForVeil(salonMakeupVal, salonVeilTier)}`);
@@ -6117,7 +6146,9 @@ if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with
 if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');
 if(checkState.waterReal && (photoHairMoisture !== 'dry' || psIsExplicitWetHair))checks.push('Authentic water droplets, believable wet hair clumping, and damp fabric saturation; realistic physics without artificial plastic gloss.');
 if(checkState.retouch)checks.push('Avoid excessive beauty retouching, plastic skin, synthetic gloss and artificial filters.');
-if(checkState.accessoryKeep)checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');
+if(checkState.accessoryKeep && (!isPsAiFace || window.AfterglowRefPicker?.isFeatureInherited('accessories'))){
+  checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');
+}
 if(checkState.backgroundReal)checks.push('Use plausible environmental details and a lived-in scene rather than generic or artificial background elements.');
 if(checkState.noMirror)checks.push('Avoid mirrors and reflection-heavy surfaces; do not create duplicate or inaccurate reflections.');
 if(checkState.noText)checks.push('No text overlays, logos, graphic labels or watermarks.');
@@ -6260,7 +6291,13 @@ if(isPsAiFace){
 if(isFemaleGroomingMen){
   lines.push(`${isPsAiFace ? aiPsMode : mode}. Capture the same adult woman as the active barber/grooming practitioner attending to a seated male client with artisan poise and authentic editorial realism (she is strictly the solitary woman in the frame). Overall attitude: ${val('mood')}.`);
 } else if(isPsAiFace){
-  lines.push(`${aiPsMode}. Capture a bold, confident, candid fashion photoshoot that strictly retains the full original look, hairstyle, wardrobe, pose, and aesthetic environment from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the subject. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
+  const activeFeatsCount = psRefDirectives?.activeFeatures?.length || 0;
+  if(activeFeatsCount === 8){
+    lines.push(`${aiPsMode}. Capture a bold, confident, candid fashion photoshoot that strictly retains the full original look, hairstyle, wardrobe, pose, and aesthetic environment from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the subject. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
+  } else {
+    const activeLabels = psRefDirectives?.activeFeatures?.map(k => window.AfterglowRefPicker?.FEATURES[k]?.label || k).join(', ') || 'selected styling features';
+    lines.push(`${aiPsMode}. Capture a bold, confident, candid fashion photoshoot featuring this newly synthesized female model, transferring strictly her selected reference elements [${activeLabels}], while completely discarding the reference facial identity and generating fresh custom styling for all unselected attributes. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
+  }
 } else {
   lines.push(`${mode}. Capture the same adult woman just after her makeover, during a bold, confident, candid fashion photoshoot. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
 }
@@ -6304,9 +6341,12 @@ const hairColorDirective = isRefHairColor
   ? window.AfterglowRefPicker.getInheritedFieldText('hairColor')
   : val('hairColor');
 
+const rawMakeupVal = psMakeupSafe || val('makeup') || 'natural editorial makeup';
 const makeupDirective = isRefMakeup
   ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
-  : (psMakeupSafe || val('makeup') || 'natural editorial makeup');
+  : (isPsAiFace && /reference/i.test(rawMakeupVal)
+      ? "fresh, natural editorial makeup tailored to this new model's distinct facial features (clean neutral tones, soft eyeliner, and natural lip finish)"
+      : rawMakeupVal);
 
 const hasActiveHeavyVeil = ['25_30','40_45','50','65_70','80_85','95_100'].includes(psTier);
 
@@ -6342,9 +6382,12 @@ if(psFaceCovVal && psTier !== 'auto' && (!(styleRef && transferToggles && transf
 }
 lines.push('');
 lines.push('WARDROBE AND STYLING');
+const rawAccVal = val('accessories') || 'minimal tasteful jewelry';
 const accDirective = isRefAccessories
   ? window.AfterglowRefPicker.getInheritedFieldText('accessories')
-  : val('accessories');
+  : (isPsAiFace && /reference/i.test(rawAccVal)
+      ? "tasteful contemporary accessories chosen to complement the outfit (strictly zero reference jewelry or nose ring)"
+      : rawAccVal);
 
 if(isRefWardrobe){
   lines.push(`Outfit: ${window.AfterglowRefPicker.getInheritedFieldText('wardrobe')} Accessories: ${accDirective}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);

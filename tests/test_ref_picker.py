@@ -285,6 +285,41 @@ def run_all_studio_tests(browser):
       // Restore to unrelated
       rp.setFaceSynthesisMode('unrelated');
 
+      // Test User's Exact Configuration: Unrelated Person + Selective Transfer (Haircut, Texture, Color, Pose)
+      rp.setDivergenceIntensity('dramatic');
+      rp.setFaceArchetype('auto');
+      rp.setFeature('haircut', true);
+      rp.setFeature('hairTexture', true);
+      rp.setFeature('hairColor', true);
+      rp.setFeature('wardrobe', false);
+      rp.setFeature('makeup', false);
+      rp.setFeature('accessories', false);
+      rp.setFeature('pose', true);
+      rp.setFeature('background', false);
+      api.buildPrompt();
+      const pUserConfig = document.getElementById('prompt').value;
+
+      ok('unrelated_dramatic_mandate', pUserConfig.includes('Mandatory dramatic face swap: total anatomical decoupling'));
+      ok('unrelated_anti_bleed_negs', pUserConfig.includes('reference face bleed') && pUserConfig.includes('identical facial bone structure'));
+      ok('unrelated_no_ref_makeup_leak', !pUserConfig.includes('makeup consistent with the reference image'));
+      ok('unrelated_no_ref_acc_leak', !pUserConfig.includes('retain any signature jewelry or nose ring visible in the reference'));
+      ok('unrelated_no_checklist_acc_leak', !pUserConfig.includes('Retain signature reference accessories when visible and requested'));
+      ok('unrelated_no_full_look_hallucination', !pUserConfig.includes('strictly retains the full original look, hairstyle, wardrobe, pose, and aesthetic environment'));
+      ok('unrelated_has_neutral_makeup', pUserConfig.includes("fresh, natural editorial makeup tailored to this new model's distinct facial features"));
+      ok('unrelated_has_neutral_acc', pUserConfig.includes("tasteful contemporary accessories chosen to complement the outfit (strictly zero reference jewelry or nose ring)"));
+      ok('unrelated_has_selective_intent', pUserConfig.includes("transferring strictly her selected reference elements [Hairstyle & Cut, Hair Texture, Hair Color, Pose & Stance]"));
+
+      // Test Lookbook Mode Neutralization
+      const btnLookbook = document.getElementById('btnLookbookMode');
+      if(btnLookbook) btnLookbook.click();
+      api.buildPrompt();
+      const pLbConfig = document.getElementById('prompt').value;
+      ok('lookbook_ai_face_no_same_adult_woman', !pLbConfig.includes('same adult woman'));
+      ok('lookbook_ai_face_no_ref_identity_continuity', !pLbConfig.includes('Identical identity from reference'));
+      ok('lookbook_ai_face_new_model_continuity', pLbConfig.includes('this newly synthesized adult model') || pLbConfig.includes('Consistent newly synthesized model identity'));
+      if(btnLookbook) btnLookbook.click();
+      api.buildPrompt();
+
       // Test 1-click unlock
       rp.setFeature('haircut', false);
       ok('hair_unlocked_after_toggle', !rp.isFieldLocked('hair'));
