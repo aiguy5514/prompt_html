@@ -153,6 +153,7 @@
     faceMode: 'reference', // 'reference' | 'ai_generated'
     faceSynthesisMode: 'unrelated', // 'unrelated' | 'sibling' | 'reimagined'
     faceArchetype: 'auto', // 'auto' | 'chiseled' | 'soft_oval' | 'heart' | 'square' | 'round' | 'diamond'
+    divergenceIntensity: 'distinct', // 'distinct' | 'dramatic'
     customFaceTraits: '',
     features: {
       haircut: false,
@@ -206,6 +207,18 @@
   function setFaceArchetype(arch) {
     if (arch in FACE_ARCHETYPES) {
       state.faceArchetype = arch;
+      save();
+      notify();
+    }
+  }
+
+  function getDivergenceIntensity() {
+    return state.divergenceIntensity || 'distinct';
+  }
+
+  function setDivergenceIntensity(intensity) {
+    if (intensity === 'distinct' || intensity === 'dramatic') {
+      state.divergenceIntensity = intensity;
       save();
       notify();
     }
@@ -273,6 +286,7 @@
     state.faceMode = 'reference';
     state.faceSynthesisMode = 'unrelated';
     state.faceArchetype = 'auto';
+    state.divergenceIntensity = 'distinct';
     state.customFaceTraits = '';
     Object.keys(state.features).forEach(k => { state.features[k] = false; });
     save();
@@ -284,6 +298,8 @@
       case 'original_look_fresh_face':
         state.faceMode = 'ai_generated';
         state.faceSynthesisMode = 'unrelated';
+        state.faceArchetype = 'auto';
+        state.divergenceIntensity = 'distinct';
         Object.keys(state.features).forEach(k => { state.features[k] = true; });
         break;
       case 'retain_full_reference':
@@ -343,6 +359,9 @@
           if (d.faceArchetype && d.faceArchetype in FACE_ARCHETYPES) {
             state.faceArchetype = d.faceArchetype;
           }
+          if (d.divergenceIntensity === 'distinct' || d.divergenceIntensity === 'dramatic') {
+            state.divergenceIntensity = d.divergenceIntensity;
+          }
           if (['unrelated', 'sibling', 'reimagined'].includes(d.faceSynthesisMode)) {
             state.faceSynthesisMode = d.faceSynthesisMode;
           } else if (d.divergenceLevel === 'maximum') {
@@ -390,7 +409,7 @@
         return 'Faithfully retain and replicate the exact original wardrobe, garments, tailoring, fabric weave, and color scheme worn in the reference photo (strictly do not substitute with custom garments).';
       case 'makeup':
         return isAi
-          ? 'Faithfully retain and apply the exact cosmetic makeup styling, lip color palette, eyeliner, and skin finish from the reference photo onto this new model\'s distinct facial anatomy (without copying the reference subject\'s lips or facial structure).'
+          ? 'Faithfully retain and apply the exact cosmetic makeup styling, lip color palette, eyeliner, and skin finish from the reference photo, adapted seamlessly onto this new model\'s distinct facial anatomy (without copying the reference subject\'s lips, eye shape, or facial structure).'
           : 'Faithfully retain the exact original makeup styling, lip shade, eyeliner, and cosmetic skin finish from the reference photo.';
       case 'accessories':
         return isAi
@@ -450,28 +469,41 @@
 
     if (isAiFace) {
       const arch = FACE_ARCHETYPES[state.faceArchetype] || FACE_ARCHETYPES.auto;
+      const isDramatic = (state.divergenceIntensity === 'dramatic');
       const customTraits = state.customFaceTraits ? ` Unique distinguishing facial details: ${state.customFaceTraits}.` : '';
 
       if (state.faceSynthesisMode === 'sibling') {
-        // Sibling Variation: Original face plays a genetic / familial role
+        // Sibling Variation: Biological sister with mandatory anatomical divergence
+        const intensityClause = isDramatic
+          ? ' Mandatory dramatic sibling divergence: render strong structural contrast in facial planes, an unmistakably distinct jawline angle, and altered facial proportions so she is unequivocally recognized as a separate sibling with her own individual face.'
+          : ' A side-by-side comparison must unmistakably reveal two distinct sisters with unique facial structures, NEVER an identical twin, digital clone, or duplicate face.';
+
         primaryBullets.push(
-          `• SIBLING / GENETIC FACIAL VARIATION (REFERENCE-INSPIRED FACE): Synthesize a fresh, unique adult woman who shares subtle familial, ethnic, and genetic harmony with the reference woman (like an older or younger sister or close relative)—sharing her natural eye coloration, warm skin undertones, and family spirit, but sculpted with her own distinct facial structure, different jawline architecture, unique eye contour, and separate individual identity featuring ${arch.tokens}.${customTraits} She is NOT an identical twin or photo duplicate, but an unmistakably distinct individual carrying the reference subject\'s genetic essence.`
+          `• MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE): The subject is her biological sister, NOT the same woman. While sharing her natural Indian heritage, eye coloration, and warm skin undertones, you MUST visibly and noticeably differentiate her facial anatomy: alter the jawline width and chin contour, reshape the eye contour and eyelid fold, sculpt a noticeably different nasal bridge and tip, and modify the lip fullness featuring ${arch.tokens}.${customTraits}${intensityClause}`
         );
         negativeAdditions.push(
-          'exact photo clone, duplicate reference face, identical twin copy, 100% identical face duplicate, digital clone of reference photo, unmodified reference photo cutout'
+          'same woman as reference photo, duplicate reference face, identical face structure, 100% clone, identical twin copy, photo duplicate, unmodified reference face, facial identity clone, twin likeness, identical eye shape, identical nose bridge, identical jawline, identical facial proportions, copied reference facial geometry, digital clone of reference photo, unmodified reference photo cutout'
         );
       } else if (state.faceSynthesisMode === 'reimagined') {
-        // Editorial Re-imagination: Original face serves as direct mold re-sculpted & elevated
+        // Editorial Re-imagination: Haute couture runway remodeling & sculpted elevation (zero "preserve eye shape" blockers)
+        const intensityClause = isDramatic
+          ? ' Mandatory dramatic editorial transformation: apply extreme haute couture bone architecture with hyper-chiseled zygomatic arches, razor-sharp jawline definition, and dramatic avant-garde runway facial remodeling that radically transforms her casual facial structure into striking high-fashion perfection.'
+          : ' The face must look unmistakably elevated, sculpted, and remodeled from any casual reference snapshot into striking high-fashion editorial perfection.';
+
         primaryBullets.push(
-          `• FACIAL RE-IMAGINATION & EDITORIAL ENHANCEMENT (REFERENCE-DERIVED FACE): Use the woman\'s face from the reference photo as the foundational anatomical mold, but artistically re-imagine and elevate it into a fresh, high-fashion editorial version featuring ${arch.tokens}.${customTraits} Preserve her recognizable facial spirit, eye shape, and authentic beauty while refining her bone structure, elevating cheekbone definition, and sculpting an enhanced jawline. It is a fresh, elevated AI re-interpretation of the reference woman\'s face, blending her original essence with freshly generated editorial elegance.`
+          `• HAUTE COUTURE EDITORIAL FACIAL RE-SCULPTING & STRUCTURAL REMODELING: Drastically elevate and structurally remodel the reference facial architecture into a world-class high-fashion runway supermodel. Transform the underlying bone structure: carve razor-sharp, prominent high cheekbones with sculpted hollows, chisel the jawline into a sleek, razor-defined editorial contour, reshape the eyes into an elongated, piercing editorial gaze with lifted outer corners, and sculpt an architectural slender nasal bridge featuring ${arch.tokens}.${customTraits}${intensityClause}`
         );
         negativeAdditions.push(
-          'distorted facial morphing, unnatural CGI smoothness, waxy plastic skin, warped facial features, unflattering facial distortion, digital doll face'
+          'unmodified reference face, casual snapshot face, soft un-sculpted jawline, plain casual bone structure, un-chiseled face, identical casual reference face, duplicate reference photo face, un-elevated facial features, snapshot facial structure, rounded un-sculpted cheeks, unmodified reference jaw, plain un-sculpted face, distorted facial morphing, unnatural CGI smoothness, waxy plastic skin, warped facial features, unflattering facial distortion, digital doll face'
         );
       } else {
         // Unrelated Person (Default): 100% Face Swap, zero resemblance
+        const intensityClause = isDramatic
+          ? ' Absolute facial identity decoupling: zero facial resemblance or shared features with the reference woman.'
+          : '';
+
         primaryBullets.push(
-          `• COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON): The subject in this photograph is a COMPLETELY DIFFERENT WOMAN from the person in the reference photograph. You must 100% DISCARD, OVERWRITE, and REPLACE the facial identity, facial structure, eye shape, nose shape, lips, and bone architecture of the reference woman. Synthesize a fresh, photorealistic, unique face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits} Radical Face Swap: Under NO circumstances should this image resemble, clone, or preserve the facial identity, eye contour, nose bridge, or jawline of the woman in the reference photo.`
+          `• COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON): The subject in this photograph is a COMPLETELY DIFFERENT WOMAN from the person in the reference photograph. You must 100% DISCARD, OVERWRITE, and REPLACE the facial identity, facial structure, eye shape, nose shape, lips, and bone architecture of the reference woman. Synthesize a fresh, photorealistic, unique face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits}${intensityClause} Radical Face Swap: Under NO circumstances should this image resemble, clone, or preserve the facial identity, eye contour, nose bridge, or jawline of the woman in the reference photo.`
         );
         negativeAdditions.push(
           'cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate'
@@ -480,9 +512,9 @@
 
       if (activeFeats.length === 8) {
         const modeDesc = (state.faceSynthesisMode === 'sibling')
-          ? 'synthesize a fresh, unique adult woman sharing genetic/familial harmony (sister variation)'
+          ? 'execute mandatory sibling facial reconstruction to synthesize a distinct biological sister with different facial geometry'
           : (state.faceSynthesisMode === 'reimagined')
-            ? 'synthesize a fresh, elevated editorial re-imagination of her face'
+            ? 'execute haute couture editorial remodeling to drastically elevate and re-sculpt her bone structure into a runway supermodel'
             : 'synthesize a completely fresh, photorealistic adult woman\'s face with unique facial features, authentic skin pores, and realistic bone structure that does not clone the reference face';
         primaryBullets.push(
           `• Master Synthesis Directive (Retain Original Look + Fresh AI Face): Strictly retain the complete original look—exact hairstyle silhouette, hair texture, hair color, wardrobe garments, makeup palette, jewelry, body pose, and background environment—from the reference photo, but ${modeDesc}.`
@@ -544,7 +576,7 @@
     if (state.features.makeup) {
       primaryBullets.push(
         isAiFace
-          ? '• Makeup Styling (On New Face): Replicate the reference image\'s cosmetic makeup styling, lip shade, and eyeliner onto this new model\'s distinct facial anatomy, without copying the reference subject\'s facial features or lip shape.'
+          ? '• Makeup Styling (On New Face): Replicate the reference image\'s cosmetic makeup styling, lip shade, and eyeliner onto this new model\'s distinct facial anatomy, without copying the reference subject\'s facial features, eye contour, or lip shape.'
           : '• Makeup Styling (From Reference Photo): Replicate the reference image\'s makeup styling, lip shade, eyeliner, and skin finish.'
       );
     }
@@ -571,6 +603,7 @@
       isAiFace,
       faceSynthesisMode: state.faceSynthesisMode,
       faceArchetype: state.faceArchetype,
+      divergenceIntensity: getDivergenceIntensity(),
       divergenceLevel: getDivergenceLevel(),
       customFaceTraits: state.customFaceTraits,
       hasAnyFeature,
@@ -629,18 +662,26 @@
               <span class="ref-divergence-label">Face Relationship to Reference:</span>
               <div class="ref-divergence-seg">
                 <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'unrelated' ? 'active' : ''}" data-synthesismode="unrelated" title="100% Face Swap: Total brand new person, zero resemblance">⚡ Unrelated Person</button>
-                <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'sibling' ? 'active' : ''}" data-synthesismode="sibling" title="Genetic Sister: Shares family essence & eye tone, but with different bone structure">🧬 Sibling Variation</button>
-                <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'reimagined' ? 'active' : ''}" data-synthesismode="reimagined" title="Editorial Re-imagining: Uses reference face as a direct mold, re-sculpting contours">✨ Editorial Re-imagination</button>
+                <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'sibling' ? 'active' : ''}" data-synthesismode="sibling" title="Biological Sister: Mandatory structural differentiation (jaw, eyes, nose) with genetic heritage">🧬 Sibling Variation</button>
+                <button type="button" class="ref-divergence-btn ${state.faceSynthesisMode === 'reimagined' ? 'active' : ''}" data-synthesismode="reimagined" title="Haute Couture Remodeling: Elevates cheekbones, jawline, and gaze into a runway supermodel">✨ Editorial Re-imagination</button>
               </div>
             </div>
 
-            <div style="font-size: 10.5px; color: #c084fc; margin-top: -3px; line-height: 1.35;">
+            <div class="ref-shift-badge">
               ${state.faceSynthesisMode === 'sibling'
-                ? '🧬 <strong>Sibling Variation:</strong> The AI uses the reference face as genetic inspiration (like a sister), sharing eye color, skin undertones, and family essence, but gives her distinct bone structure, different jawline, and unique personal identity.'
+                ? '🧬 <strong>Sibling Shifts:</strong> Altered Jawline Width · Reshaped Eye Contour · Distinct Nose Bridge · Sister Genetics'
                 : (state.faceSynthesisMode === 'reimagined'
-                  ? '✨ <strong>Editorial Re-imagination:</strong> The AI uses the reference face as a foundational mold, re-sculpting and elevating facial contours, cheekbone definition, and jawline into a fresh, high-fashion version.'
-                  : '⚡ <strong>Unrelated Person:</strong> 100% Face Swap. The reference face is completely discarded and replaced with an entirely unrelated model with zero resemblance.')
+                  ? '✨ <strong>Editorial Shifts:</strong> Razor-Sharp High Cheekbones · Sculpted Runway Jaw · Elongated Piercing Gaze · Architectural Bone Structure'
+                  : '⚡ <strong>Unrelated Shifts:</strong> 100% Face Swap · Independent Facial Anatomy · Zero Reference Resemblance')
               }
+            </div>
+
+            <div class="ref-intensity-row">
+              <span class="ref-intensity-label">Transformation Intensity:</span>
+              <div class="ref-intensity-seg">
+                <button type="button" class="ref-intensity-btn ${state.divergenceIntensity !== 'dramatic' ? 'active' : ''}" data-intensity="distinct" title="Distinct: Noticeable natural sister / editorial elevation">✦ Distinct (Natural)</button>
+                <button type="button" class="ref-intensity-btn ${state.divergenceIntensity === 'dramatic' ? 'active' : ''}" data-intensity="dramatic" title="Dramatic: High-impact structural shift with amplified bone contour tokens">⚡ Dramatic (High-Impact)</button>
+              </div>
             </div>
 
             <div style="margin-top: 4px;">
@@ -714,6 +755,14 @@
         });
       });
 
+      card.querySelectorAll('[data-intensity]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setDivergenceIntensity(btn.dataset.intensity);
+          renderContent();
+          if (typeof onChangeCallback === 'function') onChangeCallback();
+        });
+      });
+
       card.querySelectorAll('[data-archetype]').forEach(btn => {
         btn.addEventListener('click', () => {
           setFaceArchetype(btn.dataset.archetype);
@@ -767,6 +816,8 @@
     setFaceSynthesisMode,
     getFaceArchetype,
     setFaceArchetype,
+    getDivergenceIntensity,
+    setDivergenceIntensity,
     getDivergenceLevel,
     setDivergenceLevel,
     getCustomFaceTraits,

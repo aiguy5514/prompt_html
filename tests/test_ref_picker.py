@@ -164,6 +164,9 @@ def test_static_markup():
         '.ref-archetype-box',
         '.ref-archetype-grid',
         '.ref-archetype-btn',
+        '.ref-shift-badge',
+        '.ref-intensity-row',
+        '.ref-intensity-btn',
         '.ref-tip-box'
     ]
     for c in css_classes:
@@ -236,7 +239,7 @@ def run_all_studio_tests(browser):
       ok('full_look_discard_reference_face', pFull.includes('100% DISCARD, OVERWRITE, and REPLACE the facial identity'));
       ok('full_look_archetype_tokens', pFull.includes('distinct high-fashion bone structure with defined cheekbones'));
       ok('full_look_anti_resemblance_negs', pFull.includes('same person as reference image') && pFull.includes('reference model likeness') && pFull.includes('identical facial features'));
-      ok('full_look_decoupled_makeup', pFull.includes("without copying the reference subject's lips or facial structure"));
+      ok('full_look_decoupled_makeup', pFull.includes("without copying the reference subject's lips"));
       ok('full_look_decoupled_accessories', pFull.includes("fitted naturally onto this new model"));
 
       // Test archetype switching
@@ -250,17 +253,34 @@ def run_all_studio_tests(browser):
       rp.setFaceSynthesisMode('sibling');
       api.buildPrompt();
       const pSibling = document.getElementById('prompt').value;
-      ok('synthesis_mode_sibling_directive', pSibling.includes('SIBLING / GENETIC FACIAL VARIATION (REFERENCE-INSPIRED FACE)'));
+      ok('synthesis_mode_sibling_directive', pSibling.includes('MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE)'));
       ok('synthesis_mode_sibling_header', pSibling.includes('AI SIBLING VARIATION FACE WITH FULL REFERENCE LOOK RETENTION'));
-      ok('synthesis_mode_sibling_harmony', pSibling.includes('shares subtle familial, ethnic, and genetic harmony with the reference woman'));
+      ok('synthesis_mode_sibling_alter_jaw', pSibling.includes('alter the jawline width and chin contour, reshape the eye contour'));
+      ok('synthesis_mode_sibling_anti_clone_neg', pSibling.includes('same woman as reference photo') && pSibling.includes('duplicate reference face'));
+
+      // Test Sibling with Dramatic Intensity
+      rp.setDivergenceIntensity('dramatic');
+      api.buildPrompt();
+      const pSiblingDram = document.getElementById('prompt').value;
+      ok('synthesis_mode_sibling_dramatic', pSiblingDram.includes('Mandatory dramatic sibling divergence: render strong structural contrast in facial planes'));
+      rp.setDivergenceIntensity('distinct');
 
       // Test Editorial Re-imagination mode
       rp.setFaceSynthesisMode('reimagined');
       api.buildPrompt();
       const pReimagined = document.getElementById('prompt').value;
-      ok('synthesis_mode_reimagined_directive', pReimagined.includes('FACIAL RE-IMAGINATION & EDITORIAL ENHANCEMENT (REFERENCE-DERIVED FACE)'));
+      ok('synthesis_mode_reimagined_directive', pReimagined.includes('HAUTE COUTURE EDITORIAL FACIAL RE-SCULPTING & STRUCTURAL REMODELING'));
       ok('synthesis_mode_reimagined_header', pReimagined.includes('AI RE-IMAGINED EDITORIAL FACE WITH FULL REFERENCE LOOK RETENTION'));
-      ok('synthesis_mode_reimagined_mold', pReimagined.includes('foundational anatomical mold, but artistically re-imagine and elevate it'));
+      ok('synthesis_mode_reimagined_cheekbones', pReimagined.includes('carve razor-sharp, prominent high cheekbones with sculpted hollows'));
+      ok('synthesis_mode_reimagined_no_preserve_eyes', !pReimagined.toLowerCase().includes('preserve her eye shape'));
+      ok('synthesis_mode_reimagined_anti_casual_neg', pReimagined.includes('unmodified reference face') && pReimagined.includes('casual snapshot face'));
+
+      // Test Editorial with Dramatic Intensity
+      rp.setDivergenceIntensity('dramatic');
+      api.buildPrompt();
+      const pReimaginedDram = document.getElementById('prompt').value;
+      ok('synthesis_mode_reimagined_dramatic', pReimaginedDram.includes('Mandatory dramatic editorial transformation: apply extreme haute couture bone architecture'));
+      rp.setDivergenceIntensity('distinct');
 
       // Restore to unrelated
       rp.setFaceSynthesisMode('unrelated');
