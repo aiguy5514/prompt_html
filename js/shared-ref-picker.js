@@ -65,43 +65,43 @@
       id: 'auto',
       label: '✨ Auto Distinct',
       shortLabel: 'Auto Distinct',
-      tokens: 'distinct high-fashion bone structure with defined cheekbones, unique wide-set almond eyes with defined orbital depth, a slender sculpted nasal bridge with refined tip projection, and an elegant tapered jawline'
+      tokens: 'distinct high-fashion bone structure with defined cheekbones, sculpted facial anatomy: wide-set luminous almond eyes with defined supratarsal double-eyelid crease and subtle lifted lateral canthus, slender straight nasal bridge with refined supratip break and sculpted gently upturned tip, crisp pronounced Cupid\'s bow with defined vertical philtral columns and plush lower vermilion border, high sculpted zygomatic cheekbones tapering cleanly to an elegant defined jawline and delicate tapered chin with a soft submental crease'
     },
     chiseled: {
       id: 'chiseled',
       label: '💎 Chiseled / Editorial',
       shortLabel: 'Chiseled',
-      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones, wide-set cat-like almond eyes, a slender sculpted nasal bridge, and a razor-defined angular jawline'
+      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones, haute-couture bone structure: elongated feline-angled piercing almond eyes with taut upper lid crease and wide intercanthal spacing, razor-straight ultra-narrow nasal bridge with chiseled pinpoint-projected tip, sculpted architectural lips with razor-delineated geometric Cupid\'s bow and flat vermilion contours, deep sunken submalar hollows, razor-sharp 115-degree mandibular jawline, and a firm chiseled square-tapered chin'
     },
     soft_oval: {
       id: 'soft_oval',
       label: '🌸 Soft Oval / Almond Eyes',
       shortLabel: 'Soft Oval',
-      tokens: 'classic soft oval facial silhouette, gentle rounded jawline, luminous warm almond eyes with delicate lids, and a slender, straight nose bridge with natural facial symmetry'
+      tokens: 'classic soft oval facial silhouette with a gentle rounded jawline, harmonious facial geometry: large warm luminous rounded-almond eyes with soft delicate double eyelid folds and balanced symmetrical spacing, slender gently sloping nasal bridge with smooth continuous dorsal lines and soft naturally rounded petite tip, petal-soft balanced lips with smooth curving Cupid\'s bow and even vermilion fullness, seamless curved oval jawline with zero harsh angles, and a soft naturally rounded feminine chin'
     },
     heart: {
       id: 'heart',
       label: '💖 Heart-Shaped',
       shortLabel: 'Heart-Shaped',
-      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, radiant expressive wide eyes, and softly defined cheekbones'
+      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, radiant expressive wide doe eyes with deep supratarsal crease and lifted outer corners, delicate petite nose with narrow slightly scooped concave bridge and tiny perky upturned button tip, plush doll-like pout with accentuated heart-peaked Cupid\'s bow, and wide prominent anterior cheekbones tapering steeply inward to a dainty pointed micro-chin'
     },
     square: {
       id: 'square',
       label: '🏛️ Square Runway',
       shortLabel: 'Square Runway',
-      tokens: 'bold high-fashion square jawline with clean angular bone structure, piercing editorial gaze, defined temple planes, and sculpted cheek contours'
+      tokens: 'bold high-fashion square jawline with clean angular bone structure, commanding square facial architecture: intense deep-set horizontal eyes under a structured straight brow ridge with taut hooded upper eyelid crease, strong broad straight nasal bridge with uniform width and firm squared-off tip profile, wide horizontal lip span with crisp wide-peaked Cupid\'s bow, flat structured cheek planes, and sharp bilateral mandibular angles with a wide squared chin pad'
     },
     round: {
       id: 'round',
       label: '✨ Round Soft',
       shortLabel: 'Round Soft',
-      tokens: 'youthful soft rounded facial contours, gently curved jawline, large expressive bright rounded eyes, and natural full lips'
+      tokens: 'youthful soft rounded facial contours, gently curved jawline, large bright circular rounded eyes with wide-open aperture and prominent curved lower lid contour, short petite nose with gentle low bridge and cute softly rounded fleshy button tip, ultra-full plush cushion lips with pillowy lower lip volume and soft curving Cupid\'s bow, supple rounded apple cheeks, and a short rounded button chin'
     },
     diamond: {
       id: 'diamond',
       label: '💠 Diamond Sculpted',
       shortLabel: 'Diamond',
-      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, and a sharp tapered chin'
+      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, dramatic slanted feline almond eyes with tight epicanthal taper and deep outer orbital recess, slender high-contrast nasal bridge with sharp geometric facets and an acutely sculpted tapered tip, sharply contoured angular lips with an ultra-defined sharp V-notch Cupid\'s bow, ultra-wide high-projecting zygomatic arches, and a sharp narrow triangular V-line chin'
     }
   };
 
@@ -470,7 +470,10 @@
     if (isAiFace) {
       const arch = FACE_ARCHETYPES[state.faceArchetype] || FACE_ARCHETYPES.auto;
       const isDramatic = (state.divergenceIntensity === 'dramatic');
-      const customTraits = state.customFaceTraits ? ` Unique distinguishing facial details: ${state.customFaceTraits}.` : '';
+      const DEFAULT_DISTINCT_TRAITS = 'distinct individual anatomical landmarks: a sharply defined vertical philtrum column groove, photorealistic subtle facial asymmetry between brow arches, refined infraorbital contour depth, and a clean distinct submental chin crease';
+      const customTraits = state.customFaceTraits
+        ? ` Unique distinguishing facial details: ${state.customFaceTraits}.`
+        : ` Distinct individual facial landmarks: ${DEFAULT_DISTINCT_TRAITS}.`;
 
       if (state.faceSynthesisMode === 'sibling') {
         // Sibling Variation: Biological sister with mandatory anatomical divergence
@@ -502,26 +505,26 @@
         if (isDramatic) {
           switch (state.faceArchetype) {
             case 'soft_oval':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring an unmistakably distinct soft oval silhouette, deeply luminous warm almond eyes, gentle rounded jaw contours, and unique individual facial symmetry (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring an unmistakably distinct soft oval silhouette, gentle rounded jaw contours, distinct rounded-almond eyes, and unique individual facial proportions.';
               break;
             case 'round':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring distinctly soft rounded facial contours, gently curved jawline, large expressive bright rounded eyes, and natural full lips (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring distinctly soft rounded facial contours, gently curved jawline, large expressive bright rounded eyes, and natural full lips.';
               break;
             case 'heart':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a delicate tapered chin, high arched brows, radiant expressive wide eyes, and softly defined cheekbones (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a delicate tapered chin, high arched brows, radiant expressive wide doe eyes, and softly defined cheekbones.';
               break;
             case 'square':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a bold high-fashion square jawline with clean angular bone structure, piercing editorial gaze, and sculpted cheek contours (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a bold high-fashion square jawline with clean angular bone structure, piercing editorial gaze, and sculpted cheek contours.';
               break;
             case 'diamond':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring wide prominent cheekbones, narrow refined temple planes, and a sharp tapered chin (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring wide prominent cheekbones, narrow refined temple planes, and a sharp tapered chin.';
               break;
             case 'chiseled':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring extreme high-fashion bone architecture with sharp prominent cheekbones, razor-sharp jawline definition, and piercing wide-set eyes (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring extreme high-fashion bone architecture with sharp prominent cheekbones, razor-sharp jawline definition, and piercing wide-set eyes.';
               break;
             case 'auto':
             default:
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling with pronounced facial plane contrast, sculpted high-fashion cheekbones, wide-set luminous almond eyes with distinct orbital depth, a slender sculpted nasal bridge, and an elegant tapered jawline (autonomous facial geometry that actively prevents facial convergence across all seeds).';
+              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling with pronounced facial plane contrast, sculpted high-fashion cheekbones, wide-set luminous eyes with distinct orbital depth, a slender sculpted nasal bridge, and an elegant tapered jawline.';
               break;
           }
         } else {

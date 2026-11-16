@@ -6564,7 +6564,9 @@ if(detail==='full'){
   lines.push('OUTPUT INSTRUCTIONS');
   const focusClause = hideEyes
     ? 'Keep the hairstyle silhouette, draped hair veil, and photographic textures in clear focus'
-    : 'Keep the face and hairstyle in clear focus, with photographic detail and natural imperfections';
+    : (isPsAiFace
+        ? 'Keep this newly synthesized model\'s distinct facial features and the exact hairstyle in clear focus, with photographic detail and natural imperfections'
+        : 'Keep the face and hairstyle in clear focus, with photographic detail and natural imperfections');
   lines.push(`${outputText} ${val('quality')}. ${focusClause}.`);
 }else if(detail==='balanced'){
   lines.push('');
