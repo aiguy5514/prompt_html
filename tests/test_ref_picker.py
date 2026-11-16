@@ -235,12 +235,13 @@ def run_all_studio_tests(browser):
       ok('full_look_no_builder_hair_collision', !pFull.includes('shoulder-length bob with soft wispy bangs'));
       ok('full_look_no_builder_studio_collision', !pFull.includes('clean, seamless white studio'));
       ok('full_look_no_creative_intent_contradiction', !pFull.includes('preserving the same adult woman'));
-      ok('full_look_radical_face_replacement', pFull.includes('COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON)'));
-      ok('full_look_discard_reference_face', pFull.includes('100% DISCARD, OVERWRITE, and REPLACE the facial identity'));
+      ok('full_look_radical_face_replacement', pFull.includes('FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY)'));
+      ok('full_look_discard_reference_face', pFull.includes('unique, photorealistic facial architecture') && pFull.includes('completely independent facial anatomy'));
       ok('full_look_archetype_tokens', pFull.includes('distinct high-fashion bone structure with defined cheekbones'));
       ok('full_look_anti_resemblance_negs', pFull.includes('same person as reference image') && pFull.includes('reference model likeness') && pFull.includes('identical facial features'));
       ok('full_look_decoupled_makeup', pFull.includes("without copying the reference subject's lips"));
       ok('full_look_decoupled_accessories', pFull.includes("fitted naturally onto this new model"));
+      ok('full_look_skin_tone_decoupled', !pFull.includes('Keep skin tone consistent with the reference image') && pFull.includes('rendered on this newly synthesized model'));
 
       // Test archetype switching
       rp.setFaceArchetype('chiseled');
@@ -308,6 +309,8 @@ def run_all_studio_tests(browser):
       ok('unrelated_has_neutral_makeup', pUserConfig.includes("fresh, natural editorial makeup tailored to this new model's distinct facial features"));
       ok('unrelated_has_neutral_acc', pUserConfig.includes("tasteful contemporary accessories chosen to complement the outfit (strictly zero reference jewelry or nose ring)"));
       ok('unrelated_has_selective_intent', pUserConfig.includes("transferring strictly her selected reference elements [Hairstyle & Cut, Hair Texture, Hair Color, Pose & Stance]"));
+      ok('unrelated_skin_tone_decoupled', !pUserConfig.includes('Keep skin tone consistent with the reference image') && pUserConfig.includes('rendered on this newly synthesized model'));
+      ok('unrelated_seed_stabilization_negs', pUserConfig.includes('subtle reference facial resemblance') && pUserConfig.includes('accidental reference twin') && pUserConfig.includes('latent face bleeding'));
 
       // Test Lookbook Mode Neutralization
       const btnLookbook = document.getElementById('btnLookbookMode');
@@ -360,6 +363,7 @@ def run_all_studio_tests(browser):
       const pAi = document.getElementById('prompt').value;
       ok('salon_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · AUTHENTIC SALON & BARBERSHOP SCENE'));
       ok('salon_ai_face_anti_clone_neg', pAi.includes('cloned reference face') || pAi.includes('copied reference facial identity'));
+      ok('salon_ai_face_skin_tone_decoupled', !pAi.includes('Consistent with the reference image') && pAi.includes('rendered on this newly synthesized model'));
 
       // Test Retain Original Look + Fresh AI Face in salon
       rp.applyPreset('original_look_fresh_face');

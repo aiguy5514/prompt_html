@@ -65,7 +65,7 @@
       id: 'auto',
       label: '✨ Auto Distinct',
       shortLabel: 'Auto Distinct',
-      tokens: 'distinct high-fashion bone structure with defined cheekbones, unique wide-set almond eyes, a slender sculpted nasal bridge, and an elegant tapered jawline; an entirely different person with zero resemblance to the reference image'
+      tokens: 'distinct high-fashion bone structure with defined cheekbones, unique wide-set almond eyes with defined orbital depth, a slender sculpted nasal bridge with refined tip projection, and an elegant tapered jawline'
     },
     chiseled: {
       id: 'chiseled',
@@ -77,7 +77,7 @@
       id: 'soft_oval',
       label: '🌸 Soft Oval / Almond Eyes',
       shortLabel: 'Soft Oval',
-      tokens: 'classic soft oval facial silhouette, gentle rounded jawline, luminous warm almond eyes, and a delicate, straight nose bridge with natural symmetry'
+      tokens: 'classic soft oval facial silhouette, gentle rounded jawline, luminous warm almond eyes with delicate lids, and a slender, straight nose bridge with natural facial symmetry'
     },
     heart: {
       id: 'heart',
@@ -482,7 +482,7 @@
           `• MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE): The subject is her biological sister, NOT the same woman. While sharing her natural Indian heritage, eye coloration, and warm skin undertones, you MUST visibly and noticeably differentiate her facial anatomy: alter the jawline width and chin contour, reshape the eye contour and eyelid fold, sculpt a noticeably different nasal bridge and tip, and modify the lip fullness featuring ${arch.tokens}.${customTraits}${intensityClause}`
         );
         negativeAdditions.push(
-          'same woman as reference photo, duplicate reference face, identical face structure, 100% clone, identical twin copy, photo duplicate, unmodified reference face, facial identity clone, twin likeness, identical eye shape, identical nose bridge, identical jawline, identical facial proportions, copied reference facial geometry, digital clone of reference photo, unmodified reference photo cutout'
+          'same woman as reference photo, duplicate reference face, identical face structure, 100% clone, identical twin copy, photo duplicate, unmodified reference face, facial identity clone, twin likeness, identical eye shape, identical nose bridge, identical jawline, identical facial proportions, copied reference facial geometry, digital clone of reference photo, unmodified reference photo cutout, subtle reference facial resemblance, partial reference likeness, accidental reference twin'
         );
       } else if (state.faceSynthesisMode === 'reimagined') {
         // Editorial Re-imagination: Haute couture runway remodeling & sculpted elevation (zero "preserve eye shape" blockers)
@@ -497,16 +497,16 @@
           'unmodified reference face, casual snapshot face, soft un-sculpted jawline, plain casual bone structure, un-chiseled face, identical casual reference face, duplicate reference photo face, un-elevated facial features, snapshot facial structure, rounded un-sculpted cheeks, unmodified reference jaw, plain un-sculpted face, distorted facial morphing, unnatural CGI smoothness, waxy plastic skin, warped facial features, unflattering facial distortion, digital doll face'
         );
       } else {
-        // Unrelated Person (Default): 100% Face Swap, zero resemblance
+        // Unrelated Person (Default): 100% Face Swap, affirmative independent anatomy
         const intensityClause = isDramatic
-          ? ' Mandatory dramatic face swap: total anatomical decoupling with strongly contrasted facial planes, zero shared facial identity, and completely independent facial proportions from the reference woman.'
-          : '';
+          ? ' Mandatory dramatic face swap: total anatomical decoupling with pronounced facial plane contrast, sculpted high-set zygomatic arches, wide-set luminous eyes with distinct orbital depth, custom contoured nasal bridge with refined tip definition, and a sharply sculpted mandibular angle with a tapered chin (autonomous facial geometry that actively prevents reference face convergence across all seeds).'
+          : ' Render distinct, natural facial geometry with an independently proportioned jawline, custom eyelid contour, and unique facial symmetry.';
 
         primaryBullets.push(
-          `• COMPLETE FACIAL IDENTITY REPLACEMENT (MANDATORY — 100% DIFFERENT PERSON): The subject in this photograph is a COMPLETELY DIFFERENT WOMAN from the person in the reference photograph. You must 100% DISCARD, OVERWRITE, and REPLACE the facial identity, facial structure, eye shape, nose shape, lips, and bone architecture of the reference woman. Synthesize a fresh, photorealistic, unique face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits}${intensityClause} Radical Face Swap: Under NO circumstances should this image resemble, clone, or preserve the facial identity, eye contour, nose bridge, or jawline of the woman in the reference photo.`
+          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): The subject is an entirely autonomous adult woman with her own unique, photorealistic facial architecture. Synthesize a fresh face autonomously with natural skin pores, authentic Indian heritage features, realistic symmetry, and expressive eyes featuring ${arch.tokens}.${customTraits}${intensityClause} Autonomous Individual Model: She possesses completely independent facial anatomy and distinct facial bone structure.`
         );
         negativeAdditions.push(
-          'same woman as reference photo, cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate, reference face bleed, identical facial bone structure, copied reference nose, copied reference eyes, copied reference lips, duplicate identity'
+          'same woman as reference photo, cloned reference face, copied reference facial identity, identical face to reference photo, duplicate reference face, same person as reference image, reference model likeness, identical facial features, identical eyes and nose, resembling reference face, facial resemblance to reference photo, twin of reference subject, unmodified original face, reference photo facial structure, face duplicate, reference face bleed, identical facial bone structure, copied reference nose, copied reference eyes, copied reference lips, duplicate identity, subtle reference facial resemblance, partial reference likeness, accidental reference twin, recognizable reference facial structure, latent face bleeding, reference face leak, identical eye spacing, identical nose shape, duplicate reference facial features'
         );
       }
 
@@ -515,7 +515,7 @@
           ? 'execute mandatory sibling facial reconstruction to synthesize a distinct biological sister with different facial geometry'
           : (state.faceSynthesisMode === 'reimagined')
             ? 'execute haute couture editorial remodeling to drastically elevate and re-sculpt her bone structure into a runway supermodel'
-            : 'synthesize a completely fresh, photorealistic adult woman\'s face with unique facial features, authentic skin pores, and realistic bone structure that does not clone the reference face';
+            : 'synthesize a completely fresh, photorealistic adult woman\'s face with unique facial features, authentic skin pores, and realistic bone structure possessing completely independent facial anatomy';
         primaryBullets.push(
           `• Master Synthesis Directive (Retain Original Look + Fresh AI Face): Strictly retain the complete original look—exact hairstyle silhouette, hair texture, hair color, wardrobe garments, makeup palette, jewelry, body pose, and background environment—from the reference photo, but ${modeDesc}.`
         );
@@ -697,7 +697,14 @@
             <input type="text" class="ref-custom-input" id="refCustomFaceTraits" placeholder="Optional specific facial features (e.g. sharp jawline, beauty mark, deep hazel eyes)" value="${escapeHtml(state.customFaceTraits || '')}">
 
             <div class="ref-tip-box">
-              <strong>💡 Pro-Tip for External Image Generators:</strong> When your reference image has a very clear face, use this prompt with <em>Style Reference / Image Conditioning</em> instead of Face/Character Cloner tools so the AI transfers styling while generating this fresh face.
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                <strong>💡 Pro-Tip for External Image Generators:</strong>
+                <span style="font-size: 9.5px; color: #a855f7; background: rgba(168,85,247,0.15); padding: 1px 6px; border-radius: 4px;">Seed Stabilization Guide</span>
+              </div>
+              <div style="font-size: 10px; line-height: 1.45; color: #cbd5e1;">
+                • <strong>Character Reference Tools:</strong> If using character-reference flags (such as <code>--cw</code>), always set character weight to <code>--cw 0</code> so the AI transfers <em>only</em> hair &amp; wardrobe while generating this fresh face.<br>
+                • <strong>Style &amp; Image Conditioning:</strong> Use <em>Style Reference / Image Conditioning</em> (weight 0.4–0.6) or <em>ControlNet (OpenPose)</em> for pose rather than FaceID / Face-Cloner tools to prevent reference face bleed across random seeds.
+              </div>
             </div>
           </div>
           ` : ''}
