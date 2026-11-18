@@ -1223,42 +1223,45 @@
   // =========================================================================
   // PRESET MANAGEMENT
   // =========================================================================
+  let activePreset = null;
+
   function renderPresets() {
     const container = el('presets');
     if (!container) return;
     container.innerHTML = '';
 
-    const allPresets = [...customPresets, ...STARTER_PRESETS];
-
-    allPresets.forEach(preset => {
-      const card = document.createElement('div');
-      card.className = `preset ${preset.isCustom ? 'custom-preset' : ''}`;
-      card.innerHTML = `
-        <div class="preset-icon">${preset.icon || '🔬'}</div>
-        <div class="preset-content">
-          <div class="preset-title">${preset.title}</div>
-          <div class="preset-sub">${preset.sub || ''}</div>
-        </div>
-      `;
-
-      card.addEventListener('click', () => {
-        applyPreset(preset);
+    // Custom saved presets
+    customPresets.forEach(p => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
+      b.dataset.preset = p.id;
+      b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon || '⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${p.id}">✕</button></div><small>${p.sub || 'Custom look'}</small>`;
+      b.addEventListener('click', (e) => {
+        if (e.target.closest('.preset-del')) {
+          deleteCustomPreset(p.id);
+        } else {
+          activePreset = p.id;
+          container.querySelectorAll('.preset').forEach(el => el.classList.toggle('active', el.dataset.preset === p.id));
+          applyPreset(p);
+        }
       });
+      container.appendChild(b);
+    });
 
-      if (preset.isCustom) {
-        const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.className = 'preset-del-btn';
-        delBtn.innerHTML = '×';
-        delBtn.title = 'Delete saved look';
-        delBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          deleteCustomPreset(preset.id);
-        });
-        card.appendChild(delBtn);
-      }
-
-      container.appendChild(card);
+    // Standard starter presets
+    STARTER_PRESETS.forEach(p => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'preset' + (p.id === activePreset ? ' active' : '');
+      b.dataset.preset = p.id;
+      b.innerHTML = `<span class="preset-icon">${p.icon || '🔬'}</span><strong>${p.title}</strong><small>${p.sub || ''}</small>`;
+      b.addEventListener('click', () => {
+        activePreset = p.id;
+        container.querySelectorAll('.preset').forEach(el => el.classList.toggle('active', el.dataset.preset === p.id));
+        applyPreset(p);
+      });
+      container.appendChild(b);
     });
   }
 
@@ -1550,6 +1553,8 @@
         values.customFaceNote = '';
         values.customDirection = '';
         values.extraNegative = '';
+        activePreset = null;
+        renderPresets();
         renderSectionContents(currentSection);
         buildPrompt();
         showToast('Reset to default preservation state');
@@ -1559,6 +1564,8 @@
     if (el('randomTop') || el('shuffleLooks')) {
       const handler = () => {
         const p = STARTER_PRESETS[Math.floor(Math.random() * STARTER_PRESETS.length)];
+        activePreset = p.id;
+        renderPresets();
         applyPreset(p);
         showToast(`Loaded preset: ${p.title}`);
       };
