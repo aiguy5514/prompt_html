@@ -902,6 +902,34 @@
   line-height: 1.45;
   margin: 0;
 }
+.applied-preset-diff .diff-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.applied-preset-diff .diff-save-btn {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(159, 228, 193, 0.15);
+  border: 1px solid rgba(159, 228, 193, 0.45);
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.applied-preset-diff .diff-save-btn:hover {
+  background: rgba(159, 228, 193, 0.28);
+  border-color: var(--green);
+}
+.applied-preset-diff .diff-save-btn.saved {
+  background: rgba(159, 228, 193, 0.35);
+  color: var(--green);
+  pointer-events: none;
+}
 .applied-preset-diff .diff-close {
   background: transparent;
   border: none;

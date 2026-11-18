@@ -1280,6 +1280,7 @@
 
   function summarizeDoctorPresetChanges(preset, prevValues, prevLocks, prevMoisture, prevWardrobe) {
     const changes = [];
+    const allSettings = [];
     const editsSource = preset.edits || preset.set || preset.values || {};
 
     Object.keys(fields).forEach(k => {
@@ -1288,61 +1289,99 @@
       const oldVal = prevValues ? prevValues[k] : null;
       const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
 
-      if (newLbl && (!prevValues || newLbl !== oldLbl) && !isKeepRef(newLbl)) {
+      if (newLbl && !isKeepRef(newLbl)) {
         const cleanName = fields[k]?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
-        changes.push(`${cleanName}: “${newLbl}”`);
+        allSettings.push(`${cleanName}: “${newLbl}”`);
+        if (!prevValues || newLbl !== oldLbl) {
+          changes.push(`${cleanName} → “${newLbl}”`);
+        }
       }
     });
 
-    if (preset.locks && prevLocks) {
-      const lockedDiff = [];
-      Object.keys(preset.locks).forEach(lk => {
-        if (!!preset.locks[lk] !== !!prevLocks[lk]) {
-          const lDef = PRESERVE_LOCKS.find(x => x.id === lk);
-          lockedDiff.push(preset.locks[lk] ? `+Locked ${lDef?.label || lk}` : `Unlocked ${lDef?.label || lk}`);
-        }
-      });
-      if (lockedDiff.length) {
-        changes.push(lockedDiff.slice(0, 2).join(', '));
-      }
-    } else if (preset.locks) {
+    if (preset.locks) {
       const lockedCount = Object.values(preset.locks).filter(Boolean).length;
-      changes.push(`${lockedCount} features locked`);
+      allSettings.push(`${lockedCount} features locked`);
+
+      if (prevLocks) {
+        const lockedDiff = [];
+        Object.keys(preset.locks).forEach(lk => {
+          if (!!preset.locks[lk] !== !!prevLocks[lk]) {
+            const lDef = PRESERVE_LOCKS.find(x => x.id === lk);
+            lockedDiff.push(preset.locks[lk] ? `+Locked ${lDef?.label || lk}` : `Unlocked ${lDef?.label || lk}`);
+          }
+        });
+        if (lockedDiff.length) {
+          changes.push(lockedDiff.slice(0, 2).join(', '));
+        }
+      } else {
+        changes.push(`${lockedCount} features locked`);
+      }
     }
 
-    if (preset.activeHairMoisture && (!prevMoisture || preset.activeHairMoisture !== prevMoisture)) {
-      changes.push(`Hair Moisture: ${preset.activeHairMoisture}`);
+    if (preset.activeHairMoisture) {
+      allSettings.push(`Hair Moisture: ${preset.activeHairMoisture}`);
+      if (!prevMoisture || preset.activeHairMoisture !== prevMoisture) {
+        changes.push(`Hair Moisture → ${preset.activeHairMoisture}`);
+      }
     }
-    if (preset.wardrobeMode && (!prevWardrobe || preset.wardrobeMode !== prevWardrobe)) {
-      changes.push(`Wardrobe: ${preset.wardrobeMode}`);
+    if (preset.wardrobeMode) {
+      allSettings.push(`Wardrobe: ${preset.wardrobeMode}`);
+      if (!prevWardrobe || preset.wardrobeMode !== prevWardrobe) {
+        changes.push(`Wardrobe → ${preset.wardrobeMode}`);
+      }
     }
 
-    return changes;
+    return { changes, allSettings };
   }
 
-  function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '.preset-strip') {
+  function showAppliedPresetBanner(presetTitle, diffResult, containerSelector = '.preset-strip', onSavePreset = null) {
     const host = document.querySelector(containerSelector);
     if (!host) return;
     const old = host.querySelector('.applied-preset-diff');
     if (old) old.remove();
 
-    if (!changesList || !changesList.length) return;
+    const changes = Array.isArray(diffResult) ? diffResult : (diffResult?.changes || []);
+    const allSettings = Array.isArray(diffResult) ? diffResult : (diffResult?.allSettings || changes);
+
+    const isMatching = changes.length === 0;
+    const itemsToShow = isMatching ? allSettings : changes;
+    if (!itemsToShow || !itemsToShow.length) return;
 
     const banner = document.createElement('div');
     banner.className = 'applied-preset-diff';
-    const displayItems = changesList.slice(0, 8);
-    const remainingCount = changesList.length - displayItems.length;
+    const displayItems = itemsToShow.slice(0, 8);
+    const remainingCount = itemsToShow.length - displayItems.length;
     const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
       (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+    const titleHtml = isMatching
+      ? `Applied: ${presetTitle || 'Surgical Look'} (All settings match current studio configuration)`
+      : `Applied: ${presetTitle || 'Surgical Look'} (${changes.length} setting${changes.length === 1 ? '' : 's'} updated)`;
 
     banner.innerHTML = `
       <span class="diff-icon">✦</span>
       <div class="diff-content">
-        <div class="diff-title">Applied: ${presetTitle || 'Surgical Look'} (${changesList.length} settings updated)</div>
+        <div class="diff-title">${titleHtml}</div>
         <p class="diff-list">${listHtml}</p>
       </div>
-      <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+      <div class="diff-actions">
+        ${onSavePreset ? '<button type="button" class="diff-save-btn">★ Save to presets</button>' : ''}
+        <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+      </div>
     `;
+
+    if (onSavePreset) {
+      const saveBtn = banner.querySelector('.diff-save-btn');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const saved = onSavePreset();
+          if (saved) {
+            saveBtn.textContent = '✓ Saved to presets';
+            saveBtn.classList.add('saved');
+          }
+        });
+      }
+    }
 
     banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
 
@@ -1394,15 +1433,15 @@
     renderSectionContents(currentSection);
     buildPrompt();
 
-    const changes = summarizeDoctorPresetChanges(preset, prevValues, prevLocks, prevMoisture, prevWardrobe);
-    showAppliedPresetBanner(preset.title, changes, '.preset-strip');
+    const diffResult = summarizeDoctorPresetChanges(preset, prevValues, prevLocks, prevMoisture, prevWardrobe);
+    showAppliedPresetBanner(preset.title, diffResult, '.preset-strip');
 
-    if (changes.length) {
-      const summaryText = changes.slice(0, 3).join(' · ');
-      const moreText = changes.length > 3 ? ` (+${changes.length - 3} more)` : '';
+    if (diffResult.changes.length) {
+      const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+      const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
       showToast(`✓ Applied “${preset.title}”! Updated: ${summaryText}${moreText}`);
     } else {
-      showToast(`Applied “${preset.title}”.`);
+      showToast(`Applied “${preset.title}”. All settings match current studio configuration.`);
     }
   }
 
@@ -1432,7 +1471,18 @@
   }
 
   function exportDoctorPresets(optName) {
-    const defaultTitle = 'Active Surgical Direction';
+    let smartDefault = '';
+    if (activePreset) {
+      const found = STARTER_PRESETS.find(p => p.id === activePreset) || customPresets.find(p => p.id === activePreset);
+      if (found) smartDefault = found.title;
+    }
+    if (!smartDefault) {
+      const edits = getActiveEdits();
+      if (edits.length) {
+        smartDefault = edits.slice(0, 2).map(e => e.label).join(' & ');
+      }
+    }
+    const defaultTitle = smartDefault || 'Surgical Direction';
     const naming = promptExportName(defaultTitle, 'doctor', optName);
     if (!naming) return null; // Clean abort
 
@@ -1453,7 +1503,6 @@
       locks: { ...lockState },
       edits: activeEdits
     };
-    const exportList = customPresets.length ? customPresets : [activeLook];
     const data = {
       version: 2,
       generator: 'Afterglow Prompt Studio',
@@ -1461,7 +1510,7 @@
       title: naming.title,
       exportedAt: new Date().toISOString(),
       activeLook,
-      customPresets: exportList,
+      customPresets,
       starterPresets: STARTER_PRESETS
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
@@ -1484,57 +1533,152 @@
   }
 
   function importDoctorPresetsFromData(data) {
-    let list = null;
-    if (Array.isArray(data)) {
-      list = data;
-    } else if (data && typeof data === 'object') {
-      if (Array.isArray(data.customPresets)) list = data.customPresets;
-      else if (Array.isArray(data.presets)) list = data.presets;
-      else if (Array.isArray(data.starterPresets)) list = data.starterPresets;
-      else if (data.edits || data.set || data.values || data.locks) list = [data];
-      else if (data.activeLook) list = [data.activeLook];
-    }
-    if (!list) return 0;
+    if (!data || typeof data !== 'object') return 0;
+
+    let rawList = [];
+    if (Array.isArray(data.customPresets)) rawList = data.customPresets;
+    else if (Array.isArray(data.presets)) rawList = data.presets;
+    else if (Array.isArray(data) && data.length > 1) rawList = data;
+
+    const realCustomPresets = rawList.filter(p => {
+      if (!p) return false;
+      const isSnapshot = (p.sub && String(p.sub).includes('Snapshot of current')) ||
+                         (p.id && String(p.id).startsWith('active_'));
+      return !isSnapshot;
+    });
 
     let count = 0;
     let firstAdded = null;
-    list.forEach(p => {
-      if (!p) return;
-      if (p.id && customPresets.some(existing => existing.id === p.id)) return;
+    if (realCustomPresets.length > 0) {
+      realCustomPresets.forEach(p => {
+        if (!p) return;
+        if (p.id && customPresets.some(existing => existing.id === p.id)) return;
 
-      const title = p.title || p.name || ('Imported Look ' + (count + 1));
-      let finalTitle = String(title).slice(0, 80);
-      if (customPresets.some(existing => existing.title === finalTitle)) {
-        finalTitle += ` (${count + 1})`;
+        const title = p.title || p.name || ('Imported Look ' + (count + 1));
+        let finalTitle = String(title).slice(0, 80);
+        if (customPresets.some(existing => existing.title === finalTitle)) {
+          finalTitle += ` (${count + 1})`;
+        }
+
+        const newP = {
+          id: p.id || ('doc_' + Date.now() + '_' + count),
+          title: finalTitle,
+          sub: p.sub || 'Imported surgical look',
+          icon: p.icon || '⭐',
+          isCustom: true,
+          wardrobeMode: p.wardrobeMode || 'outfit',
+          locks: p.locks || { ...lockState },
+          edits: p.edits || p.set || p.values || {}
+        };
+
+        customPresets.unshift(newP);
+        if (!firstAdded) firstAdded = newP;
+        count++;
+      });
+
+      save();
+      renderPresets();
+      if (!firstAdded && !data.activeLook) {
+        return count;
       }
-
-      const newP = {
-        id: p.id || ('doc_' + Date.now() + '_' + count),
-        title: finalTitle,
-        sub: p.sub || 'Imported surgical look',
-        icon: p.icon || '⭐',
-        isCustom: true,
-        wardrobeMode: p.wardrobeMode || 'outfit',
-        locks: p.locks || { ...lockState },
-        edits: p.edits || p.set || p.values || {}
-      };
-
-      customPresets.unshift(newP);
-      if (!firstAdded) firstAdded = newP;
-      count++;
-    });
-
-    save();
-    renderPresets();
-
-    if (firstAdded) {
-      try {
-        activePreset = firstAdded.id;
-        applyPreset(firstAdded);
-      } catch(e) {}
     }
 
-    return count;
+    let lookSource = null;
+    let isStandaloneLook = false;
+
+    if (data.activeLook) {
+      lookSource = data.activeLook;
+      isStandaloneLook = true;
+    } else if (firstAdded) {
+      lookSource = firstAdded;
+    } else if (Array.isArray(data.starterPresets) && data.starterPresets.length === 1) {
+      lookSource = data.starterPresets[0];
+      isStandaloneLook = true;
+    } else if (data.edits || data.set || data.values || data.locks) {
+      lookSource = data;
+      isStandaloneLook = true;
+    } else if (Array.isArray(data) && data.length === 1) {
+      lookSource = data[0];
+      isStandaloneLook = true;
+    }
+
+    if (!lookSource) return count;
+
+    const title = lookSource.title || data.title || 'Imported Surgical Look';
+    const lookToApply = {
+      id: lookSource.id || ('imported_doc_' + Date.now()),
+      title: String(title).slice(0, 80),
+      sub: lookSource.sub || 'Imported Surgical Look',
+      icon: lookSource.icon || '🔬',
+      wardrobeMode: lookSource.wardrobeMode || 'outfit',
+      activeHairMoisture: lookSource.activeHairMoisture,
+      locks: lookSource.locks || { ...lockState },
+      edits: lookSource.edits || lookSource.set || lookSource.values || {}
+    };
+
+    const onSavePreset = isStandaloneLook ? () => {
+      const chosenName = prompt('Save this imported look as a preset:', lookToApply.title);
+      if (!chosenName || !chosenName.trim()) return false;
+      const newPreset = {
+        id: 'doctor_' + Date.now(),
+        title: chosenName.trim(),
+        sub: lookToApply.sub || `${getActiveEdits().length} edits · Custom look`,
+        icon: '⭐',
+        isCustom: true,
+        wardrobeMode: lookToApply.wardrobeMode || wardrobeMode,
+        locks: { ...lockState },
+        edits: Object.assign({}, lookToApply.edits)
+      };
+      customPresets.unshift(newPreset);
+      save();
+      renderPresets();
+      showToast(`Saved “${chosenName.trim()}” to presets.`);
+      return true;
+    } : null;
+
+    const prevValues = Object.assign({}, values);
+    const prevLocks = Object.assign({}, lockState);
+    const prevMoisture = activeHairMoisture;
+    const prevWardrobe = wardrobeMode;
+
+    if (lookToApply.wardrobeMode) wardrobeMode = lookToApply.wardrobeMode;
+    if (lookToApply.activeHairMoisture) activeHairMoisture = lookToApply.activeHairMoisture;
+    if (lookToApply.locks) {
+      Object.keys(lookToApply.locks).forEach(k => { lockState[k] = !!lookToApply.locks[k]; });
+    }
+
+    const editsSource = lookToApply.edits || {};
+    Object.keys(fields).forEach(k => {
+      if (fields[k] && fields[k].opts) {
+        if (editsSource[k]) {
+          const targetVal = typeof editsSource[k] === 'object' && editsSource[k] !== null
+            ? (editsSource[k].label || editsSource[k].text || '')
+            : editsSource[k];
+          const match = fields[k].opts.find(o => o.label === targetVal || o.label.includes(targetVal) || (o.text && o.text.includes(targetVal)));
+          if (match) values[k] = match;
+          else values[k] = { label: targetVal, text: targetVal };
+        } else {
+          values[k] = fields[k].opts[0];
+        }
+      }
+    });
+
+    activePreset = '';
+    renderSectionContents(currentSection);
+    buildPrompt();
+
+    const diffResult = summarizeDoctorPresetChanges(lookToApply, prevValues, prevLocks, prevMoisture, prevWardrobe);
+    showAppliedPresetBanner(lookToApply.title, diffResult, '.preset-strip', onSavePreset);
+
+    if (diffResult.changes.length) {
+      const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+      const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
+      showToast(`✓ Applied “${lookToApply.title}”! Updated: ${summaryText}${moreText}`);
+    } else {
+      showToast(`✓ Applied “${lookToApply.title}”! All settings match current studio configuration.`);
+    }
+
+    return 1;
   }
 
   // =========================================================================
@@ -1804,8 +1948,7 @@
         reader.onload = ev => {
           try {
             const data = JSON.parse(ev.target.result);
-            const count = importDoctorPresetsFromData(data);
-            showToast(count ? `✓ Imported ${count} preset(s) and applied look.` : 'No new presets found in file.');
+            importDoctorPresetsFromData(data);
           } catch (err) {
             showToast('Could not import presets: invalid or incompatible .json file.');
           } finally {

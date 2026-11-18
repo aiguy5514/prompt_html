@@ -1335,6 +1335,7 @@ function promptExportName(defaultName, studioSlug, optName) {
 
 function summarizePresetChanges(preset, prevValues, fieldDefs) {
   const changes = [];
+  const allSettings = [];
   const source = preset.set || preset.values || preset.edits || preset.global || {};
 
   Object.entries(source).forEach(([k, val]) => {
@@ -1344,52 +1345,90 @@ function summarizePresetChanges(preset, prevValues, fieldDefs) {
     const oldVal = prevValues ? prevValues[k] : null;
     const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
 
+    const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
+    allSettings.push(`${cleanFieldName}: “${newLbl}”`);
+
     if (!prevValues || newLbl !== oldLbl) {
-      const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
-      changes.push(`${cleanFieldName}: “${newLbl}”`);
+      changes.push(`${cleanFieldName} → “${newLbl}”`);
     }
   });
 
-  if (preset.romanceHairMoisture && (!prevValues || preset.romanceHairMoisture !== prevValues._moisture)) {
-    changes.push(`Hair Moisture: ${preset.romanceHairMoisture}`);
+  if (preset.romanceHairMoisture) {
+    allSettings.push(`Hair Moisture: ${preset.romanceHairMoisture}`);
+    if (!prevValues || preset.romanceHairMoisture !== prevValues._moisture) {
+      changes.push(`Hair Moisture → ${preset.romanceHairMoisture}`);
+    }
   }
-  if (preset.wardrobeMode && (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode)) {
-    changes.push(`Wardrobe: ${preset.wardrobeMode}`);
+  if (preset.wardrobeMode) {
+    allSettings.push(`Wardrobe: ${preset.wardrobeMode}`);
+    if (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode) {
+      changes.push(`Wardrobe → ${preset.wardrobeMode}`);
+    }
   }
   if (preset.locks && typeof preset.locks === 'object') {
     const lockedCount = Object.values(preset.locks).filter(Boolean).length;
+    allSettings.push(`${lockedCount} features locked`);
     changes.push(`${lockedCount} features locked`);
   }
-  if (preset.frameCount && (!prevValues || preset.frameCount !== prevValues._frameCount)) {
-    changes.push(`Sequence: ${preset.frameCount} frames`);
+  if (preset.frameCount) {
+    allSettings.push(`Sequence: ${preset.frameCount} frames`);
+    if (!prevValues || preset.frameCount !== prevValues._frameCount) {
+      changes.push(`Sequence → ${preset.frameCount} frames`);
+    }
   }
 
-  return changes;
+  return { changes, allSettings };
 }
 
-function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '.preset-strip') {
+function showAppliedPresetBanner(presetTitle, diffResult, containerSelector = '.preset-strip', onSavePreset = null) {
   const host = document.querySelector(containerSelector);
   if (!host) return;
   const old = host.querySelector('.applied-preset-diff');
   if (old) old.remove();
 
-  if (!changesList || !changesList.length) return;
+  const changes = Array.isArray(diffResult) ? diffResult : (diffResult?.changes || []);
+  const allSettings = Array.isArray(diffResult) ? diffResult : (diffResult?.allSettings || changes);
+
+  const isMatching = changes.length === 0;
+  const itemsToShow = isMatching ? allSettings : changes;
+  if (!itemsToShow || !itemsToShow.length) return;
 
   const banner = document.createElement('div');
   banner.className = 'applied-preset-diff';
-  const displayItems = changesList.slice(0, 8);
-  const remainingCount = changesList.length - displayItems.length;
+  const displayItems = itemsToShow.slice(0, 8);
+  const remainingCount = itemsToShow.length - displayItems.length;
   const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
     (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+  const titleHtml = isMatching
+    ? `Applied: ${presetTitle || 'Preset'} (All settings match current studio configuration)`
+    : `Applied: ${presetTitle || 'Preset'} (${changes.length} setting${changes.length === 1 ? '' : 's'} updated)`;
 
   banner.innerHTML = `
     <span class="diff-icon">✦</span>
     <div class="diff-content">
-      <div class="diff-title">Applied: ${presetTitle || 'Preset'} (${changesList.length} settings updated)</div>
+      <div class="diff-title">${titleHtml}</div>
       <p class="diff-list">${listHtml}</p>
     </div>
-    <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+    <div class="diff-actions">
+      ${onSavePreset ? '<button type="button" class="diff-save-btn">★ Save to presets</button>' : ''}
+      <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+    </div>
   `;
+
+  if (onSavePreset) {
+    const saveBtn = banner.querySelector('.diff-save-btn');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        const ok = onSavePreset();
+        if (ok) {
+          saveBtn.disabled = true;
+          saveBtn.classList.add('saved');
+          saveBtn.textContent = '✓ Saved in library';
+        }
+      });
+    }
+  }
 
   banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
 
@@ -1422,14 +1461,14 @@ function applyPresetObj(p){
   renderFields();
   buildPrompt();
 
-  const changes = summarizePresetChanges(p, prevValues, fields);
-  showAppliedPresetBanner(p.title, changes, '.preset-strip');
-  if (changes.length) {
-    const summaryText = changes.slice(0, 3).join(' · ');
-    const moreText = changes.length > 3 ? ` (+${changes.length - 3} more)` : '';
+  const diffResult = summarizePresetChanges(p, prevValues, fields);
+  showAppliedPresetBanner(p.title, diffResult, '.preset-strip');
+  if (diffResult.changes.length) {
+    const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+    const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
     toast(`✓ Applied “${p.title}”! Updated: ${summaryText}${moreText}`);
   } else {
-    toast(`Applied preset “${p.title}”.`);
+    toast(`✓ Applied “${p.title}”! All settings match current studio configuration.`);
   }
 }
 
@@ -1529,7 +1568,7 @@ function hydrateRomanceSet(rawSet){
 }
 
 function exportPresets(optName){
-  const defaultTitle = 'Active Romantic Look';
+  const defaultTitle = [values.romanceDynamic?.label, values.romanceSetting?.label].filter(Boolean).join(' · ') || 'Active Romantic Look';
   const naming = promptExportName(defaultTitle, 'romance', optName);
   if (!naming) return null; // Clean abort
 
@@ -1589,7 +1628,7 @@ function exportPresets(optName){
     title: naming.title,
     exportedAt: new Date().toISOString(),
     activeLook,
-    customPresets: formattedCustom.length ? formattedCustom : [activeLook],
+    customPresets: formattedCustom,
     starterPresets: starterList
   };
 
@@ -1607,49 +1646,144 @@ function exportPresets(optName){
 }
 
 function importPresetsFromData(parsed){
-  let list = null;
-  if (Array.isArray(parsed)) {
-    list = parsed;
-  } else if (parsed && typeof parsed === 'object') {
-    if (Array.isArray(parsed.customPresets)) list = parsed.customPresets;
-    else if (Array.isArray(parsed.presets)) list = parsed.presets;
-    else if (Array.isArray(parsed.starterPresets)) list = parsed.starterPresets;
-    else if (parsed.set || parsed.values || parsed.v || parsed.edits) list = [parsed];
-    else if (parsed.activeLook) list = [parsed.activeLook];
-  }
-  if (!list) throw new Error('Invalid JSON');
+  if (!parsed || typeof parsed !== 'object') throw new Error('Invalid JSON');
 
-  let added = 0;
-  list.forEach(raw => {
-    if (!raw) return;
-    const title = raw.title || raw.name || ('Romance ' + (added + 1));
-    if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+  let rawList = [];
+  if (Array.isArray(parsed.customPresets)) rawList = parsed.customPresets;
+  else if (Array.isArray(parsed.presets)) rawList = parsed.presets;
+  else if (Array.isArray(parsed) && parsed.length > 1) rawList = parsed;
 
-    let finalTitle = String(title).slice(0, 80);
-    if (customPresets.some(p => p.title === finalTitle)) {
-      finalTitle += ` (${added + 1})`;
-    }
-
-    const hydratedSet = hydrateRomanceSet(raw.set || raw.values || raw.v || raw.edits);
-    if (!Object.keys(hydratedSet).length) return;
-
-    const p = {
-      id: raw.id || ('rom_' + Date.now() + '_' + added),
-      title: finalTitle,
-      sub: raw.sub || 'Imported Romance',
-      icon: raw.icon || '⭐',
-      isCustom: true,
-      set: hydratedSet
-    };
-
-    customPresets.unshift(p);
-    added++;
+  const realCustomPresets = rawList.filter(p => {
+    if (!p) return false;
+    const isSnapshot = (p.sub && String(p.sub).includes('Snapshot of current')) ||
+                       (p.id && String(p.id).startsWith('active_'));
+    return !isSnapshot;
   });
 
-  save();
-  renderPresets();
+  let added = 0;
+  let firstAdded = null;
+  if (realCustomPresets.length > 0) {
+    realCustomPresets.forEach(raw => {
+      if (!raw) return;
+      const title = raw.title || raw.name || ('Romance ' + (added + 1));
+      if (raw.id && customPresets.some(p => p.id === raw.id)) return;
 
-  return added;
+      let finalTitle = String(title).slice(0, 80);
+      if (customPresets.some(p => p.title === finalTitle)) {
+        finalTitle += ` (${added + 1})`;
+      }
+
+      const hydratedSet = hydrateRomanceSet(raw.set || raw.values || raw.v || raw.edits);
+      if (!Object.keys(hydratedSet).length) return;
+
+      const p = {
+        id: raw.id || ('rom_' + Date.now() + '_' + added),
+        title: finalTitle,
+        sub: raw.sub || 'Imported Romance',
+        icon: raw.icon || '⭐',
+        isCustom: true,
+        set: hydratedSet
+      };
+
+      customPresets.unshift(p);
+      if (!firstAdded) firstAdded = p;
+      added++;
+    });
+
+    save();
+    renderPresets();
+    if (!firstAdded && !parsed.activeLook) {
+      return added;
+    }
+  }
+
+  let lookSource = null;
+  let isStandaloneLook = false;
+
+  if (parsed.activeLook) {
+    lookSource = parsed.activeLook;
+    isStandaloneLook = true;
+  } else if (firstAdded) {
+    lookSource = firstAdded;
+  } else if (Array.isArray(parsed.starterPresets) && parsed.starterPresets.length === 1) {
+    lookSource = parsed.starterPresets[0];
+    isStandaloneLook = true;
+  } else if (parsed.set || parsed.values || parsed.v || parsed.edits) {
+    lookSource = parsed;
+    isStandaloneLook = true;
+  } else if (Array.isArray(parsed) && parsed.length === 1) {
+    lookSource = parsed[0];
+    isStandaloneLook = true;
+  }
+
+  if (!lookSource) {
+    if (added > 0) return added;
+    throw new Error('No valid romance look found in JSON');
+  }
+
+  const title = lookSource.title || parsed.title || 'Imported Romantic Look';
+  const hydratedSet = hydrateRomanceSet(lookSource.set || lookSource.values || lookSource.v || lookSource.edits);
+  if (!Object.keys(hydratedSet).length) throw new Error('No compatible fields found in look');
+
+  const lookToApply = {
+    id: lookSource.id || ('imported_' + Date.now()),
+    title: String(title).slice(0, 80),
+    sub: lookSource.sub || 'Imported Romantic Look',
+    icon: lookSource.icon || '✦',
+    set: hydratedSet
+  };
+
+  // Callback to allow the user to save this look as a custom preset card if they want
+  const onSavePreset = isStandaloneLook ? () => {
+    const chosenName = prompt('Save this imported look as a preset:', lookToApply.title);
+    if (!chosenName || !chosenName.trim()) return false;
+    const newPreset = {
+      id: 'rom_' + Date.now(),
+      title: chosenName.trim(),
+      sub: lookToApply.sub || [values.romanceDynamic?.label, values.romanceSetting?.label].filter(Boolean).join(' · '),
+      icon: '⭐',
+      isCustom: true,
+      set: Object.assign({}, hydratedSet)
+    };
+    customPresets.unshift(newPreset);
+    save();
+    renderPresets();
+    toast(`Saved “${chosenName.trim()}” to presets.`);
+    return true;
+  } : null;
+
+  const prevValues = Object.assign({}, values);
+  prevValues._moisture = romanceHairMoisture;
+  prevValues._wardrobeMode = wardrobeMode;
+
+  activePreset = '';
+  if (lookToApply.set) {
+    Object.entries(lookToApply.set).forEach(([k, v]) => {
+      if (k === 'romanceHairMoisture') romanceHairMoisture = v;
+      else if (k === 'wardrobeMode') wardrobeMode = v;
+      else if (fields[k]) {
+        values[k] = typeof v === 'string'
+          ? (fields[k].opts.find(o => o.label === v) || { label: v, text: v })
+          : v;
+      }
+    });
+  }
+  document.querySelectorAll('.preset').forEach(x => x.classList.remove('active'));
+  renderFields();
+  buildPrompt();
+
+  const diffResult = summarizePresetChanges(lookToApply, prevValues, fields);
+  showAppliedPresetBanner(lookToApply.title, diffResult, '.preset-strip', onSavePreset);
+
+  if (diffResult.changes.length) {
+    const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+    const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
+    toast(`✓ Applied “${lookToApply.title}”! Updated: ${summaryText}${moreText}`);
+  } else {
+    toast(`✓ Applied “${lookToApply.title}”! All settings match current studio configuration.`);
+  }
+
+  return realCustomPresets.length > 0 ? added : 1;
 }
 
 function toast(msg){
@@ -1774,12 +1908,7 @@ if(el('importPresetsBtn') && el('importPresetsInput')){
     const r = new FileReader();
     r.onload = () => {
       try {
-        const count = importPresetsFromData(JSON.parse(r.result));
-        if (count && customPresets[0]) {
-          applyPresetObj(customPresets[0]);
-        } else if (!count) {
-          toast('No new presets found in file.');
-        }
+        importPresetsFromData(JSON.parse(r.result));
       } catch(err){
         toast('Could not import presets: invalid or incompatible .json file.');
       } finally {

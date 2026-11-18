@@ -2594,6 +2594,7 @@ function promptExportName(defaultName, studioSlug, optName) {
 
 function summarizePresetChanges(preset, prevValues, fieldDefs) {
   const changes = [];
+  const allSettings = [];
   const source = preset.set || preset.values || preset.edits || preset.global || {};
 
   Object.entries(source).forEach(([k, val]) => {
@@ -2603,52 +2604,89 @@ function summarizePresetChanges(preset, prevValues, fieldDefs) {
     const oldVal = prevValues ? prevValues[k] : null;
     const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
 
+    const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
+    allSettings.push(`${cleanFieldName}: “${newLbl}”`);
+
     if (!prevValues || newLbl !== oldLbl) {
-      const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
-      changes.push(`${cleanFieldName}: “${newLbl}”`);
+      changes.push(`${cleanFieldName} → “${newLbl}”`);
     }
   });
 
-  if (preset.hairMoisture && (!prevValues || preset.hairMoisture !== prevValues._moisture)) {
-    changes.push(`Hair Moisture: ${preset.hairMoisture}`);
+  if (preset.hairMoisture) {
+    allSettings.push(`Hair Moisture: ${preset.hairMoisture}`);
+    if (!prevValues || preset.hairMoisture !== prevValues._moisture) {
+      changes.push(`Hair Moisture → ${preset.hairMoisture}`);
+    }
   }
-  if (preset.wardrobeMode && (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode)) {
-    changes.push(`Wardrobe: ${preset.wardrobeMode}`);
+  if (preset.wardrobeMode) {
+    allSettings.push(`Wardrobe: ${preset.wardrobeMode}`);
+    if (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode) {
+      changes.push(`Wardrobe → ${preset.wardrobeMode}`);
+    }
   }
   if (preset.locks && typeof preset.locks === 'object') {
     const lockedCount = Object.values(preset.locks).filter(Boolean).length;
+    allSettings.push(`${lockedCount} features locked`);
     changes.push(`${lockedCount} features locked`);
   }
-  if (preset.frameCount && (!prevValues || preset.frameCount !== prevValues._frameCount)) {
-    changes.push(`Sequence: ${preset.frameCount} frames`);
+  if (preset.frameCount) {
+    allSettings.push(`Sequence: ${preset.frameCount} frames`);
+    if (!prevValues || preset.frameCount !== prevValues._frameCount) {
+      changes.push(`Sequence → ${preset.frameCount} frames`);
+    }
   }
 
-  return changes;
+  return { changes, allSettings };
 }
 
-function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '.preset-strip') {
+function showAppliedPresetBanner(presetTitle, diffResult, containerSelector = '.preset-strip', onSavePreset = null) {
   const host = document.querySelector(containerSelector);
   if (!host) return;
   const old = host.querySelector('.applied-preset-diff');
   if (old) old.remove();
 
-  if (!changesList || !changesList.length) return;
+  const changes = Array.isArray(diffResult) ? diffResult : (diffResult?.changes || []);
+  const allSettings = Array.isArray(diffResult) ? diffResult : (diffResult?.allSettings || changes);
+
+  const isMatching = changes.length === 0;
+  const itemsToShow = isMatching ? allSettings : changes;
+  if (!itemsToShow || !itemsToShow.length) return;
 
   const banner = document.createElement('div');
   banner.className = 'applied-preset-diff';
-  const displayItems = changesList.slice(0, 8);
-  const remainingCount = changesList.length - displayItems.length;
+  const displayItems = itemsToShow.slice(0, 8);
+  const remainingCount = itemsToShow.length - displayItems.length;
   const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
     (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+  const titleHtml = isMatching
+    ? `Applied: ${presetTitle || 'Preset'} (All settings match current studio configuration)`
+    : `Applied: ${presetTitle || 'Preset'} (${changes.length} setting${changes.length === 1 ? '' : 's'} updated)`;
 
   banner.innerHTML = `
     <span class="diff-icon">✦</span>
     <div class="diff-content">
-      <div class="diff-title">Applied: ${presetTitle || 'Preset'} (${changesList.length} settings updated)</div>
+      <div class="diff-title">${titleHtml}</div>
       <p class="diff-list">${listHtml}</p>
     </div>
-    <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+    <div class="diff-actions">
+      ${onSavePreset ? '<button type="button" class="diff-save-btn">★ Save to presets</button>' : ''}
+      <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+    </div>
   `;
+
+  if (onSavePreset) {
+    const saveBtn = banner.querySelector('.diff-save-btn');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        const saved = onSavePreset();
+        if (saved) {
+          saveBtn.textContent = '✓ Saved to presets';
+          saveBtn.classList.add('saved');
+        }
+      });
+    }
+  }
 
   banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
 
@@ -2661,7 +2699,23 @@ function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '
 }
 
 function exportCustomPresets(optName){
-  const defaultTitle = (currentStudioMode === 'salon' ? 'Active Salon Look' : 'Active Photoshoot Look');
+  let smartDefault = '';
+  if (activePreset) {
+    const found = (presets || []).find(p => p.id === activePreset) || (customPresets || []).find(p => p.id === activePreset);
+    if (found) smartDefault = found.title;
+  }
+  if (!smartDefault) {
+    if (currentStudioMode === 'salon') {
+      const cut = values.salonHaircut?.label?.split('(')[0]?.trim();
+      const ven = values.salonVenue?.label?.split('(')[0]?.trim();
+      smartDefault = [cut, ven].filter(Boolean).join(' · ');
+    } else {
+      const hairLbl = values.hair?.label?.split('(')[0]?.trim();
+      const outLbl = values.outfit?.label?.split('(')[0]?.trim();
+      smartDefault = [hairLbl, outLbl].filter(Boolean).join(' · ');
+    }
+  }
+  const defaultTitle = smartDefault || (currentStudioMode === 'salon' ? 'Salon Look' : 'Photoshoot Look');
   const naming = promptExportName(defaultTitle, currentStudioMode, optName);
   if (!naming) return null; // Clean abort
 
@@ -2704,7 +2758,7 @@ function exportCustomPresets(optName){
     title: naming.title,
     exportedAt: new Date().toISOString(),
     activeLook,
-    customPresets: formattedCustom.length ? formattedCustom : [activeLook],
+    customPresets: formattedCustom,
     starterPresets: starterList
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
@@ -2738,58 +2792,145 @@ function findOptFuzzy(fieldKey, target) {
 }
 
 function importCustomPresetsFromData(parsed){
-  let list = null;
-  if (Array.isArray(parsed)) {
-    list = parsed;
-  } else if (parsed && typeof parsed === 'object') {
-    if (Array.isArray(parsed.customPresets)) list = parsed.customPresets;
-    else if (Array.isArray(parsed.presets)) list = parsed.presets;
-    else if (Array.isArray(parsed.starterPresets)) list = parsed.starterPresets;
-    else if (parsed.set || parsed.values || parsed.v || parsed.edits) list = [parsed];
-    else if (parsed.activeLook) list = [parsed.activeLook];
-  }
-  if (!list) throw new Error('Invalid preset JSON format');
+  if (!parsed || typeof parsed !== 'object') throw new Error('Invalid preset JSON format');
+
+  // Distinguish real custom preset cards from active look snapshots
+  let rawList = [];
+  if (Array.isArray(parsed.customPresets)) rawList = parsed.customPresets;
+  else if (Array.isArray(parsed.presets)) rawList = parsed.presets;
+  else if (Array.isArray(parsed) && parsed.length > 1) rawList = parsed;
+
+  const realCustomPresets = rawList.filter(p => {
+    if (!p) return false;
+    const isSnapshot = (p.sub && String(p.sub).includes('Snapshot of current')) ||
+                       (p.id && String(p.id).startsWith('active_'));
+    return !isSnapshot;
+  });
 
   let added = 0;
   let firstAdded = null;
-  list.forEach(raw => {
-    if (!raw) return;
-    const title = raw.title || raw.name || ('Imported Look ' + (added + 1));
-    const rawSet = raw.set || raw.values || raw.v || raw.edits || {};
-    const reconstructedSet = {};
-    Object.entries(rawSet).forEach(([k, val]) => {
-      const lbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : val;
-      const m = findOptFuzzy(k, lbl);
-      if (m) reconstructedSet[k] = m;
+  if (realCustomPresets.length > 0) {
+    realCustomPresets.forEach(raw => {
+      if (!raw) return;
+      const title = raw.title || raw.name || ('Imported Look ' + (added + 1));
+      const rawSet = raw.set || raw.values || raw.v || raw.edits || {};
+      const reconstructedSet = {};
+      Object.entries(rawSet).forEach(([k, val]) => {
+        const lbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : val;
+        const m = findOptFuzzy(k, lbl);
+        if (m) reconstructedSet[k] = m;
+      });
+      if (!Object.keys(reconstructedSet).length) return;
+      if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+
+      let finalTitle = String(title).slice(0, 80);
+      if (customPresets.some(p => p.title === finalTitle)) {
+        finalTitle += ` (${added + 1})`;
+      }
+
+      const newPreset = {
+        id: raw.id || ('user_' + Date.now() + '_' + added),
+        title: finalTitle,
+        sub: raw.sub || 'Imported look',
+        icon: raw.icon || '⭐',
+        isCustom: true,
+        set: reconstructedSet
+      };
+      customPresets.unshift(newPreset);
+      if (!firstAdded) firstAdded = newPreset;
+      added++;
     });
-    if (!Object.keys(reconstructedSet).length) return;
-    if (raw.id && customPresets.some(p => p.id === raw.id)) return;
-
-    let finalTitle = String(title).slice(0, 80);
-    if (customPresets.some(p => p.title === finalTitle)) {
-      finalTitle += ` (${added + 1})`;
+    save();
+    renderPresets();
+    if (!firstAdded && !parsed.activeLook) {
+      return added; // Deduplicated cleanly
     }
+  }
 
+  // Determine what look to apply to studio controls:
+  // 1. If parsed.activeLook is present (Afterglow export file), apply it directly without adding a card!
+  // 2. Else if real custom presets were imported, apply the first one.
+  // 3. Else if single naked look ({ set: ... } or single item), apply it directly.
+  let lookSource = null;
+  let isStandaloneLook = false;
+
+  if (parsed.activeLook) {
+    lookSource = parsed.activeLook;
+    isStandaloneLook = true;
+  } else if (firstAdded) {
+    lookSource = firstAdded;
+  } else if (Array.isArray(parsed.starterPresets) && parsed.starterPresets.length === 1) {
+    lookSource = parsed.starterPresets[0];
+    isStandaloneLook = true;
+  } else if (parsed.set || parsed.values || parsed.v || parsed.edits) {
+    lookSource = parsed;
+    isStandaloneLook = true;
+  } else if (Array.isArray(parsed) && parsed.length === 1) {
+    lookSource = parsed[0];
+    isStandaloneLook = true;
+  }
+
+  if (!lookSource) {
+    if (added > 0) return added;
+    throw new Error('No valid look found in preset JSON');
+  }
+
+  const title = lookSource.title || parsed.title || 'Imported Look';
+  const rawSet = lookSource.set || lookSource.values || lookSource.v || lookSource.edits || {};
+  const reconstructedSet = {};
+  Object.entries(rawSet).forEach(([k, val]) => {
+    const lbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : val;
+    const m = findOptFuzzy(k, lbl);
+    if (m) reconstructedSet[k] = m;
+  });
+
+  const lookToApply = {
+    id: lookSource.id || ('imported_' + Date.now()),
+    title: String(title).slice(0, 80),
+    sub: lookSource.sub || 'Imported Look',
+    icon: lookSource.icon || '✦',
+    set: reconstructedSet
+  };
+
+  // Callback to allow the user to save this look as a custom preset card if they want
+  const onSavePreset = isStandaloneLook ? () => {
+    const chosenName = prompt('Save this imported look as a preset:', lookToApply.title);
+    if (!chosenName || !chosenName.trim()) return false;
     const newPreset = {
-      id: raw.id || ('user_' + Date.now() + '_' + added),
-      title: finalTitle,
-      sub: raw.sub || 'Imported look',
-      icon: raw.icon || '⭐',
+      id: 'user_' + Date.now(),
+      title: chosenName.trim(),
+      sub: lookToApply.sub || [values.hair?.label, values.outfit?.label].filter(Boolean).join(' · '),
+      icon: '⭐',
       isCustom: true,
-      set: reconstructedSet
+      set: Object.assign({}, reconstructedSet)
     };
     customPresets.unshift(newPreset);
-    if (!firstAdded) firstAdded = newPreset;
-    added++;
-  });
-  save();
-  renderPresets();
-  if (firstAdded && typeof applyPreset === 'function') {
-    try {
-      applyPreset(firstAdded.id, firstAdded);
-    } catch(e) {}
+    save();
+    renderPresets();
+    toast(`Saved “${chosenName.trim()}” to presets.`);
+    return true;
+  } : null;
+
+  // Apply to studio controls
+  const prevValues = Object.assign({}, values);
+  rollTheme(lookToApply);
+  activePreset = '';
+  document.querySelectorAll('.preset').forEach(b => b.classList.remove('active'));
+  goSection('look');
+  buildPrompt();
+
+  const diffResult = summarizePresetChanges(lookToApply, prevValues, fields);
+  showAppliedPresetBanner(lookToApply.title, diffResult, '.preset-strip', onSavePreset);
+
+  if (diffResult.changes.length) {
+    const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+    const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
+    toast(`✓ Applied “${lookToApply.title}”! Updated: ${summaryText}${moreText}`);
+  } else {
+    toast(`✓ Applied “${lookToApply.title}”! All settings match current studio configuration.`);
   }
-  return added;
+
+  return realCustomPresets.length > 0 ? added : 1;
 }
 
 if(el('exportPresetsBtn')) el('exportPresetsBtn').addEventListener('click', exportCustomPresets);
@@ -2801,8 +2942,7 @@ if(el('importPresetsBtn') && el('importPresetsInput')){
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        const count = importCustomPresetsFromData(JSON.parse(reader.result));
-        toast(count ? `✓ Imported ${count} custom look(s) and applied look.` : 'No new custom looks found in file (already present or empty).');
+        importCustomPresetsFromData(JSON.parse(reader.result));
       } catch(err){
         toast('Could not import presets: invalid or incompatible .json file.');
       } finally {
@@ -3742,15 +3882,15 @@ rollTheme(p);
 goSection('look');
 buildPrompt();
 
-const changes = summarizePresetChanges(p, prevValues, fields);
-showAppliedPresetBanner(p.title, changes, '.preset-strip');
+const diffResult = summarizePresetChanges(p, prevValues, fields);
+showAppliedPresetBanner(p.title, diffResult, '.preset-strip');
 
-if (changes.length) {
-  const summaryText = changes.slice(0, 3).join(' · ');
-  const moreText = changes.length > 3 ? ` (+${changes.length - 3} more)` : '';
+if (diffResult.changes.length) {
+  const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+  const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
   toast(`✓ Applied “${p.title}”! Updated: ${summaryText}${moreText}`);
 } else {
-  toast(`Applied “${p.title}”. Customize any option now.`);
+  toast(`Applied “${p.title}”. All settings match current studio configuration.`);
 }
 }
 

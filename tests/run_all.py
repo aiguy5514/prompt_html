@@ -221,7 +221,25 @@ HTMLAnchorElement.prototype.click = function(){};
 const salonExp = api.exportCustomPresets('Artisan Salon Bob');
 HTMLAnchorElement.prototype.click = oldSalonAnchorClick;
 ok('salon_export_custom_name_slug', salonExp && salonExp.filename === 'afterglow-salon-artisan-salon-bob.json' && salonExp.title === 'Artisan Salon Bob');
-ok('salon_applied_preset_diff_rendered', !!document.querySelector('.applied-preset-diff'));
+
+// Test clean import: importing an exported activeLook does NOT inject an unwanted card into customPresets
+const customCountBefore = api.getCustomPresets().length;
+api.importCustomPresetsFromData(salonExp.payload);
+const customCountAfter = api.getCustomPresets().length;
+ok('salon_export_import_does_not_inject_card', customCountAfter === customCountBefore);
+
+const diffBanner = document.querySelector('.applied-preset-diff');
+ok('salon_applied_preset_diff_rendered', !!diffBanner);
+ok('salon_applied_preset_diff_shows_matching', diffBanner.textContent.includes('All settings match current studio configuration'));
+
+// Test banner save button
+const oldPrompt = window.prompt;
+window.prompt = () => 'Saved Salon Direction';
+const saveBtn = diffBanner.querySelector('.diff-save-btn');
+ok('salon_diff_save_btn_exists', !!saveBtn);
+saveBtn.click();
+window.prompt = oldPrompt;
+ok('salon_diff_save_btn_added_preset', api.getCustomPresets().some(p => p.title === 'Saved Salon Direction'));
 
 // Verify real UI clicks on #copyPositive, #copyNegative, #btnQuickGrooming
 document.getElementById('copyPositive').click();
@@ -832,7 +850,9 @@ ok('doctor_export_has_active_look_and_version', docExport.version === 2 && !!doc
 ok('doctor_export_custom_name_slug', docExport.filename === 'afterglow-doctor-my-surgical-direction-test.json' && docExport.title === 'My Surgical Direction Test');
 const impSingleDoc = api.importDoctorPresetsFromData({ title: 'Single Doctor Look', edits: { haircut: 'french bob' } });
 ok('doctor_import_single_preset', impSingleDoc === 1);
-ok('doctor_applied_preset_diff_rendered', !!document.querySelector('.applied-preset-diff'));
+const docDiffBanner = document.querySelector('.applied-preset-diff');
+ok('doctor_applied_preset_diff_rendered', !!docDiffBanner);
+ok('doctor_diff_save_btn_exists', !!docDiffBanner && !!docDiffBanner.querySelector('.diff-save-btn'));
 
 // Mobile drawer open / close
 document.getElementById('openDrawerBtn').click();
