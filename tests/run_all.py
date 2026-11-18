@@ -869,7 +869,7 @@ const flds = api.getFields();
 ok('gym_options_loaded', flds.gymVenue.opts.length === 15 && flds.gymOutfit.opts.length >= 25 && api.getHair().length === 276);
 ok('gym_starts_in_venue_sec', document.querySelector('.tab.active')?.dataset?.section === 'gymVenueSec');
 ok('gym_starter_presets_count', api.getStarterPresets().length === 8);
-ok('gym_tabs_count', document.querySelectorAll('.section-tab').length === 6);
+ok('gym_tabs_count', document.querySelectorAll('.tab').length === 6);
 
 // Navigate to Physique & Exertion -> check moisture card & veil
 document.querySelector('[data-section="gymPhysiqueSec"]').click();

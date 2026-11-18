@@ -799,173 +799,297 @@ function resetAll(){
 // ==========================================
 
 function renderTabs(){
-  const host = el('tabs');
-  if(!host) return;
-  host.innerHTML = '';
-  sections.forEach((sec, idx) => {
+  const tabs = el('tabs');
+  if(!tabs) return;
+  tabs.innerHTML = '';
+  sections.forEach((s, idx) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'section-tab tab' + (sec.id === activeSection ? ' active' : '');
-    b.dataset.section = sec.id;
-    b.innerHTML = `<span class="tab-index">0${idx+1}</span><span class="tab-icon">${sec.icon}</span><span class="tab-label">${sec.short}</span>`;
-    b.addEventListener('click', () => goSection(sec.id));
-    host.appendChild(b);
+    b.className = 'tab' + (s.id === activeSection ? ' active' : '');
+    b.dataset.section = s.id;
+    b.innerHTML = `<span class="tab-no">0${idx+1}</span>${s.name}`;
+    b.addEventListener('click', () => goSection(s.id));
+    tabs.appendChild(b);
   });
 }
 
 function goSection(secId){
   activeSection = secId;
   const s = sections.find(x => x.id === secId);
+  if(!s) return;
   const idx = sections.indexOf(s);
   if(el('stepEyebrow')) el('stepEyebrow').textContent = `Athletic Direction · 0${idx+1}`;
-  if(el('stepTitle')) el('stepTitle').textContent = s ? s.name : '';
-  if(el('stepDescription')) el('stepDescription').textContent = s ? s.desc : '';
-  if(el('stepIcon')) el('stepIcon').textContent = s ? s.icon : '';
+  if(el('stepTitle')) el('stepTitle').textContent = s.name;
+  if(el('stepDescription')) el('stepDescription').textContent = s.desc;
+  if(el('stepIcon')) el('stepIcon').textContent = s.icon;
   if(el('stepCount')) el('stepCount').textContent = `Step ${idx+1} of ${sections.length}`;
+  const prevBtn = el('prevStep');
+  if(prevBtn){
+    prevBtn.disabled = (idx === 0);
+    prevBtn.style.opacity = (idx === 0) ? '.42' : '1';
+    prevBtn.style.cursor = (idx === 0) ? 'not-allowed' : 'pointer';
+  }
+  const nextBtn = el('nextStep');
+  if(nextBtn){
+    nextBtn.textContent = (idx === sections.length - 1) ? '← Back to top' : 'Next step →';
+  }
   renderTabs();
   renderFields();
+  save();
+}
+
+function filterChoices(menu, q){
+  let shown = 0;
+  const list = menu.querySelector('.option-list');
+  [...list.querySelectorAll('.choice')].forEach(b => {
+    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    b.classList.toggle('hidden', !ok);
+    if(ok) shown++;
+  });
+  let no = menu.querySelector('.no-results');
+  if(!shown){
+    if(!no){
+      no = document.createElement('div');
+      no.className = 'no-results';
+      no.textContent = 'No matching options. Try another search.';
+      list.appendChild(no);
+    }
+  } else if(no) no.remove();
+}
+
+function updateCustom(custom, id){
+  const curr = custom.querySelector('.current');
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(curr){
+    if(isRefLocked){
+      curr.textContent = '📷 Preserved from Reference Photo';
+    } else if(values[id]){
+      curr.textContent = values[id].label;
+    }
+  }
+  custom.querySelectorAll('.choice').forEach(b => {
+    const active = !isRefLocked && fields[id].opts[Number(b.dataset.index)] === values[id];
+    b.classList.toggle('selected', active);
+    const old = b.querySelector('.checkmark');
+    if(old) old.remove();
+    if(active){
+      const cm = document.createElement('span');
+      cm.className = 'checkmark';
+      cm.textContent = '✓ ';
+      b.prepend(cm);
+    }
+  });
+}
+
+function getFilteredOpts(id, f){
+  let visibleOpts = f.opts;
+  if(id === 'gymVenue' && values.gymVenueCategory && values.gymVenueCategory.text !== 'all'){
+    const cat = values.gymVenueCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'gymHair' && values.gymHairCategory && values.gymHairCategory.text !== 'all'){
+    const cat = values.gymHairCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'topPiece' && values.topCategory && values.topCategory.text !== 'all'){
+    const cat = values.topCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  } else if(id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text !== 'all'){
+    const cat = values.bottomCategory.text;
+    visibleOpts = f.opts.filter(o => o.cat === cat);
+  }
+  if(!visibleOpts.length) visibleOpts = f.opts;
+  if(!visibleOpts.includes(values[id])) values[id] = visibleOpts[0];
+  return visibleOpts;
 }
 
 function createFieldElement(id, f){
   const wrap = document.createElement('div');
-  wrap.className = 'field' + (lockedFields.has(id) ? ' locked' : '');
-  wrap.dataset.field = id;
+  wrap.className = 'field' + (['gymVenue', 'gymDiscipline', 'gymMovement', 'gymHair', 'gymOutfit'].includes(id) ? ' full' : '');
 
-  const head = document.createElement('div');
-  head.className = 'field-head';
-  head.innerHTML = `<label>${f.label}</label>`;
+  const isRefLocked = !!(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id));
+  if(isRefLocked){
+    wrap.classList.add('ref-locked');
+  }
 
+  const lab = document.createElement('div');
+  lab.className = 'label-row';
+
+  const titleWrap = document.createElement('div');
+  titleWrap.className = 'label-title-wrap';
+
+  const label = document.createElement('label');
+  label.textContent = f.label;
+  label.htmlFor = 'field-' + id;
+
+  const isLocked = lockedFields.has(id);
   const lockBtn = document.createElement('button');
   lockBtn.type = 'button';
-  lockBtn.className = 'lock-btn' + (lockedFields.has(id) ? ' locked' : '');
-  lockBtn.title = lockedFields.has(id) ? 'Unlock choice' : 'Lock choice';
-  lockBtn.innerHTML = lockedFields.has(id) ? '🔒' : '🔓';
-  lockBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if(lockedFields.has(id)) lockedFields.delete(id);
-    else lockedFields.add(id);
-    renderFields();
+  lockBtn.className = 'lock-btn' + (isLocked ? ' locked' : '');
+  lockBtn.title = isLocked ? "Locked (won't change during shuffle). Click to unlock." : 'Lock this choice during shuffle';
+  lockBtn.innerHTML = isLocked ? '🔒' : '🔓';
+  lockBtn.addEventListener('click', () => {
+    if(lockedFields.has(id)){
+      lockedFields.delete(id);
+      toast(`Unlocked ${f.label}`);
+    } else {
+      lockedFields.add(id);
+      toast(`Locked ${f.label}`);
+    }
     save();
+    renderFields();
   });
-  head.appendChild(lockBtn);
-  wrap.appendChild(head);
 
-  // Custom Select with search
-  const curVal = values[id] || f.opts[0];
-  const customSel = document.createElement('div');
-  customSel.className = 'custom-select';
+  titleWrap.append(label, lockBtn);
+
+  if(isRefLocked){
+    const badge = document.createElement('span');
+    badge.className = 'ref-locked-badge';
+    badge.textContent = '📷 From Ref Photo';
+    titleWrap.appendChild(badge);
+
+    const unlockBtn = document.createElement('button');
+    unlockBtn.type = 'button';
+    unlockBtn.className = 'btn-ref-unlock';
+    unlockBtn.textContent = '✕ Unlock';
+    unlockBtn.title = 'Unlock to choose custom choice from menu';
+    unlockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const feat = window.AfterglowRefPicker.getFeatureForField(id);
+      if(feat){
+        window.AfterglowRefPicker.setFeature(feat, false);
+        renderFields();
+        buildPrompt();
+        toast(`Unlocked ${f.label} from reference inheritance`);
+      }
+    });
+    titleWrap.appendChild(unlockBtn);
+  }
+
+  const visibleOpts = getFilteredOpts(id, f);
+  const count = document.createElement('span');
+  count.className = 'option-count';
+  count.textContent = visibleOpts.length + ' options';
+  lab.append(titleWrap, count);
+
+  const custom = document.createElement('div');
+  custom.className = 'custom-select';
+  custom.dataset.id = id;
 
   const trigger = document.createElement('button');
   trigger.type = 'button';
   trigger.className = 'select-trigger';
   trigger.setAttribute('aria-expanded', 'false');
-  trigger.innerHTML = `<span class="val-label">${curVal ? curVal.label : 'Select…'}</span><span class="select-chevron">▾</span>`;
+  trigger.innerHTML = `<span class="current"></span><span class="chevron">⌄</span>`;
+  trigger.querySelector('.current').textContent = values[id]?.label || '';
 
-  const dropdown = document.createElement('div');
-  dropdown.className = 'select-dropdown';
+  const menu = document.createElement('div');
+  menu.className = 'select-menu';
+  menu.innerHTML = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…" aria-label="Search ${f.label}"><div class="option-list"></div>`;
 
-  const searchBox = document.createElement('div');
-  searchBox.className = 'select-search-box';
-  const searchInput = document.createElement('input');
-  searchInput.type = 'text';
-  searchInput.placeholder = 'Search ' + f.label + '…';
-  searchInput.className = 'select-search-input';
-  searchBox.appendChild(searchInput);
-  dropdown.appendChild(searchBox);
+  const list = menu.querySelector('.option-list');
 
-  const optsList = document.createElement('div');
-  optsList.className = 'select-options-list';
+  visibleOpts.forEach(o => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choice' + (values[id] === o ? ' selected' : '');
+    b.dataset.index = f.opts.indexOf(o);
+    b.textContent = o.label;
+    b.addEventListener('click', () => {
+      values[id] = o;
+      if(id === 'gymVenueCategory' && o.text !== 'all'){
+        const m = fields.gymVenue.opts.find(x => x.cat === o.text);
+        if(m) values.gymVenue = m;
+      } else if(id === 'gymHairCategory' && o.text !== 'all'){
+        const m = fields.gymHair.opts.find(x => x.cat === o.text);
+        if(m) values.gymHair = m;
+      } else if(id === 'topCategory' && o.text !== 'all'){
+        const m = fields.topPiece.opts.find(x => x.cat === o.text);
+        if(m) values.topPiece = m;
+      } else if(id === 'bottomCategory' && o.text !== 'all'){
+        const m = fields.bottomPiece.opts.find(x => x.cat === o.text);
+        if(m) values.bottomPiece = m;
+      }
+      updateCustom(custom, id);
+      custom.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      if(id.endsWith('Category')){
+        renderFields();
+      }
+      buildPrompt();
+    });
+    list.appendChild(b);
+  });
 
-  let currentOpts = f.opts;
-  // Apply category filtering
-  if(id === 'gymVenue' && values.gymVenueCategory && values.gymVenueCategory.text !== 'all'){
-    currentOpts = f.opts.filter(o => o.cat === values.gymVenueCategory.text);
-  } else if(id === 'gymHair' && values.gymHairCategory && values.gymHairCategory.text !== 'all'){
-    currentOpts = f.opts.filter(o => o.cat === values.gymHairCategory.text);
-  } else if(id === 'topPiece' && values.topCategory && values.topCategory.text !== 'all'){
-    currentOpts = f.opts.filter(o => o.cat === values.topCategory.text);
-  } else if(id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text !== 'all'){
-    currentOpts = f.opts.filter(o => o.cat === values.bottomCategory.text);
-  }
-
-  function populateOptions(filterText = ''){
-    optsList.innerHTML = '';
-    const q = filterText.toLowerCase();
-    const visible = currentOpts.filter(o => !q || o.label.toLowerCase().includes(q) || (o.text && o.text.toLowerCase().includes(q)));
-    if(!visible.length){
-      optsList.innerHTML = '<div style="padding:10px; font-size:12px; color:#94a3b8; text-align:center;">No matching options</div>';
+  trigger.addEventListener('click', () => {
+    if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){
+      toast('Inherited from reference image. Click "Unlock" on the label to choose from menu.');
       return;
     }
-    visible.forEach(o => {
-      const optBtn = document.createElement('button');
-      optBtn.type = 'button';
-      optBtn.className = 'select-option' + ((values[id] && values[id].label === o.label) ? ' selected' : '');
-      optBtn.innerHTML = `<span>${o.label}</span>`;
-      optBtn.addEventListener('click', () => {
-        values[id] = o;
-        customSel.classList.remove('open');
-        trigger.setAttribute('aria-expanded', 'false');
-        trigger.querySelector('.val-label').textContent = o.label;
-        if(id === 'gymVenueCategory' || id === 'gymHairCategory' || id === 'topCategory' || id === 'bottomCategory'){
-          renderFields();
-        }
-        buildPrompt();
-      });
-      optsList.appendChild(optBtn);
+    const was = custom.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(x => {
+      x.classList.remove('open');
+      x.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
     });
-  }
-
-  populateOptions();
-  searchInput.addEventListener('input', (e) => populateOptions(e.target.value));
-
-  trigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = customSel.classList.contains('open');
-    document.querySelectorAll('.custom-select.open').forEach(c => {
-      c.classList.remove('open');
-      c.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
-    });
-    if(!isOpen){
-      customSel.classList.add('open');
+    if(!was){
+      custom.classList.add('open');
       trigger.setAttribute('aria-expanded', 'true');
-      searchInput.value = '';
-      populateOptions();
-      setTimeout(() => searchInput.focus(), 50);
+      const inp = menu.querySelector('input');
+      inp.value = '';
+      filterChoices(menu, '');
+      inp.focus({ preventScroll: true });
+      const sel = menu.querySelector('.choice.selected:not(.hidden)');
+      if(sel) sel.scrollIntoView({ block: 'nearest' });
     }
   });
 
-  dropdown.appendChild(optsList);
-  customSel.appendChild(trigger);
-  customSel.appendChild(dropdown);
-  wrap.appendChild(customSel);
+  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  menu.querySelector('input').addEventListener('keydown', e => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const first = menu.querySelector('.choice:not(.hidden)');
+      if(first) first.click();
+    }
+  });
 
+  custom.append(trigger, menu);
+  wrap.append(lab, custom);
+  updateCustom(custom, id);
   return wrap;
 }
 
 function createGymMoistureCard(){
   const card = document.createElement('div');
-  card.className = 'field-card moisture-toggle-card';
+  card.className = 'moisture-toggle-card';
   card.id = 'moistureToggleCard';
-  card.style.cssText = 'margin:12px 0; padding:14px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:12px;';
-  card.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-      <label style="font-size:12px; font-weight:700; color:#e2e8f0; text-transform:uppercase; letter-spacing:0.06em;">Hair Moisture State</label>
-      <span style="font-size:11px; color:#94a3b8;">Athletic sweat &amp; shower physics</span>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
-      <button type="button" class="btn btn-secondary btn-small moisture-pill${gymHairMoisture === 'dry' ? ' active' : ''}" data-moisture="dry">Dry &amp; High-Volume</button>
-      <button type="button" class="btn btn-secondary btn-small moisture-pill${gymHairMoisture === 'damp' ? ' active' : ''}" data-moisture="damp">Damp / Misted Sweat</button>
-      <button type="button" class="btn btn-secondary btn-small moisture-pill${gymHairMoisture === 'wet' ? ' active' : ''}" data-moisture="wet">Soaked Wet Workout</button>
-    </div>
+  const head = document.createElement('div');
+  head.className = 'moisture-header';
+  head.innerHTML = `
+    <span class="moisture-label">💧 Hair Moisture State</span>
+    <span class="moisture-hint">Dry high-volume vs post-warmup damp sheen vs soaked wet workout ribbons</span>
   `;
-  card.querySelectorAll('.moisture-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      gymHairMoisture = btn.dataset.moisture;
-      card.querySelectorAll('.moisture-pill').forEach(b => b.classList.toggle('active', b.dataset.moisture === gymHairMoisture));
+  const pillsWrap = document.createElement('div');
+  pillsWrap.className = 'moisture-pills';
+  const modes = [
+    { id: 'dry', label: 'Dry & High-Volume', icon: '💨' },
+    { id: 'damp', label: 'Damp / Misted Sweat', icon: '💧' },
+    { id: 'wet', label: 'Soaked Wet Workout', icon: '🌊' }
+  ];
+  modes.forEach(m => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'moisture-pill' + (gymHairMoisture === m.id ? ' active' : '');
+    b.dataset.moisture = m.id;
+    b.innerHTML = `<span>${m.icon}</span><span>${m.label}</span>`;
+    b.addEventListener('click', () => {
+      gymHairMoisture = m.id;
+      pillsWrap.querySelectorAll('.moisture-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.moisture === m.id);
+      });
       buildPrompt();
-      toast(`Hair moisture set to ${gymHairMoisture.toUpperCase()}.`);
+      toast(`Hair moisture set to ${m.label}.`);
     });
+    pillsWrap.appendChild(b);
   });
+  card.append(head, pillsWrap);
   return card;
 }
 
@@ -975,13 +1099,21 @@ function renderFields(){
   host.innerHTML = '';
 
   if(activeSection === 'gymWardrobeSec'){
+    const isSeparates = (wardrobeMode === 'separates');
     const switchWrap = document.createElement('div');
-    switchWrap.className = 'wardrobe-mode-switch';
-    switchWrap.style.cssText = 'grid-column:1 / -1; margin-bottom:12px; display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.03); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);';
+    switchWrap.className = 'wardrobe-mode-card';
+    switchWrap.style.cssText = 'grid-column: 1 / -1; margin: 0 0 16px 0; padding: 14px 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;';
     switchWrap.innerHTML = `
-      <strong style="font-size:13px; color:#f1f5f9;">Wardrobe Mode:</strong>
-      <button type="button" class="btn btn-small ${wardrobeMode === 'ensemble' ? 'btn-primary' : 'btn-secondary'}" id="btnGymEnsemble">Matching Activewear Set</button>
-      <button type="button" class="btn btn-small ${wardrobeMode === 'separates' ? 'btn-primary' : 'btn-secondary'}" id="btnGymSeparates">Two-Piece Separates</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <strong style="font-size: 13px; color: var(--text, #fff); display: block;">Wardrobe Configuration</strong>
+          <span style="font-size: 11px; color: var(--muted, #b8adbd);">Choose matching activewear sets or custom two-piece separates.</span>
+        </div>
+        <div class="seg-control" style="display: flex; background: rgba(0,0,0,0.4); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); gap: 4px;">
+          <button type="button" class="seg-btn ${!isSeparates ? 'active' : ''}" id="btnGymEnsemble" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${!isSeparates ? 'var(--pink, #ff5c92)' : 'transparent'}; color: #fff; font-weight: 600;">🏋️ Matching Activewear Sets</button>
+          <button type="button" class="seg-btn ${isSeparates ? 'active' : ''}" id="btnGymSeparates" style="padding: 6px 14px; font-size: 11px; border-radius: 6px; cursor: pointer; border: none; background: ${isSeparates ? 'var(--pink, #ff5c92)' : 'transparent'}; color: #fff; font-weight: 600;">👚 Two-Piece Separates</button>
+        </div>
+      </div>
     `;
     switchWrap.querySelector('#btnGymEnsemble').addEventListener('click', () => {
       wardrobeMode = 'ensemble';
