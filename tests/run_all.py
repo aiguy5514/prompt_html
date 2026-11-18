@@ -123,6 +123,7 @@ ok('index_has_makeup_spa_link', links.some(h => h.includes('makeup_spa.html')));
 ok('index_has_video_link', links.some(h => h.includes('video.html')));
 ok('index_has_storyboard_link', links.some(h => h.includes('storyboard.html')));
 ok('index_has_romance_link', links.some(h => h.includes('romance.html')));
+ok('index_has_image_doctor_link', links.some(h => h.includes('image_doctor.html')));
 '''
 
 SALON_JS = r'''
@@ -729,6 +730,89 @@ const imp = api.importRomancePresetsFromData({ customPresets: [{ id: 'imp_rom_1'
 ok('romance_import_preset', imp === 1);
 '''
 
+IMAGE_DOCTOR_JS = r'''
+const api = window.AfterglowImageDoctor;
+ok('doctor_api_exposed', !!api);
+ok('doctor_starts_in_preserve_sec', document.querySelector('.tab.active')?.dataset?.section === 'doctorPreserveSec');
+ok('doctor_hero_title', document.getElementById('heroTitle').textContent.includes('Doctor'));
+
+// Section 1: Preservation locks
+const locks = api.getLockState();
+ok('doctor_10_locks_exist', Object.keys(locks).length === 10);
+ok('doctor_default_identity_locked', locks.identity === true);
+ok('doctor_default_hair_locked', locks.hair === true);
+ok('doctor_default_wardrobe_locked', locks.wardrobe === true);
+
+// Initial prompt has preservation blocks
+const initPrompt = document.getElementById('prompt').value;
+ok('doctor_prompt_has_header', initPrompt.includes('IMAGE DOCTOR · SURGICAL REFERENCE EDIT'));
+ok('doctor_prompt_has_preservation_block', initPrompt.includes('MANDATORY PRESERVATION LOCKS'));
+ok('doctor_token_estimate_present', document.getElementById('wordCount').textContent.includes('tokens'));
+
+// Section 2: Surgical Face Edits
+document.querySelector('.tab[data-section="doctorFaceSec"]').click();
+ok('doctor_face_sec_active', document.querySelector('.tab.active')?.dataset?.section === 'doctorFaceSec');
+const flds = api.getFields();
+const vals = api.getValues();
+const buttonNose = flds.nose.opts.find(o => o.label.includes('Petite upturned button nose'));
+ok('doctor_button_nose_opt_exists', !!buttonNose);
+vals.nose = buttonNose;
+const pNose = api.buildPrompt();
+ok('doctor_nose_edit_reflected', pNose.includes('TARGET ZONE: FACIAL ANATOMY SURGERY') && pNose.includes('Petite upturned button nose'));
+
+// Section 3: Hair Makeover + Auto-unlock of hair lock + Moisture
+document.querySelector('.tab[data-section="doctorHairSec"]').click();
+const frenchBob = api.getHair().find(h => h.label.includes('Chin-length French bob'));
+ok('doctor_french_bob_exists', !!frenchBob);
+vals.haircut = frenchBob;
+const pHair = api.buildPrompt();
+ok('doctor_hair_edit_reflected', pHair.includes('TARGET ZONE: HAIR TRANSFORMATION') && pHair.includes('French bob'));
+ok('doctor_hair_auto_unlocked', api.getLockState().hair === false);
+
+// Moisture selector in hair
+const mCard = document.getElementById('moistureToggleCard');
+ok('doctor_moisture_card_rendered', !!mCard);
+document.querySelector('.moisture-pill[data-moisture="wet"]').click();
+const pWet = document.getElementById('prompt').value;
+ok('doctor_wet_physics_reflected', pWet.includes('Mandatory Soaked Wet Hair Physics') && pWet.includes('dry hair'));
+
+// Section 4: Wardrobe Separates & Full Look toggle
+document.querySelector('.tab[data-section="doctorWardrobeSec"]').click();
+document.getElementById('btnDoctorSeparates').click();
+ok('doctor_separates_mode_active', api.getWardrobeMode() === 'separates');
+const linenTop = flds.topPiece.opts.find(o => o.label.includes('linen'));
+if (linenTop) vals.topPiece = linenTop;
+const pSep = api.buildPrompt();
+ok('doctor_wardrobe_separates_reflected', pSep.includes('Two-Piece Separates Ensemble') && api.getLockState().wardrobe === false);
+
+// Section 5: Inpaint finish & custom direction & negative
+document.querySelector('.tab[data-section="doctorFinishSec"]').click();
+const cd = document.getElementById('customDirInput');
+const en = document.getElementById('extraNegInput');
+ok('doctor_finish_inputs_rendered', !!cd && !!en);
+cd.value = 'blend hairline naturally across temple'; cd.dispatchEvent(new Event('input'));
+en.value = 'plastic forehead highlights'; en.dispatchEvent(new Event('input'));
+const pFinish = document.getElementById('prompt').value;
+ok('doctor_custom_dir_reflected', pFinish.includes('blend hairline naturally across temple'));
+ok('doctor_extra_neg_reflected', pFinish.includes('plastic forehead highlights'));
+
+// Positive & Negative extraction
+ok('doctor_copy_positive_works', !api.getExtractedPositive().includes('AVOID / NEGATIVE GUIDANCE:'));
+ok('doctor_copy_negative_works', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
+
+// Custom Presets save & import
+const saved = api.saveCustomDoctorPreset('My Surgical Bob Test');
+ok('doctor_save_preset', !!saved && (localStorage.getItem('afterglow_image_doctor_v1') || '').includes('My Surgical Bob Test'));
+const imp = api.importDoctorPresetsFromData({ customPresets: [{ id: 'imp_doc_1', title: 'Imported Nose Edit', edits: { nose: 'Petite upturned button nose' } }] });
+ok('doctor_import_preset', imp === 1);
+
+// Mobile drawer open / close
+document.getElementById('openDrawerBtn').click();
+ok('doctor_drawer_opens', document.querySelector('.preview').classList.contains('drawer-open'));
+document.getElementById('drawerBackdrop').click();
+ok('doctor_drawer_closes', !document.querySelector('.preview').classList.contains('drawer-open'));
+'''
+
 
 def main():
     browser = find_browser()
@@ -741,6 +825,7 @@ def main():
         ('video.html', VIDEO_JS),
         ('storyboard.html', STORYBOARD_JS),
         ('romance.html', ROMANCE_JS),
+        ('image_doctor.html', IMAGE_DOCTOR_JS),
     ]
     total_passed = 0
     total_failed = 0

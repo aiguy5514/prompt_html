@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Afterglow / Image Doctor · Surgical Edit Studio</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+/* Image Doctor specific enhancements */
+.doctor-lock-card {
+  user-select: none;
+}
+.doctor-lock-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.6) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.doctor-lock-card.locked:hover {
+  border-color: rgba(52, 211, 153, 0.6) !important;
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div>
+<nav class="suite-nav" aria-label="Studio Switcher">
+  <a href="index.html" class="suite-nav-link" title="Afterglow Hub">✦ Hub</a>
+  <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
+  <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💇</span> Salon &amp; Barbershop</a>
+  <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
+  <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
+  <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director <span class="nav-badge">NEW</span></a>
+  <a href="storyboard.html" class="suite-nav-link"><span class="studio-btn-icon">🎞️</span> Storyboarder <span class="nav-badge">NEW</span></a>
+  <a href="romance.html" class="suite-nav-link"><span class="studio-btn-icon">💕</span> Romance <span class="nav-badge">NEW</span></a>
+  <a href="image_doctor.html" class="suite-nav-link active"><span class="studio-btn-icon">🔬</span> Image Doctor <span class="nav-badge">NEW</span></a>
+</nav>
+<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Inpaint Prompt Preview</span><span class="pill" id="totalOptionCount">Surgical Edit Engine</span><span class="pill">Offline · Zero Uploads</span></div></header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow" id="heroEyebrow">Surgical Inpainting · Feature-Locked Image Modification</div>
+    <h1 id="heroTitle">Image <span>Doctor</span><br>Surgical Edit Studio</h1>
+    <p id="heroDescription">Surgically edit an existing reference image — modify only what you want (haircut, nose shape, eyebrows, lips, eyes, clothes) while locking every untouched feature, lighting, and scene exactly as-is.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="randomTop" type="button">✦ Surprise me</button>
+      <button class="btn btn-secondary" id="copyTop" type="button">▱ Copy current prompt</button>
+      <button class="btn btn-quiet" id="resetTop" type="button">↺ Start over</button>
+    </div>
+  </div>
+  <aside class="hero-note">
+    <div class="sparkle">✧ ✦ ✧</div>
+    <div>
+      <strong>Surgical precision, zero drift.</strong>
+      <p>Lock untouched features into immutable preservation directives, while providing hyper-targeted inpainting tokens for the modified zones.</p>
+      <div class="tags">
+        <span class="tag">Surgical Inpaint</span>
+        <span class="tag">Preservation Locks</span>
+        <span class="tag">Face Sculpting</span>
+        <span class="tag">Hair Swaps</span>
+        <span class="tag">Wardrobe Edits</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<div class="layout">
+<main class="builder">
+<section class="preset-strip">
+  <div class="strip-head">
+    <div>
+      <h2>Start with a surgical edit direction</h2>
+      <p>Curated surgical starting points spanning haircut swaps, nose refinements, brow shaping, and wardrobe overhauls. Customize any choice afterward without losing your direction.</p>
+    </div>
+    <div class="strip-actions">
+      <button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">★ Save look</button>
+      <button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↺ Shuffle looks</button>
+      <button class="btn btn-secondary btn-small" id="exportPresetsBtn" type="button" title="Export custom looks to JSON">⬇ Export</button>
+      <button class="btn btn-secondary btn-small" id="importPresetsBtn" type="button" title="Import custom looks from JSON">⬆ Import</button>
+      <input type="file" id="importPresetsInput" accept=".json,application/json" hidden>
+    </div>
+  </div>
+  <div class="preset-grid" id="presets"></div>
+</section>
+
+<nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
+
+<section class="step-card" id="stepCard">
+  <div class="step-head">
+    <div>
+      <div class="eyebrow" id="stepEyebrow">Surgical direction · 01</div>
+      <h2 id="stepTitle">Preserve &amp; Lock</h2>
+      <p id="stepDescription">Choose what must remain 100% identical to the source image.</p>
+    </div>
+    <div class="step-icon" id="stepIcon">🔒</div>
+  </div>
+  <div class="field-grid" id="fields"></div>
+  <div id="fineTuneArea"></div>
+  <div id="specialContent"></div>
+  <div class="step-foot">
+    <span class="step-count" id="stepCount">Step 1 of 5</span>
+    <div class="step-buttons">
+      <button class="btn btn-secondary" id="prevStep" type="button">← Previous</button>
+      <button class="btn btn-primary" id="nextStep" type="button">Next step →</button>
+    </div>
+  </div>
+</section>
+
+<section class="advanced-bar">
+  <div>
+    <strong>Direct specific inpainting zones or custom negatives?</strong>
+    <small>Open the Inpaint &amp; Export step for region-masking controls and surgical exclusions.</small>
+  </div>
+  <button class="btn btn-secondary btn-small" id="finishJump" type="button">Open export controls ↗</button>
+</section>
+</main>
+
+<aside class="preview">
+  <div class="sheet-handle hidden-desktop" id="sheetHandle"></div>
+  <div class="preview-head">
+    <div class="preview-top">
+      <div class="eyebrow">Live surgical output</div>
+      <div class="preview-top-actions">
+        <button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button>
+        <button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▱ Copy</button>
+        <span class="live">Updating</span>
+        <button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button>
+      </div>
+    </div>
+    <h2>Your surgical prompt</h2>
+    <p>Change any choice. The inpaint prompt is rebuilt in real time.</p>
+    <div class="summary" id="summary"></div>
+  </div>
+  <div class="preview-body">
+    <div class="preview-toolbar">
+      <div class="toolbar-row">
+        <div class="ratio-row" style="margin: 0;">
+          <span class="ratio-label">Ratio:</span>
+          <div class="ratio-chips" id="ratioChips">
+            <button type="button" class="ratio-chip active" data-ratio="match">Match Source</button>
+            <button type="button" class="ratio-chip" data-ratio="9:16">9:16</button>
+            <button type="button" class="ratio-chip" data-ratio="4:5">4:5</button>
+            <button type="button" class="ratio-chip" data-ratio="3:4">3:4</button>
+            <button type="button" class="ratio-chip" data-ratio="1:1">1:1</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="prompt-meta">
+      <span id="wordCount">Prompt ready</span>
+      <button class="btn btn-quiet btn-small" id="selectPrompt" type="button">Select all text</button>
+    </div>
+    <textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated surgical edit prompt"></textarea>
+    <div class="preview-buttons">
+      <button class="btn btn-primary" id="copy" type="button">▱ Copy prompt</button>
+      <button class="btn btn-secondary" id="download" type="button">↓ Download .txt</button>
+      <button class="btn btn-secondary" id="copyPositive" type="button">Copy positive only</button>
+      <button class="btn btn-secondary" id="copyNegative" type="button">Copy exclusions only</button>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <div class="preview-help"><strong>How to use:</strong> Attach your original reference image in your inpainting or img2img canvas (such as brush masks, regional inpainting, or generative fill), brush the area you want changed, copy this prompt, and render. Runs 100% locally with zero uploads.</div>
+</aside>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-bar" id="mobileBar">
+  <div class="mobile-bar-info">
+    <span class="mobile-stat" id="mobileWordCount">Prompt ready</span>
+    <span class="mobile-sub" id="mobileSummaryMini">Image Doctor</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="btn btn-secondary btn-small" id="openDrawerBtn" type="button">Preview prompt ↗</button>
+    <button class="btn btn-primary btn-small" id="mobileCopyBtn" type="button">▱ Copy</button>
+  </div>
+</div>
+<button class="btn btn-primary fab" id="fab" type="button">▱ Copy prompt</button>
+
+<div class="history-modal" id="historyModal">
+  <div class="history-head">
+    <div>
+      <h3>Surgical Edit History</h3>
+      <p>Recent Image Doctor prompts from this session.</p>
+    </div>
+    <div class="history-head-actions">
+      <button class="btn-quiet btn-small" id="clearHistoryBtn" type="button">Clear</button>
+      <button class="btn-quiet btn-small" id="closeHistoryBtn" type="button">✕ Close</button>
+    </div>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+<div class="modal-backdrop" id="historyBackdrop"></div>
+<p class="fineprint">AFTERGLOW STUDIO · Made for reference-based image editing · Your choices are saved only in this browser</p>
+</div>
+
+<script src="js/shared-veil.js"></script>
+<script src="js/shared-datasets.js"></script>
+<script src="js/shared-ref-picker.js"></script>
+<script src="js/image-doctor-core.js"></script>
+</body>
+</html>
