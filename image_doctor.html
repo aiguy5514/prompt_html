@@ -7,22 +7,13 @@
 <title>Afterglow / Image Doctor · Surgical Edit Studio</title>
 <link rel="stylesheet" href="css/shared.css">
 <style>
-/* Image Doctor specific enhancements & design-system classes */
-.doc-field-label {
-  display: block;
-  font-size: 0.88rem;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--text);
+/* Image Doctor specific enhancements & design-system alignment */
+.section-tabs {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.doc-field-label small {
-  color: var(--muted);
-  font-weight: 400;
-}
-.doc-field-note {
-  font-size: 0.8rem;
-  color: var(--muted);
-  margin: 3px 0 0 0;
+.section-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 /* Lock grid & cards */
@@ -30,37 +21,37 @@
 .doctor-lock-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
+  gap: 12px;
   width: 100%;
 }
 .doc-lock-card,
 .doctor-lock-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 16px;
+  background: #17141b;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 13px 15px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   position: relative;
   user-select: none;
 }
 .doc-lock-card.locked,
 .doctor-lock-card.locked {
-  background: rgba(99, 102, 241, 0.08);
-  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(159, 228, 193, 0.05);
+  border-color: rgba(159, 228, 193, 0.35);
 }
 .doc-lock-card:hover,
 .doctor-lock-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(99, 102, 241, 0.6);
+  transform: translateY(-1px);
+  border-color: var(--pink2);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 .doc-lock-card.locked:hover,
 .doctor-lock-card.locked:hover {
-  border-color: rgba(52, 211, 153, 0.6);
+  border-color: var(--green);
 }
 .doc-lock-header {
   display: flex;
@@ -70,39 +61,41 @@
 .doc-lock-identity {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
 }
 .doc-lock-icon {
-  font-size: 1.3rem;
+  font-size: 18px;
+  line-height: 1;
 }
 .doc-lock-title {
-  font-size: 0.95rem;
-  color: var(--text);
-  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 850;
+  letter-spacing: -0.01em;
 }
 .doc-lock-desc {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: 11px;
   color: var(--muted);
   line-height: 1.45;
 }
 .doc-lock-pill,
 .lock-status-pill {
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 850;
   padding: 3px 8px;
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background: rgba(239, 68, 68, 0.2);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(255, 92, 146, 0.18);
+  color: var(--pink2);
+  border: 1px solid rgba(255, 92, 146, 0.4);
 }
 .doc-lock-pill.locked,
 .lock-status-pill.locked {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34d399;
-  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(159, 228, 193, 0.18);
+  color: var(--green);
+  border-color: rgba(159, 228, 193, 0.4);
 }
 
 /* Hair category chips */
@@ -116,58 +109,37 @@
 }
 .doc-cat-chip,
 .cat-chip {
-  padding: 5px 12px;
+  padding: 4px 11px;
   border-radius: 999px;
-  font-size: 0.78rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  background: #1a1622;
+  border: 1px solid var(--line);
+  color: var(--cream);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 .doc-cat-chip:hover,
 .cat-chip:hover {
-  background: rgba(255, 255, 255, 0.09);
-  color: var(--text);
+  background: #ff5c9215;
+  border-color: var(--pink2);
+  color: #fff;
 }
 .doc-cat-chip.active,
 .cat-chip.active {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.5);
+  background: #ff5c9228;
+  border-color: var(--pink2);
   color: #fff;
-}
-
-/* Moisture card wrapper */
-.doc-moisture-wrap {
-  margin-top: 14px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.doc-moisture-title {
-  font-size: 0.9rem;
-  color: var(--text);
-  font-weight: 600;
-}
-.doc-moisture-desc {
-  margin: 3px 0 0 0;
-  font-size: 0.8rem;
-  color: var(--muted);
+  font-weight: 850;
 }
 
 /* Info/tip callout */
 .doc-info-box {
-  margin-top: 18px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  background: rgba(99, 102, 241, 0.06);
-  border: 1px dashed rgba(99, 102, 241, 0.3);
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255, 92, 146, 0.06);
+  border: 1px dashed rgba(255, 92, 146, 0.3);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -175,14 +147,15 @@
   gap: 12px;
 }
 .doc-info-box-title {
-  color: #c7d2fe;
-  font-size: 0.9rem;
-  font-weight: 600;
+  color: var(--pink2);
+  font-size: 12px;
+  font-weight: 850;
 }
 .doc-info-box-desc {
-  margin: 4px 0 0 0;
-  font-size: 0.82rem;
+  margin: 3px 0 0 0;
+  font-size: 11px;
   color: var(--muted);
+  line-height: 1.45;
 }
 
 /* Wardrobe mode bar */
@@ -218,14 +191,14 @@
 .doc-history-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
+  font-size: 11px;
   color: var(--muted);
   margin-bottom: 6px;
 }
 .doc-history-text {
   margin: 0;
-  font-size: 0.82rem;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.45;
   color: var(--text);
   max-height: 60px;
   overflow: hidden;
@@ -235,25 +208,10 @@
   display: flex;
   gap: 8px;
 }
-.doc-field-full {
-  margin-top: 16px;
-  width: 100%;
-}
-.doc-label-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.doc-input-full,
-.doc-textarea-full {
-  width: 100%;
-}
-.doc-textarea-full {
-  resize: vertical;
-}
 .doc-history-empty {
   color: var(--muted);
   padding: 16px;
+  font-size: 12px;
 }
 .pill-highlight {
   border-color: rgba(244, 114, 182, 0.4);

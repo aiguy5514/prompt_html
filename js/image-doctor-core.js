@@ -830,7 +830,7 @@
       btn.type = 'button';
       btn.className = `tab ${sec.id === currentSection ? 'active' : ''}`;
       btn.dataset.section = sec.id;
-      btn.innerHTML = `<span class="tab-icon">${sec.icon}</span><span class="tab-label">${sec.name}</span><span class="tab-short">${sec.short}</span>`;
+      btn.innerHTML = `<span class="tab-no">${String(idx + 1).padStart(2, '0')}</span>${sec.name}`;
       btn.addEventListener('click', () => goSection(sec.id));
       tabsContainer.appendChild(btn);
     });
@@ -970,12 +970,12 @@
 
     if (special) {
       special.innerHTML = `
-        <div class="field doc-field-full">
-          <label for="customFaceNoteInput" class="doc-field-label doc-label-between">
-            <span>🔬 Specific Facial Notes (Moles, Freckles, Scars, Custom Tweaks)</span>
-            <small>Optional</small>
-          </label>
-          <input type="text" id="customFaceNoteInput" class="input doc-input-full" placeholder="e.g. add faint freckles across nose bridge, remove small mole on left cheek, deep hazel eyes..." value="${values.customFaceNote || ''}">
+        <div class="field full" style="margin-top: 14px;">
+          <div class="label-row">
+            <label for="customFaceNoteInput">🔬 Specific Facial Notes (Moles, Freckles, Scars, Custom Tweaks)</label>
+            <span class="option-count">Optional</span>
+          </div>
+          <input type="text" id="customFaceNoteInput" placeholder="e.g. add faint freckles across nose bridge, remove small mole on left cheek, deep hazel eyes..." value="${values.customFaceNote || ''}">
         </div>
       `;
 
@@ -1074,18 +1074,16 @@
   function renderMoistureCard(container) {
     const mCard = document.createElement('div');
     mCard.id = 'moistureToggleCard';
-    mCard.className = 'doc-moisture-wrap';
+    mCard.className = 'moisture-toggle-card';
 
     mCard.innerHTML = `
-      <div>
-        <strong class="doc-moisture-title">💧 Hair Moisture State & Physics</strong>
-        <p class="doc-moisture-desc">
-          Inpaint hair with precise water saturation physics (dry airy volume vs soaked clumped strands).
-        </p>
+      <div class="moisture-header">
+        <span class="moisture-label">💧 Hair Moisture State</span>
+        <span class="moisture-hint">Inpaint with precise water saturation physics (dry airy volume vs soaked clumped strands)</span>
       </div>
-      <div class="doc-btn-row">
-        <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'dry' ? 'active' : ''}" data-moisture="dry">💨 Dry Blown-Out</button>
-        <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'damp' ? 'active' : ''}" data-moisture="damp">🧖‍♀️ Damp Towel-Dried</button>
+      <div class="moisture-pills" role="radiogroup" aria-label="Hair moisture state">
+        <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'dry' ? 'active' : ''}" data-moisture="dry">💨 Dry &amp; Blown-Out</button>
+        <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'damp' ? 'active' : ''}" data-moisture="damp">💦 Damp / Misted</button>
         <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'wet' ? 'active' : ''}" data-moisture="wet">💧 Soaked Wet</button>
       </div>
     `;
@@ -1139,18 +1137,20 @@
 
     if (special) {
       special.innerHTML = `
-        <div class="doc-finish-grid">
+        <div class="field-grid" style="margin-top: 16px;">
           <div class="field">
-            <label for="customDirInput" class="doc-field-label">
-              ✦ Custom Inpaint Guidance / Specific Notes
-            </label>
-            <textarea id="customDirInput" class="input doc-textarea-full" rows="3" placeholder="Add specific inpaint instructions (e.g. blend hair smoothly over left shoulder, keep earring visible)...">${values.customDirection || ''}</textarea>
+            <div class="label-row">
+              <label for="customDirInput">✦ Custom Inpaint Guidance / Specific Notes</label>
+              <span class="option-count">Optional</span>
+            </div>
+            <textarea id="customDirInput" rows="3" placeholder="Add specific inpaint instructions (e.g. blend hair smoothly over left shoulder, keep earring visible)...">${values.customDirection || ''}</textarea>
           </div>
           <div class="field">
-            <label for="extraNegInput" class="doc-field-label">
-              🚫 Additional Surgical Exclusions (Negative Guidance)
-            </label>
-            <textarea id="extraNegInput" class="input doc-textarea-full" rows="3" placeholder="Exclude specific defects (e.g. flyaways on forehead, high neckline, heavy mascara)...">${values.extraNegative || ''}</textarea>
+            <div class="label-row">
+              <label for="extraNegInput">🚫 Additional Surgical Exclusions (Negative Guidance)</label>
+              <span class="option-count">Optional</span>
+            </div>
+            <textarea id="extraNegInput" rows="3" placeholder="Exclude specific defects (e.g. flyaways on forehead, high neckline, heavy mascara)...">${values.extraNegative || ''}</textarea>
           </div>
         </div>
       `;
@@ -1171,14 +1171,25 @@
     const fieldDiv = document.createElement('div');
     fieldDiv.className = 'field';
 
+    const labRow = document.createElement('div');
+    labRow.className = 'label-row';
+
     const label = document.createElement('label');
     label.htmlFor = `field_${key}`;
-    label.className = 'doc-field-label';
     label.textContent = fld.label;
+
+    const optCount = document.createElement('span');
+    optCount.className = 'option-count';
+    optCount.textContent = `${fld.opts.length} choices`;
+
+    labRow.appendChild(label);
+    labRow.appendChild(optCount);
+
+    const selWrap = document.createElement('div');
+    selWrap.className = 'select-wrap';
 
     const select = document.createElement('select');
     select.id = `field_${key}`;
-    select.className = 'select';
 
     fld.opts.forEach(opt => {
       const optEl = document.createElement('option');
@@ -1203,8 +1214,9 @@
       buildPrompt();
     });
 
-    fieldDiv.appendChild(label);
-    fieldDiv.appendChild(select);
+    selWrap.appendChild(select);
+    fieldDiv.appendChild(labRow);
+    fieldDiv.appendChild(selWrap);
     return fieldDiv;
   }
 
