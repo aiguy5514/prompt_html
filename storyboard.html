@@ -1024,6 +1024,89 @@ document.addEventListener('click', e => {
   if(!e.target.closest('.custom-select')) document.querySelectorAll('.custom-select.open').forEach(c => { c.classList.remove('open'); c.querySelector('.select-trigger').setAttribute('aria-expanded','false'); });
 });
 
+function promptExportName(defaultName, studioSlug, optName) {
+  let title;
+  if (typeof optName === 'string' && optName.trim()) {
+    title = optName.trim();
+  } else {
+    const chosen = prompt('Name for this preset export (or bundle):', defaultName);
+    if (chosen === null) return null; // Clean abort
+    title = chosen.trim() || defaultName;
+  }
+  const slug = title.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || studioSlug;
+  return { title, filename: `afterglow-${studioSlug}-${slug}.json` };
+}
+
+function summarizePresetChanges(preset, prevValues, fieldDefs) {
+  const changes = [];
+  const source = preset.set || preset.values || preset.edits || preset.global || {};
+
+  Object.entries(source).forEach(([k, val]) => {
+    const fld = fieldDefs ? fieldDefs[k] : null;
+    const newLbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : String(val || '').trim();
+    if (!newLbl) return;
+    const oldVal = prevValues ? prevValues[k] : null;
+    const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
+
+    if (!prevValues || newLbl !== oldLbl) {
+      const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
+      changes.push(`${cleanFieldName}: “${newLbl}”`);
+    }
+  });
+
+  if (preset.sbHairMoisture && (!prevValues || preset.sbHairMoisture !== prevValues._moisture)) {
+    changes.push(`Hair Moisture: ${preset.sbHairMoisture}`);
+  }
+  if (preset.global?.sbHairMoisture && (!prevValues || preset.global.sbHairMoisture !== prevValues._moisture)) {
+    changes.push(`Hair Moisture: ${preset.global.sbHairMoisture}`);
+  }
+  if (preset.wardrobeMode && (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode)) {
+    changes.push(`Wardrobe: ${preset.wardrobeMode}`);
+  }
+  if (preset.global?.wardrobeMode && (!prevValues || preset.global.wardrobeMode !== prevValues._wardrobeMode)) {
+    changes.push(`Wardrobe: ${preset.global.wardrobeMode}`);
+  }
+  if (preset.frameCount && (!prevValues || preset.frameCount !== prevValues._frameCount)) {
+    changes.push(`Sequence: ${preset.frameCount} frames`);
+  }
+
+  return changes;
+}
+
+function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '.preset-strip') {
+  const host = document.querySelector(containerSelector);
+  if (!host) return;
+  const old = host.querySelector('.applied-preset-diff');
+  if (old) old.remove();
+
+  if (!changesList || !changesList.length) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'applied-preset-diff';
+  const displayItems = changesList.slice(0, 8);
+  const remainingCount = changesList.length - displayItems.length;
+  const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
+    (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+  banner.innerHTML = `
+    <span class="diff-icon">✦</span>
+    <div class="diff-content">
+      <div class="diff-title">Applied: ${presetTitle || 'Preset'} (${changesList.length} settings updated)</div>
+      <p class="diff-list">${listHtml}</p>
+    </div>
+    <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+  `;
+
+  banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
+
+  const grid = host.querySelector('.preset-grid, #presets, #customPresets');
+  if (grid) {
+    host.insertBefore(banner, grid);
+  } else {
+    host.appendChild(banner);
+  }
+}
+
 function renderPresets(){
   const host = el('presets'); if(!host) return;
   host.innerHTML = '';
@@ -1041,12 +1124,17 @@ function renderPresets(){
     const b = document.createElement('button'); b.type = 'button';
     b.className = 'preset' + (p.id === activePreset ? ' active' : '');
     b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
-    b.addEventListener('click', () => { applyStoryPreset(p); toast(`✦ Loaded Story Arc: ${p.title}`); });
+    b.addEventListener('click', () => { applyStoryPreset(p); });
     host.appendChild(b);
   });
 }
 
 function applyStoryPreset(p){
+  const prevValues = Object.assign({}, values);
+  prevValues._moisture = globalHairMoisture;
+  prevValues._wardrobeMode = wardrobeMode;
+  prevValues._frameCount = frameCount;
+
   activePreset = p.id;
   if(p.frameCount) frameCount = p.frameCount;
   if(p.global){
@@ -1063,6 +1151,16 @@ function applyStoryPreset(p){
   }
   activeShotTab = 'all';
   renderPresets(); renderFields(); buildPrompt();
+
+  const changes = summarizePresetChanges(p, prevValues, fields);
+  showAppliedPresetBanner(p.title, changes, '.preset-strip');
+  if (changes.length) {
+    const summaryText = changes.slice(0, 3).join(' · ');
+    const moreText = changes.length > 3 ? ` (+${changes.length - 3} more)` : '';
+    toast(`✓ Applied “${p.title}”! Updated: ${summaryText}${moreText}`);
+  } else {
+    toast(`✦ Loaded Story Arc: ${p.title}`);
+  }
 }
 
 // ==========================================
@@ -1391,12 +1489,16 @@ function saveCustomStoryPreset(optName){
   const p = { id: 'sb_' + Date.now(), title: name.trim(), sub: `${frameCount} Frames · ${values.sbHair?.label || ''}`, icon: '⭐', frameCount, global: gObj, frames: frames.map(f => Object.assign({}, f)) };
   customPresets.unshift(p); save(); renderPresets(); toast(`Saved “${p.title}”.`); return p;
 }
-function exportStories(){
+function exportStories(optName){
+  const defaultTitle = 'Active Storyboard Arc';
+  const naming = promptExportName(defaultTitle, 'storyboard', optName);
+  if (!naming) return null; // Clean abort
+
   const gObj = { wardrobeMode, sbHairMoisture: globalHairMoisture };
   Object.keys(fields).forEach(k => { gObj[k] = values[k]?.label || ''; });
   const activeLook = {
     id: 'active_sb_' + Date.now(),
-    title: 'Active Storyboard Arc',
+    title: naming.title,
     sub: `${frameCount} Frames · ${values.sbHair?.label || 'Custom'}`,
     icon: '✦',
     isCustom: true,
@@ -1430,6 +1532,7 @@ function exportStories(){
     version: 2,
     generator: 'Afterglow Prompt Studio',
     studio: 'storyboard',
+    title: naming.title,
     exportedAt: new Date().toISOString(),
     activeLook,
     customPresets: formattedCustom.length ? formattedCustom : [activeLook],
@@ -1439,17 +1542,14 @@ function exportStories(){
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
   const a = document.createElement('a'), u = URL.createObjectURL(blob);
   a.href = u;
-  a.download = 'afterglow-storyboards.json';
+  a.download = naming.filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(u), 1500);
 
-  if (customPresets.length) {
-    toast(`✓ Exported ${customPresets.length} custom storyboard(s) + active look as .json.`);
-  } else {
-    toast(`✓ Exported active storyboard + starter pack (${starterList.length + 1} arcs) as .json.`);
-  }
+  toast(`✓ Exported “${naming.title}” as .json.`);
+  return { title: naming.title, filename: naming.filename, payload };
 }
 
 function importStoriesFromData(parsed){
@@ -1603,7 +1703,7 @@ window.AfterglowStoryboard = {
   setOutputMode: m => { outputMode = m; buildPrompt(); },
   setActiveShotTab: s => { activeShotTab = s; buildPrompt(); },
   buildPrompt, renderFields, save, load, resetAll,
-  saveCustomStoryPreset, exportStories, importStoriesFromData, getCustomPresets: () => customPresets,
+  saveCustomStoryPreset, exportStories, importStoriesFromData, summarizePresetChanges, showAppliedPresetBanner, getCustomPresets: () => customPresets,
   getHair: () => hair,
   getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
   getFaceObfuscModeOpts: () => faceObfuscModeOpts,

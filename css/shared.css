@@ -864,5 +864,59 @@
   color: #f3e8ff;
 }
 
+/* Applied preset diff banner */
+.applied-preset-diff {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(159, 228, 193, 0.08);
+  border: 1px solid rgba(159, 228, 193, 0.35);
+  border-radius: 14px;
+  padding: 10px 13px;
+  margin-bottom: 12px;
+  animation: diffFadeIn 0.2s ease;
+}
+@keyframes diffFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.applied-preset-diff .diff-icon {
+  font-size: 15px;
+  line-height: 1;
+  color: var(--green);
+  margin-top: 1px;
+}
+.applied-preset-diff .diff-content {
+  flex: 1;
+  min-width: 0;
+}
+.applied-preset-diff .diff-title {
+  font-size: 12px;
+  font-weight: 850;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.applied-preset-diff .diff-list {
+  font-size: 11px;
+  color: #d1fae5;
+  line-height: 1.45;
+  margin: 0;
+}
+.applied-preset-diff .diff-close {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.applied-preset-diff .diff-close:hover {
+  color: #fff;
+}
+
+
 
 

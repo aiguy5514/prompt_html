@@ -1265,8 +1265,103 @@
     });
   }
 
+  function promptExportName(defaultName, studioSlug, optName) {
+    let title;
+    if (typeof optName === 'string' && optName.trim()) {
+      title = optName.trim();
+    } else {
+      const chosen = prompt('Name for this preset export (or bundle):', defaultName);
+      if (chosen === null) return null; // Clean abort
+      title = chosen.trim() || defaultName;
+    }
+    const slug = title.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || studioSlug;
+    return { title, filename: `afterglow-${studioSlug}-${slug}.json` };
+  }
+
+  function summarizeDoctorPresetChanges(preset, prevValues, prevLocks, prevMoisture, prevWardrobe) {
+    const changes = [];
+    const editsSource = preset.edits || preset.set || preset.values || {};
+
+    Object.keys(fields).forEach(k => {
+      const val = editsSource[k];
+      const newLbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : String(val || '').trim();
+      const oldVal = prevValues ? prevValues[k] : null;
+      const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
+
+      if (newLbl && (!prevValues || newLbl !== oldLbl) && !isKeepRef(newLbl)) {
+        const cleanName = fields[k]?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
+        changes.push(`${cleanName}: “${newLbl}”`);
+      }
+    });
+
+    if (preset.locks && prevLocks) {
+      const lockedDiff = [];
+      Object.keys(preset.locks).forEach(lk => {
+        if (!!preset.locks[lk] !== !!prevLocks[lk]) {
+          const lDef = PRESERVE_LOCKS.find(x => x.id === lk);
+          lockedDiff.push(preset.locks[lk] ? `+Locked ${lDef?.label || lk}` : `Unlocked ${lDef?.label || lk}`);
+        }
+      });
+      if (lockedDiff.length) {
+        changes.push(lockedDiff.slice(0, 2).join(', '));
+      }
+    } else if (preset.locks) {
+      const lockedCount = Object.values(preset.locks).filter(Boolean).length;
+      changes.push(`${lockedCount} features locked`);
+    }
+
+    if (preset.activeHairMoisture && (!prevMoisture || preset.activeHairMoisture !== prevMoisture)) {
+      changes.push(`Hair Moisture: ${preset.activeHairMoisture}`);
+    }
+    if (preset.wardrobeMode && (!prevWardrobe || preset.wardrobeMode !== prevWardrobe)) {
+      changes.push(`Wardrobe: ${preset.wardrobeMode}`);
+    }
+
+    return changes;
+  }
+
+  function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '.preset-strip') {
+    const host = document.querySelector(containerSelector);
+    if (!host) return;
+    const old = host.querySelector('.applied-preset-diff');
+    if (old) old.remove();
+
+    if (!changesList || !changesList.length) return;
+
+    const banner = document.createElement('div');
+    banner.className = 'applied-preset-diff';
+    const displayItems = changesList.slice(0, 8);
+    const remainingCount = changesList.length - displayItems.length;
+    const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
+      (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+    banner.innerHTML = `
+      <span class="diff-icon">✦</span>
+      <div class="diff-content">
+        <div class="diff-title">Applied: ${presetTitle || 'Surgical Look'} (${changesList.length} settings updated)</div>
+        <p class="diff-list">${listHtml}</p>
+      </div>
+      <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+    `;
+
+    banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
+
+    const grid = host.querySelector('.preset-grid, #presets');
+    if (grid) {
+      host.insertBefore(banner, grid);
+    } else {
+      host.appendChild(banner);
+    }
+  }
+
   function applyPreset(preset) {
     if (!preset) return;
+
+    const prevValues = Object.assign({}, values);
+    const prevLocks = Object.assign({}, lockState);
+    const prevMoisture = activeHairMoisture;
+    const prevWardrobe = wardrobeMode;
+
     if (preset.wardrobeMode) {
       wardrobeMode = preset.wardrobeMode;
     }
@@ -1298,6 +1393,17 @@
 
     renderSectionContents(currentSection);
     buildPrompt();
+
+    const changes = summarizeDoctorPresetChanges(preset, prevValues, prevLocks, prevMoisture, prevWardrobe);
+    showAppliedPresetBanner(preset.title, changes, '.preset-strip');
+
+    if (changes.length) {
+      const summaryText = changes.slice(0, 3).join(' · ');
+      const moreText = changes.length > 3 ? ` (+${changes.length - 3} more)` : '';
+      showToast(`✓ Applied “${preset.title}”! Updated: ${summaryText}${moreText}`);
+    } else {
+      showToast(`Applied “${preset.title}”.`);
+    }
   }
 
   function saveCustomDoctorPreset(title) {
@@ -1325,7 +1431,11 @@
     return newPreset;
   }
 
-  function exportDoctorPresets() {
+  function exportDoctorPresets(optName) {
+    const defaultTitle = 'Active Surgical Direction';
+    const naming = promptExportName(defaultTitle, 'doctor', optName);
+    if (!naming) return null; // Clean abort
+
     const activeEdits = {};
     Object.keys(values).forEach(k => {
       if (values[k] && values[k].label && !isKeepRef(values[k])) {
@@ -1334,7 +1444,7 @@
     });
     const activeLook = {
       id: 'active_doc_' + Date.now(),
-      title: 'Active Surgical Configuration',
+      title: naming.title,
       sub: `${getActiveEdits().length} edits · Active surgical direction`,
       icon: '🔬',
       isCustom: true,
@@ -1348,6 +1458,7 @@
       version: 2,
       generator: 'Afterglow Prompt Studio',
       studio: 'image_doctor',
+      title: naming.title,
       exportedAt: new Date().toISOString(),
       activeLook,
       customPresets: exportList,
@@ -1357,17 +1468,13 @@
     const a = document.createElement('a');
     const url = URL.createObjectURL(blob);
     a.href = url;
-    a.download = `afterglow_doctor_presets_${Date.now()}.json`;
+    a.download = naming.filename;
     document.body.appendChild(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1500);
-    if (customPresets.length) {
-      showToast(`✓ Exported ${customPresets.length} custom look(s) + active look as .json`);
-    } else {
-      showToast(`✓ Exported active look + starter pack (${STARTER_PRESETS.length + 1} looks) as .json`);
-    }
-    return data;
+    showToast(`✓ Exported “${naming.title}” as .json.`);
+    return Object.assign(data, { title: naming.title, filename: naming.filename, payload: data });
   }
 
   function deleteCustomPreset(id) {
@@ -1812,6 +1919,8 @@
     deleteCustomPreset,
     exportDoctorPresets,
     importDoctorPresetsFromData,
+    summarizePresetChanges: summarizeDoctorPresetChanges,
+    showAppliedPresetBanner,
     getCustomPresets: () => customPresets,
     getStarterPresets: () => STARTER_PRESETS,
     getHair: () => hair,

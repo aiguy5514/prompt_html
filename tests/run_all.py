@@ -216,6 +216,12 @@ const importedSingle = api.importCustomPresetsFromData({
   set: { salonHaircut: cuts[2].cut.label.toLowerCase() }
 });
 ok('salon_import_single_and_fuzzy', importedSingle === 1);
+const oldSalonAnchorClick = HTMLAnchorElement.prototype.click;
+HTMLAnchorElement.prototype.click = function(){};
+const salonExp = api.exportCustomPresets('Artisan Salon Bob');
+HTMLAnchorElement.prototype.click = oldSalonAnchorClick;
+ok('salon_export_custom_name_slug', salonExp && salonExp.filename === 'afterglow-salon-artisan-salon-bob.json' && salonExp.title === 'Artisan Salon Bob');
+ok('salon_applied_preset_diff_rendered', !!document.querySelector('.applied-preset-diff'));
 
 // Verify real UI clicks on #copyPositive, #copyNegative, #btnQuickGrooming
 document.getElementById('copyPositive').click();
@@ -820,11 +826,13 @@ const imp = api.importDoctorPresetsFromData({ customPresets: [{ id: 'imp_doc_1',
 ok('doctor_import_preset', imp === 1);
 const oldClick = HTMLAnchorElement.prototype.click;
 HTMLAnchorElement.prototype.click = function(){};
-const docExport = api.exportDoctorPresets();
+const docExport = api.exportDoctorPresets('My Surgical Direction Test');
 HTMLAnchorElement.prototype.click = oldClick;
 ok('doctor_export_has_active_look_and_version', docExport.version === 2 && !!docExport.activeLook && Array.isArray(docExport.starterPresets));
+ok('doctor_export_custom_name_slug', docExport.filename === 'afterglow-doctor-my-surgical-direction-test.json' && docExport.title === 'My Surgical Direction Test');
 const impSingleDoc = api.importDoctorPresetsFromData({ title: 'Single Doctor Look', edits: { haircut: 'french bob' } });
 ok('doctor_import_single_preset', impSingleDoc === 1);
+ok('doctor_applied_preset_diff_rendered', !!document.querySelector('.applied-preset-diff'));
 
 // Mobile drawer open / close
 document.getElementById('openDrawerBtn').click();

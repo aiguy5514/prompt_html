@@ -2579,7 +2579,92 @@ renderPresets();
 toast('Custom preset removed.');
 }
 
-function exportCustomPresets(){
+function promptExportName(defaultName, studioSlug, optName) {
+  let title;
+  if (typeof optName === 'string' && optName.trim()) {
+    title = optName.trim();
+  } else {
+    const chosen = prompt('Name for this preset export (or bundle):', defaultName);
+    if (chosen === null) return null; // Clean abort
+    title = chosen.trim() || defaultName;
+  }
+  const slug = title.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || studioSlug;
+  return { title, filename: `afterglow-${studioSlug}-${slug}.json` };
+}
+
+function summarizePresetChanges(preset, prevValues, fieldDefs) {
+  const changes = [];
+  const source = preset.set || preset.values || preset.edits || preset.global || {};
+
+  Object.entries(source).forEach(([k, val]) => {
+    const fld = fieldDefs ? fieldDefs[k] : null;
+    const newLbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : String(val || '').trim();
+    if (!newLbl) return;
+    const oldVal = prevValues ? prevValues[k] : null;
+    const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
+
+    if (!prevValues || newLbl !== oldLbl) {
+      const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
+      changes.push(`${cleanFieldName}: “${newLbl}”`);
+    }
+  });
+
+  if (preset.hairMoisture && (!prevValues || preset.hairMoisture !== prevValues._moisture)) {
+    changes.push(`Hair Moisture: ${preset.hairMoisture}`);
+  }
+  if (preset.wardrobeMode && (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode)) {
+    changes.push(`Wardrobe: ${preset.wardrobeMode}`);
+  }
+  if (preset.locks && typeof preset.locks === 'object') {
+    const lockedCount = Object.values(preset.locks).filter(Boolean).length;
+    changes.push(`${lockedCount} features locked`);
+  }
+  if (preset.frameCount && (!prevValues || preset.frameCount !== prevValues._frameCount)) {
+    changes.push(`Sequence: ${preset.frameCount} frames`);
+  }
+
+  return changes;
+}
+
+function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '.preset-strip') {
+  const host = document.querySelector(containerSelector);
+  if (!host) return;
+  const old = host.querySelector('.applied-preset-diff');
+  if (old) old.remove();
+
+  if (!changesList || !changesList.length) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'applied-preset-diff';
+  const displayItems = changesList.slice(0, 8);
+  const remainingCount = changesList.length - displayItems.length;
+  const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
+    (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+  banner.innerHTML = `
+    <span class="diff-icon">✦</span>
+    <div class="diff-content">
+      <div class="diff-title">Applied: ${presetTitle || 'Preset'} (${changesList.length} settings updated)</div>
+      <p class="diff-list">${listHtml}</p>
+    </div>
+    <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+  `;
+
+  banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
+
+  const grid = host.querySelector('.preset-grid, #presets, #customPresets');
+  if (grid) {
+    host.insertBefore(banner, grid);
+  } else {
+    host.appendChild(banner);
+  }
+}
+
+function exportCustomPresets(optName){
+  const defaultTitle = (currentStudioMode === 'salon' ? 'Active Salon Look' : 'Active Photoshoot Look');
+  const naming = promptExportName(defaultTitle, currentStudioMode, optName);
+  if (!naming) return null; // Clean abort
+
   const activeSet = {};
   Object.entries(values || {}).forEach(([k, v]) => {
     if (v && v.label) activeSet[k] = v.label;
@@ -2588,7 +2673,7 @@ function exportCustomPresets(){
 
   const activeLook = {
     id: 'active_' + Date.now(),
-    title: (currentStudioMode === 'salon' ? 'Active Salon Look' : 'Active Photoshoot Look'),
+    title: naming.title,
     sub: 'Snapshot of current studio configuration',
     icon: '✦',
     isCustom: true,
@@ -2616,6 +2701,7 @@ function exportCustomPresets(){
     version: 2,
     generator: 'Afterglow Prompt Studio',
     studio: currentStudioMode,
+    title: naming.title,
     exportedAt: new Date().toISOString(),
     activeLook,
     customPresets: formattedCustom.length ? formattedCustom : [activeLook],
@@ -2625,16 +2711,13 @@ function exportCustomPresets(){
   const a = document.createElement('a');
   const url = URL.createObjectURL(blob);
   a.href = url;
-  a.download = `afterglow-${currentStudioMode}-presets.json`;
+  a.download = naming.filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
-  if (customPresets.length) {
-    toast(`✓ Exported ${customPresets.length} custom look(s) + active look as .json.`);
-  } else {
-    toast(`✓ Exported active look + starter pack (${starterList.length + 1} looks) as .json.`);
-  }
+  toast(`✓ Exported “${naming.title}” as .json.`);
+  return { title: naming.title, filename: naming.filename, payload };
 }
 
 function findOptFuzzy(fieldKey, target) {
@@ -3652,10 +3735,23 @@ activeShot='all';
 updateModeButtons();
 activePreset=id;
 document.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active',b.dataset.preset===id));
+
+// Snapshot previous values for diff
+const prevValues = Object.assign({}, values);
 rollTheme(p);
 goSection('look');
 buildPrompt();
-toast(`Applied “${p.title}”. Customize any option now.`);
+
+const changes = summarizePresetChanges(p, prevValues, fields);
+showAppliedPresetBanner(p.title, changes, '.preset-strip');
+
+if (changes.length) {
+  const summaryText = changes.slice(0, 3).join(' · ');
+  const moreText = changes.length > 3 ? ` (+${changes.length - 3} more)` : '';
+  toast(`✓ Applied “${p.title}”! Updated: ${summaryText}${moreText}`);
+} else {
+  toast(`Applied “${p.title}”. Customize any option now.`);
+}
 }
 
 
@@ -7381,7 +7477,10 @@ window.AfterglowStudio = {
   renderFields,
   renderPresets,
   saveCustomPreset,
+  exportCustomPresets,
   importCustomPresetsFromData,
+  summarizePresetChanges,
+  showAppliedPresetBanner,
   resetAll,
   save,
   load,

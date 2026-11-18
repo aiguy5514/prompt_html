@@ -1305,6 +1305,113 @@ function deleteCustomPreset(id, e){
   toast('Custom tattoo preset removed.');
 }
 
+function promptExportName(defaultName, studioSlug, optName) {
+  let title;
+  if (typeof optName === 'string' && optName.trim()) {
+    title = optName.trim();
+  } else {
+    const chosen = prompt('Name for this preset export (or bundle):', defaultName);
+    if (chosen === null) return null; // Clean abort
+    title = chosen.trim() || defaultName;
+  }
+  const slug = title.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || studioSlug;
+  return { title, filename: `afterglow-${studioSlug}-${slug}.json` };
+}
+
+function summarizePresetChanges(preset, prevValues, fieldDefs) {
+  const changes = [];
+  const source = preset.set || preset.values || preset.edits || preset.global || {};
+
+  Object.entries(source).forEach(([k, val]) => {
+    const fld = fieldDefs ? fieldDefs[k] : null;
+    const newLbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : String(val || '').trim();
+    if (!newLbl) return;
+    const oldVal = prevValues ? prevValues[k] : null;
+    const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
+
+    if (!prevValues || newLbl !== oldLbl) {
+      const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
+      changes.push(`${cleanFieldName}: “${newLbl}”`);
+    }
+  });
+
+  if (preset.hairMoisture && (!prevValues || preset.hairMoisture !== prevValues._moisture)) {
+    changes.push(`Hair Moisture: ${preset.hairMoisture}`);
+  }
+  if (preset.wardrobeMode && (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode)) {
+    changes.push(`Wardrobe: ${preset.wardrobeMode}`);
+  }
+  if (preset.locks && typeof preset.locks === 'object') {
+    const lockedCount = Object.values(preset.locks).filter(Boolean).length;
+    changes.push(`${lockedCount} features locked`);
+  }
+  if (preset.frameCount && (!prevValues || preset.frameCount !== prevValues._frameCount)) {
+    changes.push(`Sequence: ${preset.frameCount} frames`);
+  }
+
+  return changes;
+}
+
+function showAppliedPresetBanner(presetTitle, changesList, containerSelector = '.preset-strip') {
+  const host = document.querySelector(containerSelector);
+  if (!host) return;
+  const old = host.querySelector('.applied-preset-diff');
+  if (old) old.remove();
+
+  if (!changesList || !changesList.length) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'applied-preset-diff';
+  const displayItems = changesList.slice(0, 8);
+  const remainingCount = changesList.length - displayItems.length;
+  const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
+    (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+  banner.innerHTML = `
+    <span class="diff-icon">✦</span>
+    <div class="diff-content">
+      <div class="diff-title">Applied: ${presetTitle || 'Preset'} (${changesList.length} settings updated)</div>
+      <p class="diff-list">${listHtml}</p>
+    </div>
+    <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+  `;
+
+  banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
+
+  const grid = host.querySelector('.preset-grid, #presets, #customPresets');
+  if (grid) {
+    host.insertBefore(banner, grid);
+  } else {
+    host.appendChild(banner);
+  }
+}
+
+function applyPresetObj(p){
+  const prevValues = Object.assign({}, values);
+  prevValues._moisture = tattooHairMoisture;
+  prevValues._wardrobeMode = wardrobeMode;
+
+  activePreset = p.id;
+  if(p.wardrobeMode) wardrobeMode = p.wardrobeMode;
+  if(p.hairMoisture) tattooHairMoisture = p.hairMoisture;
+  Object.keys(p.values || {}).forEach(k => {
+    if(p.values[k]) values[k] = p.values[k];
+  });
+  renderPresets();
+  renderFields();
+  buildPrompt();
+
+  const changes = summarizePresetChanges(p, prevValues, fields);
+  showAppliedPresetBanner(p.title, changes, '.preset-strip');
+  if (changes.length) {
+    const summaryText = changes.slice(0, 3).join(' · ');
+    const moreText = changes.length > 3 ? ` (+${changes.length - 3} more)` : '';
+    toast(`✓ Applied “${p.title}”! Updated: ${summaryText}${moreText}`);
+  } else {
+    toast(`✦ Applied preset: ${p.title}`);
+  }
+}
+
 function renderPresets(){
   const host = el('presets');
   if(!host) return;
@@ -1320,16 +1427,7 @@ function renderPresets(){
         deleteCustomPreset(p.id, e);
         return;
       }
-      activePreset = p.id;
-      if(p.wardrobeMode) wardrobeMode = p.wardrobeMode;
-      if(p.hairMoisture) tattooHairMoisture = p.hairMoisture;
-      Object.keys(p.values || {}).forEach(k => {
-        if(p.values[k]) values[k] = p.values[k];
-      });
-      renderPresets();
-      renderFields();
-      buildPrompt();
-      toast(`✦ Applied custom preset: ${p.title}`);
+      applyPresetObj(p);
     });
     host.appendChild(b);
   });
@@ -1340,16 +1438,7 @@ function renderPresets(){
     b.dataset.preset = p.id;
     b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
     b.addEventListener('click', () => {
-      activePreset = p.id;
-      if(p.wardrobeMode) wardrobeMode = p.wardrobeMode;
-      if(p.hairMoisture) tattooHairMoisture = p.hairMoisture;
-      Object.keys(p.values).forEach(k => {
-        if(p.values[k]) values[k] = p.values[k];
-      });
-      renderPresets();
-      renderFields();
-      buildPrompt();
-      toast(`✦ Applied preset: ${p.title}`);
+      applyPresetObj(p);
     });
     host.appendChild(b);
   });
@@ -1911,10 +2000,14 @@ function saveCustomTattooPreset(optionalName){
 }
 el('saveCustomLook')?.addEventListener('click', () => saveCustomTattooPreset());
 
-function exportTattooPresets(){
+function exportTattooPresets(optName){
+  const defaultTitle = 'Active Tattoo Configuration';
+  const naming = promptExportName(defaultTitle, 'tattoo', optName);
+  if (!naming) return null; // Clean abort
+
   const activeLook = {
     id: 'active_tattoo_' + Date.now(),
-    title: 'Active Tattoo Configuration',
+    title: naming.title,
     sub: 'Snapshot of current tattoo studio configuration',
     icon: '✦',
     isCustom: true,
@@ -1947,6 +2040,7 @@ function exportTattooPresets(){
     version: 2,
     generator: 'Afterglow Prompt Studio',
     studio: 'tattoo',
+    title: naming.title,
     exportedAt: new Date().toISOString(),
     activeLook,
     customPresets: formattedCustom.length ? formattedCustom : [activeLook],
@@ -1957,17 +2051,14 @@ function exportTattooPresets(){
   const a = document.createElement('a');
   const url = URL.createObjectURL(blob);
   a.href = url;
-  a.download = 'afterglow-tattoo-presets.json';
+  a.download = naming.filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
 
-  if (customPresets.length) {
-    toast(`✓ Exported ${customPresets.length} custom tattoo look(s) + active look as .json.`);
-  } else {
-    toast(`✓ Exported active look + starter pack (${starterList.length + 1} looks) as .json.`);
-  }
+  toast(`✓ Exported “${naming.title}” as .json.`);
+  return { title: naming.title, filename: naming.filename, payload };
 }
 
 function importTattooPresetsFromData(parsed){
@@ -2015,17 +2106,9 @@ function importTattooPresetsFromData(parsed){
   save();
   renderPresets();
 
-  if (firstAdded) {
+  if (firstAdded && typeof applyPresetObj === 'function') {
     try {
-      activePreset = firstAdded.id;
-      if (firstAdded.wardrobeMode) wardrobeMode = firstAdded.wardrobeMode;
-      if (firstAdded.hairMoisture) tattooHairMoisture = firstAdded.hairMoisture;
-      Object.keys(firstAdded.values || {}).forEach(k => {
-        if (firstAdded.values[k]) values[k] = firstAdded.values[k];
-      });
-      renderPresets();
-      renderFields();
-      buildPrompt();
+      applyPresetObj(firstAdded);
     } catch(e) {}
   }
 
@@ -2173,6 +2256,8 @@ window.AfterglowTattoo = {
   deleteCustomPreset,
   exportTattooPresets,
   importTattooPresetsFromData,
+  summarizePresetChanges,
+  showAppliedPresetBanner,
   getCustomPresets: () => customPresets,
   getTattooPresets: () => tattooPresets,
   getHair: () => hair,
