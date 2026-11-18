@@ -712,11 +712,20 @@ function serializeSet(m){
 }
 function hydrateSet(raw){
   const o = {};
-  Object.entries(raw || {}).forEach(([k, lbl]) => {
+  Object.entries(raw || {}).forEach(([k, rawVal]) => {
     const f = fields[k];
-    if(!f) return;
-    const hit = f.opts.find(x => x.label === lbl);
+    if(!f || !f.opts) return;
+    const lbl = typeof rawVal === 'object' && rawVal !== null ? (rawVal.label || rawVal.text || '') : String(rawVal || '').trim();
+    if(!lbl) return;
+    let hit = f.opts.find(x => x.label === lbl);
+    if(!hit){
+      const lower = lbl.toLowerCase();
+      hit = f.opts.find(x => x.label && x.label.trim().toLowerCase() === lower);
+      if(!hit) hit = f.opts.find(x => x.text && x.text.trim().toLowerCase() === lower);
+      if(!hit) hit = f.opts.find(x => x.label && (x.label.toLowerCase().includes(lower) || lower.includes(x.label.toLowerCase())));
+    }
     if(hit) o[k] = hit;
+    else o[k] = { label: lbl, text: lbl };
   });
   return o;
 }
@@ -1415,24 +1424,124 @@ function saveCustomVidPreset(optName){
   customPresets.unshift(p); save(); renderPresets(); toast(`Saved “${p.title}”.`); return p;
 }
 function exportVidPresets(){
-  const payload = { version: 1, studio: 'video', exportedAt: new Date().toISOString(), customPresets: customPresets.map(p => ({ id: p.id, title: p.title, sub: p.sub, icon: p.icon, wardrobeMode: p.wardrobeMode, hairMoisture: p.hairMoisture, set: serializeSet(p.values) })) };
+  const activeLook = {
+    id: 'active_vid_' + Date.now(),
+    title: 'Active Motion Direction',
+    sub: values.vidCameraMove?.label || 'Custom Motion',
+    icon: '✦',
+    isCustom: true,
+    wardrobeMode,
+    hairMoisture: vidHairMoisture,
+    set: serializeSet(values)
+  };
+
+  const formattedCustom = customPresets.map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '⭐',
+    wardrobeMode: p.wardrobeMode || 'ensemble',
+    hairMoisture: p.hairMoisture || 'dry',
+    set: serializeSet(p.values)
+  }));
+
+  const starterList = (starterPresets || []).map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '✦',
+    wardrobeMode: p.wardrobeMode || 'ensemble',
+    hairMoisture: p.hairMoisture || 'dry',
+    set: serializeSet(p.values)
+  }));
+
+  const payload = {
+    version: 2,
+    generator: 'Afterglow Prompt Studio',
+    studio: 'video',
+    exportedAt: new Date().toISOString(),
+    activeLook,
+    customPresets: formattedCustom.length ? formattedCustom : [activeLook],
+    starterPresets: starterList
+  };
+
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
-  const a = document.createElement('a'), url = URL.createObjectURL(blob);
-  a.href = url; a.download = 'afterglow-video-presets.json'; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = 'afterglow-video-presets.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+  if (customPresets.length) {
+    toast(`✓ Exported ${customPresets.length} custom motion preset(s) + active look as .json.`);
+  } else {
+    toast(`✓ Exported active motion look + starter pack (${starterList.length + 1} looks) as .json.`);
+  }
 }
+
 function importVidPresetsFromData(parsed){
-  const list = Array.isArray(parsed) ? parsed : (parsed?.customPresets || null);
-  if(!list) throw new Error('Invalid JSON');
+  let list = null;
+  if (Array.isArray(parsed)) {
+    list = parsed;
+  } else if (parsed && typeof parsed === 'object') {
+    if (Array.isArray(parsed.customPresets)) list = parsed.customPresets;
+    else if (Array.isArray(parsed.presets)) list = parsed.presets;
+    else if (Array.isArray(parsed.starterPresets)) list = parsed.starterPresets;
+    else if (parsed.set || parsed.values || parsed.v || parsed.edits) list = [parsed];
+    else if (parsed.activeLook) list = [parsed.activeLook];
+  }
+  if (!list) throw new Error('Invalid JSON');
+
   let added = 0;
+  let firstAdded = null;
   list.forEach(raw => {
-    if(!raw?.title) return;
-    const h = hydrateSet(raw.set || raw.values || raw.v);
-    if(!Object.keys(h).length || customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
-    customPresets.unshift({ id: raw.id || ('user_'+Date.now()+'_'+added), title: raw.title, sub: raw.sub || 'Imported', icon: raw.icon || '⭐', isCustom: true, wardrobeMode: raw.wardrobeMode, hairMoisture: raw.hairMoisture, values: h });
+    if (!raw) return;
+    const title = raw.title || raw.name || ('Motion ' + (added + 1));
+    const h = hydrateSet(raw.set || raw.values || raw.v || raw.edits);
+    if (!Object.keys(h).length) return;
+    if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+
+    let finalTitle = String(title).slice(0, 80);
+    if (customPresets.some(p => p.title === finalTitle)) {
+      finalTitle += ` (${added + 1})`;
+    }
+
+    const p = {
+      id: raw.id || ('user_' + Date.now() + '_' + added),
+      title: finalTitle,
+      sub: raw.sub || 'Imported Motion',
+      icon: raw.icon || '⭐',
+      isCustom: true,
+      wardrobeMode: raw.wardrobeMode || 'ensemble',
+      hairMoisture: raw.hairMoisture || 'dry',
+      values: h
+    };
+    customPresets.unshift(p);
+    if (!firstAdded) firstAdded = p;
     added++;
   });
-  save(); renderPresets(); return added;
+
+  save();
+  renderPresets();
+
+  if (firstAdded) {
+    try {
+      activePreset = firstAdded.id;
+      if (firstAdded.wardrobeMode) wardrobeMode = firstAdded.wardrobeMode;
+      if (firstAdded.hairMoisture) vidHairMoisture = firstAdded.hairMoisture;
+      Object.keys(firstAdded.values || {}).forEach(k => {
+        if (firstAdded.values[k]) values[k] = firstAdded.values[k];
+      });
+      renderPresets();
+      renderFields();
+      buildPrompt();
+    } catch(e) {}
+  }
+
+  return added;
 }
 
 el('randomTop')?.addEventListener('click', randomizeAll);
@@ -1445,9 +1554,19 @@ el('exportPresetsBtn')?.addEventListener('click', exportVidPresets);
 if(el('importPresetsBtn') && el('importPresetsInput')){
   el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
   el('importPresetsInput').addEventListener('change', e => {
-    const f = e.target.files?.[0]; if(!f) return;
+    const f = e.target.files?.[0];
+    if(!f) return;
     const r = new FileReader();
-    r.onload = () => { try { toast(`✓ Imported ${importVidPresetsFromData(JSON.parse(r.result))} preset(s).`); } catch(err){ toast('Invalid JSON file.'); } e.target.value = ''; };
+    r.onload = () => {
+      try {
+        const count = importVidPresetsFromData(JSON.parse(r.result));
+        toast(count ? `✓ Imported ${count} motion preset(s) and applied look.` : 'No new presets found in file.');
+      } catch(err){
+        toast('Could not import presets: invalid or incompatible .json file.');
+      } finally {
+        e.target.value = '';
+      }
+    };
     r.readAsText(f);
   });
 }
@@ -1525,7 +1644,7 @@ load(); renderPresets(); renderTabs(); goSection(activeSection || 'vidInputSec')
 window.AfterglowVideo = {
   getFields: () => fields, getValues: () => values, getCheckState: () => checkState,
   buildPrompt, renderFields, save, load, resetAll,
-  saveCustomVidPreset, importVidPresetsFromData, getCustomPresets: () => customPresets,
+  saveCustomVidPreset, exportVidPresets, importVidPresetsFromData, getCustomPresets: () => customPresets,
   getHair: () => hair, getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
   getFaceObfuscModeOpts: () => faceObfuscModeOpts,
   getMoisture: () => vidHairMoisture, setMoisture: m => { vidHairMoisture = m; renderFields(); buildPrompt(); },

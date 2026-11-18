@@ -211,6 +211,11 @@ const importedDup = api.importCustomPresetsFromData({
   customPresets: [{ id: 'test_import_1', title: 'Imported Salon Test Look', set: { salonHaircut: cuts[1].cut.label } }]
 });
 ok('salon_import_dedups', importedDup === 0);
+const importedSingle = api.importCustomPresetsFromData({
+  title: 'Single Naked Preset',
+  set: { salonHaircut: cuts[2].cut.label.toLowerCase() }
+});
+ok('salon_import_single_and_fuzzy', importedSingle === 1);
 
 // Verify real UI clicks on #copyPositive, #copyNegative, #btnQuickGrooming
 document.getElementById('copyPositive').click();
@@ -583,6 +588,10 @@ ok('video_copy_positive_works', !api.getExtractedPositive().includes('AVOID / NE
 ok('video_copy_negative_works', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
 const saved = api.saveCustomVidPreset('Test Monsoon Motion');
 ok('video_save_preset_localstorage', !!saved && (localStorage.getItem('afterglow_video_director_v1') || '').includes('Test Monsoon Motion'));
+const vidImp = api.importVidPresetsFromData({ customPresets: [{ id: 'vid_imp_1', title: 'Imported Dolly', values: { vidCameraMove: api.getFields().vidCameraMove.opts[1].label } }] });
+ok('video_import_preset_works', vidImp === 1);
+const vidImpSingle = api.importVidPresetsFromData({ title: 'Single Video Motion', values: { vidCameraMove: api.getFields().vidCameraMove.opts[2].label.toLowerCase() } });
+ok('video_import_single_and_fuzzy', vidImpSingle === 1);
 
 // Theme 3 & 4: Speed curve + Seamless loop + Token estimation
 ok('video_speed_curve_field_exists', !!api.getFields().vidSpeedCurve);
@@ -728,6 +737,10 @@ const saved = api.saveCustomRomancePreset('My Bike Road Trip');
 ok('romance_save_preset', !!saved && (localStorage.getItem('afterglow_romance_v1') || '').includes('My Bike Road Trip'));
 const imp = api.importRomancePresetsFromData({ customPresets: [{ id: 'imp_rom_1', title: 'Imported Cafe Romance', hairMoisture: 'damp', set: { romanceSetting: api.getFields().romanceSetting.opts[1].label } }] });
 ok('romance_import_preset', imp === 1);
+const impSingle = api.importRomancePresetsFromData({ title: 'Single Romance Look', set: { romanceSetting: 'whispering sea breeze' } });
+ok('romance_import_single_preset', impSingle === 1);
+const rPrompt = api.buildPrompt();
+ok('romance_prompt_valid_after_import', !rPrompt.includes('undefined'));
 '''
 
 IMAGE_DOCTOR_JS = r'''
@@ -805,6 +818,13 @@ const saved = api.saveCustomDoctorPreset('My Surgical Bob Test');
 ok('doctor_save_preset', !!saved && (localStorage.getItem('afterglow_image_doctor_v1') || '').includes('My Surgical Bob Test'));
 const imp = api.importDoctorPresetsFromData({ customPresets: [{ id: 'imp_doc_1', title: 'Imported Nose Edit', edits: { nose: 'Petite upturned button nose' } }] });
 ok('doctor_import_preset', imp === 1);
+const oldClick = HTMLAnchorElement.prototype.click;
+HTMLAnchorElement.prototype.click = function(){};
+const docExport = api.exportDoctorPresets();
+HTMLAnchorElement.prototype.click = oldClick;
+ok('doctor_export_has_active_look_and_version', docExport.version === 2 && !!docExport.activeLook && Array.isArray(docExport.starterPresets));
+const impSingleDoc = api.importDoctorPresetsFromData({ title: 'Single Doctor Look', edits: { haircut: 'french bob' } });
+ok('doctor_import_single_preset', impSingleDoc === 1);
 
 // Mobile drawer open / close
 document.getElementById('openDrawerBtn').click();

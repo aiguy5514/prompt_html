@@ -1341,7 +1341,12 @@ function renderPresets(){
       if(p.set){
         Object.entries(p.set).forEach(([k, v]) => {
           if(k === 'romanceHairMoisture') romanceHairMoisture = v;
-          else if(fields[k]) values[k] = v;
+          else if(k === 'wardrobeMode') wardrobeMode = v;
+          else if(fields[k]){
+            values[k] = typeof v === 'string'
+              ? (fields[k].opts.find(o => o.label === v) || { label: v, text: v })
+              : v;
+          }
         });
       }
       document.querySelectorAll('.preset').forEach(x => x.classList.toggle('active', x === b));
@@ -1395,24 +1400,155 @@ function saveCustomRomancePreset(optName){
   return p;
 }
 
+function hydrateRomanceSet(rawSet){
+  const out = {};
+  if(!rawSet || typeof rawSet !== 'object') return out;
+  Object.entries(rawSet).forEach(([k, rawVal]) => {
+    if(k === 'romanceHairMoisture' || k === 'wardrobeMode'){
+      out[k] = rawVal;
+      return;
+    }
+    const f = fields[k];
+    if(!f || !f.opts) return;
+    if(typeof rawVal === 'object' && rawVal !== null && rawVal.label && rawVal.text){
+      out[k] = rawVal;
+      return;
+    }
+    const lbl = typeof rawVal === 'object' && rawVal !== null ? (rawVal.label || rawVal.text || '') : String(rawVal || '').trim();
+    if(!lbl) return;
+    let hit = f.opts.find(x => x.label === lbl);
+    if(!hit){
+      const lower = lbl.toLowerCase();
+      hit = f.opts.find(x => x.label && x.label.trim().toLowerCase() === lower);
+      if(!hit) hit = f.opts.find(x => x.text && x.text.trim().toLowerCase() === lower);
+      if(!hit) hit = f.opts.find(x => x.label && (x.label.toLowerCase().includes(lower) || lower.includes(x.label.toLowerCase())));
+    }
+    if(hit) out[k] = hit;
+    else out[k] = { label: lbl, text: lbl };
+  });
+  return out;
+}
+
 function exportPresets(){
-  const payload = { version: 1, studio: 'romance', exportedAt: new Date().toISOString(), customPresets };
+  const activeSet = { romanceHairMoisture, wardrobeMode };
+  Object.keys(fields).forEach(k => {
+    if(values[k]?.label) activeSet[k] = values[k].label;
+  });
+
+  const activeLook = {
+    id: 'active_rom_' + Date.now(),
+    title: 'Active Romantic Look',
+    sub: `${values.romanceDynamic?.label || 'Romantic Moment'} · ${values.romanceHair?.label || ''}`,
+    icon: '✦',
+    isCustom: true,
+    set: activeSet
+  };
+
+  const formattedCustom = customPresets.map(p => {
+    const s = {};
+    if(p.set){
+      Object.entries(p.set).forEach(([k, v]) => {
+        if(typeof v === 'string') s[k] = v;
+        else if(v && v.label) s[k] = v.label;
+      });
+    }
+    return {
+      id: p.id,
+      title: p.title,
+      sub: p.sub,
+      icon: p.icon || '⭐',
+      isCustom: true,
+      set: s
+    };
+  });
+
+  const starterList = (starterRomancePresets || []).map(p => {
+    const s = {};
+    if(p.set){
+      Object.entries(p.set).forEach(([k, v]) => {
+        if(typeof v === 'string') s[k] = v;
+        else if(v && v.label) s[k] = v.label;
+      });
+    }
+    return {
+      id: p.id,
+      title: p.title,
+      sub: p.sub,
+      icon: p.icon || '✦',
+      set: s
+    };
+  });
+
+  const payload = {
+    version: 2,
+    generator: 'Afterglow Prompt Studio',
+    studio: 'romance',
+    exportedAt: new Date().toISOString(),
+    activeLook,
+    customPresets: formattedCustom.length ? formattedCustom : [activeLook],
+    starterPresets: starterList
+  };
+
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
   const a = document.createElement('a'), u = URL.createObjectURL(blob);
-  a.href = u; a.download = 'afterglow-romance-presets.json';
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(u), 1000);
+  a.href = u;
+  a.download = 'afterglow-romance-presets.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 1500);
+
+  if (customPresets.length) {
+    toast(`✓ Exported ${customPresets.length} custom romantic look(s) + active look as .json.`);
+  } else {
+    toast(`✓ Exported active look + starter pack (${starterList.length + 1} looks) as .json.`);
+  }
 }
 
 function importPresetsFromData(parsed){
-  const list = Array.isArray(parsed) ? parsed : (parsed?.customPresets || null);
-  if(!list) throw new Error('Invalid JSON');
+  let list = null;
+  if (Array.isArray(parsed)) {
+    list = parsed;
+  } else if (parsed && typeof parsed === 'object') {
+    if (Array.isArray(parsed.customPresets)) list = parsed.customPresets;
+    else if (Array.isArray(parsed.presets)) list = parsed.presets;
+    else if (Array.isArray(parsed.starterPresets)) list = parsed.starterPresets;
+    else if (parsed.set || parsed.values || parsed.v || parsed.edits) list = [parsed];
+    else if (parsed.activeLook) list = [parsed.activeLook];
+  }
+  if (!list) throw new Error('Invalid JSON');
+
   let added = 0;
   list.forEach(raw => {
-    if(!raw?.title || customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
-    customPresets.unshift(raw); added++;
+    if (!raw) return;
+    const title = raw.title || raw.name || ('Romance ' + (added + 1));
+    if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+
+    let finalTitle = String(title).slice(0, 80);
+    if (customPresets.some(p => p.title === finalTitle)) {
+      finalTitle += ` (${added + 1})`;
+    }
+
+    const hydratedSet = hydrateRomanceSet(raw.set || raw.values || raw.v || raw.edits);
+    if (!Object.keys(hydratedSet).length) return;
+
+    const p = {
+      id: raw.id || ('rom_' + Date.now() + '_' + added),
+      title: finalTitle,
+      sub: raw.sub || 'Imported Romance',
+      icon: raw.icon || '⭐',
+      isCustom: true,
+      set: hydratedSet
+    };
+
+    customPresets.unshift(p);
+    added++;
   });
-  save(); renderPresets(); return added;
+
+  save();
+  renderPresets();
+
+  return added;
 }
 
 function toast(msg){
@@ -1532,9 +1668,33 @@ el('exportPresetsBtn')?.addEventListener('click', exportPresets);
 if(el('importPresetsBtn') && el('importPresetsInput')){
   el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
   el('importPresetsInput').addEventListener('change', e => {
-    const f = e.target.files?.[0]; if(!f) return;
+    const f = e.target.files?.[0];
+    if(!f) return;
     const r = new FileReader();
-    r.onload = () => { try { toast(`✓ Imported ${importPresetsFromData(JSON.parse(r.result))} preset(s).`); } catch(err){ toast('Invalid JSON file.'); } e.target.value = ''; };
+    r.onload = () => {
+      try {
+        const count = importPresetsFromData(JSON.parse(r.result));
+        if (count && customPresets[0]) {
+          const firstP = customPresets[0];
+          activePreset = firstP.id;
+          if (firstP.set) {
+            Object.entries(firstP.set).forEach(([k, v]) => {
+              if (k === 'romanceHairMoisture') romanceHairMoisture = v;
+              else if (k === 'wardrobeMode') wardrobeMode = v;
+              else if (fields[k]) values[k] = v;
+            });
+          }
+          renderPresets();
+          renderFields();
+          buildPrompt();
+        }
+        toast(count ? `✓ Imported ${count} preset(s) and applied look.` : 'No new presets found in file.');
+      } catch(err){
+        toast('Could not import presets: invalid or incompatible .json file.');
+      } finally {
+        e.target.value = '';
+      }
+    };
     r.readAsText(f);
   });
 }
@@ -1634,6 +1794,8 @@ window.AfterglowRomanceStudio = {
   resetAll,
   randomizeAll,
   saveCustomRomancePreset,
+  exportPresets,
+  exportRomancePresets: exportPresets,
   importPresetsFromData,
   importRomancePresetsFromData: importPresetsFromData,
   getCustomPresets: () => customPresets,

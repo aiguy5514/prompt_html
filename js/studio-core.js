@@ -2580,17 +2580,46 @@ toast('Custom preset removed.');
 }
 
 function exportCustomPresets(){
+  const activeSet = {};
+  Object.entries(values || {}).forEach(([k, v]) => {
+    if (v && v.label) activeSet[k] = v.label;
+    else if (typeof v === 'string') activeSet[k] = v;
+  });
+
+  const activeLook = {
+    id: 'active_' + Date.now(),
+    title: (currentStudioMode === 'salon' ? 'Active Salon Look' : 'Active Photoshoot Look'),
+    sub: 'Snapshot of current studio configuration',
+    icon: '✦',
+    isCustom: true,
+    set: activeSet
+  };
+
+  const formattedCustom = customPresets.map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '⭐',
+    isCustom: true,
+    set: Object.fromEntries(Object.entries(p.set || {}).map(([k, v]) => [k, v?.label || (typeof v === 'string' ? v : '')]))
+  }));
+
+  const starterList = (presets || []).map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '✦',
+    set: Object.fromEntries(Object.entries(p.set || {}).map(([k, v]) => [k, v?.label || (typeof v === 'string' ? v : '')]))
+  }));
+
   const payload = {
-    version: 1,
+    version: 2,
+    generator: 'Afterglow Prompt Studio',
     studio: currentStudioMode,
     exportedAt: new Date().toISOString(),
-    customPresets: customPresets.map(p => ({
-      id: p.id,
-      title: p.title,
-      sub: p.sub,
-      icon: p.icon || '⭐',
-      set: Object.fromEntries(Object.entries(p.set || {}).map(([k, v]) => [k, v?.label || '']))
-    }))
+    activeLook,
+    customPresets: formattedCustom.length ? formattedCustom : [activeLook],
+    starterPresets: starterList
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
   const a = document.createElement('a');
@@ -2600,38 +2629,83 @@ function exportCustomPresets(){
   document.body.appendChild(a);
   a.click();
   a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  toast(customPresets.length
-    ? `✓ Exported ${customPresets.length} custom look(s) as .json.`
-    : '✓ Exported preset backup template (save custom looks with ⭐ Save look first).');
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  if (customPresets.length) {
+    toast(`✓ Exported ${customPresets.length} custom look(s) + active look as .json.`);
+  } else {
+    toast(`✓ Exported active look + starter pack (${starterList.length + 1} looks) as .json.`);
+  }
+}
+
+function findOptFuzzy(fieldKey, target) {
+  if (!fields[fieldKey] || !fields[fieldKey].opts || target == null) return null;
+  const opts = fields[fieldKey].opts;
+  const targetStr = String(target).trim();
+  if (!targetStr) return null;
+  let m = opts.find(x => x.label === targetStr);
+  if (m) return m;
+  const lower = targetStr.toLowerCase();
+  m = opts.find(x => x.label && x.label.trim().toLowerCase() === lower);
+  if (m) return m;
+  m = opts.find(x => x.text && x.text.trim().toLowerCase() === lower);
+  if (m) return m;
+  m = opts.find(x => x.label && (x.label.toLowerCase().includes(lower) || lower.includes(x.label.toLowerCase())));
+  if (m) return m;
+  return { label: targetStr, text: targetStr };
 }
 
 function importCustomPresetsFromData(parsed){
-  const list = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.customPresets) ? parsed.customPresets : null);
-  if(!list) throw new Error('Invalid preset JSON format');
+  let list = null;
+  if (Array.isArray(parsed)) {
+    list = parsed;
+  } else if (parsed && typeof parsed === 'object') {
+    if (Array.isArray(parsed.customPresets)) list = parsed.customPresets;
+    else if (Array.isArray(parsed.presets)) list = parsed.presets;
+    else if (Array.isArray(parsed.starterPresets)) list = parsed.starterPresets;
+    else if (parsed.set || parsed.values || parsed.v || parsed.edits) list = [parsed];
+    else if (parsed.activeLook) list = [parsed.activeLook];
+  }
+  if (!list) throw new Error('Invalid preset JSON format');
+
   let added = 0;
+  let firstAdded = null;
   list.forEach(raw => {
-    if(!raw || !raw.title || !raw.set) return;
+    if (!raw) return;
+    const title = raw.title || raw.name || ('Imported Look ' + (added + 1));
+    const rawSet = raw.set || raw.values || raw.v || raw.edits || {};
     const reconstructedSet = {};
-    Object.entries(raw.set).forEach(([k, lbl]) => {
-      const m = fields[k] && fields[k].opts.find(x => x.label === lbl);
-      if(m) reconstructedSet[k] = m;
+    Object.entries(rawSet).forEach(([k, val]) => {
+      const lbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : val;
+      const m = findOptFuzzy(k, lbl);
+      if (m) reconstructedSet[k] = m;
     });
-    if(!Object.keys(reconstructedSet).length) return;
-    const exists = customPresets.some(p => p.id === raw.id || p.title === raw.title);
-    if(exists) return;
-    customPresets.unshift({
+    if (!Object.keys(reconstructedSet).length) return;
+    if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+
+    let finalTitle = String(title).slice(0, 80);
+    if (customPresets.some(p => p.title === finalTitle)) {
+      finalTitle += ` (${added + 1})`;
+    }
+
+    const newPreset = {
       id: raw.id || ('user_' + Date.now() + '_' + added),
-      title: String(raw.title).slice(0, 80),
+      title: finalTitle,
       sub: raw.sub || 'Imported look',
       icon: raw.icon || '⭐',
       isCustom: true,
       set: reconstructedSet
-    });
+    };
+    customPresets.unshift(newPreset);
+    if (!firstAdded) firstAdded = newPreset;
     added++;
   });
   save();
   renderPresets();
+  if (firstAdded && typeof applyPreset === 'function') {
+    try {
+      applyPreset(firstAdded.id, firstAdded);
+    } catch(e) {}
+  }
   return added;
 }
 
@@ -2645,11 +2719,12 @@ if(el('importPresetsBtn') && el('importPresetsInput')){
     reader.onload = () => {
       try {
         const count = importCustomPresetsFromData(JSON.parse(reader.result));
-        toast(count ? `✓ Imported ${count} custom look(s).` : 'No new custom looks found in file (already present or empty).');
+        toast(count ? `✓ Imported ${count} custom look(s) and applied look.` : 'No new custom looks found in file (already present or empty).');
       } catch(err){
-        toast('Could not import presets: invalid .json file.');
+        toast('Could not import presets: invalid or incompatible .json file.');
+      } finally {
+        e.target.value = '';
       }
-      e.target.value = '';
     };
     reader.readAsText(file);
   });
@@ -3569,7 +3644,7 @@ if(shouldScroll)window.scrollTo({top:Math.max(0,el('stepCard').getBoundingClient
 function applyPreset(id,presetObj){
 const p=presetObj||presets.find(x=>x.id===id)||customPresets.find(x=>x.id===id);
 if(!p)return;
-if(currentStudioMode==='salon'){
+if(currentStudioMode==='salon' && !p.set?.salonHaircut && !p.set?.salonStage){
   switchStudioMode('photoshoot');
 }
 lookbookMode=false;

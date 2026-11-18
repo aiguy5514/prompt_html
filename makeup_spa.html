@@ -672,11 +672,20 @@ function serializePresetSet(valMap){
 
 function hydratePresetSet(rawSet){
   const out = {};
-  Object.entries(rawSet || {}).forEach(([k, lbl]) => {
+  Object.entries(rawSet || {}).forEach(([k, rawVal]) => {
     const f = fields[k];
-    if(!f) return;
-    const found = f.opts.find(x => x.label === lbl);
+    if(!f || !f.opts) return;
+    const lbl = typeof rawVal === 'object' && rawVal !== null ? (rawVal.label || rawVal.text || '') : String(rawVal || '').trim();
+    if(!lbl) return;
+    let found = f.opts.find(x => x.label === lbl);
+    if(!found){
+      const lower = lbl.toLowerCase();
+      found = f.opts.find(x => x.label && x.label.trim().toLowerCase() === lower);
+      if(!found) found = f.opts.find(x => x.text && x.text.trim().toLowerCase() === lower);
+      if(!found) found = f.opts.find(x => x.label && (x.label.toLowerCase().includes(lower) || lower.includes(x.label.toLowerCase())));
+    }
     if(found) out[k] = found;
+    else out[k] = { label: lbl, text: lbl };
   });
   return out;
 }
@@ -1636,20 +1645,47 @@ function saveCustomPrepPreset(optionalName){
 }
 
 function exportPrepPresets(){
+  const activeLook = {
+    id: 'active_prep_' + Date.now(),
+    title: 'Active Makeup & Spa Look',
+    sub: 'Snapshot of current studio configuration',
+    icon: '✦',
+    isCustom: true,
+    wardrobeMode,
+    hairMoisture: prepHairMoisture,
+    set: serializePresetSet(values)
+  };
+
+  const formattedCustom = customPresets.map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '⭐',
+    wardrobeMode: p.wardrobeMode || 'ensemble',
+    hairMoisture: p.hairMoisture || 'dry',
+    set: serializePresetSet(p.values)
+  }));
+
+  const starterList = (starterPrepPresets || []).map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '✦',
+    wardrobeMode: p.wardrobeMode || 'ensemble',
+    hairMoisture: p.hairMoisture || 'dry',
+    set: serializePresetSet(p.values)
+  }));
+
   const payload = {
-    version: 1,
+    version: 2,
+    generator: 'Afterglow Prompt Studio',
     studio: 'makeup_spa',
     exportedAt: new Date().toISOString(),
-    customPresets: customPresets.map(p => ({
-      id: p.id,
-      title: p.title,
-      sub: p.sub,
-      icon: p.icon || '⭐',
-      wardrobeMode: p.wardrobeMode || 'ensemble',
-      hairMoisture: p.hairMoisture || 'dry',
-      set: serializePresetSet(p.values)
-    }))
+    activeLook,
+    customPresets: formattedCustom.length ? formattedCustom : [activeLook],
+    starterPresets: starterList
   };
+
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
   const a = document.createElement('a');
   const url = URL.createObjectURL(blob);
@@ -1658,33 +1694,66 @@ function exportPrepPresets(){
   document.body.appendChild(a);
   a.click();
   a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  toast(customPresets.length ? `✓ Exported ${customPresets.length} custom look(s) as .json.` : '✓ Exported empty template.');
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+  if (customPresets.length) {
+    toast(`✓ Exported ${customPresets.length} custom look(s) + active look as .json.`);
+  } else {
+    toast(`✓ Exported active look + starter pack (${starterList.length + 1} looks) as .json.`);
+  }
 }
 
 function importPrepPresetsFromData(parsed){
-  const list = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.customPresets) ? parsed.customPresets : null);
-  if(!list) throw new Error('Invalid preset JSON');
+  let list = null;
+  if (Array.isArray(parsed)) {
+    list = parsed;
+  } else if (parsed && typeof parsed === 'object') {
+    if (Array.isArray(parsed.customPresets)) list = parsed.customPresets;
+    else if (Array.isArray(parsed.presets)) list = parsed.presets;
+    else if (Array.isArray(parsed.starterPresets)) list = parsed.starterPresets;
+    else if (parsed.set || parsed.values || parsed.v || parsed.edits) list = [parsed];
+    else if (parsed.activeLook) list = [parsed.activeLook];
+  }
+  if (!list) throw new Error('Invalid preset JSON');
+
   let added = 0;
+  let firstAdded = null;
   list.forEach(raw => {
-    if(!raw || !raw.title) return;
-    const hydrated = hydratePresetSet(raw.set || raw.values || raw.v);
-    if(!Object.keys(hydrated).length) return;
-    if(customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
-    customPresets.unshift({
+    if (!raw) return;
+    const title = raw.title || raw.name || ('Imported Prep ' + (added + 1));
+    const hydrated = hydratePresetSet(raw.set || raw.values || raw.v || raw.edits);
+    if (!Object.keys(hydrated).length) return;
+    if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+
+    let finalTitle = String(title).slice(0, 80);
+    if (customPresets.some(p => p.title === finalTitle)) {
+      finalTitle += ` (${added + 1})`;
+    }
+
+    const newPreset = {
       id: raw.id || ('user_' + Date.now() + '_' + added),
-      title: String(raw.title).slice(0, 80),
+      title: finalTitle,
       sub: raw.sub || 'Imported Prep',
       icon: raw.icon || '⭐',
       isCustom: true,
-      wardrobeMode: raw.wardrobeMode,
-      hairMoisture: raw.hairMoisture,
+      wardrobeMode: raw.wardrobeMode || 'ensemble',
+      hairMoisture: raw.hairMoisture || 'dry',
       values: hydrated
-    });
+    };
+    customPresets.unshift(newPreset);
+    if (!firstAdded) firstAdded = newPreset;
     added++;
   });
+
   save();
   renderPresets();
+
+  if (firstAdded && typeof applyPresetObj === 'function') {
+    try {
+      applyPresetObj(firstAdded);
+    } catch(e) {}
+  }
+
   return added;
 }
 
@@ -1705,11 +1774,12 @@ if(el('importPresetsBtn') && el('importPresetsInput')){
     reader.onload = () => {
       try {
         const c = importPrepPresetsFromData(JSON.parse(reader.result));
-        toast(c ? `✓ Imported ${c} custom look(s).` : 'No new custom looks found in file.');
+        toast(c ? `✓ Imported ${c} custom look(s) and applied look.` : 'No new custom looks found in file.');
       } catch(err){
-        toast('Could not import presets: invalid .json file.');
+        toast('Could not import presets: invalid or incompatible .json file.');
+      } finally {
+        e.target.value = '';
       }
-      e.target.value = '';
     };
     reader.readAsText(file);
   });
@@ -1907,6 +1977,7 @@ window.AfterglowMakeupSpa = {
   resetAll,
   saveCustomPrepPreset,
   deleteCustomPreset,
+  exportPrepPresets,
   importPrepPresetsFromData,
   getCustomPresets: () => customPresets,
   getStarterPresets: () => starterPresets,

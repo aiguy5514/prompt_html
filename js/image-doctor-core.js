@@ -1266,25 +1266,35 @@
   }
 
   function applyPreset(preset) {
+    if (!preset) return;
     if (preset.wardrobeMode) {
       wardrobeMode = preset.wardrobeMode;
+    }
+    if (preset.activeHairMoisture) {
+      activeHairMoisture = preset.activeHairMoisture;
     }
 
     if (preset.locks) {
       Object.keys(preset.locks).forEach(k => {
-        lockState[k] = preset.locks[k];
+        lockState[k] = !!preset.locks[k];
       });
     }
 
-    if (preset.edits) {
-      Object.keys(preset.edits).forEach(k => {
-        const targetVal = preset.edits[k];
-        if (fields[k] && fields[k].opts) {
-          const match = fields[k].opts.find(o => o.label === targetVal || o.label.includes(targetVal));
+    const editsSource = preset.edits || preset.set || preset.values || {};
+    Object.keys(fields).forEach(k => {
+      if (fields[k] && fields[k].opts) {
+        if (editsSource[k]) {
+          const targetVal = typeof editsSource[k] === 'object' && editsSource[k] !== null
+            ? (editsSource[k].label || editsSource[k].text || '')
+            : editsSource[k];
+          const match = fields[k].opts.find(o => o.label === targetVal || o.label.includes(targetVal) || (o.text && o.text.includes(targetVal)));
           if (match) values[k] = match;
+          else values[k] = { label: targetVal, text: targetVal };
+        } else {
+          values[k] = fields[k].opts[0];
         }
-      });
-    }
+      }
+    });
 
     renderSectionContents(currentSection);
     buildPrompt();
@@ -1315,6 +1325,51 @@
     return newPreset;
   }
 
+  function exportDoctorPresets() {
+    const activeEdits = {};
+    Object.keys(values).forEach(k => {
+      if (values[k] && values[k].label && !isKeepRef(values[k])) {
+        activeEdits[k] = values[k].label;
+      }
+    });
+    const activeLook = {
+      id: 'active_doc_' + Date.now(),
+      title: 'Active Surgical Configuration',
+      sub: `${getActiveEdits().length} edits · Active surgical direction`,
+      icon: '🔬',
+      isCustom: true,
+      wardrobeMode,
+      activeHairMoisture,
+      locks: { ...lockState },
+      edits: activeEdits
+    };
+    const exportList = customPresets.length ? customPresets : [activeLook];
+    const data = {
+      version: 2,
+      generator: 'Afterglow Prompt Studio',
+      studio: 'image_doctor',
+      exportedAt: new Date().toISOString(),
+      activeLook,
+      customPresets: exportList,
+      starterPresets: STARTER_PRESETS
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = `afterglow_doctor_presets_${Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    if (customPresets.length) {
+      showToast(`✓ Exported ${customPresets.length} custom look(s) + active look as .json`);
+    } else {
+      showToast(`✓ Exported active look + starter pack (${STARTER_PRESETS.length + 1} looks) as .json`);
+    }
+    return data;
+  }
+
   function deleteCustomPreset(id) {
     customPresets = customPresets.filter(p => p.id !== id);
     save();
@@ -1322,16 +1377,56 @@
   }
 
   function importDoctorPresetsFromData(data) {
-    if (!data || !Array.isArray(data.customPresets)) return 0;
+    let list = null;
+    if (Array.isArray(data)) {
+      list = data;
+    } else if (data && typeof data === 'object') {
+      if (Array.isArray(data.customPresets)) list = data.customPresets;
+      else if (Array.isArray(data.presets)) list = data.presets;
+      else if (Array.isArray(data.starterPresets)) list = data.starterPresets;
+      else if (data.edits || data.set || data.values || data.locks) list = [data];
+      else if (data.activeLook) list = [data.activeLook];
+    }
+    if (!list) return 0;
+
     let count = 0;
-    data.customPresets.forEach(p => {
-      if (p && p.id && !customPresets.some(existing => existing.id === p.id)) {
-        customPresets.push({ ...p, isCustom: true });
-        count++;
+    let firstAdded = null;
+    list.forEach(p => {
+      if (!p) return;
+      if (p.id && customPresets.some(existing => existing.id === p.id)) return;
+
+      const title = p.title || p.name || ('Imported Look ' + (count + 1));
+      let finalTitle = String(title).slice(0, 80);
+      if (customPresets.some(existing => existing.title === finalTitle)) {
+        finalTitle += ` (${count + 1})`;
       }
+
+      const newP = {
+        id: p.id || ('doc_' + Date.now() + '_' + count),
+        title: finalTitle,
+        sub: p.sub || 'Imported surgical look',
+        icon: p.icon || '⭐',
+        isCustom: true,
+        wardrobeMode: p.wardrobeMode || 'outfit',
+        locks: p.locks || { ...lockState },
+        edits: p.edits || p.set || p.values || {}
+      };
+
+      customPresets.unshift(newP);
+      if (!firstAdded) firstAdded = newP;
+      count++;
     });
+
     save();
     renderPresets();
+
+    if (firstAdded) {
+      try {
+        activePreset = firstAdded.id;
+        applyPreset(firstAdded);
+      } catch(e) {}
+    }
+
     return count;
   }
 
@@ -1585,18 +1680,7 @@
 
     if (el('exportPresetsBtn')) {
       el('exportPresetsBtn').addEventListener('click', () => {
-        const data = {
-          version: 1,
-          studio: 'image_doctor',
-          exportedAt: new Date().toISOString(),
-          customPresets
-        };
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `afterglow_doctor_presets_${Date.now()}.json`;
-        a.click();
-        URL.revokeObjectURL(a.href);
+        exportDoctorPresets();
       });
     }
 
@@ -1614,9 +1698,11 @@
           try {
             const data = JSON.parse(ev.target.result);
             const count = importDoctorPresetsFromData(data);
-            showToast(`Imported ${count} presets`);
+            showToast(count ? `✓ Imported ${count} preset(s) and applied look.` : 'No new presets found in file.');
           } catch (err) {
-            alert('Invalid JSON preset file');
+            showToast('Could not import presets: invalid or incompatible .json file.');
+          } finally {
+            e.target.value = '';
           }
         };
         reader.readAsText(file);
@@ -1724,6 +1810,7 @@
     load,
     saveCustomDoctorPreset,
     deleteCustomPreset,
+    exportDoctorPresets,
     importDoctorPresetsFromData,
     getCustomPresets: () => customPresets,
     getStarterPresets: () => STARTER_PRESETS,

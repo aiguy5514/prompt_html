@@ -1392,19 +1392,115 @@ function saveCustomStoryPreset(optName){
   customPresets.unshift(p); save(); renderPresets(); toast(`Saved “${p.title}”.`); return p;
 }
 function exportStories(){
-  const payload = { version: 1, studio: 'storyboard', exportedAt: new Date().toISOString(), customPresets };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json;charset=utf-8'});
-  const a = document.createElement('a'), u = URL.createObjectURL(blob); a.href=u; a.download='afterglow-storyboards.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),1000);
+  const gObj = { wardrobeMode, sbHairMoisture: globalHairMoisture };
+  Object.keys(fields).forEach(k => { gObj[k] = values[k]?.label || ''; });
+  const activeLook = {
+    id: 'active_sb_' + Date.now(),
+    title: 'Active Storyboard Arc',
+    sub: `${frameCount} Frames · ${values.sbHair?.label || 'Custom'}`,
+    icon: '✦',
+    isCustom: true,
+    frameCount,
+    global: gObj,
+    frames: frames.slice(0, frameCount).map(f => Object.assign({}, f))
+  };
+
+  const formattedCustom = customPresets.map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '⭐',
+    isCustom: true,
+    frameCount: p.frameCount || 4,
+    global: p.global || {},
+    frames: (p.frames || []).map(f => Object.assign({}, f))
+  }));
+
+  const starterList = (storyArcPresets || []).map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '✦',
+    frameCount: p.frameCount || 4,
+    global: p.global || {},
+    frames: (p.frames || []).map(f => Object.assign({}, f))
+  }));
+
+  const payload = {
+    version: 2,
+    generator: 'Afterglow Prompt Studio',
+    studio: 'storyboard',
+    exportedAt: new Date().toISOString(),
+    activeLook,
+    customPresets: formattedCustom.length ? formattedCustom : [activeLook],
+    starterPresets: starterList
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a'), u = URL.createObjectURL(blob);
+  a.href = u;
+  a.download = 'afterglow-storyboards.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 1500);
+
+  if (customPresets.length) {
+    toast(`✓ Exported ${customPresets.length} custom storyboard(s) + active look as .json.`);
+  } else {
+    toast(`✓ Exported active storyboard + starter pack (${starterList.length + 1} arcs) as .json.`);
+  }
 }
+
 function importStoriesFromData(parsed){
-  const list = Array.isArray(parsed) ? parsed : (parsed?.customPresets || null);
-  if(!list) throw new Error('Invalid JSON');
+  let list = null;
+  if (Array.isArray(parsed)) {
+    list = parsed;
+  } else if (parsed && typeof parsed === 'object') {
+    if (Array.isArray(parsed.customPresets)) list = parsed.customPresets;
+    else if (Array.isArray(parsed.presets)) list = parsed.presets;
+    else if (Array.isArray(parsed.starterPresets)) list = parsed.starterPresets;
+    else if (parsed.frames || parsed.global) list = [parsed];
+    else if (parsed.activeLook) list = [parsed.activeLook];
+  }
+  if (!list) throw new Error('Invalid JSON');
+
   let added = 0;
+  let firstAdded = null;
   list.forEach(raw => {
-    if(!raw?.title || customPresets.some(p => p.id === raw.id || p.title === raw.title)) return;
-    customPresets.unshift(raw); added++;
+    if (!raw) return;
+    const title = raw.title || raw.name || ('Storyboard ' + (added + 1));
+    if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+
+    let finalTitle = String(title).slice(0, 80);
+    if (customPresets.some(p => p.title === finalTitle)) {
+      finalTitle += ` (${added + 1})`;
+    }
+
+    const safeFrames = Array.isArray(raw.frames) && raw.frames.length
+      ? raw.frames.map((f, i) => f && typeof f === 'object' ? Object.assign(makeFrame(0,0,0,0,0,0,'',0), f) : makeFrame(0,0,0,0,0,0,'',0))
+      : frames.slice(0, 4).map(f => Object.assign({}, f));
+
+    const p = {
+      id: raw.id || ('sb_' + Date.now() + '_' + added),
+      title: finalTitle,
+      sub: raw.sub || `${safeFrames.length} Frames · Imported`,
+      icon: raw.icon || '⭐',
+      isCustom: true,
+      frameCount: Math.max(2, Math.min(6, raw.frameCount || safeFrames.length)),
+      global: raw.global || raw.set || raw.values || {},
+      frames: safeFrames
+    };
+
+    customPresets.unshift(p);
+    if (!firstAdded) firstAdded = p;
+    added++;
   });
-  save(); renderPresets(); return added;
+
+  save();
+  renderPresets();
+
+  return added;
 }
 
 el('randomTop')?.addEventListener('click', randomizeAll);
@@ -1417,9 +1513,22 @@ el('exportPresetsBtn')?.addEventListener('click', exportStories);
 if(el('importPresetsBtn') && el('importPresetsInput')){
   el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
   el('importPresetsInput').addEventListener('change', e => {
-    const f = e.target.files?.[0]; if(!f) return;
+    const f = e.target.files?.[0];
+    if(!f) return;
     const r = new FileReader();
-    r.onload = () => { try{ toast(`✓ Imported ${importStoriesFromData(JSON.parse(r.result))} storyboard(s).`); }catch(err){ toast('Invalid JSON file.'); } e.target.value=''; };
+    r.onload = () => {
+      try {
+        const count = importStoriesFromData(JSON.parse(r.result));
+        if (count && customPresets[0] && typeof applyStoryPreset === 'function') {
+          try { applyStoryPreset(customPresets[0]); } catch(e) {}
+        }
+        toast(count ? `✓ Imported ${count} storyboard(s) and applied arc.` : 'No new storyboards found in file.');
+      } catch(err){
+        toast('Could not import storyboards: invalid or incompatible .json file.');
+      } finally {
+        e.target.value = '';
+      }
+    };
     r.readAsText(f);
   });
 }
@@ -1494,7 +1603,7 @@ window.AfterglowStoryboard = {
   setOutputMode: m => { outputMode = m; buildPrompt(); },
   setActiveShotTab: s => { activeShotTab = s; buildPrompt(); },
   buildPrompt, renderFields, save, load, resetAll,
-  saveCustomStoryPreset, importStoriesFromData, getCustomPresets: () => customPresets,
+  saveCustomStoryPreset, exportStories, importStoriesFromData, getCustomPresets: () => customPresets,
   getHair: () => hair,
   getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
   getFaceObfuscModeOpts: () => faceObfuscModeOpts,
