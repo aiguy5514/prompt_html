@@ -1,0 +1,2058 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Afterglow / Gym &amp; Fitness Prompt Studio</title>
+<link rel="stylesheet" href="css/shared.css">
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Afterglow / Prompt Studio</span></div>
+<nav class="suite-nav" aria-label="Studio Switcher">
+  <a href="index.html" class="suite-nav-link" title="Afterglow Hub">✦ Hub</a>
+  <a href="photoshoot.html" class="suite-nav-link"><span class="studio-btn-icon">📸</span> Photoshoot</a>
+  <a href="salon.html" class="suite-nav-link"><span class="studio-btn-icon">💈</span> Salon &amp; Barbershop</a>
+  <a href="tattoo.html" class="suite-nav-link"><span class="studio-btn-icon">🖋️</span> Tattoo Studio</a>
+  <a href="makeup_spa.html" class="suite-nav-link"><span class="studio-btn-icon">💄</span> Makeup &amp; Spa</a>
+  <a href="video.html" class="suite-nav-link"><span class="studio-btn-icon">🎬</span> Video Director</a>
+  <a href="storyboard.html" class="suite-nav-link"><span class="studio-btn-icon">🎞️</span> Storyboarder</a>
+  <a href="romance.html" class="suite-nav-link"><span class="studio-btn-icon">💕</span> Romance</a>
+  <a href="image_doctor.html" class="suite-nav-link"><span class="studio-btn-icon">🔬</span> Image Doctor</a>
+  <a href="gym.html" class="suite-nav-link active"><span class="studio-btn-icon">🏋️</span> Gym &amp; Fitness</a>
+</nav>
+<div class="top-meta"><span class="pill"><span class="pill-dot"></span> Live prompt preview</span><span class="pill" id="totalOptionCount">Loading choices…</span><span class="pill">Offline · No uploads</span></div></header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow" id="heroEyebrow">Athletic Conditioning, Movement &amp; Activewear Studio</div>
+    <h1 id="heroTitle">Gym &amp; <span>Fitness</span><br>Prompt Studio</h1>
+    <p id="heroDescription">Direct high-energy athletic workouts, reformer pilates flow, heavy bag boxing, rooftop turf conditioning, recovery saunas, sculpt sheens, activewear sets, and candid fitness photography with strict solitary female model identity continuity.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="randomTop" type="button">✦ Surprise me</button>
+      <button class="btn btn-secondary" id="copyTop" type="button">▣ Copy current prompt</button>
+      <button class="btn btn-secondary" id="shareLookTop" type="button">🔗 Share look</button>
+      <button class="btn btn-quiet" id="resetTop" type="button">↺ Start over</button>
+    </div>
+  </div>
+  <aside class="hero-note">
+    <div class="sparkle">✧ ✦ ✧</div>
+    <div>
+      <strong>Tactile exertion &amp; athletic truth.</strong>
+      <p>Capture visible sweat micro-droplets, muscular tension, chalked palms, and breathable technical fabrics without plastic beauty smoothing.</p>
+      <div class="tags">
+        <span class="tag">15 Athletic Venues</span>
+        <span class="tag">25 Activewear Outfits</span>
+        <span class="tag">Exertion Sheens</span>
+        <span class="tag">Reformer &amp; Boxing</span>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<div class="layout">
+<main class="builder">
+<section class="preset-strip">
+  <div class="strip-head">
+    <div>
+      <h2>Start with an athletic direction</h2>
+      <p>Curated starting points spanning reformer pilates, industrial boxing lofts, sunset turf conditioning, and luxury weight room sessions. Customize any choice afterward without losing your direction.</p>
+    </div>
+    <div class="strip-actions">
+      <button class="btn btn-secondary btn-small" id="saveCustomLook" type="button">⭐ Save look</button>
+      <button class="btn btn-secondary btn-small" id="shuffleLooks" type="button">↻ Shuffle looks</button>
+      <button class="btn btn-secondary btn-small" id="exportPresetsBtn" type="button" title="Export custom looks to JSON">⬇ Export</button>
+      <button class="btn btn-secondary btn-small" id="importPresetsBtn" type="button" title="Import custom looks from JSON">⬆ Import</button>
+      <input type="file" id="importPresetsInput" accept=".json,application/json" hidden>
+    </div>
+  </div>
+  <div class="preset-grid" id="presets"></div>
+</section>
+
+<nav class="section-tabs" id="tabs" aria-label="Prompt builder sections"></nav>
+
+<section class="step-card" id="stepCard">
+  <div class="step-head">
+    <div>
+      <div class="eyebrow" id="stepEyebrow">Athletic Direction · 01</div>
+      <h2 id="stepTitle">Venue &amp; Setting</h2>
+      <p id="stepDescription">Choose the boutique weight room, reformer studio, boxing loft, or recovery sauna.</p>
+    </div>
+    <div class="step-icon" id="stepIcon">🏢</div>
+  </div>
+  <div class="field-grid" id="fields"></div>
+  <div id="fineTuneArea"></div>
+  <div id="specialContent"></div>
+  <div class="step-foot">
+    <span class="step-count" id="stepCount">Step 1 of 6</span>
+    <div class="step-buttons">
+      <button class="btn btn-secondary" id="prevStep" type="button">← Previous</button>
+      <button class="btn btn-primary" id="nextStep" type="button">Next step →</button>
+    </div>
+  </div>
+</section>
+
+<section class="advanced-bar">
+  <div>
+    <strong>Looking for custom gear, props, or exclusions?</strong>
+    <small>Add specific equipment, negative rules, or creative notes in the Finish &amp; controls step.</small>
+  </div>
+  <button class="btn btn-secondary btn-small" id="finishJump" type="button">Open finish controls ↗</button>
+</section>
+</main>
+
+<aside class="preview">
+  <div class="sheet-handle hidden-desktop" id="sheetHandle"></div>
+  <div class="preview-head">
+    <div class="preview-top">
+      <div class="eyebrow">Live output</div>
+      <div class="preview-top-actions">
+        <button class="btn btn-secondary btn-small" id="openHistoryBtn" type="button" title="View prompt history">🕒 History <span class="badge" id="historyBadge">0</span></button>
+        <button class="btn btn-primary btn-small hidden-desktop" id="topQuickCopy" type="button">▣ Copy</button>
+        <span class="live">Updating</span>
+        <button class="btn-quiet btn-small close-sheet hidden-desktop" id="closeDrawer" type="button">✕ Close</button>
+      </div>
+    </div>
+    <h2>Your prompt, assembled</h2>
+    <p>Change any choice. The prompt is rebuilt in real time.</p>
+    <div class="summary" id="summary"></div>
+  </div>
+  <div class="preview-body">
+    <div class="preview-toolbar">
+      <div class="toolbar-row">
+        <div class="seg-control" id="modeSegControl">
+          <button type="button" class="seg-btn active" id="btnSingleMode">Single shot</button>
+          <button type="button" class="seg-btn" id="btnLookbookMode">✦ 2×2 Workout Series</button>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button class="btn btn-secondary btn-small" id="btnToggleRefPicker" type="button" title="Reference Image & Face Direction">📷 Ref Transfer</button>
+          <button class="btn btn-secondary btn-small" id="shareLookBtn" type="button" title="Copy shareable link">🔗 Share</button>
+        </div>
+      </div>
+      <div class="ratio-row">
+        <span class="ratio-label">Ratio:</span>
+        <div class="ratio-chips" id="ratioChips">
+          <button type="button" class="ratio-chip" data-ratio="9:16">9:16</button>
+          <button type="button" class="ratio-chip" data-ratio="4:5">4:5</button>
+          <button type="button" class="ratio-chip" data-ratio="3:4">3:4</button>
+          <button type="button" class="ratio-chip" data-ratio="1:1">1:1</button>
+          <button type="button" class="ratio-chip" data-ratio="3:2">3:2</button>
+        </div>
+      </div>
+    </div>
+    <div class="prompt-meta">
+      <span id="wordCount">Prompt ready</span>
+      <button class="btn btn-quiet btn-small" id="selectPrompt" type="button">Select all text</button>
+    </div>
+    <textarea class="prompt-area" id="prompt" spellcheck="false" aria-label="Generated prompt"></textarea>
+    <div class="preview-buttons">
+      <button class="btn btn-primary" id="copy" type="button">▣ Copy prompt</button>
+      <button class="btn btn-secondary" id="download" type="button">↓ Download .txt</button>
+      <button class="btn btn-secondary" id="copyPositive" type="button">Copy positive only</button>
+      <button class="btn btn-secondary" id="copyNegative" type="button">Copy exclusions only</button>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <div class="preview-help"><strong>Use it:</strong> attach your reference photo in your image editor, copy this prompt, and paste it into the editor. Runs 100% locally in your browser with zero uploads.</div>
+</aside>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-bar" id="mobileBar">
+  <div class="mobile-bar-info">
+    <span class="mobile-stat" id="mobileWordCount">Prompt ready</span>
+    <span class="mobile-sub" id="mobileSummaryMini">Gym &amp; Fitness</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="btn btn-secondary btn-small" id="openDrawerBtn" type="button">Preview prompt ↗</button>
+    <button class="btn btn-primary btn-small" id="mobileCopyBtn" type="button">▣ Copy</button>
+  </div>
+</div>
+<button class="btn btn-primary fab" id="fab" type="button">▣ Copy prompt</button>
+
+<div class="history-modal" id="historyModal">
+  <div class="history-head">
+    <div>
+      <h3>Prompt History</h3>
+      <p>Recent Gym &amp; Fitness prompts from this session.</p>
+    </div>
+    <div class="history-head-actions">
+      <button class="btn-quiet btn-small" id="clearHistoryBtn" type="button">Clear</button>
+      <button class="btn-quiet btn-small" id="closeHistoryBtn" type="button">✕ Close</button>
+    </div>
+  </div>
+  <div class="history-list" id="historyList"></div>
+</div>
+<div class="modal-backdrop" id="historyBackdrop"></div>
+<p class="fineprint">AFTERGLOW STUDIO · Made for reference-based image editing · Your choices are saved only in this browser</p>
+</div>
+
+<script src="js/shared-veil.js"></script>
+<script src="js/shared-datasets.js"></script>
+<script src="js/shared-ref-picker.js"></script>
+<script>
+(function(){
+'use strict';
+
+const {
+  O, makeOpts,
+  HAIR_FAMILIES, hair, hairFaceCoverageOpts,
+  TOP_FAMILIES, topPieces,
+  BOTTOM_FAMILIES, bottomPieces,
+  midriffStylings,
+  faceObfuscModeOpts,
+  outfit
+} = window.AfterglowDatasets;
+const outfits = outfit || [];
+
+const {
+  parseVeilTier, detectHairArchitecture, getVeilRule,
+  sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
+  cleanClause, capFirst, stripBuzzwords, dedupeNegatives, estimateTokens,
+  extractPositivePrompt, extractNegativePrompt,
+  buildObfuscClause, getObfuscNegatives
+} = window.AfterglowVeil;
+
+const el = id => document.getElementById(id);
+
+const sections = [
+  { id: 'gymVenueSec', name: 'Venue & Setting', short: 'VENUE', icon: '🏢', desc: 'Choose the boutique weight room, reformer studio, boxing loft, or recovery sauna.' },
+  { id: 'gymWorkoutSec', name: 'Workout & Movement', short: 'WORKOUT', icon: '💪', desc: 'Select the discipline, specific movement, and moment in the set.' },
+  { id: 'gymPhysiqueSec', name: 'Physique & Exertion', short: 'PHYSIQUE', icon: '🫀', desc: 'Tune sweat sheen, muscle definition, vascularity, and hair restraint.' },
+  { id: 'gymWardrobeSec', name: 'Wardrobe & Gear', short: 'WARDROBE', icon: '👟', desc: 'Choose activewear sets, separates, footwear, and equipment props.' },
+  { id: 'gymCameraSec', name: 'Camera & Lighting', short: 'CAMERA', icon: '📷', desc: 'Dial in athletic angles, optics, gym lighting, and film rendering.' },
+  { id: 'finish', name: 'Finish & Controls', short: 'FINISH', icon: '✦', desc: 'Identity safeguards, 2×2 series progression, custom notes, and exclusions.' }
+];
+
+// ==========================================
+// OPTION BANKS: VENUES & SETTINGS
+// ==========================================
+
+const gymVenueCategories = [
+  O('✦ All Fitness Venues (15 locations)', 'all'),
+  O('🏋️ Boutique Gyms & Weight Rooms (4 locations)', 'weight'),
+  O('🧘 Reformer Pilates & Movement Lofts (3 locations)', 'pilates'),
+  O('🥊 Boxing & Functional Boxes (3 locations)', 'boxing'),
+  O('☀️ Rooftop, Track & Beach Pavilions (3 locations)', 'outdoor'),
+  O('🧖 Thermal Saunas & Recovery Suites (2 locations)', 'recovery')
+];
+
+const gymVenues = makeOpts([
+  ["Luxury boutique weight room with mirror walls", "a sleek boutique weight room with floor-to-ceiling mirror walls, matte-black dumbbell racks, polished dark rubber flooring, and architectural linear pendant lights", '', 'weight'],
+  ["Sunlit reformer Pilates studio with warm oak floors", "a serene sunlit reformer Pilates studio with natural blonde oak flooring, white maple reformer carriages, wall-mounted ballet barres, and soft diffused sheer curtains", '', 'pilates'],
+  ["Industrial boxing gym with vintage leather heavy bags", "a raw converted warehouse boxing gym with hanging vintage leather heavy bags, exposed weathered brick walls, chalk markings, and overhead industrial task lights", '', 'boxing'],
+  ["Open-air rooftop gym terrace at sunset", "a panoramic open-air high-rise rooftop athletic terrace at golden hour, featuring synthetic green turf, kettlebell racks, and distant warm city skyline views", '', 'outdoor'],
+  ["High-end Scandinavian cedar sauna & thermal lounge", "a luxurious minimalist Scandinavian spa sauna with horizontal natural cedar-slat walls, smooth benching, warm ambient under-bench glow, and gentle thermal steam wisps", '', 'recovery'],
+  ["Contemporary functional training box with pull-up rigs", "a spacious modern functional fitness box featuring matte steel pull-up rigs, Olympic barbell plates, clean concrete walls, and directional sports spotlighting", '', 'boxing'],
+  ["Private hotel fitness suite overlooking dawn skyline", "an exclusive luxury hotel fitness center at dawn with floor-to-ceiling panoramic glass windows, high-tech chrome cardio equipment, and pristine white towels", '', 'weight'],
+  ["Moody indoor cycling studio with dramatic neon accents", "an atmospheric boutique spin studio with tiered bike stages, dark slate walls, and subtle low-profile cobalt and magenta ambient neon glow", '', 'weight'],
+  ["Minimalist yoga & stretch loft with linen drapes", "a tranquil minimalist yoga loft with smooth polished concrete floors, floor-to-ceiling organic linen curtains drifting in the breeze, and warm natural sunlight", '', 'pilates'],
+  ["Athletic club locker room with marble vanity & benches", "a sophisticated private athletic club locker room with fluted dark wood lockers, white Carrara marble double vanity, brass sconces, and plush seating benches", '', 'weight'],
+  ["Olympic training pool deck with lane ropes & skylights", "the tiled deck of a competitive Olympic training natatorium with crisp lane lines, stainless steel starting blocks, and high geometric glass ceiling reflections", '', 'outdoor'],
+  ["Outdoor beachfront fitness pavilion on wooden deck", "an open-air coastal workout pavilion set on a weathered teak deck beside turquoise ocean waves, with free weights and warm tropical sea breeze", '', 'outdoor'],
+  ["Modern martial arts dojo with tatami mats & timber screens", "a serene traditional-meets-modern martial arts dojo with pale tatami mat flooring, natural cedarwood shoji partitions, and soft diffused daylight", '', 'boxing'],
+  ["High-performance sports recovery & cryotherapy suite", "a futuristic high-end sports recovery suite with stainless steel cryotherapy chamber, contrast plunge tubs, and sleek clinical-minimalist lighting", '', 'recovery'],
+  ["Spacious dance fitness studio with sprung hardwood & barres", "a grand dance fitness studio with mirror-lined walls, polished maple sprung flooring, brass wall-mounted stretch barres, and tall arched windows", '', 'pilates']
+]);
+
+const gymSettingTimes = makeOpts([
+  ['Mid-morning energizing daylight', 'crisp mid-morning natural daylight pouring in through tall windows, illuminating chalk dust particles in the air'],
+  ['Golden hour warm sunset slant', 'dramatic low-angle golden-hour sunlight cutting horizontally across the training floor, creating rich warm rim highlights'],
+  ['Moody twilight with architectural accent lights', 'moody early-evening ambiance with recessed linear LED track lighting and cool window exterior falloff'],
+  ['Nighttime focused studio session with neon accents', 'a focused late-night workout ambiance with minimal ambient light and saturated cobalt/magenta accent illumination'],
+  ['Crisp early dawn quiet hour', 'tranquil first-light dawn illumination with soft cool shadows before the studio crowd arrives'],
+  ['Overcast soft high-key daylight', 'even, soft diffused daylight filtering through frosted skylights, wrapping gently around musculature with zero harsh hot spots']
+]);
+
+const gymAtmospheres = makeOpts([
+  ['Focused athletic intensity with rhythmic iron clinks', 'an atmosphere of intense individual focus, marked by rhythmic breaths, steady iron clanking, and grounded determination'],
+  ['Serene mindful breathing with natural breeze', 'a calm and restorative environment where gentle natural breezes drift through open windows and breath cadence governs the space'],
+  ['High-energy thumping pulse with dynamic motivation', 'a high-vibe boutique studio pulse with upbeat rhythm, energetic motivation, and kinetic momentum'],
+  ['Quiet solitary discipline in empty gym', 'an intimate solitary session in an otherwise quiet studio, highlighting personal dedication and unhurried form'],
+  ['Steamy thermal warmth with eucalyptus calm', 'a deeply warm, tranquil recovery sanctuary scented with soothing eucalyptus and rising gentle steam wisps']
+]);
+
+const gymArchitectures = makeOpts([
+  ['Floor-to-ceiling mirror walls & linear LED pendants', 'expansive seamless mirror walls reflecting modern gym architecture, framed by clean linear black LED ceiling fixtures'],
+  ['Raw exposed warehouse brick & black steel trusses', 'authentic industrial architectural elements including century-old textured red brick, exposed ductwork, and black structural iron beams'],
+  ['Blonde oak herringbone flooring & sheer linen drapery', 'organic minimalist interior design featuring natural pale Scandinavian oak floor planks and sheer floor-to-ceiling window drapery'],
+  ['High-impact textured black rubber & chalk markings', 'heavy-duty speckled black vulcanized rubber flooring displaying faint organic white gym chalk handprints'],
+  ['Panoramic glass curtain wall framing urban skyline', 'a sweeping floor-to-ceiling architectural glass wall offering an unobstructed panoramic view of a bustling city skyline']
+]);
+
+// ==========================================
+// OPTION BANKS: WORKOUT & MOVEMENT
+// ==========================================
+
+const gymDisciplines = makeOpts([
+  ['Strength Training & Free Weights', 'a dedicated free-weight strength training session focusing on form, neuromuscular recruitment, and progressive overload'],
+  ['Reformer Pilates & Core Sculpt', 'a precise reformer pilates session emphasizing core stabilization, postural alignment, eccentric elongation, and fluid movement'],
+  ['Heavy Bag Boxing & Conditioning', 'an intense combat boxing conditioning session combining footwork, heavy leather bag strikes, and fast rotational power'],
+  ['Functional Turf & HIIT Circuit', 'a high-intensity functional conditioning workout featuring athletic turf sprints, kettlebells, and dynamic bodyweight agility'],
+  ['Olympic Weightlifting & Powerlifting', 'a technical barbell lifting session centered around explosive hip drive, heavy compound mechanics, and chalked bar control'],
+  ['Dynamic Mobility & Deep Yoga Stretch', 'a restorative athletic mobility flow targeting hip openers, thoracic spine extension, and hamstring flexibility'],
+  ['Cardio Cycling & High-Cadence Spin', 'a high-cadence indoor rhythm cycling workout with cardiovascular drive, pedal stroke flow, and stamina endurance'],
+  ['Sprint Athletics & Track Conditioning', 'an explosive sprint conditioning session focusing on drive phase posture, arm swing mechanics, and stride turnover']
+]);
+
+const gymMovements = makeOpts([
+  ['Deadlift lockout pause with chalked hands', 'standing tall at the top lockout phase of a heavy barbell deadlift with tight core, pinned shoulders, and chalk-dusted palms on the knurled bar'],
+  ['Dumbbell lateral raise with deltoid peak contraction', 'executing a strict dumbbell lateral raise with arms abducted to shoulder height, displaying clean lateral deltoid striations'],
+  ['Reformer carriage glide in graceful arabesque', 'gliding the reformer carriage smoothly backward in a controlled single-leg arabesque extension with extended pointed toes and tall spine'],
+  ['Powerful left hook impact against heavy leather bag', 'driving an explosive left hook into the heavy leather punching bag with pivoting front foot, high elbow, and focused rotational power'],
+  ['Battle ropes double wave slam on athletic turf', 'slamming thick heavy battle ropes in rhythmic undulations against the green turf, creating dynamic motion blur along the fibers'],
+  ['Kettlebell clean and front-rack pause', 'poised in a rock-solid front-rack position with a heavy competition kettlebell resting securely in the forearm pocket'],
+  ['Barbell back squat in deep parallel hole', 'stabilizing deep in the bottom hole of a barbell back squat with upright chest, tracking knees, and braced core'],
+  ['Explosive sprint acceleration drive phase', 'surging forward out of a low sprint start with high knee drive, aggressive forward torso angle, and explosive ground strike'],
+  ['Deep runner’s lizard lunge hip opener on mat', 'sinking into a deep lizard lunge on a black fitness mat, hands placed flat on the floor with elongated spine and open chest'],
+  ['Seated foam rolling lats & thoracic spine', 'seated sideways on the mat rolling out the upper lats with a high-density black foam roller, one arm reaching overhead'],
+  ['Pre-lift chalking hands over bucket', 'standing over an industrial chalk bowl dusting white magnesium carbonate powder across calloused palms in a cloud of fine white dust'],
+  ['Cable tricep rope pushdown peak lockout', 'flaring the ends of a heavy nylon rope attachment downward at the bottom of a cable tricep extension, showcasing horseshoe tricep definition']
+]);
+
+const gymPhases = makeOpts([
+  ['Mid-rep peak isometric contraction', 'captured at the absolute pinnacle of muscular tension during the peak isometric hold of the movement'],
+  ['Rest interval seated on bench catching breath', 'resting between heavy sets seated on a flat bench, forearms resting on knees while taking a deep steady recovery breath'],
+  ['Pre-set ritual chalking hands & setting grip', 'engaging in the quiet pre-lift preparation ritual, setting knuckles on the bar with laser-focused breathing'],
+  ['Post-set deep exhale with hands on hips', 'standing proudly hands on hips immediately after completing an intense working set, chest rising with a deep candid exhale'],
+  ['Hydration pause sipping from stainless shaker', 'taking a brief pause to unscrew a stainless steel gym water bottle, sipping hydrating water in candid profile'],
+  ['End-of-workout gentle cooldown stretch', 'unwinding in the post-workout cooldown phase with a relaxed hamstring stretch, glowing with accomplished serenity']
+]);
+
+const gymExpressions = makeOpts([
+  ['Fierce athletic concentration with parted lips', 'an authentic expression of fierce determination, focused eyes, jaw relaxed, and lips slightly parted in steady cadence'],
+  ['Confident calm smile between working sets', 'a serene, satisfied candid smile revealing authentic enjoyment and inner confidence during a workout rest break'],
+  ['Intense focused gaze locked on mirror reflection', 'eyes locked with uncompromising focus directly on her reflection in the studio mirror, checking form and alignment'],
+  ['Breathless candid post-cardio exertion glow', 'a natural breathless candid moment with bright focused eyes, flushed cheeks, and visible exertion sincerity'],
+  ['Serene mindful calmness in meditative hold', 'a completely calm and centered facial poise with smooth relaxed brow and peaceful meditative composure']
+]);
+
+// ==========================================
+// OPTION BANKS: PHYSIQUE & EXERTION
+// ==========================================
+
+const gymSweatLevels = makeOpts([
+  ['Dry satin finish before workout begins', 'pristine dry skin texture with a velvety satin finish, pre-exertion freshness, and zero visible sweat beads'],
+  ['Light post-warmup dewy sheen on brow & collarbone', 'a delicate post-warmup glow featuring a subtle dewy sheen across the forehead, nose bridge, and collarbones catching directional light'],
+  ['Glistening workout sweat with micro-droplets on skin', 'glistening workout perspiration with authentic micro-droplets of clear sweat beading along the shoulders, décolletage, and temples'],
+  ['Drenched high-intensity cardio endurance glow', 'intense endurance exertion sheen with tiny perspiration rivulets tracing down the jawline and neck, radiating raw athletic authenticity']
+]);
+
+const gymMuscleTones = makeOpts([
+  ['Natural lean athletic tone with graceful curves', 'a naturally toned, lean athletic physique with smooth aesthetic contours, supple posture, and healthy functional strength'],
+  ['Sculpted deltoids & defined upper back contours', 'noticeable shoulder deltoid cap definition, sculpted scapular contours, and crisp athletic posture'],
+  ['Razor-sharp core & abdominal oblique lines', 'tight, well-defined abdominal musculature with subtle vertical lineage and defined external oblique lines'],
+  ['High-performance powerlifter quad & glute engagement', 'dense, powerful athletic leg development showing firm quadriceps sweep and active glute engagement under load']
+]);
+
+const gymVascularities = makeOpts([
+  ['Smooth rested dermal finish with zero vascularity', 'smooth, natural skin surface with no prominent superficial veins, presenting a clean aesthetic finish'],
+  ['Subtle natural vein tracing on forearms during grip', 'delicate natural vascularity tracing along the inner forearm and back of hands responding to active grip pressure'],
+  ['Athletic pump-induced vascularity across forearms & deltoids', 'prominent workout pump vascularity with subtle venous definition mapping across active working muscles']
+]);
+
+const gymHairRestraints = makeOpts([
+  ['Sleek high athletic ponytail secured with elastic', 'a sleek, snag-free high athletic ponytail pulled tight and secured with a wide matte elastic, swinging with head movement'],
+  ['Low braided gym bun with loose sweat-damp wisps', 'a neat low braided bun at the nape of the neck, with fine damp baby-hair wisps escaping naturally at the temples'],
+  ['Double Dutch boxer braids tracing scalp cleanly', 'two symmetrical Dutch boxer braids braided flat and tight against the scalp from hairline to shoulders'],
+  ['Messy half-up topknot with breathable headband', 'a casual textured half-up topknot secured with a minimalist moisture-wicking elastic headband'],
+  ['Swept-back hair held by athletic silicone sweatband', 'hair brushed back smoothly from the forehead and secured with a low-profile charcoal silicone grip headband']
+]);
+
+// ==========================================
+// OPTION BANKS: WARDROBE & GEAR
+// ==========================================
+
+// Outfits: Pull all outfits from shared datasets with cat === 'gym'
+const gymActivewearSets = outfits.filter(o => o.cat === 'gym').length > 0
+  ? outfits.filter(o => o.cat === 'gym')
+  : [
+      O('Seamless ribbed matching set (crop tank & high-waist leggings)', 'a premium seamless ribbed activewear set comprising a compressive scoop-neck crop tank and matching ankle-length high-waist contour leggings with subtle micro-rib texture'),
+      O('Racerback sports bra + compression biker shorts', 'a high-support racerback athletic sports bra with wide elastic underband paired with matching 7-inch compressive mid-thigh biker shorts with flatlock stitching'),
+      O('Sleek activewear unitard / halter catsuit', 'a streamlined sculpted activewear one-piece unitard with an open halter back, sweetheart neckline, and contouring matte performance fabric')
+    ];
+
+const gymFootwearOpts = makeOpts([
+  ['Barefoot with natural arch on rubber mat', 'bare feet positioned naturally on the gym surface, showing natural foot arch activation and grounded toe spread'],
+  ['Specialized silicone-grip barre/pilates socks', 'fitted black low-cut athletic socks with honeycomb silicone traction dots on the sole for reformer grip'],
+  ['Barefoot-style zero-drop flat lifting shoes', 'minimalist zero-drop barefoot training shoes with ultra-thin wide toe-box rubber soles for deadlift stability'],
+  ['Chunky modern athletic training sneakers', 'modern high-cushion athletic training sneakers with sculpted foam midsoles and breathable mesh uppers'],
+  ['Sleek carbon-plate lightweight road runners', 'high-tech lightweight road running shoes with aerodynamic silhouette and neon accents'],
+  ['High-top suede lace-up boxing boots', 'classic black suede high-top boxing boots with thin gum rubber soles and snug ankle-wrap laces']
+]);
+
+const gymGearProps = makeOpts([
+  ['None (Open floor space without props)', 'none'],
+  ['Matte black cast-iron competition kettlebells', 'a pair of heavy matte-black powder-coated competition kettlebells resting nearby on the rubber floor'],
+  ['Knurled Olympic barbell loaded with black bumper plates', 'a 20kg knurled steel Olympic barbell loaded with thick matte-black urethane bumper plates on a lifting platform'],
+  ['Minimalist stainless steel insulated shaker bottle', 'a sleek brushed stainless steel gym water bottle with flip cap resting on a workout bench'],
+  ['Laced vintage leather boxing gloves on bench', 'a pair of laced dark oxblood leather boxing gloves resting casually beside a folded black gym towel'],
+  ['High-density textured foam roller on exercise mat', 'a cylindrical black high-density foam roller and textured fitness mat placed naturally in the background'],
+  ['Heavy-duty leather lifting belt with lever buckle', 'a wide 10mm thick leather powerlifting belt with quick-release chrome lever buckle resting unclasped'],
+  ['Set of looped latex resistance bands on floor', 'a set of three looped latex resistance bands in muted earth tones resting neatly coiled on the floor'],
+  ['Heavy cotton gym bag with lifting straps & wrist wraps', 'a structured canvas gym duffel bag opened slightly, revealing rolled cotton wrist wraps and lifting chalk']
+]);
+
+// ==========================================
+// OPTION BANKS: CAMERA & LIGHTING
+// ==========================================
+
+const gymCameraAngles = makeOpts([
+  ['Heroic dynamic low-angle full-body perspective', 'a confident low-angle camera perspective positioned just above the floor, accentuating athletic height, posture, and power'],
+  ['Eye-level conversational three-quarter perspective', 'a natural eye-level camera placement capturing an authentic three-quarter perspective with relatable human perspective'],
+  ['Intimate close-up portrait catching sweat sheen', 'a tight portrait framing focusing closely on the model\'s face, throat, and collarbones, capturing fine sweat beads and breathing cadence'],
+  ['Side profile tracking muscular spine & posture', 'a clean side profile composition highlighting postural alignment, spinal curvature, and focused gaze'],
+  ['High-angle diagonal looking down at reformer/mat', 'an elevated high-angle perspective looking diagonally downward at the movement composition on the floor'],
+  ['Mirror reflection composition with real & virtual depth', 'an editorial framing utilizing the large studio mirror, showing the model both directly and through her sharp glass reflection']
+]);
+
+const gymCameraDistances = makeOpts([
+  ['Full-body framing with floor & ceiling context', 'a full-body composition that shows the complete athlete from head to toe with rich architectural gym context'],
+  ['Three-quarter athletic distance (knees to head)', 'a three-quarter portrait distance framing the body from knees up, balancing outfit details with expressive emotion'],
+  ['Medium athletic distance (waist to head)', 'a medium portrait distance framing from the waist up, capturing upper-body muscular tone and focused expression'],
+  ['Close macro distance resolving dermal sweat texture', 'a tight macro distance resolving tactile skin pores, fine perspiration beads, and fabric weave texture']
+]);
+
+const gymLightings = makeOpts([
+  ['Architectural linear LED ceiling grid with clean daylight', 'overhead architectural linear LED strip lighting balanced with cool natural daylight, casting crisp geometric highlights'],
+  ['Dramatic high-contrast directional athletic rim light', 'high-contrast directional sports lighting with deep sculpted shadows and intense golden rim light carving out muscular separation'],
+  ['Warm golden hour sunset streaming through panoramic glass', 'radiant low-angle sunset rays flooding through tall windows, bathing skin and activewear in warm amber luminescence'],
+  ['Atmospheric moody cobalt & magenta neon accents', 'a dark moody aesthetic illuminated by soft ambient cobalt floor glow and punchy magenta neon tube accents'],
+  ['Soft diffused skylight with gentle shadow wrap', 'soft, overcast natural light filtering from overhead skylights, wrapping evenly around the body with velvety tonal gradients']
+]);
+
+const gymOptics = makeOpts([
+  ['85mm f/1.4 prime lens (creamy shallow depth of field)', 'captured with an 85mm f/1.4 prime lens wide open, isolating the athletic subject against a creamy, softly blurred background'],
+  ['50mm f/1.2 candid lens (natural human perspective)', 'photographed with a 50mm f/1.2 lens providing honest, undistorted proportions and natural depth falloff'],
+  ['35mm f/1.8 dynamic environmental lens (spacious context)', 'shot with a 35mm f/1.8 wide lens emphasizing kinetic motion, room architecture, and environmental depth'],
+  ['105mm f/2.8 macro lens (resolving microscopic sweat beads)', 'shot on a 105mm f/2.8 macro lens resolving microscopic dermal pores, glistening perspiration droplets, and textile stitching']
+]);
+
+const gymFilmFeels = makeOpts([
+  ['Crisp modern digital photography with lifelike color', 'ultra-crisp modern digital sensor rendering with natural contrast, accurate skin tones, and rich dynamic range'],
+  ['Editorial 35mm film grain with warm Kodak Portra tones', 'fine organic 35mm film grain with subtle Kodak Portra warmth, gentle highlight rolloff, and creamy skin tone gradations'],
+  ['High-contrast dynamic monochrome athletic print', 'a timeless high-contrast black-and-white editorial aesthetic with deep blacks, silvery highlights, and sculpted muscle tonality'],
+  ['Muted cinematic film grade with rich slate undertones', 'a contemporary cinematic color grade featuring desaturated background slates, punchy contrast, and natural warm skin vibrancy']
+]);
+
+const gymAspectRatios = makeOpts([
+  ['9:16 (Vertical mobile / reel story)', '9:16'],
+  ['4:5 (Classic portrait feed)', '4:5'],
+  ['3:4 (Editorial portrait)', '3:4'],
+  ['1:1 (Square format)', '1:1'],
+  ['3:2 (35mm landscape photography)', '3:2'],
+  ['16:9 (Cinematic widescreen)', '16:9']
+]);
+
+const gymNumImages = makeOpts([
+  ['Single heroic athletic shot', 'single'],
+  ['2×2 Editorial Workout Series Collage (4 panels)', 'collage'],
+  ['3-Frame Horizontal Motion Triptych', 'triptych']
+]);
+
+// ==========================================
+// FIELD CONFIGURATION
+// ==========================================
+
+const fields = {
+  // Venue
+  gymVenueCategory: { section: 'gymVenueSec', label: 'Venue Category', opts: gymVenueCategories, default: 'all' },
+  gymVenue: { section: 'gymVenueSec', label: 'Gym Facility & Setting', opts: gymVenues, default: 0 },
+  gymSettingTime: { section: 'gymVenueSec', label: 'Time of Day & Sunlight', opts: gymSettingTimes, default: 0 },
+  gymAtmosphere: { section: 'gymVenueSec', label: 'Atmosphere & Vibe', opts: gymAtmospheres, default: 0 },
+  gymArchitecture: { section: 'gymVenueSec', label: 'Architectural Details', opts: gymArchitectures, default: 0 },
+
+  // Workout
+  gymDiscipline: { section: 'gymWorkoutSec', label: 'Discipline / Sport', opts: gymDisciplines, default: 0 },
+  gymMovement: { section: 'gymWorkoutSec', label: 'Specific Movement / Exercise', opts: gymMovements, default: 0 },
+  gymPhase: { section: 'gymWorkoutSec', label: 'Phase / Moment in Set', opts: gymPhases, default: 0 },
+  gymExpression: { section: 'gymWorkoutSec', label: 'Facial Focus & Expression', opts: gymExpressions, default: 0 },
+
+  // Physique
+  gymSweatLevel: { section: 'gymPhysiqueSec', label: 'Sweat & Exertion Sheen', opts: gymSweatLevels, default: 2 },
+  gymMuscleTone: { section: 'gymPhysiqueSec', label: 'Muscular Definition & Tone', opts: gymMuscleTones, default: 1 },
+  gymVascularity: { section: 'gymPhysiqueSec', label: 'Vascularity & Vascular Pump', opts: gymVascularities, default: 0 },
+  gymHairRestraint: { section: 'gymPhysiqueSec', label: 'Gym Hair Styling & Restraint', opts: gymHairRestraints, default: 0 },
+  gymHairCategory: { section: 'gymPhysiqueSec', label: 'Haircut Category Filter', opts: HAIR_FAMILIES, default: 'all' },
+  gymHair: { section: 'gymPhysiqueSec', label: 'Model Hairstyle & Cut', opts: hair, default: 0 },
+  gymHairFaceCoverage: { section: 'gymPhysiqueSec', label: 'Face Privacy / Veil % Control', opts: hairFaceCoverageOpts, default: 0 },
+  gymFaceObfuscMode: { section: 'gymPhysiqueSec', label: 'Face Concealment / Obfuscation', opts: faceObfuscModeOpts, default: 0 },
+
+  // Wardrobe
+  gymOutfit: { section: 'gymWardrobeSec', label: 'Activewear Set (Ensemble)', opts: gymActivewearSets, default: 0 },
+  topCategory: { section: 'gymWardrobeSec', label: 'Top Piece Category', opts: TOP_FAMILIES, default: 'all' },
+  topPiece: { section: 'gymWardrobeSec', label: 'Top Piece (Separates)', opts: topPieces, default: 0 },
+  bottomCategory: { section: 'gymWardrobeSec', label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, default: 'all' },
+  bottomPiece: { section: 'gymWardrobeSec', label: 'Bottom Piece (Separates)', opts: bottomPieces, default: 0 },
+  midriffStyling: { section: 'gymWardrobeSec', label: 'Midriff Styling', opts: midriffStylings, default: 0 },
+  gymFootwear: { section: 'gymWardrobeSec', label: 'Footwear & Sock Styling', opts: gymFootwearOpts, default: 0 },
+  gymGearProp: { section: 'gymWardrobeSec', label: 'Equipment Props & Accessories', opts: gymGearProps, default: 1 },
+
+  // Camera
+  gymCameraAngle: { section: 'gymCameraSec', label: 'Camera Angle & Framing', opts: gymCameraAngles, default: 0 },
+  gymCameraDistance: { section: 'gymCameraSec', label: 'Camera Distance', opts: gymCameraDistances, default: 1 },
+  gymLighting: { section: 'gymCameraSec', label: 'Lighting Style & Rig', opts: gymLightings, default: 0 },
+  gymOptics: { section: 'gymCameraSec', label: 'Lens & Optics', opts: gymOptics, default: 0 },
+  gymFilmFeel: { section: 'gymCameraSec', label: 'Film Grain & Color Grade', opts: gymFilmFeels, default: 0 },
+  aspect: { section: 'gymCameraSec', label: 'Aspect Ratio', opts: gymAspectRatios, default: 0 },
+  numImages: { section: 'gymCameraSec', label: 'Output Format', opts: gymNumImages, default: 0 }
+};
+
+// ==========================================
+// 8 CURATED STARTER PRESETS
+// ==========================================
+
+const starterPresets = [
+  {
+    id: 'pilates_reformer',
+    title: 'Boutique Pilates Reformer Flow',
+    sub: 'Oak floors · Reformer carriage · Seamless ribbed set · Light sheen',
+    icon: '🧘‍♀️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'dry',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('reformer Pilates studio')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Reformer Pilates')),
+      gymMovement: gymMovements.find(m => m.label.includes('Reformer carriage glide')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Light post-warmup')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Natural lean athletic')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Low braided gym bun')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('Seamless ribbed')) || gymActivewearSets[0],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('pilates socks')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('None')),
+      gymLighting: gymLightings.find(l => l.label.includes('Soft diffused skylight'))
+    }
+  },
+  {
+    id: 'boxing_loft',
+    title: 'Heavyweight Industrial Boxing Loft',
+    sub: 'Brick loft · Hanging heavy bag · Boxing gloves & wraps · Glistening sweat',
+    icon: '🥊',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('Industrial boxing gym')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Heavy Bag Boxing')),
+      gymMovement: gymMovements.find(m => m.label.includes('Powerful left hook')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Glistening workout sweat')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Sculpted deltoids')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Double Dutch boxer braids')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('Racerback sports bra + compression biker')) || gymActivewearSets[1],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('boxing boots')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('leather boxing gloves')),
+      gymLighting: gymLightings.find(l => l.label.includes('Architectural linear LED'))
+    }
+  },
+  {
+    id: 'rooftop_turf',
+    title: 'Rooftop Sunset Turf Conditioning',
+    sub: 'Open-air turf · Skyline view · Battle ropes · Sunset backlight',
+    icon: '🌅',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'dry',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('rooftop gym terrace')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Functional Turf')),
+      gymMovement: gymMovements.find(m => m.label.includes('Battle ropes double wave')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Glistening workout sweat')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Sculpted deltoids')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Sleek high athletic ponytail')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('Long-sleeve compression crop')) || gymActivewearSets[0],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('athletic training sneakers')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('kettlebells')),
+      gymLighting: gymLightings.find(l => l.label.includes('Warm golden hour sunset'))
+    }
+  },
+  {
+    id: 'sauna_recovery',
+    title: 'Golden Hour Sauna Recovery',
+    sub: 'Cedar sauna · Rising steam wisps · Post-workout glow · Towel wrap',
+    icon: '🧖‍♀️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('Scandinavian cedar sauna')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Recovery & Cold Plunge') || d.label.includes('Dynamic Mobility')),
+      gymMovement: gymMovements.find(m => m.label.includes('Seated foam rolling') || m.label.includes('runner’s lizard')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Light post-warmup dewy sheen')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Natural lean athletic')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Low braided gym bun')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('unitard') || o.label.includes('Racerback')) || gymActivewearSets[0],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('Barefoot')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('stainless steel')),
+      gymLighting: gymLightings.find(l => l.label.includes('Warm golden hour'))
+    }
+  },
+  {
+    id: 'crossfit_box',
+    title: 'CrossFit Box Power Session',
+    sub: 'Concrete training floor · Olympic barbell plates · High exertion',
+    icon: '🏋️‍♀️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('functional training box')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Olympic Weightlifting')),
+      gymMovement: gymMovements.find(m => m.label.includes('Deadlift lockout pause')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Glistening workout sweat')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('powerlifter quad')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Sleek high athletic ponytail')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('biker shorts') || o.label.includes('Oversized pump-cover')) || gymActivewearSets[0],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('zero-drop flat lifting')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('Olympic barbell')),
+      gymLighting: gymLightings.find(l => l.label.includes('high-contrast directional'))
+    }
+  },
+  {
+    id: 'weight_mirror',
+    title: 'Luxury Weight Room Mirror Flex',
+    sub: 'Floor-to-ceiling mirrors · Matte dumbbells · Compressive unitard',
+    icon: '🪞',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'dry',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('Luxury boutique weight room')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Strength Training')),
+      gymMovement: gymMovements.find(m => m.label.includes('Dumbbell lateral raise')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Light post-warmup')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Sculpted deltoids')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Sleek high athletic ponytail')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('unitard') || o.label.includes('Seamless')) || gymActivewearSets[0],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('athletic training sneakers')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('kettlebells')),
+      gymLighting: gymLightings.find(l => l.label.includes('Architectural linear LED'))
+    }
+  },
+  {
+    id: 'track_sprint',
+    title: 'Open-Air Athletics Track Sprint',
+    sub: 'Synthetic red running track · Low-angle action · Compressive biker shorts',
+    icon: '🏃‍♀️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'dry',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('Olympic training') || v.label.includes('rooftop gym terrace')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Sprint Athletics')),
+      gymMovement: gymMovements.find(m => m.label.includes('sprint acceleration')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Glistening workout sweat')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Razor-sharp core')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Sleek high athletic ponytail')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('biker shorts')) || gymActivewearSets[1],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('carbon-plate lightweight road')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('None')),
+      gymLighting: gymLightings.find(l => l.label.includes('clean daylight') || l.label.includes('Architectural'))
+    }
+  },
+  {
+    id: 'spin_cooldown',
+    title: 'Post-Cardio Spin Studio Cool-Down',
+    sub: 'Tiered bike stage · Neon mood · Stainless shaker bottle · Breath catch',
+    icon: '🚴‍♀️',
+    wardrobeMode: 'ensemble',
+    hairMoisture: 'damp',
+    values: {
+      gymVenue: gymVenues.find(v => v.label.includes('indoor cycling studio')),
+      gymDiscipline: gymDisciplines.find(d => d.label.includes('Cardio Cycling')),
+      gymMovement: gymMovements.find(m => m.label.includes('Hydration pause') || m.label.includes('Seated foam rolling')),
+      gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Drenched high-intensity') || s.label.includes('Glistening')),
+      gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Natural lean athletic')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Messy half-up topknot')),
+      gymOutfit: gymActivewearSets.find(o => o.label.includes('Strappy cross-back') || o.label.includes('Seamless')) || gymActivewearSets[0],
+      gymFootwear: gymFootwearOpts.find(f => f.label.includes('athletic training sneakers')),
+      gymGearProp: gymGearProps.find(p => p.label.includes('stainless steel insulated shaker')),
+      gymLighting: gymLightings.find(l => l.label.includes('cobalt & magenta neon'))
+    }
+  }
+];
+
+// ==========================================
+// STATE MANAGEMENT
+// ==========================================
+
+const GYM_STORAGE_KEY = 'afterglow_gym_v1';
+const GYM_HIST_KEY = 'afterglow_gym_hist';
+
+let activeSection = 'gymVenueSec';
+let activePreset = '';
+let customPresets = [];
+let promptHistory = [];
+let wardrobeMode = 'ensemble'; // 'ensemble' | 'separates'
+let gymHairMoisture = 'dry'; // 'dry' | 'damp' | 'wet'
+let lockedFields = new Set();
+
+const values = {};
+Object.keys(fields).forEach(k => {
+  const f = fields[k];
+  if(f.default !== undefined){
+    values[k] = (typeof f.default === 'number') ? f.opts[f.default] : f.opts.find(o => o.text === f.default) || f.opts[0];
+  } else {
+    values[k] = f.opts[0];
+  }
+});
+
+let customDirection = '';
+let extraNegative = '';
+
+const checkState = {
+  identity: true,
+  skin: true,
+  retouch: true,
+  body: true,
+  noMirror: false,
+  noText: true
+};
+
+function val(id){
+  const v = values[id];
+  return v ? (v.text || v.label || '') : '';
+}
+
+function save(){
+  try {
+    const data = {
+      values: serializePresetSet(values),
+      wardrobeMode,
+      gymHairMoisture,
+      customDirection,
+      extraNegative,
+      checkState,
+      customPresets,
+      lockedFields: Array.from(lockedFields)
+    };
+    localStorage.setItem(GYM_STORAGE_KEY, JSON.stringify(data));
+  } catch(e){}
+}
+
+function load(){
+  try {
+    const raw = localStorage.getItem(GYM_STORAGE_KEY);
+    if(raw){
+      const data = JSON.parse(raw);
+      if(data.wardrobeMode) wardrobeMode = data.wardrobeMode;
+      if(data.gymHairMoisture) gymHairMoisture = data.gymHairMoisture;
+      if(typeof data.customDirection === 'string') customDirection = data.customDirection;
+      if(typeof data.extraNegative === 'string') extraNegative = data.extraNegative;
+      if(data.checkState) Object.assign(checkState, data.checkState);
+      if(Array.isArray(data.customPresets)) customPresets = data.customPresets;
+      if(Array.isArray(data.lockedFields)) lockedFields = new Set(data.lockedFields);
+      if(data.values){
+        const hydrated = hydratePresetSet(data.values);
+        Object.keys(hydrated).forEach(k => { if(hydrated[k]) values[k] = hydrated[k]; });
+      }
+    }
+    const rawHist = localStorage.getItem(GYM_HIST_KEY);
+    if(rawHist){
+      promptHistory = JSON.parse(rawHist);
+      if(el('historyBadge')) el('historyBadge').textContent = promptHistory.length;
+    }
+  } catch(e){}
+}
+
+function serializePresetSet(vals){
+  const out = {};
+  Object.keys(vals || {}).forEach(k => {
+    if(vals[k]) out[k] = vals[k].label || vals[k].text || vals[k];
+  });
+  return out;
+}
+
+function hydratePresetSet(rawSet){
+  const out = {};
+  Object.entries(rawSet || {}).forEach(([k, rawVal]) => {
+    const f = fields[k];
+    if(!f || !f.opts) return;
+    const lbl = typeof rawVal === 'object' && rawVal !== null ? (rawVal.label || rawVal.text || '') : String(rawVal || '').trim();
+    if(!lbl) return;
+    let found = f.opts.find(x => x.label === lbl);
+    if(!found){
+      const lower = lbl.toLowerCase();
+      found = f.opts.find(x => x.label && x.label.trim().toLowerCase() === lower);
+      if(!found) found = f.opts.find(x => x.text && x.text.trim().toLowerCase() === lower);
+      if(!found) found = f.opts.find(x => x.label && (x.label.toLowerCase().includes(lower) || lower.includes(x.label.toLowerCase())));
+    }
+    if(found) out[k] = found;
+    else out[k] = { label: lbl, text: lbl };
+  });
+  return out;
+}
+
+function resetAll(){
+  Object.keys(fields).forEach(k => {
+    const f = fields[k];
+    values[k] = (typeof f.default === 'number') ? f.opts[f.default] : f.opts.find(o => o.text === f.default) || f.opts[0];
+  });
+  wardrobeMode = 'ensemble';
+  gymHairMoisture = 'dry';
+  customDirection = '';
+  extraNegative = '';
+  lockedFields.clear();
+  activePreset = '';
+  renderPresets();
+  renderFields();
+  buildPrompt();
+  toast('Reset to default studio configuration.');
+}
+
+// ==========================================
+// RENDERING & INTERACTION
+// ==========================================
+
+function renderTabs(){
+  const host = el('tabs');
+  if(!host) return;
+  host.innerHTML = '';
+  sections.forEach((sec, idx) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'section-tab tab' + (sec.id === activeSection ? ' active' : '');
+    b.dataset.section = sec.id;
+    b.innerHTML = `<span class="tab-index">0${idx+1}</span><span class="tab-icon">${sec.icon}</span><span class="tab-label">${sec.short}</span>`;
+    b.addEventListener('click', () => goSection(sec.id));
+    host.appendChild(b);
+  });
+}
+
+function goSection(secId){
+  activeSection = secId;
+  const s = sections.find(x => x.id === secId);
+  const idx = sections.indexOf(s);
+  if(el('stepEyebrow')) el('stepEyebrow').textContent = `Athletic Direction · 0${idx+1}`;
+  if(el('stepTitle')) el('stepTitle').textContent = s ? s.name : '';
+  if(el('stepDescription')) el('stepDescription').textContent = s ? s.desc : '';
+  if(el('stepIcon')) el('stepIcon').textContent = s ? s.icon : '';
+  if(el('stepCount')) el('stepCount').textContent = `Step ${idx+1} of ${sections.length}`;
+  renderTabs();
+  renderFields();
+}
+
+function createFieldElement(id, f){
+  const wrap = document.createElement('div');
+  wrap.className = 'field' + (lockedFields.has(id) ? ' locked' : '');
+  wrap.dataset.field = id;
+
+  const head = document.createElement('div');
+  head.className = 'field-head';
+  head.innerHTML = `<label>${f.label}</label>`;
+
+  const lockBtn = document.createElement('button');
+  lockBtn.type = 'button';
+  lockBtn.className = 'lock-btn' + (lockedFields.has(id) ? ' locked' : '');
+  lockBtn.title = lockedFields.has(id) ? 'Unlock choice' : 'Lock choice';
+  lockBtn.innerHTML = lockedFields.has(id) ? '🔒' : '🔓';
+  lockBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if(lockedFields.has(id)) lockedFields.delete(id);
+    else lockedFields.add(id);
+    renderFields();
+    save();
+  });
+  head.appendChild(lockBtn);
+  wrap.appendChild(head);
+
+  // Custom Select with search
+  const curVal = values[id] || f.opts[0];
+  const customSel = document.createElement('div');
+  customSel.className = 'custom-select';
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'select-trigger';
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.innerHTML = `<span class="val-label">${curVal ? curVal.label : 'Select…'}</span><span class="select-chevron">▾</span>`;
+
+  const dropdown = document.createElement('div');
+  dropdown.className = 'select-dropdown';
+
+  const searchBox = document.createElement('div');
+  searchBox.className = 'select-search-box';
+  const searchInput = document.createElement('input');
+  searchInput.type = 'text';
+  searchInput.placeholder = 'Search ' + f.label + '…';
+  searchInput.className = 'select-search-input';
+  searchBox.appendChild(searchInput);
+  dropdown.appendChild(searchBox);
+
+  const optsList = document.createElement('div');
+  optsList.className = 'select-options-list';
+
+  let currentOpts = f.opts;
+  // Apply category filtering
+  if(id === 'gymVenue' && values.gymVenueCategory && values.gymVenueCategory.text !== 'all'){
+    currentOpts = f.opts.filter(o => o.cat === values.gymVenueCategory.text);
+  } else if(id === 'gymHair' && values.gymHairCategory && values.gymHairCategory.text !== 'all'){
+    currentOpts = f.opts.filter(o => o.cat === values.gymHairCategory.text);
+  } else if(id === 'topPiece' && values.topCategory && values.topCategory.text !== 'all'){
+    currentOpts = f.opts.filter(o => o.cat === values.topCategory.text);
+  } else if(id === 'bottomPiece' && values.bottomCategory && values.bottomCategory.text !== 'all'){
+    currentOpts = f.opts.filter(o => o.cat === values.bottomCategory.text);
+  }
+
+  function populateOptions(filterText = ''){
+    optsList.innerHTML = '';
+    const q = filterText.toLowerCase();
+    const visible = currentOpts.filter(o => !q || o.label.toLowerCase().includes(q) || (o.text && o.text.toLowerCase().includes(q)));
+    if(!visible.length){
+      optsList.innerHTML = '<div style="padding:10px; font-size:12px; color:#94a3b8; text-align:center;">No matching options</div>';
+      return;
+    }
+    visible.forEach(o => {
+      const optBtn = document.createElement('button');
+      optBtn.type = 'button';
+      optBtn.className = 'select-option' + ((values[id] && values[id].label === o.label) ? ' selected' : '');
+      optBtn.innerHTML = `<span>${o.label}</span>`;
+      optBtn.addEventListener('click', () => {
+        values[id] = o;
+        customSel.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.querySelector('.val-label').textContent = o.label;
+        if(id === 'gymVenueCategory' || id === 'gymHairCategory' || id === 'topCategory' || id === 'bottomCategory'){
+          renderFields();
+        }
+        buildPrompt();
+      });
+      optsList.appendChild(optBtn);
+    });
+  }
+
+  populateOptions();
+  searchInput.addEventListener('input', (e) => populateOptions(e.target.value));
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = customSel.classList.contains('open');
+    document.querySelectorAll('.custom-select.open').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+    if(!isOpen){
+      customSel.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+      searchInput.value = '';
+      populateOptions();
+      setTimeout(() => searchInput.focus(), 50);
+    }
+  });
+
+  dropdown.appendChild(optsList);
+  customSel.appendChild(trigger);
+  customSel.appendChild(dropdown);
+  wrap.appendChild(customSel);
+
+  return wrap;
+}
+
+function createGymMoistureCard(){
+  const card = document.createElement('div');
+  card.className = 'field-card moisture-toggle-card';
+  card.id = 'moistureToggleCard';
+  card.style.cssText = 'margin:12px 0; padding:14px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:12px;';
+  card.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <label style="font-size:12px; font-weight:700; color:#e2e8f0; text-transform:uppercase; letter-spacing:0.06em;">Hair Moisture State</label>
+      <span style="font-size:11px; color:#94a3b8;">Athletic sweat &amp; shower physics</span>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+      <button type="button" class="btn btn-secondary btn-small moisture-pill${gymHairMoisture === 'dry' ? ' active' : ''}" data-moisture="dry">Dry &amp; High-Volume</button>
+      <button type="button" class="btn btn-secondary btn-small moisture-pill${gymHairMoisture === 'damp' ? ' active' : ''}" data-moisture="damp">Damp / Misted Sweat</button>
+      <button type="button" class="btn btn-secondary btn-small moisture-pill${gymHairMoisture === 'wet' ? ' active' : ''}" data-moisture="wet">Soaked Wet Workout</button>
+    </div>
+  `;
+  card.querySelectorAll('.moisture-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      gymHairMoisture = btn.dataset.moisture;
+      card.querySelectorAll('.moisture-pill').forEach(b => b.classList.toggle('active', b.dataset.moisture === gymHairMoisture));
+      buildPrompt();
+      toast(`Hair moisture set to ${gymHairMoisture.toUpperCase()}.`);
+    });
+  });
+  return card;
+}
+
+function renderFields(){
+  const host = el('fields');
+  if(!host) return;
+  host.innerHTML = '';
+
+  if(activeSection === 'gymWardrobeSec'){
+    const switchWrap = document.createElement('div');
+    switchWrap.className = 'wardrobe-mode-switch';
+    switchWrap.style.cssText = 'grid-column:1 / -1; margin-bottom:12px; display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.03); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);';
+    switchWrap.innerHTML = `
+      <strong style="font-size:13px; color:#f1f5f9;">Wardrobe Mode:</strong>
+      <button type="button" class="btn btn-small ${wardrobeMode === 'ensemble' ? 'btn-primary' : 'btn-secondary'}" id="btnGymEnsemble">Matching Activewear Set</button>
+      <button type="button" class="btn btn-small ${wardrobeMode === 'separates' ? 'btn-primary' : 'btn-secondary'}" id="btnGymSeparates">Two-Piece Separates</button>
+    `;
+    switchWrap.querySelector('#btnGymEnsemble').addEventListener('click', () => {
+      wardrobeMode = 'ensemble';
+      renderFields();
+      buildPrompt();
+      toast('Switched to Matching Activewear Sets.');
+    });
+    switchWrap.querySelector('#btnGymSeparates').addEventListener('click', () => {
+      wardrobeMode = 'separates';
+      renderFields();
+      buildPrompt();
+      toast('Switched to Two-Piece Separates.');
+    });
+    host.appendChild(switchWrap);
+  }
+
+  let secFields = Object.keys(fields).filter(k => fields[k].section === activeSection);
+  if(activeSection === 'gymWardrobeSec'){
+    if(wardrobeMode === 'separates'){
+      secFields = secFields.filter(k => k !== 'gymOutfit');
+    } else {
+      secFields = secFields.filter(k => !['topCategory', 'topPiece', 'bottomCategory', 'bottomPiece', 'midriffStyling'].includes(k));
+    }
+  }
+
+  secFields.forEach(id => {
+    const f = fields[id];
+    host.appendChild(createFieldElement(id, f));
+    if(id === 'gymHairFaceCoverage' && activeSection === 'gymPhysiqueSec'){
+      host.appendChild(createGymMoistureCard());
+    }
+  });
+
+  const sp = el('specialContent');
+  if(sp){
+    if(activeSection === 'finish'){
+      sp.innerHTML = `
+        <div class="field-card" style="margin-top:16px; padding:16px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:12px;">
+          <h3 style="font-size:14px; margin:0 0 12px 0; color:#f1f5f9;">Identity &amp; Athletic Realism Safeguards</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px; margin-bottom:16px;">
+            <label class="toggle-pill" style="display:${window.AfterglowRefPicker?.getFaceMode() === 'ai_generated' ? 'none' : 'flex'}; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkId" ${checkState.identity ? 'checked' : ''}> Preserve Reference Model Identity</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkPores" ${checkState.skin ? 'checked' : ''}> Authentic Pores &amp; Sweat Texture</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoAirbrush" ${checkState.retouch ? 'checked' : ''}> Zero Plastic Skin Smoothing</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkAnatomy" ${checkState.body ? 'checked' : ''}> Believable Muscular Proportions</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoMirror" ${checkState.noMirror ? 'checked' : ''}> Avoid Mirror Reflections</label>
+            <label class="toggle-pill" style="display:flex; align-items:center; gap:8px; font-size:12px; cursor:pointer;"><input type="checkbox" id="chkNoText" ${checkState.noText ? 'checked' : ''}> Exclude Watermarks &amp; Brand Logos</label>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label for="customDirInput" style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Additional Creative Direction</label>
+              <textarea id="customDirInput" rows="3" placeholder="e.g., silver hydro water bottle beside bench, subtle chalk dust floating in sunbeam…" style="width:100%; border-radius:10px; padding:10px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); color:#f8fafc; font-size:12px; resize:vertical;">${customDirection.replace(/</g,'&lt;')}</textarea>
+            </div>
+            <div>
+              <label for="extraNegInput" style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Extra Exclusions (Negative)</label>
+              <textarea id="extraNegInput" rows="3" placeholder="e.g., heavy jewelry, sunglasses, high heels, blurry barbell, distorted hands…" style="width:100%; border-radius:10px; padding:10px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); color:#f8fafc; font-size:12px; resize:vertical;">${extraNegative.replace(/</g,'&lt;')}</textarea>
+            </div>
+          </div>
+        </div>
+      `;
+      [['chkId', 'identity'], ['chkPores', 'skin'], ['chkNoAirbrush', 'retouch'], ['chkAnatomy', 'body'], ['chkNoMirror', 'noMirror'], ['chkNoText', 'noText']].forEach(([cid, key]) => {
+        el(cid)?.addEventListener('change', (e) => {
+          checkState[key] = e.target.checked;
+          buildPrompt();
+        });
+      });
+      el('customDirInput')?.addEventListener('input', (e) => {
+        customDirection = e.target.value;
+        buildPrompt();
+      });
+      el('extraNegInput')?.addEventListener('input', (e) => {
+        extraNegative = e.target.value;
+        buildPrompt();
+      });
+    } else {
+      sp.innerHTML = '';
+    }
+  }
+}
+
+document.addEventListener('click', e => {
+  if(!e.target.closest('.custom-select')){
+    document.querySelectorAll('.custom-select.open').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.select-trigger').setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+// ==========================================
+// PRESETS ENGINE
+// ==========================================
+
+function summarizePresetChanges(preset, prevValues, fieldDefs) {
+  const changes = [];
+  const allSettings = [];
+  const source = preset.set || preset.values || preset.edits || preset.global || {};
+
+  Object.entries(source).forEach(([k, val]) => {
+    const fld = fieldDefs ? fieldDefs[k] : null;
+    const newLbl = typeof val === 'object' && val !== null ? (val.label || val.text || '') : String(val || '').trim();
+    if (!newLbl) return;
+    const oldVal = prevValues ? prevValues[k] : null;
+    const oldLbl = typeof oldVal === 'object' && oldVal !== null ? (oldVal.label || oldVal.text || '') : String(oldVal || '').trim();
+
+    const cleanFieldName = fld?.label?.replace(/\s*\(.*?\)/, '')?.replace(/^[^\w\s]+\s*/, '')?.trim() || k;
+    allSettings.push(`${cleanFieldName}: “${newLbl}”`);
+
+    if (!prevValues || newLbl !== oldLbl) {
+      changes.push(`${cleanFieldName} → “${newLbl}”`);
+    }
+  });
+
+  if (preset.hairMoisture) {
+    allSettings.push(`Hair Moisture: ${preset.hairMoisture}`);
+    if (!prevValues || preset.hairMoisture !== prevValues._moisture) {
+      changes.push(`Hair Moisture → ${preset.hairMoisture}`);
+    }
+  }
+  if (preset.wardrobeMode) {
+    allSettings.push(`Wardrobe: ${preset.wardrobeMode}`);
+    if (!prevValues || preset.wardrobeMode !== prevValues._wardrobeMode) {
+      changes.push(`Wardrobe → ${preset.wardrobeMode}`);
+    }
+  }
+
+  return { changes, allSettings };
+}
+
+function showAppliedPresetBanner(presetTitle, diffResult, containerSelector = '.preset-strip', onSavePreset = null) {
+  const host = document.querySelector(containerSelector);
+  if (!host) return;
+  const old = host.querySelector('.applied-preset-diff');
+  if (old) old.remove();
+
+  const changes = Array.isArray(diffResult) ? diffResult : (diffResult?.changes || []);
+  const allSettings = Array.isArray(diffResult) ? diffResult : (diffResult?.allSettings || changes);
+
+  const isMatching = changes.length === 0;
+  const itemsToShow = isMatching ? allSettings : changes;
+  if (!itemsToShow || !itemsToShow.length) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'applied-preset-diff';
+  const displayItems = itemsToShow.slice(0, 8);
+  const remainingCount = itemsToShow.length - displayItems.length;
+  const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
+    (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
+
+  const titleHtml = isMatching
+    ? `Applied: ${presetTitle || 'Preset'} (All settings match current studio configuration)`
+    : `Applied: ${presetTitle || 'Preset'} (${changes.length} setting${changes.length === 1 ? '' : 's'} updated)`;
+
+  banner.innerHTML = `
+    <span class="diff-icon">✦</span>
+    <div class="diff-content">
+      <div class="diff-title">${titleHtml}</div>
+      <p class="diff-list">${listHtml}</p>
+    </div>
+    <div class="diff-actions">
+      ${onSavePreset ? '<button type="button" class="diff-save-btn">★ Save to presets</button>' : ''}
+      <button type="button" class="diff-close" title="Dismiss" aria-label="Dismiss diff banner">✕</button>
+    </div>
+  `;
+
+  if (onSavePreset) {
+    const saveBtn = banner.querySelector('.diff-save-btn');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        const ok = onSavePreset();
+        if (ok) {
+          saveBtn.disabled = true;
+          saveBtn.classList.add('saved');
+          saveBtn.textContent = '✓ Saved in library';
+        }
+      });
+    }
+  }
+
+  banner.querySelector('.diff-close').addEventListener('click', () => banner.remove());
+
+  const grid = host.querySelector('.preset-grid, #presets');
+  if (grid) {
+    host.insertBefore(banner, grid);
+  } else {
+    host.appendChild(banner);
+  }
+}
+
+function renderPresets(){
+  const host = el('presets');
+  if(!host) return;
+  host.innerHTML = '';
+  customPresets.forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset-btn preset custom-preset' + (p.id === activePreset ? ' active' : '');
+    b.dataset.preset = p.id;
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon || '⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${p.id}">✕</button></div><small>${p.sub || 'Custom Workout'}</small>`;
+    b.addEventListener('click', (e) => {
+      if(e.target.closest('.preset-del')){
+        deleteCustomPreset(p.id, e);
+        return;
+      }
+      applyPresetObj(p);
+    });
+    host.appendChild(b);
+  });
+
+  starterPresets.forEach(p => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'preset-btn preset' + (p.id === activePreset ? ' active' : '');
+    b.dataset.preset = p.id;
+    b.innerHTML = `<span class="preset-icon">${p.icon}</span><strong>${p.title}</strong><small>${p.sub}</small>`;
+    b.addEventListener('click', () => {
+      applyPresetObj(p);
+    });
+    host.appendChild(b);
+  });
+}
+
+function applyPresetObj(p){
+  const prevValues = Object.assign({}, values);
+  prevValues._moisture = gymHairMoisture;
+  prevValues._wardrobeMode = wardrobeMode;
+
+  activePreset = p.id;
+  if(p.wardrobeMode) wardrobeMode = p.wardrobeMode;
+  if(p.hairMoisture) gymHairMoisture = p.hairMoisture;
+  Object.keys(p.values || {}).forEach(k => {
+    if(p.values[k] && !lockedFields.has(k)) values[k] = p.values[k];
+  });
+  renderPresets();
+  renderFields();
+  buildPrompt();
+
+  const diffResult = summarizePresetChanges(p, prevValues, fields);
+  showAppliedPresetBanner(p.title, diffResult, '.preset-strip');
+  if (diffResult.changes.length) {
+    const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+    const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
+    toast(`✓ Applied “${p.title}”! Updated: ${summaryText}${moreText}`);
+  } else {
+    toast(`✓ Applied “${p.title}”! All settings match current studio configuration.`);
+  }
+}
+
+function saveCustomGymPreset(title){
+  const name = title || prompt('Name this custom fitness look:');
+  if(!name || !name.trim()) return null;
+  const p = {
+    id: 'custom_gym_' + Date.now(),
+    title: name.trim(),
+    sub: [values.gymDiscipline?.label, values.gymVenue?.label].filter(Boolean).join(' · '),
+    icon: '⭐',
+    isCustom: true,
+    wardrobeMode,
+    hairMoisture: gymHairMoisture,
+    values: Object.assign({}, values)
+  };
+  customPresets.unshift(p);
+  activePreset = p.id;
+  save();
+  renderPresets();
+  toast(`✓ Saved custom look “${name.trim()}”.`);
+  return p;
+}
+
+function deleteCustomPreset(id, e){
+  if(e) e.stopPropagation();
+  customPresets = customPresets.filter(p => p.id !== id);
+  if(activePreset === id) activePreset = '';
+  save();
+  renderPresets();
+  toast('Custom gym preset removed.');
+}
+
+function promptExportName(defaultName, studioSlug, optName) {
+  let title;
+  if (typeof optName === 'string' && optName.trim()) {
+    title = optName.trim();
+  } else {
+    const chosen = prompt('Name for this preset export (or bundle):', defaultName);
+    if (chosen === null) return null;
+    title = chosen.trim() || defaultName;
+  }
+  const slug = title.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || studioSlug;
+  return { title, filename: `afterglow-${studioSlug}-${slug}.json` };
+}
+
+function exportGymPresets(optName){
+  const defaultTitle = [values.gymDiscipline?.label, values.gymVenue?.label].filter(Boolean).join(' · ') || 'Active Gym Look';
+  const naming = promptExportName(defaultTitle, 'gym', optName);
+  if (!naming) return null;
+
+  const activeLook = {
+    id: 'active_gym_' + Date.now(),
+    title: naming.title,
+    sub: 'Snapshot of current studio configuration',
+    icon: '✦',
+    isCustom: true,
+    wardrobeMode,
+    hairMoisture: gymHairMoisture,
+    set: serializePresetSet(values)
+  };
+
+  const formattedCustom = customPresets.map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '⭐',
+    wardrobeMode: p.wardrobeMode || 'ensemble',
+    hairMoisture: p.hairMoisture || 'dry',
+    set: serializePresetSet(p.values)
+  }));
+
+  const starterList = (starterPresets || []).map(p => ({
+    id: p.id,
+    title: p.title,
+    sub: p.sub,
+    icon: p.icon || '✦',
+    wardrobeMode: p.wardrobeMode || 'ensemble',
+    hairMoisture: p.hairMoisture || 'dry',
+    set: serializePresetSet(p.values)
+  }));
+
+  const payload = {
+    version: 2,
+    generator: 'Afterglow Prompt Studio',
+    studio: 'gym',
+    title: naming.title,
+    exportedAt: new Date().toISOString(),
+    activeLook,
+    customPresets: formattedCustom,
+    starterPresets: starterList
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = naming.filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+  toast(`✓ Exported “${naming.title}” as .json.`);
+  return { title: naming.title, filename: naming.filename, version: 2, activeLook, starterPresets: starterList, payload };
+}
+
+function importGymPresetsFromData(parsed){
+  if (!parsed || typeof parsed !== 'object') throw new Error('Invalid preset JSON');
+
+  let rawList = [];
+  if (Array.isArray(parsed.customPresets)) rawList = parsed.customPresets;
+  else if (Array.isArray(parsed.presets)) rawList = parsed.presets;
+  else if (Array.isArray(parsed) && parsed.length > 1) rawList = parsed;
+
+  const realCustomPresets = rawList.filter(p => {
+    if (!p) return false;
+    const isSnapshot = (p.sub && String(p.sub).includes('Snapshot of current')) ||
+                       (p.id && String(p.id).startsWith('active_'));
+    return !isSnapshot;
+  });
+
+  let added = 0;
+  let firstAdded = null;
+  if (realCustomPresets.length > 0) {
+    realCustomPresets.forEach(raw => {
+      if (!raw) return;
+      const title = raw.title || raw.name || ('Imported Look ' + (added + 1));
+      const hydrated = hydratePresetSet(raw.set || raw.values || raw.v || raw.edits);
+      if (!Object.keys(hydrated).length) return;
+      if (raw.id && customPresets.some(p => p.id === raw.id)) return;
+
+      let finalTitle = String(title).slice(0, 80);
+      if (customPresets.some(p => p.title === finalTitle)) {
+        finalTitle += ` (${added + 1})`;
+      }
+
+      const newPreset = {
+        id: raw.id || ('user_' + Date.now() + '_' + added),
+        title: finalTitle,
+        sub: raw.sub || 'Imported Workout',
+        icon: raw.icon || '⭐',
+        isCustom: true,
+        wardrobeMode: raw.wardrobeMode || 'ensemble',
+        hairMoisture: raw.hairMoisture || 'dry',
+        values: hydrated
+      };
+      customPresets.unshift(newPreset);
+      if (!firstAdded) firstAdded = newPreset;
+      added++;
+    });
+
+    save();
+    renderPresets();
+    if (!firstAdded && !parsed.activeLook) {
+      return added;
+    }
+  }
+
+  let lookSource = null;
+  let isStandaloneLook = false;
+
+  if (parsed.activeLook) {
+    lookSource = parsed.activeLook;
+    isStandaloneLook = true;
+  } else if (firstAdded) {
+    lookSource = firstAdded;
+  } else if (Array.isArray(parsed.starterPresets) && parsed.starterPresets.length === 1) {
+    lookSource = parsed.starterPresets[0];
+    isStandaloneLook = true;
+  } else if (parsed.set || parsed.values || parsed.v || parsed.edits) {
+    lookSource = parsed;
+    isStandaloneLook = true;
+  } else if (Array.isArray(parsed) && parsed.length === 1) {
+    lookSource = parsed[0];
+    isStandaloneLook = true;
+  }
+
+  if (!lookSource) {
+    if (added > 0) return added;
+    throw new Error('No valid look found in preset JSON');
+  }
+
+  const title = lookSource.title || parsed.title || 'Imported Workout Look';
+  const hydrated = hydratePresetSet(lookSource.set || lookSource.values || lookSource.v || lookSource.edits);
+  if (!Object.keys(hydrated).length) throw new Error('No compatible fields found in look');
+
+  const lookToApply = {
+    id: lookSource.id || ('imported_' + Date.now()),
+    title: String(title).slice(0, 80),
+    sub: lookSource.sub || 'Imported Workout Look',
+    icon: lookSource.icon || '✦',
+    wardrobeMode: lookSource.wardrobeMode || 'ensemble',
+    hairMoisture: lookSource.hairMoisture || 'dry',
+    values: hydrated
+  };
+
+  const onSavePreset = isStandaloneLook ? () => {
+    const chosenName = prompt('Save this imported look as a preset:', lookToApply.title);
+    if (!chosenName || !chosenName.trim()) return false;
+    const newPreset = {
+      id: 'user_' + Date.now(),
+      title: chosenName.trim(),
+      sub: lookToApply.sub || [values.gymDiscipline?.label, values.gymVenue?.label].filter(Boolean).join(' · '),
+      icon: '⭐',
+      isCustom: true,
+      wardrobeMode: lookToApply.wardrobeMode,
+      hairMoisture: lookToApply.hairMoisture,
+      values: Object.assign({}, hydrated)
+    };
+    customPresets.unshift(newPreset);
+    save();
+    renderPresets();
+    toast(`Saved “${chosenName.trim()}” to presets.`);
+    return true;
+  } : null;
+
+  const prevValues = Object.assign({}, values);
+  prevValues._moisture = gymHairMoisture;
+  prevValues._wardrobeMode = wardrobeMode;
+
+  activePreset = '';
+  if (lookToApply.wardrobeMode) wardrobeMode = lookToApply.wardrobeMode;
+  if (lookToApply.hairMoisture) gymHairMoisture = lookToApply.hairMoisture;
+  Object.keys(lookToApply.values || {}).forEach(k => {
+    if (lookToApply.values[k] && !lockedFields.has(k)) values[k] = lookToApply.values[k];
+  });
+  renderPresets();
+  renderFields();
+  buildPrompt();
+
+  const diffResult = summarizePresetChanges(lookToApply, prevValues, fields);
+  showAppliedPresetBanner(lookToApply.title, diffResult, '.preset-strip', onSavePreset);
+
+  if (diffResult.changes.length) {
+    const summaryText = diffResult.changes.slice(0, 3).join(' · ');
+    const moreText = diffResult.changes.length > 3 ? ` (+${diffResult.changes.length - 3} more)` : '';
+    toast(`✓ Applied “${lookToApply.title}”! Updated: ${summaryText}${moreText}`);
+  } else {
+    toast(`✓ Applied “${lookToApply.title}”! All settings match current studio configuration.`);
+  }
+
+  return added > 0 ? added : 1;
+}
+
+// ==========================================
+// PROMPT ASSEMBLY ENGINE
+// ==========================================
+
+function buildPrompt(){
+  const lines = [];
+
+  const loc = val('gymVenue');
+  const setTime = val('gymSettingTime');
+  const atmo = val('gymAtmosphere');
+  const archi = val('gymArchitecture');
+
+  const disc = val('gymDiscipline');
+  const move = val('gymMovement');
+  const phase = val('gymPhase');
+  const rawExpr = val('gymExpression');
+
+  const sweat = val('gymSweatLevel');
+  const muscle = val('gymMuscleTone');
+  const vasc = val('gymVascularity');
+  const restraint = val('gymHairRestraint');
+
+  const hairText = val('gymHair');
+  const covLabel = values.gymHairFaceCoverage?.label || '';
+  const covVal = val('gymHairFaceCoverage');
+  const veilTier = parseVeilTier(covLabel);
+  const hairArch = detectHairArchitecture(values.gymHair, hairText);
+  const veilRuleObj = getVeilRule(veilTier, hairArch);
+
+  const obfuscMode = values.gymFaceObfuscMode?.text || 'none';
+  const hasObfusc = (obfuscMode !== 'none' && obfuscMode !== 'hair_veil');
+  const isDeepVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
+  const hideEyes = isDeepVeil || hasObfusc;
+
+  const exprText = hideEyes ? '' : sanitizeHiddenFaceText(rawExpr, false, veilTier);
+
+  let apparelText = '';
+  if(wardrobeMode === 'separates'){
+    const topT = val('topPiece') || 'a high-support athletic racerback sports bra';
+    const botT = val('bottomPiece') || 'high-waist compression biker shorts';
+    const midT = val('midriffStyling') || 'exposed toned midriff with natural skin texture';
+    apparelText = `an athletic two-piece workout separates combination featuring ${topT} paired with ${botT}, with ${midT}`;
+  } else {
+    apparelText = val('gymOutfit') || 'a premium seamless ribbed activewear set comprising a compressive crop tank and contour leggings';
+  }
+
+  const footText = val('gymFootwear');
+  const propText = val('gymGearProp');
+
+  const camAngle = val('gymCameraAngle');
+  const camDist = val('gymCameraDistance');
+  const light = val('gymLighting');
+  const optics = val('gymOptics');
+  const film = val('gymFilmFeel');
+  const aspText = val('aspect');
+  const numMode = val('numImages');
+
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'gym' });
+  const isAiFace = refDirectives?.isAiFace;
+
+  if(isAiFace){
+    lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · GYM & ATHLETIC FITNESS STUDIO');
+  } else {
+    lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · GYM & ATHLETIC FITNESS STUDIO');
+  }
+  lines.push('');
+  lines.push(isAiFace ? 'PRIMARY SUBJECT & AI-GENERATED FACE:' : 'PRIMARY SUBJECT (REFERENCE IMAGE):');
+  if(isAiFace){
+    refDirectives.primaryBullets.forEach(b => lines.push(b));
+    if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
+  } else {
+    lines.push('• Strictly preserve the adult woman from the reference image as the solitary female model and athletic protagonist in the scene.');
+    if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
+      lines.push('• Hairstyle & Cut (From Reference Photo): Strictly replicate and sculpt the exact haircut, hair length, and silhouette from the reference image.');
+    }
+    const obfuscClause = buildObfuscClause(obfuscMode, hairArch);
+    if(obfuscClause){
+      lines.push('• ' + obfuscClause);
+    }
+    if(veilTier === '95_100'){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, natural hair density, and athletic posture while keeping 95–100% of her face frontally veiled behind a continuous, sleek, fine-tooth-combed glossy hair veil matched strictly to her haircut length + chin-tucked poise (ZERO visible eyes, ZERO eyebrows, ZERO nose, ZERO mouth).');
+    } else if(veilTier === '80_85'){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, hair density, and athletic chin line while hiding 80–85% of her upper face—ZERO visible eyeballs, ZERO pupils, ZERO eyebrows, ZERO bare forehead—beneath a continuous, fine-tooth-combed glossy front hair sheet matched to her haircut length.');
+    } else if(veilTier === '65_70'){
+      lines.push('• Maintain her authentic Indian heritage features, warm skin tone, and hair density while hiding ~65–70% of her face (forehead, both eyebrows, nose bridge, and one full eye 100% unseen; zero wide open eyes) behind a sleek satin sweep + 3/4 chin dip.');
+    } else if(veilTier === '50' || veilTier === '40_45'){
+      lines.push('• Retain her recognizable Indian heritage identity on her exposed lower face and single uncovered eye, while keeping the covered eye 100% hidden (ZERO covered eyeball visible) behind a continuous diagonal hair wave matched strictly to her haircut length.');
+    } else {
+      lines.push('• Retain her recognizable facial identity, Indian heritage bone structure, natural eye shape, and authentic dermal pore texture without artificial beauty smoothing.');
+    }
+    if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
+    if(refDirectives?.hasAnyFeature){
+      ['hairTexture', 'hairColor', 'wardrobe', 'makeup', 'accessories', 'pose', 'background'].forEach(fKey => {
+        if(window.AfterglowRefPicker?.isFeatureInherited(fKey)){
+          const bullet = refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label));
+          if(bullet) lines.push(bullet);
+        }
+      });
+    }
+  }
+  lines.push('• Maintain her authentic natural Indian hair strand density and athletic movement dynamics.');
+  if(gymHairMoisture === 'wet'){
+    lines.push("• Mandatory Soaked Wet Hair Physics: The model's hair is thoroughly sweat-soaked or post-workout shower damp—heavy dark wet hair strands clinging flush against her scalp, temples, and neck with glistening moisture sheen and zero dry flyaways.");
+  } else if(gymHairMoisture === 'damp'){
+    lines.push('• Damp Athletic Hair Physics: Evenly misted post-warmup damp hair texture with delicate perspiration beads and subtle organic strand clumping at the temples.');
+  } else {
+    lines.push('• Dry Athletic Hair Physics: Clean, dry, breathable hair strands styled securely for training with natural bounce and zero oily saturation.');
+  }
+  lines.push('');
+
+  lines.push('SOLO PROTAGONIST RULE:');
+  lines.push('• The solitary female athlete is the sole human subject in the frame. Strictly zero secondary women, trainers, gym spotters, or background bystanders anywhere in the scene.');
+  lines.push('');
+
+  if(numMode === 'collage'){
+    lines.push('2×2 EDITORIAL WORKOUT SERIES COLLAGE:');
+    lines.push('Create one unified 2×2 four-panel fitness photo collage documenting four chronological training moments with strict subject, outfit, and gym continuity:');
+    lines.push('• PANEL 1 (TOP-LEFT): Pre-workout prep & warmup focus — model seated on bench adjusting gear in ' + apparelText + ' with ' + restraint + '.');
+    lines.push('• PANEL 2 (TOP-RIGHT): Power execution — dynamic athletic action capturing ' + move + ' with intense muscular tension and ' + sweat + '.');
+    lines.push('• PANEL 3 (BOTTOM-LEFT): Mid-set pause — caught in ' + phase + ' under ' + light + '.');
+    lines.push(hideEyes
+      ? '• PANEL 4 (BOTTOM-RIGHT): Serene post-workout recovery pause in tranquil concealed athletic poise.'
+      : '• PANEL 4 (BOTTOM-RIGHT): Accomplished recovery moment showing ' + exprText + ' and natural hydration sheen.');
+  } else if(numMode === 'triptych'){
+    lines.push('Create one three-frame horizontal fitness triptych tracing pre-lift focus, explosive execution (' + move + '), and finished post-set recovery across three panels.');
+  } else {
+    lines.push('Create one finished photorealistic athletic fitness photograph.');
+  }
+  lines.push('');
+
+  lines.push('GYM ENVIRONMENT & SETTING:');
+  const isGymRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+  const isGymRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isGymRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+
+  const effGymLoc = isGymRefBg ? window.AfterglowRefPicker.getInheritedFieldText('background') : `Facility: ${loc}. Setting & Time: ${setTime}. Atmosphere: ${atmo}. Architecture: ${archi}.`;
+  const effGymHair = isGymRefHaircut ? window.AfterglowRefPicker.getInheritedFieldText('haircut') : `${hairText}; styled in ${restraint}`;
+  const effGymWardrobe = isGymRefWardrobe ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe') : `Wearing ${apparelText}`;
+
+  lines.push(`• ${effGymLoc}`);
+  lines.push(`• Athletic Discipline & Movement: ${disc}. Executing ${move}. Moment in set: ${phase}.`);
+  if(exprText) lines.push(`• Facial Focus & Attitude: ${exprText}.`);
+  lines.push(`• Hairstyle & Restraint: ${effGymHair}.`);
+  lines.push(`• Activewear Apparel: ${effGymWardrobe}.`);
+  lines.push(`• Footwear: ${footText}.`);
+  if(propText && propText !== 'none'){
+    lines.push(`• Equipment Props: ${propText}.`);
+  }
+  lines.push(`• Physique & Dermal Exertion: ${muscle}. Exertion sheen: ${sweat}. Vascular state: ${vasc}.`);
+  lines.push('');
+
+  if(covVal && veilTier !== 'auto'){
+    lines.push('HAIR VEIL DIRECTIVE (MANDATORY — STRICT FACIAL COVERAGE ENFORCEMENT):');
+    lines.push(`• Selected Tier: ${covLabel}`);
+    lines.push(`• Drape & Coverage: ${covVal}`);
+    lines.push(`• Strict Enforcement: ${veilRuleObj?.strict || ''}`);
+    lines.push(`• Silhouette Integrity: Preserve chosen haircut (${values.gymHair?.label || 'cut'}) architecture cleanly.`);
+    lines.push('');
+  }
+
+  lines.push('CAMERA, LIGHTING & FILM OPTICS:');
+  lines.push(`• Camera Framing & Distance: ${camAngle}, positioned at ${camDist}.`);
+  lines.push(`• Lighting Rig: ${light}.`);
+  lines.push(`• Optical Character: ${optics}. Color & Grade: ${film}.`);
+  if(aspText){
+    lines.push(`• Aspect ratio: ${aspText}.`);
+  }
+  lines.push('');
+
+  if(customDirection.trim()){
+    lines.push('ADDITIONAL CREATIVE DIRECTION:');
+    lines.push(customDirection.trim());
+    lines.push('');
+  }
+
+  // Preservations & Quality Checks
+  const checks = [];
+  if(hasObfusc){
+    checks.push(`Apply strict face privacy (${values.gymFaceObfuscMode?.label || obfuscMode}): facial features must remain concealed per chosen obfuscation method with zero clear identity portraits.`);
+  }
+  if(isAiFace){
+    checks.push('Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and authentic facial proportions; completely decoupled from reference facial identity.');
+  } else if(checkState.identity){
+    if(veilTier === '80_85' || veilTier === '95_100'){
+      checks.push(`Preserve the same adult woman from the reference, maintaining her warm Indian skin tone, body proportions, and hair density with ZERO visible eyeballs/eyebrows—face cleanly hidden behind a sleek continuous fine-tooth-combed satin hair sheet matched strictly to her haircut length (${covLabel}).`);
+    } else if(veilTier === '65_70'){
+      checks.push(`Preserve the same adult woman from the reference, maintaining her warm Indian skin tone, body proportions, and hair density while keeping forehead, both eyebrows, nose bridge, and one full eye 100% hidden behind a sleek satin sweep + 3/4 chin dip (${covLabel}).`);
+    } else if(veilTier === '50' || veilTier === '40_45'){
+      checks.push(`Preserve the same adult woman from the reference through her exposed lower face and single uncovered eye, while keeping the covered eye 100% hidden behind a continuous sleek glossy diagonal hair sheet matched strictly to her haircut length (${covLabel}).`);
+    } else {
+      checks.push('Preserve the same adult woman from the reference, retaining her recognizable facial identity, warm Indian skin tone, and authentic facial proportions.');
+    }
+  }
+  if(checkState.skin) checks.push('Render authentic skin pores, fine perspiration micro-droplets, realistic dermal translucency, and natural muscular tension; zero plastic skin or waxy beauty filters.');
+  if(checkState.retouch) checks.push('Avoid artificial airbrushing, heavy digital smoothing, or cartoonish rendering; preserve natural skin grain and functional anatomy.');
+  if(checkState.body) checks.push('Maintain believable human athletic proportions, anatomically correct joint articulation, and natural muscular contraction without distortion.');
+  if(checkState.noMirror) checks.push('Avoid confusing secondary mirror reflections or duplicate models in reflective glass panels; prioritize the direct subject.');
+  if(checkState.noText) checks.push('Strictly zero artificial text overlays, commercial brand logos, apparel sponsor stamps, or digital font watermarks.');
+
+  lines.push('TECHNICAL & REALISM PRESERVATIONS:');
+  checks.forEach(c => lines.push(`• ${c}`));
+
+  lines.push('');
+  lines.push('AVOID / NEGATIVE GUIDANCE:');
+  const negs = [
+    isAiFace
+      ? 'secondary women, multiple people, gym crowd, bystanders, spotters, trainers, plastic waxy airbrushed skin, cartoonish bodybuilder veins, unnatural limb distortions, fake smiles'
+      : 'secondary women, multiple people, gym crowd, bystanders, spotters, trainers, identity drift, plastic waxy airbrushed skin, cartoonish bodybuilder veins, unnatural limb distortions, fake smiles'
+  ];
+  if(isAiFace && refDirectives?.negativeAdditions?.length){
+    negs.push(...refDirectives.negativeAdditions);
+  }
+  const obfuscNegs = getObfuscNegatives(obfuscMode);
+  if(obfuscNegs.length){
+    negs.push(...obfuscNegs);
+  }
+  if(veilRuleObj?.neg){
+    negs.push(veilRuleObj.neg);
+  }
+  if(gymHairMoisture === 'wet'){
+    negs.push('dry hair, blown-out fluffy volume, static flyaways, dry cottony strands');
+  } else if(gymHairMoisture === 'damp'){
+    negs.push('bone dry fluffy hair, static flyaways, frizzy dryness');
+  } else {
+    negs.push('soaked wet dripping hair, heavy wet clumping');
+  }
+  if(checkState.noMirror){
+    negs.push('confusing mirror reflection, second woman in mirror, duplicate face');
+  }
+  if(extraNegative.trim()){
+    negs.push(extraNegative.trim());
+  }
+
+  const dedupedNegs = dedupeNegatives(negs);
+  dedupedNegs.forEach(n => lines.push(`• ${n}`));
+
+  const text = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+  const promptEl = el('prompt');
+  if(promptEl){
+    promptEl.value = text;
+    promptEl.textContent = text;
+  }
+  const words = text.trim().split(/\s+/).length;
+  const tokens = estimateTokens(text);
+  const wc = el('wordCount');
+  if(wc) wc.textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} characters · ~${tokens.toLocaleString()} tokens · Gym Studio`;
+
+  // Update summary tags
+  const summaryIds = [
+    'gymVenue', 'gymDiscipline', 'gymMovement',
+    ...(wardrobeMode === 'separates' ? ['topPiece', 'bottomPiece'] : ['gymOutfit']),
+    'gymSweatLevel', 'gymHair', 'gymHairFaceCoverage',
+    ...(hasObfusc ? ['gymFaceObfuscMode'] : []),
+    'gymLighting', 'gymCameraAngle'
+  ];
+  const summaryEl = el('summary');
+  if(summaryEl){
+    const moistMap = { dry: 'Dry & High-Volume', damp: 'Damp / Misted', wet: 'Soaked Wet' };
+    const tags = summaryIds
+      .filter(id => fields[id] && values[id])
+      .map(id => `<span class="summary-tag" title="${fields[id].label}: ${val(id).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${fields[id].label}: <strong>${values[id].label}</strong></span>`);
+    tags.splice(4, 0, `<span class="summary-tag" title="Hair moisture state">Moisture: <strong>${moistMap[gymHairMoisture] || 'Dry'}</strong></span>`);
+    summaryEl.innerHTML = tags.join('');
+  }
+  const mobSummary = el('mobileSummaryMini');
+  if(mobSummary && values.gymDiscipline && values.gymVenue){
+    mobSummary.textContent = `${values.gymDiscipline.label} · ${values.gymVenue.label}`;
+  }
+
+  // Update ratio chip active state
+  if(values.aspect){
+    document.querySelectorAll('.ratio-chip').forEach(chip => {
+      chip.classList.toggle('active', values.aspect.label.includes(chip.dataset.ratio));
+    });
+  }
+
+  // Update single vs lookbook buttons
+  const isCollage = (values.numImages?.text === 'collage');
+  el('btnSingleMode')?.classList.toggle('active', !isCollage);
+  el('btnLookbookMode')?.classList.toggle('active', isCollage);
+
+  save();
+  return text;
+}
+
+function recordHistory(){
+  const t = el('prompt')?.value.trim();
+  if(!t) return;
+  if(!promptHistory.length || promptHistory[0].text !== t){
+    promptHistory.unshift({ id: Date.now(), text: t, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), words: t.split(/\s+/).length, title: values.gymDiscipline?.label || 'Gym Look', sub: values.gymVenue?.label || 'Athletic Studio' });
+    if(promptHistory.length > 30) promptHistory.pop();
+    const b = el('historyBadge');
+    if(b) b.textContent = promptHistory.length;
+    try { localStorage.setItem(GYM_HIST_KEY, JSON.stringify(promptHistory)); } catch(e){}
+  }
+}
+
+function copy(text){
+  recordHistory();
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(() => toast('Copied prompt to clipboard.')).catch(() => fallbackCopy(text));
+  } else fallbackCopy(text);
+}
+
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand('copy');
+    toast('Copied prompt to clipboard.');
+  } catch(e){
+    toast('Please select and copy manually.');
+  }
+  document.body.removeChild(ta);
+}
+
+function toast(msg){
+  const t = el('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function downloadTxt(){
+  const t = el('prompt')?.value || '';
+  if(!t) return;
+  const b = new Blob([t], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = `afterglow-gym-${Date.now()}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function randomizeAll(){
+  Object.keys(fields).forEach(k => {
+    if(lockedFields.has(k)) return;
+    if(k === 'aspect' || k === 'numImages') return;
+    const f = fields[k];
+    let opts = f.opts;
+    if(k === 'gymVenue' && values.gymVenueCategory && values.gymVenueCategory.text !== 'all'){
+      opts = f.opts.filter(o => o.cat === values.gymVenueCategory.text);
+    } else if(k === 'gymHair' && values.gymHairCategory && values.gymHairCategory.text !== 'all'){
+      opts = f.opts.filter(o => o.cat === values.gymHairCategory.text);
+    }
+    if(opts.length){
+      values[k] = opts[Math.floor(Math.random() * opts.length)];
+    }
+  });
+  if(!lockedFields.has('gymSweatLevel')){
+    gymHairMoisture = ['dry', 'damp', 'wet'][Math.floor(Math.random() * 3)];
+  }
+  renderFields();
+  buildPrompt();
+  toast('✦ Surprised you with a fresh workout direction!');
+}
+
+// Wire events
+el('prevStep')?.addEventListener('click', () => {
+  const curIdx = sections.findIndex(s => s.id === activeSection);
+  if(curIdx > 0) goSection(sections[curIdx - 1].id);
+});
+el('nextStep')?.addEventListener('click', () => {
+  const curIdx = sections.findIndex(s => s.id === activeSection);
+  if(curIdx < sections.length - 1) goSection(sections[curIdx + 1].id);
+});
+el('finishJump')?.addEventListener('click', () => goSection('finish'));
+el('randomTop')?.addEventListener('click', randomizeAll);
+el('resetTop')?.addEventListener('click', resetAll);
+el('copy')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('copyTop')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('download')?.addEventListener('click', downloadTxt);
+el('copyPositive')?.addEventListener('click', () => {
+  const pos = extractPositivePrompt(el('prompt')?.value || '');
+  copy(pos);
+  toast('Copied positive prompt only.');
+});
+el('copyNegative')?.addEventListener('click', () => {
+  const neg = extractNegativePrompt(el('prompt')?.value || '');
+  copy(neg);
+  toast('Copied exclusions (negative) only.');
+});
+el('selectPrompt')?.addEventListener('click', () => {
+  const ta = el('prompt');
+  if(ta){ ta.focus(); ta.select(); }
+});
+
+el('saveCustomLook')?.addEventListener('click', () => saveCustomGymPreset());
+el('shuffleLooks')?.addEventListener('click', randomizeAll);
+el('exportPresetsBtn')?.addEventListener('click', () => exportGymPresets());
+
+if(el('importPresetsBtn') && el('importPresetsInput')){
+  el('importPresetsBtn').addEventListener('click', () => el('importPresetsInput').click());
+  el('importPresetsInput').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        importGymPresetsFromData(JSON.parse(reader.result));
+      } catch(err){
+        toast('Could not import presets: invalid or incompatible .json file.');
+      } finally {
+        e.target.value = '';
+      }
+    };
+    reader.readAsText(file);
+  });
+}
+
+// Aspect ratio buttons
+document.querySelectorAll('.ratio-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const r = btn.dataset.ratio;
+    const match = fields.aspect.opts.find(o => o.label.includes(r));
+    if(match){
+      values.aspect = match;
+      document.querySelectorAll('.ratio-chip').forEach(b => b.classList.toggle('active', b === btn));
+      buildPrompt();
+    }
+  });
+});
+
+// Single vs 2x2 Workout Series toggle
+el('btnSingleMode')?.addEventListener('click', () => {
+  values.numImages = fields.numImages.opts[0];
+  el('btnSingleMode').classList.add('active');
+  el('btnLookbookMode').classList.remove('active');
+  buildPrompt();
+});
+el('btnLookbookMode')?.addEventListener('click', () => {
+  values.numImages = fields.numImages.opts[1];
+  el('btnLookbookMode').classList.add('active');
+  el('btnSingleMode').classList.remove('active');
+  buildPrompt();
+});
+
+// Share URL
+function generateShareUrl(){
+  try {
+    const params = new URLSearchParams();
+    Object.keys(values).forEach(k => { if(values[k]) params.set(k, values[k].label); });
+    params.set('wm', wardrobeMode);
+    params.set('hm', gymHairMoisture);
+    const url = window.location.origin + window.location.pathname + '?' + params.toString();
+    copy(url);
+    toast('🔗 Shareable workout look URL copied!');
+  } catch(e){ toast('Could not generate share URL.'); }
+}
+el('shareLookBtn')?.addEventListener('click', generateShareUrl);
+el('shareLookTop')?.addEventListener('click', generateShareUrl);
+
+// Reference Picker Button
+const refToggleBtn = el('btnToggleRefPicker');
+if(refToggleBtn){
+  refToggleBtn.addEventListener('click', () => {
+    if(activeSection !== 'gymPhysiqueSec'){
+      activeSection = 'gymPhysiqueSec';
+      renderTabs();
+      renderFields();
+    }
+    const card = document.getElementById('refPickerCard');
+    if(card){
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      card.classList.add('pulse-highlight');
+      setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+    }
+  });
+}
+
+// History modal
+function openHistory(){
+  const l = el('historyList');
+  if(l){
+    l.innerHTML = !promptHistory.length
+      ? '<div class="history-empty"><p>No saved history yet.</p><small>Prompts you copy are saved locally here.</small></div>'
+      : promptHistory.map((item, idx) => `
+          <div class="history-item">
+            <div class="history-item-top">
+              <strong class="history-item-title">${item.title || 'Gym Look'}</strong>
+              <span class="history-item-time">${item.time}</span>
+            </div>
+            <div class="history-item-sub">${item.sub || 'Workout'} · ${item.words} words</div>
+            <div class="history-item-actions"><button class="btn btn-primary btn-small copy-hist" data-idx="${idx}" type="button">Copy ▣</button></div>
+          </div>
+        `).join('');
+    l.querySelectorAll('.copy-hist').forEach(b => b.addEventListener('click', () => {
+      const item = promptHistory[Number(b.dataset.idx)];
+      if(item){ copy(item.text); closeHistory(); }
+    }));
+  }
+  el('historyModal')?.classList.add('active');
+  el('historyBackdrop')?.classList.add('active');
+}
+function closeHistory(){
+  el('historyModal')?.classList.remove('active');
+  el('historyBackdrop')?.classList.remove('active');
+}
+el('openHistoryBtn')?.addEventListener('click', openHistory);
+el('closeHistoryBtn')?.addEventListener('click', closeHistory);
+el('historyBackdrop')?.addEventListener('click', closeHistory);
+el('clearHistoryBtn')?.addEventListener('click', () => {
+  promptHistory = [];
+  try { localStorage.removeItem(GYM_HIST_KEY); } catch(e){}
+  if(el('historyBadge')) el('historyBadge').textContent = '0';
+  openHistory();
+  toast('History cleared.');
+});
+
+// Mobile Drawer & FAB
+const previewEl = document.querySelector('.preview');
+const backdropEl = el('drawerBackdrop');
+function openDrawer(){
+  if(previewEl) previewEl.classList.add('drawer-open');
+  if(backdropEl) backdropEl.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer(){
+  if(previewEl) previewEl.classList.remove('drawer-open');
+  if(backdropEl) backdropEl.classList.remove('active');
+  document.body.style.overflow = '';
+}
+el('openDrawerBtn')?.addEventListener('click', openDrawer);
+el('closeDrawer')?.addEventListener('click', closeDrawer);
+backdropEl?.addEventListener('click', closeDrawer);
+el('sheetHandle')?.addEventListener('click', () => {
+  if(previewEl?.classList.contains('drawer-open')) closeDrawer();
+  else openDrawer();
+});
+el('mobileCopyBtn')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('topQuickCopy')?.addEventListener('click', () => copy(el('prompt')?.value || ''));
+el('fab')?.addEventListener('click', () => {
+  copy(el('prompt')?.value || '');
+  const f = el('fab');
+  if(f){ f.textContent = '✓ Copied'; setTimeout(() => f.textContent = '▣ Copy prompt', 1500); }
+});
+
+// Initialize
+const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
+if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + '+ curated choices';
+load();
+renderPresets();
+renderTabs();
+goSection(activeSection || 'gymVenueSec');
+buildPrompt();
+
+window.AfterglowGym = {
+  getFields: () => fields,
+  getValues: () => values,
+  getCheckState: () => checkState,
+  buildPrompt,
+  renderFields,
+  renderPresets,
+  save,
+  load,
+  resetAll,
+  saveCustomGymPreset,
+  deleteCustomPreset,
+  exportGymPresets,
+  importGymPresetsFromData,
+  summarizePresetChanges,
+  showAppliedPresetBanner,
+  getCustomPresets: () => customPresets,
+  getStarterPresets: () => starterPresets,
+  getHair: () => hair,
+  getHairFaceCoverageOpts: () => hairFaceCoverageOpts,
+  getFaceObfuscModeOpts: () => faceObfuscModeOpts,
+  getMoisture: () => gymHairMoisture,
+  setMoisture: (m) => { gymHairMoisture = m; renderFields(); buildPrompt(); },
+  getWardrobeMode: () => wardrobeMode,
+  setWardrobeMode: (m) => { wardrobeMode = m; renderFields(); buildPrompt(); },
+  getExtractedPositive: () => extractPositivePrompt(el('prompt')?.value || ''),
+  getExtractedNegative: () => extractNegativePrompt(el('prompt')?.value || '')
+};
+})();
+</script>
+</body>
+</html>

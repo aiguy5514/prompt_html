@@ -1060,7 +1060,7 @@ const coupleInteractions = [
 global.AfterglowDatasets = {
   O, makeOpts, addOptions,
   HAIR_FAMILIES, hair, hairFaceCoverageOpts,
-  OUTFIT_FAMILIES, outfit,
+  OUTFIT_FAMILIES, outfit, outfits: outfit,
   TOP_FAMILIES, topPieces, BOTTOM_FAMILIES, bottomPieces, midriffStylings,
   faceObfuscModeOpts,
   bikeScenes,

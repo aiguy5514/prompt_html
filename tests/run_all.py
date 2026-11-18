@@ -124,6 +124,7 @@ ok('index_has_video_link', links.some(h => h.includes('video.html')));
 ok('index_has_storyboard_link', links.some(h => h.includes('storyboard.html')));
 ok('index_has_romance_link', links.some(h => h.includes('romance.html')));
 ok('index_has_image_doctor_link', links.some(h => h.includes('image_doctor.html')));
+ok('index_has_gym_link', links.some(h => h.includes('gym.html')));
 '''
 
 SALON_JS = r'''
@@ -861,6 +862,85 @@ document.getElementById('drawerBackdrop').click();
 ok('doctor_drawer_closes', !document.querySelector('.preview').classList.contains('drawer-open'));
 '''
 
+GYM_JS = r'''
+const api = window.AfterglowGym;
+ok('gym_api_exposed', !!api);
+const flds = api.getFields();
+ok('gym_options_loaded', flds.gymVenue.opts.length === 15 && flds.gymOutfit.opts.length >= 25 && api.getHair().length === 276);
+ok('gym_starts_in_venue_sec', document.querySelector('.tab.active')?.dataset?.section === 'gymVenueSec');
+ok('gym_starter_presets_count', api.getStarterPresets().length === 8);
+ok('gym_tabs_count', document.querySelectorAll('.section-tab').length === 6);
+
+// Navigate to Physique & Exertion -> check moisture card & veil
+document.querySelector('[data-section="gymPhysiqueSec"]').click();
+ok('gym_moisture_card_rendered', !!document.getElementById('moistureToggleCard'));
+document.querySelector('.moisture-pill[data-moisture="wet"]').click();
+const [gWetPos, gWetNeg] = document.getElementById('prompt').value.split('AVOID / NEGATIVE GUIDANCE:');
+ok('gym_wet_physics_enforced', gWetPos.includes('Mandatory Soaked Wet Hair Physics') && gWetNeg.includes('dry hair'));
+ok('gym_wet_summary_tag', document.getElementById('summary').textContent.includes('Soaked Wet'));
+
+// Veil landmark lock
+const vals = api.getValues();
+vals.gymHair = api.getHair().find(h => h.label.includes('Chin-length French bob'));
+vals.gymHairFaceCoverage = api.getHairFaceCoverageOpts().find(o => o.label.includes('80–85%'));
+const pVeil = api.buildPrompt();
+ok('gym_80_veil_chin_bob', pVeil.includes('Strictly keep the bob hem ending crisply at chin/jawline level') && pVeil.includes('ZERO visible eyeballs'));
+
+// Navigate to Wardrobe & Gear -> toggle Separates
+document.querySelector('[data-section="gymWardrobeSec"]').click();
+document.getElementById('btnGymSeparates').click();
+ok('gym_separates_updates_prompt', document.getElementById('prompt').value.includes('athletic two-piece workout separates'));
+
+// Section 6: Finish controls, custom direction & negative
+document.querySelector('[data-section="finish"]').click();
+const customDir = document.getElementById('customDirInput');
+const extraNeg = document.getElementById('extraNegInput');
+ok('gym_finish_inputs_rendered', !!customDir && !!extraNeg);
+customDir.value = 'silver shaker bottle on floor, dust particles in sunbeam';
+customDir.dispatchEvent(new Event('input'));
+extraNeg.value = 'high heels, gold chain necklace';
+extraNeg.dispatchEvent(new Event('input'));
+const finishPrompt = document.getElementById('prompt').value;
+ok('gym_custom_dir_reflected', finishPrompt.includes('silver shaker bottle on floor, dust particles in sunbeam'));
+ok('gym_extra_neg_reflected', finishPrompt.includes('high heels') && finishPrompt.includes('gold chain necklace'));
+
+// 2x2 Workout Series toggle + Copy Positive/Negative
+document.getElementById('btnLookbookMode').click();
+ok('gym_collage_2x2_panel', document.getElementById('prompt').value.includes('2×2 EDITORIAL WORKOUT SERIES COLLAGE'));
+ok('gym_copy_positive_strips_neg', !api.getExtractedPositive().includes('AVOID / NEGATIVE GUIDANCE:'));
+ok('gym_copy_negative_live', api.getExtractedNegative().startsWith('AVOID / NEGATIVE GUIDANCE:'));
+
+// Custom Presets save, export & import
+const saved = api.saveCustomGymPreset('My CrossFit Workout Test');
+ok('gym_save_preset', !!saved && (localStorage.getItem('afterglow_gym_v1') || '').includes('My CrossFit Workout Test'));
+const oldClick = HTMLAnchorElement.prototype.click;
+HTMLAnchorElement.prototype.click = function(){};
+const gymExport = api.exportGymPresets('My Gym Direction Test');
+HTMLAnchorElement.prototype.click = oldClick;
+ok('gym_export_has_active_look_and_version', gymExport.version === 2 && !!gymExport.activeLook && Array.isArray(gymExport.starterPresets));
+ok('gym_export_custom_name_slug', gymExport.filename === 'afterglow-gym-my-gym-direction-test.json' && gymExport.title === 'My Gym Direction Test');
+
+const imp = api.importGymPresetsFromData({ customPresets: [{ id: 'imp_gym_1', title: 'Imported Turf Run', values: { gymVenue: flds.gymVenue.opts[3].label } }] });
+ok('gym_import_preset', imp === 1);
+const impSingleGym = api.importGymPresetsFromData({ title: 'Single Gym Look', set: { gymMovement: flds.gymMovement.opts[0].label } });
+ok('gym_import_single_preset', impSingleGym === 1);
+const gymDiffBanner = document.querySelector('.applied-preset-diff');
+ok('gym_applied_preset_diff_rendered', !!gymDiffBanner);
+ok('gym_diff_save_btn_exists', !!gymDiffBanner && !!gymDiffBanner.querySelector('.diff-save-btn'));
+
+// Mobile drawer open / close
+document.getElementById('openDrawerBtn').click();
+ok('gym_drawer_opens', document.querySelector('.preview').classList.contains('drawer-open'));
+document.getElementById('drawerBackdrop').click();
+ok('gym_drawer_closes', !document.querySelector('.preview').classList.contains('drawer-open'));
+
+// Face Obfuscation modes in Gym
+ok('gym_face_obfusc_field_exists', !!flds.gymFaceObfuscMode && flds.gymFaceObfuscMode.opts.length >= 8);
+vals.gymFaceObfuscMode = flds.gymFaceObfuscMode.opts.find(o => o.id === 'chiaroscuro_shadow');
+const gObfPrompt = api.buildPrompt();
+ok('gym_face_obfusc_chiaroscuro', gObfPrompt.includes('CHIAROSCURO SILHOUETTE'));
+'''
+
 
 def main():
     browser = find_browser()
@@ -874,6 +954,7 @@ def main():
         ('storyboard.html', STORYBOARD_JS),
         ('romance.html', ROMANCE_JS),
         ('image_doctor.html', IMAGE_DOCTOR_JS),
+        ('gym.html', GYM_JS),
     ]
     total_passed = 0
     total_failed = 0

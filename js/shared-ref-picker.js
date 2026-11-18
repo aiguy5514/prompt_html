@@ -108,9 +108,9 @@
   // Field mapping across all 7 studios
   const FIELD_FEATURE_MAP = {
     haircut: [
-      'hair', 'salonHaircut', 'tattooHair', 'prepHair', 'vidHair', 'sbHair', 'romanceHair',
+      'hair', 'salonHaircut', 'tattooHair', 'prepHair', 'vidHair', 'sbHair', 'romanceHair', 'gymHair',
       'hairCategory', 'salonHairCategory', 'tattooHairCategory', 'prepHairCategory',
-      'vidHairCategory', 'sbHairCategory', 'romanceHairCategory',
+      'vidHairCategory', 'sbHairCategory', 'romanceHairCategory', 'gymHairCategory',
       'fringe', 'parting', 'hairLength', 'hairVolume', 'fringeDetail'
     ],
     hairTexture: [
@@ -125,18 +125,19 @@
       'prepWardrobe', 'prepWardrobeCategory', 'prepTopPiece', 'prepBottomPiece',
       'vidOutfit', 'vidOutfitCategory', 'vidTopPiece', 'vidBottomPiece',
       'sbOutfit', 'sbOutfitCategory', 'sbTopPiece', 'sbBottomPiece',
-      'romanceOutfit', 'romanceOutfitCategory'
+      'romanceOutfit', 'romanceOutfitCategory', 'gymOutfit'
     ],
     makeup: [
       'makeup', 'lipLook', 'eyeLook', 'browStyle', 'complexion',
       'prepMakeupStage', 'prepLipStyle', 'prepEyeStyle', 'prepSkinFinish', 'prepFacialMask'
     ],
     accessories: [
-      'accessories', 'eyewear', 'bag', 'footwear', 'nailStyle', 'hairAccessories'
+      'accessories', 'eyewear', 'bag', 'footwear', 'nailStyle', 'hairAccessories',
+      'gymFootwear', 'gymGearProp'
     ],
     pose: [
       'pose', 'poseCategory', 'tattooPose', 'romancePose', 'expression', 'gesture', 'mood',
-      'salonChairPose', 'tattooExpression'
+      'salonChairPose', 'tattooExpression', 'gymMovement', 'gymPhase', 'gymExpression'
     ],
     background: [
       'background', 'sceneCategory', 'placeDetail',
@@ -144,7 +145,8 @@
       'tattooLocation', 'tattooLocationCategory',
       'prepVenue', 'prepVenueCategory',
       'vidEnvironment', 'sbVenue', 'sbVenueCategory',
-      'romanceScene', 'romanceDateVenue'
+      'romanceScene', 'romanceDateVenue',
+      'gymVenue', 'gymVenueCategory', 'gymSettingTime'
     ]
   };
 
