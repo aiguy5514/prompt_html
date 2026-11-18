@@ -105,13 +105,13 @@
     }
   };
 
-  // Field mapping across all 7 studios
+  // Field mapping across all studios
   const FIELD_FEATURE_MAP = {
     haircut: [
       'hair', 'salonHaircut', 'tattooHair', 'prepHair', 'vidHair', 'sbHair', 'romanceHair', 'gymHair',
       'hairCategory', 'salonHairCategory', 'tattooHairCategory', 'prepHairCategory',
       'vidHairCategory', 'sbHairCategory', 'romanceHairCategory', 'gymHairCategory',
-      'fringe', 'parting', 'hairLength', 'hairVolume', 'fringeDetail'
+      'fringe', 'parting', 'hairLength', 'hairVolume', 'fringeDetail', 'gymHairRestraint'
     ],
     hairTexture: [
       'hairTexture', 'salonHairTexture', 'prepHairTexture'
@@ -129,7 +129,8 @@
     ],
     makeup: [
       'makeup', 'lipLook', 'eyeLook', 'browStyle', 'complexion',
-      'prepMakeupStage', 'prepLipStyle', 'prepEyeStyle', 'prepSkinFinish', 'prepFacialMask'
+      'prepMakeupStage', 'prepLipStyle', 'prepEyeStyle', 'prepSkinFinish', 'prepFacialMask',
+      'gymSweatLevel'
     ],
     accessories: [
       'accessories', 'eyewear', 'bag', 'footwear', 'nailStyle', 'hairAccessories',
@@ -146,7 +147,7 @@
       'prepVenue', 'prepVenueCategory',
       'vidEnvironment', 'sbVenue', 'sbVenueCategory',
       'romanceScene', 'romanceDateVenue',
-      'gymVenue', 'gymVenueCategory', 'gymSettingTime'
+      'gymVenue', 'gymVenueCategory', 'gymSettingTime', 'gymAtmosphere', 'gymArchitecture'
     ]
   };
 

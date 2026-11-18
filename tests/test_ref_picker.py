@@ -44,7 +44,8 @@ STUDIO_FILES = [
     'makeup_spa.html',
     'video.html',
     'storyboard.html',
-    'romance.html'
+    'romance.html',
+    'gym.html'
 ]
 
 
@@ -555,6 +556,53 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
     ''')
     for r in romance_tests:
+        status = 'PASS' if r['ok'] else 'FAIL'
+        detail = f" - {r['detail']}" if r['detail'] else ""
+        print(f"  [{status}] {r['name']}{detail}")
+        if r['ok']: total_passed += 1
+        else: total_failed += 1
+
+    # Test 8: Gym & Fitness Studio
+    print('\n--- GYM & FITNESS STUDIO (gym.html) ---')
+    gym_tests = run_page_test(browser, 'gym.html', '''
+      ok('ref_picker_available', typeof window.AfterglowRefPicker === 'object');
+      const api = window.AfterglowGym;
+      ok('gym_api_available', typeof api === 'object');
+      const rp = window.AfterglowRefPicker;
+
+      // Navigate to step 3 and verify card is rendered in DOM
+      document.querySelector('[data-section="gymPhysiqueSec"]').click();
+      const card = document.getElementById('refPickerCard');
+      ok('gym_ref_picker_card_rendered', !!card && !!card.querySelector('.ref-face-seg'));
+
+      // Test toolbar toggle button focuses / scrolls to card
+      document.querySelector('[data-section="gymVenueSec"]').click();
+      document.getElementById('btnToggleRefPicker').click();
+      ok('gym_ref_toggle_btn_switches_section', document.querySelector('.tab.active')?.dataset?.section === 'gymPhysiqueSec');
+      ok('gym_ref_card_present_after_toggle', !!document.getElementById('refPickerCard'));
+
+      // Test haircut locking
+      rp.setFeature('haircut', true);
+      ok('gym_hair_locked', rp.isFieldLocked('gymHair'));
+      ok('gym_hair_restraint_locked', rp.isFieldLocked('gymHairRestraint'));
+
+      api.buildPrompt();
+      const p1 = document.getElementById('prompt').value;
+      ok('gym_haircut_bullet', p1.includes('Strictly replicate and sculpt the exact haircut') || p1.includes('Replicate'));
+
+      // Test AI Face Mode
+      rp.setFaceMode('ai_generated');
+      api.buildPrompt();
+      const pAi = document.getElementById('prompt').value;
+      ok('gym_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · GYM & ATHLETIC FITNESS STUDIO'));
+      ok('gym_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face') || pAi.includes('identical face'));
+
+      // Reset
+      rp.applyPreset('clear');
+      rp.setFaceMode('reference');
+      api.buildPrompt();
+    ''')
+    for r in gym_tests:
         status = 'PASS' if r['ok'] else 'FAIL'
         detail = f" - {r['detail']}" if r['detail'] else ""
         print(f"  [{status}] {r['name']}{detail}")

@@ -939,6 +939,12 @@ ok('gym_face_obfusc_field_exists', !!flds.gymFaceObfuscMode && flds.gymFaceObfus
 vals.gymFaceObfuscMode = flds.gymFaceObfuscMode.opts.find(o => o.id === 'chiaroscuro_shadow');
 const gObfPrompt = api.buildPrompt();
 ok('gym_face_obfusc_chiaroscuro', gObfPrompt.includes('CHIAROSCURO SILHOUETTE'));
+
+// Reference Feature Transfer Button & Card in Gym
+document.querySelector('[data-section="gymVenueSec"]').click();
+document.getElementById('btnToggleRefPicker').click();
+ok('gym_ref_toggle_switches_sec', document.querySelector('.tab.active')?.dataset?.section === 'gymPhysiqueSec');
+ok('gym_ref_picker_card_rendered', !!document.getElementById('refPickerCard'));
 '''
 
 

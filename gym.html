@@ -1098,6 +1098,13 @@ function renderFields(){
   if(!host) return;
   host.innerHTML = '';
 
+  if(window.AfterglowRefPicker && activeSection === 'gymPhysiqueSec'){
+    host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      renderFields();
+      buildPrompt();
+    }));
+  }
+
   if(activeSection === 'gymWardrobeSec'){
     const isSeparates = (wardrobeMode === 'separates');
     const switchWrap = document.createElement('div');
