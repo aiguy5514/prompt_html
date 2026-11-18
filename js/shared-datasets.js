@@ -319,7 +319,7 @@ const hairFaceCoverageOpts = [
 ];
 
 const OUTFIT_FAMILIES = [
-  {"label": "✦ All Outfits (457 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "✦ All Outfits (502 options)", "text": "all", "desc": "", "cat": "General"},
   {"label": "👗 Casual & Modest Everyday Dresses (6 variations)", "text": "day_dress", "desc": "", "cat": "General"},
   {"label": "🥻 Everyday Kurtas, Anarkalis & Salwar Suits (4 variations)", "text": "kurta", "desc": "", "cat": "General"},
   {"label": "👗 Evening Gowns (81 variations)", "text": "gown", "desc": "", "cat": "General"},
@@ -329,7 +329,9 @@ const OUTFIT_FAMILIES = [
   {"label": "🦹 Cocktail & Party (51 variations)", "text": "cocktail", "desc": "", "cat": "General"},
   {"label": "🥻 Sarees & Fusion (45 variations)", "text": "saree", "desc": "", "cat": "General"},
   {"label": "🩱 Monokinis & Swimwear (20 variations)", "text": "swim", "desc": "", "cat": "General"},
-  {"label": "🧥 Leather, Vinyl & Trench (14 variations)", "text": "leather", "desc": "", "cat": "General"}
+  {"label": "🧥 Leather, Vinyl & Trench (14 variations)", "text": "leather", "desc": "", "cat": "General"},
+  {"label": "🏋️ Gym, Fitness & Activewear Sets (25 variations)", "text": "gym", "desc": "", "cat": "General"},
+  {"label": "🗡️ Tattoo & Placement-Revealing Apparel (20 variations)", "text": "tattoo", "desc": "", "cat": "General"}
 ];
 
 const outfit = [
@@ -799,7 +801,56 @@ const outfit = [
   {"label": "Fleece hoodie + relaxed denim jeans", "text": "a relaxed grey cotton fleece pullover hoodie paired with classic straight-leg medium-wash jeans and clean sneakers for an effortless casual look", "desc": "", "cat": "separates"},
 
   // Modest Boiler Suits & Jumpsuits (jumpsuit)
-  {"label": "Long-sleeve utilitarian cotton boiler suit in olive", "text": "a full-coverage olive-green cotton twill boiler suit with long sleeves, shirt collar, front zipper placket, chest utility pockets, and a matching fabric belt", "desc": "", "cat": "jumpsuit"}
+  {"label": "Long-sleeve utilitarian cotton boiler suit in olive", "text": "a full-coverage olive-green cotton twill boiler suit with long sleeves, shirt collar, front zipper placket, chest utility pockets, and a matching fabric belt", "desc": "", "cat": "jumpsuit"},
+
+  // Gym, Fitness & Activewear Sets (gym)
+  {"label": "Seamless ribbed matching set (crop tank & high-waist leggings)", "text": "a premium seamless ribbed activewear set comprising a compressive scoop-neck crop tank and matching ankle-length high-waist contour leggings with subtle micro-rib texture", "desc": "", "cat": "gym"},
+  {"label": "Racerback sports bra + compression biker shorts", "text": "a high-support racerback athletic sports bra with wide elastic underband paired with matching 7-inch compressive mid-thigh biker shorts with flatlock stitching", "desc": "", "cat": "gym"},
+  {"label": "Sleek activewear unitard / halter catsuit", "text": "a streamlined sculpted activewear one-piece unitard with an open halter back, sweetheart neckline, and contouring matte performance fabric", "desc": "", "cat": "gym"},
+  {"label": "Long-sleeve compression crop top + seamless leggings", "text": "a form-fitting long-sleeve compression gym top with thumbhole cuffs and high crew neck, paired with high-rise seamless squat-proof performance leggings", "desc": "", "cat": "gym"},
+  {"label": "Oversized pump-cover gym tee + compression shorts", "text": "a vintage-washed heavyweight oversized cotton gym tee worn as a pump cover over snug matte-black compression shorts with rolled-up cuffs", "desc": "", "cat": "gym"},
+  {"label": "Strappy cross-back sports bra + relaxed sweatpants", "text": "a delicate multi-strap cross-back sports bra in charcoal paired with low-slung relaxed fleece sweatpants with cinched elastic ankles and exposed waistband", "desc": "", "cat": "gym"},
+  {"label": "Cropped zip-up track hoodie + high-waist cycle shorts", "text": "a cropped French terry zip-up track hoodie worn half-zipped over an athletic bralette, paired with high-waist compressive cycle shorts", "desc": "", "cat": "gym"},
+  {"label": "Laser-cut ventilation performance set in slate grey", "text": "a slate grey technical performance set with laser-cut geometric ventilation perforations along the racerback bra and upper thigh panels of the leggings", "desc": "", "cat": "gym"},
+  {"label": "Asymmetric one-shoulder athletic bra + contour tights", "text": "a contemporary asymmetric single-shoulder athletic crop bra paired with matching high-rise contour tights featuring diagonal mesh ventilation inserts", "desc": "", "cat": "gym"},
+  {"label": "Flared active yoga pants + ribbed cross-front bralette", "text": "high-waisted flared bell-bottom yoga pants in buttery soft stretch jersey paired with a supportive crossover V-front ribbed active bralette", "desc": "", "cat": "gym"},
+  {"label": "Two-tone colourblock athletic track jacket + running shorts", "text": "a retro-inspired lightweight windbreaker track jacket with bold chevron colourblocking, paired with split-hem woven running shorts with internal liner", "desc": "", "cat": "gym"},
+  {"label": "Monochrome knit Pilates jumpsuit with low scoop back", "text": "a body-hugging fine-gauge seamless knit Pilates jumpsuit featuring stirrup ankles, a low scooped back, and minimalist supportive bust panelling", "desc": "", "cat": "gym"},
+  {"label": "High-neck athletic crop tank + perforated runner shorts", "text": "a high-neck fitted athletic crop tank in olive green paired with breathable perforated double-layer runner shorts with reflective side piping", "desc": "", "cat": "gym"},
+  {"label": "Boxing-inspired satin robe + sports bra & training trunks", "text": "an authentic hooded lightweight satin training robe draped loosely over an athletic sports bra and wide-leg boxing training shorts with branded elastic waistband", "desc": "", "cat": "gym"},
+  {"label": "Ribbed halter gym crop + high-rise booty shorts", "text": "a textured ribbed halter-neck gym crop top exposing the upper shoulders, paired with supportive high-rise compressive mini shorts", "desc": "", "cat": "gym"},
+  {"label": "Technical windrunner half-zip pullover + training tights", "text": "a lightweight technical ripstop half-zip pullover windrunner paired with sleek matte-finish compressive athletic training tights", "desc": "", "cat": "gym"},
+  {"label": "Scoop-neck seamless athletic bodysuit with back cutout", "text": "a minimalist scoop-neck seamless athletic bodysuit featuring a large circular lower-back cutout and moisture-wicking technical fabric", "desc": "", "cat": "gym"},
+  {"label": "Muscle cut-off gym tank + high-waist track pants", "text": "a relaxed cotton jersey cut-off muscle tank with deep dropped armholes revealing a bandeau sports bra beneath, paired with relaxed nylon track pants", "desc": "", "cat": "gym"},
+  {"label": "Contrast-piped retro gym crop + 3-inch running shorts", "text": "a vintage 70s-style athletic crop top with white contrast rib binding, paired with matching retro dolphin-hem 3-inch running shorts", "desc": "", "cat": "gym"},
+  {"label": "Thermal compression mock-neck top + thermal tights", "text": "a sleek long-sleeve mock-neck base-layer thermal compression top paired with matching brushed-back thermal compression athletic tights", "desc": "", "cat": "gym"},
+  {"label": "Square-neck activewear crop bra + capri compression leggings", "text": "an architectural square-neck activewear crop bra with wide shoulder straps, paired with matching calf-length capri compression leggings", "desc": "", "cat": "gym"},
+  {"label": "Criss-cross back sports crop + scrunch-bum athletic tights", "text": "a strappy criss-cross open-back athletic crop bra paired with high-waist seamless contouring scrunch-bum athletic tights", "desc": "", "cat": "gym"},
+  {"label": "Cropped athletic hoodie vest + seamless biker shorts", "text": "a sleeveless cropped fleece hoodie vest worn over a minimal sports bralette, paired with high-rise seamless 6-inch biker shorts", "desc": "", "cat": "gym"},
+  {"label": "Sheer mesh-paneled athletic crop + high-waist leggings", "text": "a performance crop top with breathable sheer mesh inserts across the chest and upper back, paired with matching high-waist compression leggings with mesh calf panels", "desc": "", "cat": "gym"},
+  {"label": "Ultra-minimalist athletic bandeau + split-leg gym trousers", "text": "a clean matte-black technical athletic bandeau bra paired with lightweight snap-button tearaway split-leg athletic warm-up trousers", "desc": "", "cat": "gym"},
+
+  // Tattoo & Placement-Revealing Apparel (tattoo)
+  {"label": "Open spine cowl-back silk slip dress", "text": "a bias-cut fluid silk charmeuse slip dress featuring a dramatic plunged cowl back that falls to the sacrum, baring the full spine and shoulder blades", "desc": "", "cat": "tattoo"},
+  {"label": "Plunging halter-neck gown with completely open back", "text": "an elegant floor-length halter evening gown with a deep plunge neckline and a completely open back, fully exposing the upper, mid and lower back", "desc": "", "cat": "tattoo"},
+  {"label": "Deep side-ribcage cutout monokini bodysuit", "text": "a sculptural high-leg bodysuit featuring deep architectural cutouts extending from underarm to hip bone, baring the full ribcage, flank and torso", "desc": "", "cat": "tattoo"},
+  {"label": "Dropped-armhole muscle tank + low-rise denim cutoffs", "text": "an ultra-relaxed vintage cotton tank top with exaggerated dropped armholes falling past the ribs, paired with frayed low-rise denim cutoffs to reveal the entire lateral torso and hip", "desc": "", "cat": "tattoo"},
+  {"label": "Sheer illusion tulle backless gown", "text": "a sheer gossamer illusion tulle evening dress with minimalist silk trim and an open back, offering an unobstructed canvas across the shoulders, spine and ribs", "desc": "", "cat": "tattoo"},
+  {"label": "Off-the-shoulder draped crop top + low-slung silk pants", "text": "a delicate off-the-shoulder gathered bandeau crop top baring the collarbones, shoulders, and nape, paired with low-slung fluid silk trousers exposing the hip crests", "desc": "", "cat": "tattoo"},
+  {"label": "Asymmetric diagonal one-strap monokini", "text": "a minimalist black matte one-piece with a single diagonal shoulder strap, leaving the opposite shoulder, collarbone, and full lateral flank completely bare", "desc": "", "cat": "tattoo"},
+  {"label": "Backless cross-tie linen halter sun top + linen shorts", "text": "a breathable washed-linen halter crop top secured with delicate criss-cross ties over an open back, paired with relaxed drawstring linen shorts exposing the thighs", "desc": "", "cat": "tattoo"},
+  {"label": "Unlined lace triangle bralette + boyfriend jeans", "text": "a delicate sheer scalloped lace triangle bralette baring the sternum and midriff, paired with relaxed low-waist slouchy boyfriend jeans resting low on the hips", "desc": "", "cat": "tattoo"},
+  {"label": "High-slit Grecian drape gown with bare shoulder", "text": "a flowing one-shoulder Grecian drape gown with an ultra-high thigh slit baring the entire leg from hip to ankle and exposing the clavicle and shoulder blade", "desc": "", "cat": "tattoo"},
+  {"label": "Deep V-neck wrap bodysuit with back cutout", "text": "a fitted stretch-modal wrap bodysuit with a plunging front V-neck and a wide diamond-shaped back cutout revealing the vertebrae and spine line", "desc": "", "cat": "tattoo"},
+  {"label": "Strapless sweetheart corset + low-rise tailored trousers", "text": "a boned strapless sweetheart neckline satin corset baring the clavicles, shoulders, and chest, paired with wide-leg low-rise wool trousers", "desc": "", "cat": "tattoo"},
+  {"label": "Ribbed racerback micro-crop top + mini tennis skirt", "text": "a high-cut racerback micro-crop top baring the underarm, scapula, and midriff, paired with a pleated mini tennis skirt baring the thighs and calves", "desc": "", "cat": "tattoo"},
+  {"label": "Plunging side-tie silk wrap dress", "text": "a lightweight silk wrap dress with a deep crossover front, dropped flutter sleeves baring the arms, and an airy high slit revealing the thighs and calves", "desc": "", "cat": "tattoo"},
+  {"label": "Bandeau tube top + ultra-low waist cargo skirt", "text": "a minimalist stretch-cotton tube top leaving shoulders, clavicles, and full midriff exposed, paired with an ultra-low-rise utility pocket cargo skirt", "desc": "", "cat": "tattoo"},
+  {"label": "Criss-cross strappy lace-up back knit dress", "text": "a fine-gauge ribbed knit midi dress with a high halter front and an intricate lattice lace-up open back that frames the spine and lower back", "desc": "", "cat": "tattoo"},
+  {"label": "Single-shoulder slash cutout mini dress", "text": "a modernist structured mini dress with a single long sleeve on one side and a bare shoulder, collarbone, and deep waist slash cutout on the other", "desc": "", "cat": "tattoo"},
+  {"label": "Sleeveless high-neck bodysuit with dropped back drape", "text": "a minimalist high-neck sleeveless black jersey bodysuit with a daring cowl drape in back dropping below the natural waist to reveal the spine and ribs", "desc": "", "cat": "tattoo"},
+  {"label": "Sheer mesh long-sleeve crop + low-waist briefs", "text": "a translucent skin-toned fine mesh long-sleeve crop top revealing fine-line shoulder and arm details, paired with high-cut minimalist briefs", "desc": "", "cat": "tattoo"},
+  {"label": "Slouchy off-shoulder knit sweater + micro-shorts", "text": "an oversized slouchy loose-gauge knit sweater falling off one shoulder to fully expose the collarbone and upper shoulder, paired with frayed denim micro-shorts", "desc": "", "cat": "tattoo"}
 ];
 
 const TOP_FAMILIES = [

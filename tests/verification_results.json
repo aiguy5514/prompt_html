@@ -51,9 +51,9 @@
   {
     "auditor": "datasets_auditor",
     "id": "1a",
-    "title": "OUTFIT_FAMILIES Separates & Leather Count Sync",
+    "title": "OUTFIT_FAMILIES Separates, Leather, Gym & Tattoo Count Sync",
     "status": "PASS",
-    "evidence": "Separates: \ud83d\udc5a Tops, Denim & Separates (95 variations), Leather: \ud83e\udde5 Leather, Vinyl & Trench (14 variations)."
+    "evidence": "Gym: \ud83c\udfcb\ufe0f Gym, Fitness & Activewear Sets (25 variations), Tattoo: \ud83d\udde1\ufe0f Tattoo & Placement-Revealing Apparel (20 variations), GymScene: \ud83c\udfcb\ufe0f Fitness Centers, Gyms & Athletic Studios (15 variations)."
   },
   {
     "auditor": "datasets_auditor",
@@ -67,7 +67,7 @@
     "id": "1c",
     "title": "tattooLocation and tattooMotif Label Synchronization",
     "status": "PASS",
-    "evidence": "Locations: \u2726 All Shoot Locations (47 options) (actual: 47); Motifs: \u2726 All Motif Families (38 styles) (actual: 38)."
+    "evidence": "Locations: \u2726 All Shoot Locations (52 options) (actual: 52); Motifs: \u2726 All Motif Families (38 styles) (actual: 38)."
   },
   {
     "auditor": "datasets_auditor",

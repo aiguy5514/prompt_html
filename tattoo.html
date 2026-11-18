@@ -119,13 +119,14 @@ const tattooSections = [
 // ==========================================
 
 const tattooLocationCategories = [
-  O('✦ All Shoot Locations (47 options)', 'all'),
+  O('✦ All Shoot Locations (52 options)', 'all'),
   O('🖋️ Boutique Tattoo Studios & Lofts (8 options)', 'studio'),
   O('🏛️ Luxury Suites, Havelis & Villas (8 options)', 'luxury'),
   O('🌊 Coastal, Oceanfront & Poolside (8 options)', 'coastal'),
   O('🌿 Botanical Conservatories & Groves (8 options)', 'nature'),
   O('🍸 Urban Rooftops, Speakeasies & Terraces (8 options)', 'urban'),
-  O('🛏️ Intimate Minimalist Morning Light (7 options)', 'minimal')
+  O('🛏️ Intimate Minimalist Morning Light (7 options)', 'minimal'),
+  O('🏋️ Gym, Wellness & Athletic Spaces (5 options)', 'gym')
 ];
 
 const tattooLocations = makeOpts([
@@ -198,7 +199,14 @@ const tattooLocations = makeOpts([
   // Intimate Minimalist Morning Light Expansion
   ['Modern Scandinavian birch-and-linen morning reading room', 'a serene Nordic interior with pale birch wall paneling, natural oat-colored linen upholstery, floor-to-ceiling sheer curtains, and pure, soft, diffused morning daylight', '', 'minimal'],
   ['Sunlit concrete artist atelier with raw linen canvases', 'a high-ceilinged minimalist artist studio with raw plastered concrete walls, oversized stretched linen canvases leaning against walls, and pools of warm morning sunlight on pine floors', '', 'minimal'],
-  ['Kyoto ryokan tatami room opening onto rain-washed moss garden', 'an authentic Japanese ryokan room with fragrant woven tatami mats, low cypress timber table, open sliding shoji doors, and quiet rain droplets falling on garden stones outside', '', 'minimal']
+  ['Kyoto ryokan tatami room opening onto rain-washed moss garden', 'an authentic Japanese ryokan room with fragrant woven tatami mats, low cypress timber table, open sliding shoji doors, and quiet rain droplets falling on garden stones outside', '', 'minimal'],
+
+  // Gym, Wellness & Athletic Spaces
+  ['Sunlit reformer Pilates studio with blonde oak & barre', 'a sunlit boutique reformer Pilates studio with pale blonde oak floors, wall-mounted wooden barres, and soft diffused sheer window light revealing natural skin contours', '', 'gym'],
+  ['Minimalist cedarwood sauna lounge with amber glow', 'a serene Scandinavian cedar-slat sauna wellness lounge with warm ambient cove lighting, gentle rising mist, and warm wood textures', '', 'gym'],
+  ['Raw boxing gym ring apron with dramatic rim backlight', 'an authentic industrial boxing gym ring apron with heavy canvas ropes, dramatic directional rim lighting, and atmospheric chalk haze', '', 'gym'],
+  ['Rooftop athletic terrace overlooking sunset skyline', 'an open-air high-rise athletic rooftop terrace at golden hour with synthetic turf, minimalist glass rail, and warm sunset backlight tracing the model\'s silhouette', '', 'gym'],
+  ['Luxury athletic club marble bath & recovery lounge', 'a private luxury athletic club wellness suite with fluted marble walls, chilled plunge bath, and soft recessed architectural lighting', '', 'gym']
 ]);
 
 // ==========================================
@@ -535,6 +543,27 @@ const fields = {
 
 // Presets (Expanded with rich haircuts and locations)
 const tattooPresets = [
+  {
+    id: 'backless-spine-reveal',
+    title: 'Open Spine & Scapula Reveal',
+    sub: 'Backless silk slip gown in boutique reformer Pilates studio',
+    icon: '🗡️',
+    wardrobeMode: 'ensemble',
+    values: {
+      tattooPlacement: tattooPlacements.find(x => /spine|vertebrae|scapula/i.test(x.label)) || tattooPlacements[2],
+      tattooMotif: tattooMotifs.find(x => /celestial|botanical|mandala/i.test(x.label)) || tattooMotifs[2],
+      tattooStyle: tattooStyles[0],
+      tattooFreshness: tattooFreshnesses[0],
+      outfitCategory: OUTFIT_FAMILIES.find(x => x.text === 'tattoo') || OUTFIT_FAMILIES[0],
+      outfit: outfit.find(x => x.cat === 'tattoo') || outfit[0],
+      tattooPose: tattooModelPoses.find(x => /over-the-shoulder|back/i.test(x.label)) || tattooModelPoses[2],
+      tattooHair: hair.find(x => /high pony|updo|bun|bob/i.test(x.label)) || hair[0],
+      tattooLocationCategory: tattooLocationCategories.find(x => x.text === 'gym') || tattooLocationCategories[0],
+      tattooLocation: tattooLocations.find(x => x.cat === 'gym') || tattooLocations[0],
+      tattooCamera: tattooCameras[0],
+      tattooLighting: tattooLightings[0]
+    }
+  },
   {
     id: 'botanical-clavicle',
     title: 'Botanical Clavicle Whisper',

@@ -126,26 +126,48 @@ record('studio_auditor', '7', 'Dead DOM #shotTabs Removed from tattoo.html',
 # =========================================================================
 print("\n--- TRACK B: DATASETS AUDITOR FIXES ---")
 
-# Datasets 1a: OUTFIT_FAMILIES Separates & Leather Count Sync
+# Datasets 1a: OUTFIT_FAMILIES Separates, Leather, Gym & Tattoo Count Sync
 b1_js = """
 const ds = window.AfterglowDatasets;
+const core = window.AfterglowStudio;
 const sepCat = ds.OUTFIT_FAMILIES.find(f => f.text === 'separates');
 const sepCount = ds.outfit.filter(o => o.cat === 'separates').length;
 const leathCat = ds.OUTFIT_FAMILIES.find(f => f.text === 'leather');
 const leathCount = ds.outfit.filter(o => o.cat === 'leather').length;
+const gymCat = ds.OUTFIT_FAMILIES.find(f => f.text === 'gym');
+const gymCount = ds.outfit.filter(o => o.cat === 'gym').length;
+const tattooCat = ds.OUTFIT_FAMILIES.find(f => f.text === 'tattoo');
+const tattooCount = ds.outfit.filter(o => o.cat === 'tattoo').length;
+const allCat = ds.OUTFIT_FAMILIES.find(f => f.text === 'all');
+const allCount = ds.outfit.length;
+
+const f = core.getFields();
+const gymSceneCat = f.sceneCategory.opts.find(o => o.text === 'gym');
+const gymSceneCount = f.background.opts.filter(o => o.cat === 'gym').length;
+const allSceneCat = f.sceneCategory.opts.find(o => o.text === 'all');
+const allSceneCount = f.background.opts.length;
 
 ok('b1', false, JSON.stringify({
-    sep_match: sepCat.label.includes(String(sepCount)),
-    leath_match: leathCat.label.includes(String(leathCount)),
-    sep_label: sepCat.label,
-    leath_label: leathCat.label
+    sep_match: sepCat && sepCat.label.includes(String(sepCount)),
+    leath_match: leathCat && leathCat.label.includes(String(leathCount)),
+    gym_match: gymCat && gymCat.label.includes(String(gymCount)) && gymCount === 25,
+    tattoo_match: tattooCat && tattooCat.label.includes(String(tattooCount)) && tattooCount === 20,
+    all_outfit_match: allCat && allCat.label.includes(String(allCount)) && allCount === 502,
+    gym_scene_match: gymSceneCat && gymSceneCat.label.includes(String(gymSceneCount)) && gymSceneCount === 15,
+    all_scene_match: allSceneCat && allSceneCat.label.includes(String(allSceneCount)) && allSceneCount === 179,
+    gym_label: gymCat ? gymCat.label : 'MISSING',
+    tattoo_label: tattooCat ? tattooCat.label : 'MISSING',
+    gym_scene_label: gymSceneCat ? gymSceneCat.label : 'MISSING'
 }));
 """
 out_b1 = run_test('photoshoot.html', b1_js)
 b1_data = json.loads(out_b1[1]['detail'])
-record('datasets_auditor', '1a', 'OUTFIT_FAMILIES Separates & Leather Count Sync',
-       'PASS' if (b1_data['sep_match'] and b1_data['leath_match']) else 'FAIL',
-       f"Separates: {b1_data['sep_label']}, Leather: {b1_data['leath_label']}.")
+all_b1_pass = (b1_data['sep_match'] and b1_data['leath_match'] and b1_data['gym_match'] and
+               b1_data['tattoo_match'] and b1_data['all_outfit_match'] and
+               b1_data['gym_scene_match'] and b1_data['all_scene_match'])
+record('datasets_auditor', '1a', 'OUTFIT_FAMILIES Separates, Leather, Gym & Tattoo Count Sync',
+       'PASS' if all_b1_pass else 'FAIL',
+       f"Gym: {b1_data['gym_label']}, Tattoo: {b1_data['tattoo_label']}, GymScene: {b1_data['gym_scene_label']}.")
 
 # Datasets 1b: POSE_FAMILIES Option Sync
 pose_js = """
