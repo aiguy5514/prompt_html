@@ -321,11 +321,12 @@ const gymPhases = makeOpts([
 ]);
 
 const gymExpressions = makeOpts([
-  ['Fierce athletic concentration with parted lips', 'an authentic expression of fierce determination, focused eyes, jaw relaxed, and lips slightly parted in steady cadence'],
-  ['Confident calm smile between working sets', 'a serene, satisfied candid smile revealing authentic enjoyment and inner confidence during a workout rest break'],
-  ['Intense focused gaze locked on mirror reflection', 'eyes locked with uncompromising focus directly on her reflection in the studio mirror, checking form and alignment'],
-  ['Breathless candid post-cardio exertion glow', 'a natural breathless candid moment with bright focused eyes, flushed cheeks, and visible exertion sincerity'],
-  ['Serene mindful calmness in meditative hold', 'a completely calm and centered facial poise with smooth relaxed brow and peaceful meditative composure']
+  ['Subtle confident athletic focus with calm eyes', 'a natural, calm and confident athletic focus with relaxed facial muscles, soft closed lips, and an authentic focused gaze'],
+  ['Serene mindful calmness in meditative hold', 'a completely calm and centered facial poise with smooth relaxed brow, soft lips, and peaceful composure'],
+  ['Confident warm smile between working sets', 'a serene, satisfied candid smile revealing authentic enjoyment and inner confidence during a workout rest break'],
+  ['Authentic post-cardio exertion glow', 'a natural breathless candid moment with bright focused eyes, flushed cheeks, and genuine exertion sincerity'],
+  ['Focused form-check gaze locked on mirror', 'eyes focused attentively on her movement alignment with composed, steady determination and relaxed jaw'],
+  ['Fierce athletic determination with focused gaze', 'an authentic expression of fierce determination, focused eyes, and steady breathing cadence']
 ]);
 
 // ==========================================
@@ -353,11 +354,12 @@ const gymVascularities = makeOpts([
 ]);
 
 const gymHairRestraints = makeOpts([
-  ['Sleek high athletic ponytail secured with elastic', 'a sleek, snag-free high athletic ponytail pulled tight and secured with a wide matte elastic, swinging with head movement'],
-  ['Low braided gym bun with loose sweat-damp wisps', 'a neat low braided bun at the nape of the neck, with fine damp baby-hair wisps escaping naturally at the temples'],
-  ['Double Dutch boxer braids tracing scalp cleanly', 'two symmetrical Dutch boxer braids braided flat and tight against the scalp from hairline to shoulders'],
-  ['Messy half-up topknot with breathable headband', 'a casual textured half-up topknot secured with a minimalist moisture-wicking elastic headband'],
-  ['Swept-back hair held by athletic silicone sweatband', 'hair brushed back smoothly from the forehead and secured with a low-profile charcoal silicone grip headband']
+  ['Natural movement as cut (no restraint)', 'worn naturally down as cut with organic movement, clean parting, and zero hair ties'],
+  ['Sleek high athletic ponytail (for longer hair)', 'hair gathered smoothly into a sleek, secure high athletic ponytail with a wide matte elastic, swinging with head movement'],
+  ['Low neat workout bun at nape of neck', 'hair gathered into a tidy low workout bun at the nape of the neck with soft natural baby-hair wisps at the temples'],
+  ['Double Dutch athletic boxer braids', 'styled into two neat symmetrical Dutch boxer braids braided flat and tight against the scalp from hairline to shoulders'],
+  ['Breathable athletic headband / sweatband', 'hair secured back cleanly from the face with a low-profile breathable athletic sweatband'],
+  ['Casual half-up topknot with elastic', 'hair partially gathered up into a casual textured half-up topknot, leaving lower lengths free to frame the neck']
 ]);
 
 // ==========================================
@@ -399,8 +401,8 @@ const gymGearProps = makeOpts([
 // ==========================================
 
 const gymCameraAngles = makeOpts([
+  ['Natural eye-level candid perspective', 'a natural eye-level camera placement capturing an authentic perspective with honest human proportions and balanced depth'],
   ['Heroic dynamic low-angle full-body perspective', 'a confident low-angle camera perspective positioned just above the floor, accentuating athletic height, posture, and power'],
-  ['Eye-level conversational three-quarter perspective', 'a natural eye-level camera placement capturing an authentic three-quarter perspective with relatable human perspective'],
   ['Intimate close-up portrait catching sweat sheen', 'a tight portrait framing focusing closely on the model\'s face, throat, and collarbones, capturing fine sweat beads and breathing cadence'],
   ['Side profile tracking muscular spine & posture', 'a clean side profile composition highlighting postural alignment, spinal curvature, and focused gaze'],
   ['High-angle diagonal looking down at reformer/mat', 'an elevated high-angle perspective looking diagonally downward at the movement composition on the floor'],
@@ -470,8 +472,8 @@ const fields = {
   gymExpression: { section: 'gymWorkoutSec', label: 'Facial Focus & Expression', opts: gymExpressions, default: 0 },
 
   // Physique
-  gymSweatLevel: { section: 'gymPhysiqueSec', label: 'Sweat & Exertion Sheen', opts: gymSweatLevels, default: 2 },
-  gymMuscleTone: { section: 'gymPhysiqueSec', label: 'Muscular Definition & Tone', opts: gymMuscleTones, default: 1 },
+  gymSweatLevel: { section: 'gymPhysiqueSec', label: 'Sweat & Exertion Sheen', opts: gymSweatLevels, default: 1 },
+  gymMuscleTone: { section: 'gymPhysiqueSec', label: 'Muscular Definition & Tone', opts: gymMuscleTones, default: 0 },
   gymVascularity: { section: 'gymPhysiqueSec', label: 'Vascularity & Vascular Pump', opts: gymVascularities, default: 0 },
   gymHairRestraint: { section: 'gymPhysiqueSec', label: 'Gym Hair Styling & Restraint', opts: gymHairRestraints, default: 0 },
   gymHairCategory: { section: 'gymPhysiqueSec', label: 'Haircut Category Filter', opts: HAIR_FAMILIES, default: 'all' },
@@ -487,7 +489,7 @@ const fields = {
   bottomPiece: { section: 'gymWardrobeSec', label: 'Bottom Piece (Separates)', opts: bottomPieces, default: 0 },
   midriffStyling: { section: 'gymWardrobeSec', label: 'Midriff Styling', opts: midriffStylings, default: 0 },
   gymFootwear: { section: 'gymWardrobeSec', label: 'Footwear & Sock Styling', opts: gymFootwearOpts, default: 0 },
-  gymGearProp: { section: 'gymWardrobeSec', label: 'Equipment Props & Accessories', opts: gymGearProps, default: 1 },
+  gymGearProp: { section: 'gymWardrobeSec', label: 'Equipment Props & Accessories', opts: gymGearProps, default: 0 },
 
   // Camera
   gymCameraAngle: { section: 'gymCameraSec', label: 'Camera Angle & Framing', opts: gymCameraAngles, default: 0 },
@@ -517,7 +519,7 @@ const starterPresets = [
       gymMovement: gymMovements.find(m => m.label.includes('Reformer carriage glide')),
       gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Light post-warmup')),
       gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Natural lean athletic')),
-      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Low braided gym bun')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('workout bun') || h.label.includes('Low neat')),
       gymOutfit: gymActivewearSets.find(o => o.label.includes('Seamless ribbed')) || gymActivewearSets[0],
       gymFootwear: gymFootwearOpts.find(f => f.label.includes('pilates socks')),
       gymGearProp: gymGearProps.find(p => p.label.includes('None')),
@@ -577,7 +579,7 @@ const starterPresets = [
       gymMovement: gymMovements.find(m => m.label.includes('Seated foam rolling') || m.label.includes('runner’s lizard')),
       gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Light post-warmup dewy sheen')),
       gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Natural lean athletic')),
-      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Low braided gym bun')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('workout bun') || h.label.includes('Low neat')),
       gymOutfit: gymActivewearSets.find(o => o.label.includes('unitard') || o.label.includes('Racerback')) || gymActivewearSets[0],
       gymFootwear: gymFootwearOpts.find(f => f.label.includes('Barefoot')),
       gymGearProp: gymGearProps.find(p => p.label.includes('stainless steel')),
@@ -657,7 +659,7 @@ const starterPresets = [
       gymMovement: gymMovements.find(m => m.label.includes('Hydration pause') || m.label.includes('Seated foam rolling')),
       gymSweatLevel: gymSweatLevels.find(s => s.label.includes('Drenched high-intensity') || s.label.includes('Glistening')),
       gymMuscleTone: gymMuscleTones.find(m => m.label.includes('Natural lean athletic')),
-      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('Messy half-up topknot')),
+      gymHairRestraint: gymHairRestraints.find(h => h.label.includes('half-up topknot') || h.label.includes('Casual half-up')),
       gymOutfit: gymActivewearSets.find(o => o.label.includes('Strappy cross-back') || o.label.includes('Seamless')) || gymActivewearSets[0],
       gymFootwear: gymFootwearOpts.find(f => f.label.includes('athletic training sneakers')),
       gymGearProp: gymGearProps.find(p => p.label.includes('stainless steel insulated shaker')),
@@ -1679,9 +1681,11 @@ function buildPrompt(){
   lines.push(isAiFace ? 'PRIMARY SUBJECT & AI-GENERATED FACE:' : 'PRIMARY SUBJECT (REFERENCE IMAGE):');
   if(isAiFace){
     refDirectives.primaryBullets.forEach(b => lines.push(b));
+    lines.push('• Proportions & Athletic Form: Natural, lean feminine athletic build with realistic human bone structure, graceful muscle tone, and believable joint articulation; strictly zero exaggerated bodybuilding hypertrophy or distorted limb proportions.');
     if(veilRuleObj?.primary) lines.push(veilRuleObj.primary);
   } else {
     lines.push('• Strictly preserve the adult woman from the reference image as the solitary female model and athletic protagonist in the scene.');
+    lines.push('• Proportions & Athletic Form: Retain her authentic natural female body proportions, healthy lean athletic muscle tone, authentic height, and realistic waist-to-hip contour without exaggerated bodybuilding bulk, muscle swelling, or anatomically distorted limbs.');
     if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
       lines.push('• Hairstyle & Cut (From Reference Photo): Strictly replicate and sculpt the exact haircut, hair length, and silhouette from the reference image.');
     }
@@ -1746,7 +1750,19 @@ function buildPrompt(){
   const isGymRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
 
   const effGymLoc = isGymRefBg ? window.AfterglowRefPicker.getInheritedFieldText('background') : `Facility: ${loc}. Setting & Time: ${setTime}. Atmosphere: ${atmo}. Architecture: ${archi}.`;
-  const effGymHair = isGymRefHaircut ? window.AfterglowRefPicker.getInheritedFieldText('haircut') : `${hairText}; styled in ${restraint}`;
+  let effGymHair = '';
+  if(isGymRefHaircut){
+    effGymHair = window.AfterglowRefPicker.getInheritedFieldText('haircut');
+  } else {
+    const restraintLabel = values.gymHairRestraint?.label || '';
+    if(!restraintLabel || restraintLabel.startsWith('Natural')){
+      effGymHair = hairText;
+    } else if(restraintLabel.includes('headband') || restraintLabel.includes('sweatband')){
+      effGymHair = `${hairText}, secured cleanly away from the brow with ${restraint}`;
+    } else {
+      effGymHair = `${hairText}; adapted into ${restraint} while preserving her natural hairline and authentic strand density`;
+    }
+  }
   const effGymWardrobe = isGymRefWardrobe ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe') : `Wearing ${apparelText}`;
 
   lines.push(`• ${effGymLoc}`);
@@ -1805,7 +1821,7 @@ function buildPrompt(){
   }
   if(checkState.skin) checks.push('Render authentic skin pores, fine perspiration micro-droplets, realistic dermal translucency, and natural muscular tension; zero plastic skin or waxy beauty filters.');
   if(checkState.retouch) checks.push('Avoid artificial airbrushing, heavy digital smoothing, or cartoonish rendering; preserve natural skin grain and functional anatomy.');
-  if(checkState.body) checks.push('Maintain believable human athletic proportions, anatomically correct joint articulation, and natural muscular contraction without distortion.');
+  if(checkState.body) checks.push('Maintain believable, natural female athletic proportions, realistic feminine silhouette, anatomically correct joint articulation, and authentic muscle tone without bodybuilding bulk, swollen traps, or distorted limbs.');
   if(checkState.noMirror) checks.push('Avoid confusing secondary mirror reflections or duplicate models in reflective glass panels; prioritize the direct subject.');
   if(checkState.noText) checks.push('Strictly zero artificial text overlays, commercial brand logos, apparel sponsor stamps, or digital font watermarks.');
 
@@ -1814,11 +1830,25 @@ function buildPrompt(){
 
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
-  const negs = [
-    isAiFace
-      ? 'secondary women, multiple people, gym crowd, bystanders, spotters, trainers, plastic waxy airbrushed skin, cartoonish bodybuilder veins, unnatural limb distortions, fake smiles'
-      : 'secondary women, multiple people, gym crowd, bystanders, spotters, trainers, identity drift, plastic waxy airbrushed skin, cartoonish bodybuilder veins, unnatural limb distortions, fake smiles'
-  ];
+  const baseNegs = isAiFace
+    ? [
+        'secondary women, multiple people, gym crowd, bystanders, spotters, trainers',
+        'cartoonish bodybuilder bulk, exaggerated muscular hypertrophy, swollen traps, masculine neck bulk, steroid vascularity',
+        'distorted body proportions, elongated neck, unnatural waist pinch, warped spine, bad anatomy, deformed limbs, fused fingers, extra fingers, missing fingers, malformed hands',
+        'grimacing, strained open-mouth grimace, warped teeth, unnatural jaw clench, fake over-smiling',
+        'plastic waxy airbrushed skin, doll skin, CGI rendering, 3D render look, excessive beauty smoothing',
+        'unrealistic activewear fabric stretching, impossible garment folds, clipping apparel artifacts'
+      ]
+    : [
+        'identity drift, different face, facial replacement',
+        'secondary women, multiple people, gym crowd, bystanders, spotters, trainers',
+        'cartoonish bodybuilder bulk, exaggerated muscular hypertrophy, swollen traps, masculine neck bulk, steroid vascularity',
+        'distorted body proportions, elongated neck, unnatural waist pinch, warped spine, bad anatomy, deformed limbs, fused fingers, extra fingers, missing fingers, malformed hands',
+        'grimacing, strained open-mouth grimace, warped teeth, unnatural jaw clench, fake over-smiling',
+        'plastic waxy airbrushed skin, doll skin, CGI rendering, 3D render look, excessive beauty smoothing',
+        'unrealistic activewear fabric stretching, impossible garment folds, clipping apparel artifacts'
+      ];
+  const negs = [...baseNegs];
   if(isAiFace && refDirectives?.negativeAdditions?.length){
     negs.push(...refDirectives.negativeAdditions);
   }
