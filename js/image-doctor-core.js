@@ -800,7 +800,7 @@
     if (edits.length === 0) {
       pills.push(`<span class="pill">100% Preservation Mode</span>`);
     } else {
-      pills.push(`<span class="pill" style="border-color: rgba(244,114,182,0.4); color: #f472b6;">⚡ ${edits.length} Surgical Edits</span>`);
+      pills.push(`<span class="pill pill-highlight">⚡ ${edits.length} Surgical Edits</span>`);
       edits.slice(0, 3).forEach(e => {
         pills.push(`<span class="pill">${e.label}: ${e.val.label || e.val.text?.slice(0, 20)}</span>`);
       });
@@ -888,48 +888,22 @@
   // --- 1. RENDER PRESERVE LOCKS SECTION ---
   function renderPreserveLocksSection(container, special) {
     const lockGrid = document.createElement('div');
-    lockGrid.className = 'doctor-lock-grid';
-    lockGrid.style.display = 'grid';
-    lockGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
-    lockGrid.style.gap = '14px';
-    lockGrid.style.width = '100%';
+    lockGrid.className = 'doc-lock-grid doctor-lock-grid';
 
     PRESERVE_LOCKS.forEach(lock => {
       const isLocked = !!lockState[lock.id];
       const card = document.createElement('div');
-      card.className = `doctor-lock-card ${isLocked ? 'locked' : 'unlocked'}`;
-      card.style.cssText = `
-        background: ${isLocked ? 'rgba(99, 102, 241, 0.08)' : 'rgba(255, 255, 255, 0.03)'};
-        border: 1px solid ${isLocked ? 'rgba(99, 102, 241, 0.4)' : 'rgba(255, 255, 255, 0.08)'};
-        border-radius: 12px;
-        padding: 16px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        position: relative;
-      `;
+      card.className = `doc-lock-card doctor-lock-card ${isLocked ? 'locked' : 'unlocked'}`;
 
       card.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">${lock.icon}</span>
-            <strong style="font-size: 0.95rem; color: #f8fafc;">${lock.label}</strong>
+        <div class="doc-lock-header">
+          <div class="doc-lock-identity">
+            <span class="doc-lock-icon">${lock.icon}</span>
+            <strong class="doc-lock-title">${lock.label}</strong>
           </div>
-          <span class="lock-status-pill" style="
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 999px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            background: ${isLocked ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'};
-            color: ${isLocked ? '#34d399' : '#f87171'};
-            border: 1px solid ${isLocked ? 'rgba(16, 185, 129, 0.4)' : 'rgba(239, 68, 68, 0.4)'};
-          ">${isLocked ? '🔒 Locked' : '⚡ Editing'}</span>
+          <span class="doc-lock-pill lock-status-pill ${isLocked ? 'locked' : 'editing'}">${isLocked ? '🔒 Locked' : '⚡ Editing'}</span>
         </div>
-        <p style="margin: 0; font-size: 0.82rem; color: var(--text-muted, #94a3b8); line-height: 1.45;">
+        <p class="doc-lock-desc">
           ${lock.desc}
         </p>
       `;
@@ -947,14 +921,14 @@
 
     if (special) {
       special.innerHTML = `
-        <div style="margin-top: 18px; padding: 14px 18px; border-radius: 12px; background: rgba(99, 102, 241, 0.06); border: 1px dashed rgba(99, 102, 241, 0.3); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div class="doc-info-box">
           <div>
-            <strong style="color: #c7d2fe; font-size: 0.9rem;">💡 Image Doctor Surgical Rule:</strong>
-            <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #94a3b8;">
+            <strong class="doc-info-box-title">💡 Image Doctor Surgical Rule:</strong>
+            <p class="doc-info-box-desc">
               When a feature is <strong>🔒 Locked</strong>, the prompt explicitly instructs the inpaint model to leave it 100% untouched. Choosing any surgical edit in later steps automatically toggles that attribute to <strong>⚡ Editing</strong>.
             </p>
           </div>
-          <div style="display: flex; gap: 8px;">
+          <div class="doc-btn-row">
             <button type="button" class="btn btn-secondary btn-small" id="btnLockAll">🔒 Lock All (100% Preserve)</button>
             <button type="button" class="btn btn-quiet btn-small" id="btnUnlockAll">⚡ Unlock All</button>
           </div>
@@ -996,12 +970,12 @@
 
     if (special) {
       special.innerHTML = `
-        <div class="field" style="margin-top: 16px; width: 100%;">
-          <label for="customFaceNoteInput" style="display: flex; align-items: center; justify-content: space-between; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px;">
+        <div class="field doc-field-full">
+          <label for="customFaceNoteInput" class="doc-field-label doc-label-between">
             <span>🔬 Specific Facial Notes (Moles, Freckles, Scars, Custom Tweaks)</span>
-            <small style="color: var(--text-muted); font-weight: 400;">Optional</small>
+            <small>Optional</small>
           </label>
-          <input type="text" id="customFaceNoteInput" class="input" placeholder="e.g. add faint freckles across nose bridge, remove small mole on left cheek, deep hazel eyes..." value="${values.customFaceNote || ''}" style="width: 100%;">
+          <input type="text" id="customFaceNoteInput" class="input doc-input-full" placeholder="e.g. add faint freckles across nose bridge, remove small mole on left cheek, deep hazel eyes..." value="${values.customFaceNote || ''}">
         </div>
       `;
 
@@ -1048,33 +1022,18 @@
     ];
 
     const bar = document.createElement('div');
-    bar.className = 'hair-cat-bar';
-    bar.style.cssText = 'display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; width: 100%;';
+    bar.className = 'doc-cat-bar hair-cat-bar';
 
     cats.forEach(c => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `cat-chip ${c.id === 'all' ? 'active' : ''}`;
+      btn.className = `doc-cat-chip cat-chip ${c.id === 'all' ? 'active' : ''}`;
       btn.textContent = c.label;
-      btn.style.cssText = `
-        padding: 5px 12px;
-        border-radius: 999px;
-        font-size: 0.78rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--text-muted, #94a3b8);
-        cursor: pointer;
-        transition: all 0.2s ease;
-      `;
       btn.addEventListener('click', () => {
-        bar.querySelectorAll('.cat-chip').forEach(b => {
-          b.style.background = 'rgba(255, 255, 255, 0.05)';
-          b.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-          b.style.color = '#94a3b8';
+        bar.querySelectorAll('.doc-cat-chip, .cat-chip').forEach(b => {
+          b.classList.remove('active');
         });
-        btn.style.background = 'rgba(99, 102, 241, 0.2)';
-        btn.style.borderColor = 'rgba(99, 102, 241, 0.5)';
-        btn.style.color = '#fff';
+        btn.classList.add('active');
 
         // Filter haircut select options
         filterHaircutSelect(c.id);
@@ -1115,27 +1074,16 @@
   function renderMoistureCard(container) {
     const mCard = document.createElement('div');
     mCard.id = 'moistureToggleCard';
-    mCard.style.cssText = `
-      margin-top: 14px;
-      padding: 14px 18px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    `;
+    mCard.className = 'doc-moisture-wrap';
 
     mCard.innerHTML = `
       <div>
-        <strong style="font-size: 0.9rem; color: #f8fafc;">💧 Hair Moisture State & Physics</strong>
-        <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: var(--text-muted, #94a3b8);">
+        <strong class="doc-moisture-title">💧 Hair Moisture State & Physics</strong>
+        <p class="doc-moisture-desc">
           Inpaint hair with precise water saturation physics (dry airy volume vs soaked clumped strands).
         </p>
       </div>
-      <div style="display: flex; gap: 8px;">
+      <div class="doc-btn-row">
         <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'dry' ? 'active' : ''}" data-moisture="dry">💨 Dry Blown-Out</button>
         <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'damp' ? 'active' : ''}" data-moisture="damp">🧖‍♀️ Damp Towel-Dried</button>
         <button type="button" class="btn btn-small moisture-pill ${activeHairMoisture === 'wet' ? 'active' : ''}" data-moisture="wet">💧 Soaked Wet</button>
@@ -1158,7 +1106,7 @@
   function renderWardrobeEditsSection(container, special) {
     // Mode toggle: Full Outfit vs Two-Piece Separates
     const modeBar = document.createElement('div');
-    modeBar.style.cssText = 'display: flex; gap: 10px; margin-bottom: 16px; width: 100%;';
+    modeBar.className = 'doc-mode-bar';
     modeBar.innerHTML = `
       <button type="button" class="btn ${wardrobeMode === 'outfit' ? 'btn-primary' : 'btn-secondary'} btn-small" id="btnDoctorOutfit">👗 Full Outfit Ensembles</button>
       <button type="button" class="btn ${wardrobeMode === 'separates' ? 'btn-primary' : 'btn-secondary'} btn-small" id="btnDoctorSeparates">👚 Two-Piece Separates (Top + Bottom)</button>
@@ -1191,18 +1139,18 @@
 
     if (special) {
       special.innerHTML = `
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; width: 100%;">
+        <div class="doc-finish-grid">
           <div class="field">
-            <label for="customDirInput" style="font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; display: block;">
+            <label for="customDirInput" class="doc-field-label">
               ✦ Custom Inpaint Guidance / Specific Notes
             </label>
-            <textarea id="customDirInput" class="input" rows="3" placeholder="Add specific inpaint instructions (e.g. blend hair smoothly over left shoulder, keep earring visible)..." style="width: 100%; resize: vertical;">${values.customDirection || ''}</textarea>
+            <textarea id="customDirInput" class="input doc-textarea-full" rows="3" placeholder="Add specific inpaint instructions (e.g. blend hair smoothly over left shoulder, keep earring visible)...">${values.customDirection || ''}</textarea>
           </div>
           <div class="field">
-            <label for="extraNegInput" style="font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; display: block;">
+            <label for="extraNegInput" class="doc-field-label">
               🚫 Additional Surgical Exclusions (Negative Guidance)
             </label>
-            <textarea id="extraNegInput" class="input" rows="3" placeholder="Exclude specific defects (e.g. flyaways on forehead, high neckline, heavy mascara)..." style="width: 100%; resize: vertical;">${values.extraNegative || ''}</textarea>
+            <textarea id="extraNegInput" class="input doc-textarea-full" rows="3" placeholder="Exclude specific defects (e.g. flyaways on forehead, high neckline, heavy mascara)...">${values.extraNegative || ''}</textarea>
           </div>
         </div>
       `;
@@ -1222,17 +1170,15 @@
 
     const fieldDiv = document.createElement('div');
     fieldDiv.className = 'field';
-    fieldDiv.style.marginBottom = '14px';
 
     const label = document.createElement('label');
     label.htmlFor = `field_${key}`;
-    label.style.cssText = 'display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: #f8fafc;';
+    label.className = 'doc-field-label';
     label.textContent = fld.label;
 
     const select = document.createElement('select');
     select.id = `field_${key}`;
     select.className = 'select';
-    select.style.width = '100%';
 
     fld.opts.forEach(opt => {
       const optEl = document.createElement('option');
@@ -1483,20 +1429,19 @@
     list.innerHTML = '';
 
     if (promptHistory.length === 0) {
-      list.innerHTML = '<p style="color: var(--text-muted); padding: 16px;">No prompt history yet this session.</p>';
+      list.innerHTML = '<p class="doc-history-empty">No prompt history yet this session.</p>';
       return;
     }
 
     promptHistory.forEach((item, idx) => {
       const card = document.createElement('div');
-      card.className = 'history-item';
-      card.style.cssText = 'padding: 12px; margin-bottom: 8px; border-radius: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);';
+      card.className = 'history-item doc-history-item';
       card.innerHTML = `
-        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+        <div class="doc-history-meta">
           <span>${item.time} · ${item.editsCount} surgical edits</span>
           <button type="button" class="btn btn-quiet btn-small hist-copy-btn" data-idx="${idx}">Copy</button>
         </div>
-        <p style="margin: 0; font-size: 0.82rem; line-height: 1.4; color: #cbd5e1; max-height: 60px; overflow: hidden; text-overflow: ellipsis;">
+        <p class="doc-history-text">
           ${item.text.slice(0, 150)}...
         </p>
       `;
