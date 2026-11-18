@@ -319,11 +319,13 @@ const hairFaceCoverageOpts = [
 ];
 
 const OUTFIT_FAMILIES = [
-  {"label": "✦ All Outfits (438 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "✦ All Outfits (457 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "👗 Casual & Modest Everyday Dresses (6 variations)", "text": "day_dress", "desc": "", "cat": "General"},
+  {"label": "🥻 Everyday Kurtas, Anarkalis & Salwar Suits (4 variations)", "text": "kurta", "desc": "", "cat": "General"},
   {"label": "👗 Evening Gowns (81 variations)", "text": "gown", "desc": "", "cat": "General"},
-  {"label": "🕴️ Suits & Tailoring (76 variations)", "text": "suit", "desc": "", "cat": "General"},
-  {"label": "👚 Tops, Denim & Separates (91 variations)", "text": "separates", "desc": "", "cat": "General"},
-  {"label": "🩲 Jumpsuits & Bodysuits (60 variations)", "text": "jumpsuit", "desc": "", "cat": "General"},
+  {"label": "🕴️ Suits & Tailoring (80 variations)", "text": "suit", "desc": "", "cat": "General"},
+  {"label": "👚 Tops, Denim & Separates (95 variations)", "text": "separates", "desc": "", "cat": "General"},
+  {"label": "🩲 Jumpsuits & Bodysuits (61 variations)", "text": "jumpsuit", "desc": "", "cat": "General"},
   {"label": "🦹 Cocktail & Party (51 variations)", "text": "cocktail", "desc": "", "cat": "General"},
   {"label": "🥻 Sarees & Fusion (45 variations)", "text": "saree", "desc": "", "cat": "General"},
   {"label": "🩱 Monokinis & Swimwear (20 variations)", "text": "swim", "desc": "", "cat": "General"},
@@ -768,15 +770,47 @@ const outfit = [
   {"label": "Sculptural leather moto jacket with side cutout panels", "text": "a cropped leather moto jacket featuring negative-space side cutouts, styled over a minimalist base with high-waisted pants", "desc": "", "cat": "leather"},
   {"label": "Vinyl halter pencil dress with deep-V decolletage", "text": "a high-gloss patent vinyl halter pencil dress with a sharp plunging V-cut decolletage and open back silhouette", "desc": "", "cat": "leather"},
   {"label": "Leather trench dress with open waist slash cutouts", "text": "a structured buttery leather trench-inspired dress belted tightly with tailored side waist cutouts and sharp lapels", "desc": "", "cat": "leather"},
-  {"label": "Latex-look plunge mini dress with deep-V cutout chest", "text": "a liquid-shine latex-look mini dress with an architectural deep-V chest cutout and expansive open back", "desc": "", "cat": "leather"}
+  {"label": "Latex-look plunge mini dress with deep-V cutout chest", "text": "a liquid-shine latex-look mini dress with an architectural deep-V chest cutout and expansive open back", "desc": "", "cat": "leather"},
+
+  // Casual & Modest Everyday Dresses (day_dress)
+  {"label": "Belted cotton midi shirt dress in olive", "text": "a modest olive-green cotton midi shirt dress with a structured point collar, button-down front, fabric tie belt, and roll-tab three-quarter sleeves falling below the knee", "desc": "", "cat": "day_dress"},
+  {"label": "Ribbed knit long-sleeve midi sweater dress in camel", "text": "a cozy long-sleeve ribbed knit midi dress in warm camel with a modest mock neckline, straight cut falling to mid-calf, and full arm coverage", "desc": "", "cat": "day_dress"},
+  {"label": "Floral A-line wrap midi dress with elbow sleeves", "text": "an elegant floral print A-line midi dress with a modest crossover V-neckline, elbow-length sleeves, and a flowing skirt hem falling gracefully below the knee", "desc": "", "cat": "day_dress"},
+  {"label": "Tiered bohemian cotton maxi dress with bishop sleeves", "text": "a tiered cotton maxi dress in terracotta rust with a modest crew neckline, long voluminous bishop sleeves with buttoned cuffs, and an ankle-length gathered skirt", "desc": "", "cat": "day_dress"},
+  {"label": "Button-front linen midi sundress with wide straps", "text": "a classic oatmeal linen midi dress with a modest square neckline, wide bra-friendly shoulder straps, tortoise front buttons, and a flowy A-line skirt", "desc": "", "cat": "day_dress"},
+  {"label": "Tailored double-breasted trench dress in beige", "text": "a sophisticated beige cotton gabardine trench dress with sharp lapels, double-breasted horn buttons, storm flap, and a belted waist falling below the knee", "desc": "", "cat": "day_dress"},
+
+  // Everyday Kurtas, Anarkalis & Salwar Suits (kurta)
+  {"label": "Printed cotton straight kurti with palazzo pants", "text": "an everyday printed cotton straight-cut Indian kurti in indigo blue with three-quarter sleeves, modest keyhole neckline, paired with relaxed white palazzo trousers and a matching lightweight dupatta", "desc": "", "cat": "kurta"},
+  {"label": "A-line cotton Anarkali suit with churidar sleeves", "text": "a graceful cotton Anarkali suit in dusty rose with a modest round neck, full-length churidar sleeves, matching tapered pants, and a draped chiffon dupatta", "desc": "", "cat": "kurta"},
+  {"label": "Relaxed linen pathani kurta set with trousers", "text": "a contemporary sage-green linen pathani kurta with roll-up cuffed sleeves, shirt collar, and comfortable straight-leg linen trousers with relaxed drape", "desc": "", "cat": "kurta"},
+  {"label": "Chanderi silk embroidered salwar kameez", "text": "a classic Chanderi silk salwar kameez in mint green with delicate zari embroidery along the modest neckline, full-length sleeves, and traditional salwar drape", "desc": "", "cat": "kurta"},
+
+  // Smart-Casual Workwear & Modest Suits (suit)
+  {"label": "Tailored navy wool-blend suit over crewneck shell", "text": "a sharply tailored navy wool-blend two-piece suit with a single-breasted blazer buttoned neatly over an opaque silk crewneck shell, paired with matching straight-leg trousers", "desc": "", "cat": "suit"},
+  {"label": "Classic tweed jacket and A-line knee-length skirt suit", "text": "a sophisticated tailored cream-and-black tweed jacket with modest rounded collar and pearl buttons, paired with a matching structured A-line skirt falling below the knee", "desc": "", "cat": "suit"},
+  {"label": "Relaxed oversized blazer with crewneck tee & slacks", "text": "an oversized taupe tailored blazer layered over a modest white crewneck cotton t-shirt with high-waisted pleated charcoal trousers and loafers", "desc": "", "cat": "suit"},
+  {"label": "Belted trench coat over turtleneck & wool trousers", "text": "a classic double-breasted beige trench coat worn buttoned over a fine-gauge black merino turtleneck and tailored grey wool trousers", "desc": "", "cat": "suit"},
+
+  // Casual Everyday Ensembles (separates)
+  {"label": "Crewneck tee + vintage straight-leg jeans", "text": "a classic white cotton crewneck t-shirt neatly tucked into high-rise vintage straight-leg denim jeans with a brown leather belt and white sneakers", "desc": "", "cat": "separates"},
+  {"label": "Chunky cable-knit sweater + pleated trousers", "text": "a cozy cream cable-knit pullover sweater layered over a collared shirt, paired with tailored wide-leg pleated trousers and ankle boots", "desc": "", "cat": "separates"},
+  {"label": "Oxford button-down shirt + dark indigo trousers", "text": "a crisp light-blue Oxford cotton button-down shirt buttoned to the collar and paired with dark indigo ankle trousers and loafers", "desc": "", "cat": "separates"},
+  {"label": "Fleece hoodie + relaxed denim jeans", "text": "a relaxed grey cotton fleece pullover hoodie paired with classic straight-leg medium-wash jeans and clean sneakers for an effortless casual look", "desc": "", "cat": "separates"},
+
+  // Modest Boiler Suits & Jumpsuits (jumpsuit)
+  {"label": "Long-sleeve utilitarian cotton boiler suit in olive", "text": "a full-coverage olive-green cotton twill boiler suit with long sleeves, shirt collar, front zipper placket, chest utility pockets, and a matching fabric belt", "desc": "", "cat": "jumpsuit"}
 ];
 
 const TOP_FAMILIES = [
-  {"label": "✦ All Tops (35 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "✦ All Tops (54 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "👕 Classic T-Shirts, Long-Sleeves & Henleys (6 options)", "text": "tee", "desc": "", "cat": "General"},
+  {"label": "🧶 Knit Sweaters, Turtlenecks & Pullovers (5 options)", "text": "knit", "desc": "", "cat": "General"},
+  {"label": "👔 Button-Down Shirts & Modest Blouses (10 options)", "text": "shirt", "desc": "", "cat": "General"},
+  {"label": "🧥 Hoodies, Sweatshirts & Casual Layering (3 options)", "text": "sweatshirt", "desc": "", "cat": "General"},
   {"label": "👚 Cropped Tanks & Baby Tees (9 options)", "text": "crop_tee", "desc": "", "cat": "General"},
   {"label": "🦺 Corsets & Bustiers (6 options)", "text": "corset", "desc": "", "cat": "General"},
   {"label": "🧶 Halter & Backless Tops (6 options)", "text": "halter", "desc": "", "cat": "General"},
-  {"label": "👔 Shirts, Blouses & Button-Downs (5 options)", "text": "shirt", "desc": "", "cat": "General"},
   {"label": "✨ Bandeaus & Asymmetric Tops (5 options)", "text": "bandeau", "desc": "", "cat": "General"},
   {"label": "🧥 Cropped Jackets & Layered Vests (4 options)", "text": "jacket", "desc": "", "cat": "General"}
 ];
@@ -816,16 +850,43 @@ const topPieces = [
   {"label": "Sleeveless vintage denim trucker vest worn buttoned", "text": "a vintage faded blue denim trucker vest with brass shank buttons, worn buttoned up without an undershirt as a chic cropped sleeveless top", "desc": "", "cat": "jacket"},
   {"label": "Cropped black leather-look biker jacket over crop cami", "text": "a buttery black vegan leather moto jacket cropped above the hips with silver asymmetric zip hardware, worn open over a tiny ribbed cami", "desc": "", "cat": "jacket"},
   {"label": "Tailored sleeveless suiting waistcoat crop vest", "text": "a sharply tailored black suiting waistcoat with front welt pockets and pointed front hem, worn buttoned against bare skin as a crop top", "desc": "", "cat": "jacket"},
-  {"label": "Cropped beige trench jacket with storm flap", "text": "a cropped double-breasted beige cotton gabardine trench jacket with storm flap and tortoise buttons, ending sharply at the waist", "desc": "", "cat": "jacket"}
+  {"label": "Cropped beige trench jacket with storm flap", "text": "a cropped double-breasted beige cotton gabardine trench jacket with storm flap and tortoise buttons, ending sharply at the waist", "desc": "", "cat": "jacket"},
+
+  // Classic T-Shirts, Long-Sleeves & Henleys (tee)
+  {"label": "Classic relaxed white crewneck cotton t-shirt", "text": "a classic relaxed white cotton crewneck t-shirt with a modest neckline, standard hip-length hem falling naturally over the waistband, and clean tailored short sleeves", "desc": "", "cat": "tee"},
+  {"label": "Oversized vintage wash boyfriend graphic tee", "text": "an oversized vintage-washed charcoal cotton graphic t-shirt with a relaxed drape falling past the hips, modest crew neck, and loose elbow-length sleeves", "desc": "", "cat": "tee"},
+  {"label": "Long-sleeve ribbed cotton crewneck top in heather grey", "text": "a comfortable full-length long-sleeve finely ribbed cotton top in heather grey with a modest crew neckline and clean wrist cuffs", "desc": "", "cat": "tee"},
+  {"label": "Classic French Breton navy striped long-sleeve marinière", "text": "a classic French Breton navy and white striped heavy cotton marinière top with a modest boatneck collar, full-length sleeves, and regular hip hem", "desc": "", "cat": "tee"},
+  {"label": "Long-sleeve waffle-knit thermal henley in cream", "text": "a soft cream waffle-knit thermal henley shirt with full-length sleeves, modest round collar, and a neat four-button horn placket", "desc": "", "cat": "tee"},
+  {"label": "Fitted black modal scoop-neck long-sleeve tee", "text": "a sleek black modal stretch long-sleeve top with a modest rounded scoop neckline, full torso length, and clean finished hem", "desc": "", "cat": "tee"},
+
+  // Knit Sweaters, Turtlenecks & Pullovers (knit)
+  {"label": "Fine-gauge merino wool turtleneck sweater in black", "text": "a sophisticated fine-gauge black merino wool knit turtleneck sweater with a high folded roll-neck, full-length sleeves, and regular hip length", "desc": "", "cat": "knit"},
+  {"label": "Chunky cable-knit crewneck pullover in oatmeal cream", "text": "a cozy chunky-knit cream woolen pullover sweater with textured cable patterns, thick ribbed crew collar, and relaxed full-coverage sleeves", "desc": "", "cat": "knit"},
+  {"label": "Soft cashmere mock-neck sweater in camel tan", "text": "a luxurious lightweight cashmere mock-neck sweater in warm camel tan with a gentle standing collar, relaxed fit, and full torso coverage", "desc": "", "cat": "knit"},
+  {"label": "Ribbed knit cardigan buttoned as a modest top in olive", "text": "a finely ribbed olive-green knit cardigan worn fully buttoned up with tortoise shell buttons, featuring a modest neckline and long sleeves", "desc": "", "cat": "knit"},
+  {"label": "Oversized fisherman rib crewneck knit in heather oatmeal", "text": "a relaxed oversized fisherman-rib wool sweater in oatmeal with dropped shoulders, high crewneck, and slouchy full-length coverage", "desc": "", "cat": "knit"},
+
+  // Modest Button-Down Shirts & Blouses (shirt)
+  {"label": "Crisp Oxford cotton button-down shirt in sky blue", "text": "a tailored sky-blue Oxford cotton button-down shirt worn fully buttoned to the collar, with neat barrel cuffs and classic hem tucked into trousers", "desc": "", "cat": "shirt"},
+  {"label": "Tailored white cotton poplin work shirt", "text": "a sharp white cotton poplin business shirt buttoned neatly up the front with a structured point collar, long sleeves, and clean professional tailoring", "desc": "", "cat": "shirt"},
+  {"label": "Modest silk-crepe blouse with high band collar in ivory", "text": "an elegant opaque ivory silk-crepe blouse with a modest band collar, delicate front pleating, long billowy sleeves, and buttoned cuffs", "desc": "", "cat": "shirt"},
+  {"label": "Brushed cotton plaid flannel shirt worn buttoned", "text": "a cozy brushed cotton red-and-navy plaid flannel shirt worn fully buttoned up with a classic spread collar and dual chest flap pockets", "desc": "", "cat": "shirt"},
+  {"label": "Peplum cotton-linen blouse with modest crew neck in olive", "text": "a structured olive-green cotton-linen blouse with a modest round neck, three-quarter sleeves, and a flattering flared peplum waist hem", "desc": "", "cat": "shirt"},
+
+  // Hoodies, Sweatshirts & Casual Layering (sweatshirt)
+  {"label": "Classic cotton fleece pullover hoodie in heather grey", "text": "a comfortable heavy cotton fleece hoodie in heather grey with a roomy hood, front kangaroo pocket, and relaxed full torso coverage", "desc": "", "cat": "sweatshirt"},
+  {"label": "Relaxed crewneck collegiate sweatshirt in washed forest green", "text": "a soft vintage-washed forest green crewneck sweatshirt with ribbed collar, dropped shoulders, and loose hip-length fit", "desc": "", "cat": "sweatshirt"},
+  {"label": "Zip-up fleece track jacket in navy with white piping", "text": "a sporty navy blue cotton-blend zip-up jacket zipped fully up to a stand-up collar with modest long sleeves and side welt pockets", "desc": "", "cat": "sweatshirt"}
 ];
 
 const BOTTOM_FAMILIES = [
-  {"label": "✦ All Bottoms (32 options)", "text": "all", "desc": "", "cat": "General"},
-  {"label": "👖 Denim Shorts & Cutoffs (10 options)", "text": "denim_shorts", "desc": "", "cat": "General"},
-  {"label": "👖 Jeans & Denim Trousers (6 options)", "text": "jeans", "desc": "", "cat": "General"},
-  {"label": "🩳 Tailored & Casual Shorts (5 options)", "text": "shorts", "desc": "", "cat": "General"},
-  {"label": "👗 Skirts & Minis (6 options)", "text": "skirt", "desc": "", "cat": "General"},
-  {"label": "👖 Trousers & Pants (5 options)", "text": "pants", "desc": "", "cat": "General"}
+  {"label": "✦ All Bottoms (44 options)", "text": "all", "desc": "", "cat": "General"},
+  {"label": "👖 Jeans & Denim Trousers (9 options)", "text": "jeans", "desc": "", "cat": "General"},
+  {"label": "👖 Tailored Trousers, Slacks & Chinos (10 options)", "text": "pants", "desc": "", "cat": "General"},
+  {"label": "👗 Skirts, Midi & Maxi (9 options)", "text": "skirt", "desc": "", "cat": "General"},
+  {"label": "🩳 Tailored & Bermuda Shorts (6 options)", "text": "shorts", "desc": "", "cat": "General"},
+  {"label": "👖 Denim Shorts & Cutoffs (10 options)", "text": "denim_shorts", "desc": "", "cat": "General"}
 ];
 
 const bottomPieces = [
@@ -860,7 +921,27 @@ const bottomPieces = [
   {"label": "Relaxed low-rise linen drawstring trousers in oatmeal", "text": "low-slung breezy linen trousers in oatmeal with a relaxed drawstring waistband and effortless slouchy drape", "desc": "", "cat": "pants"},
   {"label": "Tailored straight-leg cigarette trousers in black", "text": "sharply tailored ankle-length black cigarette trousers with pressed center creases and minimalist welt pockets", "desc": "", "cat": "pants"},
   {"label": "Wide-leg cargo trousers in washed sage green with utility ties", "text": "relaxed wide-leg cotton cargo pants in washed sage green with multi-compartment utility pockets and adjustable ankle ties", "desc": "", "cat": "pants"},
-  {"label": "High-waisted black leather-look straight-leg pants", "text": "supple black vegan leather straight-leg trousers with a clean high waistband and authentic matte sheen", "desc": "", "cat": "pants"}
+  {"label": "High-waisted black leather-look straight-leg pants", "text": "supple black vegan leather straight-leg trousers with a clean high waistband and authentic matte sheen", "desc": "", "cat": "pants"},
+
+  // Modest Jeans & Denim Trousers (jeans)
+  {"label": "Classic high-rise straight-leg jeans in vintage medium wash", "text": "high-waisted straight-leg vintage blue denim jeans with a clean non-distressed finished hem, classic five-pocket styling, and structured full-length silhouette", "desc": "", "cat": "jeans"},
+  {"label": "Relaxed mom-fit denim jeans in washed indigo", "text": "relaxed high-rise mom jeans in washed indigo denim with a comfortable loose fit through the hips and thighs, gently tapering to clean ankle cuffs", "desc": "", "cat": "jeans"},
+  {"label": "Wide-leg dark rinse denim trousers with contrast stitching", "text": "high-waisted dark rinse denim trousers with wide flowing legs, clean center creases, and tailored front welt pockets", "desc": "", "cat": "jeans"},
+
+  // Tailored Trousers, Slacks & Chinos (pants)
+  {"label": "Pleated wool-blend tailored trousers in charcoal", "text": "high-waisted charcoal grey wool-blend trousers with sharp front knife pleats, belt loops, slant side pockets, and full-length straight legs", "desc": "", "cat": "pants"},
+  {"label": "Breathable wide-leg linen slacks in warm sand", "text": "high-waisted relaxed linen slacks in warm sand beige with an elasticated back waistband, front pleats, and fluid wide-leg drape to the shoes", "desc": "", "cat": "pants"},
+  {"label": "Classic slim-straight cotton chinos in khaki", "text": "tailored khaki cotton stretch chinos with a clean mid-rise waistband, buttoned back pockets, and neat ankle-length straight legs", "desc": "", "cat": "pants"},
+  {"label": "Tailored cigarette trousers in black with ankle slit", "text": "crisp black tailored cigarette pants with a high structured waistband, streamlined silhouette, and subtle outer ankle seam slits", "desc": "", "cat": "pants"},
+  {"label": "Full-length cotton twill cargo trousers in washed olive", "text": "relaxed olive-green cotton twill utility cargo pants with roomy bellowed leg pockets, drawstring hem, and comfortable full-length coverage", "desc": "", "cat": "pants"},
+
+  // Skirts, Midi & Maxi (skirt)
+  {"label": "Pleated A-line midi skirt in navy falling below the knee", "text": "a modest navy blue pleated A-line midi skirt falling gracefully to mid-calf with permanent accordion pleats and a flat tailored waistband", "desc": "", "cat": "skirt"},
+  {"label": "Tiered cotton bohemian maxi skirt in olive", "text": "a flowing tiered cotton maxi skirt in earthy olive falling to the ankles with gentle gathers, an elasticated waistband, and full modest coverage", "desc": "", "cat": "skirt"},
+  {"label": "Tailored suiting pencil skirt falling below the knee", "text": "a smart black tailored pencil skirt with a high waistband, structured fit falling below the knee, and a modest back kick pleat", "desc": "", "cat": "skirt"},
+
+  // Tailored & Bermuda Shorts (shorts)
+  {"label": "Pleated tailored Bermuda walking shorts in beige", "text": "knee-length tailored Bermuda shorts in warm beige linen-cotton with crisp center pleats, slant pockets, and a neat cuffed hem", "desc": "", "cat": "shorts"}
 ];
 
 const midriffStylings = [
@@ -871,7 +952,11 @@ const midriffStylings = [
   {"label": "Casual half-tuck front with relaxed hem drape", "text": "the front edge of the top loosely half-tucked into the denim waistband with the sides and back draping naturally", "desc": "", "cat": "General"},
   {"label": "Western double-buckle belt with statement metal hardware", "text": "the waist accented by a bold black leather western belt with dual ornate engraved silver buckles and metal tip hardware", "desc": "", "cat": "General"},
   {"label": "Clean belt-free waistband resting naturally on hips", "text": "a clean, unbelted denim waistband resting naturally against bare sun-kissed skin without accessories", "desc": "", "cat": "General"},
-  {"label": "Ultra-low-rise waistband revealing hip bones and flank silhouette", "text": "an ultra-low-rise waistband sitting low across the hips, fully showcasing the flank silhouette, waist indent, and lower abdominal contour", "desc": "", "cat": "General"}
+  {"label": "Ultra-low-rise waistband revealing hip bones and flank silhouette", "text": "an ultra-low-rise waistband sitting low across the hips, fully showcasing the flank silhouette, waist indent, and lower abdominal contour", "desc": "", "cat": "General"},
+  {"label": "Full modest coverage — top neatly tucked in with clean leather belt", "text": "the top completely and neatly tucked into the waistband with a classic tailored belt, providing full coverage with zero exposed skin or bare midriff", "desc": "", "cat": "General"},
+  {"label": "Untucked relaxed hem draping past the hips — complete modest coverage", "text": "the top untucked and falling relaxed past the hips in a natural drape, providing complete torso coverage with zero midriff exposure", "desc": "", "cat": "General"},
+  {"label": "High-waisted tailored coverage with full fabric overlap", "text": "high-waisted tailoring with full seamless fabric overlap and zero gap or bare skin between top and waistband", "desc": "", "cat": "General"},
+  {"label": "French tuck with effortless drape and modest coverage", "text": "an effortless front French-tuck into the waistband with generous fabric drape along the sides and back, keeping the midriff fully covered", "desc": "", "cat": "General"}
 ];
 
 const faceObfuscModeOpts = [

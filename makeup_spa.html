@@ -295,10 +295,10 @@ const prepHairHolds = makeOpts([
 ]);
 
 const PREP_OUTFIT_FAMILIES = [
-  O('✦ All Robes, Wraps & Spa Apparel (20 options)', 'all'),
-  O('👘 Silk & Satin Dressing Robes (6 options)', 'robe'),
+  O('✦ All Robes, Wraps & Spa Apparel (23 options)', 'all'),
+  O('👘 Silk & Satin Dressing Robes (7 options)', 'robe'),
   O('🧖‍♀️ Strapless Spa Towel Wraps & Bandeaus (6 options)', 'wrap'),
-  O('🧶 Bare-Shoulder Slip Camis & Loungewear (8 options)', 'lounge')
+  O('🧶 Bare-Shoulder Slip Camis & Loungewear (10 options)', 'lounge')
 ];
 
 const prepEnsembles = makeOpts([
@@ -309,6 +309,7 @@ const prepEnsembles = makeOpts([
   ['Crisp white organic cotton kimono spa robe with wide sleeves', 'a fresh crisp white organic waffle-cotton kimono robe tied loosely, sleeves pushed cleanly above the forearms', '', 'robe'],
   ['Midnight black sheer chiffon dressing gown over minimalist silk cami', 'a sheer black silk chiffon prep robe layered cleanly over a minimalist delicate satin camisole', '', 'robe'],
   ['Emerald jewel-tone satin bridal prep robe with clean draping', 'a deep emerald satin prep robe with flowing draped sleeves and bare neckline framing jewelry and skin glow', '', 'robe'],
+  ['Full-coverage plush waffle-knit spa bathrobe with shawl collar and tie belt', 'a heavy plush white cotton waffle-knit spa bathrobe with a cozy shawl collar, full-length sleeves, and securely tied fabric sash providing comfortable full coverage', '', 'robe'],
 
   // Strapless Towel Wraps & Bandeaus
   ['Strapless cream cotton spa towel wrap fastened above bust (bare shoulders)', 'a thick plush cream organic cotton spa wrap fastened cleanly straight across the upper bust, leaving neck, collarbones, shoulders, and back completely bare for facial skincare', '', 'wrap'],
@@ -326,7 +327,9 @@ const prepEnsembles = makeOpts([
   ['Delicate chocolate-brown satin lace-trim bralette & silk shorts', 'an understated dark chocolate mulberry silk camisole trimmed subtly with fine matte lace along the neckline', '', 'lounge'],
   ['Minimalist olive ribbed racerback crop singlet', 'a sporty minimalist olive ribbed cotton racerback crop singlet showcasing natural shoulder contour and clean collarbone shadow', '', 'lounge'],
   ['Cream waffle-knit button henley left softly open at collarbone', 'a soft cream waffle-knit cotton henley top with small mother-of-pearl buttons undone gently at the throat', '', 'lounge'],
-  ['Warm sand linen slip dress with narrow delicate straps', 'a breathable sand-toned raw linen slip dress with slim shoulder straps and soft organic skin drape', '', 'lounge']
+  ['Warm sand linen slip dress with narrow delicate straps', 'a breathable sand-toned raw linen slip dress with slim shoulder straps and soft organic skin drape', '', 'lounge'],
+  ['Cozy long-sleeve cotton fleece loungewear set in heather grey', 'a comfortable long-sleeve heather-grey cotton fleece loungewear set featuring a modest crewneck top and relaxed full-length lounge trousers', '', 'lounge'],
+  ['Modest oversized linen pajama set with button-up shirt and relaxed pants', 'a modest breathable sand-colored linen pajama set with a loose-fitting long-sleeve button-up shirt and straight-leg relaxed trousers', '', 'lounge']
 ]);
 
 // ==========================================
@@ -491,12 +494,12 @@ const fields = {
   prepFaceObfuscMode: { label: 'Face concealment method', opts: faceObfuscModeOpts, def: 0, section: 'prepHairWardrobeSec', _grp: 'Haircut, Prep Clips & Moisture' },
 
   prepOutfitCategory: { label: 'Robe & Spa Apparel Family', opts: PREP_OUTFIT_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
-  prepOutfit: { label: 'Silk Robe / Strapless Spa Wrap / Loungewear', opts: prepEnsembles, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  prepOutfit: { label: 'Spa Robe / Wrap / Modest Loungewear', opts: prepEnsembles, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
   topCategory: { label: 'Top Piece Category', opts: TOP_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
-  topPiece: { label: 'Crop Top / Bralette / Camisole', opts: topPieces, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  topPiece: { label: 'Top Garment (Tees, Shirts, Sweaters, Tops)', opts: topPieces, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
   bottomCategory: { label: 'Bottom Piece Category', opts: BOTTOM_FAMILIES, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
-  bottomPiece: { label: 'Shorts / Lounge Pants / Skirt', opts: bottomPieces, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
-  midriffStyling: { label: 'Midriff & Waistline Styling', opts: midriffStylings, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  bottomPiece: { label: 'Bottom Garment (Trousers, Jeans, Skirts, Shorts)', opts: bottomPieces, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
+  midriffStyling: { label: 'Waistline & Midriff Styling', opts: midriffStylings, def: 0, section: 'prepHairWardrobeSec', _grp: 'Robes, Wraps & Separates' },
 
   // 03 Skincare & Makeup Action
   prepDiscipline: { label: 'Ritual Discipline Filter', opts: prepRitualCategories, def: 0, section: 'prepRitualSec', _grp: 'Active Application & Spa Ritual' },
