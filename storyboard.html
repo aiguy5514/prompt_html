@@ -300,7 +300,13 @@ const CAT_DISPLAY_NAMES = {
   ang_rear: '👤 Rear Tracking & Silhouette',
   // Actions
   act_opening: '🎬 Opening & Arrival',
-  act_action: '✂️ Active Craft & Styling',
+  act_razor: '🪒 Straight Razor Actions',
+  act_cutting: '✂️ Scissor & Shear Cuts',
+  act_styling: '💨 Heat Styling & Volume',
+  act_spa_skincare: '🧖 Spa & Skincare Rituals',
+  act_makeup: '💄 Makeup & Finishing',
+  act_tattoo: '🖋️ Tattoo Detailing',
+  act_cleanup: '🧹 Cleanup & Duster',
   act_peak: '🌊 Peak Motion & Veil',
   act_reveal: '✨ Reveal & Closing'
 };
@@ -371,69 +377,79 @@ const sections = [
 // ==========================================
 
 const sbWorldVenues = O_list([
-  ['🏋️ Fitness · Luxury boutique fitness center & mirror-clad training studio', 'a high-end boutique fitness studio with floor-to-ceiling mirror walls, polished rubber floors, matte-black equipment, and architectural linear lighting', '', 'fitness'],
-  ['💈 Salon · Modern Indian luxury barbershop & dark walnut styling station', 'an authentic upscale Indian hair salon with dark walnut stations, warm brass bulb accents, black leather hydraulic Belmont chair, and atmospheric reflections', '', 'salon_backstage'],
-  ['💄 Backstage · Backstage fashion-week illuminated vanity dressing room', 'an energetic fashion-week backstage vanity station lined with glowing frosted Edison bulbs, makeup brush cups, and misty steamer vapor', '', 'salon_backstage'],
-  ['🏙️ Loft · Sunlit Soho cast-iron loft studio with tall industrial windows', 'a sunlit Soho loft editorial photography studio with soaring black cast-iron windows, warm hardwood floors, and sheer drifting linen drapes', '', 'studio_loft'],
-  ['🛁 Bath · Carrara marble master bath & rainfall glass vanity at twilight', 'a serene luxury marble bathroom bathed in warm sconce twilight glow with faint bath steam and brushed gold fixtures', '', 'spa_wellness'],
-  ['🌃 Urban · Neon rain-soaked urban street terrace overlooking evening city lights', 'a moody monsoon-slicked elevated rooftop terrace overlooking glittering city night bokeh and glossy rain puddles', '', 'luxury_scenic'],
-  ['🌅 Villa · Mediterranean travertine infinity pool villa at golden sunset', 'an architectural coastal villa infinity pool edge with warm limestone tiles, turquoise light caustics, and late golden sunbeams', '', 'luxury_scenic'],
-  ['🧖 Spa · Seoul minimalist thermal facial cabin with glowing cove light', 'a tranquil Seoul holistic beauty cabin featuring warm plaster walls, ceramic botanical vessels, linen facial table, and soft amber cove glow', '', 'spa_wellness'],
-  ['🌿 Atelier · Boutique Soho tattoo atelier with green plants & tall daylight windows', 'a bright sunlit Soho fine-line tattoo loft with weathered brick, dark cherry benchwork, indoor greenery, and macro spotlighting', '', 'studio_loft'],
-  ['🏛️ Haveli · Opulent Rajasthani sandstone haveli courtyard & brass lanterns', 'a restored Rajasthan heritage haveli veranda with intricately carved sandstone arches, warm brass lamps, and dramatic natural shadows', '', 'luxury_scenic'],
-  ['🏙️ Apartment · Parisian Haussmann apartment suite with tall French balcony doors', 'a sophisticated Parisian apartment interior with parquet wood floors, tall open French balcony doors, and diffused overcast afternoon glow', '', 'studio_loft'],
-  ['🏛️ Gallery · Stark brutalist concrete gallery pavilion with crisp light beams', 'a monumental minimalist concrete architectural space slashed by sharp geometric afternoon sunbeams and clean shadows', '', 'studio_loft'],
-  ['🍸 Lounge · Dimly lit emerald velvet speakeasy lounge with candlelight', 'an atmospheric private velvet cocktail lounge bathed in moody amber candlelight and warm nocturnal highlights', '', 'luxury_scenic'],
-  ['💈 Heritage · Vintage chrome old-Bombay Irani barbershop parlor with leather Belmont chair', 'an evocative vintage South Mumbai barber parlor with checkered tiles, tarnished silver trays, and tall striped barber poles', '', 'salon_backstage'],
-  ['🧖 Zen Spa · Kyoto hinoki cypress holistic spa room with glowing paper shoji screens', 'a tranquil Japanese timber sanctuary lit through warm translucent rice-paper shoji screens and aromatic mist diffusers', '', 'spa_wellness'],
-  ['✨ Runway · Milan Fashion Week black high-gloss mirrored runway & front row', 'an editorial fashion catwalk floor gleaming high-gloss black under strobe flashes and blurred audience silhouettes', '', 'salon_backstage'],
-  ['🌴 Nature · Outdoor tropical teakwood rain shower with steam rising off dark basalt', 'a lush botanical outdoor rain shower framed by misting monstera leaves and glistening black volcanic stone', '', 'spa_wellness'],
-  ['🎬 Trailer · Art Deco velvet vanity trailer on rainy film location set', 'an intimate mahogany celebrity prep trailer glowing warm amidst damp exterior set lights and hanging wardrobe garment bags', '', 'salon_backstage'],
-  ['🌅 Resort · Sun-warmed Santorini whitewashed cliff suite overlooking deep Aegean twilight', 'white carved limestone arches framing shimmering blue Aegean twilight horizon and gentle candlelight', '', 'luxury_scenic'],
-  ['🌿 Greenhouse · Victorian glass greenhouse overflowing with misty ferns & botanical palms', 'a humid antique cast-iron botanical conservatory bathed in diffused green-dappled skylight', '', 'luxury_scenic'],
-  ['🛥️ Yacht · Private teak superyacht aft deck at late sunset with shimmering sea caustics', 'a sleek yacht wooden deck glowing golden under low sea horizon rays and rippling water reflections', '', 'luxury_scenic']
+  
+  ["🏋️ Fitness · Luxury boutique fitness center & mirror-clad training studio", "a high-end boutique fitness studio with floor-to-ceiling mirror walls, polished rubber floors, matte-black equipment, and architectural linear lighting", "", "fitness"],
+  ["💈 Salon · Modern Indian luxury barbershop & dark walnut styling station", "an authentic upscale Indian hair salon with dark walnut stations, warm brass bulb accents, black leather hydraulic Belmont chair, and atmospheric reflections", "", "salon_backstage"],
+  ["💄 Backstage · Backstage fashion-week illuminated vanity dressing room", "an energetic fashion-week backstage vanity station lined with glowing frosted Edison bulbs, makeup brush cups, and misty steamer vapor", "", "salon_backstage"],
+  ["💈 Heritage · Vintage chrome old-Bombay Irani barbershop parlor with leather Belmont chair", "an evocative vintage South Mumbai barber parlor with checkered tiles, tarnished silver trays, and tall striped barber poles", "", "salon_backstage"],
+  ["✨ Runway · Milan Fashion Week black high-gloss mirrored runway & front row", "an editorial fashion catwalk floor gleaming high-gloss black under strobe flashes and blurred audience silhouettes", "", "salon_backstage"],
+  ["🎬 Trailer · Art Deco velvet vanity trailer on rainy film location set", "an intimate mahogany celebrity prep trailer glowing warm amidst damp exterior set lights and hanging wardrobe garment bags", "", "salon_backstage"],
+  ["🏙️ Loft · Sunlit Soho cast-iron loft studio with tall industrial windows", "a sunlit Soho loft editorial photography studio with soaring black cast-iron windows, warm hardwood floors, and sheer drifting linen drapes", "", "studio_loft"],
+  ["🌿 Atelier · Boutique Soho tattoo atelier with green plants & tall daylight windows", "a bright sunlit Soho fine-line tattoo loft with weathered brick, dark cherry benchwork, indoor greenery, and macro spotlighting", "", "studio_loft"],
+  ["🏙️ Apartment · Parisian Haussmann apartment suite with tall French balcony doors", "a sophisticated Parisian apartment interior with parquet wood floors, tall open French balcony doors, and diffused overcast afternoon glow", "", "studio_loft"],
+  ["🏛️ Gallery · Stark brutalist concrete gallery pavilion with crisp light beams", "a monumental minimalist concrete architectural space slashed by sharp geometric afternoon sunbeams and clean shadows", "", "studio_loft"],
+  ["🛁 Bath · Carrara marble master bath & rainfall glass vanity at twilight", "a serene luxury marble bathroom bathed in warm sconce twilight glow with faint bath steam and brushed gold fixtures", "", "spa_wellness"],
+  ["🧖 Spa · Seoul minimalist thermal facial cabin with glowing cove light", "a tranquil Seoul holistic beauty cabin featuring warm plaster walls, ceramic botanical vessels, linen facial table, and soft amber cove glow", "", "spa_wellness"],
+  ["🧖 Zen Spa · Kyoto hinoki cypress holistic spa room with glowing paper shoji screens", "a tranquil Japanese timber sanctuary lit through warm translucent rice-paper shoji screens and aromatic mist diffusers", "", "spa_wellness"],
+  ["🌴 Nature · Outdoor tropical teakwood rain shower with steam rising off dark basalt", "a lush botanical outdoor rain shower framed by misting monstera leaves and glistening black volcanic stone", "", "spa_wellness"],
+  ["🌃 Urban · Neon rain-soaked urban street terrace overlooking evening city lights", "a moody monsoon-slicked elevated rooftop terrace overlooking glittering city night bokeh and glossy rain puddles", "", "luxury_scenic"],
+  ["🌅 Villa · Mediterranean travertine infinity pool villa at golden sunset", "an architectural coastal villa infinity pool edge with warm limestone tiles, turquoise light caustics, and late golden sunbeams", "", "luxury_scenic"],
+  ["🏛️ Haveli · Opulent Rajasthani sandstone haveli courtyard & brass lanterns", "a restored Rajasthan heritage haveli veranda with intricately carved sandstone arches, warm brass lamps, and dramatic natural shadows", "", "luxury_scenic"],
+  ["🍸 Lounge · Dimly lit emerald velvet speakeasy lounge with candlelight", "an atmospheric private velvet cocktail lounge bathed in moody amber candlelight and warm nocturnal highlights", "", "luxury_scenic"],
+  ["🌅 Resort · Sun-warmed Santorini whitewashed cliff suite overlooking deep Aegean twilight", "white carved limestone arches framing shimmering blue Aegean twilight horizon and gentle candlelight", "", "luxury_scenic"],
+  ["🌿 Greenhouse · Victorian glass greenhouse overflowing with misty ferns & botanical palms", "a humid antique cast-iron botanical conservatory bathed in diffused green-dappled skylight", "", "luxury_scenic"],
+  ["🛥️ Yacht · Private teak superyacht aft deck at late sunset with shimmering sea caustics", "a sleek yacht wooden deck glowing golden under low sea horizon rays and rippling water reflections", "", "luxury_scenic"],
+
 ]);
 
 const sbHairColors = O_list([
-  ['🖤 Black · Natural Indian jet-black / dark espresso hair color', 'her authentic natural jet-black / deep espresso Indian hair color with organic silk sheen', '', 'black'],
-  ['🖤 Blue-Black · Rich glossy blue-black virgin hair sheen', 'saturated blue-black hair with mirror-like natural glass shine', '', 'black'],
-  ['🤎 Espresso · Deep espresso brunette with subtle warm chestnut dimension', 'deep espresso brown hair with restrained, realistic chestnut undertones', '', 'brunette'],
-  ['🤎 Chocolate · Dark chocolate hair with fine caramel face-framing ribbons', 'rich dark chocolate hair accented by natural subtle caramel highlights near the cheekbones', '', 'brunette'],
-  ['🧡 Auburn · Soft warm auburn-chestnut sunlit gloss', 'refined deep mahogany-chestnut hair catching copper sheen in warm rim light', '', 'auburn'],
-  ['🖤 Charcoal · Ashy smoked charcoal-espresso cool tone', 'neutral smoky charcoal-espresso brunette with crisp high-fashion mirror sheen', '', 'brunette']
+  
+  ["🖤 Black · Natural Indian jet-black / dark espresso hair color", "her authentic natural jet-black / deep espresso Indian hair color with organic silk sheen", "", "black"],
+  ["🖤 Blue-Black · Rich glossy blue-black virgin hair sheen", "saturated blue-black hair with mirror-like natural glass shine", "", "black"],
+  ["🤎 Espresso · Deep espresso brunette with subtle warm chestnut dimension", "deep espresso brown hair with restrained, realistic chestnut undertones", "", "brunette"],
+  ["🤎 Chocolate · Dark chocolate hair with fine caramel face-framing ribbons", "rich dark chocolate hair accented by natural subtle caramel highlights near the cheekbones", "", "brunette"],
+  ["🖤 Charcoal · Ashy smoked charcoal-espresso cool tone", "neutral smoky charcoal-espresso brunette with crisp high-fashion mirror sheen", "", "brunette"],
+  ["🧡 Auburn · Soft warm auburn-chestnut sunlit gloss", "refined deep mahogany-chestnut hair catching copper sheen in warm rim light", "", "auburn"],
+
 ]);
 
 const sbColorGrades = O_list([
-  ['🎞️ Portra 400 · Kodak Portra 400 warm organic skin fidelity', 'consistent Kodak Portra 400 analog color science preserving natural Indian skin undertones and smooth highlight roll-off', '', 'analog'],
-  ['📷 Digital · Crisp High-Fashion Editorial Digital Contrast', 'clean commercial magazine editorial color grade with tack-sharp pores and balanced neutrals', '', 'digital'],
-  ['🎬 Tungsten · Moody Warm Tungsten & Deep Shadow Cinema Grade', 'rich nocturnal cinema grading balancing warm amber practicals against clean dark shadows', '', 'cinema'],
-  ['☁️ Overcast · Bright Overcast Scandinavian Clean Editorial', 'airy, neutral true-to-life natural daylight color science with delicate silver-cool shadow depth', '', 'editorial'],
-  ['🎞️ Vision3 500T · Kodak Vision3 500T Anamorphic Film Emulsion', 'deep cinema shadows with gentle warm practical halation around vanity bulbs and neon edges', '', 'analog'],
-  ['🏁 Ilford HP5 · Classic Silver-Gelatin Monochrome', 'sculptural black-and-white editorial monochrome contrasting glossy dark hair against gleaming skin texture', '', 'monochrome'],
-  ['💎 Jewel-Tone · Rich Jewel-Tone Couture Magazine Spread', 'vibrant architectural saturation anchored by strictly realistic natural human skin fidelity', '', 'couture'],
-  ['📹 Raw Doc · Raw Behind-the-Scenes Documentary True Color', 'ungraded candid camera realism capturing natural mixed indoor room light truthfully', '', 'documentary']
+  
+  ["🎞️ Portra 400 · Kodak Portra 400 warm organic skin fidelity", "consistent Kodak Portra 400 analog color science preserving natural Indian skin undertones and smooth highlight roll-off", "", "analog"],
+  ["🎞️ Vision3 500T · Kodak Vision3 500T Anamorphic Film Emulsion", "deep cinema shadows with gentle warm practical halation around vanity bulbs and neon edges", "", "analog"],
+  ["📷 Digital · Crisp High-Fashion Editorial Digital Contrast", "clean commercial magazine editorial color grade with tack-sharp pores and balanced neutrals", "", "digital"],
+  ["🎬 Tungsten · Moody Warm Tungsten & Deep Shadow Cinema Grade", "rich nocturnal cinema grading balancing warm amber practicals against clean dark shadows", "", "cinema"],
+  ["☁️ Overcast · Bright Overcast Scandinavian Clean Editorial", "airy, neutral true-to-life natural daylight color science with delicate silver-cool shadow depth", "", "editorial"],
+  ["🏁 Ilford HP5 · Classic Silver-Gelatin Monochrome", "sculptural black-and-white editorial monochrome contrasting glossy dark hair against gleaming skin texture", "", "monochrome"],
+  ["💎 Jewel-Tone · Rich Jewel-Tone Couture Magazine Spread", "vibrant architectural saturation anchored by strictly realistic natural human skin fidelity", "", "couture"],
+  ["📹 Raw Doc · Raw Behind-the-Scenes Documentary True Color", "ungraded candid camera realism capturing natural mixed indoor room light truthfully", "", "documentary"],
+
 ]);
 
 const sbGlobalLightings = O_list([
-  ['☀️ North Window · Soft diffused north window key light + gentle ambient fill', 'soft directional diffused daylight sculpting cheekbones cleanly with realistic micro-pore shadow falloff', '', 'daylight'],
-  ['💡 Edison Vanity · Warm Hollywood Edison vanity & overhead salon lighting', 'authentic warm tungsten vanity and studio practical illumination with flattering crisp eye/hair catchlights', '', 'vanity'],
-  ['📸 Beauty Dish · Dramatic sculpted beauty-dish studio key with soft rim separation', 'controlled editorial studio key light paired with clean hair-rim backlight', '', 'studio'],
-  ['🌅 Golden Hour · Late-afternoon golden hour warm sidelight', 'warm low-angle golden hour sidelight grazing bare collarbones and illuminating fine airborne strands', '', 'golden'],
-  ['⚡ 35mm Flash · Candid behind-the-scenes direct 35mm on-camera flash', 'crisp direct on-camera flash aesthetic creating punchy editorial specular highlights and lived-in contrast', '', 'flash'],
-  ['☀️ Venetian Blind · Venetian blind graphic sunlight shadow stripes across scene', 'sharply sliced warm afternoon sunlight bands raking diagonally across hair sheen, walls, and collarbones', '', 'daylight'],
-  ['🕯️ Candlelight Spa · Atmospheric spa candlelit glow balanced with cool twilight window fill', 'two-tone moody balance pitting flickering warm candle amber against soft twilight window cool blue', '', 'moody'],
-  ['🌃 Neon Rain · Neon rain-street glow spilling across dark wet textures', 'vibrant magenta/cyan/amber neon reflections dancing gently off rain-slicked surfaces and damp skin', '', 'moody'],
-  ['☁️ Top Skylight · Soft overhead skylight zenith diffusion casting subtle jaw shadow', 'clean top-down diffused natural skylight modeling brow ridge, collarbones, and garment folds gently', '', 'daylight']
+  
+  ["☀️ North Window · Soft diffused north window key light + gentle ambient fill", "soft directional diffused daylight sculpting cheekbones cleanly with realistic micro-pore shadow falloff", "", "daylight"],
+  ["☀️ Venetian Blind · Venetian blind graphic sunlight shadow stripes across scene", "sharply sliced warm afternoon sunlight bands raking diagonally across hair sheen, walls, and collarbones", "", "daylight"],
+  ["☁️ Top Skylight · Soft overhead skylight zenith diffusion casting subtle jaw shadow", "clean top-down diffused natural skylight modeling brow ridge, collarbones, and garment folds gently", "", "daylight"],
+  ["💡 Edison Vanity · Warm Hollywood Edison vanity & overhead salon lighting", "authentic warm tungsten vanity and studio practical illumination with flattering crisp eye/hair catchlights", "", "vanity"],
+  ["📸 Beauty Dish · Dramatic sculpted beauty-dish studio key with soft rim separation", "controlled editorial studio key light paired with clean hair-rim backlight", "", "studio"],
+  ["🌅 Golden Hour · Late-afternoon golden hour warm sidelight", "warm low-angle golden hour sidelight grazing bare collarbones and illuminating fine airborne strands", "", "golden"],
+  ["⚡ 35mm Flash · Candid behind-the-scenes direct 35mm on-camera flash", "crisp direct on-camera flash aesthetic creating punchy editorial specular highlights and lived-in contrast", "", "flash"],
+  ["🕯️ Candlelight Spa · Atmospheric spa candlelit glow balanced with cool twilight window fill", "two-tone moody balance pitting flickering warm candle amber against soft twilight window cool blue", "", "moody"],
+  ["🌃 Neon Rain · Neon rain-street glow spilling across dark wet textures", "vibrant magenta/cyan/amber neon reflections dancing gently off rain-slicked surfaces and damp skin", "", "moody"],
+
 ]);
 
 const sbCapesAndExtraApparel = O_list([
-  ['👗 Selected Look · Use Global Selected Wardrobe / Separates cleanly as chosen', '', '', 'wardrobe'],
-  ['💈 Salon Cape · Draped in silky black waterproof salon cutting cape over chosen outfit', 'wearing her chosen outfit neatly concealed beneath a fastened silky black nylon salon cutting cape with crisp neck strip', '', 'cape'],
-  ['🧖 Spa Wrap · Wrapped in strapless cream luxury cotton spa towel wrap (bare shoulders)', 'wrapped snugly above the chest in a thick plush cream cotton spa towel wrap leaving bare collarbones & shoulders exposed over her styling', '', 'spa_wrap'],
-  ['👘 Silk Robe · Draped in champagne silk kimono dressing robe loosely over chosen look', 'layered effortlessly in a champagne mulberry-silk prep robe draped casually open near collarbones', '', 'robe'],
-  ['💈 Barber Cape · Classic vertical pinstriped barber cape snapped snugly at collar', 'draped neatly in a timeless pinstriped vintage barbershop cape folded smoothly across shoulders and lap', '', 'cape'],
-  ['✨ Clear Cape · Lightweight frosted matte-clear plastic beauty prep cape showing neckline underneath', 'shielded cleanly in a frosted translucent lightweight salon prep cape letting collarbones and strap lines read softly through', '', 'cape'],
-  ['💈 White Apron · Fresh crisp white barber apron/wrap with clean cotton crêpe neck strip', 'wrapped sharply in a pristine white satin-weave barbershop drape speckled lightly with dark trim clippings', '', 'cape']
+  
+  ["👗 Selected Look · Use Global Selected Wardrobe / Separates cleanly as chosen", "", "", "wardrobe"],
+  ["💈 Salon Cape · Draped in silky black waterproof salon cutting cape over chosen outfit", "wearing her chosen outfit neatly concealed beneath a fastened silky black nylon salon cutting cape with crisp neck strip", "", "cape"],
+  ["💈 Barber Cape · Classic vertical pinstriped barber cape snapped snugly at collar", "draped neatly in a timeless pinstriped vintage barbershop cape folded smoothly across shoulders and lap", "", "cape"],
+  ["✨ Clear Cape · Lightweight frosted matte-clear plastic beauty prep cape showing neckline underneath", "shielded cleanly in a frosted translucent lightweight salon prep cape letting collarbones and strap lines read softly through", "", "cape"],
+  ["💈 White Apron · Fresh crisp white barber apron/wrap with clean cotton crêpe neck strip", "wrapped sharply in a pristine white satin-weave barbershop drape speckled lightly with dark trim clippings", "", "cape"],
+  ["🧖 Spa Wrap · Wrapped in strapless cream luxury cotton spa towel wrap (bare shoulders)", "wrapped snugly above the chest in a thick plush cream cotton spa towel wrap leaving bare collarbones & shoulders exposed over her styling", "", "spa_wrap"],
+  ["👘 Silk Robe · Draped in champagne silk kimono dressing robe loosely over chosen look", "layered effortlessly in a champagne mulberry-silk prep robe draped casually open near collarbones", "", "robe"],
+
 ]);
 
 const sbAspects = O_list([
@@ -450,31 +466,35 @@ const sbAspects = O_list([
 // ==========================================
 
 const sbFrameCrops = O_list([
-  ['🎬 Wide · Full room & full posture environmental establishing shot', 'a wide environmental establishing composition capturing the full room architecture, light sources, and head-to-toe posture', '', 'wide_crop'],
-  ['👗 Medium · Three-quarter fashion framing (knees-up) highlighting garment & drape', 'a three-quarter knees-up editorial framing reading garment drape, hand posture, and full haircut perimeter cleanly', '', 'medium_crop'],
-  ['👗 Medium · Waist-up medium candid portrait showing outfit, arms & expression', 'a waist-up medium candid portrait balanced between garment construction, arm placement, and haircut movement', '', 'medium_crop'],
-  ['✨ Close · Chest-up intimate beauty portrait focusing cleanly on haircut & cheekbones', 'a chest-up close beauty portrait emphasizing jawline curvature, front bangs/veil, collarbone glow, and surface texture', '', 'close_crop'],
-  ['🔍 Macro · Extreme 100mm macro detail crop (eye/veil curtain, lips, brush, ink or blade)', 'an extreme 100mm f/2.8 macro close-up tight on skin micro-pores, satin hair-veil sheen, water droplets, or fine brush/tool precision', '', 'macro_crop'],
-  ['👤 Back · Rear over-shoulder & nape silhouette showcasing back haircut perimeter', 'an intimate rear three-quarter over-the-shoulder angle showcasing the razor-crisp nape outline, crown texture, and neck contour', '', 'back_crop'],
-  ['🎬 Low-Angle · Split low-angle knee-up frame looking subtly upward with commanding stature', 'a slightly low-angle three-quarter frame lending quiet commanding editorial presence', '', 'medium_crop'],
-  ['✨ Close · Tight jawline, lip & collarbone crop (hands holding comb/dropper/spray in frame)', 'an ultra-intimate sculptural crop centering mouth curve, misted jawline, bare neck shadow, and foreground artisan hand action', '', 'close_crop'],
-  ['✨ Overhead · Tight overhead bird’s-eye medium framing looking down onto chair / spa pillow', 'an elevated 45-degree downward perspective looking into upturned crown structure, cheekbones, and pillow linen drape', '', 'close_crop'],
-  ['🎬 Dynamic · Dutch-tilted 15° backstage documentary medium crop in motion', 'an energetic tilted 15-degree medium frame catching hair movement and garment swirl mid-step', '', 'medium_crop'],
-  ['✂️ Two-Shot · Balanced frame including attending male barber/MUA hands & silhouette', 'a balanced candid two-shot composition keeping the solitary female protagonist centered while clearly framing the attending male barber/MUA posture and ergonomic hand placement', '', 'medium_crop'],
-  ['🔍 Macro · Ultra-tight rear hairline & undercut / fine-line neck tattoo focus shot', 'a razor-sharp macro-medium framing focusing purely on clean nape haircut geometry, dangling wisps, and upper spine details', '', 'macro_crop']
+  
+  ["🎬 Wide · Full room & full posture environmental establishing shot", "a wide environmental establishing composition capturing the full room architecture, light sources, and head-to-toe posture", "", "wide_crop"],
+  ["👗 Medium · Three-quarter fashion framing (knees-up) highlighting garment & drape", "a three-quarter knees-up editorial framing reading garment drape, hand posture, and full haircut perimeter cleanly", "", "medium_crop"],
+  ["👗 Medium · Waist-up medium candid portrait showing outfit, arms & expression", "a waist-up medium candid portrait balanced between garment construction, arm placement, and haircut movement", "", "medium_crop"],
+  ["🎬 Low-Angle · Split low-angle knee-up frame looking subtly upward with commanding stature", "a slightly low-angle three-quarter frame lending quiet commanding editorial presence", "", "medium_crop"],
+  ["🎬 Dynamic · Dutch-tilted 15° backstage documentary medium crop in motion", "an energetic tilted 15-degree medium frame catching hair movement and garment swirl mid-step", "", "medium_crop"],
+  ["✂️ Two-Shot · Balanced frame including attending male barber/MUA hands & silhouette", "a balanced candid two-shot composition keeping the solitary female protagonist centered while clearly framing the attending male barber/MUA posture and ergonomic hand placement", "", "medium_crop"],
+  ["✨ Close · Chest-up intimate beauty portrait focusing cleanly on haircut & cheekbones", "a chest-up close beauty portrait emphasizing jawline curvature, front bangs/veil, collarbone glow, and surface texture", "", "close_crop"],
+  ["✨ Close · Tight jawline, lip & collarbone crop (hands holding comb/dropper/spray in frame)", "an ultra-intimate sculptural crop centering mouth curve, misted jawline, bare neck shadow, and foreground artisan hand action", "", "close_crop"],
+  ["✨ Overhead · Tight overhead bird’s-eye medium framing looking down onto chair / spa pillow", "an elevated 45-degree downward perspective looking into upturned crown structure, cheekbones, and pillow linen drape", "", "close_crop"],
+  ["🔍 Macro · Extreme 100mm macro detail crop (eye/veil curtain, lips, brush, ink or blade)", "an extreme 100mm f/2.8 macro close-up tight on skin micro-pores, satin hair-veil sheen, water droplets, or fine brush/tool precision", "", "macro_crop"],
+  ["🔍 Macro · Ultra-tight rear hairline & undercut / fine-line neck tattoo focus shot", "a razor-sharp macro-medium framing focusing purely on clean nape haircut geometry, dangling wisps, and upper spine details", "", "macro_crop"],
+  ["👤 Back · Rear over-shoulder & nape silhouette showcasing back haircut perimeter", "an intimate rear three-quarter over-the-shoulder angle showcasing the razor-crisp nape outline, crown texture, and neck contour", "", "back_crop"],
+
 ]);
 
 const sbFrameAngles = O_list([
-  ['📷 Eye-Level · Eye-level direct candid angle (authentic presence)', 'eye-level natural camera perspective', '', 'ang_direct'],
-  ['📐 3/4 Side · Three-quarter side angle sculpting jawline & front hair drape', 'flattering three-quarter side angle sculpting cheekbone contour and hair drape', '', 'ang_side'],
-  ['🎬 Low 20° · Low raking 20° upward angle (cinematic authority)', 'subtly low upward camera angle amplifying posture and silhouette', '', 'ang_low'],
-  ['✨ High 35° · High 35° slightly downward beauty angle accentuating cheekbones & veil', 'clean elevated 35-degree downward beauty angle', '', 'ang_high'],
-  ['📐 Profile 90° · Sideways 90° lateral profile looking away (face naturally concealed)', 'a clean 90-degree lateral side-profile camera angle where the model looks away so her face stays naturally concealed while focusing on hair perimeter and neckline', '', 'ang_side'],
-  ['📸 POV · Over-the-shoulder intimate POV looking past barber / prop into station', 'intimate over-the-shoulder framing peering cleanly past foreground hands/shoulder into the action', '', 'ang_side'],
-  ['📐 Shielded · Sideways concealed profile — face shielded cleanly by raised hand at temple', 'a discreet side-angle perspective where the model turns away with her raised fingers lightly shielding her temple and profile cleanly from view', '', 'ang_side'],
-  ['👤 Tracking · Three-quarter rear walking-away tracking angle focusing on swinging hair back', 'a dynamic three-quarter rear camera viewpoint emphasizing moving hair ends, bare shoulders, and architectural depth', '', 'ang_rear'],
-  ['🎬 Floor Angle · Floor-grazing extreme low-angle looking steeply upward against ceiling/sky', 'dramatic low-profile camera perspective magnifying towering architectural verticality and hair volume', '', 'ang_low'],
-  ['✨ Reflection · Close reflection glance off frosted foreground glass pane without duplicate mirrors', 'artistic layered foreground glass perspective creating subtle specular atmosphere while keeping face crisp', '', 'ang_direct']
+  
+  ["📷 Eye-Level · Eye-level direct candid angle (authentic presence)", "eye-level natural camera perspective", "", "ang_direct"],
+  ["✨ Reflection · Close reflection glance off frosted foreground glass pane without duplicate mirrors", "artistic layered foreground glass perspective creating subtle specular atmosphere while keeping face crisp", "", "ang_direct"],
+  ["📐 3/4 Side · Three-quarter side angle sculpting jawline & front hair drape", "flattering three-quarter side angle sculpting cheekbone contour and hair drape", "", "ang_side"],
+  ["📐 Profile 90° · Sideways 90° lateral profile looking away (face naturally concealed)", "a clean 90-degree lateral side-profile camera angle where the model looks away so her face stays naturally concealed while focusing on hair perimeter and neckline", "", "ang_side"],
+  ["📸 POV · Over-the-shoulder intimate POV looking past barber / prop into station", "intimate over-the-shoulder framing peering cleanly past foreground hands/shoulder into the action", "", "ang_side"],
+  ["📐 Shielded · Sideways concealed profile — face shielded cleanly by raised hand at temple", "a discreet side-angle perspective where the model turns away with her raised fingers lightly shielding her temple and profile cleanly from view", "", "ang_side"],
+  ["🎬 Low 20° · Low raking 20° upward angle (cinematic authority)", "subtly low upward camera angle amplifying posture and silhouette", "", "ang_low"],
+  ["🎬 Floor Angle · Floor-grazing extreme low-angle looking steeply upward against ceiling/sky", "dramatic low-profile camera perspective magnifying towering architectural verticality and hair volume", "", "ang_low"],
+  ["✨ High 35° · High 35° slightly downward beauty angle accentuating cheekbones & veil", "clean elevated 35-degree downward beauty angle", "", "ang_high"],
+  ["👤 Tracking · Three-quarter rear walking-away tracking angle focusing on swinging hair back", "a dynamic three-quarter rear camera viewpoint emphasizing moving hair ends, bare shoulders, and architectural depth", "", "ang_rear"],
+
 ]);
 
 const sbFrameActions = O_list([
@@ -487,18 +507,24 @@ const sbFrameActions = O_list([
   ['🎬 Opening · Perched high on backless cutting stool holding relaxed poise with chin level', 'seated upright balanced cleanly on a low backless stool while salon staff prepare spray bottle behind', '', 'act_opening'],
   ['🎬 Opening · Resting palms smoothly on wet infinity pool stone before entering water', 'seated barefoot beside glowing turquoise pool surface catching warm sunset rays on dry pre-swim hair', '', 'act_opening'],
   ['🎬 Opening · Adjusting delicate slip/separates collar smoothly before camera rolls', 'fixing strap / neckline subtly between poses with unposed behind-the-scenes warmth', '', 'act_opening'],
-  // Active Craft & Mechanics (10)
-  ['✂️ Styling · Male barber misting water bottle & parting damp front bangs cleanly with comb', 'male barber spritzing fine backlit water mist over her crown while drawing a black carbon comb cleanly through sleek front hair panels', '', 'act_action'],
-  ['✂️ Cutting · Clean deliberate scissor snip holding damp ends taut between fingers', 'male barber holding damp hair sections flat between index and middle fingers and making precise deliberate steel-shear snips as clippings drop onto cape', '', 'act_action'],
-  ['✂️ Styling · Sliding wide round brush or flat-iron steadily down beveled ends', 'smoothing gleaming warm styling brush smoothly down beveled front layers, coaxing effortless salon C-curve movement', '', 'act_action'],
-  ['💄 Makeup · Male MUA resting pinky softly on cheek sweeping thin black winged liner', 'focused male makeup artist bracing his pinky lightly near cheek apple while pulling a continuous razor-sharp jet-black winged liner stroke', '', 'act_action'],
-  ['🧖 Skincare · Gliding cool rose-quartz gua sha / glass dropper serum up oiled jawline', 'smooth botanical oil and chilled rose-quartz gua sha stone gliding calmly upward along glowing sculpted cheekbone pores', '', 'act_action'],
-  ['🖋️ Tattoo · Fine-line tattoo artist gloved hand steady against bare collarbone/spine skin', 'macro concentration as tattooed artwork on bare skin gleams beside matte black nitrile gloves aligning fine single-needle linework', '', 'act_action'],
-  ['✂️ Duster · Barber sweeping loose cut hair clippings gently off forehead & cape shoulders', 'focused male barber using soft black boar-bristle neck duster brush along jawline and shoulders cleanly', '', 'act_action'],
-  ['💄 Finishing · Male MUA dusting fine luminous powder subtly off cheekbones with fan brush', 'artisan squirrel-hair brush diffusing feathery weightless powder glow under warm vanity bulbs cleanly', '', 'act_action'],
-  ['🧖 Spa Towel · Pressing warm rolled lavender hot towel soothingly around jaw & temples', 'comforting steam-warmed organic linen compress cradling cheeks in serene closed-eye spa calm', '', 'act_action'],
-  ['🧖 Mask · Peeling corner of clear hydrogel sheet mask gently back off dewy jawline', 'delicate manicured fingers lifting glowing cooling mask cleanly away to expose luminous hydration underneath', '', 'act_action'],
-  ['✂️ Razor · Female protagonist (barber) shaving male client cheek foam neatly with razor', 'female protagonist concentrating intensely in crisp haircut while guiding her straight razor cleanly along male client jawline foam', '', 'act_action'],
+  // Razor Craft (1)
+  ['🪒 Razor · Female protagonist (barber) shaving male client cheek foam neatly with razor', 'female protagonist concentrating intensely in crisp haircut while guiding her straight razor cleanly along male client jawline foam', '', 'act_razor'],
+  // Scissor & Shear Cuts (1)
+  ['✂️ Cutting · Clean deliberate scissor snip holding damp ends taut between fingers', 'male barber holding damp hair sections flat between index and middle fingers and making precise deliberate steel-shear snips as clippings drop onto cape', '', 'act_cutting'],
+  // Heat Styling & Blowouts (2)
+  ['💨 Styling · Male barber misting water bottle & parting damp front bangs cleanly with comb', 'male barber spritzing fine backlit water mist over her crown while drawing a black carbon comb cleanly through sleek front hair panels', '', 'act_styling'],
+  ['💨 Styling · Sliding wide round brush or flat-iron steadily down beveled ends', 'smoothing gleaming warm styling brush smoothly down beveled front layers, coaxing effortless salon C-curve movement', '', 'act_styling'],
+  // Spa & Skincare Rituals (3)
+  ['🧖 Skincare · Gliding cool rose-quartz gua sha / glass dropper serum up oiled jawline', 'smooth botanical oil and chilled rose-quartz gua sha stone gliding calmly upward along glowing sculpted cheekbone pores', '', 'act_spa_skincare'],
+  ['🧖 Spa Towel · Pressing warm rolled lavender hot towel soothingly around jaw & temples', 'comforting steam-warmed organic linen compress cradling cheeks in serene closed-eye spa calm', '', 'act_spa_skincare'],
+  ['🧖 Mask · Peeling corner of clear hydrogel sheet mask gently back off dewy jawline', 'delicate manicured fingers lifting glowing cooling mask cleanly away to expose luminous hydration underneath', '', 'act_spa_skincare'],
+  // Makeup & Finishing (2)
+  ['💄 Makeup · Male MUA resting pinky softly on cheek sweeping thin black winged liner', 'focused male makeup artist bracing his pinky lightly near cheek apple while pulling a continuous razor-sharp jet-black winged liner stroke', '', 'act_makeup'],
+  ['💄 Finishing · Male MUA dusting fine luminous powder subtly off cheekbones with fan brush', 'artisan squirrel-hair brush diffusing feathery weightless powder glow under warm vanity bulbs cleanly', '', 'act_makeup'],
+  // Tattoo Detailing (1)
+  ['🖋️ Tattoo · Fine-line tattoo artist gloved hand steady against bare collarbone/spine skin', 'macro concentration as tattooed artwork on bare skin gleams beside matte black nitrile gloves aligning fine single-needle linework', '', 'act_tattoo'],
+  // Cleanup & Duster (1)
+  ['🧹 Duster · Barber sweeping loose cut hair clippings gently off forehead & cape shoulders', 'focused male barber using soft black boar-bristle neck duster brush along jawline and shoulders cleanly', '', 'act_cleanup'],
   // Peak Climax / Veil & Motion (9)
   ['🌊 Veil · Continuous satin front hair sweep gliding smoothly across covered eye(s)', 'rotating her chin gently 45 degrees so a continuous glossy fine-tooth-combed hair curtain drapes solidly across her eye/cheek zone', '', 'act_peak'],
   ['🌊 Motion · Running spread fingertips slowly upward through tousled curls & layers', 'threading bare splayed fingers softly under thick nape layers to shake natural voluminous bounce effortlessly into motion', '', 'act_peak'],
@@ -533,16 +559,18 @@ const sbFrameMoistureOverrides = [
 ];
 
 const sbFrameLightTwists = [
-  O('✦ Inherit · Follow Global Lighting Setup', '', '', 'inherit'),
-  O('💡 Vanity Spotlight · Warm Edison / tungsten vanity spotlight pop', 'lit by close warm amber vanity bulbs illuminating hair gleam and cheekbones tightly', '', 'vanity'),
-  O('☀️ Window Light · Cool north window daylight catching clean skin pores', 'bathed in pure cool overcast north window daylight highlighting realistic dermal texture', '', 'daylight'),
-  O('✨ Backlit Rim · Crisp backlit hair-rim glow through mist / steam haze', 'framed by luminous golden rim backlighting tracing individual hair flyaways and airborne droplets', '', 'rim'),
-  O('⚡ Direct Flash · Direct candid 35mm on-camera paparazzi flash pop', 'punctuated by crisp direct on-camera flash creating bold specular catchlights and candid energy', '', 'flash'),
-  O('🕯️ Candlelight · Dim atmospheric candlelight & soft warm shadow gradient', 'wrapped in tranquil warm candlelit glow falling gently into deep velvet shadow', '', 'moody'),
-  O('☀️ Window Blinds · Dramatic Venetian-blind razor sunlight shadow stripes', 'slashed cleanly with high-contrast graphic window blind sunbeams across cheek & neckline', '', 'daylight'),
-  O('🌊 Water Caustics · Shimmering turquoise water caustics bouncing across damp collarbones', 'illuminated by dancing pool water light caustics rippling subtly over hydrated skin', '', 'moody'),
-  O('🌃 Neon Street · Magenta & cyan monsoon neon streetlamp glow on wet surfaces', 'washed gently in vibrant pink/amber/cyan nocturnal neon bokeh reflecting off wet sheen', '', 'moody'),
-  O('☁️ Open Shade · Overcast silvery open-shade luxury editorial softness', 'diffused open-shade sky casting velvety soft wraps around jawline with zero harsh shadows', '', 'daylight')
+  
+  O("✦ Inherit · Follow Global Lighting Setup", "", "", "inherit"),
+  O("💡 Vanity Spotlight · Warm Edison / tungsten vanity spotlight pop", "lit by close warm amber vanity bulbs illuminating hair gleam and cheekbones tightly", "", "vanity"),
+  O("☀️ Window Light · Cool north window daylight catching clean skin pores", "bathed in pure cool overcast north window daylight highlighting realistic dermal texture", "", "daylight"),
+  O("☀️ Window Blinds · Dramatic Venetian-blind razor sunlight shadow stripes", "slashed cleanly with high-contrast graphic window blind sunbeams across cheek & neckline", "", "daylight"),
+  O("☁️ Open Shade · Overcast silvery open-shade luxury editorial softness", "diffused open-shade sky casting velvety soft wraps around jawline with zero harsh shadows", "", "daylight"),
+  O("✨ Backlit Rim · Crisp backlit hair-rim glow through mist / steam haze", "framed by luminous golden rim backlighting tracing individual hair flyaways and airborne droplets", "", "rim"),
+  O("⚡ Direct Flash · Direct candid 35mm on-camera paparazzi flash pop", "punctuated by crisp direct on-camera flash creating bold specular catchlights and candid energy", "", "flash"),
+  O("🕯️ Candlelight · Dim atmospheric candlelight & soft warm shadow gradient", "wrapped in tranquil warm candlelit glow falling gently into deep velvet shadow", "", "moody"),
+  O("🌊 Water Caustics · Shimmering turquoise water caustics bouncing across damp collarbones", "illuminated by dancing pool water light caustics rippling subtly over hydrated skin", "", "moody"),
+  O("🌃 Neon Street · Magenta & cyan monsoon neon streetlamp glow on wet surfaces", "washed gently in vibrant pink/amber/cyan nocturnal neon bokeh reflecting off wet sheen", "", "moody"),
+
 ];
 
 const sbFrameLenses = [
@@ -950,17 +978,8 @@ function createFieldElement(id, f){
     menu.insertBefore(catBar, list);
   }
 
-  let currentCat = null;
-  visibleOpts.forEach(o => {
-    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
-      currentCat = o.cat;
-      const grp = document.createElement('div');
-      grp.className = 'choice-group-header';
-      grp.dataset.cat = o.cat;
-      grp.innerHTML = formatCategoryHeader(o.cat);
-      list.appendChild(grp);
-    }
-
+  // Populate choices (category grouped)
+  const createChoiceButton = (o) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
@@ -989,8 +1008,25 @@ function createFieldElement(id, f){
       if(id.endsWith('Category')) renderFields();
       buildPrompt();
     });
-    list.appendChild(b);
-  });
+    return b;
+  };
+
+  if (cats.length >= 2) {
+    cats.forEach(c => {
+      const catOpts = visibleOpts.filter(o => o.cat === c);
+      if (!catOpts.length) return;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = c;
+      grp.innerHTML = formatCategoryHeader(c);
+      list.appendChild(grp);
+      catOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+    });
+    const misc = visibleOpts.filter(o => !o.cat || o.cat === 'all');
+    misc.forEach(o => list.appendChild(createChoiceButton(o)));
+  } else {
+    visibleOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+  }
 
   const searchInput = menu.querySelector('.select-search');
   searchInput.addEventListener('input', e => {

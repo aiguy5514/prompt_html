@@ -271,11 +271,11 @@ const prepLocations = makeOpts([
 ]);
 
 const prepAtmospheres = makeOpts([
-  ["\ud83e\uddd8 Intimate Ritual \u00b7 Calm, intimate personal ritual", "quiet, unhurried personal beauty ritual energy with zero stiff posing", "", "ritual"],
-  ["\u26a1 Backstage \u00b7 Energetic backstage pre-shoot hustle", "electric behind-the-scenes backstage energy minutes before stepping onto set", "", "hustle"],
-  ["\ud83e\uddd6 Spa Serenity \u00b7 Deeply tranquil steam-warmed spa serenity", "deeply serene, warm, humid spa atmosphere with tranquil breathing rhythm", "", "steam"],
-  ["\u26a1 Backstage \u00b7 Candid unscripted getting-ready moment", "spontaneous getting-ready slice-of-life warmth captured mid-motion", "", "hustle"],
-  ["\ud83e\uddd8 Intimate Ritual \u00b7 Golden-hour slow luxury indulgence", "slow, luminous late-afternoon indulgence soaked in golden ambient warmth", "", "ritual"]
+  ["⚡ Backstage · Energetic backstage pre-shoot hustle", "electric behind-the-scenes backstage energy minutes before stepping onto set", "", "hustle"],
+  ["⚡ Backstage · Candid unscripted getting-ready moment", "spontaneous getting-ready slice-of-life warmth captured mid-motion", "", "hustle"],
+  ["🧘 Intimate Ritual · Calm, intimate personal ritual", "quiet, unhurried personal beauty ritual energy with zero stiff posing", "", "ritual"],
+  ["🧘 Intimate Ritual · Golden-hour slow luxury indulgence", "slow, luminous late-afternoon indulgence soaked in golden ambient warmth", "", "ritual"],
+  ["🧖 Spa Serenity · Deeply tranquil steam-warmed spa serenity", "deeply serene, warm, humid spa atmosphere with tranquil breathing rhythm", "", "steam"]
 ]);
 
 const prepSteamDensities = makeOpts([
@@ -289,12 +289,12 @@ const prepSteamDensities = makeOpts([
 // ==========================================
 
 const prepHairHolds = makeOpts([
-  ["\ud83d\udcce Sectioning Clips \u00b7 Matte black duckbill sectioning clips pinning front wings back", "two matte black creaseless duckbill sectioning clips slid cleanly into the temples to hold her front strands back off her cheekbones while preserving the rest of the haircut shape", "", "clip"],
-  ["\ud83c\udf80 Spa Headband \u00b7 Plush cream spa velcro headband lifting hairline cleanly", "a plush soft cream terry-cotton spa headband worn snugly across the crown hairline, holding front hair cleanly off her forehead and ears while letting the back haircut lengths rest naturally", "", "band"],
-  ["\ud83c\udf80 Spa Headband \u00b7 Sleek satin wrap headband with loose wispy temple tendrils", "a lustrous champagne silk spa band tied softly over the crown with a few fine organic wispy tendrils escaping gracefully around the ears", "", "band"],
-  ["\ud83d\udcce Sectioning Clips \u00b7 Claw clip twist loosely catching mid-lengths off collarbone", "a dark tortoiseshell claw clip gathering the bulk gently at the occipital crown while delicate front layers frame her jawline freely", "", "clip"],
-  ["\ud83e\uddd6 Spa Turban \u00b7 Waffle-weave cotton spa hair wrap with damp nape wisps", "a neatly wrapped cream waffle-cotton post-wash hair turban leaving fine damp wisps along her temples, ears, and nape", "", "wrap"],
-  ["\ud83c\udf80 Spa Headband \u00b7 Uncovered & natural (no clips or bands \u2014 pure chosen haircut)", "hair worn completely uncovered without clips or bands so her selected haircut silhouette frames her face organically", "", "band"]
+  ["✦ Natural · Uncovered & natural (no clips or bands — pure chosen haircut)", "hair worn completely uncovered without clips or bands so her selected haircut silhouette frames her face organically", "", "natural"],
+  ["🎀 Spa Headband · Plush cream spa velcro headband lifting hairline cleanly", "a plush soft cream terry-cotton spa headband worn snugly across the crown hairline, holding front hair cleanly off her forehead and ears while letting the back haircut lengths rest naturally", "", "band"],
+  ["🎀 Spa Headband · Sleek satin wrap headband with loose wispy temple tendrils", "a lustrous champagne silk spa band tied softly over the crown with a few fine organic wispy tendrils escaping gracefully around the ears", "", "band"],
+  ["📎 Sectioning Clips · Matte black duckbill sectioning clips pinning front wings back", "two matte black creaseless duckbill sectioning clips slid cleanly into the temples to hold her front strands back off her cheekbones while preserving the rest of the haircut shape", "", "clip"],
+  ["📎 Sectioning Clips · Claw clip twist loosely catching mid-lengths off collarbone", "a dark tortoiseshell claw clip gathering the bulk gently at the occipital crown while delicate front layers frame her jawline freely", "", "clip"],
+  ["🧖 Spa Turban · Waffle-weave cotton spa hair wrap with damp nape wisps", "a neatly wrapped cream waffle-cotton post-wash hair turban leaving fine damp wisps along her temples, ears, and nape", "", "wrap"]
 ]);
 
 const PREP_OUTFIT_FAMILIES = [
@@ -414,20 +414,20 @@ const prepSkinFinishes = makeOpts([
 ]);
 
 const prepPoses = makeOpts([
-  ["\ud83e\uddcd Vanity Seated \u00b7 Seated upright with chin raised 20\u00b0 catching soft light", "seated relaxed in the styling chair with her chin raised slightly toward the key light, neck elongated and shoulders dropped loosely", "", "upright"],
-  ["\ud83d\udecb\ufe0f Reclining \u00b7 Reclining serenely on plush spa pillow with chest open", "reclining comfortably at a 35-degree angle against crisp stacked linen pillows on the facial bed, exposing throat and bare collarbones cleanly", "", "reclined"],
-  ["\ud83e\uddcd Vanity Seated \u00b7 Leaning elbows lightly on marble vanity resting near chin", "leaning slightly forward at the vanity counter with forearms propped casually on marble and relaxed open posture", "", "upright"],
-  ["\ud83d\udd04 Side Profile \u00b7 Side-profile 3/4 tilt showcasing cheek & hair prep silhouette", "head angled gracefully in a 3/4 side profile showing jawline curvature, pinned clips or waves, and brush contact along the cheek", "", "side"],
-  ["\ud83e\uddcd Vanity Seated \u00b7 Sideways looking away \u2014 hand raised to temple concealing face", "turned sideways looking away from the lens with one hand raised lightly near her temple/forehead shielding her facial profile from view while highlighting bare collarbone, hair sheen, and serene ritual context", "", "upright"],
-  ["\ud83d\ude48 Turned Away \u00b7 Turned away into soft background \u2014 zero direct frontal face view", "head turned smoothly three-quarters away into the serene suite background so her face remains concealed from the camera while lighting sculpts her jawline perimeter, hair clips/waves, and shoulder drape", "", "concealed"]
+  ["🧍 Vanity Seated · Seated upright with chin raised 20° catching soft light", "seated relaxed in the styling chair with her chin raised slightly toward the key light, neck elongated and shoulders dropped loosely", "", "upright"],
+  ["🧍 Vanity Seated · Leaning elbows lightly on marble vanity resting near chin", "leaning slightly forward at the vanity counter with forearms propped casually on marble and relaxed open posture", "", "upright"],
+  ["🧍 Vanity Seated · Sideways looking away — hand raised to temple concealing face", "turned sideways looking away from the lens with one hand raised lightly near her temple/forehead shielding her facial profile from view while highlighting bare collarbone, hair sheen, and serene ritual context", "", "upright"],
+  ["🛋️ Reclining · Reclining serenely on plush spa pillow with chest open", "reclining comfortably at a 35-degree angle against crisp stacked linen pillows on the facial bed, exposing throat and bare collarbones cleanly", "", "reclined"],
+  ["🔄 Side Profile · Side-profile 3/4 tilt showcasing cheek & hair prep silhouette", "head angled gracefully in a 3/4 side profile showing jawline curvature, pinned clips or waves, and brush contact along the cheek", "", "side"],
+  ["🙈 Turned Away · Turned away into soft background — zero direct frontal face view", "head turned smoothly three-quarters away into the serene suite background so her face remains concealed from the camera while lighting sculpts her jawline perimeter, hair clips/waves, and shoulder drape", "", "concealed"]
 ]);
 
 const prepExpressions = makeOpts([
-  ["\ud83d\ude0c Serene Bliss \u00b7 Tranquil closed-eyes spa bliss with soft parted lips", "serene tranquil composure with eyes resting gently shut in blissful relaxation and subtly parted soft lips", "", "serene"],
-  ["\ud83c\udfaf Calm Poise \u00b7 Calm poised stillness holding steady during precision liner", "calm, composed focus holding her facial muscles comfortably still with quiet effortless grace", "", "poised"],
-  ["\ud83d\ude0a Candid Smile \u00b7 Soft candid post-prep half-smile & warm eyes", "an authentic, understated closed-lip half-smile with warm, unforced natural eyes and relaxed cheeks", "", "smile"],
-  ["\ud83d\ude0c Serene Bliss \u00b7 Contemplative serene gaze slightly past the lens", "a gentle, contemplative gaze angled slightly away from the lens with soft natural facial asymmetry", "", "serene"],
-  ["\ud83d\ude0a Candid Smile \u00b7 Tiny amused behind-the-scenes smirk", "a playful tiny smirk during an unscripted backstage pause between makeup steps", "", "smile"]
+  ["😌 Serene Bliss · Tranquil closed-eyes spa bliss with soft parted lips", "serene tranquil composure with eyes resting gently shut in blissful relaxation and subtly parted soft lips", "", "serene"],
+  ["😌 Serene Bliss · Contemplative serene gaze slightly past the lens", "a gentle, contemplative gaze angled slightly away from the lens with soft natural facial asymmetry", "", "serene"],
+  ["🎯 Calm Poise · Calm poised stillness holding steady during precision liner", "calm, composed focus holding her facial muscles comfortably still with quiet effortless grace", "", "poised"],
+  ["😊 Candid Smile · Soft candid post-prep half-smile & warm eyes", "an authentic, understated closed-lip half-smile with warm, unforced natural eyes and relaxed cheeks", "", "smile"],
+  ["😊 Candid Smile · Tiny amused behind-the-scenes smirk", "a playful tiny smirk during an unscripted backstage pause between makeup steps", "", "smile"]
 ]);
 
 const prepLipLooks = makeOpts([
@@ -439,10 +439,10 @@ const prepLipLooks = makeOpts([
 ]);
 
 const prepEyeLooks = makeOpts([
-  ["\ud83d\udc41\ufe0f Curled & Glossed \u00b7 Clean bare curled lashes (fresh skincare focus)", "freshly curled natural bare eyelashes and naturally brushed un-penciled brows", "", "clean"],
-  ["\ud83d\udd8b\ufe0f Liner & Kohl \u00b7 Razor-thin jet-black winged tightliner", "a delicate, razor-sharp winged black eyeliner accenting natural eye contour without heavy shadow", "", "liner"],
-  ["\ud83d\udc41\ufe0f Curled & Glossed \u00b7 Warm bronzed lid gloss & lifted fluffy brows", "translucent warm bronze balm across the eyelids paired with airy soap-brushed brows", "", "clean"],
-  ["\ud83d\udd8b\ufe0f Liner & Kohl \u00b7 Soft smudged kohl waterline editorial gleam", "understated charcoal-brown smudged kohl softly framing the upper lash line", "", "liner"]
+  ["👁️ Curled & Glossed · Clean bare curled lashes (fresh skincare focus)", "freshly curled natural bare eyelashes and naturally brushed un-penciled brows", "", "clean"],
+  ["👁️ Curled & Glossed · Warm bronzed lid gloss & lifted fluffy brows", "translucent warm bronze balm across the eyelids paired with airy soap-brushed brows", "", "clean"],
+  ["🖋️ Liner & Kohl · Razor-thin jet-black winged tightliner", "a delicate, razor-sharp winged black eyeliner accenting natural eye contour without heavy shadow", "", "liner"],
+  ["🖋️ Liner & Kohl · Soft smudged kohl waterline editorial gleam", "understated charcoal-brown smudged kohl softly framing the upper lash line", "", "liner"]
 ]);
 
 // ==========================================
@@ -494,10 +494,10 @@ const prepLightings = makeOpts([
 ]);
 
 const prepFilms = makeOpts([
-  ["\ud83c\udf9e\ufe0f Portra 400 \u00b7 Kodak Portra 400 organic skin fidelity & fine grain", "classic Kodak Portra 400 film emulation delivering rich warm golden Indian skin tones, gentle highlight roll-off, and fine organic grain", "", "portra"],
-  ["\ud83d\udc8e Medium-Format RAW \u00b7 Hasselblad medium-format raw digital crispness", "medium-format Hasselblad micro-contrast resolving individual eyebrow hairs, serum glints, and woven linen fibers crisply", "", "digital"],
-  ["\ud83c\udfac Cinestill Warm \u00b7 Cinestill atmospheric warm halation aesthetic", "subtle nocturnal halation around warm tungsten vanity bulbs paired with balanced cinematic shadows", "", "cinestill"],
-  ["\ud83d\udc8e Medium-Format RAW \u00b7 Natural ungraded DSLR behind-the-scenes realism", "unfiltered behind-the-scenes DSLR photography with true-to-life color temperature and authentic indoor texture", "", "digital"]
+  ["🎞️ Portra 400 · Kodak Portra 400 organic skin fidelity & fine grain", "classic Kodak Portra 400 film emulation delivering rich warm golden Indian skin tones, gentle highlight roll-off, and fine organic grain", "", "portra"],
+  ["🎬 Cinestill Warm · Cinestill atmospheric warm halation aesthetic", "subtle nocturnal halation around warm tungsten vanity bulbs paired with balanced cinematic shadows", "", "cinestill"],
+  ["💎 Medium-Format RAW · Hasselblad medium-format raw digital crispness", "medium-format Hasselblad micro-contrast resolving individual eyebrow hairs, serum glints, and woven linen fibers crisply", "", "digital"],
+  ["💎 Medium-Format RAW · Natural ungraded DSLR behind-the-scenes realism", "unfiltered behind-the-scenes DSLR photography with true-to-life color temperature and authentic indoor texture", "", "digital"]
 ]);
 
 const aspect = makeOpts([
@@ -1112,17 +1112,8 @@ function createFieldElement(id, f){
   }
 
   // Populate choices
-  let currentCat = null;
-  visibleOpts.forEach(o => {
-    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
-      currentCat = o.cat;
-      const grp = document.createElement('div');
-      grp.className = 'choice-group-header';
-      grp.dataset.cat = o.cat;
-      grp.innerHTML = formatCategoryHeader(o.cat);
-      list.appendChild(grp);
-    }
-
+  // Populate choices (category grouped)
+  const createChoiceButton = (o) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
@@ -1172,8 +1163,25 @@ function createFieldElement(id, f){
       }
       buildPrompt();
     });
-    list.appendChild(b);
-  });
+    return b;
+  };
+
+  if (cats.length >= 2) {
+    cats.forEach(c => {
+      const catOpts = visibleOpts.filter(o => o.cat === c);
+      if (!catOpts.length) return;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = c;
+      grp.innerHTML = formatCategoryHeader(c);
+      list.appendChild(grp);
+      catOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+    });
+    const misc = visibleOpts.filter(o => !o.cat || o.cat === 'all');
+    misc.forEach(o => list.appendChild(createChoiceButton(o)));
+  } else {
+    visibleOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+  }
 
   trigger.addEventListener('click', () => {
     if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){

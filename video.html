@@ -346,11 +346,13 @@ const vidFramerates = O_list([
 ]);
 
 const vidFocalLenses = O_list([
-  ['👤 50mm · 50mm f/1.2 Noctilux Cinema Prime (luminous skin & cream bokeh)', 'shot on a vintage 50mm f/1.2 cinema prime with velvety organic highlight roll-off and creamy background separation', '', 'portrait'],
-  ['👤 85mm · 85mm f/1.4 Master Anamorphic (oval bokeh & portrait magic)', '85mm T1.4 anamorphic prime delivering gentle horizontal oval bokeh streaks, dimensional subject pop, and flattering facial optics', '', 'portrait'],
-  ['📐 35mm · 35mm f/1.4 Cooke S4 (intimate spatial proximity & film warmth)', '35mm T1.4 Cooke S4 cinema lens preserving warm golden Indian skin tones and immersive near-field room presence', '', 'wide'],
-  ['🔍 100mm · 100mm f/2.8 Macro Cine Prime (pores, blade edges & water beads)', '100mm macro cinema prime resolving microscopic water beads, scissor steel texture, skin pores, and crisp strand edge gleams', '', 'macro_lens'],
-  ['📐 24mm · 24mm f/1.8 Wide Kinetic Prime (spacious room perspective)', 'wide 24mm prime capturing full styling station architecture, background motion, and foreground spatial depth', '', 'wide']
+  
+  ["👤 50mm · 50mm f/1.2 Noctilux Cinema Prime (luminous skin & cream bokeh)", "shot on a vintage 50mm f/1.2 cinema prime with velvety organic highlight roll-off and creamy background separation", "", "portrait"],
+  ["👤 85mm · 85mm f/1.4 Master Anamorphic (oval bokeh & portrait magic)", "85mm T1.4 anamorphic prime delivering gentle horizontal oval bokeh streaks, dimensional subject pop, and flattering facial optics", "", "portrait"],
+  ["📐 35mm · 35mm f/1.4 Cooke S4 (intimate spatial proximity & film warmth)", "35mm T1.4 Cooke S4 cinema lens preserving warm golden Indian skin tones and immersive near-field room presence", "", "wide"],
+  ["📐 24mm · 24mm f/1.8 Wide Kinetic Prime (spacious room perspective)", "wide 24mm prime capturing full styling station architecture, background motion, and foreground spatial depth", "", "wide"],
+  ["🔍 100mm · 100mm f/2.8 Macro Cine Prime (pores, blade edges & water beads)", "100mm macro cinema prime resolving microscopic water beads, scissor steel texture, skin pores, and crisp strand edge gleams", "", "macro_lens"],
+
 ]);
 
 // ==========================================
@@ -533,11 +535,13 @@ const vidAmplitudes = O_list([
 ]);
 
 const vidStyles = O_list([
-  ['🎞️ 35mm Film · Kodak Vision3 500T Anamorphic Cinema Film (rich Indian skin & halation)', 'authentic Kodak Vision3 500T 35mm motion-picture color science preserving rich warm Indian skin tones, velvety shadows, and gentle practical halation', '', 'film'],
-  ['💎 Digital Cinema · Arri Alexa Mini LF Natural Commercial Beauty Grade', 'ultra-clean Arri Alexa large-format digital cinema look with buttery skin highlight roll-off and crisp tactile pore fidelity', '', 'digital'],
-  ['📹 16mm Doc · Raw Behind-the-Scenes Documentary 16mm Grain', 'tactile 16mm behind-the-scenes celluloid grain with authentic practical lighting truth and unforced live camera texture', '', 'doc'],
-  ['🌙 Nocturnal · Crisp High-Contrast Nocturnal Neon & Rain Grade', 'moody high-contrast night cinema grading balancing saturated practical colors against clean accurate natural skin', '', 'neon'],
-  ['🎞️ Warm Portra · Kodak Portra Motion Warm Daylight Nostalgia', 'sun-drenched warm golden analog film texture celebrating glowing warm undertones and gentle airy contrast', '', 'film']
+  
+  ["🎞️ 35mm Film · Kodak Vision3 500T Anamorphic Cinema Film (rich Indian skin & halation)", "authentic Kodak Vision3 500T 35mm motion-picture color science preserving rich warm Indian skin tones, velvety shadows, and gentle practical halation", "", "film"],
+  ["🎞️ Warm Portra · Kodak Portra Motion Warm Daylight Nostalgia", "sun-drenched warm golden analog film texture celebrating glowing warm undertones and gentle airy contrast", "", "film"],
+  ["💎 Digital Cinema · Arri Alexa Mini LF Natural Commercial Beauty Grade", "ultra-clean Arri Alexa large-format digital cinema look with buttery skin highlight roll-off and crisp tactile pore fidelity", "", "digital"],
+  ["📹 16mm Doc · Raw Behind-the-Scenes Documentary 16mm Grain", "tactile 16mm behind-the-scenes celluloid grain with authentic practical lighting truth and unforced live camera texture", "", "doc"],
+  ["🌙 Nocturnal · Crisp High-Contrast Nocturnal Neon & Rain Grade", "moody high-contrast night cinema grading balancing saturated practical colors against clean accurate natural skin", "", "neon"],
+
 ]);
 
 const vidAspects = O_list([
@@ -553,7 +557,7 @@ const vidSpeedCurves = O_list([
   ['⏱️ 24fps · Continuous Realtime 24fps (Natural Momentum)', 'continuous real-time 24fps cadence with organic physical momentum and steady frame timing', '', 'speed_realtime'],
   ['🎢 Ramp · Dynamic Speed Ramp (24fps → 120fps Slow-Mo → 24fps)', 'cinematic speed ramp curve: begins at natural 24fps, decelerates smoothly into 120fps hyper-slow motion at the peak movement beat, then ramps gracefully back to 24fps for the resolve', '', 'speed_ramp'],
   ['⏳ Slow-Mo · Dreamy Overcranked 120fps Slow-Motion', 'continuous 120fps high-speed overcranked slow motion capturing every airborne micro-strand, falling droplet, and fabric flutter with suspension of time', '', 'speed_slowmo'],
-  ['⚡ 60fps · Hyper-Smooth 60fps High-Fluidity Cadence', 'high-frame-rate 60fps presentation with crystal-clear temporal definition and zero motion stutter', '', 'speed_realtime']
+  ['⚡ 60fps · Hyper-Smooth 60fps High-Fluidity Cadence', 'high-frame-rate 60fps presentation with crystal-clear temporal definition and zero motion stutter', '', 'hfr']
 ]);
 
 let wardrobeMode = 'ensemble';
@@ -1039,17 +1043,8 @@ function createFieldElement(id, f){
     menu.insertBefore(catBar, list);
   }
 
-  let currentCat = null;
-  visibleOpts.forEach(o => {
-    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
-      currentCat = o.cat;
-      const grp = document.createElement('div');
-      grp.className = 'choice-group-header';
-      grp.dataset.cat = o.cat;
-      grp.innerHTML = formatCategoryHeader(o.cat);
-      list.appendChild(grp);
-    }
-
+  // Populate choices (category grouped)
+  const createChoiceButton = (o) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
@@ -1088,8 +1083,25 @@ function createFieldElement(id, f){
       if(id.endsWith('Category') || id.endsWith('Family') || id === 'vidActionDomain') renderFields();
       buildPrompt();
     });
-    list.appendChild(b);
-  });
+    return b;
+  };
+
+  if (cats.length >= 2) {
+    cats.forEach(c => {
+      const catOpts = visibleOpts.filter(o => o.cat === c);
+      if (!catOpts.length) return;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = c;
+      grp.innerHTML = formatCategoryHeader(c);
+      list.appendChild(grp);
+      catOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+    });
+    const misc = visibleOpts.filter(o => !o.cat || o.cat === 'all');
+    misc.forEach(o => list.appendChild(createChoiceButton(o)));
+  } else {
+    visibleOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+  }
 
   trigger.addEventListener('click', () => {
     if(window.AfterglowRefPicker && window.AfterglowRefPicker.isFieldLocked(id)){

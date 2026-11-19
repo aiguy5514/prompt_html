@@ -363,7 +363,8 @@ const escapeHtml = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&l
 const CAT_DISPLAY_NAMES = {
   // Partner & Touch
   partner_leather: '🧥 Biker & Leather',
-  partner_linen: '👔 Linen & Tailored',
+  partner_linen: '👔 Linen & Resort',
+  partner_tailored: '👔 Tailored & Suiting',
   partner_cozy: '🧶 Casual & Knitwear',
   touch_embrace: '🫂 Waist & Back Embrace',
   touch_hands: '🤝 Hands & Intertwined',
@@ -465,31 +466,31 @@ const sections = [
 const partnerAesthetics = [
   O('🧥 Biker · Tall handsome partner in black moto leather jacket', 'a tall, athletic, handsome South Asian male partner in a fitted black matte leather cafe-racer jacket, white cotton tee, dark denim trousers, and rugged leather boots with tousled dark hair', '', 'partner_leather'),
   O('👔 Linen · Sharp stylish partner in unbuttoned linen shirt', 'a handsome, well-groomed male partner in a relaxed unbuttoned cream linen collared shirt showing slight chest, tailored chinos, and understated leather wristwatch', '', 'partner_linen'),
-  O('👔 Tailored · Chic tailored partner in dark evening blazer', 'a stylish handsome male partner in a slim-cut charcoal structured blazer worn open over a fine knit crewneck, with clean jawline grooming and effortless urban charm', '', 'partner_linen'),
+  O('👔 Tailored · Chic tailored partner in dark evening blazer', 'a stylish handsome male partner in a slim-cut charcoal structured blazer worn open over a fine knit crewneck, with clean jawline grooming and effortless urban charm', '', 'partner_tailored'),
+  O('🧥 Overcoat · Sleek black turtleneck & tailored overcoat', 'a handsome male partner in a fine-gauge black merino turtleneck underneath a tailored camel wool overcoat, presenting refined cinematic sophistication', '', 'partner_tailored'),
   O('🧶 Casual · Casual rugged partner in denim jacket & vintage boots', 'a charismatic male partner in a distressed medium-wash denim jacket layered over a washed graphite t-shirt, relaxed dark jeans, and worn suede Chelsea boots', '', 'partner_cozy'),
-  O('🧶 Knitwear · Cozy knitwear partner in relaxed cashmere sweater', 'a handsome male partner in a cozy oversized oatmeal-colored cashmere sweater, textured wool trousers, and a warm, relaxed companionable demeanor', '', 'partner_cozy'),
-  O('🧥 Overcoat · Sleek black turtleneck & tailored overcoat', 'a handsome male partner in a fine-gauge black merino turtleneck underneath a tailored camel wool overcoat, presenting refined cinematic sophistication', '', 'partner_leather')
+  O('🧶 Knitwear · Cozy knitwear partner in relaxed cashmere sweater', 'a handsome male partner in a cozy oversized oatmeal-colored cashmere sweater, textured wool trousers, and a warm, relaxed companionable demeanor', '', 'partner_cozy')
 ];
 
 const intimacyTouches = [
   O('🫂 Embrace · Pillion waist embrace — chest leaning against his jacket', 'her arms locked securely around his waist, chest leaning comfortably against the back of his jacket with complete relaxed trust and balanced body weight at highway speed', '', 'touch_embrace'),
-  O('🤝 Clasp · Intertwined fingers clasp on table or tank', 'their fingers deeply and naturally interlaced on the tabletop or motorcycle tank, delicate knuckle contact and warm skin-on-skin intimacy caught in golden side-light', '', 'touch_hands'),
-  O('💕 Forehead · Foreheads resting together in tranquil stillness', 'foreheads leaning gently together, noses grazing, both eyes softly closed in a moment of tranquil, breathless emotional resonance and tender closeness', '', 'touch_intimate'),
-  O('🤝 Walk · Arm looped warmly through his mid-stride', 'her arm securely looped through his elbow as they walk shoulder-to-shoulder, matching stride naturally while laughing candidly at an inside joke', '', 'touch_hands'),
-  O('🧥 Draped · He gently drapes his heavy leather jacket over her bare shoulders', 'he slips his heavy jacket off and drapes it tenderly over her bare shoulders against the evening breeze, resting his hands momentarily over her upper arms as she looks up warmly', '', 'touch_care'),
   O('🫂 Behind · Protective back-embrace with arms wrapped around her waist', 'standing closely behind her with both hands resting gently at her waist, his chest aligned with her back as she leans back comfortably against him', '', 'touch_embrace'),
+  O('🤝 Clasp · Intertwined fingers clasp on table or tank', 'their fingers deeply and naturally interlaced on the tabletop or motorcycle tank, delicate knuckle contact and warm skin-on-skin intimacy caught in golden side-light', '', 'touch_hands'),
+  O('🤝 Walk · Arm looped warmly through his mid-stride', 'her arm securely looped through his elbow as they walk shoulder-to-shoulder, matching stride naturally while laughing candidly at an inside joke', '', 'touch_hands'),
+  O('💕 Forehead · Foreheads resting together in tranquil stillness', 'foreheads leaning gently together, noses grazing, both eyes softly closed in a moment of tranquil, breathless emotional resonance and tender closeness', '', 'touch_intimate'),
   O('💕 Jawline · Gentle jawline cup and tender near-kiss proximity', 'he gently cups her jawline with warm fingers, tilting her chin softly upward as their lips pause mere millimeters apart in intense, unhurried romantic anticipation', '', 'touch_intimate'),
   O('💕 Hair Tuck · He tucks a windblown hair lock softly behind her ear', 'he reaches up with delicate fingertips to brush a loose windblown lock of hair back over her ear, his hand grazing her cheekbone with fond affectionate tenderness', '', 'touch_intimate'),
+  O('🧥 Draped · He gently drapes his heavy leather jacket over her bare shoulders', 'he slips his heavy jacket off and drapes it tenderly over her bare shoulders against the evening breeze, resting his hands momentarily over her upper arms as she looks up warmly', '', 'touch_care'),
   O('🧥 Umbrella · Shared umbrella closeness with shoulders touching', 'huddled together beneath a compact black umbrella, his arm pulled snugly around her outer shoulder to shield her from the drizzle, wet coats brushing side-by-side', '', 'touch_care')
 ];
 
 const romanceExpressions = [
   O('😊 Laughter · Radiant candid laughter and crinkled eyes', 'spontaneous, uninhibited joyful laughter with crinkled eyes and relaxed facial muscles, capturing authentic duo happiness in the moment', '', 'exp_joy'),
   O('💕 Smolder · Tender, smoldering gaze with soft parted lips', 'an intense, smoldering gaze locked onto her partner with soft, naturally parted lips and subtle romantic tension', '', 'exp_tender'),
+  O('💕 Tenderness · Quiet, vulnerable tenderness with lowered eyelashes', 'a quiet, vulnerable moment of tenderness with softly lowered dark eyelashes and a gentle, private half-smile', '', 'exp_tender'),
   O('😌 Serene · Serene peaceful trust and contented half-smile', 'a calm, deeply contented half-smile with soft relaxed brow and serene facial peace, radiating effortless trust and affection', '', 'exp_serene'),
   O('😏 Playful · Playful flirtatious smirk and raised eyebrow', 'a playful, flirtatious smirk with one subtly raised eyebrow and amused eyes, exchanging lighthearted banter', '', 'exp_playful'),
-  O('🏍️ Exhilaration · Breathless windblown exhilaration mid-ride', 'exhilarated, wind-touched expression with parted lips, wide sparkling eyes, and the sheer adrenaline joy of open-road riding', '', 'exp_ride'),
-  O('💕 Tenderness · Quiet, vulnerable tenderness with lowered eyelashes', 'a quiet, vulnerable moment of tenderness with softly lowered dark eyelashes and a gentle, private half-smile', '', 'exp_tender')
+  O('🏍️ Exhilaration · Breathless windblown exhilaration mid-ride', 'exhilarated, wind-touched expression with parted lips, wide sparkling eyes, and the sheer adrenaline joy of open-road riding', '', 'exp_ride')
 ];
 
 const romanceSceneCategories = [
@@ -500,16 +501,16 @@ const romanceSceneCategories = [
 ];
 
 const romanceSettings = [
-  O('🏍️ Highway · Coastal highway cliffside at golden hour', 'a scenic winding coastal highway perched above ocean cliffs at golden hour, sea breeze, blurred guardrails, and warm amber light sweeping across asphalt', '', 'outdoor'),
   O('🏍️ Highway · Mountain pass highway rest stop pull-off', 'a gravel pull-off overlooking sweeping alpine mountain valleys, late afternoon sun glinting off road signs and motorcycle chrome, crisp mountain air', '', 'bike'),
-  O('🏍️ Highway · Desert highway straightaway at sunset', 'an endless desert highway cutting through rolling sandstone hills under an enormous magenta and burnt-orange sunset sky, heat haze on the horizon', '', 'outdoor'),
   O('🍷 Dining · Historic stone-wall candlelit bistro alcove', 'a cozy, intimate rustic bistro alcove with warm exposed brick, low amber candlelight on dark timber table, and wine glasses half-filled with ruby wine', '', 'date'),
   O('🍷 Dining · Heritage rooftop café terrace at dusk', 'a terracotta rooftop terrace overlooking city skyline lights at dusk, overflowing bougainvillea planters, ambient fairy-light strings, and two ceramic cups', '', 'date'),
+  O('🌿 Studio · Boutique fitness wellness lounge & post-workout studio', 'a tranquil luxury fitness lounge with natural timber benches, warm ambient cove lighting, and floor-to-ceiling city views', '', 'date'),
   O('🌧️ City · Rainy cobblestone alleyway under golden streetlights', 'a wet European cobblestone alleyway in evening drizzle, glowing golden sodium streetlights, rain-slicked stones reflecting neon shopfronts, quiet private city atmosphere', '', 'city'),
   O('🌧️ City · Vibrant night street-food market lane', 'a bustling night street-food market lane lit with hanging paper lanterns and festive string lights, aromatic steam rising, candid urban couple warmth', '', 'city'),
   O('🌧️ City · Rain-streaked yellow taxi backseat transit', 'the backseat of a vintage yellow taxi cab moving through rainy night city streets, blurred traffic lights and water droplets streaking across window glass', '', 'city'),
-  O('🌿 Studio · Boutique fitness wellness lounge & post-workout studio', 'a tranquil luxury fitness lounge with natural timber benches, warm ambient cove lighting, and floor-to-ceiling city views', '', 'date'),
-  O('🌿 Studio · Vintage vinyl record shop aisle', 'a warm-wood retro vinyl record store with wooden record bins, warm afternoon sunlight raking through dust-mote sunbeams and retro album art', '', 'city')
+  O('🌿 Studio · Vintage vinyl record shop aisle', 'a warm-wood retro vinyl record store with wooden record bins, warm afternoon sunlight raking through dust-mote sunbeams and retro album art', '', 'city'),
+  O('🏍️ Highway · Coastal highway cliffside at golden hour', 'a scenic winding coastal highway perched above ocean cliffs at golden hour, sea breeze, blurred guardrails, and warm amber light sweeping across asphalt', '', 'outdoor'),
+  O('🏍️ Highway · Desert highway straightaway at sunset', 'an endless desert highway cutting through rolling sandstone hills under an enormous magenta and burnt-orange sunset sky, heat haze on the horizon', '', 'outdoor')
 ];
 
 const romanceLightings = [
@@ -529,11 +530,13 @@ const romanceFramings = [
 ];
 
 const romanceAngles = [
-  O('📷 Eye-Level · Eye-level candid viewpoint', 'an eye-level candid camera angle creating immediate, unforced documentary realism', '', 'ang_candid'),
-  O('🏍️ 3/4 Angle · Dynamic three-quarter side angle', 'a dynamic three-quarter side angle capturing the profile of the motorcycle, pillion posture, and windblown hair movement', '', 'ang_tracking'),
-  O('📸 Partner POV · Over-the-partner\'s-shoulder POV', 'a cinematic over-the-shoulder camera viewpoint looking past his shoulder toward her, capturing her expressive reaction directly', '', 'ang_pov'),
-  O('🏍️ Low Highway · Slightly low highway angle looking up', 'a slightly low road-level camera angle looking up, lending heroic scale and kinetic motion to the couple and motorcycle', '', 'ang_tracking'),
-  O('🏍️ Tracking · Direct side profile tracking angle', 'a sleek direct side-profile tracking angle capturing rider and pillion in aerodynamic unity against the moving background', '', 'ang_tracking')
+  
+  O("📷 Eye-Level · Eye-level candid viewpoint", "an eye-level candid camera angle creating immediate, unforced documentary realism", "", "ang_candid"),
+  O("🏍️ 3/4 Angle · Dynamic three-quarter side angle", "a dynamic three-quarter side angle capturing the profile of the motorcycle, pillion posture, and windblown hair movement", "", "ang_tracking"),
+  O("🏍️ Low Highway · Slightly low highway angle looking up", "a slightly low road-level camera angle looking up, lending heroic scale and kinetic motion to the couple and motorcycle", "", "ang_tracking"),
+  O("🏍️ Tracking · Direct side profile tracking angle", "a sleek direct side-profile tracking angle capturing rider and pillion in aerodynamic unity against the moving background", "", "ang_tracking"),
+  O("📸 Partner POV · Over-the-partner's-shoulder POV", "a cinematic over-the-shoulder camera viewpoint looking past his shoulder toward her, capturing her expressive reaction directly", "", "ang_pov"),
+
 ];
 
 const romanceLenses = [
@@ -927,17 +930,8 @@ function createFieldElement(id, f){
     menu.insertBefore(catBar, list);
   }
 
-  let currentCat = null;
-  visibleOpts.forEach(o => {
-    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
-      currentCat = o.cat;
-      const grp = document.createElement('div');
-      grp.className = 'choice-group-header';
-      grp.dataset.cat = o.cat;
-      grp.innerHTML = formatCategoryHeader(o.cat);
-      list.appendChild(grp);
-    }
-
+  // Populate choices (category grouped)
+  const createChoiceButton = (o) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
@@ -983,8 +977,25 @@ function createFieldElement(id, f){
       }
       buildPrompt();
     });
-    list.appendChild(b);
-  });
+    return b;
+  };
+
+  if (cats.length >= 2) {
+    cats.forEach(c => {
+      const catOpts = visibleOpts.filter(o => o.cat === c);
+      if (!catOpts.length) return;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = c;
+      grp.innerHTML = formatCategoryHeader(c);
+      list.appendChild(grp);
+      catOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+    });
+    const misc = visibleOpts.filter(o => !o.cat || o.cat === 'all');
+    misc.forEach(o => list.appendChild(createChoiceButton(o)));
+  } else {
+    visibleOpts.forEach(o => list.appendChild(createChoiceButton(o)));
+  }
 
   const searchInput = menu.querySelector('.select-search');
   searchInput.addEventListener('input', e => {
