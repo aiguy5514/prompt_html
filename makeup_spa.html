@@ -271,17 +271,17 @@ const prepLocations = makeOpts([
 ]);
 
 const prepAtmospheres = makeOpts([
-  ['Calm, intimate personal ritual', 'quiet, unhurried personal beauty ritual energy with zero stiff posing'],
-  ['Energetic backstage pre-shoot hustle', 'electric behind-the-scenes backstage energy minutes before stepping onto set'],
-  ['Deeply tranquil steam-warmed spa serenity', 'deeply serene, warm, humid spa atmosphere with tranquil breathing rhythm'],
-  ['Candid unscripted getting-ready moment', 'spontaneous getting-ready slice-of-life warmth captured mid-motion'],
-  ['Golden-hour slow luxury indulgence', 'slow, luminous late-afternoon indulgence soaked in golden ambient warmth']
+  ["\ud83e\uddd8 Intimate Ritual \u00b7 Calm, intimate personal ritual", "quiet, unhurried personal beauty ritual energy with zero stiff posing", "", "ritual"],
+  ["\u26a1 Backstage \u00b7 Energetic backstage pre-shoot hustle", "electric behind-the-scenes backstage energy minutes before stepping onto set", "", "hustle"],
+  ["\ud83e\uddd6 Spa Serenity \u00b7 Deeply tranquil steam-warmed spa serenity", "deeply serene, warm, humid spa atmosphere with tranquil breathing rhythm", "", "steam"],
+  ["\u26a1 Backstage \u00b7 Candid unscripted getting-ready moment", "spontaneous getting-ready slice-of-life warmth captured mid-motion", "", "hustle"],
+  ["\ud83e\uddd8 Intimate Ritual \u00b7 Golden-hour slow luxury indulgence", "slow, luminous late-afternoon indulgence soaked in golden ambient warmth", "", "ritual"]
 ]);
 
 const prepSteamDensities = makeOpts([
-  ['Crisp Ambient Air (No Mist)', 'crisp ambient air with clean optical clarity and zero ambient steam mist'],
-  ['Delicate Facial Mist Plumes', 'delicate plumes of fine translucent hydrosol steam floating softly in the air, catching soft directional rim light'],
-  ['Dense Steam Sanctuary / Condensation', 'warm, deeply humid spa steam atmosphere with soft mist haze diffusing the background and subtle condensation droplets on polished marble surfaces']
+  ["\u2728 Crisp Air \u00b7 Crisp Ambient Air (No Mist)", "crisp ambient air with clean optical clarity and zero ambient steam mist", "", "crisp"],
+  ["\ud83d\udca8 Mist Plumes \u00b7 Delicate Facial Mist Plumes", "delicate plumes of fine translucent hydrosol steam floating softly in the air, catching soft directional rim light", "", "plume"],
+  ["\u2601\ufe0f Steam Sanctuary \u00b7 Dense Steam Sanctuary / Condensation", "warm, deeply humid spa steam atmosphere with soft mist haze diffusing the background and subtle condensation droplets on polished marble surfaces", "", "dense"]
 ]);
 
 // ==========================================
@@ -289,12 +289,12 @@ const prepSteamDensities = makeOpts([
 // ==========================================
 
 const prepHairHolds = makeOpts([
-  ['Matte black duckbill sectioning clips pinning front wings back', 'two matte black creaseless duckbill sectioning clips slid cleanly into the temples to hold her front strands back off her cheekbones while preserving the rest of the haircut shape'],
-  ['Plush cream spa velcro headband lifting hairline cleanly', 'a plush soft cream terry-cotton spa headband worn snugly across the crown hairline, holding front hair cleanly off her forehead and ears while letting the back haircut lengths rest naturally'],
-  ['Sleek satin wrap headband with loose wispy temple tendrils', 'a lustrous champagne silk spa band tied softly over the crown with a few fine organic wispy tendrils escaping gracefully around the ears'],
-  ['Claw clip twist loosely catching mid-lengths off collarbone', 'a dark tortoiseshell claw clip gathering the bulk gently at the occipital crown while delicate front layers frame her jawline freely'],
-  ['Waffle-weave cotton spa hair wrap with damp nape wisps', 'a neatly wrapped cream waffle-cotton post-wash hair turban leaving fine damp wisps along her temples, ears, and nape'],
-  ['Uncovered & natural (no clips or bands — pure chosen haircut)', 'hair worn completely uncovered without clips or bands so her selected haircut silhouette frames her face organically']
+  ["\ud83d\udcce Sectioning Clips \u00b7 Matte black duckbill sectioning clips pinning front wings back", "two matte black creaseless duckbill sectioning clips slid cleanly into the temples to hold her front strands back off her cheekbones while preserving the rest of the haircut shape", "", "clip"],
+  ["\ud83c\udf80 Spa Headband \u00b7 Plush cream spa velcro headband lifting hairline cleanly", "a plush soft cream terry-cotton spa headband worn snugly across the crown hairline, holding front hair cleanly off her forehead and ears while letting the back haircut lengths rest naturally", "", "band"],
+  ["\ud83c\udf80 Spa Headband \u00b7 Sleek satin wrap headband with loose wispy temple tendrils", "a lustrous champagne silk spa band tied softly over the crown with a few fine organic wispy tendrils escaping gracefully around the ears", "", "band"],
+  ["\ud83d\udcce Sectioning Clips \u00b7 Claw clip twist loosely catching mid-lengths off collarbone", "a dark tortoiseshell claw clip gathering the bulk gently at the occipital crown while delicate front layers frame her jawline freely", "", "clip"],
+  ["\ud83e\uddd6 Spa Turban \u00b7 Waffle-weave cotton spa hair wrap with damp nape wisps", "a neatly wrapped cream waffle-cotton post-wash hair turban leaving fine damp wisps along her temples, ears, and nape", "", "wrap"],
+  ["\ud83c\udf80 Spa Headband \u00b7 Uncovered & natural (no clips or bands \u2014 pure chosen haircut)", "hair worn completely uncovered without clips or bands so her selected haircut silhouette frames her face organically", "", "band"]
 ]);
 
 const PREP_OUTFIT_FAMILIES = [
@@ -414,35 +414,35 @@ const prepSkinFinishes = makeOpts([
 ]);
 
 const prepPoses = makeOpts([
-  ['Seated upright with chin raised 20° catching soft light', 'seated relaxed in the styling chair with her chin raised slightly toward the key light, neck elongated and shoulders dropped loosely'],
-  ['Reclining serenely on plush spa pillow with chest open', 'reclining comfortably at a 35-degree angle against crisp stacked linen pillows on the facial bed, exposing throat and bare collarbones cleanly'],
-  ['Leaning elbows lightly on marble vanity resting near chin', 'leaning slightly forward at the vanity counter with forearms propped casually on marble and relaxed open posture'],
-  ['Side-profile 3/4 tilt showcasing cheek & hair prep silhouette', 'head angled gracefully in a 3/4 side profile showing jawline curvature, pinned clips or waves, and brush contact along the cheek'],
-  ['Sideways looking away — hand raised to temple concealing face', 'turned sideways looking away from the lens with one hand raised lightly near her temple/forehead shielding her facial profile from view while highlighting bare collarbone, hair sheen, and serene ritual context'],
-  ['Turned away into soft background — zero direct frontal face view', 'head turned smoothly three-quarters away into the serene suite background so her face remains concealed from the camera while lighting sculpts her jawline perimeter, hair clips/waves, and shoulder drape']
+  ["\ud83e\uddcd Vanity Seated \u00b7 Seated upright with chin raised 20\u00b0 catching soft light", "seated relaxed in the styling chair with her chin raised slightly toward the key light, neck elongated and shoulders dropped loosely", "", "upright"],
+  ["\ud83d\udecb\ufe0f Reclining \u00b7 Reclining serenely on plush spa pillow with chest open", "reclining comfortably at a 35-degree angle against crisp stacked linen pillows on the facial bed, exposing throat and bare collarbones cleanly", "", "reclined"],
+  ["\ud83e\uddcd Vanity Seated \u00b7 Leaning elbows lightly on marble vanity resting near chin", "leaning slightly forward at the vanity counter with forearms propped casually on marble and relaxed open posture", "", "upright"],
+  ["\ud83d\udd04 Side Profile \u00b7 Side-profile 3/4 tilt showcasing cheek & hair prep silhouette", "head angled gracefully in a 3/4 side profile showing jawline curvature, pinned clips or waves, and brush contact along the cheek", "", "side"],
+  ["\ud83e\uddcd Vanity Seated \u00b7 Sideways looking away \u2014 hand raised to temple concealing face", "turned sideways looking away from the lens with one hand raised lightly near her temple/forehead shielding her facial profile from view while highlighting bare collarbone, hair sheen, and serene ritual context", "", "upright"],
+  ["\ud83d\ude48 Turned Away \u00b7 Turned away into soft background \u2014 zero direct frontal face view", "head turned smoothly three-quarters away into the serene suite background so her face remains concealed from the camera while lighting sculpts her jawline perimeter, hair clips/waves, and shoulder drape", "", "concealed"]
 ]);
 
 const prepExpressions = makeOpts([
-  ['Tranquil closed-eyes spa bliss with soft parted lips', 'serene tranquil composure with eyes resting gently shut in blissful relaxation and subtly parted soft lips'],
-  ['Calm poised stillness holding steady during precision liner', 'calm, composed focus holding her facial muscles comfortably still with quiet effortless grace'],
-  ['Soft candid post-prep half-smile & warm eyes', 'an authentic, understated closed-lip half-smile with warm, unforced natural eyes and relaxed cheeks'],
-  ['Contemplative serene gaze slightly past the lens', 'a gentle, contemplative gaze angled slightly away from the lens with soft natural facial asymmetry'],
-  ['Tiny amused behind-the-scenes smirk', 'a playful tiny smirk during an unscripted backstage pause between makeup steps']
+  ["\ud83d\ude0c Serene Bliss \u00b7 Tranquil closed-eyes spa bliss with soft parted lips", "serene tranquil composure with eyes resting gently shut in blissful relaxation and subtly parted soft lips", "", "serene"],
+  ["\ud83c\udfaf Calm Poise \u00b7 Calm poised stillness holding steady during precision liner", "calm, composed focus holding her facial muscles comfortably still with quiet effortless grace", "", "poised"],
+  ["\ud83d\ude0a Candid Smile \u00b7 Soft candid post-prep half-smile & warm eyes", "an authentic, understated closed-lip half-smile with warm, unforced natural eyes and relaxed cheeks", "", "smile"],
+  ["\ud83d\ude0c Serene Bliss \u00b7 Contemplative serene gaze slightly past the lens", "a gentle, contemplative gaze angled slightly away from the lens with soft natural facial asymmetry", "", "serene"],
+  ["\ud83d\ude0a Candid Smile \u00b7 Tiny amused behind-the-scenes smirk", "a playful tiny smirk during an unscripted backstage pause between makeup steps", "", "smile"]
 ]);
 
 const prepLipLooks = makeOpts([
-  ['Glossed clear hyaluronic peptide lip balm', 'plump bare natural lips glistening softly under clear hydrating peptide balm'],
-  ['Muted rosewood velvet satin lip', 'softly diffused rosewood satin pigment pressed organically into natural lip lines'],
-  ['Warm chai-terracotta sheer blurred stain', 'modern blurred chai-terracotta stain softened seamlessly at the outer lip border'],
-  ['Classic editorial crimson silk lip', 'crisp, richly pigmented deep crimson lipstick with natural skin contrast'],
-  ['Bare hydrated lips cleanly prepped', 'completely natural bare hydrated lips with organic lip grain and gentle sheen']
+  ["\ud83d\udc8e Hydrated Gloss \u00b7 Glossed clear hyaluronic peptide lip balm", "plump bare natural lips glistening softly under clear hydrating peptide balm", "", "glass"],
+  ["\ud83d\udc84 Satin Tint \u00b7 Muted rosewood velvet satin lip", "softly diffused rosewood satin pigment pressed organically into natural lip lines", "", "tint"],
+  ["\ud83d\udc84 Satin Tint \u00b7 Warm chai-terracotta sheer blurred stain", "modern blurred chai-terracotta stain softened seamlessly at the outer lip border", "", "tint"],
+  ["\ud83d\udc8b Crimson Silk \u00b7 Classic editorial crimson silk lip", "crisp, richly pigmented deep crimson lipstick with natural skin contrast", "", "bold"],
+  ["\u2728 Bare Lips \u00b7 Bare hydrated lips cleanly prepped", "completely natural bare hydrated lips with organic lip grain and gentle sheen", "", "bare"]
 ]);
 
 const prepEyeLooks = makeOpts([
-  ['Clean bare curled lashes (fresh skincare focus)', 'freshly curled natural bare eyelashes and naturally brushed un-penciled brows'],
-  ['Razor-thin jet-black winged tightliner', 'a delicate, razor-sharp winged black eyeliner accenting natural eye contour without heavy shadow'],
-  ['Warm bronzed lid gloss & lifted fluffy brows', 'translucent warm bronze balm across the eyelids paired with airy soap-brushed brows'],
-  ['Soft smudged kohl waterline editorial gleam', 'understated charcoal-brown smudged kohl softly framing the upper lash line']
+  ["\ud83d\udc41\ufe0f Curled & Glossed \u00b7 Clean bare curled lashes (fresh skincare focus)", "freshly curled natural bare eyelashes and naturally brushed un-penciled brows", "", "clean"],
+  ["\ud83d\udd8b\ufe0f Liner & Kohl \u00b7 Razor-thin jet-black winged tightliner", "a delicate, razor-sharp winged black eyeliner accenting natural eye contour without heavy shadow", "", "liner"],
+  ["\ud83d\udc41\ufe0f Curled & Glossed \u00b7 Warm bronzed lid gloss & lifted fluffy brows", "translucent warm bronze balm across the eyelids paired with airy soap-brushed brows", "", "clean"],
+  ["\ud83d\udd8b\ufe0f Liner & Kohl \u00b7 Soft smudged kohl waterline editorial gleam", "understated charcoal-brown smudged kohl softly framing the upper lash line", "", "liner"]
 ]);
 
 // ==========================================
@@ -486,18 +486,18 @@ const prepCameras = makeOpts([
 ]);
 
 const prepLightings = makeOpts([
-  ['Warm Edison Hollywood vanity bulbs mixed with cool daylight', 'warm amber tungsten glow from frosted vanity bulbs balanced subtly against cool ambient morning window fill'],
-  ['Pure soft diffused north window light catching dewy droplets', 'clean, directional diffused morning daylight streaming across the skin to illuminate tiny hydrosol mist droplets and natural micro-pores'],
-  ['Intimate amber candlelit spa twilight with subtle rim light', 'warm flickering candlelit amber ambience paired with delicate cool-blue twilight rim separation along hair contours'],
-  ['Focused beauty-dish key sculpt with natural shadow falloff', 'controlled soft beauty-dish key lighting modeling cheekbones and collarbones without flattening authentic skin texture'],
-  ['Raw backstage direct 35mm flash candid contrast', 'spontaneous on-camera flash aesthetic creating crisp specular catches on glossy lips, serum oil, and metallic brush ferrules']
+  ["\ud83e\ude9e Hollywood Vanity \u00b7 Warm Edison Hollywood vanity bulbs mixed with cool daylight", "warm amber tungsten glow from frosted vanity bulbs balanced subtly against cool ambient morning window fill", "", "vanity"],
+  ["\u2600\ufe0f Natural Window \u00b7 Pure soft diffused north window light catching dewy droplets", "clean, directional diffused morning daylight streaming across the skin to illuminate tiny hydrosol mist droplets and natural micro-pores", "", "daylight"],
+  ["\ud83d\udd6f\ufe0f Candlelit Twilight \u00b7 Intimate amber candlelit spa twilight with subtle rim light", "warm flickering candlelit amber ambience paired with delicate cool-blue twilight rim separation along hair contours", "", "candle"],
+  ["\ud83d\udcf8 Studio Beauty \u00b7 Focused beauty-dish key sculpt with natural shadow falloff", "controlled soft beauty-dish key lighting modeling cheekbones and collarbones without flattening authentic skin texture", "", "studio"],
+  ["\ud83d\udcf8 Studio Beauty \u00b7 Raw backstage direct 35mm flash candid contrast", "spontaneous on-camera flash aesthetic creating crisp specular catches on glossy lips, serum oil, and metallic brush ferrules", "", "studio"]
 ]);
 
 const prepFilms = makeOpts([
-  ['Kodak Portra 400 organic skin fidelity & fine grain', 'classic Kodak Portra 400 film emulation delivering rich warm golden Indian skin tones, gentle highlight roll-off, and fine organic grain'],
-  ['Hasselblad medium-format raw digital crispness', 'medium-format Hasselblad micro-contrast resolving individual eyebrow hairs, serum glints, and woven linen fibers crisply'],
-  ['Cinestill atmospheric warm halation aesthetic', 'subtle nocturnal halation around warm tungsten vanity bulbs paired with balanced cinematic shadows'],
-  ['Natural ungraded DSLR behind-the-scenes realism', 'unfiltered behind-the-scenes DSLR photography with true-to-life color temperature and authentic indoor texture']
+  ["\ud83c\udf9e\ufe0f Portra 400 \u00b7 Kodak Portra 400 organic skin fidelity & fine grain", "classic Kodak Portra 400 film emulation delivering rich warm golden Indian skin tones, gentle highlight roll-off, and fine organic grain", "", "portra"],
+  ["\ud83d\udc8e Medium-Format RAW \u00b7 Hasselblad medium-format raw digital crispness", "medium-format Hasselblad micro-contrast resolving individual eyebrow hairs, serum glints, and woven linen fibers crisply", "", "digital"],
+  ["\ud83c\udfac Cinestill Warm \u00b7 Cinestill atmospheric warm halation aesthetic", "subtle nocturnal halation around warm tungsten vanity bulbs paired with balanced cinematic shadows", "", "cinestill"],
+  ["\ud83d\udc8e Medium-Format RAW \u00b7 Natural ungraded DSLR behind-the-scenes realism", "unfiltered behind-the-scenes DSLR photography with true-to-life color temperature and authentic indoor texture", "", "digital"]
 ]);
 
 const aspect = makeOpts([
@@ -845,12 +845,49 @@ const CAT_DISPLAY_NAMES = {
   portrait: '👤 Eye-Level & Portraits',
   spa: '🧖 Spa Table & Reclining',
   wide: '🎬 Wide & Backstage',
-  // Actions
+  // Actions & Rituals
   mua: '💄 MUA Application',
   skincare: '✨ Skincare & Serums',
   spa_ritual: '🧖 Spa Rituals & Steam',
-  solo: '🪞 Solo Vanity Touch-Up',
-  hair_prep: '💇 Hair Prep & Styling'
+  hair_styling: '✂️ Hair Prep & Blowout',
+  // Atmosphere & Steam
+  ritual: '🧘 Mindful Ritual',
+  hustle: '⚡ Backstage Energy',
+  steam: '🧖 Steam Sanctuary',
+  crisp: '✨ Crisp Clarity',
+  plume: '💨 Facial Mist Plumes',
+  dense: '☁️ Dense Mist Sanctuary',
+  // Hair Holds & Apparel
+  clip: '📎 Sectioning Clips',
+  band: '🎀 Headbands & Wraps',
+  wrap: '🧖 Spa Turban / Wraps',
+  natural: '✨ Natural Uncovered',
+  robe: '👘 Silk Robes',
+  lounge: '🧶 Loungewear & Slips',
+  // Poses & Expressions
+  upright: '🧍 Seated & Vanity',
+  reclined: '🛋️ Reclined & Cushioned',
+  side: '🔄 Side & Profile',
+  concealed: '🙈 Turned Away',
+  serene: '😌 Serene & Blissful',
+  poised: '🎯 Calm Poise',
+  smile: '😊 Subtle Smirk & Smile',
+  // Looks & Finishes
+  glass: '💎 Glass-Skin Radiance',
+  dewy: '💧 Dewy Velvet Sheen',
+  matte: '🎨 Editorial Semi-Matte',
+  tint: '💄 Lip Tint & Velvet',
+  bold: '💋 Statement Lip',
+  bare: '✨ Bare Hydrated',
+  clean: '👁️ Bare Lashes & Gloss',
+  liner: '🖋️ Precision Tightliner',
+  // Lighting & Films
+  daylight: '☀️ Soft North Daylight',
+  candle: '🕯️ Candlelit Ambience',
+  studio: '📸 Beauty-Dish & Flash',
+  portra: '🎞️ Kodak Portra 400',
+  digital: '💎 Medium-Format RAW',
+  cinestill: '🎬 Cinestill Warm Halation'
 };
 
 function formatCategoryName(cat){

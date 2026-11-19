@@ -8,6 +8,82 @@
 
 (function(root) {
   'use strict';
+  const escapeHtml = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+
+  const CAT_DISPLAY_NAMES = {
+    keep: '✦ Reference Preservation',
+    sculpted: '💎 Sculpted & High-Fashion',
+    structured: '🏛️ Structured & Runway',
+    soft: '🌸 Soft & Youthful',
+    natural: '🌿 Natural & Organic',
+    defined: '📐 Defined & Crisp',
+    editorial: '⚡ Editorial & Dramatic',
+    elongated: '🐱 Elongated & Cat-Eye',
+    expressive: '👁️ Expressive & Open',
+    smoldering: '🔥 Smoldering & Hooded',
+    dark: '🖤 Dark & Espresso',
+    warm: '🍯 Warm & Amber',
+    rare: '🌿 Olive & Rare Tones',
+    refined: '👃 Refined & Slender',
+    petite: '👃 Petite & Button',
+    architectural: '👃 Straight & Architectural',
+    plump: '💋 Full & Pillowy',
+    tinted: '💋 Tinted & Berry',
+    sharp: '📐 Sharp & Chiseled',
+    dewy: '💧 Dewy & Glass Skin',
+    matte: '☁️ Soft Matte',
+    haircut: '✂️ Cut Replacement',
+    trim: '✂️ Reshaping & Trim',
+    layers: '✂️ Face-Framing Layers',
+    fringe: '✂️ Fringe & Bangs',
+    styling: '💨 Blowout & Styling',
+    black: '🖤 Jet-Black & Dark',
+    brunette: '🤎 Brunette & Espresso',
+    balayage: '✨ Balayage & Highlights',
+    red: '🧡 Auburn & Copper',
+    fashion: '🍷 Fashion & Wine Tones',
+    blonde: '❄️ Platinum & Blonde',
+    short: '✂️ Short & Pixie/Bob',
+    medium: '✂️ Medium & Lob',
+    long: '✂️ Long & Flowing',
+    straight: '✨ Sleek Straight',
+    waves: '🌊 Waves & Hollywood',
+    curls: '🌀 Curls & Coils',
+    texture: '💨 Piecey Texture',
+    shine: '✨ High-Gloss Shine',
+    motion: '🍃 Movement & Wind',
+    wet: '🌊 Wet-Look',
+    tailored: '📐 Tailored & Structured',
+    relaxed: '🧥 Relaxed & Oversized',
+    flowing: '🌊 Flowing Drape',
+    fitted: '✨ Body-Contouring',
+    glam: '✨ Soft Glam & Smoky',
+    statement: '💋 Statement & Bold',
+    monochrome: '🌸 Monochrome Flush',
+    glow: '💧 Glass Skin Glow',
+    minimal: '✦ Clean & Minimal',
+    earrings: '✨ Earrings & Hoops',
+    necklaces: '✨ Chains & Pendants',
+    classic: '🤍 Classic Pearls',
+    watches: '⌚ Watches',
+    eyewear: '🕶️ Sunglasses',
+    traditional: '✨ Traditional Heritage',
+    inpaint: '🎯 Surgical Inpaint',
+    img2img: '🌐 Global Edit',
+    restyle: '🎨 Creative Restyle',
+    auto: '⚡ Auto Detection',
+    face: '👤 Face Features',
+    hair: '✂️ Hair & Scalp',
+    wardrobe: '👗 Wardrobe & Clothing',
+    combined: '✨ Face + Hair',
+    subject: '🌟 Full Subject'
+  };
+
+  function formatCategoryName(cat) {
+    if (CAT_DISPLAY_NAMES[cat]) return CAT_DISPLAY_NAMES[cat];
+    return cat.charAt(0).toUpperCase() + cat.slice(1);
+  }
+
 
   const {
     O, makeOpts, addOptions,
@@ -113,198 +189,198 @@
   // =========================================================================
   // SURGICAL FACE EDITS DATASETS
   // =========================================================================
-  const faceShapeOpts = [
-    O('Keep reference face shape', 'keep_ref'),
-    O('Refined high-fashion oval contour', 'surgically refine the facial contour into a balanced, elegant high-fashion oval silhouette with gentle curves and clean jaw taper'),
-    O('Sculpted chiseled cheekbones', 'sculpt prominent high cheekbones with defined zygomatic arches and subtle submalar hollows'),
-    O('Delicate heart-shaped contour', 'sculpt a delicate heart-shaped face with high cheekbones tapering cleanly to a dainty pointed chin'),
-    O('Structured square runway jaw', 'sculpt a commanding structured jawline with crisp bilateral mandibular angles and strong horizontal symmetry'),
-    O('Youthful soft rounded silhouette', 'sculpt a youthful soft rounded facial contour with gentle curves, supple cheeks, and zero harsh angles'),
-    O('Sculpted diamond silhouette', 'sculpt a high-fashion diamond facial geometry with wide dramatic cheekbones and tapered jawline')
+      const faceShapeOpts = [
+    O("✦ Preserve · Keep reference face shape", "keep_ref", '', "keep"),
+    O("💎 High-Fashion · Refined high-fashion oval contour", "surgically refine the facial contour into a balanced, elegant high-fashion oval silhouette with gentle curves and clean jaw taper", '', "sculpted"),
+    O("💎 Chiseled · Sculpted chiseled cheekbones", "sculpt prominent high cheekbones with defined zygomatic arches and subtle submalar hollows", '', "sculpted"),
+    O("❤️ Heart · Delicate heart-shaped contour", "sculpt a delicate heart-shaped face with high cheekbones tapering cleanly to a dainty pointed chin", '', "sculpted"),
+    O("🏛️ Runway · Structured square runway jaw", "sculpt a commanding structured jawline with crisp bilateral mandibular angles and strong horizontal symmetry", '', "structured"),
+    O("🌸 Soft · Youthful soft rounded silhouette", "sculpt a youthful soft rounded facial contour with gentle curves, supple cheeks, and zero harsh angles", '', "soft"),
+    O("💎 Diamond · Sculpted diamond silhouette", "sculpt a high-fashion diamond facial geometry with wide dramatic cheekbones and tapered jawline", '', "sculpted")
   ];
 
-  const eyebrowOpts = [
-    O('Keep reference eyebrows', 'keep_ref'),
-    O('Full feathered natural arches', 'reshape eyebrows into full, soft feathered natural arches with realistic individual hair strokes and soft diffused heads'),
-    O('Crisp microbladed defined arches', 'sculpt crisp, precisely defined microbladed eyebrows with sharp tail tapering and uniform dense pigmentation'),
-    O('Brushed-up laminated fluffy brows', 'style eyebrows with modern brushed-up laminated texture, visible upward strand separation, and soft natural fullness'),
-    O('Soft straight Korean-style brows', 'soften eyebrows into straight, gentle horizontal brows with minimal arch and youthful framing'),
-    O('Dramatic high-arched editorial brows', 'shape into dramatic high-arched editorial eyebrows with clean, confident lines and lifted outer tails'),
-    O('Darker filled defined arches', 'deepen eyebrow pigment with rich, natural depth and cleanly groomed, defined outer tails'),
-    O('Slim sculpted 90s retro arches', 'reshape into slim, precisely defined 90s-inspired sculpted arches with clean brow bone highlight')
+      const eyebrowOpts = [
+    O("✦ Preserve · Keep reference eyebrows", "keep_ref", '', "keep"),
+    O("🌿 Natural · Full feathered natural arches", "reshape eyebrows into full, soft feathered natural arches with realistic individual hair strokes and soft diffused heads", '', "natural"),
+    O("📐 Defined · Crisp microbladed defined arches", "sculpt crisp, precisely defined microbladed eyebrows with sharp tail tapering and uniform dense pigmentation", '', "defined"),
+    O("✨ Laminated · Brushed-up laminated fluffy brows", "style eyebrows with modern brushed-up laminated texture, visible upward strand separation, and soft natural fullness", '', "editorial"),
+    O("🌸 Straight · Soft straight Korean-style brows", "soften eyebrows into straight, gentle horizontal brows with minimal arch and youthful framing", '', "natural"),
+    O("⚡ High-Arch · Dramatic high-arched editorial brows", "shape into dramatic high-arched editorial eyebrows with clean, confident lines and lifted outer tails", '', "editorial"),
+    O("🖤 Filled · Darker filled defined arches", "deepen eyebrow pigment with rich, natural depth and cleanly groomed, defined outer tails", '', "defined"),
+    O("📐 Retro · Slim sculpted 90s retro arches", "reshape into slim, precisely defined 90s-inspired sculpted arches with clean brow bone highlight", '', "editorial")
   ];
 
-  const eyeShapeOpts = [
-    O('Keep reference eye shape', 'keep_ref'),
-    O('Alluring elongated almond cat-eye contour', 'surgically reshape eyes into alluring elongated almond eyes with subtle feline outer canthal lift'),
-    O('Wide expressive luminous doe eyes', 'open eye aperture into luminous, expressive wide doe eyes with prominent supratarsal crease and soft lower lid contour'),
-    O('Crisp defined double eyelid fold', 'sculpt clean, crisp double eyelid supratarsal creases with balanced upper lid exposure and clear eyelid crease definition'),
-    O('Intense hooded smoldering eyes', 'refine upper eyelids with a subtle deep-set hooded contour for an intense, smoldering editorial gaze'),
-    O('Upturned youthful outer canthal tilt', 'gently lift the lateral canthal angle for a youthful, confident upturned eye tilt with smooth symmetry')
+      const eyeShapeOpts = [
+    O("✦ Preserve · Keep reference eye shape", "keep_ref", '', "keep"),
+    O("🐱 Cat-Eye · Alluring elongated almond cat-eye contour", "surgically reshape eyes into alluring elongated almond eyes with subtle feline outer canthal lift", '', "elongated"),
+    O("👁️ Doe Eyes · Wide expressive luminous doe eyes", "open eye aperture into luminous, expressive wide doe eyes with prominent supratarsal crease and soft lower lid contour", '', "expressive"),
+    O("📐 Double Fold · Crisp defined double eyelid fold", "sculpt clean, crisp double eyelid supratarsal creases with balanced upper lid exposure and clear eyelid crease definition", '', "sculpted"),
+    O("🔥 Hooded · Intense hooded smoldering eyes", "refine upper eyelids with a subtle deep-set hooded contour for an intense, smoldering editorial gaze", '', "smoldering"),
+    O("✨ Canthal Tilt · Upturned youthful outer canthal tilt", "gently lift the lateral canthal angle for a youthful, confident upturned eye tilt with smooth symmetry", '', "sculpted")
   ];
 
-  const eyeColorOpts = [
-    O('Keep reference eye color', 'keep_ref'),
-    O('Deep obsidian black irises', 'deep luminous obsidian-black irises with sharp pupil contrast and clear glassy cornea reflections'),
-    O('Warm golden-amber hazel irises', 'warm hazel irises with rich honey and golden-amber radial undertones catching directional light'),
-    O('Espresso chocolate brown irises', 'rich espresso chocolate brown irises with delicate radial striae and warm depth'),
-    O('Olive green with amber flecks', 'deep olive-green irises with subtle amber flecks surrounding the pupil and dark limbal ring'),
-    O('Caramel topaz warmth', 'clear warm caramel topaz brown irises with bright reflective catchlights and golden highlights')
+      const eyeColorOpts = [
+    O("✦ Preserve · Keep reference eye color", "keep_ref", '', "keep"),
+    O("🖤 Obsidian · Deep obsidian black irises", "deep luminous obsidian-black irises with sharp pupil contrast and clear glassy cornea reflections", '', "dark"),
+    O("🍯 Amber · Warm golden-amber hazel irises", "warm hazel irises with rich honey and golden-amber radial undertones catching directional light", '', "warm"),
+    O("☕ Espresso · Espresso chocolate brown irises", "rich espresso chocolate brown irises with delicate radial striae and warm depth", '', "dark"),
+    O("🌿 Olive · Olive green with amber flecks", "deep olive-green irises with subtle amber flecks surrounding the pupil and dark limbal ring", '', "rare"),
+    O("✨ Caramel · Caramel topaz warmth", "clear warm caramel topaz brown irises with bright reflective catchlights and golden highlights", '', "warm")
   ];
 
-  const noseOpts = [
-    O('Keep reference nose', 'keep_ref'),
-    O('Slender straight bridge + refined tip', 'surgically refine the nose to a slender straight nasal bridge with a defined, gently upturned refined tip and crisp supratip break'),
-    O('Petite upturned button nose', 'sculpt a petite nose with a gently scooped concave dorsal bridge and cute rounded button tip'),
-    O('Slim sculpted dorsal bridge', 'narrow the nasal bridge with clean, straight dorsal aesthetic lines and refined symmetry'),
-    O('Subtle natural soft slope', 'smooth the nasal profile with an organic, natural soft slope and balanced nostril proportion'),
-    O('Aristocratic defined straight profile', 'sculpt a noble, defined straight nasal profile with commanding architectural precision and clean columella support'),
-    O('Narrowed refined nostril wings', 'refine and narrow the nasal alar base and nostril contours with clean symmetry and soft shadowing')
+      const noseOpts = [
+    O("✦ Preserve · Keep reference nose", "keep_ref", '', "keep"),
+    O("👃 Slender · Slender straight bridge + refined tip", "surgically refine the nose to a slender straight nasal bridge with a defined, gently upturned refined tip and crisp supratip break", '', "refined"),
+    O("👃 Button · Petite upturned button nose", "sculpt a petite nose with a gently scooped concave dorsal bridge and cute rounded button tip", '', "petite"),
+    O("👃 Slim Dorsal · Slim sculpted dorsal bridge", "narrow the nasal bridge with clean, straight dorsal aesthetic lines and refined symmetry", '', "refined"),
+    O("👃 Soft Slope · Subtle natural soft slope", "smooth the nasal profile with an organic, natural soft slope and balanced nostril proportion", '', "natural"),
+    O("👃 Straight · Aristocratic defined straight profile", "sculpt a noble, defined straight nasal profile with commanding architectural precision and clean columella support", '', "architectural"),
+    O("👃 Narrow Alar · Narrowed refined nostril wings", "refine and narrow the nasal alar base and nostril contours with clean symmetry and soft shadowing", '', "refined")
   ];
 
-  const lipOpts = [
-    O('Keep reference lips', 'keep_ref'),
-    O('Plush natural volume + crisp Cupid\'s bow', 'refine lips into plush natural volume with a crisply delineated Cupid\'s bow, defined philtral columns, and soft lower vermilion pillowing'),
-    O('Full pillowy satin lips', 'increase lip fullness into soft, pillowy contours with smooth horizontal symmetry and hydrated fullness'),
-    O('Subtle elegant lip volume', 'gently enhance lip borders with restrained, natural fullness and soft healthy hydration'),
-    O('Sculptural sharp Cupid\'s bow peak', 'accentuate the vertical philtral columns and sharp peaked Cupid\'s bow with sculptural clarity'),
-    O('Soft natural berry-tinted pout', 'tint and plump lips with a soft natural berry flush and gentle rested parting'),
-    O('Understated French natural lip', 'refine lips into an understated Parisian natural aesthetic with soft matte edges and balanced fullness')
+      const lipOpts = [
+    O("✦ Preserve · Keep reference lips", "keep_ref", '', "keep"),
+    O("💋 Cupid's Bow · Plush natural volume + crisp Cupid's bow", "refine lips into plush natural volume with a crisply delineated Cupid's bow, defined philtral columns, and soft lower vermilion pillowing", '', "sculpted"),
+    O("💋 Pillowy · Full pillowy satin lips", "increase lip fullness into soft, pillowy contours with smooth horizontal symmetry and hydrated fullness", '', "plump"),
+    O("💋 Elegant · Subtle elegant lip volume", "gently enhance lip borders with restrained, natural fullness and soft healthy hydration", '', "natural"),
+    O("💋 Sculptural · Sculptural sharp Cupid's bow peak", "accentuate the vertical philtral columns and sharp peaked Cupid's bow with sculptural clarity", '', "sculpted"),
+    O("💋 Berry Pout · Soft natural berry-tinted pout", "tint and plump lips with a soft natural berry flush and gentle rested parting", '', "tinted"),
+    O("💋 French Matte · Understated French natural lip", "refine lips into an understated Parisian natural aesthetic with soft matte edges and balanced fullness", '', "natural")
   ];
 
-  const jawlineOpts = [
-    O('Keep reference jawline & chin', 'keep_ref'),
-    O('Razor-sharp defined mandibular jawline', 'sculpt a crisp, razor-sharp jawline contour from ear to chin with clean shadow separation from the neck'),
-    O('Soft feminine tapered jaw & petite chin', 'soften jawline into a graceful feminine taper leading to a delicate, rounded chin with smooth contours'),
-    O('Sculpted 115-degree editorial jaw angle', 'carve a structured 115-degree mandibular jaw angle with clean editorial authority and defined submental plane'),
-    O('Dainty pointed micro-chin', 'refine the lower face with a dainty tapered micro-chin and smooth submental transition'),
-    O('Defined square runway chin', 'sculpt a firm, slightly squared-off runway chin profile with clean horizontal symmetry'),
-    O('Subtle cleft chin indentation', 'add a faint, elegant central cleft chin indentation with realistic natural skin shadowing')
+      const jawlineOpts = [
+    O("✦ Preserve · Keep reference jawline & chin", "keep_ref", '', "keep"),
+    O("📐 Mandibular · Razor-sharp defined mandibular jawline", "sculpt a crisp, razor-sharp jawline contour from ear to chin with clean shadow separation from the neck", '', "sharp"),
+    O("🌸 Feminine · Soft feminine tapered jaw & petite chin", "soften jawline into a graceful feminine taper leading to a delicate, rounded chin with smooth contours", '', "soft"),
+    O("📐 115° Angle · Sculpted 115-degree editorial jaw angle", "carve a structured 115-degree mandibular jaw angle with clean editorial authority and defined submental plane", '', "sharp"),
+    O("🌸 Pointed · Dainty pointed micro-chin", "refine the lower face with a dainty tapered micro-chin and smooth submental transition", '', "soft"),
+    O("🏛️ Runway Square · Defined square runway chin", "sculpt a firm, slightly squared-off runway chin profile with clean horizontal symmetry", '', "structural"),
+    O("✨ Cleft Chin · Subtle cleft chin indentation", "add a faint, elegant central cleft chin indentation with realistic natural skin shadowing", '', "structural")
   ];
 
-  const cheekOpts = [
-    O('Keep reference cheeks', 'keep_ref'),
-    O('High sculpted zygomatic cheekbones', 'sculpt high, pronounced zygomatic cheekbones with elegant angular definition and luminous light catch'),
-    O('Soft youthful apple cheeks', 'enhance cheeks with gentle, supple apple cheek volume and radiant youthful fullness'),
-    O('Subtle editorial hollows beneath cheekbones', 'sculpt subtle submalar cheek hollows that accentuate facial bone structure with soft gradient shading')
+      const cheekOpts = [
+    O("✦ Preserve · Keep reference cheeks", "keep_ref", '', "keep"),
+    O("💎 Zygomatic · High sculpted zygomatic cheekbones", "sculpt high, pronounced zygomatic cheekbones with elegant angular definition and luminous light catch", '', "sculpted"),
+    O("🌸 Apple Cheeks · Soft youthful apple cheeks", "enhance cheeks with gentle, supple apple cheek volume and radiant youthful fullness", '', "soft"),
+    O("💎 Submalar · Subtle editorial hollows beneath cheekbones", "sculpt subtle submalar cheek hollows that accentuate facial bone structure with soft gradient shading", '', "sculpted")
   ];
 
-  const skinFinishOpts = [
-    O('Keep reference skin finish', 'keep_ref'),
-    O('Pristine glass-skin with visible micro-pores', 'refine complexion into ultra-hydrated glass skin with luminous dewiness while strictly keeping natural micro-pores and realistic skin texture'),
-    O('Velvety soft-focus matte finish', 'render a smooth, soft-focus velvet matte complexion with clean oil-free texture and visible pores'),
-    O('Sun-kissed warm golden radiance', 'impart a healthy, sun-kissed golden radiance with warm natural dermal flush on cheeks and nose bridge'),
-    O('Fresh post-spa dewy glow', 'infuse skin with a fresh post-facial dewy glow, subtle moisture sheen on high points, and zero artificial plastic shine'),
-    O('Raw unfiltered natural realism', 'keep raw unfiltered authentic skin with natural skin grain, subtle tone variations, and fine facial micro-details')
+      const skinFinishOpts = [
+    O("✦ Preserve · Keep reference skin finish", "keep_ref", '', "keep"),
+    O("💧 Glass Skin · Pristine glass-skin with visible micro-pores", "refine complexion into ultra-hydrated glass skin with luminous dewiness while strictly keeping natural micro-pores and realistic skin texture", '', "dewy"),
+    O("☁️ Soft Matte · Velvety soft-focus matte finish", "render a smooth, soft-focus velvet matte complexion with clean oil-free texture and visible pores", '', "matte"),
+    O("☀️ Golden · Sun-kissed warm golden radiance", "impart a healthy, sun-kissed golden radiance with warm natural dermal flush on cheeks and nose bridge", '', "warm"),
+    O("🧖 Post-Spa · Fresh post-spa dewy glow", "infuse skin with a fresh post-facial dewy glow, subtle moisture sheen on high points, and zero artificial plastic shine", '', "dewy"),
+    O("🔍 Raw Realism · Raw unfiltered natural realism", "keep raw unfiltered authentic skin with natural skin grain, subtle tone variations, and fine facial micro-details", '', "natural")
   ];
 
   // =========================================================================
   // HAIR EDITS DATASETS
   // =========================================================================
-  const hairEditActionOpts = [
-    O('Complete haircut replacement', 'surgically replace the existing hair with the chosen new haircut while perfectly integrating the natural hairline with her forehead'),
-    O('Subtle trim & ends reshaping', 'subtly reshape the existing haircut, evening out the hemline and dusting split ends while maintaining current length'),
-    O('Face-framing layers & curtain bangs', 'carve soft face-framing layers and wispy curtain bangs into the existing hair, blending seamlessly'),
-    O('Full eyebrow-grazing blunt fringe', 'add crisp, precisely cut eyebrow-grazing blunt bangs onto the forehead while keeping the rest of the hair length intact'),
-    O('Voluminous salon blowout restyling', 'restyle the existing haircut with soaring root lift, bouncy barrel-waved volume, and airy salon movement')
+      const hairEditActionOpts = [
+    O("✂️ Full Replace · Complete haircut replacement", "surgically replace the existing hair with the chosen new haircut while perfectly integrating the natural hairline with her forehead", '', "haircut"),
+    O("✂️ Reshape · Subtle trim & ends reshaping", "subtly reshape the existing haircut, evening out the hemline and dusting split ends while maintaining current length", '', "trim"),
+    O("✂️ Curtain Layers · Face-framing layers & curtain bangs", "carve soft face-framing layers and wispy curtain bangs into the existing hair, blending seamlessly", '', "layers"),
+    O("✂️ Blunt Fringe · Full eyebrow-grazing blunt fringe", "add crisp, precisely cut eyebrow-grazing blunt bangs onto the forehead while keeping the rest of the hair length intact", '', "fringe"),
+    O("💨 Salon Blowout · Voluminous salon blowout restyling", "restyle the existing haircut with soaring root lift, bouncy barrel-waved volume, and airy salon movement", '', "styling")
   ];
 
-  const hairColorOpts = [
-    O('Keep reference hair color', 'keep_ref'),
-    O('Deep natural obsidian black', 'deep natural obsidian-black hair with subtle realistic cool highlights'),
-    O('Rich espresso brunette', 'rich espresso brunette hair with dimensional warm undertones'),
-    O('Warm chocolate brown', 'warm chocolate brown hair with soft chestnut depth'),
-    O('Soft chestnut brown', 'soft chestnut brown with natural tone variations'),
-    O('Caramel ribbons balayage', 'subtle caramel ribbons blended naturally through the mid-lengths and ends'),
-    O('Cool ash brown', 'cool ash brown hair with restrained, muted dimensional sheen'),
-    O('Rich copper auburn', 'rich vibrant copper auburn hair with dimensional fiery undertones'),
-    O('Deep burgundy wine tint', 'deep burgundy-tinted brunette hair with luminous jewel-toned highlights'),
-    O('Honey blonde balayage + dark roots', 'honey-blonde balayage with believable root depth and soft gradient transition'),
-    O('Champagne platinum blonde', 'cool champagne platinum blonde with realistic shadow root depth'),
-    O('Rose gold brown tint', 'subtle rose gold brown tint with delicate warm shimmer')
+      const hairColorOpts = [
+    O("✦ Preserve · Keep reference hair color", "keep_ref", '', "keep"),
+    O("🖤 Black · Deep natural obsidian black", "deep natural obsidian-black hair with subtle realistic cool highlights", '', "black"),
+    O("🤎 Espresso · Rich espresso brunette", "rich espresso brunette hair with dimensional warm undertones", '', "brunette"),
+    O("🤎 Chocolate · Warm chocolate brown", "warm chocolate brown hair with soft chestnut depth", '', "brunette"),
+    O("🤎 Chestnut · Soft chestnut brown", "soft chestnut brown with natural tone variations", '', "brunette"),
+    O("✨ Caramel · Caramel ribbons balayage", "subtle caramel ribbons blended naturally through the mid-lengths and ends", '', "balayage"),
+    O("🩶 Ash Brown · Cool ash brown", "cool ash brown hair with restrained, muted dimensional sheen", '', "brunette"),
+    O("🧡 Copper · Rich copper auburn", "rich vibrant copper auburn hair with dimensional fiery undertones", '', "red"),
+    O("🍷 Burgundy · Deep burgundy wine tint", "deep burgundy-tinted brunette hair with luminous jewel-toned highlights", '', "fashion"),
+    O("🍯 Honey Blonde · Honey blonde balayage + dark roots", "honey-blonde balayage with believable root depth and soft gradient transition", '', "balayage"),
+    O("❄️ Platinum · Champagne platinum blonde", "cool champagne platinum blonde with realistic shadow root depth", '', "blonde"),
+    O("🌸 Rose Gold · Rose gold brown tint", "subtle rose gold brown tint with delicate warm shimmer", '', "fashion")
   ];
 
-  const hairLengthOpts = [
-    O('Keep haircut default length', 'keep_ref'),
-    O('Cropped pixie ear-level length', 'cropped pixie length grazing the upper ear'),
-    O('Chin / jawline bob length', 'ending crisply at chin and jawline level'),
-    O('Collarbone lob length', 'grazing the collarbones with relaxed movement'),
-    O('Armpit / upper chest length', 'falling past collarbones to upper chest level'),
-    O('Mid-back bra-strap length', 'flowing down to mid-back level with healthy weight'),
-    O('Waist-grazing long hair', 'flowing all the way down to the waistline with luxurious density'),
-    O('Hip-length flowing locks', 'dramatic hip-length flowing locks with rich weight and movement')
+      const hairLengthOpts = [
+    O("✦ Preserve · Keep haircut default length", "keep_ref", '', "keep"),
+    O("✂️ Pixie · Cropped pixie ear-level length", "cropped pixie length grazing the upper ear", '', "short"),
+    O("✂️ Bob · Chin / jawline bob length", "ending crisply at chin and jawline level", '', "short"),
+    O("✂️ Lob · Collarbone lob length", "grazing the collarbones with relaxed movement", '', "medium"),
+    O("✂️ Chest · Armpit / upper chest length", "falling past collarbones to upper chest level", '', "medium"),
+    O("✂️ Mid-Back · Mid-back bra-strap length", "flowing down to mid-back level with healthy weight", '', "long"),
+    O("✂️ Waist · Waist-grazing long hair", "flowing all the way down to the waistline with luxurious density", '', "long"),
+    O("✂️ Hip-Length · Hip-length flowing locks", "dramatic hip-length flowing locks with rich weight and movement", '', "long")
   ];
 
-  const hairTextureOpts = [
-    O('Keep haircut default texture', 'keep_ref'),
-    O('Pin-straight sleek glass hair', 'pin-straight hair with sleek glass-smooth alignment and clean reflection'),
-    O('Lived-in soft undone waves', 'lived-in, soft undone S-waves with natural strand separation'),
-    O('Defined bouncy corkscrew curls', 'defined, bouncy corkscrew curls with elastic spring and zero frizz'),
-    O('Glossy Hollywood glamour waves', 'sculpted, uniform glossy Hollywood waves with continuous undulating ridges'),
-    O('Airy piecey textured strands', 'piecey, textured strands with defined separation and light movement'),
-    O('Textured beachy crimp', 'textured beach-blown crimp with subtle organic volume')
+      const hairTextureOpts = [
+    O("✦ Preserve · Keep haircut default texture", "keep_ref", '', "keep"),
+    O("✨ Straight · Pin-straight sleek glass hair", "pin-straight hair with sleek glass-smooth alignment and clean reflection", '', "straight"),
+    O("🌊 Waves · Lived-in soft undone waves", "lived-in, soft undone S-waves with natural strand separation", '', "waves"),
+    O("🌀 Curls · Defined bouncy corkscrew curls", "defined, bouncy corkscrew curls with elastic spring and zero frizz", '', "curls"),
+    O("🌟 Hollywood · Glossy Hollywood glamour waves", "sculpted, uniform glossy Hollywood waves with continuous undulating ridges", '', "waves"),
+    O("💨 Piecey · Airy piecey textured strands", "piecey, textured strands with defined separation and light movement", '', "texture"),
+    O("🏖️ Beachy · Textured beachy crimp", "textured beach-blown crimp with subtle organic volume", '', "texture")
   ];
 
-  const hairFinishOpts = [
-    O('Keep default finish', 'keep_ref'),
-    O('Fresh salon blow-dry finish', 'freshly blown-out salon finish with natural soft silkiness and organic sheen'),
-    O('Glossy editorial shine', 'glossy editorial finish with clean light catches and zero plastic sheen'),
-    O('Touchably soft natural matte', 'touchably soft natural finish with organic hair fiber texture'),
-    O('Subtle wind-blown movement', 'subtle wind-touched movement with delicate micro-flyaways catching light'),
-    O('Wet-look hydro sheen', 'soaked wet-look hair styling with sleek damp separation and glossy moisture sheen')
+      const hairFinishOpts = [
+    O("✦ Preserve · Keep default finish", "keep_ref", '', "keep"),
+    O("💨 Blow-Dry · Fresh salon blow-dry finish", "freshly blown-out salon finish with natural soft silkiness and organic sheen", '', "styling"),
+    O("✨ Glossy · Glossy editorial shine", "glossy editorial finish with clean light catches and zero plastic sheen", '', "shine"),
+    O("☁️ Soft Matte · Touchably soft natural matte", "touchably soft natural finish with organic hair fiber texture", '', "matte"),
+    O("🍃 Wind-Blown · Subtle wind-blown movement", "subtle wind-touched movement with delicate micro-flyaways catching light", '', "motion"),
+    O("🌊 Wet-Look · Wet-look hydro sheen", "soaked wet-look hair styling with sleek damp separation and glossy moisture sheen", '', "wet")
   ];
 
   // =========================================================================
   // WARDROBE & STYLING EDITS DATASETS
   // =========================================================================
-  const outfitFitOpts = [
-    O('Keep believable garment fit', 'natural garment fit with realistic tailoring and fabric tension'),
-    O('Relaxed oversized editorial fit', 'relaxed oversized editorial fit with believable folds and effortless drape'),
-    O('Crisp structured tailored fit', 'crisp structured tailored fit with clean seams and sharp silhouette lines'),
-    O('Flowing organic movement', 'flowing fabric movement with graceful drapery captured naturally'),
-    O('Sleek body-contouring fit', 'sleek body-contouring silhouette following her natural form with clean seams')
+      const outfitFitOpts = [
+    O("👗 Believable · Keep believable garment fit", "natural garment fit with realistic tailoring and fabric tension", '', "tailored"),
+    O("🧥 Oversized · Relaxed oversized editorial fit", "relaxed oversized editorial fit with believable folds and effortless drape", '', "relaxed"),
+    O("📐 Structured · Crisp structured tailored fit", "crisp structured tailored fit with clean seams and sharp silhouette lines", '', "tailored"),
+    O("🌊 Flowing · Flowing fabric movement with graceful drapery captured naturally", "flowing fabric movement with graceful drapery captured naturally", '', "flowing"),
+    O("✨ Contoured · Sleek body-contouring fit", "sleek body-contouring silhouette following her natural form with clean seams", '', "fitted")
   ];
 
-  const makeupOpts = [
-    O('Keep reference makeup', 'keep_ref'),
-    O('Clean bare-faced no-makeup makeup', 'clean no-makeup makeup look with fresh bare skin, natural lip tint, and groomed brows'),
-    O('Soft glam with defined lashes', 'soft glam makeup with warm neutral eyeshadow, defined lashes, and soft satin nude lips'),
-    O('Classic sharp black winged liner', 'sharp black winged liquid eyeliner with clean feline flick and natural satin lips'),
-    O('Smoky charcoal eyes + nude satin lip', 'smoky charcoal eyeshadow with blended pencil liner paired with an understated nude lip'),
-    O('Statement bold matte crimson red lip', 'statement velvety matte crimson red lip with clean restrained eye makeup'),
-    O('Warm bronzed goddess makeup', 'warm bronzed makeup with sun-kissed terracotta tones and soft golden highlights'),
-    O('Fresh rose-petal monochrome makeup', 'fresh rose-petal monochrome flush across cheeks, lips, and eyelids with soft dewy finish'),
-    O('Dewy glass-skin highlight makeup', 'dewy glass-skin beauty makeup with radiant high points and glossy hydrated lips')
+      const makeupOpts = [
+    O("✦ Preserve · Keep reference makeup", "keep_ref", '', "keep"),
+    O("🌸 Bare · Clean bare-faced no-makeup makeup", "clean no-makeup makeup look with fresh bare skin, natural lip tint, and groomed brows", '', "natural"),
+    O("✨ Soft Glam · Soft glam with defined lashes", "soft glam makeup with warm neutral eyeshadow, defined lashes, and soft satin nude lips", '', "glam"),
+    O("👁️ Winged Liner · Classic sharp black winged liner", "sharp black winged liquid eyeliner with clean feline flick and natural satin lips", '', "defined"),
+    O("🔥 Smoky Eyes · Smoky charcoal eyes + nude satin lip", "smoky charcoal eyeshadow with blended pencil liner paired with an understated nude lip", '', "glam"),
+    O("💋 Crimson Lip · Statement bold matte crimson red lip", "statement velvety matte crimson red lip with clean restrained eye makeup", '', "statement"),
+    O("☀️ Bronzed · Warm bronzed goddess makeup", "warm bronzed makeup with sun-kissed terracotta tones and soft golden highlights", '', "warm"),
+    O("🌸 Rose Monochrome · Fresh rose-petal monochrome makeup", "fresh rose-petal monochrome flush across cheeks, lips, and eyelids with soft dewy finish", '', "monochrome"),
+    O("💧 Glass-Skin · Dewy glass-skin highlight makeup", "dewy glass-skin beauty makeup with radiant high points and glossy hydrated lips", '', "glow")
   ];
 
-  const accessoriesOpts = [
-    O('Keep reference accessories', 'keep_ref'),
-    O('Remove all accessories (clean minimal look)', 'no visible jewelry or accessories; keep collarbones, neck, and ears completely clean and bare'),
-    O('Delicate gold micro-hoop earrings', 'delicate fine gold micro-hoop earrings hugging the earlobes'),
-    O('Sculptural bold gold statement earrings', 'sculptural bold modern gold statement earrings with architectural curve'),
-    O('Fine layered gold chain necklaces', 'fine delicate layered gold chain necklaces resting gracefully on the collarbones'),
-    O('Classic single pearl pendant & studs', 'classic luminous single pearl pendant necklace paired with matching pearl stud earrings'),
-    O('Sleek minimalist steel watch', 'sleek minimalist steel wrist watch with understated bracelet styling'),
-    O('Modern tortoiseshell designer sunglasses', 'modern tortoiseshell designer sunglasses worn or held casually as a fashion prop'),
-    O('Traditional gold jhumka earrings', 'intricately crafted traditional gold jhumka earrings with delicate jingle beads')
+      const accessoriesOpts = [
+    O("✦ Preserve · Keep reference accessories", "keep_ref", '', "keep"),
+    O("✦ Clean Bare · Remove all accessories (clean minimal look)", "no visible jewelry or accessories; keep collarbones, neck, and ears completely clean and bare", '', "minimal"),
+    O("✨ Gold Hoops · Delicate gold micro-hoop earrings", "delicate fine gold micro-hoop earrings hugging the earlobes", '', "earrings"),
+    O("💎 Bold Statement · Sculptural bold gold statement earrings", "sculptural bold modern gold statement earrings with architectural curve", '', "earrings"),
+    O("✨ Layered Chains · Fine layered gold chain necklaces", "fine delicate layered gold chain necklaces resting gracefully on the collarbones", '', "necklaces"),
+    O("🤍 Pearls · Classic single pearl pendant & studs", "classic luminous single pearl pendant necklace paired with matching pearl stud earrings", '', "classic"),
+    O("⌚ Steel Watch · Sleek minimalist steel watch", "sleek minimalist steel wrist watch with understated bracelet styling", '', "watches"),
+    O("🕶️ Sunglasses · Modern tortoiseshell designer sunglasses", "modern tortoiseshell designer sunglasses worn or held casually as a fashion prop", '', "eyewear"),
+    O("✨ Jhumka · Traditional gold jhumka earrings", "intricately crafted traditional gold jhumka earrings with delicate jingle beads", '', "traditional")
   ];
 
   // =========================================================================
   // INPAINT & EDIT METHOD DEFINITIONS
   // =========================================================================
-  const editModeOpts = [
-    O('Surgical Inpaint (Region-Locked)', 'inpaint', 'Targeted replacement prompt optimized for inpainting brush masks, regional canvas inpainting, and generative fill tools.'),
-    O('Global img2img (Full Frame Edit)', 'img2img', 'Comprehensive prompt with weighted preservation clauses for untouched areas and explicit transform clauses for modified features.'),
-    O('Creative Restyle (Preserve Face & Pose)', 'restyle', 'Bold stylistic transformation that strictly anchors the model\'s identity and pose while reinventing hair, wardrobe, and mood.')
+      const editModeOpts = [
+    O("🎯 Surgical · Surgical Inpaint (Region-Locked)", "inpaint", "Targeted replacement prompt optimized for inpainting brush masks, regional canvas inpainting, and generative fill tools.", "inpaint"),
+    O("🌐 Img2Img · Global img2img (Full Frame Edit)", "img2img", "Comprehensive prompt with weighted preservation clauses for untouched areas and explicit transform clauses for modified features.", "img2img"),
+    O("🎨 Restyle · Creative Restyle (Preserve Face & Pose)", "restyle", "Bold stylistic transformation that strictly anchors the model's identity and pose while reinventing hair, wardrobe, and mood.", "restyle")
   ];
 
-  const inpaintMaskTargetOpts = [
-    O('Auto-detect from selected edits', 'auto'),
-    O('Face Features Mask (Nose, Brows, Eyes, Lips, Skin)', 'face_features'),
-    O('Hair & Scalp Area Mask', 'hair_scalp'),
-    O('Wardrobe & Clothing Area Mask', 'wardrobe_only'),
-    O('Face + Hair Combined Mask', 'face_hair'),
-    O('Full Subject (Everything except Background)', 'full_subject')
+      const inpaintMaskTargetOpts = [
+    O("⚡ Auto · Auto-detect from selected edits", "auto", '', "auto"),
+    O("👤 Face Mask · Face Features Mask (Nose, Brows, Eyes, Lips, Skin)", "face_features", '', "face"),
+    O("✂️ Hair Mask · Hair & Scalp Area Mask", "hair_scalp", '', "hair"),
+    O("👗 Wardrobe Mask · Wardrobe & Clothing Area Mask", "wardrobe_only", '', "wardrobe"),
+    O("✨ Combined · Face + Hair Combined Mask", "face_hair", '', "combined"),
+    O("🌟 Full Subject · Full Subject (Everything except Background)", "full_subject", '', "subject")
   ];
 
   // =========================================================================
@@ -1191,18 +1267,37 @@
     const select = document.createElement('select');
     select.id = `field_${key}`;
 
-    fld.opts.forEach(opt => {
-      const optEl = document.createElement('option');
-      optEl.value = opt.label;
-      optEl.textContent = opt.label;
-      if (values[key] && values[key].label === opt.label) {
-        optEl.selected = true;
-      }
-      select.appendChild(optEl);
-    });
+    const cats = [...new Set(fld.opts.map(o => o.cat).filter(Boolean))];
+    if (cats.length >= 2) {
+      cats.forEach(c => {
+        const groupEl = document.createElement('optgroup');
+        groupEl.label = formatCategoryName(c).toUpperCase();
+        const groupOpts = fld.opts.filter(o => o.cat === c);
+        groupOpts.forEach(opt => {
+          const optEl = document.createElement('option');
+          optEl.value = opt.label;
+          optEl.textContent = opt.label;
+          if (values[key] && (values[key].label === opt.label || values[key].text === opt.text)) {
+            optEl.selected = true;
+          }
+          groupEl.appendChild(optEl);
+        });
+        select.appendChild(groupEl);
+      });
+    } else {
+      fld.opts.forEach(opt => {
+        const optEl = document.createElement('option');
+        optEl.value = opt.label;
+        optEl.textContent = opt.label;
+        if (values[key] && (values[key].label === opt.label || values[key].text === opt.text)) {
+          optEl.selected = true;
+        }
+        select.appendChild(optEl);
+      });
+    }
 
     select.addEventListener('change', () => {
-      const selected = fld.opts.find(o => o.label === select.value) || fld.opts[0];
+      const selected = fld.opts.find(o => o.label === select.value || o.text === select.value) || fld.opts[0];
       values[key] = selected;
 
       // Smart uncheck corresponding preservation lock if user picked an actual edit

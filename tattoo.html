@@ -215,19 +215,19 @@ const tattooLocations = makeOpts([
 // ==========================================
 
 const tattooPlacements = makeOpts([
-  ['Collarbone & Clavicle Contour', 'along the graceful horizontal curve of the left clavicle collarbone, delicately following the bone contour into the hollow of the throat'],
-  ['Ribcage & Underbust Flank', 'along the delicate contour of the left ribcage just beneath the underbust line, accentuating the natural curvature of the ribs and breathing posture'],
-  ['Nape of Neck & Cervical Spine', 'centered precisely at the nape of the neck just beneath the hairline, gracefully revealed by her swept-up hair'],
-  ['Behind the Ear & Mastoid', 'curving delicately along the groove behind the left earlobe and mastoid bone, framed by fine wisps of loose hair'],
-  ['Spine Centerline & Vertebrae', 'running vertically down the centerline of the upper spine between the shoulder blades, aligned with the dorsal vertebrae'],
-  ['Shoulder Blade & Scapula', 'positioned elegantly across the surface of the right shoulder blade (scapula), following the sculptural curvature of the upper back'],
-  ['Inner Forearm & Wrist Crease', 'placed along the smooth inner forearm just two inches above the wrist crease, showing fine skin grain and tendon contours'],
-  ['Outer Bicep & Deltoid Curve', 'anchored on the outer curve of the upper bicep and deltoid, wrapping subtly around the contour of the arm'],
-  ['Center Sternum & Décolletage', 'centered vertically along the breastbone (sternum) in the décolletage, forming an exquisite symmetrical focal point'],
-  ['Hip Bone & Iliac Crest', 'resting delicately along the forward crest of the pelvic hip bone, just peeking above the waistband'],
-  ['Upper Thigh & Outer Flank Line', 'positioned along the outer high thigh and flank curve, contouring naturally with the leg silhouette'],
-  ['Outer Ankle & Achilles Tendon', 'wrapping subtly around the outer ankle bone (lateral malleolus) and tracing slightly toward the Achilles tendon'],
-  ['Hand & Middle Knuckle Micro-Detail', 'delicate miniature single-needle symbols placed cleanly along the top of the middle phalanx of the fingers']
+  ["\ud83e\uddb4 Torso \u00b7 Collarbone & Clavicle Contour", "along the graceful horizontal curve of the left clavicle collarbone, delicately following the bone contour into the hollow of the throat", "", "placement_torso"],
+  ["\ud83e\uddb4 Torso \u00b7 Ribcage & Underbust Flank", "along the delicate contour of the left ribcage just beneath the underbust line, accentuating the natural curvature of the ribs and breathing posture", "", "placement_torso"],
+  ["\ud83e\uddb4 Torso \u00b7 Nape of Neck & Cervical Spine", "centered precisely at the nape of the neck just beneath the hairline, gracefully revealed by her swept-up hair", "", "placement_torso"],
+  ["\ud83e\uddb5 Lower Body \u00b7 Behind the Ear & Mastoid", "curving delicately along the groove behind the left earlobe and mastoid bone, framed by fine wisps of loose hair", "", "placement_limbs"],
+  ["\ud83e\uddb4 Torso \u00b7 Spine Centerline & Vertebrae", "running vertically down the centerline of the upper spine between the shoulder blades, aligned with the dorsal vertebrae", "", "placement_torso"],
+  ["\ud83e\uddb4 Torso \u00b7 Shoulder Blade & Scapula", "positioned elegantly across the surface of the right shoulder blade (scapula), following the sculptural curvature of the upper back", "", "placement_torso"],
+  ["\ud83d\udcaa Arms & Hands \u00b7 Inner Forearm & Wrist Crease", "placed along the smooth inner forearm just two inches above the wrist crease, showing fine skin grain and tendon contours", "", "placement_arms"],
+  ["\ud83d\udcaa Arms & Hands \u00b7 Outer Bicep & Deltoid Curve", "anchored on the outer curve of the upper bicep and deltoid, wrapping subtly around the contour of the arm", "", "placement_arms"],
+  ["\ud83e\uddb4 Torso \u00b7 Center Sternum & D\u00e9colletage", "centered vertically along the breastbone (sternum) in the d\u00e9colletage, forming an exquisite symmetrical focal point", "", "placement_torso"],
+  ["\ud83e\uddb5 Lower Body \u00b7 Hip Bone & Iliac Crest", "resting delicately along the forward crest of the pelvic hip bone, just peeking above the waistband", "", "placement_limbs"],
+  ["\ud83e\uddb5 Lower Body \u00b7 Upper Thigh & Outer Flank Line", "positioned along the outer high thigh and flank curve, contouring naturally with the leg silhouette", "", "placement_limbs"],
+  ["\ud83e\uddb5 Lower Body \u00b7 Outer Ankle & Achilles Tendon", "wrapping subtly around the outer ankle bone (lateral malleolus) and tracing slightly toward the Achilles tendon", "", "placement_limbs"],
+  ["\ud83d\udcaa Arms & Hands \u00b7 Hand & Middle Knuckle Micro-Detail", "delicate miniature single-needle symbols placed cleanly along the top of the middle phalanx of the fingers", "", "placement_arms"]
 ]);
 
 const tattooSecondaryPlacements = makeOpts([
@@ -240,10 +240,10 @@ const tattooSecondaryPlacements = makeOpts([
 ]);
 
 const tattooContourFlows = makeOpts([
-  ['Contouring naturally along horizontal bone contour', 'delicately aligned with the natural horizontal curvature of the skeletal structure, flowing organically across the skin'],
-  ['Vertical centerline alignment along vertebrae', 'strictly following a razor-straight vertical alignment down the body centerline'],
-  ['Intimate diagonal slant hugging muscle grain', 'angled on a subtle 30-degree diagonal that compliments the natural muscular tension and movement of the canvas'],
-  ['Delicate anatomical wrap around limb curvature', 'gracefully wrapping partially around the cylindrical curvature of the limb in a seamless spiral arc']
+  ["\u2194\ufe0f Horizontal Flow \u00b7 Contouring naturally along horizontal bone contour", "delicately aligned with the natural horizontal curvature of the skeletal structure, flowing organically across the skin", "", "flow_bone"],
+  ["\u2195\ufe0f Vertical Flow \u00b7 Vertical centerline alignment along vertebrae", "strictly following a razor-straight vertical alignment down the body centerline", "", "flow_vertical"],
+  ["\ud83d\udd04 Spiral Wrap \u00b7 Intimate diagonal slant hugging muscle grain", "angled on a subtle 30-degree diagonal that compliments the natural muscular tension and movement of the canvas", "", "flow_wrap"],
+  ["\ud83d\udd04 Spiral Wrap \u00b7 Delicate anatomical wrap around limb curvature", "gracefully wrapping partially around the cylindrical curvature of the limb in a seamless spiral arc", "", "flow_wrap"]
 ]);
 
 const tattooSkinSensories = makeOpts([
@@ -322,12 +322,12 @@ const tattooMotifs = makeOpts([
 ]);
 
 const tattooStyles = makeOpts([
-  ['Single-needle 1RL ultra fine-line (0.20mm micron precision)', 'crisp, razor-thin single-needle 1RL precision linework with razor-sharp contours, consistent micron line weight, and zero ink blowouts'],
-  ['Soft whip / pepper shading with stipple dotwork', 'delicate whip shading and pepper stippling technique, using microscopic ink dots to create a soft organic tonal gradient'],
-  ['Micro-realism with smooth grayscale tonal gradient', 'photorealistic micro-realism technique with ultra-smooth grayscale gradients, subtle drop shadows, and microscopic depth without heavy outlines'],
-  ['Saturated rich blackwork with bold solid contrast', 'deeply saturated rich blackwork with opaque midnight-black density and sharp graphic silhouette edges'],
-  ['Editorial crimson red single-needle line art', 'striking editorial crimson-red ink linework, rendered in ultra-thin single-needle precision for a vivid, modern art look'],
-  ['Micro-color pastel wash with watercolor softness', 'delicate black line art accented with translucent watercolor washes of soft blush rose and muted sage green']
+  ["\ud83d\udd8b\ufe0f Single-Needle \u00b7 Single-needle 1RL ultra fine-line (0.20mm micron precision)", "crisp, razor-thin single-needle 1RL precision linework with razor-sharp contours, consistent micron line weight, and zero ink blowouts", "", "style_fine"],
+  ["\ud83c\udfa8 Pepper & Shading \u00b7 Soft whip / pepper shading with stipple dotwork", "delicate whip shading and pepper stippling technique, using microscopic ink dots to create a soft organic tonal gradient", "", "style_shading"],
+  ["\ud83c\udfa8 Pepper & Shading \u00b7 Micro-realism with smooth grayscale tonal gradient", "photorealistic micro-realism technique with ultra-smooth grayscale gradients, subtle drop shadows, and microscopic depth without heavy outlines", "", "style_shading"],
+  ["\ud83c\udfa8 Pepper & Shading \u00b7 Saturated rich blackwork with bold solid contrast", "deeply saturated rich blackwork with opaque midnight-black density and sharp graphic silhouette edges", "", "style_shading"],
+  ["\ud83c\udf08 Editorial Color \u00b7 Editorial crimson red single-needle line art", "striking editorial crimson-red ink linework, rendered in ultra-thin single-needle precision for a vivid, modern art look", "", "style_color"],
+  ["\ud83c\udf08 Editorial Color \u00b7 Micro-color pastel wash with watercolor softness", "delicate black line art accented with translucent watercolor washes of soft blush rose and muted sage green", "", "style_color"]
 ]);
 
 const tattooScales = makeOpts([
@@ -338,70 +338,70 @@ const tattooScales = makeOpts([
 ]);
 
 const tattooFreshnesses = makeOpts([
-  ['Freshly inked with subtle natural erythema & Aquaphor gloss sheen', 'a brand-new fresh tattoo with subtle natural skin redness (erythema) softly haloing the crisp black ink lines, coated in a micro-thin glossy sheen of protective Aquaphor healing ointment catching crisp specular light highlights, with microscopic ink pores visible'],
-  ['Active in-session tattoo process (gloved hands & wipe)', 'an authentic active tattoo session in progress: a black nitrile-gloved hand gently stretches the skin while another holds a damp sterile paper towel wiping excess black ink streaks across the surface, with a modern sleek rotary pen machine resting close by'],
-  ['Day-three settled healing with subtle natural flaking', 'a three-day-old tattoo in its natural settling stage: ink settling into the upper dermis with delicate microscopic skin flaking around the perimeter, soft semi-matte sheen, and natural skin hydration'],
-  ['Fully healed smooth skin with matte dermis integration', 'a completely healed, pristine tattoo: smooth, natural skin texture with matte ink permanently fused into the dermis, where natural pores, fine hairs, and skin wrinkles pass seamlessly directly through the black linework with zero redness']
+  ["\u2728 Fresh Inked \u00b7 Freshly inked with subtle natural erythema & Aquaphor gloss sheen", "a brand-new fresh tattoo with subtle natural skin redness (erythema) softly haloing the crisp black ink lines, coated in a micro-thin glossy sheen of protective Aquaphor healing ointment catching crisp specular light highlights, with microscopic ink pores visible", "", "fresh_new"],
+  ["\ud83e\udde4 In-Session Process \u00b7 Active in-session tattoo process (gloved hands & wipe)", "an authentic active tattoo session in progress: a black nitrile-gloved hand gently stretches the skin while another holds a damp sterile paper towel wiping excess black ink streaks across the surface, with a modern sleek rotary pen machine resting close by", "", "fresh_session"],
+  ["\ud83d\udc8e Settled & Healed \u00b7 Day-three settled healing with subtle natural flaking", "a three-day-old tattoo in its natural settling stage: ink settling into the upper dermis with delicate microscopic skin flaking around the perimeter, soft semi-matte sheen, and natural skin hydration", "", "fresh_healed"],
+  ["\ud83d\udc8e Settled & Healed \u00b7 Fully healed smooth skin with matte dermis integration", "a completely healed, pristine tattoo: smooth, natural skin texture with matte ink permanently fused into the dermis, where natural pores, fine hairs, and skin wrinkles pass seamlessly directly through the black linework with zero redness", "", "fresh_healed"]
 ]);
 
 const tattooInteractions = makeOpts([
-  ['Solo model admiring her tattoo candidly', 'the solitary female model is alone in the frame, gracefully turning her head with a relaxed candid expression as she admires the finished artwork in natural soft light'],
-  ['Black nitrile-gloved artist hand gently wiping with damp cloth', 'a close-up framing featuring the female model, with an artist\'s hand in a sterile black nitrile glove delicately wiping a damp lint-free cloth across the skin, revealing the crisp, immaculate lines beneath'],
-  ['Artist hand stretching skin as wireless rotary pen hovers', 'an artist\'s gloved thumb and forefinger gently stretching the canvas of the skin, with a matte-black wireless rotary tattoo pen machine held poised with artisan concentration'],
-  ['Model inspecting ink in a handheld brass mirror', 'the model holds a small antique brass handheld mirror, gazing at the reflection of the tattoo with an authentic, gentle, candid expression of quiet satisfaction'],
-  ['Model sweeping hair & pinning nape locks with matte alligator clip', 'in-session hair prep: the model gently sweeps lower hair locks upward and clips them cleanly with a matte salon alligator clamp to expose her bare nape and upper back ink canvas cleanly while retaining her signature haircut silhouette'],
-  ['Gloved artist pinning stray neck/ear hair wisps back with duckbill clip', 'pre-ink detailing: a black nitrile-gloved artist hand gently tucks loose neck and ear wisps out of the ink zone using a sleek metal salon duckbill clip, while a matte rotary tattoo pen rests within reach'],
-  ['Disposable razor pre-ink shave clearing peach fuzz along placement', 'pre-stencil grooming prep: an artist\'s black nitrile-gloved hand carefully glides a clean single-blade prep razor across light moisturizing foam to clear fine peach fuzz hairs smoothly before stencil application'],
-  ['Model holding gathered hair bundle clear of shoulder during active ink pass', 'live tattooing teamwork: the model gently gathers and holds her hair bundle over her opposite shoulder with calm fingers to keep the inked shoulder and collarbone skin completely unobstructed while the gloved artist\'s wireless rotary pen works smoothly'],
-  ['Gloved hand spritzing green-soap wash beside clipped hair sections', 'active session pause: an artist\'s black-gloved hand mists green-soap cleansing spray across the inked skin beside sectioned upper hair locks pinned in salon butterfly clips, blotting droplets with folded clean paper towel'],
-  ['Applying purple thermal transfer stencil beneath parted neck locks', 'pre-ink placement craft: delicately peeling a crisp purple carbon tattoo stencil paper off prepared smooth skin right below the parted hairline while loose temple strands frame her cheek'],
-  ['Tucking hair cleanly behind ink-side ear while opposite curtain veil drapes', 'asymmetric hair-work poise: the model keeps her tattooed shoulder and jawline side tucked cleanly behind the ear while allowing soft front locks to veil naturally across her opposite cheek'],
-  ['Adjusting damp tousled wisps clear of finished ink perimeter', 'post-session tactile reset: running gentle fingertips through her lightly misted, freshly settled hair wisps to keep strands lifted cleanly away from the completed fine-line tattoo']
+  ["\ud83d\udc64 Solo Model \u00b7 Solo model admiring her tattoo candidly", "the solitary female model is alone in the frame, gracefully turning her head with a relaxed candid expression as she admires the finished artwork in natural soft light", "", "fresh_new"],
+  ["\ud83e\udde4 Gloved Artist \u00b7 Black nitrile-gloved artist hand gently wiping with damp cloth", "a close-up framing featuring the female model, with an artist's hand in a sterile black nitrile glove delicately wiping a damp lint-free cloth across the skin, revealing the crisp, immaculate lines beneath", "", "fresh_session"],
+  ["\ud83e\udde4 Gloved Artist \u00b7 Artist hand stretching skin as wireless rotary pen hovers", "an artist's gloved thumb and forefinger gently stretching the canvas of the skin, with a matte-black wireless rotary tattoo pen machine held poised with artisan concentration", "", "fresh_session"],
+  ["\ud83d\udc64 Solo Model \u00b7 Model inspecting ink in a handheld brass mirror", "the model holds a small antique brass handheld mirror, gazing at the reflection of the tattoo with an authentic, gentle, candid expression of quiet satisfaction", "", "fresh_new"],
+  ["\ud83d\udc64 Solo Model \u00b7 Model sweeping hair & pinning nape locks with matte alligator clip", "in-session hair prep: the model gently sweeps lower hair locks upward and clips them cleanly with a matte salon alligator clamp to expose her bare nape and upper back ink canvas cleanly while retaining her signature haircut silhouette", "", "fresh_new"],
+  ["\ud83e\udde4 Gloved Artist \u00b7 Gloved artist pinning stray neck/ear hair wisps back with duckbill clip", "pre-ink detailing: a black nitrile-gloved artist hand gently tucks loose neck and ear wisps out of the ink zone using a sleek metal salon duckbill clip, while a matte rotary tattoo pen rests within reach", "", "fresh_session"],
+  ["\ud83e\udde4 Gloved Artist \u00b7 Disposable razor pre-ink shave clearing peach fuzz along placement", "pre-stencil grooming prep: an artist's black nitrile-gloved hand carefully glides a clean single-blade prep razor across light moisturizing foam to clear fine peach fuzz hairs smoothly before stencil application", "", "fresh_session"],
+  ["\ud83e\udde4 Gloved Artist \u00b7 Model holding gathered hair bundle clear of shoulder during active ink pass", "live tattooing teamwork: the model gently gathers and holds her hair bundle over her opposite shoulder with calm fingers to keep the inked shoulder and collarbone skin completely unobstructed while the gloved artist's wireless rotary pen works smoothly", "", "fresh_session"],
+  ["\ud83e\udde4 Gloved Artist \u00b7 Gloved hand spritzing green-soap wash beside clipped hair sections", "active session pause: an artist's black-gloved hand mists green-soap cleansing spray across the inked skin beside sectioned upper hair locks pinned in salon butterfly clips, blotting droplets with folded clean paper towel", "", "fresh_session"],
+  ["\ud83e\udde4 Gloved Artist \u00b7 Applying purple thermal transfer stencil beneath parted neck locks", "pre-ink placement craft: delicately peeling a crisp purple carbon tattoo stencil paper off prepared smooth skin right below the parted hairline while loose temple strands frame her cheek", "", "fresh_session"],
+  ["\ud83d\udc64 Solo Model \u00b7 Tucking hair cleanly behind ink-side ear while opposite curtain veil drapes", "asymmetric hair-work poise: the model keeps her tattooed shoulder and jawline side tucked cleanly behind the ear while allowing soft front locks to veil naturally across her opposite cheek", "", "fresh_new"],
+  ["\ud83d\udc64 Solo Model \u00b7 Adjusting damp tousled wisps clear of finished ink perimeter", "post-session tactile reset: running gentle fingertips through her lightly misted, freshly settled hair wisps to keep strands lifted cleanly away from the completed fine-line tattoo", "", "fresh_new"]
 ]);
 
 const tattooExpressions = makeOpts([
-  ['Serene contemplative gaze with parted lips', 'a serene, contemplative facial expression with soft lips slightly parted, calm relaxed gaze directed gently off-camera'],
-  ['Quiet satisfaction admiring fresh ink', 'an expression of quiet satisfaction and subtle awe, gazing softly at the fresh ink with a gentle, content smile'],
-  ['Closed eyes in relaxed meditative bliss', 'eyes gently closed in peaceful, meditative stillness, breathing smoothly with relaxed jaw and serene poise'],
-  ['Subtle playful half-smile over shoulder', 'a subtle, playful half-smile looking back over her shoulder toward the camera with quiet charisma'],
-  ['Fierce direct gaze with grounded intensity', 'a fierce, unwavering direct gaze looking straight into the lens with magnetic self-possession and strength'],
-  ['Delicate vulnerability with soft eyes', 'a delicate, vulnerable expression with wide luminous eyes and gentle emotional depth'],
-  ['Candid soft breath caught mid-exhale', 'a candid, unstaged expression caught mid-breath with relaxed facial symmetry and soft temple lines'],
-  ['Cool unbothered editorial aloofness', 'a cool, nonchalant high-fashion editorial expression with an unbothered, poised demeanor'],
-  ['Subtle intrigued side-glance', 'an intrigued, curious side-glance watching the artist\'s gloved fingers work with quiet fascination'],
-  ['Poised radiant confidence', 'a glowing, poised expression radiating renewed personal confidence and bodily self-assurance'],
-  ['Gentle knowing smirk', 'one eyebrow faintly arched with a faint, knowing smirk playing on her lips'],
-  ['Soft nostalgic reverence', 'a tender, nostalgic reverence in her eyes as if the tattoo holds deep personal meaning'],
-  ['Candid genuine half-laugh', 'a spontaneous, genuine half-laugh breaking through her composure in an unposed behind-the-scenes moment'],
-  ['Calm steady profile composure', 'a calm, steady expression held in profile, chin slightly lifted with relaxed neck muscles'],
-  ['Intimate tactile focus', 'eyes cast softly downward toward the placement area, attentive to the sensory feeling on her skin'],
-  ['Bold defiant elegance', 'a bold, unapologetic expression with raised chin, relaxed lips, and an empowered, modern aura'],
-  ['Quiet introspective reverie', 'lost in quiet introspective thought, eyes soft with gentle emotional clarity'],
-  ['Warm approachable smile', 'a warm, naturally disarming smile with soft crinkles around the eyes conveying comfort and joy']
+  ["\ud83d\ude0c Serene & Calm \u00b7 Serene contemplative gaze with parted lips", "a serene, contemplative facial expression with soft lips slightly parted, calm relaxed gaze directed gently off-camera", "", "exp_serene"],
+  ["\ud83d\ude0a Soft Smile \u00b7 Quiet satisfaction admiring fresh ink", "an expression of quiet satisfaction and subtle awe, gazing softly at the fresh ink with a gentle, content smile", "", "exp_smile"],
+  ["\ud83d\ude0c Serene & Calm \u00b7 Closed eyes in relaxed meditative bliss", "eyes gently closed in peaceful, meditative stillness, breathing smoothly with relaxed jaw and serene poise", "", "exp_serene"],
+  ["\ud83d\ude0a Soft Smile \u00b7 Subtle playful half-smile over shoulder", "a subtle, playful half-smile looking back over her shoulder toward the camera with quiet charisma", "", "exp_smile"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Fierce direct gaze with grounded intensity", "a fierce, unwavering direct gaze looking straight into the lens with magnetic self-possession and strength", "", "exp_fierce"],
+  ["\ud83d\ude0c Serene & Calm \u00b7 Delicate vulnerability with soft eyes", "a delicate, vulnerable expression with wide luminous eyes and gentle emotional depth", "", "exp_serene"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Candid soft breath caught mid-exhale", "a candid, unstaged expression caught mid-breath with relaxed facial symmetry and soft temple lines", "", "exp_fierce"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Cool unbothered editorial aloofness", "a cool, nonchalant high-fashion editorial expression with an unbothered, poised demeanor", "", "exp_fierce"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Subtle intrigued side-glance", "an intrigued, curious side-glance watching the artist's gloved fingers work with quiet fascination", "", "exp_fierce"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Poised radiant confidence", "a glowing, poised expression radiating renewed personal confidence and bodily self-assurance", "", "exp_fierce"],
+  ["\ud83d\ude0a Soft Smile \u00b7 Gentle knowing smirk", "one eyebrow faintly arched with a faint, knowing smirk playing on her lips", "", "exp_smile"],
+  ["\ud83d\ude0c Serene & Calm \u00b7 Soft nostalgic reverence", "a tender, nostalgic reverence in her eyes as if the tattoo holds deep personal meaning", "", "exp_serene"],
+  ["\ud83d\ude0a Soft Smile \u00b7 Candid genuine half-laugh", "a spontaneous, genuine half-laugh breaking through her composure in an unposed behind-the-scenes moment", "", "exp_smile"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Calm steady profile composure", "a calm, steady expression held in profile, chin slightly lifted with relaxed neck muscles", "", "exp_fierce"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Intimate tactile focus", "eyes cast softly downward toward the placement area, attentive to the sensory feeling on her skin", "", "exp_fierce"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Bold defiant elegance", "a bold, unapologetic expression with raised chin, relaxed lips, and an empowered, modern aura", "", "exp_fierce"],
+  ["\ud83d\udd25 Fierce & Direct \u00b7 Quiet introspective reverie", "lost in quiet introspective thought, eyes soft with gentle emotional clarity", "", "exp_fierce"],
+  ["\ud83d\ude0a Soft Smile \u00b7 Warm approachable smile", "a warm, naturally disarming smile with soft crinkles around the eyes conveying comfort and joy", "", "exp_smile"]
 ]);
 
 const tattooModelPoses = makeOpts([
-  ['Seated curved spine with head gently tilted forward', 'seated upright on a low backless stool with relaxed posture, head gently tilted forward and to the side, elongating the neck and collarbone in a calm, contemplative moment'],
-  ['Reclining on black leather studio examination bench', 'reclining comfortably on a sleek black leather studio examination bench with one arm resting loosely above her head, body curved naturally'],
-  ['Standing 3/4 profile beside natural window light', 'standing in a graceful 3/4 profile beside a tall sunlit studio window, torso angled softly with one hand resting naturally on her hip'],
-  ['Leaning forward resting forearms on knees', 'leaning forward with forearms resting casually on her knees, curving the spine to stretch the back canvas and highlight tattoo geometry'],
-  ['Admiring tattoo reflection in antique brass handheld mirror', 'turning her head over her bare shoulder, looking with a subtle candid smile into a small antique brass handheld mirror to inspect the fresh ink'],
-  ['Head tilted down exposing crown, nape and spine', 'seated with head tilted deeply down toward her chest, chin tucked in contemplation, curving the cervical spine to fully display the nape, upper vertebrae, and shoulder tattoo'],
-  ['Bent down forward at waist displaying full back & ribcage', 'bent down forward at the waist with hands resting on shins, flattening the back and stretching the ribcage to clearly display tattoo geometry and muscle contour'],
-  ['Seated curled forward with elbows on knees, head bowed', 'seated on the studio bench bent forward with elbows on knees and head bowed down, quiet contemplative posture highlighting spine and neck ink'],
-  ['Standing with chin tilted down looking up through lashes', 'standing with chin angled down toward collarbone while gazing upward through dark eyelashes, creating an intimate, moody portrait angle'],
-  ['Kneeling bent forward with forearms on leather bench', 'kneeling on the floor bent forward with forearms resting across the studio leather bench, spine arched gracefully to display flank and back ink'],
-  ['Turned sideways looking away with hand shielding face', 'turned sideways in profile looking away from the camera into the scene, with one hand casually raised to her temple or forehead to naturally shield her face so her facial features are not visible, showcasing her body art, posture, and silhouette'],
-  ['Turned sideways facing away with hair falling forward hiding face', 'standing in side-profile turned away from the camera looking into the background, with her hair falling forward to naturally and completely conceal her face from view, focusing optical clarity on her tattoo and figure'],
-  ['Turned sideways in profile looking away from camera', 'standing or seated turned sideways in profile looking away from the camera into the setting, her head turned away so her face is not visible, maintaining her natural hair styling while showcasing her tattoo placement and posture'],
-  ['Reclining sideways on tattoo bench with arm draped overhead & gaze away', 'reclining in lateral profile on the black examination bench with one arm draped gracefully overhead, head turned away into the moody studio backdrop, highlighting flank and ribcage contours'],
-  ['Standing in lateral profile resting one hand on artist stool', 'standing in pure lateral silhouette beside the stainless steel workstation, one hand resting on the artist\'s hydraulic stool, head turned away looking toward the industrial loft window'],
-  ['Seated sideways on examination bench with torso twisted away', 'seated sideways on the edge of the leather bench with legs crossed, upper torso twisted subtly away into the setting, displaying collarbone and upper shoulder blade ink'],
-  ['Leaning sideways against studio brick wall looking away', 'leaning her side shoulder and arm against the exposed loft brick wall, body held in clean lateral profile with head turned away from the camera, highlighting spine and shoulder canvas'],
-  ['Kneeling sideways on studio mat with hands on thighs looking away', 'kneeling upright in side profile on a leather studio cushion with hands resting on thighs, head turned away into the ambient room light, highlighting anatomical curves and delicate ink'],
-  ['Perched sideways on edge of stool with one arm resting on knee', 'perched on the edge of the backless stool turned sideways, one forearm resting across her knee, head angled away from the camera to reveal ribcage and waist contours in clean silhouette'],
-  ['Standing in lateral stride pausing mid-step gazing away', 'standing in side-profile mid-stride between tattoo passes, body facing laterally with head turned away into the studio setting, emphasizing posture and dermal placement'],
-  ['Seated sideways on bench hugging knees to chest looking away', 'seated sideways on the leather bench drawing her knees loosely toward her chest, arms wrapped around shins while her head is turned away into the atmospheric studio shadow']
+  ["\ud83e\uddcd Seated & Low Stool \u00b7 Seated curved spine with head gently tilted forward", "seated upright on a low backless stool with relaxed posture, head gently tilted forward and to the side, elongating the neck and collarbone in a calm, contemplative moment", "", "pose_seated"],
+  ["\ud83d\udecb\ufe0f Reclined & Bent \u00b7 Reclining on black leather studio examination bench", "reclining comfortably on a sleek black leather studio examination bench with one arm resting loosely above her head, body curved naturally", "", "pose_reclined"],
+  ["\ud83d\udeb6 Standing Posture \u00b7 Standing 3/4 profile beside natural window light", "standing in a graceful 3/4 profile beside a tall sunlit studio window, torso angled softly with one hand resting naturally on her hip", "", "pose_standing"],
+  ["\ud83e\uddcd Seated & Low Stool \u00b7 Leaning forward resting forearms on knees", "leaning forward with forearms resting casually on her knees, curving the spine to stretch the back canvas and highlight tattoo geometry", "", "pose_seated"],
+  ["\ud83e\uddcd Seated & Low Stool \u00b7 Admiring tattoo reflection in antique brass handheld mirror", "turning her head over her bare shoulder, looking with a subtle candid smile into a small antique brass handheld mirror to inspect the fresh ink", "", "pose_seated"],
+  ["\ud83e\uddcd Seated & Low Stool \u00b7 Head tilted down exposing crown, nape and spine", "seated with head tilted deeply down toward her chest, chin tucked in contemplation, curving the cervical spine to fully display the nape, upper vertebrae, and shoulder tattoo", "", "pose_seated"],
+  ["\ud83d\udecb\ufe0f Reclined & Bent \u00b7 Bent down forward at waist displaying full back & ribcage", "bent down forward at the waist with hands resting on shins, flattening the back and stretching the ribcage to clearly display tattoo geometry and muscle contour", "", "pose_reclined"],
+  ["\ud83e\uddcd Seated & Low Stool \u00b7 Seated curled forward with elbows on knees, head bowed", "seated on the studio bench bent forward with elbows on knees and head bowed down, quiet contemplative posture highlighting spine and neck ink", "", "pose_seated"],
+  ["\ud83d\udeb6 Standing Posture \u00b7 Standing with chin tilted down looking up through lashes", "standing with chin angled down toward collarbone while gazing upward through dark eyelashes, creating an intimate, moody portrait angle", "", "pose_standing"],
+  ["\ud83d\udecb\ufe0f Reclined & Bent \u00b7 Kneeling bent forward with forearms on leather bench", "kneeling on the floor bent forward with forearms resting across the studio leather bench, spine arched gracefully to display flank and back ink", "", "pose_reclined"],
+  ["\ud83d\ude48 Turned Away \u00b7 Turned sideways looking away with hand shielding face", "turned sideways in profile looking away from the camera into the scene, with one hand casually raised to her temple or forehead to naturally shield her face so her facial features are not visible, showcasing her body art, posture, and silhouette", "", "pose_concealed"],
+  ["\ud83d\ude48 Turned Away \u00b7 Turned sideways facing away with hair falling forward hiding face", "standing in side-profile turned away from the camera looking into the background, with her hair falling forward to naturally and completely conceal her face from view, focusing optical clarity on her tattoo and figure", "", "pose_concealed"],
+  ["\ud83d\ude48 Turned Away \u00b7 Turned sideways in profile looking away from camera", "standing or seated turned sideways in profile looking away from the camera into the setting, her head turned away so her face is not visible, maintaining her natural hair styling while showcasing her tattoo placement and posture", "", "pose_concealed"],
+  ["\ud83d\ude48 Turned Away \u00b7 Reclining sideways on tattoo bench with arm draped overhead & gaze away", "reclining in lateral profile on the black examination bench with one arm draped gracefully overhead, head turned away into the moody studio backdrop, highlighting flank and ribcage contours", "", "pose_concealed"],
+  ["\ud83d\udeb6 Standing Posture \u00b7 Standing in lateral profile resting one hand on artist stool", "standing in pure lateral silhouette beside the stainless steel workstation, one hand resting on the artist's hydraulic stool, head turned away looking toward the industrial loft window", "", "pose_standing"],
+  ["\ud83d\ude48 Turned Away \u00b7 Seated sideways on examination bench with torso twisted away", "seated sideways on the edge of the leather bench with legs crossed, upper torso twisted subtly away into the setting, displaying collarbone and upper shoulder blade ink", "", "pose_concealed"],
+  ["\ud83d\ude48 Turned Away \u00b7 Leaning sideways against studio brick wall looking away", "leaning her side shoulder and arm against the exposed loft brick wall, body held in clean lateral profile with head turned away from the camera, highlighting spine and shoulder canvas", "", "pose_concealed"],
+  ["\ud83d\ude48 Turned Away \u00b7 Kneeling sideways on studio mat with hands on thighs looking away", "kneeling upright in side profile on a leather studio cushion with hands resting on thighs, head turned away into the ambient room light, highlighting anatomical curves and delicate ink", "", "pose_concealed"],
+  ["\ud83e\uddcd Seated & Low Stool \u00b7 Perched sideways on edge of stool with one arm resting on knee", "perched on the edge of the backless stool turned sideways, one forearm resting across her knee, head angled away from the camera to reveal ribcage and waist contours in clean silhouette", "", "pose_seated"],
+  ["\ud83d\ude48 Turned Away \u00b7 Standing in lateral stride pausing mid-step gazing away", "standing in side-profile mid-stride between tattoo passes, body facing laterally with head turned away into the studio setting, emphasizing posture and dermal placement", "", "pose_concealed"],
+  ["\ud83d\ude48 Turned Away \u00b7 Seated sideways on bench hugging knees to chest looking away", "seated sideways on the leather bench drawing her knees loosely toward her chest, arms wrapped around shins while her head is turned away into the atmospheric studio shadow", "", "pose_concealed"]
 ]);
 
 const tattooRevealingFits = makeOpts([
@@ -471,18 +471,18 @@ const tattooCameras = makeOpts([
 ]);
 
 const tattooLightings = makeOpts([
-  ['Tactile glancing window sidelight revealing skin topography', 'soft, tactile natural daylight streaming from an adjacent window at a low glancing angle, skimming across the skin surface to cast micro-shadows that accentuate both the tattoo line precision and authentic skin pores'],
-  ['Direct on-camera editorial flash with crisp specular highlights', 'a crisp on-camera direct flash snapshot aesthetic, producing sharp specular gleams on the ointment gloss, bold contrast, and pristine skin clarity without shadows'],
-  ['Warm golden hour rim light & soft sunlit halo', 'warm late-afternoon golden hour sunlight wrapping around the curve of the body as a luminous rim light, illuminating fine peach fuzz and delicate ink lines'],
-  ['Moody boutique tattoo studio interior', 'atmospheric indoor boutique tattoo studio lighting, with warm vintage Edison filament sconces, exposed brick textures in the background, and a focused cool LED task light illuminating the tattooed skin'],
-  ['Diffused commercial beauty studio softbox', 'large octa-softbox studio lighting creating perfectly even, soft, flattering wrap-around illumination with neutral skin tones and zero harsh hot spots']
+  ["\u2600\ufe0f Natural Daylight \u00b7 Tactile glancing window sidelight revealing skin topography", "soft, tactile natural daylight streaming from an adjacent window at a low glancing angle, skimming across the skin surface to cast micro-shadows that accentuate both the tattoo line precision and authentic skin pores", "", "lighting_daylight"],
+  ["\u26a1 Direct Flash & Rim \u00b7 Direct on-camera editorial flash with crisp specular highlights", "a crisp on-camera direct flash snapshot aesthetic, producing sharp specular gleams on the ointment gloss, bold contrast, and pristine skin clarity without shadows", "", "lighting_flash"],
+  ["\u26a1 Direct Flash & Rim \u00b7 Warm golden hour rim light & soft sunlit halo", "warm late-afternoon golden hour sunlight wrapping around the curve of the body as a luminous rim light, illuminating fine peach fuzz and delicate ink lines", "", "lighting_flash"],
+  ["\ud83c\udf07 Warm Amber \u00b7 Moody boutique tattoo studio interior", "atmospheric indoor boutique tattoo studio lighting, with warm vintage Edison filament sconces, exposed brick textures in the background, and a focused cool LED task light illuminating the tattooed skin", "", "lighting_warm"],
+  ["\ud83c\udf07 Warm Amber \u00b7 Diffused commercial beauty studio softbox", "large octa-softbox studio lighting creating perfectly even, soft, flattering wrap-around illumination with neutral skin tones and zero harsh hot spots", "", "lighting_warm"]
 ]);
 
 const tattooFilmFeels = makeOpts([
-  ['Ultra-sharp modern 100MP digital RAW clarity', 'ultra-crisp medium-format digital sensor rendering with extreme resolution, perfect edge micro-contrast, and clean neutral color science'],
-  ['Kodak Portra 400 fine organic film grain', 'warm analog 35mm film aesthetic with subtle organic grain, gentle highlight roll-off, and flattering skin tone reproduction'],
-  ['Muted editorial high-fashion palette', 'sophisticated desaturated tones with deep blacks, soft muted highlights, and focused editorial contrast'],
-  ['Rich high-contrast monochrome black & white', 'striking fine-art black and white conversion with silver halide tonal gradation, deep velvety blacks, and luminous skin highlights']
+  ["\ud83d\udc8e 100MP RAW \u00b7 Ultra-sharp modern 100MP digital RAW clarity", "ultra-crisp medium-format digital sensor rendering with extreme resolution, perfect edge micro-contrast, and clean neutral color science", "", "film_digital"],
+  ["\ud83c\udf9e\ufe0f Portra 400 \u00b7 Kodak Portra 400 fine organic film grain", "warm analog 35mm film aesthetic with subtle organic grain, gentle highlight roll-off, and flattering skin tone reproduction", "", "film_portra"],
+  ["\ud83c\udfac Muted Palette \u00b7 Muted editorial high-fashion palette", "sophisticated desaturated tones with deep blacks, soft muted highlights, and focused editorial contrast", "", "film_editorial"],
+  ["\ud83c\udfac Muted Palette \u00b7 Rich high-contrast monochrome black & white", "striking fine-art black and white conversion with silver halide tonal gradation, deep velvety blacks, and luminous skin highlights", "", "film_editorial"]
 ]);
 
 const tattooOutputFormats = makeOpts([
@@ -912,7 +912,39 @@ const CAT_DISPLAY_NAMES = {
   portrait: '👤 Beauty Portrait & Silhouette',
   rake: '📐 Raking & Dynamic Angles',
   artist_pov: '📸 Artist POV & Over-Shoulder',
-  studio_wide: '🎬 Wide Studio & Documentary'
+  studio_wide: '🎬 Wide Studio & Documentary',
+  // Anatomical Placements
+  placement_torso: '🦴 Clavicle, Ribs & Spine',
+  placement_arms: '💪 Arms, Wrists & Hands',
+  placement_limbs: '🦵 Legs & Ankles',
+  // Contour & Sensory
+  flow_bone: '↔️ Horizontal Bone Flow',
+  flow_vertical: '↕️ Vertical Centerline',
+  flow_wrap: '🔄 Spiral & Muscle Wrap',
+  // Ink Techniques
+  style_fine: '🖋️ Single-Needle Fine-Line',
+  style_shading: '🎨 Whip & Pepper Shading',
+  style_color: '🌈 Editorial & Color Wash',
+  // Freshness & Process
+  fresh_new: '✨ Fresh Inked & Gloss',
+  fresh_session: '🧤 Live Session & Glove Work',
+  fresh_healed: '💎 Healed & Settled',
+  // Model Poses
+  pose_seated: '🧍 Seated & Low Stool',
+  pose_reclined: '🛋️ Reclined on Bench',
+  pose_standing: '🚶 Standing & Window',
+  pose_concealed: '🙈 Turned Away & Concealed',
+  // Expressions
+  exp_serene: '😌 Serene & Blissful',
+  exp_smile: '😊 Quiet Satisfaction',
+  exp_fierce: '🔥 Fierce & Grounded',
+  // Lighting & Films
+  lighting_daylight: '☀️ Glancing Window Light',
+  lighting_flash: '⚡ Direct On-Camera Flash',
+  lighting_warm: '🌇 Warm Golden Hour',
+  film_digital: '💎 100MP Digital RAW',
+  film_portra: '🎞️ Kodak Portra 400',
+  film_editorial: '🎬 Desaturated Editorial'
 };
 
 function formatCategoryName(cat){

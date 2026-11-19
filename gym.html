@@ -257,28 +257,28 @@ const gymVenues = makeOpts([
 ]);
 
 const gymSettingTimes = makeOpts([
-  ['Mid-morning energizing daylight', 'crisp mid-morning natural daylight pouring in through tall windows, illuminating chalk dust particles in the air'],
-  ['Golden hour warm sunset slant', 'dramatic low-angle golden-hour sunlight cutting horizontally across the training floor, creating rich warm rim highlights'],
-  ['Moody twilight with architectural accent lights', 'moody early-evening ambiance with recessed linear LED track lighting and cool window exterior falloff'],
-  ['Nighttime focused studio session with neon accents', 'a focused late-night workout ambiance with minimal ambient light and saturated cobalt/magenta accent illumination'],
-  ['Crisp early dawn quiet hour', 'tranquil first-light dawn illumination with soft cool shadows before the studio crowd arrives'],
-  ['Overcast soft high-key daylight', 'even, soft diffused daylight filtering through frosted skylights, wrapping gently around musculature with zero harsh hot spots']
+  ["\u2600\ufe0f Day \u00b7 Mid-morning energizing daylight", "crisp mid-morning natural daylight pouring in through tall windows, illuminating chalk dust particles in the air", "", "day"],
+  ["\ud83c\udf07 Golden \u00b7 Golden hour warm sunset slant", "dramatic low-angle golden-hour sunlight cutting horizontally across the training floor, creating rich warm rim highlights", "", "golden"],
+  ["\ud83c\udf19 Night \u00b7 Moody twilight with architectural accent lights", "moody early-evening ambiance with recessed linear LED track lighting and cool window exterior falloff", "", "night"],
+  ["\ud83c\udf19 Night \u00b7 Nighttime focused studio session with neon accents", "a focused late-night workout ambiance with minimal ambient light and saturated cobalt/magenta accent illumination", "", "night"],
+  ["\u2600\ufe0f Day \u00b7 Crisp early dawn quiet hour", "tranquil first-light dawn illumination with soft cool shadows before the studio crowd arrives", "", "day"],
+  ["\u2600\ufe0f Day \u00b7 Overcast soft high-key daylight", "even, soft diffused daylight filtering through frosted skylights, wrapping gently around musculature with zero harsh hot spots", "", "day"]
 ]);
 
 const gymAtmospheres = makeOpts([
-  ['Focused athletic intensity with rhythmic iron clinks', 'an atmosphere of intense individual focus, marked by rhythmic breaths, steady iron clanking, and grounded determination'],
-  ['Serene mindful breathing with natural breeze', 'a calm and restorative environment where gentle natural breezes drift through open windows and breath cadence governs the space'],
-  ['High-energy thumping pulse with dynamic motivation', 'a high-vibe boutique studio pulse with upbeat rhythm, energetic motivation, and kinetic momentum'],
-  ['Quiet solitary discipline in empty gym', 'an intimate solitary session in an otherwise quiet studio, highlighting personal dedication and unhurried form'],
-  ['Steamy thermal warmth with eucalyptus calm', 'a deeply warm, tranquil recovery sanctuary scented with soothing eucalyptus and rising gentle steam wisps']
+  ["\ud83d\udd25 Intense \u00b7 Focused athletic intensity with rhythmic iron clinks", "an atmosphere of intense individual focus, marked by rhythmic breaths, steady iron clanking, and grounded determination", "", "intense"],
+  ["\ud83d\ude0c Serene \u00b7 Serene mindful breathing with natural breeze", "a calm and restorative environment where gentle natural breezes drift through open windows and breath cadence governs the space", "", "serene"],
+  ["\u26a1 Energetic \u00b7 High-energy thumping pulse with dynamic motivation", "a high-vibe boutique studio pulse with upbeat rhythm, energetic motivation, and kinetic momentum", "", "energetic"],
+  ["\ud83d\ude0c Serene \u00b7 Quiet solitary discipline in empty gym", "an intimate solitary session in an otherwise quiet studio, highlighting personal dedication and unhurried form", "", "serene"],
+  ["\ud83d\ude0c Serene \u00b7 Steamy thermal warmth with eucalyptus calm", "a deeply warm, tranquil recovery sanctuary scented with soothing eucalyptus and rising gentle steam wisps", "", "serene"]
 ]);
 
 const gymArchitectures = makeOpts([
-  ['Floor-to-ceiling mirror walls & linear LED pendants', 'expansive seamless mirror walls reflecting modern gym architecture, framed by clean linear black LED ceiling fixtures'],
-  ['Raw exposed warehouse brick & black steel trusses', 'authentic industrial architectural elements including century-old textured red brick, exposed ductwork, and black structural iron beams'],
-  ['Blonde oak herringbone flooring & sheer linen drapery', 'organic minimalist interior design featuring natural pale Scandinavian oak floor planks and sheer floor-to-ceiling window drapery'],
-  ['High-impact textured black rubber & chalk markings', 'heavy-duty speckled black vulcanized rubber flooring displaying faint organic white gym chalk handprints'],
-  ['Panoramic glass curtain wall framing urban skyline', 'a sweeping floor-to-ceiling architectural glass wall offering an unobstructed panoramic view of a bustling city skyline']
+  ["\u2728 Modern \u00b7 Floor-to-ceiling mirror walls & linear LED pendants", "expansive seamless mirror walls reflecting modern gym architecture, framed by clean linear black LED ceiling fixtures", "", "modern"],
+  ["\u2699\ufe0f Industrial \u00b7 Raw exposed warehouse brick & black steel trusses", "authentic industrial architectural elements including century-old textured red brick, exposed ductwork, and black structural iron beams", "", "industrial"],
+  ["\ud83c\udf3f Minimalist \u00b7 Blonde oak herringbone flooring & sheer linen drapery", "organic minimalist interior design featuring natural pale Scandinavian oak floor planks and sheer floor-to-ceiling window drapery", "", "minimal"],
+  ["\u2699\ufe0f Industrial \u00b7 High-impact textured black rubber & chalk markings", "heavy-duty speckled black vulcanized rubber flooring displaying faint organic white gym chalk handprints", "", "industrial"],
+  ["\u2728 Modern \u00b7 Panoramic glass curtain wall framing urban skyline", "a sweeping floor-to-ceiling architectural glass wall offering an unobstructed panoramic view of a bustling city skyline", "", "modern"]
 ]);
 
 // ==========================================
@@ -286,47 +286,47 @@ const gymArchitectures = makeOpts([
 // ==========================================
 
 const gymDisciplines = makeOpts([
-  ['Strength Training & Free Weights', 'a dedicated free-weight strength training session focusing on form, neuromuscular recruitment, and progressive overload'],
-  ['Reformer Pilates & Core Sculpt', 'a precise reformer pilates session emphasizing core stabilization, postural alignment, eccentric elongation, and fluid movement'],
-  ['Heavy Bag Boxing & Conditioning', 'an intense combat boxing conditioning session combining footwork, heavy leather bag strikes, and fast rotational power'],
-  ['Functional Turf & HIIT Circuit', 'a high-intensity functional conditioning workout featuring athletic turf sprints, kettlebells, and dynamic bodyweight agility'],
-  ['Olympic Weightlifting & Powerlifting', 'a technical barbell lifting session centered around explosive hip drive, heavy compound mechanics, and chalked bar control'],
-  ['Dynamic Mobility & Deep Yoga Stretch', 'a restorative athletic mobility flow targeting hip openers, thoracic spine extension, and hamstring flexibility'],
-  ['Cardio Cycling & High-Cadence Spin', 'a high-cadence indoor rhythm cycling workout with cardiovascular drive, pedal stroke flow, and stamina endurance'],
-  ['Sprint Athletics & Track Conditioning', 'an explosive sprint conditioning session focusing on drive phase posture, arm swing mechanics, and stride turnover']
+  ["\ud83c\udfcb\ufe0f Strength \u00b7 Strength Training & Free Weights", "a dedicated free-weight strength training session focusing on form, neuromuscular recruitment, and progressive overload", "", "strength"],
+  ["\ud83e\uddd8 Pilates & Mobility \u00b7 Reformer Pilates & Core Sculpt", "a precise reformer pilates session emphasizing core stabilization, postural alignment, eccentric elongation, and fluid movement", "", "pilates"],
+  ["\ud83e\udd4a Combat \u00b7 Heavy Bag Boxing & Conditioning", "an intense combat boxing conditioning session combining footwork, heavy leather bag strikes, and fast rotational power", "", "combat"],
+  ["\ud83c\udfc3 Conditioning \u00b7 Functional Turf & HIIT Circuit", "a high-intensity functional conditioning workout featuring athletic turf sprints, kettlebells, and dynamic bodyweight agility", "", "cardio"],
+  ["\ud83c\udfcb\ufe0f Strength \u00b7 Olympic Weightlifting & Powerlifting", "a technical barbell lifting session centered around explosive hip drive, heavy compound mechanics, and chalked bar control", "", "strength"],
+  ["\ud83e\uddd8 Pilates & Mobility \u00b7 Dynamic Mobility & Deep Yoga Stretch", "a restorative athletic mobility flow targeting hip openers, thoracic spine extension, and hamstring flexibility", "", "pilates"],
+  ["\ud83c\udfc3 Conditioning \u00b7 Cardio Cycling & High-Cadence Spin", "a high-cadence indoor rhythm cycling workout with cardiovascular drive, pedal stroke flow, and stamina endurance", "", "cardio"],
+  ["\ud83c\udfc3 Conditioning \u00b7 Sprint Athletics & Track Conditioning", "an explosive sprint conditioning session focusing on drive phase posture, arm swing mechanics, and stride turnover", "", "cardio"]
 ]);
 
 const gymMovements = makeOpts([
-  ['Deadlift lockout pause with chalked hands', 'standing tall at the top lockout phase of a heavy barbell deadlift with tight core, pinned shoulders, and chalk-dusted palms on the knurled bar'],
-  ['Dumbbell lateral raise with deltoid peak contraction', 'executing a strict dumbbell lateral raise with arms abducted to shoulder height, displaying clean lateral deltoid striations'],
-  ['Reformer carriage glide in graceful arabesque', 'gliding the reformer carriage smoothly backward in a controlled single-leg arabesque extension with extended pointed toes and tall spine'],
-  ['Powerful left hook impact against heavy leather bag', 'driving an explosive left hook into the heavy leather punching bag with pivoting front foot, high elbow, and focused rotational power'],
-  ['Battle ropes double wave slam on athletic turf', 'slamming thick heavy battle ropes in rhythmic undulations against the green turf, creating dynamic motion blur along the fibers'],
-  ['Kettlebell clean and front-rack pause', 'poised in a rock-solid front-rack position with a heavy competition kettlebell resting securely in the forearm pocket'],
-  ['Barbell back squat in deep parallel hole', 'stabilizing deep in the bottom hole of a barbell back squat with upright chest, tracking knees, and braced core'],
-  ['Explosive sprint acceleration drive phase', 'surging forward out of a low sprint start with high knee drive, aggressive forward torso angle, and explosive ground strike'],
-  ['Deep runner’s lizard lunge hip opener on mat', 'sinking into a deep lizard lunge on a black fitness mat, hands placed flat on the floor with elongated spine and open chest'],
-  ['Seated foam rolling lats & thoracic spine', 'seated sideways on the mat rolling out the upper lats with a high-density black foam roller, one arm reaching overhead'],
-  ['Pre-lift chalking hands over bucket', 'standing over an industrial chalk bowl dusting white magnesium carbonate powder across calloused palms in a cloud of fine white dust'],
-  ['Cable tricep rope pushdown peak lockout', 'flaring the ends of a heavy nylon rope attachment downward at the bottom of a cable tricep extension, showcasing horseshoe tricep definition']
+  ["\ud83c\udfcb\ufe0f Compound Lifts \u00b7 Deadlift lockout pause with chalked hands", "standing tall at the top lockout phase of a heavy barbell deadlift with tight core, pinned shoulders, and chalk-dusted palms on the knurled bar", "", "compound"],
+  ["\ud83d\udcaa Muscle Detailing \u00b7 Dumbbell lateral raise with deltoid peak contraction", "executing a strict dumbbell lateral raise with arms abducted to shoulder height, displaying clean lateral deltoid striations", "", "isolation"],
+  ["\ud83e\uddd8 Core & Elongation \u00b7 Reformer carriage glide in graceful arabesque", "gliding the reformer carriage smoothly backward in a controlled single-leg arabesque extension with extended pointed toes and tall spine", "", "core"],
+  ["\ud83e\udd4a Striking Power \u00b7 Powerful left hook impact against heavy leather bag", "driving an explosive left hook into the heavy leather punching bag with pivoting front foot, high elbow, and focused rotational power", "", "combat"],
+  ["\ud83c\udfc3 Dynamic Agility \u00b7 Battle ropes double wave slam on athletic turf", "slamming thick heavy battle ropes in rhythmic undulations against the green turf, creating dynamic motion blur along the fibers", "", "cardio"],
+  ["\ud83c\udfcb\ufe0f Compound Lifts \u00b7 Kettlebell clean and front-rack pause", "poised in a rock-solid front-rack position with a heavy competition kettlebell resting securely in the forearm pocket", "", "compound"],
+  ["\ud83c\udfcb\ufe0f Compound Lifts \u00b7 Barbell back squat in deep parallel hole", "stabilizing deep in the bottom hole of a barbell back squat with upright chest, tracking knees, and braced core", "", "compound"],
+  ["\ud83c\udfc3 Dynamic Agility \u00b7 Explosive sprint acceleration drive phase", "surging forward out of a low sprint start with high knee drive, aggressive forward torso angle, and explosive ground strike", "", "cardio"],
+  ["\ud83e\uddd8 Core & Elongation \u00b7 Deep runner\u2019s lizard lunge hip opener on mat", "sinking into a deep lizard lunge on a black fitness mat, hands placed flat on the floor with elongated spine and open chest", "", "core"],
+  ["\ud83d\udcaa Muscle Detailing \u00b7 Seated foam rolling lats & thoracic spine", "seated sideways on the mat rolling out the upper lats with a high-density black foam roller, one arm reaching overhead", "", "isolation"],
+  ["\ud83c\udfc3 Dynamic Agility \u00b7 Pre-lift chalking hands over bucket", "standing over an industrial chalk bowl dusting white magnesium carbonate powder across calloused palms in a cloud of fine white dust", "", "cardio"],
+  ["\ud83d\udcaa Muscle Detailing \u00b7 Cable tricep rope pushdown peak lockout", "flaring the ends of a heavy nylon rope attachment downward at the bottom of a cable tricep extension, showcasing horseshoe tricep definition", "", "isolation"]
 ]);
 
 const gymPhases = makeOpts([
-  ['Mid-rep peak isometric contraction', 'captured at the absolute pinnacle of muscular tension during the peak isometric hold of the movement'],
-  ['Rest interval seated on bench catching breath', 'resting between heavy sets seated on a flat bench, forearms resting on knees while taking a deep steady recovery breath'],
-  ['Pre-set ritual chalking hands & setting grip', 'engaging in the quiet pre-lift preparation ritual, setting knuckles on the bar with laser-focused breathing'],
-  ['Post-set deep exhale with hands on hips', 'standing proudly hands on hips immediately after completing an intense working set, chest rising with a deep candid exhale'],
-  ['Hydration pause sipping from stainless shaker', 'taking a brief pause to unscrew a stainless steel gym water bottle, sipping hydrating water in candid profile'],
-  ['End-of-workout gentle cooldown stretch', 'unwinding in the post-workout cooldown phase with a relaxed hamstring stretch, glowing with accomplished serenity']
+  ["\u26a1 Peak Contraction \u00b7 Mid-rep peak isometric contraction", "captured at the absolute pinnacle of muscular tension during the peak isometric hold of the movement", "", "active"],
+  ["\ud83d\udca7 Rest & Exhale \u00b7 Rest interval seated on bench catching breath", "resting between heavy sets seated on a flat bench, forearms resting on knees while taking a deep steady recovery breath", "", "rest"],
+  ["\ud83e\udd4a Pre-Set Ritual \u00b7 Pre-set ritual chalking hands & setting grip", "engaging in the quiet pre-lift preparation ritual, setting knuckles on the bar with laser-focused breathing", "", "prep"],
+  ["\ud83d\udca7 Rest & Exhale \u00b7 Post-set deep exhale with hands on hips", "standing proudly hands on hips immediately after completing an intense working set, chest rising with a deep candid exhale", "", "rest"],
+  ["\ud83d\udca7 Rest & Exhale \u00b7 Hydration pause sipping from stainless shaker", "taking a brief pause to unscrew a stainless steel gym water bottle, sipping hydrating water in candid profile", "", "rest"],
+  ["\ud83d\udca7 Rest & Exhale \u00b7 End-of-workout gentle cooldown stretch", "unwinding in the post-workout cooldown phase with a relaxed hamstring stretch, glowing with accomplished serenity", "", "rest"]
 ]);
 
 const gymExpressions = makeOpts([
-  ['Subtle confident athletic focus with calm eyes', 'a natural, calm and confident athletic focus with relaxed facial muscles, soft closed lips, and an authentic focused gaze'],
-  ['Serene mindful calmness in meditative hold', 'a completely calm and centered facial poise with smooth relaxed brow, soft lips, and peaceful composure'],
-  ['Confident warm smile between working sets', 'a serene, satisfied candid smile revealing authentic enjoyment and inner confidence during a workout rest break'],
-  ['Authentic post-cardio exertion glow', 'a natural breathless candid moment with bright focused eyes, flushed cheeks, and genuine exertion sincerity'],
-  ['Focused form-check gaze locked on mirror', 'eyes focused attentively on her movement alignment with composed, steady determination and relaxed jaw'],
-  ['Fierce athletic determination with focused gaze', 'an authentic expression of fierce determination, focused eyes, and steady breathing cadence']
+  ["\ud83c\udfaf Composed Focus \u00b7 Subtle confident athletic focus with calm eyes", "a natural, calm and confident athletic focus with relaxed facial muscles, soft closed lips, and an authentic focused gaze", "", "focused"],
+  ["\ud83d\ude0c Serene Calm \u00b7 Serene mindful calmness in meditative hold", "a completely calm and centered facial poise with smooth relaxed brow, soft lips, and peaceful composure", "", "serene"],
+  ["\ud83d\ude0a Warm Smile \u00b7 Confident warm smile between working sets", "a serene, satisfied candid smile revealing authentic enjoyment and inner confidence during a workout rest break", "", "smile"],
+  ["\ud83d\udd25 Athletic Exertion \u00b7 Authentic post-cardio exertion glow", "a natural breathless candid moment with bright focused eyes, flushed cheeks, and genuine exertion sincerity", "", "exertion"],
+  ["\ud83c\udfaf Composed Focus \u00b7 Focused form-check gaze locked on mirror", "eyes focused attentively on her movement alignment with composed, steady determination and relaxed jaw", "", "focused"],
+  ["\ud83d\udd25 Athletic Exertion \u00b7 Fierce athletic determination with focused gaze", "an authentic expression of fierce determination, focused eyes, and steady breathing cadence", "", "exertion"]
 ]);
 
 // ==========================================
@@ -334,32 +334,32 @@ const gymExpressions = makeOpts([
 // ==========================================
 
 const gymSweatLevels = makeOpts([
-  ['Dry satin finish before workout begins', 'pristine dry skin texture with a velvety satin finish, pre-exertion freshness, and zero visible sweat beads'],
-  ['Light post-warmup dewy sheen on brow & collarbone', 'a delicate post-warmup glow featuring a subtle dewy sheen across the forehead, nose bridge, and collarbones catching directional light'],
-  ['Glistening workout sweat with micro-droplets on skin', 'glistening workout perspiration with authentic micro-droplets of clear sweat beading along the shoulders, décolletage, and temples'],
-  ['Drenched high-intensity cardio endurance glow', 'intense endurance exertion sheen with tiny perspiration rivulets tracing down the jawline and neck, radiating raw athletic authenticity']
+  ["\u2728 Satin Dry \u00b7 Dry satin finish before workout begins", "pristine dry skin texture with a velvety satin finish, pre-exertion freshness, and zero visible sweat beads", "", "dry"],
+  ["\ud83d\udca7 Dewy Glow \u00b7 Light post-warmup dewy sheen on brow & collarbone", "a delicate post-warmup glow featuring a subtle dewy sheen across the forehead, nose bridge, and collarbones catching directional light", "", "dewy"],
+  ["\ud83d\udca6 Glistening Sweat \u00b7 Glistening workout sweat with micro-droplets on skin", "glistening workout perspiration with authentic micro-droplets of clear sweat beading along the shoulders, d\u00e9colletage, and temples", "", "sweat"],
+  ["\ud83c\udf0a Drenched Cardio \u00b7 Drenched high-intensity cardio endurance glow", "intense endurance exertion sheen with tiny perspiration rivulets tracing down the jawline and neck, radiating raw athletic authenticity", "", "drenched"]
 ]);
 
 const gymMuscleTones = makeOpts([
-  ['Natural lean athletic tone with graceful curves', 'a naturally toned, lean athletic physique with smooth aesthetic contours, supple posture, and healthy functional strength'],
-  ['Sculpted deltoids & defined upper back contours', 'noticeable shoulder deltoid cap definition, sculpted scapular contours, and crisp athletic posture'],
-  ['Razor-sharp core & abdominal oblique lines', 'tight, well-defined abdominal musculature with subtle vertical lineage and defined external oblique lines'],
-  ['High-performance powerlifter quad & glute engagement', 'dense, powerful athletic leg development showing firm quadriceps sweep and active glute engagement under load']
+  ["\ud83e\udd38 Natural Tone \u00b7 Natural lean athletic tone with graceful curves", "a naturally toned, lean athletic physique with smooth aesthetic contours, supple posture, and healthy functional strength", "", "lean"],
+  ["\ud83d\udcaa Sculpted Upper Body \u00b7 Sculpted deltoids & defined upper back contours", "noticeable shoulder deltoid cap definition, sculpted scapular contours, and crisp athletic posture", "", "sculpted"],
+  ["\ud83e\uddd8 Core Definition \u00b7 Razor-sharp core & abdominal oblique lines", "tight, well-defined abdominal musculature with subtle vertical lineage and defined external oblique lines", "", "lean"],
+  ["\ud83c\udfcb\ufe0f Power Physique \u00b7 High-performance powerlifter quad & glute engagement", "dense, powerful athletic leg development showing firm quadriceps sweep and active glute engagement under load", "", "power"]
 ]);
 
 const gymVascularities = makeOpts([
-  ['Smooth rested dermal finish with zero vascularity', 'smooth, natural skin surface with no prominent superficial veins, presenting a clean aesthetic finish'],
-  ['Subtle natural vein tracing on forearms during grip', 'delicate natural vascularity tracing along the inner forearm and back of hands responding to active grip pressure'],
-  ['Athletic pump-induced vascularity across forearms & deltoids', 'prominent workout pump vascularity with subtle venous definition mapping across active working muscles']
+  ["\u2728 Smooth Dermal \u00b7 Smooth rested dermal finish with zero vascularity", "smooth, natural skin surface with no prominent superficial veins, presenting a clean aesthetic finish", "", "smooth"],
+  ["\ud83e\ude78 Natural Tracing \u00b7 Subtle natural vein tracing on forearms during grip", "delicate natural vascularity tracing along the inner forearm and back of hands responding to active grip pressure", "", "subtle"],
+  ["\u26a1 Athletic Pump \u00b7 Athletic pump-induced vascularity across forearms & deltoids", "prominent workout pump vascularity with subtle venous definition mapping across active working muscles", "", "pump"]
 ]);
 
 const gymHairRestraints = makeOpts([
-  ['Natural movement as cut (no restraint)', 'worn naturally down as cut with organic movement, clean parting, and zero hair ties'],
-  ['Sleek high athletic ponytail (for longer hair)', 'hair gathered smoothly into a sleek, secure high athletic ponytail with a wide matte elastic, swinging with head movement'],
-  ['Low neat workout bun at nape of neck', 'hair gathered into a tidy low workout bun at the nape of the neck with soft natural baby-hair wisps at the temples'],
-  ['Double Dutch athletic boxer braids', 'styled into two neat symmetrical Dutch boxer braids braided flat and tight against the scalp from hairline to shoulders'],
-  ['Breathable athletic headband / sweatband', 'hair secured back cleanly from the face with a low-profile breathable athletic sweatband'],
-  ['Casual half-up topknot with elastic', 'hair partially gathered up into a casual textured half-up topknot, leaving lower lengths free to frame the neck']
+  ["\u2728 Natural Down \u00b7 Natural movement as cut (no restraint)", "worn naturally down as cut with organic movement, clean parting, and zero hair ties", "", "down"],
+  ["\ud83d\udc71\u200d\u2640\ufe0f High Ponytail \u00b7 Sleek high athletic ponytail (for longer hair)", "hair gathered smoothly into a sleek, secure high athletic ponytail with a wide matte elastic, swinging with head movement", "", "pony"],
+  ["\ud83c\udf80 Low / Topknot Bun \u00b7 Low neat workout bun at nape of neck", "hair gathered into a tidy low workout bun at the nape of the neck with soft natural baby-hair wisps at the temples", "", "bun"],
+  ["\ud83e\udd4a Boxer Braids \u00b7 Double Dutch athletic boxer braids", "styled into two neat symmetrical Dutch boxer braids braided flat and tight against the scalp from hairline to shoulders", "", "braid"],
+  ["\u26a1 Sweatband / Wrap \u00b7 Breathable athletic headband / sweatband", "hair secured back cleanly from the face with a low-profile breathable athletic sweatband", "", "band"],
+  ["\ud83c\udf80 Low / Topknot Bun \u00b7 Casual half-up topknot with elastic", "hair partially gathered up into a casual textured half-up topknot, leaving lower lengths free to frame the neck", "", "bun"]
 ]);
 
 // ==========================================
@@ -376,24 +376,24 @@ const gymActivewearSets = outfits.filter(o => o.cat === 'gym').length > 0
     ];
 
 const gymFootwearOpts = makeOpts([
-  ['Barefoot with natural arch on rubber mat', 'bare feet positioned naturally on the gym surface, showing natural foot arch activation and grounded toe spread'],
-  ['Specialized silicone-grip barre/pilates socks', 'fitted black low-cut athletic socks with honeycomb silicone traction dots on the sole for reformer grip'],
-  ['Barefoot-style zero-drop flat lifting shoes', 'minimalist zero-drop barefoot training shoes with ultra-thin wide toe-box rubber soles for deadlift stability'],
-  ['Chunky modern athletic training sneakers', 'modern high-cushion athletic training sneakers with sculpted foam midsoles and breathable mesh uppers'],
-  ['Sleek carbon-plate lightweight road runners', 'high-tech lightweight road running shoes with aerodynamic silhouette and neon accents'],
-  ['High-top suede lace-up boxing boots', 'classic black suede high-top boxing boots with thin gum rubber soles and snug ankle-wrap laces']
+  ["\ud83e\uddb6 Barefoot \u00b7 Barefoot with natural arch on rubber mat", "bare feet positioned naturally on the gym surface, showing natural foot arch activation and grounded toe spread", "", "barefoot"],
+  ["\ud83e\udde6 Studio Socks \u00b7 Specialized silicone-grip barre/pilates socks", "fitted black low-cut athletic socks with honeycomb silicone traction dots on the sole for reformer grip", "", "socks"],
+  ["\ud83d\udc5f Lifting Shoes \u00b7 Barefoot-style zero-drop flat lifting shoes", "minimalist zero-drop barefoot training shoes with ultra-thin wide toe-box rubber soles for deadlift stability", "", "lifting"],
+  ["\ud83c\udfc3 Trainers & Runners \u00b7 Chunky modern athletic training sneakers", "modern high-cushion athletic training sneakers with sculpted foam midsoles and breathable mesh uppers", "", "running"],
+  ["\ud83c\udfc3 Trainers & Runners \u00b7 Sleek carbon-plate lightweight road runners", "high-tech lightweight road running shoes with aerodynamic silhouette and neon accents", "", "running"],
+  ["\ud83e\udd4a Boxing Boots \u00b7 High-top suede lace-up boxing boots", "classic black suede high-top boxing boots with thin gum rubber soles and snug ankle-wrap laces", "", "combat"]
 ]);
 
 const gymGearProps = makeOpts([
-  ['None (Open floor space without props)', 'none'],
-  ['Matte black cast-iron competition kettlebells', 'a pair of heavy matte-black powder-coated competition kettlebells resting nearby on the rubber floor'],
-  ['Knurled Olympic barbell loaded with black bumper plates', 'a 20kg knurled steel Olympic barbell loaded with thick matte-black urethane bumper plates on a lifting platform'],
-  ['Minimalist stainless steel insulated shaker bottle', 'a sleek brushed stainless steel gym water bottle with flip cap resting on a workout bench'],
-  ['Laced vintage leather boxing gloves on bench', 'a pair of laced dark oxblood leather boxing gloves resting casually beside a folded black gym towel'],
-  ['High-density textured foam roller on exercise mat', 'a cylindrical black high-density foam roller and textured fitness mat placed naturally in the background'],
-  ['Heavy-duty leather lifting belt with lever buckle', 'a wide 10mm thick leather powerlifting belt with quick-release chrome lever buckle resting unclasped'],
-  ['Set of looped latex resistance bands on floor', 'a set of three looped latex resistance bands in muted earth tones resting neatly coiled on the floor'],
-  ['Heavy cotton gym bag with lifting straps & wrist wraps', 'a structured canvas gym duffel bag opened slightly, revealing rolled cotton wrist wraps and lifting chalk']
+  ["\u2728 Open Floor \u00b7 None (Open floor space without props)", "none", "", "none"],
+  ["\ud83c\udfcb\ufe0f Free Weights \u00b7 Matte black cast-iron competition kettlebells", "a pair of heavy matte-black powder-coated competition kettlebells resting nearby on the rubber floor", "", "iron"],
+  ["\ud83c\udfcb\ufe0f Free Weights \u00b7 Knurled Olympic barbell loaded with black bumper plates", "a 20kg knurled steel Olympic barbell loaded with thick matte-black urethane bumper plates on a lifting platform", "", "iron"],
+  ["\ud83d\udca7 Bands & Accessories \u00b7 Minimalist stainless steel insulated shaker bottle", "a sleek brushed stainless steel gym water bottle with flip cap resting on a workout bench", "", "recovery"],
+  ["\ud83e\udd4a Combat Gear \u00b7 Laced vintage leather boxing gloves on bench", "a pair of laced dark oxblood leather boxing gloves resting casually beside a folded black gym towel", "", "combat"],
+  ["\ud83d\udca7 Bands & Accessories \u00b7 High-density textured foam roller on exercise mat", "a cylindrical black high-density foam roller and textured fitness mat placed naturally in the background", "", "recovery"],
+  ["\ud83c\udfcb\ufe0f Free Weights \u00b7 Heavy-duty leather lifting belt with lever buckle", "a wide 10mm thick leather powerlifting belt with quick-release chrome lever buckle resting unclasped", "", "iron"],
+  ["\ud83d\udca7 Bands & Accessories \u00b7 Set of looped latex resistance bands on floor", "a set of three looped latex resistance bands in muted earth tones resting neatly coiled on the floor", "", "recovery"],
+  ["\ud83d\udca7 Bands & Accessories \u00b7 Heavy cotton gym bag with lifting straps & wrist wraps", "a structured canvas gym duffel bag opened slightly, revealing rolled cotton wrist wraps and lifting chalk", "", "recovery"]
 ]);
 
 // ==========================================
@@ -437,33 +437,33 @@ const gymCameraAngles = makeOpts([
 ]);
 
 const gymCameraDistances = makeOpts([
-  ['Full-body framing with floor & ceiling context', 'a full-body composition that shows the complete athlete from head to toe with rich architectural gym context'],
-  ['Three-quarter athletic distance (knees to head)', 'a three-quarter portrait distance framing the body from knees up, balancing outfit details with expressive emotion'],
-  ['Medium athletic distance (waist to head)', 'a medium portrait distance framing from the waist up, capturing upper-body muscular tone and focused expression'],
-  ['Tight chest-up portrait framing shoulders & throat', 'a close chest-up portrait framing toned shoulders, collarbones, and facial focus'],
-  ['Close macro distance resolving dermal sweat texture', 'a tight macro distance resolving tactile skin pores, fine perspiration beads, and fabric weave texture']
+  ["\ud83c\udfcb\ufe0f Full-Body \u00b7 Full-body framing with floor & ceiling context", "a full-body composition that shows the complete athlete from head to toe with rich architectural gym context", "", "floor"],
+  ["\ud83d\udc64 Medium Distance \u00b7 Three-quarter athletic distance (knees to head)", "a three-quarter portrait distance framing the body from knees up, balancing outfit details with expressive emotion", "", "portrait"],
+  ["\ud83d\udc64 Medium Distance \u00b7 Medium athletic distance (waist to head)", "a medium portrait distance framing from the waist up, capturing upper-body muscular tone and focused expression", "", "portrait"],
+  ["\ud83d\udd0d Tight Portrait & Macro \u00b7 Tight chest-up portrait framing shoulders & throat", "a close chest-up portrait framing toned shoulders, collarbones, and facial focus", "", "pov"],
+  ["\ud83d\udd0d Tight Portrait & Macro \u00b7 Close macro distance resolving dermal sweat texture", "a tight macro distance resolving tactile skin pores, fine perspiration beads, and fabric weave texture", "", "pov"]
 ]);
 
 const gymLightings = makeOpts([
-  ['Architectural linear LED ceiling grid with clean daylight', 'overhead architectural linear LED strip lighting balanced with cool natural daylight, casting crisp geometric highlights'],
-  ['Dramatic high-contrast directional athletic rim light', 'high-contrast directional sports lighting with deep sculpted shadows and intense golden rim light carving out muscular separation'],
-  ['Warm golden hour sunset streaming through panoramic glass', 'radiant low-angle sunset rays flooding through tall windows, bathing skin and activewear in warm amber luminescence'],
-  ['Atmospheric moody cobalt & magenta neon accents', 'a dark moody aesthetic illuminated by soft ambient cobalt floor glow and punchy magenta neon tube accents'],
-  ['Soft diffused skylight with gentle shadow wrap', 'soft, overcast natural light filtering from overhead skylights, wrapping evenly around the body with velvety tonal gradients']
+  ["\u2600\ufe0f Linear LED Grid \u00b7 Architectural linear LED ceiling grid with clean daylight", "overhead architectural linear LED strip lighting balanced with cool natural daylight, casting crisp geometric highlights", "", "daylight"],
+  ["\u26a1 Athletic Rim Light \u00b7 Dramatic high-contrast directional athletic rim light", "high-contrast directional sports lighting with deep sculpted shadows and intense golden rim light carving out muscular separation", "", "dramatic"],
+  ["\ud83c\udf07 Golden Hour \u00b7 Warm golden hour sunset streaming through panoramic glass", "radiant low-angle sunset rays flooding through tall windows, bathing skin and activewear in warm amber luminescence", "", "golden"],
+  ["\ud83c\udf19 Moody Neon \u00b7 Atmospheric moody cobalt & magenta neon accents", "a dark moody aesthetic illuminated by soft ambient cobalt floor glow and punchy magenta neon tube accents", "", "neon"],
+  ["\u2601\ufe0f Soft Skylight \u00b7 Soft diffused skylight with gentle shadow wrap", "soft, overcast natural light filtering from overhead skylights, wrapping evenly around the body with velvety tonal gradients", "", "soft"]
 ]);
 
 const gymOptics = makeOpts([
-  ['85mm f/1.4 prime lens (creamy shallow depth of field)', 'captured with an 85mm f/1.4 prime lens wide open, isolating the athletic subject against a creamy, softly blurred background'],
-  ['50mm f/1.2 candid lens (natural human perspective)', 'photographed with a 50mm f/1.2 lens providing honest, undistorted proportions and natural depth falloff'],
-  ['35mm f/1.8 dynamic environmental lens (spacious context)', 'shot with a 35mm f/1.8 wide lens emphasizing kinetic motion, room architecture, and environmental depth'],
-  ['105mm f/2.8 macro lens (resolving microscopic sweat beads)', 'shot on a 105mm f/2.8 macro lens resolving microscopic dermal pores, glistening perspiration droplets, and textile stitching']
+  ["\ud83d\udc64 85mm Prime \u00b7 85mm f/1.4 prime lens (creamy shallow depth of field)", "captured with an 85mm f/1.4 prime lens wide open, isolating the athletic subject against a creamy, softly blurred background", "", "portrait"],
+  ["\ud83d\udcf7 50mm Candid \u00b7 50mm f/1.2 candid lens (natural human perspective)", "photographed with a 50mm f/1.2 lens providing honest, undistorted proportions and natural depth falloff", "", "standard"],
+  ["\ud83d\udcd0 35mm Wide \u00b7 35mm f/1.8 dynamic environmental lens (spacious context)", "shot with a 35mm f/1.8 wide lens emphasizing kinetic motion, room architecture, and environmental depth", "", "wide"],
+  ["\ud83d\udd0d 105mm Macro \u00b7 105mm f/2.8 macro lens (resolving microscopic sweat beads)", "shot on a 105mm f/2.8 macro lens resolving microscopic dermal pores, glistening perspiration droplets, and textile stitching", "", "macro"]
 ]);
 
 const gymFilmFeels = makeOpts([
-  ['Crisp modern digital photography with lifelike color', 'ultra-crisp modern digital sensor rendering with natural contrast, accurate skin tones, and rich dynamic range'],
-  ['Editorial 35mm film grain with warm Kodak Portra tones', 'fine organic 35mm film grain with subtle Kodak Portra warmth, gentle highlight rolloff, and creamy skin tone gradations'],
-  ['High-contrast dynamic monochrome athletic print', 'a timeless high-contrast black-and-white editorial aesthetic with deep blacks, silvery highlights, and sculpted muscle tonality'],
-  ['Muted cinematic film grade with rich slate undertones', 'a contemporary cinematic color grade featuring desaturated background slates, punchy contrast, and natural warm skin vibrancy']
+  ["\ud83d\udc8e Modern Digital \u00b7 Crisp modern digital photography with lifelike color", "ultra-crisp modern digital sensor rendering with natural contrast, accurate skin tones, and rich dynamic range", "", "digital"],
+  ["\ud83c\udf9e\ufe0f 35mm Portra \u00b7 Editorial 35mm film grain with warm Kodak Portra tones", "fine organic 35mm film grain with subtle Kodak Portra warmth, gentle highlight rolloff, and creamy skin tone gradations", "", "film"],
+  ["\ud83d\udda4 High-Contrast B&W \u00b7 High-contrast dynamic monochrome athletic print", "a timeless high-contrast black-and-white editorial aesthetic with deep blacks, silvery highlights, and sculpted muscle tonality", "", "monochrome"],
+  ["\ud83c\udfac Muted Cinematic \u00b7 Muted cinematic film grade with rich slate undertones", "a contemporary cinematic color grade featuring desaturated background slates, punchy contrast, and natural warm skin vibrancy", "", "cinematic"]
 ]);
 
 const gymAspectRatios = makeOpts([
@@ -879,9 +879,68 @@ const CAT_DISPLAY_NAMES = {
   // Venues
   weight: '🏋️ Boutique Gyms',
   pilates: '🧘 Reformer Studios',
-  boxing: '🥊 Boxing Boxes',
-  outdoor: '☀️ Outdoor & Beach',
-  recovery: '🧖 Saunas & Recovery'
+  boxing: '🥊 Boxing Gyms',
+  hiit: '⚡ Athletic Turf',
+  recovery: '🌿 Recovery Suites',
+  // Disciplines & Movements
+  strength: '🏋️ Strength & Iron',
+  combat: '🥊 Boxing & Combat',
+  cardio: '🏃 Cardio & Conditioning',
+  compound: '🏋️ Compound Lifts',
+  isolation: '💪 Upper Body & Isolation',
+  core: '🧘 Core & Mobility',
+  // Phases & Expression
+  active: '⚡ Active Peak Rep',
+  rest: '💧 Rest & Hydration',
+  prep: '🥊 Pre-Set Ritual',
+  focused: '🎯 Focused & Composed',
+  serene: '😌 Serene & Calm',
+  smile: '😊 Warm Smile',
+  exertion: '🔥 Exertion & Drive',
+  // Physique
+  dry: '✨ Dry Satin Finish',
+  dewy: '💧 Dewy Glow',
+  sweat: '💦 Glistening Sweat',
+  drenched: '🌊 High-Intensity Drenched',
+  lean: '🤸 Natural Lean Tone',
+  sculpted: '💪 Sculpted Deltoids',
+  power: '🏋️ Powerlifter Build',
+  smooth: '✨ Smooth Dermal Finish',
+  subtle: '🩸 Natural Vascularity',
+  pump: '⚡ Workout Pump',
+  // Restraints & Footwear & Gear
+  down: '✨ Natural Hair Down',
+  pony: '👱‍♀️ Athletic Ponytail',
+  bun: '🎀 Neat Workout Bun',
+  braid: '🥊 Boxer Braids',
+  band: '⚡ Sweatband / Wrap',
+  barefoot: '🦶 Barefoot Grounded',
+  socks: '🧦 Grip Socks',
+  lifting: '👟 Flat Lifting Shoes',
+  running: '🏃 Road Running Shoes',
+  none: '✨ Open Space',
+  iron: '🏋️ Iron & Barbells',
+  // Lighting & Optics & Film
+  daylight: '☀️ Clean Daylight Grid',
+  dramatic: '⚡ Dramatic Rim Light',
+  golden: '🌇 Golden Hour Sunset',
+  neon: '🌙 Moody Neon Accents',
+  soft: '☁️ Soft Diffused Skylight',
+  standard: '📷 50mm Candid Eye-Line',
+  wide: '📐 35mm Environmental',
+  macro: '🔍 Macro Close-Up',
+  digital: '💎 Modern Digital RAW',
+  film: '🎞️ 35mm Organic Film',
+  monochrome: '🖤 High-Contrast B&W',
+  cinematic: '🎬 Cinematic Grade',
+  // Time & Atmosphere
+  day: '☀️ Bright Daylight',
+  night: '🌙 Night & Twilight',
+  intense: '🔥 Focused Intensity',
+  energetic: '⚡ Dynamic Pulse',
+  modern: '✨ Modern Architectural',
+  industrial: '⚙️ Industrial Warehouse',
+  minimal: '🌿 Minimalist Studio'
 };
 
 function formatCategoryName(cat){

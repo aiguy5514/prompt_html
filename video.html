@@ -214,6 +214,51 @@ const {
 } = window.AfterglowVeil;
 
 const el = id => document.getElementById(id);
+const escapeHtml = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+const CAT_DISPLAY_NAMES = {
+  // Camera moves
+  dolly: '🚂 Push-In & Tracking',
+  orbit: '🔄 Orbit Arcs & 360°',
+  handheld: '📹 Handheld & Steadicam',
+  crane: '🏗️ Crane, Boom & Tilt',
+  macro: '🔍 Micro-Tool Macro',
+  // Framerates & Timing
+  cinema: '🎬 24fps Cinema Cadence',
+  slowmo: '⏳ Slow-Motion High Speed',
+  hfr: '⚡ 60fps Fluid Digital',
+  // Lenses
+  portrait: '👤 50mm / 85mm Cinema Prime',
+  wide: '📐 24mm / 35mm Environmental',
+  macro_lens: '🔍 100mm Macro Cine Prime',
+  // Lighting & Films
+  daylight: '☀️ Clean Studio Daylight',
+  dramatic: '⚡ Dramatic Chiaroscuro',
+  warm: '💡 Warm Tungsten & Edison',
+  neon: '🌙 Moody Neon & Night',
+  film: '🎞️ 35mm Celluloid Vision3',
+  digital: '💎 Arri Alexa Large-Format',
+  doc: '📹 16mm Raw Documentary',
+  // Pipelines & Pacing
+  pipeline_anim: '🖼️ Image-to-Video Animation',
+  pipeline_synth: '✨ Reference-Guided Synthesis',
+  pipeline_bridge: '🌉 Keyframe Bridge & Loop',
+  dur_quick: '⚡ 3s - 5s Quick Take',
+  dur_long: '⏳ 7s - 15s Extended Sequence',
+  speed_realtime: '⏱️ Realtime 24fps',
+  speed_ramp: '🎢 Cinematic Speed Ramp',
+  speed_slowmo: '⏳ Hyper Slow-Motion'
+};
+
+function formatCategoryName(cat){
+  if(CAT_DISPLAY_NAMES[cat]) return CAT_DISPLAY_NAMES[cat];
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function formatCategoryHeader(cat){
+  const name = formatCategoryName(cat).toUpperCase();
+  return `<span>${name}</span>`;
+}
+
 
 const sections = [
   { id: 'vidInputSec', name: 'Subject & Styling', short: 'SUBJECT', icon: '👩', desc: 'Select I2V start mode, haircut library, veil % lock, moisture physics, and wardrobe.' },
@@ -229,10 +274,10 @@ const sections = [
 // ==========================================
 
 const vidPipelineModes = O_list([
-  ['Image-to-Video (animate uploaded Afterglow still seamlessly)', 'Animate the supplied starting reference photograph into smooth continuous motion, preserving 100% of the subject face, haircut silhouette, wardrobe, and environment already visible in the initial frame'],
-  ['Reference-Guided Text-to-Video (synthesize full scene from portrait ref)', 'Generate a complete cinematic live-action video clip preserving the exact facial identity, Indian heritage structure, skin texture, and hair fiber of the supplied portrait reference'],
-  ['Start-to-End Keyframe Bridge (smooth continuous transition between frames)', 'Create an ultra-smooth continuous physical transition bridging the opening pose and composition organically into the ending posture with believable weight shift and hair inertia'],
-  ['Seamless Infinite Slow-Motion Loop (ambient hair & mist movement)', 'Design a calm hypnotic seamless-loop video clip with continuous ambient breeze in hair strands, drifting steam or light caustics, and steady subtle breathing motion']
+  ['🖼️ Animate · Image-to-Video (animate uploaded Afterglow still seamlessly)', 'Animate the supplied starting reference photograph into smooth continuous motion, preserving 100% of the subject face, haircut silhouette, wardrobe, and environment already visible in the initial frame', '', 'pipeline_anim'],
+  ['✨ Synthesize · Reference-Guided Text-to-Video (synthesize full scene from portrait ref)', 'Generate a complete cinematic live-action video clip preserving the exact facial identity, Indian heritage structure, skin texture, and hair fiber of the supplied portrait reference', '', 'pipeline_synth'],
+  ['🌉 Keyframe · Start-to-End Keyframe Bridge (smooth continuous transition between frames)', 'Create an ultra-smooth continuous physical transition bridging the opening pose and composition organically into the ending posture with believable weight shift and hair inertia', '', 'pipeline_bridge'],
+  ['🌉 Loop · Seamless Infinite Slow-Motion Loop (ambient hair & mist movement)', 'Design a calm hypnotic seamless-loop video clip with continuous ambient breeze in hair strands, drifting steam or light caustics, and steady subtle breathing motion', '', 'pipeline_bridge']
 ]);
 
 function O_list(arr){
@@ -293,30 +338,19 @@ const vidCameraMoves = O_list([
 ]);
 
 const vidFramerates = O_list([
-  ['24fps Classic Cinema Natural Motion (180° shutter)', 'filmed cleanly at 24fps cinema cadence with organic 180-degree shutter motion blur and lifelike human tempo'],
-  ['48fps Silky Fluid Movement (subtle dreamy deceleration)', 'captured at 48fps subtly slowed to 24fps (0.5× slow-mo) giving hair turns, hand gestures, and draped fabric liquid silk grace'],
-  ['120fps Hyper-Slow Motion Cinema (hair & droplet suspended)', 'shot at 120fps hyper-slow-motion playback so every swinging hair ribbon, falling water droplet, and floating hair clipping glides weightlessly'],
-  ['240fps Ultra-High-Speed Splash & Scissor Detail', 'ultra-high-speed 240fps slow-motion capture freezing airborne spray-bottle droplets, rain spray, and crisp shear blade closure in razor clarity'],
-  ['60fps Hyper-Crisp Modern Digital Documentary', 'smooth high-frame-rate 60fps behind-the-scenes documentary clarity with crisp tactile sharpness on skin and texture']
+  ['🎬 24fps · Classic Cinema Natural Motion (180° shutter)', 'filmed cleanly at 24fps cinema cadence with organic 180-degree shutter motion blur and lifelike human tempo', '', 'cinema'],
+  ['⏳ 48fps · Silky Fluid Movement (subtle dreamy deceleration)', 'captured at 48fps subtly slowed to 24fps (0.5× slow-mo) giving hair turns, hand gestures, and draped fabric liquid silk grace', '', 'slowmo'],
+  ['⏳ 120fps · Hyper-Slow Motion Cinema (hair & droplet suspended)', 'shot at 120fps hyper-slow-motion playback so every swinging hair ribbon, falling water droplet, and floating hair clipping glides weightlessly', '', 'slowmo'],
+  ['⏳ 240fps · Ultra-High-Speed Splash & Scissor Detail', 'ultra-high-speed 240fps slow-motion capture freezing airborne spray-bottle droplets, rain spray, and crisp shear blade closure in razor clarity', '', 'slowmo'],
+  ['⚡ 60fps · Hyper-Crisp Modern Digital Documentary', 'smooth high-frame-rate 60fps behind-the-scenes documentary clarity with crisp tactile sharpness on skin and texture', '', 'hfr']
 ]);
 
 const vidFocalLenses = O_list([
-  ['50mm f/1.2 Noctilux Cinema Prime (luminous skin & cream bokeh)', 'shot on a vintage 50mm f/1.2 cinema prime with velvety organic highlight roll-off and creamy background separation'],
-  ['85mm f/1.4 Master Anamorphic (oval bokeh & portrait magic)', '85mm T1.4 anamorphic prime delivering gentle horizontal oval bokeh streaks, dimensional subject pop, and flattering facial optics'],
-  ['35mm f/1.4 Cooke S4 (intimate spatial proximity & film warmth)', '35mm T1.4 Cooke S4 cinema lens preserving warm golden Indian skin tones and immersive near-field room presence'],
-  ['100mm f/2.8 Macro Cine Prime (pores, blade edges & water beads)', '100mm macro cinema prime resolving microscopic water beads, scissor steel texture, skin pores, and crisp strand edge gleams'],
-  ['24mm f/1.8 Wide Kinetic Lens (dramatic corridor & rooftop scale)', '24mm wide-angle cinema optics amplifying stride velocity and monumental architectural scale with natural perspective'],
-  ['75mm Vintage Helios Swirl Bokeh (dreamy halo highlights)', 'vintage 75mm cinema lens adding delicate organic peripheral bokeh swirl around background practical vanity lamps and foliage'],
-  ['40mm Panavision C-Series Anamorphic (subtle barrel breathing & flare)', '40mm Panavision C-Series anamorphic optics adding warm amber streak flares and organic edge character'],
-  ['135mm f/1.8 Telephoto Compression (creamy isolated portrait depth)', '135mm T1.8 telephoto prime flattening background distance into velvety bokeh while isolating hair flyaways cleanly'],
-  ['28mm f/2.0 Leica Summilux-C (tactile salon & backstage intimacy)', '28mm Leica Summilux-C prime bringing the viewer arm’s-length close inside mirror bulbs and misty salon steam'],
-  ['65mm Medium-Format Alexa 65 Prime (zero distortion sculpting)', '65mm large-format cinema lens capturing monumental 3D facial contouring and effortless silk fabric sheen'],
-  ['55mm Petzval Art Brass Lens (vintage vignette & center razor clarity)', '55mm brass Petzval optics focusing tack-sharp eye/veil detail while melting perimeter room lights softly'],
-  ['180-Degree Mechanical Shutter Natural Blur (silky hand motion)', 'filmed with classic 180-degree shutter timing preserving authentic organic hand/scissor motion trail without choppy staccato'],
-  ['Crisp High-Shutter 1/1000s Capture (frozen droplets & loose clippings)', 'tight 1/1000-second cinema shutter freezing suspended water spray droplets and falling hair tips crisply per frame'],
-  ['Tilt-Shift 45mm Miniature/Editorial Plane (narrow razor focus slice)', '45mm cinema tilt-shift casting an artistic narrow slice of razor clarity directly along cheekbones or collarbone'],
-  ['Split-Field Diopter Vintage Filter (dual foreground & deep sharpness)', 'classic optical split-diopter keeping extreme close-up comb/dropper foreground crisp beside background eye contact'],
-  ['Black Pro-Mist 1/4 Diffusion Glass (soft warm halation around bulbs)', 'subtle 1/4 Black Pro-Mist lens diffusion blooming warm tungsten vanity bulbs organically without muddying dark black hair']
+  ['👤 50mm · 50mm f/1.2 Noctilux Cinema Prime (luminous skin & cream bokeh)', 'shot on a vintage 50mm f/1.2 cinema prime with velvety organic highlight roll-off and creamy background separation', '', 'portrait'],
+  ['👤 85mm · 85mm f/1.4 Master Anamorphic (oval bokeh & portrait magic)', '85mm T1.4 anamorphic prime delivering gentle horizontal oval bokeh streaks, dimensional subject pop, and flattering facial optics', '', 'portrait'],
+  ['📐 35mm · 35mm f/1.4 Cooke S4 (intimate spatial proximity & film warmth)', '35mm T1.4 Cooke S4 cinema lens preserving warm golden Indian skin tones and immersive near-field room presence', '', 'wide'],
+  ['🔍 100mm · 100mm f/2.8 Macro Cine Prime (pores, blade edges & water beads)', '100mm macro cinema prime resolving microscopic water beads, scissor steel texture, skin pores, and crisp strand edge gleams', '', 'macro_lens'],
+  ['📐 24mm · 24mm f/1.8 Wide Kinetic Prime (spacious room perspective)', 'wide 24mm prime capturing full styling station architecture, background motion, and foreground spatial depth', '', 'wide']
 ]);
 
 // ==========================================
@@ -485,10 +519,11 @@ const vidLightingShifts = O_list([
 // ==========================================
 
 const vidDurations = O_list([
-  ['5 Seconds — Focused Single-Arc Micro Reveal', '5-second tight single continuous take pacing'],
-  ['6–8 Seconds — Standard 3-Beat Choreography (Universal Timing)', '6-to-8-second natural cinema pacing smoothly completing Start, Peak, and Resolve beats'],
-  ['10 Seconds — Unhurried Extended Beauty & Action Study', '10-second deliberate slow-tempo take with unhurried pause between beats'],
-  ['15 Seconds — Hypnotic Slow-Motion Atmosphere Study', '15-second dreamy hyper-slow cinema sequence']
+  ['⚡ 3s · 3 Seconds — Crisp Social Hook / Reaction Snip', 'punchy 3-second micro-take centered on one decisive turn or expression shift', '', 'dur_quick'],
+  ['⚡ 5s · 5 Seconds — Standard Cinematic Take & Hair Physics Settle', 'standard 5-second cinematic shot capturing movement initiation, peak motion, and gentle rest settle', '', 'dur_quick'],
+  ['⏳ 7s · 7 Seconds — Narrative Beat with Multi-Stage Camera Motion', '7-second extended cut allowing complex camera travel, focus racks, and multi-beat interaction', '', 'dur_long'],
+  ['⏳ 10s · 10 Seconds — Unhurried Extended Beauty & Action Study', '10-second deliberate slow-tempo take with unhurried pause between beats', '', 'dur_long'],
+  ['⏳ 15s · 15 Seconds — Hypnotic Slow-Motion Atmosphere Study', '15-second dreamy hyper-slow cinema sequence', '', 'dur_long']
 ]);
 
 const vidAmplitudes = O_list([
@@ -498,14 +533,11 @@ const vidAmplitudes = O_list([
 ]);
 
 const vidStyles = O_list([
-  ['Kodak Vision3 500T Anamorphic Cinema Film (rich Indian skin & halation)', 'authentic Kodak Vision3 500T 35mm motion-picture color science preserving rich warm Indian skin tones, velvety shadows, and gentle practical halation'],
-  ['Arri Alexa Mini LF Natural Commercial Beauty Grade', 'ultra-clean Arri Alexa large-format digital cinema look with buttery skin highlight roll-off and crisp tactile pore fidelity'],
-  ['Raw Behind-the-Scenes Documentary 16mm Grain', 'tactile 16mm behind-the-scenes celluloid grain with authentic practical lighting truth and unforced live camera texture'],
-  ['Crisp High-Contrast Nocturnal Neon & Rain Grade', 'moody high-contrast night cinema grading balancing saturated practical colors against clean accurate natural skin'],
-  ['Kodak Portra Motion Warm Daylight Nostalgia', 'sun-drenched warm golden analog film texture celebrating glowing warm undertones and gentle airy contrast'],
-  ['RED V-Raptor 8K Razor-Sharp Editorial Lookbook Grade', 'ultra-crisp commercial fashion lookbook depth resolving individual lashes, metallic hardware gleams, and fabric weaves'],
-  ['Monochrome Silver-Gelatin Noir Cinema Grade', 'rich deep silver blacks and sculpted silver specular highlights across wet cheekbones and glossy dark hair curves'],
-  ['Soft 90s Vintage Super-8 / Betacam Backstage Charm', 'nostalgic warm-toned backstage runway video aesthetic with subtle organic highlight bloom and lived-in spontaneity']
+  ['🎞️ 35mm Film · Kodak Vision3 500T Anamorphic Cinema Film (rich Indian skin & halation)', 'authentic Kodak Vision3 500T 35mm motion-picture color science preserving rich warm Indian skin tones, velvety shadows, and gentle practical halation', '', 'film'],
+  ['💎 Digital Cinema · Arri Alexa Mini LF Natural Commercial Beauty Grade', 'ultra-clean Arri Alexa large-format digital cinema look with buttery skin highlight roll-off and crisp tactile pore fidelity', '', 'digital'],
+  ['📹 16mm Doc · Raw Behind-the-Scenes Documentary 16mm Grain', 'tactile 16mm behind-the-scenes celluloid grain with authentic practical lighting truth and unforced live camera texture', '', 'doc'],
+  ['🌙 Nocturnal · Crisp High-Contrast Nocturnal Neon & Rain Grade', 'moody high-contrast night cinema grading balancing saturated practical colors against clean accurate natural skin', '', 'neon'],
+  ['🎞️ Warm Portra · Kodak Portra Motion Warm Daylight Nostalgia', 'sun-drenched warm golden analog film texture celebrating glowing warm undertones and gentle airy contrast', '', 'film']
 ]);
 
 const vidAspects = O_list([
@@ -518,10 +550,10 @@ const vidAspects = O_list([
 ]);
 
 const vidSpeedCurves = O_list([
-  ['Continuous Realtime 24fps (Natural Momentum)', 'continuous real-time 24fps cadence with organic physical momentum and steady frame timing'],
-  ['Dynamic Speed Ramp (24fps → 120fps Slow-Mo → 24fps)', 'cinematic speed ramp curve: begins at natural 24fps, decelerates smoothly into 120fps hyper-slow motion at the peak movement beat, then ramps gracefully back to 24fps for the resolve'],
-  ['Dreamy Overcranked 120fps Slow-Motion', 'continuous 120fps high-speed overcranked slow motion capturing every airborne micro-strand, falling droplet, and fabric flutter with suspension of time'],
-  ['Hyper-Smooth 60fps High-Fluidity Cadence', 'high-frame-rate 60fps presentation with crystal-clear temporal definition and zero motion stutter']
+  ['⏱️ 24fps · Continuous Realtime 24fps (Natural Momentum)', 'continuous real-time 24fps cadence with organic physical momentum and steady frame timing', '', 'speed_realtime'],
+  ['🎢 Ramp · Dynamic Speed Ramp (24fps → 120fps Slow-Mo → 24fps)', 'cinematic speed ramp curve: begins at natural 24fps, decelerates smoothly into 120fps hyper-slow motion at the peak movement beat, then ramps gracefully back to 24fps for the resolve', '', 'speed_ramp'],
+  ['⏳ Slow-Mo · Dreamy Overcranked 120fps Slow-Motion', 'continuous 120fps high-speed overcranked slow motion capturing every airborne micro-strand, falling droplet, and fabric flutter with suspension of time', '', 'speed_slowmo'],
+  ['⚡ 60fps · Hyper-Smooth 60fps High-Fluidity Cadence', 'high-frame-rate 60fps presentation with crystal-clear temporal definition and zero motion stutter', '', 'speed_realtime']
 ]);
 
 let wardrobeMode = 'ensemble';
@@ -558,9 +590,9 @@ const fields = {
   vidFacialMicroMotion: { label: 'Facial Breathing & Micro-Expression', opts: vidFacialMicroMotions, def: 0, section: 'vidActionSec', _grp: 'Chronological Motion Script' },
 
   // 04 Environment & Ambient Physics
-  vidEnvironment: { label: 'Moving Scene & Backdrop', opts: vidEnvironments, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Lighting Flux' },
-  vidEnvPhysics: { label: 'Wind, Steam, Rain & Ambient Motion', opts: vidEnvPhysics, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Lighting Flux' },
-  vidLightingShift: { label: 'Lighting Continuity & Practical Flicker', opts: vidLightingShifts, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Lighting Flux' },
+  vidEnvironment: { label: 'Moving Scene & Backdrop', opts: vidEnvironments, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Dynamic Lighting' },
+  vidEnvPhysics: { label: 'Wind, Steam, Rain & Ambient Motion', opts: vidEnvPhysics, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Dynamic Lighting' },
+  vidLightingShift: { label: 'Lighting Continuity & Practical Flicker', opts: vidLightingShifts, def: 0, section: 'vidEnvSec', _grp: 'World Physics & Dynamic Lighting' },
 
   // 05 Technical Specs
   vidDuration: { label: 'Clip Length & Pacing', opts: vidDurations, def: 1, section: 'vidTechSec', _grp: 'Generation Parameters' },
@@ -813,23 +845,46 @@ function goSection(secId){
   save();
 }
 
-function filterChoices(menu, q){
+function filterChoices(menu, q, activeCat = 'all'){
   let shown = 0;
   const list = menu.querySelector('.option-list');
+  const catBar = menu.querySelector('.select-category-bar');
+  if(catBar && activeCat === 'all'){
+    const activeChip = catBar.querySelector('.select-category-chip.active');
+    if(activeChip) activeCat = activeChip.dataset.cat || 'all';
+  }
+  const query = (q || '').toLowerCase().trim();
   [...list.querySelectorAll('.choice')].forEach(b => {
-    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    const textOk = !query || b.textContent.toLowerCase().includes(query);
+    const catOk = (activeCat === 'all') || (b.dataset.cat === activeCat);
+    const ok = textOk && catOk;
     b.classList.toggle('hidden', !ok);
     if(ok) shown++;
+  });
+  list.querySelectorAll('.choice-group-header').forEach(header => {
+    let next = header.nextElementSibling;
+    let hasVisible = false;
+    while(next && !next.classList.contains('choice-group-header')){
+      if(next.classList.contains('choice') && !next.classList.contains('hidden')){
+        hasVisible = true;
+        break;
+      }
+      next = next.nextElementSibling;
+    }
+    header.classList.toggle('hidden', !hasVisible);
   });
   let no = menu.querySelector('.no-results');
   if(!shown){
     if(!no){
       no = document.createElement('div');
       no.className = 'no-results';
-      no.textContent = 'No matching options.';
+      no.textContent = 'No matching options. Try another search.';
       list.appendChild(no);
     }
-  } else if(no) no.remove();
+    no.classList.remove('hidden');
+  } else if(no){
+    no.classList.add('hidden');
+  }
 }
 
 function updateCustom(custom, id){
@@ -950,12 +1005,67 @@ function createFieldElement(id, f){
   menu.innerHTML = `<input class="select-search" type="search" placeholder="Search ${f.label.toLowerCase()}…"><div class="option-list"></div>`;
   const list = menu.querySelector('.option-list');
 
+  // Category Chips Bar
+  const cats = [...new Set(visibleOpts.map(o => o.cat).filter(c => c && c !== 'all'))];
+  if(cats.length >= 2){
+    const catBar = document.createElement('div');
+    catBar.className = 'select-category-bar';
+    const allChip = document.createElement('button');
+    allChip.type = 'button';
+    allChip.className = 'select-category-chip active';
+    allChip.dataset.cat = 'all';
+    allChip.textContent = `✦ All (${visibleOpts.length})`;
+    catBar.appendChild(allChip);
+
+    cats.forEach(c => {
+      const count = visibleOpts.filter(opt => opt.cat === c).length;
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'select-category-chip';
+      chip.dataset.cat = c;
+      chip.textContent = `${formatCategoryName(c)} (${count})`;
+      catBar.appendChild(chip);
+    });
+
+    catBar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.select-category-chip');
+      if(!chip) return;
+      catBar.querySelectorAll('.select-category-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const selectedCat = chip.dataset.cat || 'all';
+      const searchInp = menu.querySelector('.select-search');
+      filterChoices(menu, searchInp ? searchInp.value : '', selectedCat);
+    });
+    menu.insertBefore(catBar, list);
+  }
+
+  let currentCat = null;
   visibleOpts.forEach(o => {
+    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
+      currentCat = o.cat;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = o.cat;
+      grp.innerHTML = formatCategoryHeader(o.cat);
+      list.appendChild(grp);
+    }
+
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
     b.dataset.index = f.opts.indexOf(o);
-    b.textContent = o.label;
+    if(o.cat) b.dataset.cat = o.cat;
+
+    if(o.label.includes(' · ')){
+      const [t, ...sub] = o.label.split(' · ');
+      b.innerHTML = `<span class="choice-title">${escapeHtml(t)}</span><span class="choice-subtitle">${escapeHtml(sub.join(' · '))}</span>`;
+    } else if(o.label.includes(' — ')){
+      const [t, ...sub] = o.label.split(' — ');
+      b.innerHTML = `<span class="choice-title">${escapeHtml(t)}</span><span class="choice-subtitle">${escapeHtml(sub.join(' — '))}</span>`;
+    } else {
+      b.innerHTML = `<span class="choice-title">${escapeHtml(o.label)}</span>`;
+    }
+
     b.addEventListener('click', () => {
       values[id] = o;
       if(id === 'vidHairCategory' && o.text !== 'all'){
