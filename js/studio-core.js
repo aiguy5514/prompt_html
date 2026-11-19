@@ -709,6 +709,37 @@ const salonStage = makeOpts([
   ['Cordless fade clipper flicking up the temple curve', 'clipper fade mastery: the barber uses a light upward C-scoop wrist flick with cordless magnetic clippers along the temple and sideburn edge, blending high-density crown hair into an ultra-clean micro-taper'],
   ['Aluminum spray bottle misting with gentle laugh during consultation', 'candid salon moment: the barber spritzes fine glistening water droplets from a brushed aluminum spray bottle while sharing a spontaneous chuckle with the client as damp bangs fall forward'],
   ['Deliberate scissor pivot and deep breath before final crown snip', 'intense artisan focus: the barber pauses with shears positioned at the apex of the crown, taking a slow deliberate breath while evaluating three-dimensional balance before executing the defining final snip'],
+  // Authentic Ayurvedic Champi & Scalp Rituals
+  ['💆 Champi · Warm Brahmi & Bhringraj oil crown pour with slow thumb-spiral acupressure', 'traditional scalp massage ritual: warm herbal Brahmi and Bhringraj oil is slowly poured from a brass lota onto the client\'s crown parting, followed by slow rhythmic circular thumb acupressure along the sagittal suture as golden oil glistens through dark hair lengths', '', 'champi'],
+  ['💆 Champi · Kansa wand bronze bowl scalp massage with cooling botanical oils', 'Ayurvedic kansa ritual: the barber glides a rounded bronze kansa scalp wand in soothing circular motions across her temples and crown over botanical herbal oil, releasing deep cranial tension while client rests serenely', '', 'champi'],
+  ['💆 Champi · Dual-palm vigorous rhythmic temple kneading & crown pinch-release', 'energetic champi session: the barber stands behind the chair with open splayed palms performing rhythmic temple kneading and firm crown pinch-release lifts over warm scented hair oil with audible rhythmic percussion', '', 'champi'],
+  ['💆 Champi · Warm coconut & fresh hibiscus flower oil saturation with neem wood comb', 'nourishing oil infusion: warm virgin coconut oil infused with ruby hibiscus petals is worked through scalp partings and combed out to ends with a handcrafted wide-tooth neem wood comb, coating strands in deep glossy sheen', '', 'champi'],
+  ['💆 Champi · Aromatic camphor & menthol cooling scalp tonic knuckle friction rub', 'cooling scalp friction rub: the barber works invigorating camphor and mentholated botanical tonic into the client\'s crown using brisk circular knuckle friction passes, creating a refreshing cooling tingle across the scalp', '', 'champi'],
+  ['💆 Champi · Warm mustard & sesame oil (Sarson tel) ear-lobe pinch & trapezius knead', 'traditional barbershop recovery: barber massages warm golden mustard and sesame oil along the client\'s nape hairline, working gentle thumb and index pinch-rolls along her ear lobes and upper trapezius over the draped cape', '', 'champi'],
+  // Wash Basin, Steam & Wet Spa Hair Rituals
+  ['🧖 Spa Hair · Steaming herbal towel turban wrap infusing deep Ayurvedic hair oiling', 'thermal oil wrap: client reclines in styling chair with a thick steaming white waffle-weave towel wrapped snugly like a turban around her oiled hair, aromatic steam curling gently into studio lighting while heat locks moisture into roots', '', 'wash'],
+  ['🧖 Spa Hair · Waterfall basin rinse: warm water ladle cascading over dark hair lengths', 'waterfall wash basin: client reclines serenely at the porcelain wash basin with head tilted back onto cushioned neck rest, as warm clear water cascades from a polished ladle over glistening dark hair lengths into the basin', '', 'wash'],
+  ['🧖 Spa Hair · Crushed rose petal, sandalwood & coconut milk scalp exfoliation scrub', 'botanical scalp polish: barber sections damp hair and gently massages an exfoliating paste of crushed damask rose petals, sandalwood powder, and coconut milk along the hairline and crown in soft circular motions', '', 'wash'],
+  ['🧖 Spa Hair · Jade Gua Sha scalp comb scraping along cranial meridians', 'holistic scalp scraping: barber glides the smooth contoured teeth of a green jade Gua Sha scalp comb with rhythmic, slow pressure from forehead hairline down to the nape over glistening botanical hair serum', '', 'wash'],
+  ['🧖 Spa Hair · Chilled Kannauj rosewater mist veil & plush microfiber towel squeeze', 'post-wash hydration: barber spritzes an ultra-fine cloud of chilled Kannauj rosewater over freshly cleansed hair before gently cupping and blotting damp ends with a plush microfiber towel', '', 'wash'],
+  // Precision Haircut & Shears
+  ['✂️ Precision Cut · Vertical dry-cutting slice texturizing through curtain bangs', 'active dry-cutting precision: the barber holds dry arched curtain bangs between finger pads at eyebrow level, vertically slicing micro-snips with sharp Japanese shears to create weightless separation and movement', '', 'cutting'],
+  ['✂️ Precision Cut · Slide-cutting sheer tapered layers along jawline with chin tilted up', 'sculpting face-framing angles: the barber gently slides open shear blades downward along damp cheekbone strands as client tilts chin slightly upward, carving an organic tapered contour', '', 'cutting'],
+  ['✂️ Precision Cut · Freehand clippers sculpting sharp geometric blunt perimeter on wet hair', 'blunt perimeter sculpting: the barber crouches beside the chair, guiding cordless clippers with steady horizontal precision along the bottom edge of damp dark hair, carving an ultra-crisp blunt baseline', '', 'cutting'],
+  ['✂️ Precision Cut · Straight-razor feathering along parted hair tips over damp fingers', 'razor texturizing pass: the barber clamps damp hair ends flat over his index finger and sweeps an exposed straight-razor blade in downward feathering strokes, softening weight with piecey ends', '', 'cutting'],
+  ['✂️ Precision Cut · Scissor-over-comb micro-tapering along baby hair temple perimeter', 'micro-tapering detail: the barber angles a thin carbon barber comb flat against her temple and skims miniature detailing shears rapidly across the comb spine, shaping delicate wispy hairline contours', '', 'cutting'],
+  ['✂️ Precision Cut · Cross-checking horizontal crown balance with wide carbon cutting comb', 'structural balance check: the barber lifts a broad horizontal panel of hair perpendicular to the scalp between two fingers, cross-checking layer symmetry against the illuminated mirror before a precise level trim', '', 'cutting'],
+  // Blowout, Heat Styling & Finishes
+  ['💨 Heat Styling · High-tension round brush silk press with direct ceramic dryer airflow', 'silk press styling: the barber pulls a large ceramic round barrel brush with taut upward tension through crown sections while directing the concentrator nozzle of a pro dryer directly down the cuticle for mirror-gloss smoothness', '', 'styling'],
+  ['💨 Heat Styling · Curved titanium flat-iron beveling glassy inward C-curl along cheekbones', 'flat-iron beveling: the barber glides sleek titanium heating plates down face-framing strands, rotating wrists 90 degrees at jawline level to bevel glossy hair ends cleanly inward toward her chin', '', 'styling'],
+  ['💨 Heat Styling · Diffuser bowl upward scrunch holding damp curls under warm low breeze', 'diffuser curl sculpting: the barber cups a wide bowl diffuser gently under damp hair lengths, lifting curls upward toward the scalp under warm low airflow to lock in defined, frizz-free texture', '', 'styling'],
+  ['💨 Heat Styling · Lightweight argan shine serum palm-glide smoothing flyaways along crown', 'glass-hair finish: the barber warms two drops of golden argan oil between flat palms and glides hands lightly down the surface of her finished hairstyle, taming flyaways into an immaculate high-shine finish', '', 'styling'],
+  ['💨 Heat Styling · Wide-tooth tortoise comb rake through freshly cooled barrel curls', 'brush-out wave styling: the barber rakes a wide-tooth tortoiseshell comb smoothly through bouncy cooled barrel curls from roots to tips, releasing tight spirals into effortless red-carpet waves', '', 'styling'],
+  ['💨 Heat Styling · Dual-mirror 360° reveal: barber tilting second mirror while client turns smiling', 'client reveal moment: haircut 100% complete; barber holds an oval wooden handheld mirror at an angle behind her crown while client tilts her head and smiles serenely at the clean rear silhouette reflected in the vanity mirror', '', 'styling'],
+  // Braids, Updos & Sculpting
+  ['🎀 Updo & Braid · Dutch boxer braid parting with metal tail comb carving clean scalp lines', 'artisan braid prep: the barber uses the needle point of a stainless tail comb to carve a razor-straight geometric parting line down the center of the scalp before weaving tight, raised three-strand Dutch braids', '', 'braid'],
+  ['🎀 Updo & Braid · Sleek high snatched ponytail gathering with boar-bristle smoothing brush', 'snatched updo styling: the barber sweeps a natural boar-bristle brush smoothly upward along her temples and nape with light hold cream, gathering all hair into a high, taut ponytail grip right at the crown', '', 'braid'],
+  ['🎀 Updo & Braid · Soft bohemian low messy bun pinning with vintage tortoise hairpin insertion', 'effortless updo artistry: the barber gathers textured wavy hair into an airy low chignon at the nape, sliding a curved tortoiseshell hairpin through the center to anchor the relaxed silhouette', '', 'braid'],
   // Female Model (Barber) Grooming Male Client
   ['Female model (barber) straight-razor shaving male client\'s beard with warm lather', 'barber action: the adult female model acts as the skilled barber standing beside the hydraulic chair, holding a traditional chrome straight razor at a precise angle to shave rich lather off the male client\'s jawline as he reclines comfortably with a draped cape'],
   ['Female model (barber) performing traditional hot oil champi (head massage) on male client', 'barber action: the adult female model stands behind the seated male client, skillfully massaging warm herbal oil into his scalp and temples with rhythmic finger kneading as he leans back into the headrest with eyes closed'],
@@ -862,7 +893,13 @@ const salonIntimateHairAction = makeOpts([
   ['Male barber resting reassuring hand on draped cape shoulder during mirror check on stool', 'resting one warm hand comfortably on her draped shoulder from behind the low stool, both gazing into the wall mirror reflection while evaluating the cheekbone framing and hair silhouette'],
   ['Cordless fade clipper flicking up the temple curve on stool', 'using a light upward C-scoop wrist flick with cordless magnetic clippers along her temple and sideburn edge, blending high-density crown hair into an ultra-clean micro-taper inches from her cheek'],
   ['Aluminum spray bottle misting with gentle laugh during consultation on stool', 'spritzing fine glistening water droplets from a brushed aluminum spray bottle while sharing a spontaneous chuckle with the client as damp bangs fall forward over the low stool'],
-  ['Deliberate scissor pivot and deep breath before final crown snip on stool', 'pausing with shears positioned at the apex of her crown from behind the stool, taking a slow deliberate breath while evaluating three-dimensional balance before executing the defining final snip']
+  ['Deliberate scissor pivot and deep breath before final crown snip on stool', 'pausing with shears positioned at the apex of her crown from behind the stool, taking a slow deliberate breath while evaluating three-dimensional balance before executing the defining final snip'],
+  // Authentic Ayurvedic Champi & Intimate Styling on Low Stool
+  ['💆 Champi · Close-contact Brahmi crown oil pour & thumb spirals on stool', 'standing closely behind her on the backless stool, slowly pouring warm Brahmi oil across her crown parting and kneading pressure points with rhythmic thumb spirals as she closes her eyes'],
+  ['🧖 Spa Hair · Steaming herbal towel turban wrap leaning over stool shoulders', 'tucking a thick steaming white towel snugly around her oiled hair like a turban from behind on the stool, resting warm hands reassuringly on her draped cape shoulders'],
+  ['🧖 Spa Hair · Jade Gua Sha comb tracing meridians bent close behind crown', 'leaning intimately close behind the stool, gliding the polished teeth of a green jade Gua Sha comb along her central scalp meridian from forehead to nape over botanical serum'],
+  ['💨 Heat Styling · High-tension silk press round-brush pass leaning close from behind', 'leaning forward over her shoulders on the backless stool, pulling a ceramic barrel brush with taut upward tension through her crown under pro dryer airflow'],
+  ['✂️ Precision Cut · Slide-cutting front curtain bangs with fingers near cheekbones', 'standing beside the low stool with fingers resting gently near her cheekbone, sliding open shears cleanly down front curtain strands to sculpt face-framing layers']
 ]);
 
 const salonStoolModelPosture = makeOpts([
@@ -1033,56 +1070,71 @@ const salonStationProps = makeOpts([
 ]);
 
 const salonCamera = makeOpts([
-  ['Direct mirror reflection POV (shot through the glass)', 'photographed directly into the large salon wall mirror, capturing the client\'s front reflection, the male barber\'s hands, and the full styling station reflected with optical depth'],
-  ['Candid 3/4 styling chair portrait', 'an eye-level 3/4 candid portrait from the side, framing the client in the black leather chair with the draped cape and ponytail profile'],
-  ['Over-the-shoulder rear angle past the barber', 'an intimate over-the-shoulder perspective looking past the male barber toward the client\'s facial reaction in the mirror'],
-  ['Close-up macro on curtain bangs and shears', 'a tight beauty close-up focused on the client\'s eyes and arched bottleneck curtain bangs, with shears mid-trim in crisp focus'],
-  ['Wide atmospheric salon interior composition', 'a wide horizontal frame capturing the full salon atmosphere, adjacent barber chairs, background mirrors, and the client centered in the foreground chair'],
-  ['Low-angle chair portrait looking up at the mirror', 'a dramatic low-angle perspective looking slightly upward from chair armrest height, emphasizing confident posture and facial reflection in the glass'],
-  ['Side profile framing nape and ponytail anchor', 'a razor-sharp side profile angle showcasing the neck curve, clean ear tuck, and ponytail base against the salon backdrop'],
-  ['Close-up mirror reflection with blurred barber shoulder', 'portrait focused sharply on client\'s face and bangs in the mirror, with blurred male barber shoulder in the foreground framing the composition'],
-  ['Cinematic overhead bird\'s eye chair POV', 'an artistic high-angle camera looking down at the client in the chair, draped cape fanning out, and scattered cut hair on the vinyl floor'],
-  ['Medium shot with front shop window street bokeh', 'a frontal portrait of client in chair with background window revealing warm blurred outdoor street lights and market activity'],
-  ['Straight-on symmetrical vanity mirror portrait', 'a centered symmetrical portrait looking square into the illuminated vanity mirror, framing the client evenly between warm bulb fixtures'],
-  ['Dutch angle candid from styling trolley perspective', 'a dynamic low-angled Dutch tilt perspective framing the corner of the tool trolley in the foreground with the client and mirror behind'],
-  ['Infinite reflection through opposing dual mirrors', 'a captivating double-mirror perspective with front and rear mirrors creating infinite recursive reflections and deep optical salon geometry'],
-  ['Extreme close-up on shears and finger cutting tension', 'a macro close-up focused exclusively on the male barber\'s fingers holding a taut wet hair strand as the scissor blades slice cleanly through'],
-  ['Behind-the-chair portrait showing handheld mirror angle', 'a candid perspective from behind the chair showing the male barber holding up an oval handheld mirror framing the back of the client\'s new haircut'],
-  ['Street-level documentary view through the shop doorway', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within'],
-  ['Low stool-height raking angle on draped silhouette', 'a low camera angle placed near footrest height looking upward, emphasizing the cascading drape of the cutting cape and the model\'s poised jawline'],
-  ['Macro straight razor on nape with warm lather', 'an ultra-sharp macro detail shot focused on a classic chrome straight razor cleaning the nape hairline against rich warm lather'],
-  ['Over-barber\'s-forearm perspective framing shears', 'an intimate photographic perspective shot right over the barber\'s rolled-up sleeve forearm, framing the scissor tips slicing damp strands'],
-  ['Floor-level shot of fallen hair clippings', 'an artistic low floor-level angle capturing crisp scattered hair clippings on the salon tile, with the chair base and client\'s shoes in shallow focus behind'],
-  ['High-angle shampoo basin wash perspective', 'a gentle 45-degree high-angle view looking down at the ceramic shampoo basin, water mist droplets, and the client\'s relaxed profile during the wash'],
-  ['Split-diopter dual focus: shears foreground & mirror reflection', 'a split-diopter optical shot keeping both the barber\'s shears in extreme foreground and the client\'s expressive eyes in the background mirror tack-sharp'],
-  ['Handheld brass mirror secondary angle reveal', 'a candid medium shot capturing the barber holding an ornate handheld mirror showing the client her rear neckline from a flattering 45-degree angle'],
-  ['Trolley flat-lay with styling tools and mirror bokeh', 'an editorial perspective angled over the styling trolley showing combs, clips, and tonic bottles in sharp relief with the haircut scene in soft bokeh'],
-  ['Tight 85mm portrait focusing on parted wet fringe', 'an 85mm f/1.4 prime portrait isolating the client\'s eyes and glistening wet fringe with creamy optical background bokeh'],
-  ['Wide cinematic 2.39:1 letterbox salon panorama', 'a wide cinematic 2.39:1 widescreen frame capturing the entire salon length, neon wall signage, multiple mirrors, and the bustling haircut action'],
-  ['35mm documentary snapshot with natural room blur', 'a candid 35mm photojournalistic perspective capturing authentic motion blur, barber\'s comb movement, and unposed salon realism'],
-  ['Profile shot through hanging salon plants and vintage glass', 'an atmospheric peek-through composition shot through hanging salon greenery and vintage ribbed glass partitions framing the chair'],
-  ['Ultra-close macro on blow-dry round brush tension', 'a tight macro shot on the bristles of a ceramic round brush lifting hair at the roots under the concentrated airflow of the dryer nozzle'],
-  ['Sideways angle: client looking away with hand shielding face', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape'],
-  ['Side-profile turned away with hair concealing face', 'a side-profile camera angle capturing the client turned sideways facing away into the salon background, with her hair naturally falling forward to fully obscure her face from the lens, focusing on her haircut perimeter and cape drape with zero facial exposure'],
-  ['Sideways angle: client turned looking away into shop', 'a side-angle camera perspective capturing the client turned sideways looking away from the camera into the salon background, her head angled away so her face is not visible to the lens, retaining her natural hairstyle and focusing on her haircut perimeter, hair texture, and draped cape with zero facial exposure'],
-  ['Sideways lateral 90-degree chair profile framing haircut baseline', 'a flush 90-degree lateral camera angle from the side of the styling station, framing the client\'s side profile, the clean haircut perimeter line, and the male barber standing beside inspecting balance'],
-  ['Sideways low footrest-level profile looking up at chair', 'a low floor-level raking side perspective shot just above the chair footrest looking upward, emphasizing the dramatic vertical silhouette of the draped cape, jawline, and ear-tuck contour'],
-  ['Sideways wide-aperture 85mm profile isolating ear & perimeter layers', 'an 85mm f/1.4 telephoto side-profile portrait with shallow depth of field, rendering the client\'s cheekbone and face-framing hair perimeter tack-sharp against creamy blurred salon mirrors'],
-  ['Sideways over-the-trolley perspective past styling tools', 'a cinematic side-angle composition framed over the metallic tray of the salon trolley in the foreground, looking past scissors and clips directly at the client\'s poised side profile'],
-  ['Sideways diagonal 3/4 rear-side angle capturing nape & cape drape', 'a diagonal rear-side profile angle framing the back of the neck, natural hairline curvature, and the expansive geometric folds of the cutting cape across the back of the chair'],
-  ['Sideways profile glance through antique fluted glass divider', 'an atmospheric side-profile shot taken through semi-opaque vintage ribbed glass partitioning, capturing the client\'s side silhouette with soft painterly salon light refractions'],
-  ['Very close to action: tight chest-up direct shot of barber razor/shears at neck', 'an ultra-close direct chest-up 3/4 portrait taken just two feet from the styling chair; the client\'s expressive face, parted front bob tendrils, and black cape shoulders dusted with cut hair clippings fill 70% of the foreground while the male barber leans tightly in beside her left shoulder holding a folding straight razor or shears pressed delicately against her right neckline/nape in razor-sharp closeup, with real all-male barbershop stations and glass wall mirrors softly receding in authentic background depth'],
-  ['Very close to action: intimate 28mm handheld chest-up front haircut POV', 'a very close 28mm handheld documentary chest-up framing inches from the active cutting zone; capturing the client\'s eyes and parted bangs filling the immediate frame while the barber\'s fingers tension damp locks and steel shears snip along the jawline, leaving fine hair snippets resting on the snapped black cape collar'],
-  ['Very close to action: tight jaw & collarbone perimeter snip crop', 'an ultra-tight chin, jaw, and cape-collar close-up shot right beside the cutting blade; natural neck skin pores, snapped vinyl collar strip, fine fallen hair snippets on cape shoulders, and the barber\'s braced hands snipping crisp perimeter geometry below the earlobe dominate the frame'],
-  ['Very close to action: over-cape-shoulder macro framing razor/clipper nape detail', 'a very close low-3/4 action framing angled right past the client\'s draped cape shoulder into the active neck and nape detailing zone; the leaning male barber\'s concentrated profile and razor-holding hand beside the client\'s slightly tilted chin fill the immediate foreground'],
-  ['Very close to action: tight front bang & eyebrow shear-snip close-up', 'an ultra-close eye-to-mouth level close-up positioned directly in front of the styling chair, capturing fine black carbon comb teeth parting damp front fringe inches from her nose bridge as sharp shear tips slice across brow level'],
-  ['Very close to action: intimate side-cheek & earlobe scissor-point close-up', 'a very close cheek-level 3/4 action crop capturing the barber\'s braced fingers clamping a damp section of jawline hair right beside her cheekbone and earlobe as gleaming silver scissor blades close millimeters from the skin'],
-  ['Very close to action: selfie-distance wide frontal barbering shot (clippings on cape)', 'a very close 32mm selfie-distance direct frontal barbershop shot with the client looking warmly past parted face-framing layers and small cut hair clippings clinging to her black cutting cape, while the barber leans closely in from one side trimming her perimeter right at neck height'],
-  ['Very close to action: mirror-edge close-up framing hands at neck and eye contact', 'an ultra-tight mirror-side close-up capturing the client\'s direct eye contact and subtle smirk in the immediate foreground alongside the barber\'s focused face and razor-detailing hand right at her neckline'],
-  ['Very close to action: over-the-shears macro through falling damp cut strands', 'an ultra-tight macro close-up aligned right behind gleaming Japanese cutting shears as dark cut hair strands slice cleanly away in mid-air before landing on her cape shoulders'],
-  ['Very close to action: flat-iron steam & glassy C-curve bevel macro at jaw', 'a super-close jawline beauty crop framing glistening sleek hair strands sliding smoothly through heated titanium plates into a luminous inward C-curve bevel inches from her collarbone'],
-  ['Very close to action: butterfly clip-release cascade framing falling wet tier', 'a tight close-up focused on the barber\'s fingertips popping open a dark matte salon clip so a thick sheet of glossy misted hair tumbles smoothly down past her temple and jawline'],
-  ['Very close to action: shampoo basin macro framing foamy scalp massage & water sheen', 'an intimate close-up angled directly over the porcelain backwash rim framing rich aromatic lather bubbles, barber fingertips kneading wet roots, and gleaming aquatic light highlights']
+  // 🪞 Mirror POV & Reflections (8)
+  ['🪞 Mirror POV · Direct Large Wall Glass Reflection', 'photographed directly into the large salon wall mirror, capturing the client\'s front reflection, the male barber\'s hands, and the full styling station reflected with optical depth', '', 'mirror'],
+  ['🪞 Mirror POV · Dual Opposing Mirrors (Infinite Depth)', 'a captivating double-mirror perspective with front and rear mirrors creating infinite recursive reflections and deep optical salon geometry', '', 'mirror'],
+  ['🪞 Mirror POV · Over Barber Shoulder with Facial Focus', 'an intimate over-the-shoulder perspective looking past the male barber toward the client\'s facial reaction in the mirror', '', 'mirror'],
+  ['🪞 Mirror POV · Symmetrical Hollywood Vanity Frame', 'a centered symmetrical portrait looking square into the illuminated vanity mirror, framing the client evenly between warm bulb fixtures', '', 'mirror'],
+  ['🪞 Mirror POV · Handheld Rear Brass Mirror Check', 'a candid medium shot capturing the barber holding an ornate handheld mirror showing the client her rear neckline from a flattering 45-degree angle', '', 'mirror'],
+  ['🪞 Mirror POV · Split-Diopter Dual Focus (Shears + Reflection)', 'a split-diopter optical shot keeping both the barber\'s shears in extreme foreground and the client\'s expressive eyes in the background mirror tack-sharp', '', 'mirror'],
+  ['🪞 Mirror POV · Blurred Barber Shoulder Framing Model', 'portrait focused sharply on client\'s face and bangs in the mirror, with blurred male barber shoulder in the foreground framing the composition', '', 'mirror'],
+  ['🪞 Mirror POV · 45° Angle Capturing Side Profile in Glass', 'a dynamic 45-degree angled perspective capturing the client\'s profile both directly and reflected in the illuminated salon mirror', '', 'mirror'],
+
+  // 🔍 Macro & Tactile Details (8)
+  ['🔍 Macro · Shears Slicing Damp Bangs (100mm Detail)', 'a tight beauty close-up focused on the client\'s eyes and arched bottleneck curtain bangs, with shears mid-trim in crisp focus', '', 'macro'],
+  ['🔍 Macro · Straight Razor Gliding Over Nape Lather', 'an ultra-sharp macro detail shot focused on a classic chrome straight razor cleaning the nape hairline against rich warm lather', '', 'macro'],
+  ['🔍 Macro · Ceramic Round Brush Root Lift & Dryer Nozzle', 'a tight macro shot on the bristles of a ceramic round brush lifting hair at the roots under the concentrated airflow of the dryer nozzle', '', 'macro'],
+  ['🔍 Macro · Finger Tension & Scissor Precision Point-Snip', 'a macro close-up focused exclusively on the male barber\'s fingers holding a taut wet hair strand as the scissor blades slice cleanly through', '', 'macro'],
+  ['🔍 Macro · Scattered Fresh Hair Clippings on Cape Silk', 'an ultra-close tactile macro shot capturing crisp dark cut hair clippings resting across the lustrous folds of the snapped cutting cape', '', 'macro'],
+  ['🔍 Macro · Warm Herbal Oil Droplets on Crown Parting', 'a close sensory macro shot capturing glistening droplets of warm Ayurvedic oil parting dark hair strands at the crown during a traditional champi ritual', '', 'macro'],
+  ['🔍 Macro · Barber Comb Spine Skimming Temple Taper', 'a tight macro perspective capturing a fine carbon barber comb spine flush against the temple as detail clippers sculpt a micro-taper', '', 'macro'],
+  ['🔍 Macro · Talcum Powder Cloud Swept Off Collarbone', 'a backlit high-speed macro freeze capturing a translucent fragrant cloud of barbershop talcum powder swept off the collarbone with a horsehair duster', '', 'macro'],
+
+  // 👤 Eye-Level & Portraits (8)
+  ['👤 Portrait · 85mm f/1.4 Candid Styling Chair (Chest-Up)', 'an 85mm f/1.4 prime portrait isolating the client\'s eyes and glistening wet fringe with creamy optical background bokeh', '', 'portrait'],
+  ['👤 Portrait · 3/4 Angle Framing Draped Cape & Silhouette', 'an eye-level 3/4 candid portrait from the side, framing the client in the black leather chair with the draped cape and ponytail profile', '', 'portrait'],
+  ['👤 Portrait · 90° Clean Side Profile & Neckline Arc', 'a razor-sharp side profile angle showcasing the neck curve, clean ear tuck, and ponytail base against the salon backdrop', '', 'portrait'],
+  ['👤 Portrait · Frontal Client Smile at Final Haircut Reveal', 'a frontal portrait of client in chair smiling candidly at the finished haircut reveal with soft studio background bokeh', '', 'portrait'],
+  ['👤 Portrait · 35mm Natural Documentary Salon Snapshot', 'a candid 35mm photojournalistic perspective capturing authentic motion blur, barber\'s comb movement, and unposed salon realism', '', 'portrait'],
+  ['👤 Portrait · 50mm Intimate Conversational Eye-Line', 'a natural 50mm conversational eye-line portrait capturing relaxed facial expression and genuine client rapport with the stylist', '', 'portrait'],
+  ['👤 Portrait · Low Armrest Rake Framing Cape Drapes', 'a low camera angle placed near footrest height looking upward, emphasizing the cascading drape of the cutting cape and the model\'s poised jawline', '', 'portrait'],
+  ['👤 Portrait · Sideways Turn with Model Looking Away', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape', '', 'portrait'],
+
+  // 📐 Dynamic Low & High Angles (8)
+  ['📐 Low Angle · Hydraulic Footrest Rake Looking Up', 'a dramatic low-angle perspective looking slightly upward from chair armrest height, emphasizing confident posture and facial reflection in the glass', '', 'angle'],
+  ['📐 Low Angle · Floor-Level Tilted Up at Chair & Cape Flow', 'an artistic low floor-level angle capturing crisp scattered hair clippings on the salon tile, with the chair base and client\'s shoes in shallow focus behind', '', 'angle'],
+  ['📐 High Angle · Overhead Bird\'s-Eye Chair & Circular Cape', 'an artistic high-angle camera looking down at the client in the chair, draped cape fanning out, and scattered cut hair on the vinyl floor', '', 'angle'],
+  ['📐 High Angle · 45° Diagonal Down from Styling Station', 'an elevated 45-degree vantage looking downward across the styling station counter, framing shears, tonic bottles, and the seated client', '', 'angle'],
+  ['📐 Dutch Angle · Dynamic 15° Tilt from Tool Trolley', 'a dynamic low-angled Dutch tilt perspective framing the corner of the tool trolley in the foreground with the client and mirror behind', '', 'angle'],
+  ['📐 Low Stool Rake · Backless Stool Model Silhouette Skim', 'a low raking angle shooting upward from stool seat level, capturing the model\'s elongated spine and the barber working closely overhead', '', 'angle'],
+  ['📐 High Angle · Standing Behind Stool Looking Down at Crown', 'a high downward perspective looking directly down at the client seated on the low stool as the barber methodically sections wet hair', '', 'angle'],
+  ['📐 Low Oblique · Ground-Level Past Fallen Hair Tufts', 'a ground-level oblique angle shooting past loose curls and hair clippings on the floor toward the base of the hydraulic chair', '', 'angle'],
+
+  // 🎬 Wide & Cinematic Environments (8)
+  ['🎬 Wide · Full Salon Bay 2.39:1 Anamorphic Panorama', 'a wide cinematic 2.39:1 widescreen frame capturing the entire salon length, neon wall signage, multiple mirrors, and the bustling haircut action', '', 'cinematic'],
+  ['🎬 Wide · Front Window Streetscape View into Bright Salon', 'a candid documentary street perspective looking through the open salon doorway from the sidewalk, framing the brightly lit haircut scene within', '', 'cinematic'],
+  ['🎬 Wide · Atmospheric Vintage Barbershop with Overhead Fans', 'a wide horizontal frame capturing the full salon atmosphere, adjacent barber chairs, background mirrors, and the client centered in the foreground chair', '', 'cinematic'],
+  ['🎬 Wide · Peek-Through Hanging Ivy & Ribbed Glass Partition', 'an atmospheric peek-through composition shot through hanging salon greenery and vintage ribbed glass partitions framing the chair', '', 'cinematic'],
+  ['🎬 Wide · Mid-Shot with Outdoor Street Bokeh in Background', 'a frontal portrait of client in chair with background window revealing warm blurred outdoor street lights and market activity', '', 'cinematic'],
+  ['🎬 Wide · Architectural Symmetrical Dual-Chair Station', 'a wide architectural composition balancing two vintage salon chairs, brushed steel mirrors, and warm industrial pendant lighting', '', 'cinematic'],
+  ['🎬 Wide · Moody Twilight Salon with Warm Sconces', 'an ambient wide composition captured during twilight hour with warm amber sconce light glinting off chrome fixtures and dark wood paneling', '', 'cinematic'],
+  ['🎬 Wide · Sidewalk Documentary Snapshot Through Entryway', 'a street-level snapshot shot through open entryway doors, framing the client mid-cut with casual passersby in soft foreground blur', '', 'cinematic'],
+
+  // 📸 Stylist POV & Behind-the-Chair (8)
+  ['📸 Stylist POV · Directly Behind Crown Over Back of Head', 'an intimate stylist-eye viewpoint positioned directly behind the chair, looking straight down the parted crown toward the illuminated mirror', '', 'pov'],
+  ['📸 Stylist POV · Over Barber\'s Forearm Framing Shears', 'an intimate photographic perspective shot right over the barber\'s rolled-up sleeve forearm, framing the scissor tips slicing damp strands', '', 'pov'],
+  ['📸 Stylist POV · Leaning Low Beside Headrest at Nape Level', 'a close perspective aligned right beside the barber\'s cheek as he leans into the nape hairline with a folding straight razor', '', 'pov'],
+  ['📸 Stylist POV · Standing Beside Client Mirror Consultation', 'a two-shot perspective framing the barber standing beside the hydraulic chair, consulting the client as both look into the mirror', '', 'pov'],
+  ['📸 Stylist POV · Resting Reassuring Hand on Draped Shoulder', 'a warm candid viewpoint capturing the barber resting one warm hand on her draped shoulder during a reassuring mirror pause', '', 'pov'],
+  ['📸 Stylist POV · Over-the-Shears Through Falling Strands', 'an ultra-tight macro close-up aligned right behind gleaming Japanese cutting shears as dark cut hair strands slice cleanly away in mid-air before landing on her cape shoulders', '', 'pov'],
+  ['📸 Stylist POV · Trolley Flat-Lay with Styling Tools', 'an editorial perspective angled over the styling trolley showing combs, clips, and tonic bottles in sharp relief with the haircut scene in soft bokeh', '', 'pov'],
+  ['📸 Stylist POV · Behind-the-Chair Handheld Mirror Angle', 'a candid perspective from behind the chair showing the male barber holding up an oval handheld mirror framing the back of the client\'s new haircut', '', 'pov'],
+
+  // 🚿 Wash Basin & Wet Spa Angles (4)
+  ['🚿 Wash Basin · Reclining Top-Down Face & Hair Cascade', 'a gentle 45-degree high-angle view looking down at the ceramic shampoo basin, water mist droplets, and the client\'s relaxed profile during the wash', '', 'wash'],
+  ['🚿 Wash Basin · 45° Profile with Steaming Towel Wrap', 'a peaceful 45-degree side profile framing the reclining client at the wash basin with a warm steaming white towel soothing her forehead', '', 'wash'],
+  ['🚿 Wash Basin · Ladle Water Pour Cascading Over Dark Strands', 'a close-up action perspective of clear warm water ladled from a brass pitcher cascading smoothly over glistening dark hair into the ceramic basin', '', 'wash'],
+  ['🚿 Wash Basin · Low Basin-Edge Angle Looking Past Running Faucet', 'a low aesthetic angle positioned beside the porcelain basin edge looking past chrome fixtures toward the model\'s serene closed-eye face', '', 'wash']
 ]);
 
 const salonLighting = makeOpts([
@@ -1169,11 +1221,50 @@ const salonLotions = makeOpts([
   ['Steaming eucalyptus & peppermint towel cocoon wrap', 'a thick steaming white barber towel infused with pure eucalyptus and peppermint essential oils wrapped snugly around the face, temples, and neck, opening pores before final detailing'],
   ['Sandalwood (Chandan) & rosewater cooling paste along forehead hairline', 'cooling golden sandalwood (chandan) paste whipped with pure Kannauj rosewater lightly applied along the forehead margin and temples, leaving a soothing aromatic matte finish'],
   ['Spiced bay rum & clove barbershop aftershave splash', 'a splash of classic Caribbean spiced bay rum with notes of clove, cedar, and orange peel smoothed into freshly clipped temple points and sideburns with a refreshing tingling finish'],
-  ['Ceramic scuttle badger-bristle hot lather foaming beard & nape prep', 'steaming hot shaving lather whisked to stiff peaks in a heavy ceramic scuttle and painted generously across the neckline with a silver-tipped badger-hair brush']
+  ['Ceramic scuttle badger-bristle hot lather foaming beard & nape prep', 'steaming hot shaving lather whisked to stiff peaks in a heavy ceramic scuttle and painted generously across the neckline with a silver-tipped badger-hair brush'],
+  ['Warm Brahmi & Bhringraj herbal hair oil drops with slow crown acupressure', 'warm herbal Brahmi and Bhringraj oil drops released along the crown parting and massaged deeply into roots with rhythmic circular acupressure for rich follicle luster'],
+  ['Virgin coconut & ruby hibiscus flower oil infusion combed from roots to tips', 'aromatic virgin coconut oil infused with crushed hibiscus petals, combed evenly through lengths with a neem wood comb for a radiant botanical gloss'],
+  ['Cooling kansa bronze wand botanical scalp elixir with camphor notes', 'cooling kansa botanical scalp elixir with notes of camphor and vetiver, worked smoothly into the temples and scalp with a bronze massage wand'],
+  ['Crushed damask rose petal & coconut milk scalp exfoliation glaze', 'delicate damask rose petal and coconut milk scrub gently polished along the scalp and hairline to purify and hydrate follicles']
 ]);
 
 
 const escapeHtml = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+
+const CAT_DISPLAY_NAMES = {
+  // Cameras
+  mirror: '🪞 Mirror POV & Reflections',
+  macro: '🔍 Macro & Close-Up',
+  portrait: '👤 Eye-Level & Portraits',
+  angle: '📐 Dynamic Angles (Low / High)',
+  cinematic: '🎬 Wide Cinematic',
+  wide: '🎬 Wide Cinematic',
+  pov: '📸 Stylist POV & Behind-Chair',
+  wash: '🚿 Wash Basin & Wet Care',
+  floor: '🏋️ Floor & Low-Rake',
+  motion: '🏃 Motion Tracking',
+  overhead: '🧘 Overhead & Top-Down',
+  vanity: '🪞 Vanity & Bulbs',
+  spa: '🧖 Spa Table & Reclining',
+  rake: '📐 Raking Angles',
+  artist_pov: '📸 Artist POV',
+  studio_wide: '🎬 Studio Interior',
+  // Stages & Styling
+  champi: '💆 Ayurvedic Champi & Scalp',
+  cutting: '✂️ Precision Cut & Shears',
+  styling: '💨 Heat Styling & Blowout',
+  braid: '🎀 Updos & Braids'
+};
+
+function formatCategoryName(cat) {
+  if (CAT_DISPLAY_NAMES[cat]) return CAT_DISPLAY_NAMES[cat];
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function formatCategoryHeader(cat) {
+  const name = formatCategoryName(cat).toUpperCase();
+  return `<span>${name}</span>`;
+}
 
 const salonCollageScenes = makeOpts([
   // Preparation & Consultation
@@ -3211,13 +3302,75 @@ menu.innerHTML=`<input class="select-search" type="search" placeholder="Search $
 
 const list=menu.querySelector('.option-list');
 
+// Category chips
+const cats = [];
+const seenCats = new Set();
+visibleOpts.forEach(opt => {
+  if (opt.cat && opt.cat !== 'all' && !seenCats.has(opt.cat)) {
+    seenCats.add(opt.cat);
+    cats.push(opt.cat);
+  }
+});
+
+if (cats.length >= 2) {
+  const catBar = document.createElement('div');
+  catBar.className = 'select-category-bar';
+  const allChip = document.createElement('button');
+  allChip.type = 'button';
+  allChip.className = 'select-category-chip active';
+  allChip.dataset.cat = 'all';
+  allChip.textContent = `✦ All (${visibleOpts.length})`;
+  catBar.appendChild(allChip);
+
+  cats.forEach(c => {
+    const count = visibleOpts.filter(opt => opt.cat === c).length;
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'select-category-chip';
+    chip.dataset.cat = c;
+    chip.textContent = `${formatCategoryName(c)} (${count})`;
+    catBar.appendChild(chip);
+  });
+
+  catBar.addEventListener('click', (e) => {
+    const chip = e.target.closest('.select-category-chip');
+    if (!chip) return;
+    catBar.querySelectorAll('.select-category-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    const selectedCat = chip.dataset.cat || 'all';
+    const searchInp = menu.querySelector('.select-search');
+    filterChoices(menu, searchInp ? searchInp.value : '', selectedCat);
+  });
+  menu.insertBefore(catBar, list);
+}
+
 // Populate choices
+let currentCat = null;
 visibleOpts.forEach((o)=>{
+  if (cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat) {
+    currentCat = o.cat;
+    const grp = document.createElement('div');
+    grp.className = 'choice-group-header';
+    grp.dataset.cat = o.cat;
+    grp.innerHTML = formatCategoryHeader(o.cat);
+    list.appendChild(grp);
+  }
+
   const b=document.createElement('button');
   b.type='button';
   b.className='choice' + (values[id] === o ? ' selected' : '');
   b.dataset.index=fields[id].opts.indexOf(o);
-  b.textContent=o.label;
+  if (o.cat) b.dataset.cat = o.cat;
+
+  if (o.label.includes(' · ')) {
+    const [t, ...sub] = o.label.split(' · ');
+    b.innerHTML = `<span class="choice-title">${escapeHtml(t)}</span><span class="choice-subtitle">${escapeHtml(sub.join(' · '))}</span>`;
+  } else if (o.label.includes(' — ')) {
+    const [t, ...sub] = o.label.split(' — ');
+    b.innerHTML = `<span class="choice-title">${escapeHtml(t)}</span><span class="choice-subtitle">${escapeHtml(sub.join(' — '))}</span>`;
+  } else {
+    b.innerHTML = `<span class="choice-title">${escapeHtml(o.label)}</span>`;
+  }
   b.addEventListener('click',()=>{
     values[id]=o;
     
@@ -3369,14 +3522,20 @@ trigger.addEventListener('click',()=>{
     trigger.setAttribute('aria-expanded','true');
     const inp = menu.querySelector('input');
     inp.value = '';
-    filterChoices(menu, '');
+    const activeChip = menu.querySelector('.select-category-chip.active');
+    const cat = activeChip ? activeChip.dataset.cat : 'all';
+    filterChoices(menu, '', cat);
     inp.focus({preventScroll:true});
     const sel=menu.querySelector('.choice.selected:not(.hidden)');
     if(sel)sel.scrollIntoView({block:'nearest'});
   }
 });
 
-menu.querySelector('input').addEventListener('input',e=>filterChoices(menu,e.target.value));
+menu.querySelector('input').addEventListener('input',e=>{
+  const activeChip = menu.querySelector('.select-category-chip.active');
+  const cat = activeChip ? activeChip.dataset.cat : 'all';
+  filterChoices(menu, e.target.value, cat);
+});
 menu.querySelector('input').addEventListener('keydown',e=>{
   if(e.key==='Enter'){
     e.preventDefault();
@@ -3805,13 +3964,27 @@ el('specialContent').innerHTML=activeSection==='finish'?finishMarkup():'';
 if(activeSection==='finish')bindFinish();
 }
 
-function filterChoices(menu,q){
+function filterChoices(menu,q,activeCat='all'){
 let shown=0;
 const list=menu.querySelector('.option-list');
 [...list.querySelectorAll('.choice')].forEach(b=>{
-  const ok=b.textContent.toLowerCase().includes(q.toLowerCase());
+  const textOk=!q||b.textContent.toLowerCase().includes(q.toLowerCase());
+  const catOk=(activeCat==='all')||(b.dataset.cat===activeCat);
+  const ok=textOk&&catOk;
   b.classList.toggle('hidden',!ok);
   if(ok)shown++;
+});
+list.querySelectorAll('.choice-group-header').forEach(header=>{
+  let next=header.nextElementSibling;
+  let hasVisible=false;
+  while(next&&!next.classList.contains('choice-group-header')){
+    if(next.classList.contains('choice')&&!next.classList.contains('hidden')){
+      hasVisible=true;
+      break;
+    }
+    next=next.nextElementSibling;
+  }
+  header.classList.toggle('hidden',!hasVisible);
 });
 let no=menu.querySelector('.no-results');
 if(!shown){

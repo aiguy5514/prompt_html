@@ -945,6 +945,102 @@
   color: #fff;
 }
 
+/* Choice Two-Tier Typography & Badges */
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  line-height: 1.35;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.choice-title {
+  display: block;
+  font-weight: 750;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+}
+.choice-subtitle {
+  display: block;
+  font-weight: 400;
+  font-size: 10.5px;
+  color: #bfaec2;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.choice.selected .choice-subtitle {
+  color: #ffd6e6;
+}
+.choice-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  background: rgba(255, 92, 146, .14);
+  border: 1px solid rgba(255, 92, 146, .35);
+  color: var(--pink2);
+  margin-right: 6px;
+}
+.choice-group-header {
+  padding: 8px 12px 5px;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--pink2, #ff9cbd);
+  background: rgba(255, 92, 146, .08);
+  border-bottom: 1px solid var(--line, #3a3040);
+  border-top: 1px solid var(--line, #3a3040);
+  pointer-events: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.choice-group-header:first-child {
+  border-top: none;
+}
+.select-category-bar {
+  display: flex;
+  gap: 5px;
+  padding: 7px 8px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+  background: rgba(0, 0, 0, .25);
+  scrollbar-width: none;
+}
+.select-category-bar::-webkit-scrollbar {
+  display: none;
+}
+.select-category-chip {
+  padding: 3px 9px;
+  font-size: 10px;
+  font-weight: 750;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, .05);
+  color: #dcd1e0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s ease;
+}
+.select-category-chip:hover {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 92, 146, .4);
+}
+.select-category-chip.active {
+  background: var(--pink2);
+  color: #2a101a;
+  border-color: var(--pink2);
+  font-weight: 850;
+}
+
+
 
 
 

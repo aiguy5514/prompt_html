@@ -389,7 +389,15 @@ const prepActions = makeOpts([
   ['Unclipping front matte duckbill hair clip at temple after setting makeup', 'sliding two fingers smoothly up to unclip a dark duckbill sectioning clip beside her temple as fresh front hair layers begin to fall around her cheekbone', '', 'solo'],
   ['Holding frosted glass mist bottle mid-air refreshing dewy cheek glow', 'resting her chin calmly up while her own hand holds a minimalist glass atomizer bottle spritzing fine hydrated mist droplets over freshly finished skin', '', 'solo'],
   ['Patting subtle translucent rice powder lightly across T-zone with velour puff', 'lightly pressing a soft cream cotton-velour powder puff along her nose bridge while checking finished sheen effortlessly', '', 'solo'],
-  ['Resting chin lightly in cupped palm at vanity gazing serenely in between steps', 'seated comfortably alone before the illuminated vanity, resting her chin lightly near manicured fingertips in a quiet candid pause', '', 'solo']
+  ['Resting chin lightly in cupped palm at vanity gazing serenely in between steps', 'seated comfortably alone before the illuminated vanity, resting her chin lightly near manicured fingertips in a quiet candid pause', '', 'solo'],
+
+  // Hair Prep, Scalp Rituals & Blowout Styling
+  ['💆 Champi · Warm Ayurvedic scalp oiling with rhythmic finger kneading', 'the practitioner massaging warm herbal Brahmi and coconut oil deeply into her scalp partings with gentle circular thumb kneading while she relaxes at the vanity with eyes closed', '', 'hair_prep'],
+  ['🧖 Spa Hair · Steaming herbal hot towel turban wrap infusing botanical oils', 'a thick steaming white waffle-weave towel snugly wrapped around her oiled hair like a turban, aromatic steam rising past vanity bulbs while heat locks hydration into roots', '', 'hair_prep'],
+  ['🧖 Spa Hair · Jade Gua Sha comb scraping along hairline and temple meridians', 'the practitioner gently gliding the smooth contoured teeth of a green jade Gua Sha comb along her hairline and temples over glistening botanical hair serum', '', 'hair_prep'],
+  ['💨 Heat Styling · Sleek round-brush blowout lifting crown roots with warm dryer', 'the stylist rotating a round ceramic barrel brush through crown sections under the directed airflow of a pro dryer nozzle, sculpting glossy root volume and soft curtain bangs', '', 'hair_prep'],
+  ['💨 Heat Styling · Curved flat-iron glide beveling face-framing C-curl at jawline', 'the stylist smoothly drawing heated titanium styling plates down face-framing strands, beveling a silky inward C-curve contour cleanly around her cheekbone and chin', '', 'hair_prep'],
+  ['🎀 Updo & Braid · Metal tail comb carving clean center part for sleek low bun', 'the stylist using a fine stainless tail comb to carve a razor-straight center parting before smoothing hair back into an immaculate low chignon with boar-bristle brush', '', 'hair_prep']
 ]);
 
 const prepPractitioners = makeOpts([
@@ -442,11 +450,39 @@ const prepEyeLooks = makeOpts([
 // ==========================================
 
 const prepCameras = makeOpts([
-  ['85mm f/1.4 intimate vanity portrait framing chest-up', 'shot on an 85mm f/1.4 portrait lens at chest-up beauty distance, keeping skin micro-pores, brush bristles, and hair strands razor-sharp against creamy studio bokeh'],
-  ['100mm f/2.8 extreme macro skin-texture & dropper/brush closeup', 'an intimate 100mm f/2.8 macro beauty framing tightly cropped on cheekbone sheen, liquid serum droplet or fine liner bristle, and natural iris/lash clarity'],
-  ['35mm backstage environmental candid framing full chair & counter', 'a 35mm behind-the-scenes environmental medium shot capturing the vanity table clutter, draped robe silhouette, and full room depth'],
-  ['Over-the-shoulder mirror perspective framing vanity scene', 'an intimate over-the-shoulder perspective looking cleanly past her shoulder toward the illuminated vanity reflection and crisp tool details'],
-  ['Sideways concealed-face 3/4 profile highlighting hair, jaw & bare shoulders', 'a discreet side-angle 3/4 profile where the model is turned away and her face stays naturally hidden from the lens, centering tactile skincare sheen, hair prep clips, and shoulder lighting']
+  // 🪞 Vanity & Bulbs (5)
+  ['🪞 Vanity POV · Direct Reflection Framed by Edison Bulbs', 'photographed squarely into the illuminated vanity mirror, framing the client evenly between warm bulb fixtures with soft optical depth', '', 'vanity'],
+  ['🪞 Vanity POV · Split-Diopter Model Eyes & Makeup Brushes', 'a split-diopter optical framing keeping both the soft makeup brushes in the extreme foreground and the model\'s expressive eyes in the vanity mirror tack-sharp', '', 'vanity'],
+  ['🪞 Vanity Profile · 45° Angle Capturing Profile & Glass', 'a dynamic 45-degree angle capturing both her direct side profile and her serene reflection in the illuminated mirror simultaneously', '', 'vanity'],
+  ['🪞 Vanity Angle · Symmetrical Ring-Light Eye Catchlights', 'a centered symmetrical beauty framing shot through a circular ring-light with luminous halo catchlights in her eyes', '', 'vanity'],
+  ['🪞 Vanity POV · Over-the-Shoulder Past Vanity Counter', 'an intimate over-the-shoulder perspective looking cleanly past her draped robe shoulder toward the glowing vanity mirror and skincare bottles', '', 'vanity'],
+
+  // 🔍 Macro Skincare & Glam (5)
+  ['🔍 Macro · 100mm f/2.8 Extreme Eye, Lash & Spoolie Detail', 'an intimate 100mm f/2.8 macro beauty framing tightly cropped on cheekbone sheen, fine mascara spoolie, and natural iris/lash clarity', '', 'macro'],
+  ['🔍 Macro · Dewy Hydrating Lip Balm & Gloss Application', 'an ultra-close macro detail focused on her plump parted lips as glistening peptide lip balm catches soft studio catchlights', '', 'macro'],
+  ['🔍 Macro · Glistening Facial Serum Bead & Micro-Pores', 'a tight macro close-up capturing a single crystal-clear botanical serum bead trickling down the glowing ridge of her cheekbone over natural skin pores', '', 'macro'],
+  ['🔍 Macro · Rose Quartz Gua Sha Gliding Across Jawline', 'a tactile macro perspective following a curved rose-quartz gua sha stone sculpting upward along her oiled jawline contour', '', 'macro'],
+  ['🔍 Macro · 24k Gold Hydrogel Under-Eye Patch Texture', 'a crisp macro detail shot resolving the shimmering texture of translucent 24k gold crescent patches beneath her serene eyes', '', 'macro'],
+
+  // 👤 Backstage & Eye-Level Portraits (5)
+  ['👤 Portrait · 85mm f/1.4 Intimate Chest-Up Vanity Bokeh', 'shot on an 85mm f/1.4 portrait lens at chest-up beauty distance, keeping skin micro-pores, brush bristles, and hair strands razor-sharp against creamy studio bokeh', '', 'portrait'],
+  ['👤 Portrait · 50mm Relaxed Backstage Dressing Nook Candid', 'a classic 50mm natural eye-level portrait capturing relaxed backstage composure and genuine candid beauty between steps', '', 'portrait'],
+  ['👤 Side Profile · Head Tilted Up 20° Bathing in Key Light', 'a clean side profile composition with chin raised 20 degrees, exposing her graceful throat, collarbone, and jawline contour to soft key light', '', 'portrait'],
+  ['👤 3/4 Candid · Hand Resting at Chin Gazing into Soft Light', 'a gentle three-quarter candid portrait showing the model resting her chin near relaxed fingertips, bathed in warm window glow', '', 'portrait'],
+  ['👤 Portrait · Sideways Concealed-Face 3/4 Profile', 'a discreet side-angle 3/4 profile where the model is turned away and her face stays naturally hidden from the lens, centering tactile skincare sheen, hair prep clips, and shoulder lighting', '', 'portrait'],
+
+  // 🧖 Spa Table & Reclining Perspectives (5)
+  ['🧖 Spa Table · Reclining Top-Down View on White Linens', 'a peaceful overhead top-down perspective looking directly down at the model reclining serenely on stacked crisp white spa linens', '', 'spa'],
+  ['🧖 Spa Table · 45° Profile Through Backlit Ozone Steam Mist', 'an atmospheric 45-degree profile shot through soft billowing ozone steam mist catching backlit morning window beams', '', 'spa'],
+  ['🧖 Spa Table · Aesthetician Hands POV Over Headrest', 'an intimate practitioner viewpoint looking directly past gentle manicured hands framing her closed-eye tranquil face from above the headrest', '', 'spa'],
+  ['🧖 Spa Table · Low Bed-Level Angle Framing Bare Shoulders', 'a low raking angle level with the plush spa mattress, emphasizing bare shoulders, collarbone hollows, and hydrating oil sheen', '', 'spa'],
+  ['🧖 Spa Table · Relaxed Eye Compresses & Towel Roll Support', 'a serene medium-close spa crop showing cool dampened rosewater cotton pads resting over closed lids with a supportive linen neck roll', '', 'spa'],
+
+  // 🎬 Atmospheric Wide & Ambient Angles (4)
+  ['🎬 Wide · Full Backstage Atelier Room with Wardrobe', 'a 35mm behind-the-scenes environmental medium shot capturing the vanity table clutter, draped robe silhouette, and full room depth', '', 'wide'],
+  ['🎬 Wide · Moody Luxury Hotel Suite Vanity with Warm Lamps', 'an ambient wide composition in a moody hotel dressing suite with glowing brass table lamps and velvet curtains in soft focus', '', 'wide'],
+  ['🎬 Wide · Sunlit Soho Industrial Loft Window Prep Station', 'a wide architectural framing showing tall black steel-framed loft windows streaming morning daylight across the vanity workstation', '', 'wide'],
+  ['🎬 Wide · 2.39:1 Anamorphic Widescreen Backstage Panorama', 'a wide cinematic 2.39:1 widescreen frame capturing the full length of the preparation studio with hair styling tools and ambient mirror lights', '', 'wide']
 ]);
 
 const prepLightings = makeOpts([
@@ -802,13 +838,52 @@ function goSection(secId){
   save();
 }
 
-function filterChoices(menu, q){
+const CAT_DISPLAY_NAMES = {
+  // Makeup Cameras
+  vanity: '🪞 Vanity & Bulbs',
+  macro: '🔍 Macro & Close-Up',
+  portrait: '👤 Eye-Level & Portraits',
+  spa: '🧖 Spa Table & Reclining',
+  wide: '🎬 Wide & Backstage',
+  // Actions
+  mua: '💄 MUA Application',
+  skincare: '✨ Skincare & Serums',
+  spa_ritual: '🧖 Spa Rituals & Steam',
+  solo: '🪞 Solo Vanity Touch-Up',
+  hair_prep: '💇 Hair Prep & Styling'
+};
+
+function formatCategoryName(cat){
+  if(CAT_DISPLAY_NAMES[cat]) return CAT_DISPLAY_NAMES[cat];
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function formatCategoryHeader(cat){
+  const name = formatCategoryName(cat).toUpperCase();
+  return `<span>${name}</span>`;
+}
+
+function filterChoices(menu, q, activeCat = 'all'){
   let shown = 0;
   const list = menu.querySelector('.option-list');
   [...list.querySelectorAll('.choice')].forEach(b => {
-    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    const textOk = !q || b.textContent.toLowerCase().includes(q.toLowerCase());
+    const catOk = (activeCat === 'all') || (b.dataset.cat === activeCat);
+    const ok = textOk && catOk;
     b.classList.toggle('hidden', !ok);
     if(ok) shown++;
+  });
+  list.querySelectorAll('.choice-group-header').forEach(header => {
+    let next = header.nextElementSibling;
+    let hasVisible = false;
+    while(next && !next.classList.contains('choice-group-header')){
+      if(next.classList.contains('choice') && !next.classList.contains('hidden')){
+        hasVisible = true;
+        break;
+      }
+      next = next.nextElementSibling;
+    }
+    header.classList.toggle('hidden', !hasVisible);
   });
   let no = menu.querySelector('.no-results');
   if(!shown){
@@ -957,12 +1032,75 @@ function createFieldElement(id, f){
 
   const list = menu.querySelector('.option-list');
 
+  // Category chips
+  const cats = [];
+  const seenCats = new Set();
+  visibleOpts.forEach(opt => {
+    if(opt.cat && opt.cat !== 'all' && !seenCats.has(opt.cat)){
+      seenCats.add(opt.cat);
+      cats.push(opt.cat);
+    }
+  });
+
+  if(cats.length >= 2){
+    const catBar = document.createElement('div');
+    catBar.className = 'select-category-bar';
+    const allChip = document.createElement('button');
+    allChip.type = 'button';
+    allChip.className = 'select-category-chip active';
+    allChip.dataset.cat = 'all';
+    allChip.textContent = `✦ All (${visibleOpts.length})`;
+    catBar.appendChild(allChip);
+
+    cats.forEach(c => {
+      const count = visibleOpts.filter(opt => opt.cat === c).length;
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'select-category-chip';
+      chip.dataset.cat = c;
+      chip.textContent = `${formatCategoryName(c)} (${count})`;
+      catBar.appendChild(chip);
+    });
+
+    catBar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.select-category-chip');
+      if(!chip) return;
+      catBar.querySelectorAll('.select-category-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const selectedCat = chip.dataset.cat || 'all';
+      const searchInp = menu.querySelector('.select-search');
+      filterChoices(menu, searchInp ? searchInp.value : '', selectedCat);
+    });
+    menu.insertBefore(catBar, list);
+  }
+
+  // Populate choices
+  let currentCat = null;
   visibleOpts.forEach(o => {
+    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
+      currentCat = o.cat;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = o.cat;
+      grp.innerHTML = formatCategoryHeader(o.cat);
+      list.appendChild(grp);
+    }
+
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
     b.dataset.index = f.opts.indexOf(o);
-    b.textContent = o.label;
+    if(o.cat) b.dataset.cat = o.cat;
+
+    if(o.label.includes(' · ')){
+      const [t, ...sub] = o.label.split(' · ');
+      b.innerHTML = `<span class="choice-title">${t}</span><span class="choice-subtitle">${sub.join(' · ')}</span>`;
+    } else if(o.label.includes(' — ')){
+      const [t, ...sub] = o.label.split(' — ');
+      b.innerHTML = `<span class="choice-title">${t}</span><span class="choice-subtitle">${sub.join(' — ')}</span>`;
+    } else {
+      b.innerHTML = `<span class="choice-title">${o.label}</span>`;
+    }
     b.addEventListener('click', () => {
       values[id] = o;
       if(id === 'prepLocationCategory' && o.text !== 'all'){
@@ -1015,14 +1153,20 @@ function createFieldElement(id, f){
       trigger.setAttribute('aria-expanded', 'true');
       const inp = menu.querySelector('input');
       inp.value = '';
-      filterChoices(menu, '');
+      const activeChip = menu.querySelector('.select-category-chip.active');
+      const cat = activeChip ? activeChip.dataset.cat : 'all';
+      filterChoices(menu, '', cat);
       inp.focus({ preventScroll: true });
       const sel = menu.querySelector('.choice.selected:not(.hidden)');
       if(sel) sel.scrollIntoView({ block: 'nearest' });
     }
   });
 
-  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  menu.querySelector('input').addEventListener('input', e => {
+    const activeChip = menu.querySelector('.select-category-chip.active');
+    const cat = activeChip ? activeChip.dataset.cat : 'all';
+    filterChoices(menu, e.target.value, cat);
+  });
   menu.querySelector('input').addEventListener('keydown', e => {
     if(e.key === 'Enter'){
       e.preventDefault();

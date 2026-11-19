@@ -147,7 +147,7 @@ ok('venue_kumartuli_exists', venues.some(o => o.label.includes('Kolkata Kumartul
 ok('venue_dubai_marina_exists', venues.some(o => o.label.includes('Dubai Marina High-Floor')));
 ok('venue_chettinad_exists', venues.some(o => o.label.includes('Chettinad Heritage Mansion')));
 
-// 2. Authentic Ritual Stages (16 Indian & Sensory moments)
+// 2. Authentic Ritual Stages (Expanded with Ayurvedic champi, wash basin, shears & blowout)
 const stages = api.getFields().salonStage.opts;
 ok('stage_champi_thapki_exists', stages.some(o => o.label.includes('Authentic Indian champi head massage with rhythmic thapki drumming')));
 ok('stage_fitkari_glide_exists', stages.some(o => o.label.includes('Natural fitkari (alum) crystal glide across freshly shaved nape hairline')));
@@ -155,6 +155,9 @@ ok('stage_flame_singeing_exists', stages.some(o => o.label.includes('Turkish fla
 ok('stage_shavette_lineup_exists', stages.some(o => o.label.includes('Precision shavette lineup')));
 ok('stage_talc_duster_exists', stages.some(o => o.label.includes('Horsehair talcum powder duster')));
 ok('stage_oster_wand_exists', stages.some(o => o.label.includes('Vibrating Oster shoulder massage wand')));
+ok('stage_brahmi_pour_exists', stages.some(o => o.label.includes('Warm Brahmi & Bhringraj oil crown pour')));
+ok('stage_turban_wrap_exists', stages.some(o => o.label.includes('Steaming herbal towel turban wrap')));
+ok('stage_silk_press_exists', stages.some(o => o.label.includes('High-tension round brush silk press')));
 
 // 3. Tactile Capes (10 new capes added)
 const capes = api.getFields().salonCape.opts;
@@ -164,14 +167,23 @@ ok('cape_phone_peek_exists', capes.some(o => o.label.includes('Clear-window phon
 ok('cape_glossy_vinyl_exists', capes.some(o => o.label.includes('heavy black vinyl industrial cape with water beading')));
 ok('cape_chalkstripe_exists', capes.some(o => o.label.includes('chalkstripe charcoal flannel')));
 
-// 4. Ritual Lotions & Skin Treatments (18 total)
+// 4. Ritual Lotions & Skin Treatments (22 total)
 const lotions = api.getFields().salonLotion.opts;
-ok('salon_lotions_count_18', lotions.length === 18, `lotions=${lotions.length}`);
+ok('salon_lotions_count_expanded', lotions.length >= 22, `lotions=${lotions.length}`);
 ok('lotion_sarson_tel_exists', lotions.some(o => o.label.includes('Sarson tel')));
 ok('lotion_fitkari_exists', lotions.some(o => o.label.includes('Fitkari (potash alum) block glide')));
 ok('lotion_chandan_exists', lotions.some(o => o.label.includes('Chandan')));
 ok('lotion_kolonya_exists', lotions.some(o => o.label.includes('Turkish 80° lemon kolonya')));
 ok('lotion_coconut_champi_exists', lotions.some(o => o.label.includes('Virgin coconut & fresh curry leaf champi')));
+ok('lotion_brahmi_exists', lotions.some(o => o.label.includes('Warm Brahmi & Bhringraj')));
+ok('lotion_hibiscus_exists', lotions.some(o => o.label.includes('Virgin coconut & ruby hibiscus')));
+
+// 4b. Salon Camera Expansion (48+ categorized setups)
+const salonCams = api.getFields().salonCamera.opts;
+ok('salon_cameras_expanded', salonCams.length >= 48, `cameras=${salonCams.length}`);
+ok('salon_cam_mirror_exists', salonCams.some(o => o.cat === 'mirror'));
+ok('salon_cam_macro_exists', salonCams.some(o => o.cat === 'macro'));
+ok('salon_cam_wash_exists', salonCams.some(o => o.cat === 'wash'));
 
 // 5. Herbal Oil Collision Guard Verification
 const sarsonOpt = lotions.find(o => o.label.includes('Sarson tel'));

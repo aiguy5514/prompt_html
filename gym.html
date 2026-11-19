@@ -401,18 +401,46 @@ const gymGearProps = makeOpts([
 // ==========================================
 
 const gymCameraAngles = makeOpts([
-  ['Natural eye-level candid perspective', 'a natural eye-level camera placement capturing an authentic perspective with honest human proportions and balanced depth'],
-  ['Heroic dynamic low-angle full-body perspective', 'a confident low-angle camera perspective positioned just above the floor, accentuating athletic height, posture, and power'],
-  ['Intimate close-up portrait catching sweat sheen', 'a tight portrait framing focusing closely on the model\'s face, throat, and collarbones, capturing fine sweat beads and breathing cadence'],
-  ['Side profile tracking muscular spine & posture', 'a clean side profile composition highlighting postural alignment, spinal curvature, and focused gaze'],
-  ['High-angle diagonal looking down at reformer/mat', 'an elevated high-angle perspective looking diagonally downward at the movement composition on the floor'],
-  ['Mirror reflection composition with real & virtual depth', 'an editorial framing utilizing the large studio mirror, showing the model both directly and through her sharp glass reflection']
+  // 🏋️ Floor & Low-Rake Angles (4)
+  ['🏋️ Floor Rake · Low Ground Angle Past Barbell & Chalk', 'a low-angle camera placement skimming the textured rubber floor right past Olympic barbell plates and chalk markings, looking upward at the athlete', '', 'floor'],
+  ['🏋️ Low Angle · Heroic Full-Body Upward Stature', 'a confident low-angle camera perspective positioned just above the floor, accentuating athletic height, posture, and statuesque power', '', 'floor'],
+  ['🏋️ Mat Level · Horizontal Floor Core Perspective', 'a horizontal floor-grazing perspective level with the pilates mat or turf, framing core planks, hip bridges, and floor stretches', '', 'floor'],
+  ['🏋️ Dumbbell Rack · Low Oblique Through Iron Tier', 'a low oblique perspective shot right through tiered hexagonal dumbbells in the foreground with the athlete resting poised in the background', '', 'floor'],
+
+  // 👤 Eye-Level & Athletic Portraits (4)
+  ['👤 Eye-Level · Natural 50mm Athletic Candid', 'a natural eye-level camera placement capturing an authentic perspective with honest human proportions, relaxed posture, and balanced depth', '', 'portrait'],
+  ['👤 Portrait · 85mm f/1.4 Focused Sweat Sheen & Jawline', 'a tight portrait framing focusing closely on the model\'s face, throat, and collarbones, capturing fine sweat beads and steady breathing cadence in creamy bokeh', '', 'portrait'],
+  ['👤 Side Profile · 90° Muscular Spinal Alignment', 'a clean side profile composition highlighting postural alignment, spinal curvature, and focused determined gaze', '', 'portrait'],
+  ['👤 3/4 Candid · Relaxed Stance Between Sets (Rest Pause)', 'a natural three-quarter candid portrait holding a water bottle or gym towel, capturing natural athletic composure between active sets', '', 'portrait'],
+
+  // 🪞 Mirror & Reflection Depth (3)
+  ['🪞 Mirror Depth · Frontal Stance + Rear Reflection', 'an editorial framing utilizing the large floor-to-ceiling studio mirror, showing the athlete both directly and through her sharp glass reflection', '', 'mirror'],
+  ['🪞 Mirror Angle · 45° Side Reflection in Lit Glass', 'a dynamic 45-degree angled perspective capturing the athlete\'s side profile and muscular back reflected in the illuminated studio mirror', '', 'mirror'],
+  ['🪞 Dual Mirror · Recursive Reflection Across Loft', 'a captivating double-mirror perspective with opposing studio mirrors creating infinite recursive depth and athletic architectural lines', '', 'mirror'],
+
+  // 🏃 Motion Tracking & Dynamic (4)
+  ['🏃 Motion Panning · Side Profile Tracking Sprint', 'a dynamic shutter-drag panning perspective tracking lateral movement along the treadmill or indoor sprint turf with crisp subject focus and blurred background streaks', '', 'motion'],
+  ['🏃 Dynamic 3/4 · Kinetic Angle Capturing Lift Descent', 'a dynamic three-quarter camera perspective catching the powerful apex and controlled descent of an athletic lift', '', 'motion'],
+  ['🏃 Dutch Tilt · 15° Dynamic Athletic Tension Angle', 'a kinetic 15-degree Dutch angle tilt adding high-energy editorial tension to high-intensity training or boxing glove strikes', '', 'motion'],
+  ['🏃 Cable Machine · Framing Through Pulley & Carabiner', 'an artistic composition framed through the polished steel cables and chrome carabiner of a functional cable station', '', 'motion'],
+
+  // 🧘 Overhead & Top-Down (3)
+  ['🧘 Top-Down · 90° Overhead Bird\'s-Eye Reformer/Mat', 'a clinical perpendicular top-down overhead perspective looking squarely down at the reformer carriage or yoga mat, highlighting geometric symmetry', '', 'overhead'],
+  ['🧘 High Angle · 45° Diagonal Down from Pull-Up Rig', 'an elevated high-angle perspective looking diagonally downward from pull-up rig height at the athlete performing floor movement below', '', 'overhead'],
+  ['🧘 Elevated Balcony · Wide Vantage Over Training Loft', 'a high wide vantage point shot from an elevated mezzanine balcony overlooking the open functional training floor and skylights', '', 'overhead'],
+
+  // 📸 POV & Spotter Perspectives (4)
+  ['📸 Spotter POV · 45° Over-the-Shoulder Looking at Bar', 'an intimate spotter perspective positioned right behind the bench press or squat rack, looking past shoulders down at the bar in motion', '', 'pov'],
+  ['📸 Coach POV · Standing Beside Platform Evaluating Form', 'a professional coach perspective standing inches from the lifting platform, evaluating knee tracking and neutral spine mechanics', '', 'pov'],
+  ['📸 Boxer POV · Looking Past Leather Gloves Toward Subject', 'a dynamic first-person boxing ring perspective shooting past the curved thumb and knuckles of raised leather training gloves', '', 'pov'],
+  ['🔍 Macro · Perspiration Beads & Chalked Knurled Steel', 'an ultra-close tactile macro shot resolving fine perspiration beads on skin and chalk-dusted fingertips gripping diamond-knurled steel', '', 'pov']
 ]);
 
 const gymCameraDistances = makeOpts([
   ['Full-body framing with floor & ceiling context', 'a full-body composition that shows the complete athlete from head to toe with rich architectural gym context'],
   ['Three-quarter athletic distance (knees to head)', 'a three-quarter portrait distance framing the body from knees up, balancing outfit details with expressive emotion'],
   ['Medium athletic distance (waist to head)', 'a medium portrait distance framing from the waist up, capturing upper-body muscular tone and focused expression'],
+  ['Tight chest-up portrait framing shoulders & throat', 'a close chest-up portrait framing toned shoulders, collarbones, and facial focus'],
   ['Close macro distance resolving dermal sweat texture', 'a tight macro distance resolving tactile skin pores, fine perspiration beads, and fabric weave texture']
 ]);
 
@@ -840,13 +868,53 @@ function goSection(secId){
   save();
 }
 
-function filterChoices(menu, q){
+const CAT_DISPLAY_NAMES = {
+  // Gym Cameras
+  floor: '🏋️ Floor & Low-Rake',
+  portrait: '👤 Eye-Level & Portraits',
+  mirror: '🪞 Mirror & Reflection Depth',
+  motion: '🏃 Motion Tracking & Dynamic',
+  overhead: '🧘 Overhead & Top-Down',
+  pov: '📸 Spotter POV & Macro',
+  // Venues
+  weight: '🏋️ Boutique Gyms',
+  pilates: '🧘 Reformer Studios',
+  boxing: '🥊 Boxing Boxes',
+  outdoor: '☀️ Outdoor & Beach',
+  recovery: '🧖 Saunas & Recovery'
+};
+
+function formatCategoryName(cat){
+  if(CAT_DISPLAY_NAMES[cat]) return CAT_DISPLAY_NAMES[cat];
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function formatCategoryHeader(cat){
+  const name = formatCategoryName(cat).toUpperCase();
+  return `<span>${name}</span>`;
+}
+
+function filterChoices(menu, q, activeCat = 'all'){
   let shown = 0;
   const list = menu.querySelector('.option-list');
   [...list.querySelectorAll('.choice')].forEach(b => {
-    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    const textOk = !q || b.textContent.toLowerCase().includes(q.toLowerCase());
+    const catOk = (activeCat === 'all') || (b.dataset.cat === activeCat);
+    const ok = textOk && catOk;
     b.classList.toggle('hidden', !ok);
     if(ok) shown++;
+  });
+  list.querySelectorAll('.choice-group-header').forEach(header => {
+    let next = header.nextElementSibling;
+    let hasVisible = false;
+    while(next && !next.classList.contains('choice-group-header')){
+      if(next.classList.contains('choice') && !next.classList.contains('hidden')){
+        hasVisible = true;
+        break;
+      }
+      next = next.nextElementSibling;
+    }
+    header.classList.toggle('hidden', !hasVisible);
   });
   let no = menu.querySelector('.no-results');
   if(!shown){
@@ -989,12 +1057,75 @@ function createFieldElement(id, f){
 
   const list = menu.querySelector('.option-list');
 
+  // Category chips
+  const cats = [];
+  const seenCats = new Set();
+  visibleOpts.forEach(opt => {
+    if(opt.cat && opt.cat !== 'all' && !seenCats.has(opt.cat)){
+      seenCats.add(opt.cat);
+      cats.push(opt.cat);
+    }
+  });
+
+  if(cats.length >= 2){
+    const catBar = document.createElement('div');
+    catBar.className = 'select-category-bar';
+    const allChip = document.createElement('button');
+    allChip.type = 'button';
+    allChip.className = 'select-category-chip active';
+    allChip.dataset.cat = 'all';
+    allChip.textContent = `✦ All (${visibleOpts.length})`;
+    catBar.appendChild(allChip);
+
+    cats.forEach(c => {
+      const count = visibleOpts.filter(opt => opt.cat === c).length;
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'select-category-chip';
+      chip.dataset.cat = c;
+      chip.textContent = `${formatCategoryName(c)} (${count})`;
+      catBar.appendChild(chip);
+    });
+
+    catBar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.select-category-chip');
+      if(!chip) return;
+      catBar.querySelectorAll('.select-category-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const selectedCat = chip.dataset.cat || 'all';
+      const searchInp = menu.querySelector('.select-search');
+      filterChoices(menu, searchInp ? searchInp.value : '', selectedCat);
+    });
+    menu.insertBefore(catBar, list);
+  }
+
+  // Populate choices
+  let currentCat = null;
   visibleOpts.forEach(o => {
+    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
+      currentCat = o.cat;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = o.cat;
+      grp.innerHTML = formatCategoryHeader(o.cat);
+      list.appendChild(grp);
+    }
+
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
     b.dataset.index = f.opts.indexOf(o);
-    b.textContent = o.label;
+    if(o.cat) b.dataset.cat = o.cat;
+
+    if(o.label.includes(' · ')){
+      const [t, ...sub] = o.label.split(' · ');
+      b.innerHTML = `<span class="choice-title">${t}</span><span class="choice-subtitle">${sub.join(' · ')}</span>`;
+    } else if(o.label.includes(' — ')){
+      const [t, ...sub] = o.label.split(' — ');
+      b.innerHTML = `<span class="choice-title">${t}</span><span class="choice-subtitle">${sub.join(' — ')}</span>`;
+    } else {
+      b.innerHTML = `<span class="choice-title">${o.label}</span>`;
+    }
     b.addEventListener('click', () => {
       values[id] = o;
       if(id === 'gymVenueCategory' && o.text !== 'all'){
@@ -1036,14 +1167,20 @@ function createFieldElement(id, f){
       trigger.setAttribute('aria-expanded', 'true');
       const inp = menu.querySelector('input');
       inp.value = '';
-      filterChoices(menu, '');
+      const activeChip = menu.querySelector('.select-category-chip.active');
+      const cat = activeChip ? activeChip.dataset.cat : 'all';
+      filterChoices(menu, '', cat);
       inp.focus({ preventScroll: true });
       const sel = menu.querySelector('.choice.selected:not(.hidden)');
       if(sel) sel.scrollIntoView({ block: 'nearest' });
     }
   });
 
-  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  menu.querySelector('input').addEventListener('input', e => {
+    const activeChip = menu.querySelector('.select-category-chip.active');
+    const cat = activeChip ? activeChip.dataset.cat : 'all';
+    filterChoices(menu, e.target.value, cat);
+  });
   menu.querySelector('input').addEventListener('keydown', e => {
     if(e.key === 'Enter'){
       e.preventDefault();

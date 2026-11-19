@@ -431,34 +431,43 @@ const tattooRevealingFits = makeOpts([
 ]);
 
 const tattooCameras = makeOpts([
-  ['Extreme Macro Close-Up (100mm f/2.8 Macro)', 'an extreme macro close-up shot with a 100mm f/2.8 Macro lens, focusing with razor-sharp fidelity on the individual tattoo lines, microscopic ink stippling, and natural skin pore texture, with creamy shallow depth-of-field falloff'],
-  ['Intimate 3/4 Beauty Portrait (85mm f/1.4)', 'an intimate 3/4 beauty portrait shot on an 85mm f/1.4 lens, keeping the model\'s candid facial profile softly visible in creamy bokeh while the tattoo on her bare skin is rendered with tack-sharp clarity'],
-  ['Low-Rake Glancing Side Angle', 'a low-angle glancing raking camera perspective skimming across the curve of the skin, capturing the light reflection glinting off the ointment sheen and revealing the subtle physical topography of the skin'],
-  ['High-Angle Downward Macro Crop', 'a high-angle top-down macro detail crop looking directly down at the anatomical contour and tattoo placement'],
-  ['Editorial Medium Crop with Silhouette Context', 'a high-fashion editorial medium shot with a 50mm f/1.2 lens, balancing the crisp detail of the body art with the model\'s elegant posture and draped garment context'],
-  ['Ultra-Macro 2:1 on Dermal Pores & Single-Needle Precision', 'an extreme 2:1 ultra-macro lens perspective capturing individual skin pores, microscopic pigment stipples, and razor-sharp single-needle line edges with microscopic depth'],
-  ['105mm f/1.4 Art Prime Intimate Beauty Framing', 'shot on a 105mm f/1.4 telephoto prime wide open, isolating the model\'s collarbone and tattoo in tack-sharp focus with buttery, painterly background bokeh'],
-  ['Top-Down 90-Degree Flat-Lay Architectural Crop', 'a clinical, geometric top-down 90-degree overhead angle looking squarely down at the anatomical placement and skeletal contour'],
-  ['Dutch Angle Raking Sidelight with Dynamic Tension', 'a stylish low-angled Dutch tilt perspective skimming across the skin, capturing dynamic diagonal lines and glancing specular highlights off ointment'],
-  ['Split-Diopter: Tack-Sharp Inking Hand & Model Profile', 'a split-diopter optical framing holding both the artist\'s gloved hand in extreme foreground and the model\'s profile in the background simultaneously tack-sharp'],
-  ['Over-the-Shoulder Past Gloved Knuckles POV', 'an intimate over-the-shoulder perspective looking past the black-gloved knuckles of the artist directly toward the tattooed skin surface'],
-  ['Handheld Brass Mirror Optical Reflection POV', 'a creative framing capturing the tattoo seen clearly reflected through a small antique brass handheld mirror tilted toward the camera'],
-  ['35mm Photojournalistic Documentary Snapshot', 'a natural 35mm photojournalism angle capturing the studio environment, natural ambient motion blur, and spontaneous unposed tattoo session reality'],
-  ['Cinematic 2.39:1 Anamorphic Widescreen Horizon', 'an anamorphic 2.39:1 widescreen framing with horizontal oval bokeh flares and rich cinematic studio atmosphere framing the model\'s silhouette'],
-  ['Low Hip-Level Oblique Perspective Looking Up', 'a low hip-level oblique camera angle looking upward along the curve of the torso, emphasizing tall posture, clavicle bone lines, and ink flow'],
-  ['Side-Profile Silhouette with Backlit Skin Rim', 'a crisp side-profile camera angle capturing the contour of the skin rim-lit against soft background daylight, highlighting fine dermal texture and ink contrast'],
-  ['Tight Beauty Crop: Lips, Jawline & Clavicle Ink', 'a tight vertical crop framing the model\'s parted lips, sculpted jawline, and the delicate tattoo resting on the collarbone below'],
-  ['Ground-Up Stylist Tray Foreground Bokeh Framing', 'a low perspective framed through the blurred silhouettes of tattoo ink caps and stencil bottles on the stainless steel tray in the immediate foreground'],
-  ['50mm f/1.2 Candid Portrait Balancing Face & Torso', 'a classic 50mm normal lens perspective at eye level, presenting natural human eye proportions without optical compression or wide distortion'],
-  ['Sideways Profile: Looking Away with Hand Shielding Face', 'a side-profile camera angle where the model is turned sideways looking away from the camera into the setting, with one hand casually raised to her temple or forehead to shield and conceal her face so her facial features are completely hidden, drawing full optical focus to her tattoo placement, bare skin contour, and hair silhouette'],
-  ['Turned Sideways Looking Away with Hair Concealing Face', 'a cinematic side-profile perspective capturing the model turned sideways facing away into the background, her thick hair falling forward naturally to completely obscure her face from the lens, framing the body art, anatomical curves, and environment with zero facial exposure'],
-  ['Sideways Profile: Model Turned Away Looking Into Scene', 'a side-profile camera angle capturing the model turned sideways looking away from the camera into the setting, her head turned away into the background so her face is not visible to the lens, retaining her natural hairstyle and focusing optical clarity on her body art placement, skin contour, and silhouette'],
-  ['Sideways flush 90-degree macro profile along body curvature', 'a flush 90-degree side-profile macro angle aligned squarely with the anatomical plane of the body, capturing the silhouette of the tattooed skin skimming against the studio background with micro-contrast precision'],
-  ['Sideways low oblique angle skimming across clavicle and ink', 'a low oblique raking side-angle skimming across the clavicle bone and ribcage from the side, accentuating the physical topography of bare skin and fine-line tattoo ink'],
-  ['Sideways over-the-armrest profile beauty crop', 'an intimate side-profile crop framed just above the leather studio bench armrest, holding the model\'s poised neckline and ink placement in tack-sharp focus with soft ambient room falloff'],
-  ['Sideways wide cinematic 35mm silhouette with studio daylight', 'a photojournalistic 35mm wide side-profile angle placing the model in natural side silhouette beside the floor-to-ceiling industrial window, bathed in soft side daylight'],
-  ['Sideways high-raking downward profile perspective', 'a high-angled raking downward camera view from the side, looking diagonally across the shoulder and flank to showcase tattoo alignment and authentic skin sheen'],
-  ['Sideways split-field lateral angle: artist\'s needle in foreground & model profile', 'a lateral split-field perspective holding the tattoo machine grip in the side foreground and the model\'s elegant side profile in the midground both with razor clarity']
+  // 🔍 Macro & Needlework (6)
+  ['🔍 Macro · Extreme 100mm f/2.8 Close-Up & Dermal Pores', 'an extreme macro close-up shot with a 100mm f/2.8 Macro lens, focusing with razor-sharp fidelity on the individual tattoo lines, microscopic ink stippling, and natural skin pore texture, with creamy shallow depth-of-field falloff', '', 'macro'],
+  ['🔍 Macro · Ultra-Macro 2:1 on Single-Needle Precision', 'an extreme 2:1 ultra-macro lens perspective capturing individual skin pores, microscopic pigment stipples, and razor-sharp single-needle line edges with microscopic depth', '', 'macro'],
+  ['🔍 Macro · High-Angle Downward Anatomical Crop', 'a high-angle top-down macro detail crop looking directly down at the anatomical contour and tattoo placement', '', 'macro'],
+  ['🔍 Macro · Top-Down 90° Flat-Lay Architectural Crop', 'a clinical, geometric top-down 90-degree overhead angle looking squarely down at the anatomical placement and skeletal contour', '', 'macro'],
+  ['🔍 Macro · Flush 90° Profile Along Body Curvature', 'a flush 90-degree side-profile macro angle aligned squarely with the anatomical plane of the body, capturing the silhouette of the tattooed skin skimming against the studio background with micro-contrast precision', '', 'macro'],
+  ['🔍 Macro · Split-Field Needle Grip & Model Profile', 'a lateral split-field perspective holding the tattoo machine grip in the side foreground and the model\'s elegant side profile in the midground both with razor clarity', '', 'macro'],
+
+  // 👤 Beauty Portrait & Silhouette (6)
+  ['👤 Portrait · Intimate 3/4 Beauty Framing (85mm f/1.4)', 'an intimate 3/4 beauty portrait shot on an 85mm f/1.4 lens, keeping the model\'s candid facial profile softly visible in creamy bokeh while the tattoo on her bare skin is rendered with tack-sharp clarity', '', 'portrait'],
+  ['👤 Portrait · 105mm f/1.4 Art Prime Intimate Framing', 'shot on a 105mm f/1.4 telephoto prime wide open, isolating the model\'s collarbone and tattoo in tack-sharp focus with buttery, painterly background bokeh', '', 'portrait'],
+  ['👤 Portrait · 50mm f/1.2 Candid Eye-Level Balance', 'a classic 50mm normal lens perspective at eye level, presenting natural human eye proportions without optical compression or wide distortion', '', 'portrait'],
+  ['👤 Portrait · Tight Beauty Crop (Lips, Jaw & Clavicle)', 'a tight vertical crop framing the model\'s parted lips, sculpted jawline, and the delicate tattoo resting on the collarbone below', '', 'portrait'],
+  ['👤 Portrait · Side-Profile Silhouette with Backlit Rim', 'a crisp side-profile camera angle capturing the contour of the skin rim-lit against soft background daylight, highlighting fine dermal texture and ink contrast', '', 'portrait'],
+  ['👤 Portrait · Sideways Profile with Hand Shielding Face', 'a side-profile camera angle where the model is turned sideways looking away from the camera into the setting, with one hand casually raised to her temple or forehead to shield and conceal her face so her facial features are completely hidden, drawing full optical focus to her tattoo placement, bare skin contour, and hair silhouette', '', 'portrait'],
+
+  // 📐 Raking & Dynamic Angles (6)
+  ['📐 Low Rake · Glancing Sidelight Across Skin Topography', 'a low-angle glancing raking camera perspective skimming across the curve of the skin, capturing the light reflection glinting off the ointment sheen and revealing the subtle physical topography of the skin', '', 'rake'],
+  ['📐 Low Oblique · Skimming Clavicle Bone & Ribcage', 'a low oblique raking side-angle skimming across the clavicle bone and ribcage from the side, accentuating the physical topography of bare skin and fine-line tattoo ink', '', 'rake'],
+  ['📐 Low Hip-Level · Upward Oblique Torso Angle', 'a low hip-level oblique camera angle looking upward along the curve of the torso, emphasizing tall posture, clavicle bone lines, and ink flow', '', 'rake'],
+  ['📐 Dutch Angle · Dynamic Tension & Specular Highlights', 'a stylish low-angled Dutch tilt perspective skimming across the skin, capturing dynamic diagonal lines and glancing specular highlights off ointment', '', 'rake'],
+  ['📐 High-Rake · Downward Diagonal Across Shoulder & Flank', 'a high-angled raking downward camera view from the side, looking diagonally across the shoulder and flank to showcase tattoo alignment and authentic skin sheen', '', 'rake'],
+  ['📐 Over-Armrest · Intimate Bench-Level Beauty Crop', 'an intimate side-profile crop framed just above the leather studio bench armrest, holding the model\'s poised neckline and ink placement in tack-sharp focus with soft ambient room falloff', '', 'rake'],
+
+  // 📸 Artist POV & Over-the-Shoulder (5)
+  ['📸 Artist POV · Past Gloved Knuckles Toward Needle', 'an intimate over-the-shoulder perspective looking past the black-gloved knuckles of the artist directly toward the tattooed skin surface', '', 'artist_pov'],
+  ['📸 Split-Diopter · Tack-Sharp Inking Hand & Model Profile', 'a split-diopter optical framing holding both the artist\'s gloved hand in extreme foreground and the model\'s profile in the background simultaneously tack-sharp', '', 'artist_pov'],
+  ['📸 Handheld Mirror · Antique Brass Secondary Angle POV', 'a creative framing capturing the tattoo seen clearly reflected through a small antique brass handheld mirror tilted toward the camera', '', 'artist_pov'],
+  ['📸 Tray Framing · Foreground Ink Caps & Stencil Bokeh', 'a low perspective framed through the blurred silhouettes of tattoo ink caps and stencil bottles on the stainless steel tray in the immediate foreground', '', 'artist_pov'],
+  ['📸 Over-Shoulder · Turned Sideways with Hair Concealing Face', 'a cinematic side-profile perspective capturing the model turned sideways facing away into the background, her thick hair falling forward naturally to completely obscure her face from the lens, framing the body art, anatomical curves, and environment with zero facial exposure', '', 'artist_pov'],
+
+  // 🎬 Wide Studio & Documentary (5)
+  ['🎬 Wide · 2.39:1 Anamorphic Studio Horizon', 'an anamorphic 2.39:1 widescreen framing with horizontal oval bokeh flares and rich cinematic studio atmosphere framing the model\'s silhouette', '', 'studio_wide'],
+  ['🎬 Wide · 35mm Photojournalistic Documentary Snapshot', 'a natural 35mm photojournalism angle capturing the studio environment, natural ambient motion blur, and spontaneous unposed tattoo session reality', '', 'studio_wide'],
+  ['🎬 Wide · 50mm Editorial Medium Crop with Drapes', 'a high-fashion editorial medium shot with a 50mm f/1.2 lens, balancing the crisp detail of the body art with the model\'s elegant posture and draped garment context', '', 'studio_wide'],
+  ['🎬 Wide · 35mm Side Silhouette in Industrial Daylight', 'a photojournalistic 35mm wide side-profile angle placing the model in natural side silhouette beside the floor-to-ceiling industrial window, bathed in soft side daylight', '', 'studio_wide'],
+  ['🎬 Wide · Model Turned Away into Ambient Loft Scene', 'a side-profile camera angle capturing the model turned sideways looking away from the camera into the setting, her head turned away into the background so her face is not visible to the lens, retaining her natural hairstyle and focusing optical clarity on her body art placement, skin contour, and silhouette', '', 'studio_wide']
 ]);
 
 const tattooLightings = makeOpts([
@@ -897,13 +906,46 @@ function goSection(secId){
   save();
 }
 
-function filterChoices(menu, q){
+const CAT_DISPLAY_NAMES = {
+  // Tattoo Cameras
+  macro: '🔍 Macro & Needlework',
+  portrait: '👤 Beauty Portrait & Silhouette',
+  rake: '📐 Raking & Dynamic Angles',
+  artist_pov: '📸 Artist POV & Over-Shoulder',
+  studio_wide: '🎬 Wide Studio & Documentary'
+};
+
+function formatCategoryName(cat){
+  if(CAT_DISPLAY_NAMES[cat]) return CAT_DISPLAY_NAMES[cat];
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function formatCategoryHeader(cat){
+  const name = formatCategoryName(cat).toUpperCase();
+  return `<span>${name}</span>`;
+}
+
+function filterChoices(menu, q, activeCat = 'all'){
   let shown = 0;
   const list = menu.querySelector('.option-list');
   [...list.querySelectorAll('.choice')].forEach(b => {
-    const ok = b.textContent.toLowerCase().includes(q.toLowerCase());
+    const textOk = !q || b.textContent.toLowerCase().includes(q.toLowerCase());
+    const catOk = (activeCat === 'all') || (b.dataset.cat === activeCat);
+    const ok = textOk && catOk;
     b.classList.toggle('hidden', !ok);
     if(ok) shown++;
+  });
+  list.querySelectorAll('.choice-group-header').forEach(header => {
+    let next = header.nextElementSibling;
+    let hasVisible = false;
+    while(next && !next.classList.contains('choice-group-header')){
+      if(next.classList.contains('choice') && !next.classList.contains('hidden')){
+        hasVisible = true;
+        break;
+      }
+      next = next.nextElementSibling;
+    }
+    header.classList.toggle('hidden', !hasVisible);
   });
   let no = menu.querySelector('.no-results');
   if(!shown){
@@ -1052,12 +1094,75 @@ function createFieldElement(id, f){
 
   const list = menu.querySelector('.option-list');
 
+  // Category chips
+  const cats = [];
+  const seenCats = new Set();
+  visibleOpts.forEach(opt => {
+    if(opt.cat && opt.cat !== 'all' && !seenCats.has(opt.cat)){
+      seenCats.add(opt.cat);
+      cats.push(opt.cat);
+    }
+  });
+
+  if(cats.length >= 2){
+    const catBar = document.createElement('div');
+    catBar.className = 'select-category-bar';
+    const allChip = document.createElement('button');
+    allChip.type = 'button';
+    allChip.className = 'select-category-chip active';
+    allChip.dataset.cat = 'all';
+    allChip.textContent = `✦ All (${visibleOpts.length})`;
+    catBar.appendChild(allChip);
+
+    cats.forEach(c => {
+      const count = visibleOpts.filter(opt => opt.cat === c).length;
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'select-category-chip';
+      chip.dataset.cat = c;
+      chip.textContent = `${formatCategoryName(c)} (${count})`;
+      catBar.appendChild(chip);
+    });
+
+    catBar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.select-category-chip');
+      if(!chip) return;
+      catBar.querySelectorAll('.select-category-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const selectedCat = chip.dataset.cat || 'all';
+      const searchInp = menu.querySelector('.select-search');
+      filterChoices(menu, searchInp ? searchInp.value : '', selectedCat);
+    });
+    menu.insertBefore(catBar, list);
+  }
+
+  // Populate choices
+  let currentCat = null;
   visibleOpts.forEach(o => {
+    if(cats.length >= 2 && o.cat && o.cat !== 'all' && o.cat !== currentCat){
+      currentCat = o.cat;
+      const grp = document.createElement('div');
+      grp.className = 'choice-group-header';
+      grp.dataset.cat = o.cat;
+      grp.innerHTML = formatCategoryHeader(o.cat);
+      list.appendChild(grp);
+    }
+
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'choice' + (values[id] === o ? ' selected' : '');
     b.dataset.index = f.opts.indexOf(o);
-    b.textContent = o.label;
+    if(o.cat) b.dataset.cat = o.cat;
+
+    if(o.label.includes(' · ')){
+      const [t, ...sub] = o.label.split(' · ');
+      b.innerHTML = `<span class="choice-title">${t}</span><span class="choice-subtitle">${sub.join(' · ')}</span>`;
+    } else if(o.label.includes(' — ')){
+      const [t, ...sub] = o.label.split(' — ');
+      b.innerHTML = `<span class="choice-title">${t}</span><span class="choice-subtitle">${sub.join(' — ')}</span>`;
+    } else {
+      b.innerHTML = `<span class="choice-title">${o.label}</span>`;
+    }
     b.addEventListener('click', () => {
       values[id] = o;
       if(id === 'tattooMotifCategory'){
@@ -1123,14 +1228,20 @@ function createFieldElement(id, f){
       trigger.setAttribute('aria-expanded', 'true');
       const inp = menu.querySelector('input');
       inp.value = '';
-      filterChoices(menu, '');
+      const activeChip = menu.querySelector('.select-category-chip.active');
+      const cat = activeChip ? activeChip.dataset.cat : 'all';
+      filterChoices(menu, '', cat);
       inp.focus({ preventScroll: true });
       const sel = menu.querySelector('.choice.selected:not(.hidden)');
       if(sel) sel.scrollIntoView({ block: 'nearest' });
     }
   });
 
-  menu.querySelector('input').addEventListener('input', e => filterChoices(menu, e.target.value));
+  menu.querySelector('input').addEventListener('input', e => {
+    const activeChip = menu.querySelector('.select-category-chip.active');
+    const cat = activeChip ? activeChip.dataset.cat : 'all';
+    filterChoices(menu, e.target.value, cat);
+  });
   menu.querySelector('input').addEventListener('keydown', e => {
     if(e.key === 'Enter'){
       e.preventDefault();
