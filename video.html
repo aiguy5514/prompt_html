@@ -1173,6 +1173,9 @@ function renderFields(){
 
   if(window.AfterglowRefPicker && activeSection === 'vidInputSec'){
     host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      if(window.AfterglowRefPicker?.getFaceMode() === 'ai_generated'){
+        checkState.noMorph = false;
+      }
       renderFields();
       buildPrompt();
     }));
@@ -1226,7 +1229,7 @@ function renderFields(){
         <div class="field-card" style="margin-top:16px;padding:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;">
           <h3 style="font-size:14px;margin:0 0 12px 0;color:#f1f5f9;">Temporal Continuity &amp; Anti-Morph Locks</h3>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-bottom:16px;">
-            <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkNoMorph" ${checkState.noMorph ? 'checked' : ''}> Lock Facial Identity Mid-Turn (Zero Morph)</label>
+            <label class="toggle-pill" style="display:${window.AfterglowRefPicker?.getFaceMode() === 'ai_generated' ? 'none' : 'flex'};align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkNoMorph" ${checkState.noMorph ? 'checked' : ''}> Lock Facial Identity Mid-Turn (Zero Morph)</label>
             <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkHairLock" ${checkState.hairLock ? 'checked' : ''}> Keep Exact Hair Length &amp; Cut Stable</label>
             <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkFingerLock" ${checkState.fingerLock ? 'checked' : ''}> Consistent Hands, Fingers &amp; Tool Grip</label>
             <label class="toggle-pill" style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;"><input type="checkbox" id="chkSolitary" ${checkState.solitaryRule ? 'checked' : ''}> Solitary Female Protagonist Rule</label>
@@ -1492,7 +1495,7 @@ function buildPrompt(){
   if(compactMotionMode){
     lines.push(`${val('vidPipelineMode')}. Duration: ${val('vidDuration')}, ${val('vidFramerate')}, ${val('vidFocalLens')}, aspect ${val('aspect')}.`);
     if(isAiFace){
-      lines.push(`Subject: Synthesize a fresh, autonomous AI-generated face; selectively transfer from reference photo: ${refDirectives.summaryText}. Wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
+      lines.push(`Subject: Synthesize a fresh, autonomous AI-generated face; selectively transfer from reference photo: ${refDirectives.summaryText || 'selected features'}. Wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
     } else {
       lines.push(`Subject: Preserve reference adult woman's Indian heritage identity seamlessly wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
     }
@@ -1973,7 +1976,20 @@ el('fab')?.addEventListener('click', () => copy(el('prompt').value));
 
 const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
 if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + '+ searchable motion options';
-load(); renderPresets(); renderTabs(); goSection(activeSection || 'vidInputSec'); buildPrompt();
+load();
+
+if(window.AfterglowRefPicker){
+  if(window.AfterglowRefPicker.getFaceMode() === 'ai_generated'){
+    checkState.noMorph = false;
+  }
+  if(typeof window.AfterglowRefPicker.addListener === 'function'){
+    window.AfterglowRefPicker.addListener(st => {
+      if(st && st.faceMode === 'ai_generated') checkState.noMorph = false;
+    });
+  }
+}
+
+renderPresets(); renderTabs(); goSection(activeSection || 'vidInputSec'); buildPrompt();
 
 window.AfterglowVideo = {
   getFields: () => fields, getValues: () => values, getCheckState: () => checkState,

@@ -1282,6 +1282,9 @@ function renderFields(){
 
   if(window.AfterglowRefPicker && activeSection === 'tattooSubjectSec'){
     host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      if(window.AfterglowRefPicker?.getFaceMode() === 'ai_generated'){
+        checkState.identity = false;
+      }
       renderFields();
       buildPrompt();
     }));
@@ -2519,6 +2522,18 @@ if(fabBtn) fabBtn.addEventListener('click', () => {
 const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
 if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + ' curated choices';
 load();
+
+if(window.AfterglowRefPicker){
+  if(window.AfterglowRefPicker.getFaceMode() === 'ai_generated'){
+    checkState.identity = false;
+  }
+  if(typeof window.AfterglowRefPicker.addListener === 'function'){
+    window.AfterglowRefPicker.addListener(st => {
+      if(st && st.faceMode === 'ai_generated') checkState.identity = false;
+    });
+  }
+}
+
 renderPresets();
 renderTabs();
 goSection(activeSection || 'tattooSubjectSec');

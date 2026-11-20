@@ -3684,6 +3684,9 @@ if(fineArea) fineArea.innerHTML='';
 
 if(window.AfterglowRefPicker && ((currentStudioMode === 'photoshoot' && activeSection === 'look') || (currentStudioMode === 'salon' && activeSection === 'salonHairSec'))){
   host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+    if(window.AfterglowRefPicker?.getFaceMode() === 'ai_generated'){
+      checkState.identity = false;
+    }
     renderFields();
     buildPrompt();
   }));
@@ -6006,7 +6009,9 @@ function buildSalonPrompt(){
 
   if(isFemaleModelBarber){
     lines.push('SOLITARY FEMALE PRACTITIONER & ALL-MALE ENVIRONMENT:');
-    lines.push('• Solitary Female Model (Barber): The adult female model from the reference image (acting as the skilled barber/practitioner) is strictly and exclusively the ONLY woman/girl in the entire image.');
+    lines.push(isAiFace
+      ? '• Solitary Female Model (Barber): The newly synthesized AI-generated female model (acting as the skilled barber/practitioner) is strictly and exclusively the ONLY woman/girl in the entire image.'
+      : '• Solitary Female Model (Barber): The adult female model from the reference image (acting as the skilled barber/practitioner) is strictly and exclusively the ONLY woman/girl in the entire image.');
     lines.push('• Seated Male Client: The person seated in the barber chair receiving grooming is strictly an adult male client.');
     lines.push('• All-Male Patrons & Apprentices: Any secondary customers in neighboring chairs, waiting on benches, or secondary shop assistants must strictly be male.');
     lines.push('• Exclude All Other Women: Absolutely zero secondary women, zero female clients, zero female customers, and zero other female staff anywhere in the background, shop interior, or mirrors.');
@@ -6054,9 +6059,15 @@ function buildSalonPrompt(){
       : 'Face Replacement & Styling Transfer: Create an authentic salon scene featuring a completely different adult woman with a newly synthesized face possessing independent facial architecture, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo';
   }
   if(isFemaleModelBarber){
-    lines.push(`${isAiFace ? aiSalonMode : mode}. ${outputText[outputType] || outputText.single} Capture the female model as the skilled barber executing an authentic grooming service on a male client with realistic salon details.`);
+    lines.push(`${isAiFace ? aiSalonMode : mode}. ${outputText[outputType] || outputText.single} Capture ${isAiFace ? 'this newly synthesized female model' : 'the female model'} as the skilled barber executing an authentic grooming service on a male client with realistic salon details.`);
   } else if(isAiFace){
-    lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene that strictly retains the full original look, hairstyle, styling, and atmosphere from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the client.`);
+    const activeFeatsCount = refDirectives?.activeFeatures?.length || 0;
+    if(activeFeatsCount === 8){
+      lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene that strictly retains the full original look, hairstyle, styling, and atmosphere from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the client.`);
+    } else {
+      const activeLabels = refDirectives?.activeFeatures?.map(k => window.AfterglowRefPicker?.FEATURES[k]?.label || k).join(', ') || 'selected styling features';
+      lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene featuring this newly synthesized female client, transferring strictly her selected reference elements [${activeLabels}], while establishing a completely independent facial identity and generating fresh custom salon styling for all unselected attributes.`);
+    }
   } else {
     lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
   }
@@ -6509,9 +6520,13 @@ function buildSalonPrompt(){
   }
   if(checkState.hairTexturePreserve || preserveHairTexture) {
     if(isFemaleModelBarber){
-      salonChecks.push("• Hair Texture Integrity: Maintain our female model's authentic natural Indian hair fiber, natural density, and organic shine, alongside authentic hair texture for the male client.");
+      salonChecks.push(isAiFace
+        ? "• Hair Texture Integrity: Render authentic natural hair strand texture, realistic fiber density, and organic shine on this newly synthesized female model, alongside authentic hair texture for the male client."
+        : "• Hair Texture Integrity: Maintain our female model's authentic natural Indian hair fiber, natural density, and organic shine, alongside authentic hair texture for the male client.");
     } else {
-      salonChecks.push("• Hair Texture Integrity: Maintain the client's authentic natural Indian hair fiber, natural density, and organic behavior without artificial smoothing or mismatched texture.");
+      salonChecks.push(isAiFace
+        ? "• Hair Texture Integrity: Render authentic natural hair strand texture, realistic fiber density, and organic behavior on this newly synthesized client without artificial smoothing or mismatched texture."
+        : "• Hair Texture Integrity: Maintain the client's authentic natural Indian hair fiber, natural density, and organic behavior without artificial smoothing or mismatched texture.");
     }
   }
   if(checkState.fabric) {
@@ -6524,7 +6539,9 @@ function buildSalonPrompt(){
 
   // Strict Solitary Female Model & Exclusive Male Staff / Solo Safeguard:
   if(isFemaleModelBarber){
-    salonChecks.push('• Exclusive Solitary Female Model & Male Client/Staff: The adult female model from the reference is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.');
+    salonChecks.push(isAiFace
+      ? '• Exclusive Solitary Female Model & Male Client/Staff: The newly synthesized AI-generated female model is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.'
+      : '• Exclusive Solitary Female Model & Male Client/Staff: The adult female model from the reference is strictly and exclusively the ONLY woman in the scene, acting as the skilled barber/groomer. The client in the chair and any secondary shop patrons or staff must strictly be male; zero other women in frame.');
   } else if(isSoloClient){
     salonChecks.push('• Exclusive Solo Female Client: The adult female client seated in the chair is strictly alone with zero stylists, barbers, or extra hands touching her hair.');
   } else {
@@ -6790,7 +6807,11 @@ if(checkState.hairStrands){
     checks.push('Render individual hair strands, believable volume, natural movement and subtle flyaways.');
   }
 }
-if(checkState.hairTexturePreserve || preserveHairTexture)checks.push('Strictly preserve the reference subject\'s natural organic hair texture, authentic strand density, natural fiber thickness, and organic straight-to-subtle-wave behavior; do not alter her natural hair texture into synthetic curls, artificial waves, or heavy blowout distortion.');
+if(checkState.hairTexturePreserve || preserveHairTexture){
+  checks.push(isPsAiFace
+    ? 'Render authentic natural hair strand texture, realistic fiber density, and organic wave/curl pattern faithfully transferred from the reference photo onto this newly synthesized model (do not substitute synthetic curls or artificial blowout distortion).'
+    : 'Strictly preserve the reference subject\'s natural organic hair texture, authentic strand density, natural fiber thickness, and organic straight-to-subtle-wave behavior; do not alter her natural hair texture into synthetic curls, artificial waves, or heavy blowout distortion.');
+}
 if(checkState.fabric)checks.push('Render realistic fabric weight, stitching, folds, seams, fit and garment behavior.');
 if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with natural hand placement.');
 if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');
@@ -7214,7 +7235,9 @@ if(detail==='full'){
 }else{
   lines.push('');
   lines.push('OUTPUT');
-  lines.push(`${outputText} Preserve identity, keep the bold styling and pose, and prioritize natural photorealism.`);
+  lines.push(isPsAiFace
+    ? `${outputText} Synthesize the distinct autonomous face, keep the bold styling and pose, and prioritize natural photorealism.`
+    : `${outputText} Preserve identity, keep the bold styling and pose, and prioritize natural photorealism.`);
 }
 
 if(harmonizePalette && extractedPalette.length > 0){
@@ -7903,6 +7926,19 @@ el('fab').addEventListener('click',()=>{
 }
 
 load();
+
+if(window.AfterglowRefPicker){
+  if(window.AfterglowRefPicker.getFaceMode() === 'ai_generated'){
+    checkState.identity = false;
+  }
+  if(typeof window.AfterglowRefPicker.addListener === 'function'){
+    window.AfterglowRefPicker.addListener(st => {
+      if(st && st.faceMode === 'ai_generated'){
+        checkState.identity = false;
+      }
+    });
+  }
+}
 
 if(window.location.hash === '#salon' || window.location.hash === '#photoshoot'){
   if(history.replaceState) history.replaceState(null, null, window.location.pathname);

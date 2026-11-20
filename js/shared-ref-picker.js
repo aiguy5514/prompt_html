@@ -402,12 +402,16 @@
     switch (feat) {
       case 'haircut':
         return isAi
-          ? 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo, draped and styled naturally around this newly synthesized face (strictly do not substitute with custom haircuts).'
+          ? 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo, draped and styled naturally around this newly synthesized face (strictly do not substitute with custom haircuts, and do not copy the reference face).'
           : 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo (strictly do not substitute with custom haircuts).';
       case 'hairTexture':
-        return 'Faithfully retain the authentic natural hair strand texture, thickness, follicle density, and organic wave/curl pattern directly from the reference photo.';
+        return isAi
+          ? 'Faithfully retain the authentic natural hair strand texture, thickness, follicle density, and organic wave/curl pattern directly from the reference photo, rendered cleanly on this newly synthesized model.'
+          : 'Faithfully retain the authentic natural hair strand texture, thickness, follicle density, and organic wave/curl pattern directly from the reference photo.';
       case 'hairColor':
-        return 'Match the exact original hair color, undertones, and highlights from the reference photo.';
+        return isAi
+          ? 'Match the exact original hair color, undertones, and highlights from the reference photo, applied to this newly synthesized model\'s hair.'
+          : 'Match the exact original hair color, undertones, and highlights from the reference photo.';
       case 'wardrobe':
         return 'Faithfully retain and replicate the exact original wardrobe, garments, tailoring, fabric weave, and color scheme worn in the reference photo (strictly do not substitute with custom garments).';
       case 'makeup':
@@ -442,6 +446,7 @@
     const isAiFace = (state.faceMode === 'ai_generated');
     const activeFeats = Object.keys(state.features).filter(k => state.features[k]);
     const hasAnyFeature = activeFeats.length > 0;
+    const isHairOnlySelection = isAiFace && hasAnyFeature && activeFeats.every(f => ['haircut', 'hairTexture', 'hairColor'].includes(f));
     const studio = opts.studio || 'photoshoot';
     const isFemaleModelBarber = !!opts.isFemaleModelBarber;
 
@@ -560,6 +565,15 @@
           '• Autonomous Styling: Synthesize a fresh, completely original appearance following all custom studio direction below, using zero reference photo elements.'
         );
       }
+
+      if (isHairOnlySelection) {
+        primaryBullets.push(
+          '• CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION: Only the specified hair attributes (haircut silhouette, strand texture, and hair color) are transferred from the reference photo onto this newly synthesized AI face. The woman\'s face visible in the reference photo must NOT be used: completely replace her eyes, eye shape, nose bridge, nostrils, lips, mouth, jawline, chin, and bone structure with an entirely new, independent adult woman\'s face possessing unique facial architecture. Strictly zero facial identity retention from the reference photo.'
+        );
+        negativeAdditions.push(
+          'original face from reference, reference photo face, reference image face, reference woman face, identical face to reference, face from reference photo, face from reference image, face likeness of reference woman, facial resemblance to reference subject, facial feature transfer from reference, reference facial bone structure, face preservation, identity retention'
+        );
+      }
     } else {
       if (isFemaleModelBarber) {
         primaryBullets.push(
@@ -586,21 +600,21 @@
     if (state.features.haircut) {
       primaryBullets.push(
         isAiFace
-          ? '• Hairstyle & Silhouette: Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image onto the new face.'
+          ? '• Hairstyle & Silhouette: Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image onto the new face (draped naturally around her new, independent facial anatomy; do not copy the reference face).'
           : '• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image.'
       );
     }
     if (state.features.hairTexture) {
       primaryBullets.push(
         isAiFace
-          ? '• Hair Texture & Density: Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image.'
+          ? '• Hair Texture & Density: Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image (rendered on this newly synthesized model).'
           : '• Hair Texture & Density (From Reference Photo): Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image.'
       );
     }
     if (state.features.hairColor) {
       primaryBullets.push(
         isAiFace
-          ? '• Hair Color: Match the exact natural hair color, undertones, and highlights shown in the reference image.'
+          ? '• Hair Color: Match the exact natural hair color, undertones, and highlights shown in the reference image (applied to this new model\'s hair).'
           : '• Hair Color (From Reference Photo): Match the exact natural hair color, undertones, and highlights shown in the reference image.'
       );
     }
@@ -638,6 +652,10 @@
       );
     }
 
+    const summaryText = activeFeats.length > 0
+      ? activeFeats.map(k => FEATURES[k]?.label || k).join(', ')
+      : 'autonomous styling';
+
     return {
       faceMode: state.faceMode,
       isAiFace,
@@ -648,6 +666,8 @@
       customFaceTraits: state.customFaceTraits,
       hasAnyFeature,
       activeFeatures: activeFeats,
+      isHairOnlySelection,
+      summaryText,
       headerPrefix,
       primaryBullets,
       negativeAdditions,

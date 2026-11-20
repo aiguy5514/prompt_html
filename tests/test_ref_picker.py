@@ -333,12 +333,31 @@ def run_all_studio_tests(browser):
       ok('lookbook_ai_face_no_same_adult_woman', !pLbConfig.includes('same adult woman'));
       ok('lookbook_ai_face_no_ref_identity_continuity', !pLbConfig.includes('Identical identity from reference'));
       ok('lookbook_ai_face_new_model_continuity', pLbConfig.includes('this newly synthesized adult model') || pLbConfig.includes('Consistent newly synthesized model identity'));
-      if(btnLookbook) btnLookbook.click();
+      const btnSingle = document.getElementById('btnSingleMode');
+      if(btnSingle) btnSingle.click();
       api.buildPrompt();
 
       // Test 1-click unlock
       rp.setFeature('haircut', false);
       ok('hair_unlocked_after_toggle', !rp.isFieldLocked('hair'));
+
+      // Test User Scenario 3: AI Generate Fresh Face with ONLY haircut, hairTexture, hairColor
+      rp.setFaceMode('ai_generated');
+      rp.setFeature('haircut', true);
+      rp.setFeature('hairTexture', true);
+      rp.setFeature('hairColor', true);
+      rp.setFeature('wardrobe', false);
+      rp.setFeature('makeup', false);
+      rp.setFeature('accessories', false);
+      rp.setFeature('pose', false);
+      rp.setFeature('background', false);
+      api.buildPrompt();
+      const pHairOnly = document.getElementById('prompt').value;
+      ok('hair_only_has_decoupling_bullet', pHairOnly.includes('CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION'));
+      ok('hair_only_no_preserve_adult_woman', !pHairOnly.includes('Strictly preserve the adult woman from the reference') && !pHairOnly.includes('Preserve the same adult woman'));
+      ok('hair_only_no_recognizable_facial_identity', !pHairOnly.includes('recognizable facial identity'));
+      ok('hair_only_no_ref_subject_hair_texture', !pHairOnly.includes("reference subject's natural organic hair texture"));
+      ok('hair_only_has_face_freedom_negs', pHairOnly.includes('original face from reference') && pHairOnly.includes('reference woman face'));
 
       // Restore defaults
       rp.applyPreset('clear');
@@ -385,6 +404,23 @@ def run_all_studio_tests(browser):
       ok('salon_full_look_no_builder_hair_collision', !pSalonFull.includes('shoulder-length bob with soft wispy bangs'));
       ok('salon_full_look_retains_ref_venue', pSalonFull.includes('Venue & Atmosphere: Faithfully maintain the exact original background environment'));
       ok('salon_full_look_no_creative_intent_contradiction', !pSalonFull.includes('preserving the same adult woman'));
+
+      // Test Hair-Only AI Face in Salon
+      rp.setFaceMode('ai_generated');
+      rp.setFeature('haircut', true);
+      rp.setFeature('hairTexture', true);
+      rp.setFeature('hairColor', true);
+      rp.setFeature('wardrobe', false);
+      rp.setFeature('makeup', false);
+      rp.setFeature('accessories', false);
+      rp.setFeature('pose', false);
+      rp.setFeature('background', false);
+      api.buildSalonPrompt();
+      const pSalonHairOnly = document.getElementById('prompt').value;
+      ok('salon_hair_only_has_decoupling_bullet', pSalonHairOnly.includes('CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION'));
+      ok('salon_hair_only_no_preserve_adult_woman', !pSalonHairOnly.includes('Strictly preserve the adult woman from the reference') && !pSalonHairOnly.includes('Preserve the same adult woman'));
+      ok('salon_hair_only_no_full_look_hallucination', !pSalonHairOnly.includes('strictly retains the full original look, hairstyle, styling, and atmosphere'));
+      ok('salon_hair_only_no_ref_subject_hair_texture', !pSalonHairOnly.includes("Maintain the client's authentic natural Indian hair fiber, natural density"));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');

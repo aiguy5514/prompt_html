@@ -1276,6 +1276,9 @@ function renderFields(){
 
   if(window.AfterglowRefPicker && activeSection === 'prepHairWardrobeSec'){
     host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      if(window.AfterglowRefPicker?.getFaceMode() === 'ai_generated'){
+        checkState.identity = false;
+      }
       renderFields();
       buildPrompt();
     }));
@@ -1680,7 +1683,9 @@ function buildPrompt(){
       });
     }
   }
-  lines.push('• Maintain her authentic natural Indian hair strand density and fiber behavior.');
+  lines.push(isAiFace
+    ? '• Maintain authentic natural hair strand density and fiber behavior (rendered on this newly synthesized model).'
+    : '• Maintain her authentic natural Indian hair strand density and fiber behavior.');
   if(prepHairMoisture === 'wet'){
     lines.push("• Mandatory Soaked Wet Hair Physics: The model's hair is thoroughly water-soaked and dripping wet—heavy dark wet hair ribbons clinging flush against her scalp, temples, and collarbone with glistening moisture sheen and zero dry fluffy flyaways.");
   } else if(prepHairMoisture === 'damp'){
@@ -2369,6 +2374,18 @@ el('fab')?.addEventListener('click', () => {
 const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
 if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + '+ curated choices';
 load();
+
+if(window.AfterglowRefPicker){
+  if(window.AfterglowRefPicker.getFaceMode() === 'ai_generated'){
+    checkState.identity = false;
+  }
+  if(typeof window.AfterglowRefPicker.addListener === 'function'){
+    window.AfterglowRefPicker.addListener(st => {
+      if(st && st.faceMode === 'ai_generated') checkState.identity = false;
+    });
+  }
+}
+
 renderPresets();
 renderTabs();
 goSection(activeSection || 'prepVenueSec');

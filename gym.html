@@ -1308,6 +1308,9 @@ function renderFields(){
 
   if(window.AfterglowRefPicker && activeSection === 'gymPhysiqueSec'){
     host.appendChild(window.AfterglowRefPicker.createRefPickerCard(() => {
+      if(window.AfterglowRefPicker?.getFaceMode() === 'ai_generated'){
+        checkState.identity = false;
+      }
       renderFields();
       buildPrompt();
     }));
@@ -1920,7 +1923,9 @@ function buildPrompt(){
       });
     }
   }
-  lines.push('• Maintain her authentic natural Indian hair strand density and athletic movement dynamics.');
+  lines.push(isAiFace
+    ? '• Maintain natural hair strand density and athletic movement dynamics (rendered on this newly synthesized model).'
+    : '• Maintain her authentic natural Indian hair strand density and athletic movement dynamics.');
   if(gymHairMoisture === 'wet'){
     lines.push("• Mandatory Soaked Wet Hair Physics: The model's hair is thoroughly sweat-soaked or post-workout shower damp—heavy dark wet hair strands clinging flush against her scalp, temples, and neck with glistening moisture sheen and zero dry flyaways.");
   } else if(gymHairMoisture === 'damp'){
@@ -2394,6 +2399,18 @@ el('fab')?.addEventListener('click', () => {
 const totalOptions = Object.values(fields).reduce((acc, f) => acc + (f.opts ? f.opts.length : 0), 0);
 if(el('totalOptionCount')) el('totalOptionCount').textContent = totalOptions.toLocaleString() + '+ curated choices';
 load();
+
+if(window.AfterglowRefPicker){
+  if(window.AfterglowRefPicker.getFaceMode() === 'ai_generated'){
+    checkState.identity = false;
+  }
+  if(typeof window.AfterglowRefPicker.addListener === 'function'){
+    window.AfterglowRefPicker.addListener(st => {
+      if(st && st.faceMode === 'ai_generated') checkState.identity = false;
+    });
+  }
+}
+
 renderPresets();
 renderTabs();
 goSection(activeSection || 'gymVenueSec');
