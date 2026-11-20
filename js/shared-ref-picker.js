@@ -173,7 +173,44 @@
   // Listeners
   const listeners = new Set();
 
+  function updateHeaderSessionPill() {
+    if (typeof document === 'undefined') return;
+    const topMeta = document.querySelector('.top-meta');
+    if (!topMeta) return;
+    let pill = document.getElementById('afterglowFaceStatusPill');
+    if (!pill) {
+      pill = document.createElement('span');
+      pill.id = 'afterglowFaceStatusPill';
+      pill.className = 'pill';
+      topMeta.appendChild(pill);
+    }
+    const isAi = (state.faceMode === 'ai_generated');
+    const activeFeats = Object.keys(state.features).filter(k => state.features[k]);
+    const isHairOnly = isAi && activeFeats.length > 0 && activeFeats.every(f => ['haircut', 'hairTexture', 'hairColor'].includes(f));
+
+    if (isHairOnly) {
+      pill.innerHTML = '✨ Hair-Only Transfer · Face Decoupled';
+      pill.style.background = 'rgba(168, 85, 247, 0.18)';
+      pill.style.borderColor = 'rgba(168, 85, 247, 0.35)';
+      pill.style.color = '#e9d5ff';
+      pill.title = 'AI Fresh Face mode active with hair attributes only. Reference face is completely decoupled with zero identity retention.';
+    } else if (isAi) {
+      pill.innerHTML = `✨ AI Fresh Face Active (${activeFeats.length} ref item${activeFeats.length === 1 ? '' : 's'})`;
+      pill.style.background = 'rgba(168, 85, 247, 0.15)';
+      pill.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+      pill.style.color = '#e9d5ff';
+      pill.title = 'AI Fresh Face mode active. Face and identity are newly synthesized autonomously.';
+    } else {
+      pill.innerHTML = '👤 Reference Face Active';
+      pill.style.background = '';
+      pill.style.borderColor = '';
+      pill.style.color = '';
+      pill.title = 'Reference Face mode active. Preserves facial identity from reference image.';
+    }
+  }
+
   function notify() {
+    updateHeaderSessionPill();
     listeners.forEach(cb => {
       try { cb(state); } catch (e) { console.error('RefPicker listener error:', e); }
     });
@@ -324,6 +361,13 @@
       case 'ai_face_hair':
         state.faceMode = 'ai_generated';
         Object.keys(state.features).forEach(k => { state.features[k] = (k === 'haircut'); });
+        break;
+      case 'ai_face_hair_only':
+      case 'ai_face_hair_bundle':
+        state.faceMode = 'ai_generated';
+        state.faceSynthesisMode = 'unrelated';
+        state.divergenceIntensity = 'dramatic';
+        Object.keys(state.features).forEach(k => { state.features[k] = (k === 'haircut' || k === 'hairTexture' || k === 'hairColor'); });
         break;
       case 'ai_face_clothes':
         state.faceMode = 'ai_generated';
@@ -510,7 +554,7 @@
       } else {
         // Unrelated Person (Default): 100% Face Swap, affirmative independent anatomy
         let intensityClause = '';
-        if (isDramatic) {
+        if (isDramatic || isHairOnlySelection) {
           switch (state.faceArchetype) {
             case 'soft_oval':
               intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring an unmistakably distinct soft oval silhouette, gentle rounded jaw contours, distinct rounded-almond eyes, and unique individual facial proportions.';
@@ -570,8 +614,14 @@
         primaryBullets.push(
           '• CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION: Only the specified hair attributes (haircut silhouette, strand texture, and hair color) are transferred from the reference photo onto this newly synthesized AI face. The woman\'s face visible in the reference photo must NOT be used: completely replace her eyes, eye shape, nose bridge, nostrils, lips, mouth, jawline, chin, and bone structure with an entirely new, independent adult woman\'s face possessing unique facial architecture. Strictly zero facial identity retention from the reference photo.'
         );
+        primaryBullets.push(
+          '• PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE): Even if the supplied reference photo is a tight close-up portrait, high-detail selfie, or beauty headshot with prominent facial features, you MUST aggressively decouple the face from the hair. Purge and discard all facial likeness from the reference image in the latent space; generate an unmistakably distinct woman with completely independent facial anatomy and authentic photographic skin micro-pores.'
+        );
+        primaryBullets.push(
+          '• Isolated Hair Transfer Boundary: Treat the hairline as a strict anatomical boundary. Hair strands, roots, and edges transfer with precision, while skin, forehead curvature, brow ridges, temples, and cheekbones underneath must be synthesized entirely fresh for this new model.'
+        );
         negativeAdditions.push(
-          'original face from reference, reference photo face, reference image face, reference woman face, identical face to reference, face from reference photo, face from reference image, face likeness of reference woman, facial resemblance to reference subject, facial feature transfer from reference, reference facial bone structure, face preservation, identity retention'
+          'original face from reference, reference photo face, reference image face, reference woman face, identical face to reference, face from reference photo, face from reference image, face likeness of reference woman, facial resemblance to reference subject, facial feature transfer from reference, reference facial bone structure, face preservation, identity retention, reference portrait likeness, same face as reference image, face bleed from reference photo, copying reference facial features, duplicate subject face, identical facial anatomy to reference'
         );
       }
     } else {
@@ -757,14 +807,18 @@
             <input type="text" class="ref-custom-input" id="refCustomFaceTraits" placeholder="Optional specific facial features (e.g. sharp jawline, beauty mark, deep hazel eyes)" value="${escapeHtml(state.customFaceTraits || '')}">
 
             <div class="ref-tip-box">
-              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-                <strong>💡 Pro-Tip for External Image Generators:</strong>
-                <span style="font-size: 9.5px; color: #a855f7; background: rgba(168,85,247,0.15); padding: 1px 6px; border-radius: 4px;">Fresh Face Setup Guide</span>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <strong>💡 External Image Generator Setup Guide:</strong>
+                  <span style="font-size: 9.5px; color: #a855f7; background: rgba(168,85,247,0.15); padding: 1px 6px; border-radius: 4px;">Prevent Face Bleed</span>
+                </div>
               </div>
               <div style="font-size: 10px; line-height: 1.45; color: #cbd5e1;">
-                • <strong>Avoid Face-Cloning Tools:</strong> Turn OFF FaceSwap, FaceID, or InstantID (which forcibly clone the reference face).<br>
-                • <strong>Transfer Hair &amp; Pose Cleanly:</strong> Use <em>Image Prompt / Style Conditioning</em> (weight 0.4–0.5) or <em>ControlNet (OpenPose)</em>. Do NOT use Character Reference with face-locking parameters.<br>
-                • <strong>Seed Stabilization:</strong> The prompt specifies strong distinct facial landmarks and negative tokens to guarantee a completely new person across seeds.
+                • <strong>Why Close-Up Photos Bleed:</strong> If your reference photo is a tight close-up portrait, the face dominates the latent image embedding. In addition to our built-in portrait-override directives, apply these tool settings:<br>
+                • <strong>Image Prompt Conditioning:</strong> Keep reference conditioning weight moderate (0.40–0.50, stop around 0.70–0.75). <em>Never</em> use face-swapping or face-cloning modules when you want a new face.<br>
+                • <strong>Reference Parameter Tuning:</strong> When using character or style reference parameters in external image tools, use style conditioning or set character weight to zero (0) so the engine transfers styling without locking the face.<br>
+                • <strong>Pose &amp; Structure Guidance:</strong> Use pose/skeleton guidance or depth conditioning for posture and hair boundaries rather than facial identity transfer.<br>
+                • <strong>Prompt Security:</strong> The studio prompt automatically injects high-priority face decoupling tokens, negative face tokens, and autonomous bone structure directives.
               </div>
             </div>
           </div>
@@ -793,6 +847,7 @@
             <span class="ref-presets-label">Quick Presets:</span>
             <div class="ref-presets-buttons">
               <button type="button" class="ref-preset-btn" data-preset="original_look_fresh_face">✨ Original Look + Fresh AI Face</button>
+              <button type="button" class="ref-preset-btn" data-preset="ai_face_hair_only">✨ New Face + Hair Only (Cut, Texture &amp; Color)</button>
               <button type="button" class="ref-preset-btn" data-preset="retain_full_reference">📷 Full Original Look + Ref Face</button>
               <button type="button" class="ref-preset-btn" data-preset="reset">✦ Default (Face only)</button>
               <button type="button" class="ref-preset-btn" data-preset="keep_hair">💇‍♀️ Keep Hair</button>
@@ -871,6 +926,13 @@
 
   // Initial load
   load();
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateHeaderSessionPill);
+    } else {
+      updateHeaderSessionPill();
+    }
+  }
 
   // Export public API
   root.AfterglowRefPicker = {
@@ -903,7 +965,8 @@
     load,
     addListener: (cb) => { listeners.add(cb); return () => listeners.delete(cb); },
     getPromptDirectives,
-    createRefPickerCard
+    createRefPickerCard,
+    updateHeaderSessionPill
   };
 
 })(typeof window !== 'undefined' ? window : this);

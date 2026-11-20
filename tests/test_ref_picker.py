@@ -354,10 +354,16 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pHairOnly = document.getElementById('prompt').value;
       ok('hair_only_has_decoupling_bullet', pHairOnly.includes('CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION'));
+      ok('hair_only_has_portrait_safe_directive', pHairOnly.includes('PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE)'));
+      ok('hair_only_has_hairline_boundary_directive', pHairOnly.includes('Isolated Hair Transfer Boundary'));
       ok('hair_only_no_preserve_adult_woman', !pHairOnly.includes('Strictly preserve the adult woman from the reference') && !pHairOnly.includes('Preserve the same adult woman'));
       ok('hair_only_no_recognizable_facial_identity', !pHairOnly.includes('recognizable facial identity'));
       ok('hair_only_no_ref_subject_hair_texture', !pHairOnly.includes("reference subject's natural organic hair texture"));
       ok('hair_only_has_face_freedom_negs', pHairOnly.includes('original face from reference') && pHairOnly.includes('reference woman face'));
+      ok('hair_only_has_portrait_negs', pHairOnly.includes('reference portrait likeness') && pHairOnly.includes('face bleed from reference photo'));
+      ok('hair_only_auto_dramatic_intensity', pHairOnly.includes('Mandatory dramatic face swap: total anatomical decoupling'));
+      const psPill = document.getElementById('afterglowFaceStatusPill');
+      ok('hair_only_session_pill_text', psPill && psPill.textContent.includes('Hair-Only Transfer · Face Decoupled'));
 
       // Restore defaults
       rp.applyPreset('clear');
@@ -418,9 +424,13 @@ def run_all_studio_tests(browser):
       api.buildSalonPrompt();
       const pSalonHairOnly = document.getElementById('prompt').value;
       ok('salon_hair_only_has_decoupling_bullet', pSalonHairOnly.includes('CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION'));
+      ok('salon_hair_only_has_portrait_safe_directive', pSalonHairOnly.includes('PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE)'));
+      ok('salon_hair_only_has_hairline_boundary_directive', pSalonHairOnly.includes('Isolated Hair Transfer Boundary'));
       ok('salon_hair_only_no_preserve_adult_woman', !pSalonHairOnly.includes('Strictly preserve the adult woman from the reference') && !pSalonHairOnly.includes('Preserve the same adult woman'));
       ok('salon_hair_only_no_full_look_hallucination', !pSalonHairOnly.includes('strictly retains the full original look, hairstyle, styling, and atmosphere'));
       ok('salon_hair_only_no_ref_subject_hair_texture', !pSalonHairOnly.includes("Maintain the client's authentic natural Indian hair fiber, natural density"));
+      const salPill = document.getElementById('afterglowFaceStatusPill');
+      ok('salon_hair_only_session_pill_text', salPill && salPill.textContent.includes('Hair-Only Transfer · Face Decoupled'));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');
