@@ -1279,6 +1279,7 @@ function buildPrompt(){
   if(reelMode){
     // 2-Shot Couple Video Clip Reel format
     if(isAiFace){
+      if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
       lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · HIGHWAY & INTIMACY SEQUENCE');
     } else {
       lines.push('CINEMATIC 2-SHOT COUPLE VIDEO REEL · HIGHWAY & INTIMACY SEQUENCE');
@@ -1310,6 +1311,7 @@ function buildPrompt(){
   } else {
     // Single editorial photograph format
     if(isAiFace){
+      if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
       lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · ROMANTIC & COUPLE EDITORIAL');
     } else {
       lines.push('CINEMATIC DUO PORTRAIT · ROMANTIC & COUPLE EDITORIAL');

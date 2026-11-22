@@ -1507,6 +1507,7 @@ function buildPrompt(){
     if(customDirection.trim()) lines.push(`Direction: ${customDirection.trim()}`);
   } else {
     if(isAiFace){
+      if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
       lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · CINEMA MOTION DIRECTOR');
     } else {
       lines.push('REFERENCE-GUIDED LIVE-ACTION VIDEO PROMPT · CINEMA MOTION DIRECTOR');

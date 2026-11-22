@@ -1714,6 +1714,7 @@ function buildPrompt(){
 
   // Header / Reference Subject preservation
   if(isAiFace){
+    if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
     lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · FINE-LINE TATTOO BEAUTY EDITORIAL');
   } else {
     lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · FINE-LINE TATTOO BEAUTY EDITORIAL');

@@ -1508,6 +1508,7 @@ function buildShotPrompt(det, globalCtx){
     : `• Reference Subject: Preserve identical adult Indian woman from reference (${globalCtx.hairCol}, haircut: ${globalCtx.hairLabel} — ${globalCtx.hairText}).`;
 
   const lines = [
+    (isAiFace && refDirectives?.frontLoadedSubject) ? refDirectives.frontLoadedSubject : '',
     shotHeader,
     '',
     'LOCKED SUBJECT & WORLD CONTINUITY:',
@@ -1661,6 +1662,7 @@ function buildPrompt(){
       ? `• Protagonist: ${refDirectives.primaryBullets[0]} (${hairCol}; cut: ${effSbHair}).`
       : `• Protagonist: Identical adult Indian woman from supplied reference image (${hairCol}; cut: ${effSbHair}).`;
     const gLines = [
+      (isAiFace && refDirectives?.frontLoadedSubject) ? refDirectives.frontLoadedSubject : '',
       gridTitle,
       '',
       'GLOBAL CAST & CONTINUITY SPINE (ALL PANELS):',

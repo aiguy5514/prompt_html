@@ -138,7 +138,9 @@
     ],
     pose: [
       'pose', 'poseCategory', 'tattooPose', 'romancePose', 'expression', 'gesture', 'mood',
-      'salonChairPose', 'tattooExpression', 'gymMovement', 'gymPhase', 'gymExpression'
+      'salonChairPose', 'salonBarberPose', 'salonExpression', 'salonIntimateHairAction', 'salonStoolModelPosture',
+      'prepPose', 'prepExpression', 'romanceExpression', 'vidFacialMicroMotion',
+      'tattooExpression', 'gymMovement', 'gymPhase', 'gymExpression'
     ],
     background: [
       'background', 'sceneCategory', 'placeDetail',
@@ -518,6 +520,7 @@
 
     const primaryBullets = [];
     const negativeAdditions = [];
+    let frontLoadedSubject = '';
 
     if (isAiFace) {
       const arch = FACE_ARCHETYPES[state.faceArchetype] || FACE_ARCHETYPES.auto;
@@ -526,6 +529,14 @@
       const customTraits = state.customFaceTraits
         ? ` Unique distinguishing facial details: ${state.customFaceTraits}.`
         : ` Distinct individual facial landmarks: ${DEFAULT_DISTINCT_TRAITS}.`;
+
+      if (state.faceSynthesisMode === 'sibling') {
+        frontLoadedSubject = `((A completely distinct female model, biological sister with unique facial architecture:1.35)), ${arch.tokens}.`;
+      } else if (state.faceSynthesisMode === 'reimagined') {
+        frontLoadedSubject = `((High-fashion editorial facial remodeling, sculpted runway supermodel architecture:1.35)), ${arch.tokens}.`;
+      } else {
+        frontLoadedSubject = `((A completely different female model, entirely new face, independent facial architecture, different person from any reference photo:1.4)), ${arch.tokens}.`;
+      }
 
       if (state.faceSynthesisMode === 'sibling') {
         // Sibling Variation: Biological sister with mandatory anatomical divergence
@@ -706,6 +717,9 @@
       ? activeFeats.map(k => FEATURES[k]?.label || k).join(', ')
       : 'autonomous styling';
 
+    const allNegs = Array.from(new Set(negativeAdditions.flatMap(n => n.split(',').map(s => s.trim())).filter(Boolean)));
+    const standaloneNegativePrompt = allNegs.join(', ');
+
     return {
       faceMode: state.faceMode,
       isAiFace,
@@ -719,8 +733,10 @@
       isHairOnlySelection,
       summaryText,
       headerPrefix,
+      frontLoadedSubject: isAiFace ? (frontLoadedSubject || '') : '',
       primaryBullets,
       negativeAdditions,
+      standaloneNegativePrompt,
       isLocked: isFieldLocked,
       isFieldInherited,
       getFieldText: getInheritedFieldText
@@ -965,6 +981,7 @@
     load,
     addListener: (cb) => { listeners.add(cb); return () => listeners.delete(cb); },
     getPromptDirectives,
+    getNegativePrompt: (opts) => getPromptDirectives(opts).standaloneNegativePrompt,
     createRefPickerCard,
     updateHeaderSessionPill
   };

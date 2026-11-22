@@ -1642,6 +1642,7 @@ function buildPrompt(){
   const isAiFace = refDirectives?.isAiFace;
 
   if(isAiFace){
+    if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
     lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · MAKEUP CHAIR & FACIAL SPA PREP');
   } else {
     lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · MAKEUP CHAIR & FACIAL SPA PREP');

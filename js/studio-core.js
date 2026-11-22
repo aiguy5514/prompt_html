@@ -5926,6 +5926,7 @@ function buildSalonPrompt(){
   const isAiFace = refDirectives?.isAiFace;
 
   if(isAiFace){
+    if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
     lines.push(`${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · AUTHENTIC SALON & BARBERSHOP SCENE`);
   } else if(isFemaleModelBarber){
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT' : 'REFERENCE-GUIDED PORTRAIT · FEMALE MODEL (BARBER) GROOMING MALE CLIENT');
@@ -6885,6 +6886,9 @@ if(isPsAiFace){
   dynamicHeader = 'REFERENCE-IMAGE EDIT · EDITORIAL CO-STAR & CREW PHOTOSHOOT';
 } else if(!mode.startsWith('Edit')){
   dynamicHeader = 'REFERENCE-GUIDED PORTRAIT · BOLD POST-MAKEOVER PHOTOSHOOT';
+}
+if(isPsAiFace && psRefDirectives?.frontLoadedSubject){
+  lines.push(psRefDirectives.frontLoadedSubject);
 }
 lines.push(dynamicHeader);
 lines.push('');

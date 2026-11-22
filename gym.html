@@ -1882,6 +1882,7 @@ function buildPrompt(){
   const isAiFace = refDirectives?.isAiFace;
 
   if(isAiFace){
+    if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
     lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · GYM & ATHLETIC FITNESS STUDIO');
   } else {
     lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · GYM & ATHLETIC FITNESS STUDIO');
