@@ -319,7 +319,9 @@ def run_all_studio_tests(browser):
       ok('unrelated_no_full_look_hallucination', !pUserConfig.includes('strictly retains the full original look, hairstyle, wardrobe, pose, and aesthetic environment'));
       ok('unrelated_has_neutral_makeup', pUserConfig.includes("fresh, natural editorial makeup tailored to this new model's distinct facial features"));
       ok('unrelated_has_neutral_acc', pUserConfig.includes("tasteful contemporary accessories chosen to complement the outfit (strictly zero reference jewelry or nose ring)"));
-      ok('unrelated_has_selective_intent', pUserConfig.includes("transferring strictly her selected reference elements [Hairstyle & Cut, Hair Texture, Hair Color, Pose & Stance]"));
+      ok('unrelated_has_selective_intent', pUserConfig.includes("transferring ONLY the explicitly selected reference attributes [Hairstyle & Cut, Hair Texture, Hair Color, Pose & Stance]"));
+      ok('unrelated_no_selected_placeholder', !pUserConfig.includes('selected styling features'));
+      ok('unrelated_no_unselected_wardrobe_retention', !pUserConfig.includes('strictly retaining all selected styling, wardrobe, and scene attributes'));
       ok('unrelated_skin_tone_decoupled', !pUserConfig.includes('Keep skin tone consistent with the reference image') && pUserConfig.includes('rendered on this newly synthesized model'));
       ok('unrelated_seed_stabilization_negs', pUserConfig.includes('cloned face') && pUserConfig.includes('artificial face twin') && pUserConfig.includes('digital face swap mask'));
 
@@ -343,6 +345,9 @@ def run_all_studio_tests(browser):
       ok('lookbook_ai_face_no_same_adult_woman', !pLbConfig.includes('same adult woman'));
       ok('lookbook_ai_face_no_ref_identity_continuity', !pLbConfig.includes('Identical identity from reference'));
       ok('lookbook_ai_face_new_model_continuity', pLbConfig.includes('this newly synthesized adult model') || pLbConfig.includes('Consistent newly synthesized model identity'));
+      ok('lookbook_ai_face_front_directive', pLbConfig.includes('REFERENCE IMAGE USAGE DIRECTIVE') && pLbConfig.includes('Treat her face as fully redacted'));
+      ok('lookbook_ai_face_anatomy_mandate', pLbConfig.includes('FULL AUTONOMOUS FACIAL ANATOMY'));
+      ok('lookbook_ai_face_dramatic_decoupling', pLbConfig.includes('no facial feature or proportion may be reused from the reference person'));
       const btnSingle = document.getElementById('btnSingleMode');
       if(btnSingle) btnSingle.click();
       api.buildPrompt();

@@ -5120,6 +5120,13 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
 
   const isAiFace = !!opts.isAiFace || window.AfterglowRefPicker?.getFaceMode() === 'ai_generated';
   const lbRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot' });
+  const lbFaceDirective = isAiFace ? (lbRefDirectives?.frontLoadedSubject || '') : '';
+  const lbFaceBullet = isAiFace ? (lbRefDirectives?.primaryBullets?.[0] || '').replace(/^•\s*/, '') : '';
+  // The lookbook/contact-sheet formats build their own shot bodies, so inject the
+  // same face-decoupling mandate that the single-image prompt gets. Without this,
+  // multi-shot prompts only carried an "AI-GENERATED FACE" header and the reference
+  // face could bleed back in.
+  if (lbFaceBullet) checks = [lbFaceBullet, ...checks];
   const isLbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
   const isLbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
   const isLbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
@@ -5166,7 +5173,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     : sanitizeHiddenFaceText(S(val('pose')), hideEyes, veilTier);
   let exprDesc = sanitizeHiddenFaceText(S(val('expression')), hideEyes, veilTier);
   if(isAiFace && (!lbRefDirectives?.faceSynthesisMode || lbRefDirectives.faceSynthesisMode === 'unrelated')){
-    exprDesc = exprDesc.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+    exprDesc = exprDesc.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughter|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
   }
   const gestDesc = val('gesture');
   const bgDesc = isLbRefBg
@@ -5211,7 +5218,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const finalizeLbRes = (resObj) => {
     if(isAiFace){
       Object.keys(resObj).forEach(k => {
-        resObj[k] = resObj[k]
+        resObj[k] = (lbFaceDirective ? lbFaceDirective + '\n\n' : '') + resObj[k]
           .replace(/the same adult woman/g, 'this newly synthesized adult model')
           .replace(/Identical identity from reference/g, 'Consistent newly synthesized model identity across all frames')
           .replace(/Exact same identity/g, 'Consistent newly synthesized model identity')
@@ -6066,19 +6073,20 @@ function buildSalonPrompt(){
   lines.push('CREATIVE INTENT');
   let aiSalonMode = mode;
   if(isAiFace){
-    aiSalonMode = mode.includes('Create a new photograph') || mode.includes('identity guidance')
-      ? 'Create a new photograph featuring a completely different adult woman with a newly synthesized face possessing independent facial architecture, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo'
-      : 'Face Replacement & Styling Transfer: Create an authentic salon scene featuring a completely different adult woman with a newly synthesized face possessing independent facial architecture, while faithfully retaining all selected styling, haircut, and scene attributes from the reference photo';
+    aiSalonMode = 'Create a brand-new salon photograph featuring a completely different adult woman with a newly synthesized face and independent facial architecture; do not use the reference person\'s face, facial identity, or face pixels as a starting point';
   }
   if(isFemaleModelBarber){
     lines.push(`${isAiFace ? aiSalonMode : mode}. ${outputText[outputType] || outputText.single} Capture ${isAiFace ? 'this newly synthesized female model' : 'the female model'} as the skilled barber executing an authentic grooming service on a male client with realistic salon details.`);
   } else if(isAiFace){
     const activeFeatsCount = refDirectives?.activeFeatures?.length || 0;
     if(activeFeatsCount === 8){
-      lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene that strictly retains the full original look, hairstyle, styling, and atmosphere from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the client.`);
+      lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Faithfully recreate the full original look—hairstyle, styling, and atmosphere—from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic face with a completely independent identity on the client.`);
     } else {
-      const activeLabels = refDirectives?.activeFeatures?.map(k => window.AfterglowRefPicker?.FEATURES[k]?.label || k).join(', ') || 'selected styling features';
-      lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene featuring this newly synthesized female client, transferring strictly her selected reference elements [${activeLabels}], while establishing a completely independent facial identity and generating fresh custom salon styling for all unselected attributes.`);
+      const activeLabels = refDirectives?.activeFeatures?.map(k => window.AfterglowRefPicker?.FEATURES[k]?.label || k).join(', ') || '';
+      const transferClause = activeFeatsCount > 0
+        ? `transferring ONLY the explicitly selected reference attributes [${activeLabels}] and generating fresh custom salon styling for every unselected attribute`
+        : 'using zero reference photo elements and generating the entire look from the custom salon direction';
+      lines.push(`${aiSalonMode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene featuring this newly synthesized female client, ${transferClause}, while establishing a completely independent facial identity.`);
     }
   } else {
     lines.push(`${mode}. ${outputText[outputType] || outputText.single} Capture an authentic salon and barbershop scene with realistic haircut progress and atmospheric shop details.`);
@@ -6134,7 +6142,7 @@ function buildSalonPrompt(){
   const qualityText = S(val('salonQuality'));
   let cleanSalonExpr = sanitizeHiddenFaceText(S(val('salonExpression')), hideEyes, salonVeilTier);
   if(isAiFace){
-    cleanSalonExpr = cleanSalonExpr.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm focused concentration and neutral closed lips (zero visible teeth)');
+    cleanSalonExpr = cleanSalonExpr.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughter|laughing|giggle/gi, 'calm focused concentration and neutral closed lips (zero visible teeth)');
   }
 
   if(isFemaleModelBarber){
@@ -6842,8 +6850,11 @@ if(checkState.hairStrands){
   }
 }
 if(checkState.hairTexturePreserve || preserveHairTexture){
+  const isAiHairTextureInherited = window.AfterglowRefPicker?.isFeatureInherited('hairTexture');
   checks.push(isPsAiFace
-    ? 'Render authentic natural hair strand texture, realistic fiber density, and organic wave/curl pattern faithfully transferred from the reference photo onto this newly synthesized model (do not substitute synthetic curls or artificial blowout distortion).'
+    ? (isAiHairTextureInherited
+        ? 'Render authentic natural hair strand texture, realistic fiber density, and organic wave/curl pattern faithfully transferred from the reference photo onto this newly synthesized model (do not substitute synthetic curls or artificial blowout distortion).'
+        : 'Render authentic natural hair strand texture, realistic fiber density, and organic wave/curl pattern freshly synthesized for this new model (not copied from the reference photo; do not substitute synthetic curls or artificial blowout distortion).')
     : 'Strictly preserve the reference subject\'s natural organic hair texture, authentic strand density, natural fiber thickness, and organic straight-to-subtle-wave behavior; do not alter her natural hair texture into synthetic curls, artificial waves, or heavy blowout distortion.');
 }
 if(checkState.fabric)checks.push('Render realistic fabric weight, stitching, folds, seams, fit and garment behavior.');
@@ -7014,9 +7025,7 @@ lines.push('');
 lines.push('CREATIVE INTENT');
 let aiPsMode = mode;
 if(isPsAiFace){
-  aiPsMode = mode.includes('Create a new photograph') || mode.includes('identity guidance')
-    ? 'Create a new photograph featuring a completely different adult woman with a newly synthesized face possessing independent facial architecture, while faithfully retaining all selected styling, wardrobe, and scene attributes from the reference photo'
-    : 'Face Replacement & Styling Transfer: Create a bold, candid fashion photoshoot featuring a completely different adult woman with a newly synthesized face possessing independent facial architecture, while strictly retaining all selected styling, wardrobe, and scene attributes from the reference photo';
+  aiPsMode = 'Create a brand-new photograph featuring a completely different adult woman with a newly synthesized face and independent facial architecture; do not use the reference person\'s face, facial identity, or face pixels as a starting point';
 }
 if(isFemaleGroomingMen){
   const groomerModelDesc = isPsAiFace ? 'this newly synthesized adult female model' : 'the same adult woman';
@@ -7024,10 +7033,13 @@ if(isFemaleGroomingMen){
 } else if(isPsAiFace){
   const activeFeatsCount = psRefDirectives?.activeFeatures?.length || 0;
   if(activeFeatsCount === 8){
-    lines.push(`${aiPsMode}. Capture a bold, confident, candid fashion photoshoot that strictly retains the full original look, hairstyle, wardrobe, pose, and aesthetic environment from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic AI-generated face on the subject. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
+    lines.push(`${aiPsMode}. Faithfully recreate the full original look—hairstyle, wardrobe, pose, and aesthetic environment—from the supplied reference photo, while seamlessly synthesizing a fresh, unique, photorealistic face with a completely independent identity. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
   } else {
-    const activeLabels = psRefDirectives?.activeFeatures?.map(k => window.AfterglowRefPicker?.FEATURES[k]?.label || k).join(', ') || 'selected styling features';
-    lines.push(`${aiPsMode}. Capture a bold, confident, candid fashion photoshoot featuring this newly synthesized female model, transferring strictly her selected reference elements [${activeLabels}], while establishing a completely independent facial identity and generating fresh custom styling for all unselected attributes. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
+    const activeLabels = psRefDirectives?.activeFeatures?.map(k => window.AfterglowRefPicker?.FEATURES[k]?.label || k).join(', ') || '';
+    const transferClause = activeFeatsCount > 0
+      ? `transferring ONLY the explicitly selected reference attributes [${activeLabels}] and generating fresh custom styling for every unselected attribute`
+      : 'using zero reference photo elements and generating the entire look from the custom studio direction';
+    lines.push(`${aiPsMode}. Capture a bold, confident, candid fashion photoshoot featuring this newly synthesized female model, ${transferClause}, while establishing a completely independent facial identity. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);
   }
 } else {
   lines.push(`${mode}. Capture the same adult woman just after her makeover, during a bold, confident, candid fashion photoshoot. Overall attitude: ${val('mood')}.${hasMalePresence ? ' The shoot features dynamic interactions with her male colleague / creative crew while strictly maintaining her as the sole woman in the frame.' : ''} Make it feel like a genuine moment between poses, with confident energy and natural personality.`);

@@ -533,11 +533,12 @@
         : ` Distinct individual facial landmarks: ${DEFAULT_DISTINCT_TRAITS}.`;
 
       // Multimodal natural-language instruction for vision models (addresses uploaded photo directly)
+      const scopeLabels = activeFeats.map(k => FEATURES[k]?.label || k);
       const multimodalScope = isHairOnlySelection
         ? 'hairstyle, hair texture, and hair color'
-        : (hasAnyFeature ? `selected styling attributes (${activeFeats.map(k => FEATURES[k]?.label || k).join(', ')})` : 'non-facial styling and posture');
+        : (hasAnyFeature ? `selected styling attributes (${scopeLabels.join(', ')}) — and body pose geometry only if Pose & Stance is selected` : 'non-facial styling and posture');
 
-      const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: ASSET ROLE: INANIMATE STYLING SWATCH ONLY. The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. Synthesize a COMPLETELY DIFFERENT woman with an independent facial phenotype: high cheekbones, almond eyes, sculpted jawline, neutral closed lips (zero visible teeth), and zero nose jewelry. A side-by-side comparison must unmistakably show two entirely different people.]`;
+      const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: ASSET ROLE: INANIMATE STYLING SWATCH ONLY. The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. Treat her face as fully redacted: do not use her facial pixels, facial identity embedding, character-reference lock, or face crop as a starting point. Synthesize a COMPLETELY DIFFERENT woman with an independent facial phenotype: high cheekbones, almond eyes, sculpted jawline, neutral closed lips (zero visible teeth), and zero nose jewelry. Build the new face from an independent anatomical specification so no eye spacing, nose length or width, lip shape, jaw angle, cheekbone placement, face width, or skin-tone pattern matches the reference. A side-by-side comparison must unmistakably show two entirely different people.]`;
 
       if (state.faceSynthesisMode === 'sibling') {
         frontLoadedSubject = `${multimodalDirective}\nA completely distinct female model, biological sister with unique personal facial architecture, ${arch.tokens}, neutral closed lips, calm composed gaze, zero visible teeth.`;
@@ -602,11 +603,15 @@
             break;
         }
 
+        const decouplingClause = (isDramatic || isHairOnlySelection)
+          ? ' Construct a visibly different identity with different eye shape and spacing, different nose length and width, different lip shape and mouth width, different jaw angle and chin shape, different cheekbone height and placement, and different face width; no facial feature or proportion may be reused from the reference person.'
+          : '';
+
         primaryBullets.push(
-          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): An entirely new female model, distinct unique face featuring ${arch.tokens}.${customTraits}${intensityClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
+          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): An entirely new female model, distinct unique face featuring ${arch.tokens}.${customTraits}${intensityClause}${decouplingClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
         );
         negativeAdditions.push(
-          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate facial geometry, artificial face twin, digital face swap mask, facial identity bleed, open mouth smile, visible teeth'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate facial geometry, artificial face twin, digital face swap mask, facial identity bleed, face transplant, identity transfer, facial embedding reuse, character reference face lock, lookalike, open mouth smile, visible teeth'
         );
       }
 

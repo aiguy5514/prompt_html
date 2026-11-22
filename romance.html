@@ -1257,7 +1257,7 @@ function buildPrompt(){
   const isAiFace = refDirectives?.isAiFace;
   let cleanRomExpr = hideEyes ? sanitizeHiddenFaceText(exprRaw, true, veilTier, obfuscMode) : exprRaw;
   if(isAiFace){
-    cleanRomExpr = cleanRomExpr.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+    cleanRomExpr = cleanRomExpr.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
   }
 
   const lines = [];
