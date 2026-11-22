@@ -65,7 +65,7 @@
       id: 'auto',
       label: '✨ Auto Distinct',
       shortLabel: 'Auto Distinct',
-      tokens: 'distinct high-fashion bone structure with defined cheekbones, ((sculpted facial anatomy: wide-set bright almond eyes with arched dark eyebrows:1.25)), ((slender straight nose with softly defined tip:1.2)), ((natural full lips with defined Cupid\'s bow:1.2)), ((clean tapered jawline and softly rounded chin:1.25))'
+      tokens: 'distinct high-fashion bone structure with defined cheekbones, ((sculpted facial anatomy: piercing horizontal eyes with refined eyelids:1.25)), ((slender straight nose bridge with crisp defined tip:1.2)), ((sculpted neutral lips with sharp Cupid\'s bow and firm closed mouth:1.3)), ((clean tapered architectural jawline and softly sculpted chin:1.25))'
     },
     chiseled: {
       id: 'chiseled',
@@ -535,7 +535,7 @@
       } else if (state.faceSynthesisMode === 'reimagined') {
         frontLoadedSubject = `((High-fashion editorial facial remodeling, sculpted runway supermodel architecture:1.4)), ${arch.tokens}.`;
       } else {
-        frontLoadedSubject = `((An entirely new female model, completely distinct individual woman, independent facial architecture, fresh unique person:1.45)), ${arch.tokens}.`;
+        frontLoadedSubject = `((An entirely new female model, completely distinct individual woman, independent facial architecture, fresh unique person:1.45)), ${arch.tokens}, ((closed mouth, neutral relaxed lips, calm composed gaze, zero visible teeth:1.35)).`;
       }
 
       if (state.faceSynthesisMode === 'sibling') {
@@ -598,7 +598,7 @@
           `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): ((An entirely new female model, distinct unique face:1.4)) featuring ${arch.tokens}.${customTraits}${intensityClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
         );
         negativeAdditions.push(
-          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed, open mouth smile, visible teeth, smiling teeth, grinning, parted lips revealing teeth'
         );
       }
 
@@ -626,13 +626,16 @@
           '• CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION: Only the specified hair attributes (haircut silhouette, strand texture, and hair color) are transferred from the source hair styling onto this newly synthesized AI face. Completely synthesize her eyes, eye shape, nose bridge, nostrils, lips, mouth, jawline, chin, and bone structure as an entirely new, independent adult woman\'s face possessing unique facial architecture. Strictly zero facial identity retention.'
         );
         primaryBullets.push(
-          '• PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE): Even if the supplied reference photo is a tight close-up portrait, high-detail selfie, or beauty headshot with prominent facial features, you MUST aggressively decouple the face from the hair. Purge and discard all facial likeness in the latent space; generate an unmistakably distinct woman with completely independent facial anatomy and authentic photographic skin micro-pores.'
+          '• PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE): Generate an unmistakably distinct woman with completely independent facial anatomy: ((sculpted bone structure, unique eye aperture, custom nose bridge, and firm closed mouth:1.35)) with authentic photographic skin micro-pores and realistic facial asymmetry.'
         );
         primaryBullets.push(
           '• Isolated Hair Transfer Boundary: Treat the hairline as a strict anatomical boundary. Hair strands, roots, and edges transfer with precision, while skin, forehead curvature, brow ridges, temples, and cheekbones underneath must be synthesized entirely fresh for this new model.'
         );
+        primaryBullets.push(
+          '• Autonomous Facial Expression: ((closed mouth, neutral relaxed lips, calm focused gaze, zero visible teeth:1.35)).'
+        );
         negativeAdditions.push(
-          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed, open mouth smile, visible teeth, smiling teeth, grinning, parted lips revealing teeth'
         );
       }
     } else {
@@ -749,6 +752,12 @@
     card.className = 'ref-picker-card';
     card.id = 'refPickerCard';
 
+    // Hair-Only Reference Sanitizer state
+    let sanitizerImg = null;
+    let sanitizerMaskCenter = { x: 0.5, y: 0.44 };
+    let sanitizerMaskRadius = { rx: 0.22, ry: 0.30 };
+    let sanitizerIsMasked = true;
+
     function renderContent() {
       const isAi = (state.faceMode === 'ai_generated');
       const activeCount = Object.values(state.features).filter(Boolean).length;
@@ -839,6 +848,37 @@
               <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
                 <button type="button" class="ref-preset-btn" id="btnRefCopyPositive" style="background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.4); color: #fff;">📋 Copy Clean Positive Only</button>
                 <button type="button" class="ref-preset-btn" id="btnRefCopyNegative" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5;">🚫 Copy Negative Exclusions</button>
+              </div>
+            </div>
+
+            <div class="ref-sanitizer-box" id="refSanitizerBox">
+              <div class="ref-sanitizer-head">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 14px;">🎭</span>
+                    <strong style="font-size: 11px; color: #6ee7b7;">Hair-Only Reference Sanitizer: 100% Guaranteed Face Bleed Fix</strong>
+                  </div>
+                  <span style="font-size: 9px; background: rgba(52,211,153,0.18); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.35); padding: 1px 6px; border-radius: 4px; font-weight: 600;">PURE HAIR REFERENCE</span>
+                </div>
+                <div style="font-size: 10px; color: #cbd5e1; margin-top: 3px; line-height: 1.4;">
+                  If your generator preserves her face despite the prompt, mask her face here. The external tool's vision encoder will see <strong>ONLY</strong> her hair, strand texture, and hair color, making it impossible to clone her face.
+                </div>
+              </div>
+              <div class="ref-sanitizer-body" style="margin-top: 8px;">
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                  <label class="ref-upload-btn" style="cursor: pointer; background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.4); padding: 5px 12px; border-radius: 6px; font-size: 11px; color: #a7f3d0; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                    <span>📁</span> Load Reference Photo
+                    <input type="file" id="refSanitizerInput" accept="image/*" style="display: none;">
+                  </label>
+                  <button type="button" class="ref-preset-btn" id="btnToggleMask" style="display: none; background: rgba(168,85,247,0.25); border: 1px solid rgba(168,85,247,0.5); color: #fff;">🎭 Toggle Mask</button>
+                  <button type="button" class="ref-preset-btn" id="btnMaskSizeDown" style="display: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ccc;">Size −</button>
+                  <button type="button" class="ref-preset-btn" id="btnMaskSizeUp" style="display: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ccc;">Size +</button>
+                  <button type="button" class="ref-preset-btn" id="btnDownloadSanitized" style="display: none; background: rgba(34,197,94,0.3); border: 1px solid rgba(34,197,94,0.6); color: #86efac; font-weight: 700;">💾 Download Sanitized Hair Photo</button>
+                </div>
+                <div id="refCanvasContainer" style="display: none; margin-top: 10px; text-align: center; background: rgba(0,0,0,0.5); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                  <canvas id="refSanitizerCanvas" style="max-width: 100%; max-height: 280px; border-radius: 6px; cursor: crosshair;"></canvas>
+                  <div style="font-size: 9.5px; color: #94a3b8; margin-top: 5px;">Click anywhere on the image to center the mask on her face. Click <strong>Download Sanitized Hair Photo</strong> and upload THAT image to your generator.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -966,6 +1006,121 @@
             if (navigator.clipboard) navigator.clipboard.writeText(negPrompt);
           }
         });
+      }
+
+      // Hair-Only Reference Sanitizer logic
+      const fileInput = card.querySelector('#refSanitizerInput');
+      const btnToggleMask = card.querySelector('#btnToggleMask');
+      const btnMaskSizeDown = card.querySelector('#btnMaskSizeDown');
+      const btnMaskSizeUp = card.querySelector('#btnMaskSizeUp');
+      const btnDownloadSanitized = card.querySelector('#btnDownloadSanitized');
+      const canvasContainer = card.querySelector('#refCanvasContainer');
+      const canvas = card.querySelector('#refSanitizerCanvas');
+
+      function drawSanitizer() {
+        if (!canvas || !sanitizerImg) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = sanitizerImg.width;
+        canvas.height = sanitizerImg.height;
+        ctx.drawImage(sanitizerImg, 0, 0);
+
+        if (sanitizerIsMasked) {
+          const cx = sanitizerMaskCenter.x * canvas.width;
+          const cy = sanitizerMaskCenter.y * canvas.height;
+          const rx = sanitizerMaskRadius.rx * canvas.width;
+          const ry = sanitizerMaskRadius.ry * canvas.height;
+
+          ctx.save();
+          const grad = ctx.createRadialGradient(cx, cy, Math.min(rx, ry) * 0.2, cx, cy, Math.max(rx, ry));
+          grad.addColorStop(0, 'rgba(15, 23, 42, 0.98)');
+          grad.addColorStop(0.85, 'rgba(15, 23, 42, 0.95)');
+          grad.addColorStop(1, 'rgba(15, 23, 42, 0.6)');
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
+          ctx.fill();
+
+          ctx.strokeStyle = 'rgba(52, 211, 153, 0.8)';
+          ctx.lineWidth = Math.max(2, canvas.width * 0.005);
+          ctx.setLineDash([8, 8]);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        if (btnToggleMask) btnToggleMask.style.display = 'inline-block';
+        if (btnMaskSizeDown) btnMaskSizeDown.style.display = 'inline-block';
+        if (btnMaskSizeUp) btnMaskSizeUp.style.display = 'inline-block';
+        if (btnDownloadSanitized) btnDownloadSanitized.style.display = 'inline-block';
+        if (canvasContainer) canvasContainer.style.display = 'block';
+      }
+
+      if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (revt) => {
+            const img = new Image();
+            img.onload = () => {
+              sanitizerImg = img;
+              sanitizerIsMasked = true;
+              drawSanitizer();
+            };
+            img.src = revt.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      if (canvas) {
+        canvas.addEventListener('click', (e) => {
+          if (!sanitizerImg) return;
+          const rect = canvas.getBoundingClientRect();
+          const scaleX = canvas.width / rect.width;
+          const scaleY = canvas.height / rect.height;
+          sanitizerMaskCenter.x = ((e.clientX - rect.left) * scaleX) / canvas.width;
+          sanitizerMaskCenter.y = ((e.clientY - rect.top) * scaleY) / canvas.height;
+          sanitizerIsMasked = true;
+          drawSanitizer();
+        });
+      }
+
+      if (btnToggleMask) {
+        btnToggleMask.addEventListener('click', () => {
+          sanitizerIsMasked = !sanitizerIsMasked;
+          drawSanitizer();
+        });
+      }
+
+      if (btnMaskSizeDown) {
+        btnMaskSizeDown.addEventListener('click', () => {
+          sanitizerMaskRadius.rx = Math.max(0.10, sanitizerMaskRadius.rx * 0.85);
+          sanitizerMaskRadius.ry = Math.max(0.12, sanitizerMaskRadius.ry * 0.85);
+          drawSanitizer();
+        });
+      }
+
+      if (btnMaskSizeUp) {
+        btnMaskSizeUp.addEventListener('click', () => {
+          sanitizerMaskRadius.rx = Math.min(0.45, sanitizerMaskRadius.rx * 1.15);
+          sanitizerMaskRadius.ry = Math.min(0.55, sanitizerMaskRadius.ry * 1.15);
+          drawSanitizer();
+        });
+      }
+
+      if (btnDownloadSanitized) {
+        btnDownloadSanitized.addEventListener('click', () => {
+          if (!canvas) return;
+          const link = document.createElement('a');
+          link.download = 'sanitized_hair_reference.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      }
+
+      if (sanitizerImg) {
+        drawSanitizer();
       }
     }
 

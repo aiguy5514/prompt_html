@@ -168,7 +168,8 @@ def test_static_markup():
         '.ref-shift-badge',
         '.ref-intensity-row',
         '.ref-intensity-btn',
-        '.ref-tip-box'
+        '.ref-tip-box',
+        '.ref-sanitizer-box'
     ]
     for c in css_classes:
         has_cls = c in css
@@ -364,6 +365,10 @@ def run_all_studio_tests(browser):
       const hairNegBlock = pHairOnly.split('AVOID / NEGATIVE GUIDANCE')[1] || '';
       ok('hair_only_zero_reference_affirming_negs', !hairNegBlock.includes('same face as reference') && !hairNegBlock.includes('face preservation'));
       ok('hair_only_auto_dramatic_intensity', pHairOnly.includes('Mandatory dramatic face swap: total anatomical decoupling'));
+      ok('hair_only_has_closed_mouth_expression', pHairOnly.includes('zero visible teeth') && pHairOnly.includes('neutral relaxed lips'));
+      ok('hair_only_has_smile_exclusions_in_negs', hairNegBlock.includes('open mouth smile') && hairNegBlock.includes('visible teeth'));
+      api.renderFields();
+      ok('ref_sanitizer_canvas_present', !!document.getElementById('refSanitizerCanvas'));
       const psPill = document.getElementById('afterglowFaceStatusPill');
       ok('hair_only_session_pill_text', psPill && psPill.textContent.includes('Hair-Only Transfer · Face Decoupled'));
 
@@ -431,6 +436,10 @@ def run_all_studio_tests(browser):
       ok('salon_hair_only_no_preserve_adult_woman', !pSalonHairOnly.includes('Strictly preserve the adult woman from the reference') && !pSalonHairOnly.includes('Preserve the same adult woman'));
       ok('salon_hair_only_no_full_look_hallucination', !pSalonHairOnly.includes('strictly retains the full original look, hairstyle, styling, and atmosphere'));
       ok('salon_hair_only_no_ref_subject_hair_texture', !pSalonHairOnly.includes("Maintain the client's authentic natural Indian hair fiber, natural density"));
+      ok('salon_hair_only_has_closed_mouth_expression', pSalonHairOnly.includes('zero visible teeth'));
+      const salNegBlock = pSalonHairOnly.split('AVOID / NEGATIVE GUIDANCE')[1] || '';
+      ok('salon_hair_only_has_smile_exclusions_in_negs', salNegBlock.includes('visible teeth'));
+      ok('salon_hair_only_no_smile_in_prompt', !pSalonHairOnly.split('AVOID / NEGATIVE GUIDANCE')[0].includes('subtle self-assured smile'));
       const salPill = document.getElementById('afterglowFaceStatusPill');
       ok('salon_hair_only_session_pill_text', salPill && salPill.textContent.includes('Hair-Only Transfer · Face Decoupled'));
 

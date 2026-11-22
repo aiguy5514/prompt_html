@@ -5119,6 +5119,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const S = t => (checkState.noMirror && typeof sanitizeMirrorProse === 'function') ? sanitizeMirrorProse(t) : t;
 
   const isAiFace = !!opts.isAiFace || window.AfterglowRefPicker?.getFaceMode() === 'ai_generated';
+  const lbRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot' });
   const isLbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
   const isLbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
   const isLbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
@@ -5163,7 +5164,10 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const poseDesc = isLbRefPose
     ? window.AfterglowRefPicker.getInheritedFieldText('pose')
     : sanitizeHiddenFaceText(S(val('pose')), hideEyes, veilTier);
-  const exprDesc = sanitizeHiddenFaceText(S(val('expression')), hideEyes, veilTier);
+  let exprDesc = sanitizeHiddenFaceText(S(val('expression')), hideEyes, veilTier);
+  if(isAiFace && (!lbRefDirectives?.faceSynthesisMode || lbRefDirectives.faceSynthesisMode === 'unrelated')){
+    exprDesc = exprDesc.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+  }
   const gestDesc = val('gesture');
   const bgDesc = isLbRefBg
     ? window.AfterglowRefPicker.getInheritedFieldText('background')
@@ -5194,7 +5198,6 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     ? 'capturing the same adult woman as the active barber/groomer performing relaxing grooming services for her seated male partner'
     : 'immediately post-makeover';
 
-  const lbRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot' });
   const dedupedNegs = dedupeNegatives(negatives);
   const negsText = (Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '';
   const lbPrefix = isAiFace
@@ -6121,7 +6124,10 @@ function buildSalonPrompt(){
   const stylistText = S(val('salonStylist'));
   const lightingText = S(val('salonLighting'));
   const qualityText = S(val('salonQuality'));
-  const cleanSalonExpr = sanitizeHiddenFaceText(S(val('salonExpression')), hideEyes, salonVeilTier);
+  let cleanSalonExpr = sanitizeHiddenFaceText(S(val('salonExpression')), hideEyes, salonVeilTier);
+  if(isAiFace && (!refDirectives?.faceSynthesisMode || refDirectives.faceSynthesisMode === 'unrelated')){
+    cleanSalonExpr = cleanSalonExpr.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm focused concentration and neutral closed lips (zero visible teeth)');
+  }
 
   if(isFemaleModelBarber){
     lines.push('GROOMING SERVICE & BARBER ARTISAN ACTION');
@@ -7079,7 +7085,10 @@ if(isRefWardrobe){
   lines.push(`Outfit: ${outfitSummary}. Garment fit: ${val('outfitFit')}. Accessories: ${accDirective}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
 }
 lines.push('');
-const exprCleaned = sanitizeHiddenFaceText(S(val('expression')), hideEyes, psTier);
+let exprCleaned = sanitizeHiddenFaceText(S(val('expression')), hideEyes, psTier);
+if(isPsAiFace && (!psRefDirectives?.faceSynthesisMode || psRefDirectives.faceSynthesisMode === 'unrelated')){
+  exprCleaned = exprCleaned.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+}
 const poseCleaned = sanitizeHiddenFaceText(S(val('pose')), hideEyes, psTier);
 if(isRefPose){
   lines.push('POSE AND EXPRESSION');

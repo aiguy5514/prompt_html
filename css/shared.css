@@ -864,6 +864,22 @@
   color: #f3e8ff;
 }
 
+.ref-sanitizer-box {
+  margin-top: 10px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.ref-sanitizer-head strong {
+  color: #6ee7b7;
+}
+
+.ref-upload-btn:hover {
+  background: rgba(52, 211, 153, 0.25) !important;
+}
+
 /* Applied preset diff banner */
 .applied-preset-diff {
   display: flex;
