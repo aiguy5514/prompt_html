@@ -137,10 +137,10 @@
       'gymFootwear', 'gymGearProp'
     ],
     pose: [
-      'pose', 'poseCategory', 'tattooPose', 'romancePose', 'expression', 'gesture', 'mood',
-      'salonChairPose', 'salonBarberPose', 'salonExpression', 'salonIntimateHairAction', 'salonStoolModelPosture',
-      'prepPose', 'prepExpression', 'romanceExpression', 'vidFacialMicroMotion',
-      'tattooExpression', 'gymMovement', 'gymPhase', 'gymExpression'
+      'pose', 'poseCategory', 'tattooPose', 'romancePose', 'gesture', 'mood',
+      'salonChairPose', 'salonBarberPose', 'salonIntimateHairAction', 'salonStoolModelPosture',
+      'prepPose', 'vidFacialMicroMotion',
+      'gymMovement', 'gymPhase'
     ],
     background: [
       'background', 'sceneCategory', 'placeDetail',
@@ -469,7 +469,9 @@
           ? 'Style contemporary jewelry harmonized with the wardrobe (earrings and delicate accents), fitted naturally onto this new model\'s distinct proportions (strictly do not copy nose piercings, facial jewelry, or facial marks from the reference photo).'
           : 'Faithfully retain all signature jewelry, piercings, earrings, and accessories visible in the reference photo.';
       case 'pose':
-        return 'Faithfully mirror the subject\'s exact original body pose, shoulder orientation, head angle, and stance from the reference photo.';
+        return isAi
+          ? 'Faithfully mirror the subject\'s body posture and stance from the reference photo, while positioning this newly synthesized model\'s head and neck naturally with independent facial orientation (distinct head angle and independent jawline posture; zero facial identity transfer).'
+          : 'Faithfully mirror the subject\'s exact original body pose, shoulder orientation, head angle, and stance from the reference photo.';
       case 'background':
         return 'Faithfully maintain the exact original background environment, room setting, and architectural ambiance from the reference photo.';
       default:
@@ -535,7 +537,7 @@
         ? 'hairstyle, hair texture, and hair color'
         : (hasAnyFeature ? `selected styling attributes (${activeFeats.map(k => FEATURES[k]?.label || k).join(', ')})` : 'non-facial styling and posture');
 
-      const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. The generated model must have an entirely distinct, newly synthesized facial identity with unique bone structure.]`;
+      const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: ASSET ROLE: INANIMATE STYLING SWATCH ONLY. The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. Synthesize a COMPLETELY DIFFERENT woman with an independent facial phenotype: high cheekbones, almond eyes, sculpted jawline, neutral closed lips (zero visible teeth), and zero nose jewelry. A side-by-side comparison must unmistakably show two entirely different people.]`;
 
       if (state.faceSynthesisMode === 'sibling') {
         frontLoadedSubject = `${multimodalDirective}\n((A completely distinct female model, biological sister with unique personal facial architecture:1.4)), ${arch.tokens}.`;
@@ -572,33 +574,32 @@
       } else {
         // Unrelated Person (Default): 100% Face Swap, affirmative independent anatomy
         let intensityClause = '';
-        if (isDramatic || isHairOnlySelection) {
-          switch (state.faceArchetype) {
-            case 'soft_oval':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring an unmistakably distinct soft oval silhouette, gentle rounded jaw contours, distinct rounded-almond eyes, and unique individual facial proportions.';
-              break;
-            case 'round':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring distinctly soft rounded facial contours, gently curved jawline, large expressive bright rounded eyes, and natural full lips.';
-              break;
-            case 'heart':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a delicate tapered chin, high arched brows, radiant expressive wide doe eyes, and softly defined cheekbones.';
-              break;
-            case 'square':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring a bold high-fashion square jawline with clean angular bone structure, piercing editorial gaze, and sculpted cheek contours.';
-              break;
-            case 'diamond':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring wide prominent cheekbones, narrow refined temple planes, and a sharp tapered chin.';
-              break;
-            case 'chiseled':
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling featuring extreme high-fashion bone architecture with sharp prominent cheekbones, razor-sharp jawline definition, and piercing wide-set eyes.';
-              break;
-            case 'auto':
-            default:
-              intensityClause = ' Mandatory dramatic face swap: total anatomical decoupling with pronounced facial plane contrast, sculpted high-fashion cheekbones, wide-set luminous eyes with distinct orbital depth, a slender sculpted nasal bridge, and an elegant tapered jawline.';
-              break;
-          }
-        } else {
-          intensityClause = ' Render distinct, natural facial geometry with an independently proportioned jawline, custom eyelid contour, and unique facial symmetry.';
+        const prefix = (isDramatic || isHairOnlySelection)
+          ? ' Mandatory dramatic face swap: total anatomical decoupling'
+          : ' Distinct autonomous facial architecture: complete anatomical decoupling';
+        switch (state.faceArchetype) {
+          case 'soft_oval':
+            intensityClause = `${prefix} featuring an unmistakably distinct soft oval silhouette, gentle rounded jaw contours, distinct rounded-almond eyes, and unique individual facial proportions.`;
+            break;
+          case 'round':
+            intensityClause = `${prefix} featuring distinctly soft rounded facial contours, gently curved jawline, large expressive bright rounded eyes, and natural full lips.`;
+            break;
+          case 'heart':
+            intensityClause = `${prefix} featuring a delicate tapered chin, high arched brows, radiant expressive wide doe eyes, and softly defined cheekbones.`;
+            break;
+          case 'square':
+            intensityClause = `${prefix} featuring a bold high-fashion square jawline with clean angular bone structure, piercing editorial gaze, and sculpted cheek contours.`;
+            break;
+          case 'diamond':
+            intensityClause = `${prefix} featuring wide prominent cheekbones, narrow refined temple planes, and a sharp tapered chin.`;
+            break;
+          case 'chiseled':
+            intensityClause = `${prefix} featuring extreme high-fashion bone architecture with sharp prominent cheekbones, razor-sharp jawline definition, and piercing wide-set eyes.`;
+            break;
+          case 'auto':
+          default:
+            intensityClause = `${prefix} with pronounced facial plane contrast, sculpted high-fashion cheekbones, wide-set luminous eyes with distinct orbital depth, a slender sculpted nasal bridge, and an elegant tapered jawline.`;
+            break;
         }
 
         primaryBullets.push(
@@ -713,7 +714,7 @@
     if (state.features.pose) {
       primaryBullets.push(
         isAiFace
-          ? '• Pose & Stance: Mirror the subject\'s exact body pose, shoulder angle, and stance from the reference photo.'
+          ? '• Pose & Stance (Autonomous Model): Mirror the subject\'s body posture and stance from the reference photo, while positioning this newly synthesized model\'s head and neck naturally with independent facial orientation (distinct head angle and independent jawline posture; zero facial identity transfer).'
           : '• Pose & Stance (From Reference Photo): Mirror the subject\'s exact body pose, shoulder angle, and stance from the reference photo.'
       );
     }

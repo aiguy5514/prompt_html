@@ -5195,7 +5195,9 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     ? ` Face-behind-hair veil: ${faceCovVal}.${veilRuleObj && !['auto','0','10_15'].includes(veilTier) ? ' ' + veilRuleObj.strict : ''}`
     : '';
   const intentContext = isFemaleGroomingMen
-    ? 'capturing the same adult woman as the active barber/groomer performing relaxing grooming services for her seated male partner'
+    ? (isAiFace
+        ? 'capturing this newly synthesized adult female model as the active barber/groomer performing relaxing grooming services for her seated male partner'
+        : 'capturing the same adult woman as the active barber/groomer performing relaxing grooming services for her seated male partner')
     : 'immediately post-makeover';
 
   const dedupedNegs = dedupeNegatives(negatives);
@@ -5205,6 +5207,23 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     : ((values.mode?.text === 'edit_supplied' || (val('mode') || '').startsWith('Edit'))
         ? 'REFERENCE-IMAGE EDIT'
         : 'REFERENCE-GUIDED PORTRAIT');
+
+  const finalizeLbRes = (resObj) => {
+    if(isAiFace){
+      Object.keys(resObj).forEach(k => {
+        resObj[k] = resObj[k]
+          .replace(/the same adult woman/g, 'this newly synthesized adult model')
+          .replace(/Identical identity from reference/g, 'Consistent newly synthesized model identity across all frames')
+          .replace(/Exact same identity/g, 'Consistent newly synthesized model identity')
+          .replace(/exact same woman/g, 'exact same newly synthesized model')
+          .replace(/same woman/g, 'same newly synthesized model')
+          .replace(/same adult woman/g, 'newly synthesized adult model')
+          .replace(/Maintain exact facial identity/g, 'Maintain consistent facial continuity of this newly synthesized model')
+          .replace(/Exact facial identity/g, 'Consistent newly synthesized facial identity');
+      });
+    }
+    return resObj;
+  };
 
   // --- 1. TRIPTYCH (3 PANELS) ---
   if(lookbookFormat === 'triptych_3'){
@@ -5309,12 +5328,12 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
       negsText
     ].filter(Boolean).join('\n');
 
-    return {
+    return finalizeLbRes({
       all: allPanels.replace(/\n{3,}/g, '\n\n'),
       '1': panel1.replace(/\n{3,}/g, '\n\n'),
       '2': panel2.replace(/\n{3,}/g, '\n\n'),
       '3': panel3.replace(/\n{3,}/g, '\n\n')
-    };
+    });
   }
 
   // --- 2. FEATURE (5 SHOTS) ---
@@ -5457,14 +5476,14 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
       negsText
     ].filter(Boolean).join('\n');
 
-    return {
+    return finalizeLbRes({
       all: allFeature.replace(/\n{3,}/g, '\n\n'),
       '1': fShot1.replace(/\n{3,}/g, '\n\n'),
       '2': fShot2.replace(/\n{3,}/g, '\n\n'),
       '3': fShot3.replace(/\n{3,}/g, '\n\n'),
       '4': fShot4.replace(/\n{3,}/g, '\n\n'),
       '5': fShot5.replace(/\n{3,}/g, '\n\n')
-    };
+    });
   }
 
   // --- 3. CONTACT SHEET (6 FRAMES) ---
@@ -5607,7 +5626,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
       negsText
     ].filter(Boolean).join('\n');
 
-    return {
+    return finalizeLbRes({
       all: allContact.replace(/\n{3,}/g, '\n\n'),
       '1': cFrame1.replace(/\n{3,}/g, '\n\n'),
       '2': cFrame2.replace(/\n{3,}/g, '\n\n'),
@@ -5615,7 +5634,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
       '4': cFrame4.replace(/\n{3,}/g, '\n\n'),
       '5': cFrame5.replace(/\n{3,}/g, '\n\n'),
       '6': cFrame6.replace(/\n{3,}/g, '\n\n')
-    };
+    });
   }
 
   // --- 4. CAMPAIGN (4 SHOTS) (DEFAULT) ---
@@ -5753,18 +5772,7 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     '4': shot4.replace(/\n{3,}/g, '\n\n')
   };
 
-  if(isAiFace){
-    Object.keys(res).forEach(k => {
-      res[k] = res[k]
-        .replace(/the same adult woman/g, 'this newly synthesized adult model')
-        .replace(/Identical identity from reference/g, 'Consistent newly synthesized model identity across all frames')
-        .replace(/exact same woman/g, 'exact same newly synthesized model')
-        .replace(/same woman/g, 'same newly synthesized model')
-        .replace(/Maintain exact facial identity/g, 'Maintain consistent facial continuity of this newly synthesized model');
-    });
-  }
-
-  return res;
+  return finalizeLbRes(res);
 }
 
 
@@ -6125,7 +6133,7 @@ function buildSalonPrompt(){
   const lightingText = S(val('salonLighting'));
   const qualityText = S(val('salonQuality'));
   let cleanSalonExpr = sanitizeHiddenFaceText(S(val('salonExpression')), hideEyes, salonVeilTier);
-  if(isAiFace && (!refDirectives?.faceSynthesisMode || refDirectives.faceSynthesisMode === 'unrelated')){
+  if(isAiFace){
     cleanSalonExpr = cleanSalonExpr.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm focused concentration and neutral closed lips (zero visible teeth)');
   }
 
@@ -6202,7 +6210,9 @@ function buildSalonPrompt(){
   if(isFemaleModelBarber){
     lines.push('GROOMING SERVICE & MODEL STYLING');
     lines.push(`Grooming service on male client: authentic gentlemen's grooming and hair care—${stageText}. The seated male client has a classic clean gentlemen's taper haircut with natural hair texture.`);
-    const modelPersonalBase = `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain her authentic natural Indian hair strand density and shine sculpted cleanly into this exact haircut silhouette.`;
+    const modelPersonalBase = isAiFace
+      ? `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain natural, realistic hair strand density and shine sculpted cleanly into this exact haircut silhouette.`
+      : `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain her authentic natural Indian hair strand density and shine sculpted cleanly into this exact haircut silhouette.`;
     lines.push(`Female model's personal hair: ${modelPersonalBase}${salonFaceCovVal ? ' Face-behind-hair veil on female model: ' + salonFaceCovVal + '.' : ''}`);
     if(moistureEnforceDirective) lines.push(moistureEnforceDirective);
     if(salonFaceCovVal && salonVeilTier !== 'auto'){
@@ -6366,19 +6376,32 @@ function buildSalonPrompt(){
   if(outputType === 'collage'){
     lines.push(`2×2 EDITORIAL COLLAGE COMPOSITION & PANEL BLUEPRINT (${flowLabel.toUpperCase()})`);
     if(isFemaleModelBarber){
-      lines.push(`Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female model as the skilled barber (solitary female in the shop), identical male client, consistent draped cape on the male client, and identical salon station:`);
+      lines.push(isAiFace
+        ? `Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict facial continuity of the newly synthesized model across all 4 frames: consistent newly synthesized female model as the skilled barber (solitary female in the shop), identical male client, consistent draped cape on the male client, and identical salon station:`
+        : `Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female model as the skilled barber (solitary female in the shop), identical male client, consistent draped cape on the male client, and identical salon station:`);
     } else if(isSoloClient){
-      lines.push(`Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical solo female client, consistent styling cape, and identical salon station:`);
+      lines.push(isAiFace
+        ? `Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict facial continuity of the newly synthesized model across all 4 frames: consistent newly synthesized solo female client, consistent styling cape, and identical salon station:`
+        : `Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical solo female client, consistent styling cape, and identical salon station:`);
     } else {
-      lines.push(`Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female client (solitary female in the shop), identical male barber, consistent styling cape or wash draping, and identical salon station:`);
+      lines.push(isAiFace
+        ? `Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict facial continuity of the newly synthesized model across all 4 frames: consistent newly synthesized female client (solitary female in the shop), identical male barber, consistent styling cape or wash draping, and identical salon station:`
+        : `Generate exactly one single high-definition image formatted as a 2×2 grid (two rows of two square/editorial panels) ${collageThemeIntro}. Maintain 100% strict identity, hair color, and styling consistency across all 4 frames: identical female client (solitary female in the shop), identical male barber, consistent styling cape or wash draping, and identical salon station:`);
     }
     lines.push('');
     const formatFrameHeader = (frameLabel) => {
       let lbl = frameLabel || 'Salon Scene';
       if(isStool) lbl = sanitizeStool(lbl);
       if(isFemaleModelBarber) lbl = sanitizeGrooming(lbl);
+      if(isAiFace){
+        lbl = lbl.replace(/client smiling at front wall mirror admiring cut/gi, 'Client in Front Mirror Admiring Cut')
+                 .replace(/client smiling in styling chair admiring cut/gi, 'Client in Styling Chair Admiring Cut')
+                 .replace(/\bsmiling\b/gi, 'admiring')
+                 .replace(/\bsmile\b/gi, 'composed expression');
+      }
       if(checkState.noMirror){
-        lbl = lbl.replace(/client smiling at front wall mirror admiring cut/gi, 'Client Smiling in Styling Chair Admiring Cut')
+        lbl = lbl.replace(/client smiling at front wall mirror admiring cut/gi, 'Client in Styling Chair Admiring Cut')
+                 .replace(/client in front mirror admiring cut/gi, 'Client in Styling Chair Admiring Cut')
                  .replace(/front wall mirror\s*/gi, 'styling station ')
                  .replace(/dual-mirror reveal: barber holding oval handheld mirror/gi, 'Rear Silhouette Reveal: Client Evaluating Cut')
                  .replace(/dual-mirror reveal:?/gi, 'Rear Reveal:')
@@ -6794,7 +6817,11 @@ if(hasMalePresence){
   checks.push('Strictly feature ONLY the single solo female subject in the image; completely exclude any hairdresser, hair stylist, man working on hair, salon staff, stylist hands touching hair, or secondary person from reference photos.');
 }
 if(checkState.skin)checks.push('Keep natural skin texture, visible pores, realistic facial asymmetry and fine details; no waxy or airbrushed skin.');
-if(checkState.body)checks.push('Preserve her natural body proportions; do not slim, reshape or exaggerate anatomy.');
+if(checkState.body){
+  checks.push(isPsAiFace
+    ? 'Render authentic, believable natural body proportions tailored to this newly synthesized model; do not slim, reshape or exaggerate anatomy.'
+    : 'Preserve her natural body proportions; do not slim, reshape or exaggerate anatomy.');
+}
 if(checkState.skinTone){
   checks.push(isPsAiFace
     ? 'Maintain natural, believable warm skin tone with realistic dermal undertones and visible pores (rendered on this newly synthesized model).'
@@ -6824,8 +6851,14 @@ if(checkState.hands)checks.push('Keep hands, fingers and anatomy believable with
 if(checkState.lightingReal)checks.push('Maintain consistent, physically believable lighting, reflections, shadows and highlights.');
 if(checkState.waterReal && (photoHairMoisture !== 'dry' || psIsExplicitWetHair))checks.push('Authentic water droplets, believable wet hair clumping, and damp fabric saturation; realistic physics without artificial plastic gloss.');
 if(checkState.retouch)checks.push('Avoid excessive beauty retouching, plastic skin, synthetic gloss and artificial filters.');
-if(checkState.accessoryKeep && (!isPsAiFace || window.AfterglowRefPicker?.isFeatureInherited('accessories'))){
-  checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');
+if(checkState.accessoryKeep){
+  if(isPsAiFace){
+    if(window.AfterglowRefPicker?.isFeatureInherited('accessories')){
+      checks.push('Style contemporary jewelry harmonized with the wardrobe (earrings and delicate accents), fitted naturally onto this new model (strictly zero nose ring, facial piercings, or facial marks from the reference photo).');
+    }
+  } else {
+    checks.push('Retain signature reference accessories when visible and requested, such as glasses, a nose ring or recognizable jewelry.');
+  }
 }
 if(checkState.backgroundReal)checks.push('Use plausible environmental details and a lived-in scene rather than generic or artificial background elements.');
 if(checkState.noMirror)checks.push('Avoid mirrors and reflection-heavy surfaces; do not create duplicate or inaccurate reflections.');
@@ -6842,17 +6875,33 @@ const outputText={
         ? 'Create one finished photorealistic image featuring the female model with the specified male co-star / crew interaction (solitary female model rule).'
         : 'Create one finished photorealistic image.'),
   collage: hasMalePresence
-    ? 'Create one 2×2 collage with four clearly distinct poses and interaction moments. Keep the same female model, her haircut, outfit, color grade and male colleague / crew consistent across all four panels (she is strictly the solitary woman in all frames, zero secondary women).'
-    : 'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same single woman, haircut, outfit, color grade and overall scene consistent across all four panels (strictly solo female subject in all frames, no secondary person or stylist).',
+    ? (isPsAiFace
+        ? 'Create one 2×2 collage with four clearly distinct poses and interaction moments. Keep the newly synthesized female model, her haircut, outfit, color grade and male colleague / crew consistent across all four panels (she is strictly the solitary woman in all frames, zero secondary women).'
+        : 'Create one 2×2 collage with four clearly distinct poses and interaction moments. Keep the same female model, her haircut, outfit, color grade and male colleague / crew consistent across all four panels (she is strictly the solitary woman in all frames, zero secondary women).')
+    : (isPsAiFace
+        ? 'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the newly synthesized female model, haircut, outfit, color grade and overall scene consistent across all four panels (strictly solo female subject in all frames, no secondary person or stylist).'
+        : 'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same single woman, haircut, outfit, color grade and overall scene consistent across all four panels (strictly solo female subject in all frames, no secondary person or stylist).'),
   set: hasMalePresence
-    ? 'Create four separate photorealistic images with different poses and interaction angles. Keep the same female model, haircut, outfit and male co-star / crew styling consistent across the set (solitary female model rule: zero secondary women).'
-    : 'Create four separate photorealistic images with different poses and expressions. Keep the same single woman, haircut, outfit and overall visual styling consistent across the set (solo female subject only).',
+    ? (isPsAiFace
+        ? 'Create four separate photorealistic images with different poses and interaction angles. Keep the newly synthesized female model, haircut, outfit and male co-star / crew styling consistent across the set (solitary female model rule: zero secondary women).'
+        : 'Create four separate photorealistic images with different poses and interaction angles. Keep the same female model, haircut, outfit and male co-star / crew styling consistent across the set (solitary female model rule: zero secondary women).')
+    : (isPsAiFace
+        ? 'Create four separate photorealistic images with different poses and expressions. Keep the newly synthesized female model, haircut, outfit and overall visual styling consistent across the set (solo female subject only).'
+        : 'Create four separate photorealistic images with different poses and expressions. Keep the same single woman, haircut, outfit and overall visual styling consistent across the set (solo female subject only).'),
   triptych: hasMalePresence
-    ? 'Create one three-panel editorial triptych with three distinct candid interaction moments; maintain continuity of identity, hairstyle, outfit and male colleague / crew presence across panels (solitary female model rule: zero secondary women).'
-    : 'Create one three-panel editorial triptych with three distinct candid poses; maintain continuity of identity, hairstyle, outfit and setting across panels (solo female subject only).',
+    ? (isPsAiFace
+        ? 'Create one three-panel editorial triptych with three distinct candid interaction moments; maintain facial continuity of the newly synthesized model, hairstyle, outfit and male colleague / crew presence across panels (solitary female model rule: zero secondary women).'
+        : 'Create one three-panel editorial triptych with three distinct candid interaction moments; maintain continuity of identity, hairstyle, outfit and male colleague / crew presence across panels (solitary female model rule: zero secondary women).')
+    : (isPsAiFace
+        ? 'Create one three-panel editorial triptych with three distinct candid poses; maintain facial continuity of the newly synthesized model, hairstyle, outfit and setting across panels (solo female subject only).'
+        : 'Create one three-panel editorial triptych with three distinct candid poses; maintain continuity of identity, hairstyle, outfit and setting across panels (solo female subject only).'),
   contact: hasMalePresence
-    ? 'Create one six-frame contact sheet with varied candid interaction moments and expressions; maintain the same identity, hairstyle, outfit, setting and male co-star / crew in every frame (solitary female model rule: zero secondary women).'
-    : 'Create one six-frame contact sheet with varied candid poses and facial expressions; maintain the same identity, hairstyle, outfit, setting and mood in every frame (solo female subject only).'
+    ? (isPsAiFace
+        ? 'Create one six-frame contact sheet with varied candid interaction moments and expressions; maintain the same newly synthesized facial identity, hairstyle, outfit, setting and male co-star / crew in every frame (solitary female model rule: zero secondary women).'
+        : 'Create one six-frame contact sheet with varied candid interaction moments and expressions; maintain the same identity, hairstyle, outfit, setting and male co-star / crew in every frame (solitary female model rule: zero secondary women).')
+    : (isPsAiFace
+        ? 'Create one six-frame contact sheet with varied candid poses and facial expressions; maintain the same newly synthesized facial identity, hairstyle, outfit, setting and mood in every frame (solo female subject only).'
+        : 'Create one six-frame contact sheet with varied candid poses and facial expressions; maintain the same identity, hairstyle, outfit, setting and mood in every frame (solo female subject only).')
 }[outputType];
 
 const detail=detailLevel||'full';
@@ -6970,7 +7019,8 @@ if(isPsAiFace){
     : 'Face Replacement & Styling Transfer: Create a bold, candid fashion photoshoot featuring a completely different adult woman with a newly synthesized face possessing independent facial architecture, while strictly retaining all selected styling, wardrobe, and scene attributes from the reference photo';
 }
 if(isFemaleGroomingMen){
-  lines.push(`${isPsAiFace ? aiPsMode : mode}. Capture the same adult woman as the active barber/grooming practitioner attending to a seated male client with artisan poise and authentic editorial realism (she is strictly the solitary woman in the frame). Overall attitude: ${val('mood')}.`);
+  const groomerModelDesc = isPsAiFace ? 'this newly synthesized adult female model' : 'the same adult woman';
+  lines.push(`${isPsAiFace ? aiPsMode : mode}. Capture ${groomerModelDesc} as the active barber/grooming practitioner attending to a seated male client with artisan poise and authentic editorial realism (she is strictly the solitary woman in the frame). Overall attitude: ${val('mood')}.`);
 } else if(isPsAiFace){
   const activeFeatsCount = psRefDirectives?.activeFeatures?.length || 0;
   if(activeFeatsCount === 8){
@@ -7092,11 +7142,17 @@ if(isPsAiFace && (!psRefDirectives?.faceSynthesisMode || psRefDirectives.faceSyn
 const poseCleaned = sanitizeHiddenFaceText(S(val('pose')), hideEyes, psTier);
 if(isRefPose){
   lines.push('POSE AND EXPRESSION');
-  lines.push(`Pose: ${window.AfterglowRefPicker.getInheritedFieldText('pose')}. Expression: ${isPsAiFace ? 'Natural, confident facial expression and realistic gaze.' : exprCleaned}. Hand / gesture detail: natural, relaxed hands with believable finger positions. Keep the body language open, believable and relaxed.`);
+  const psExprFinal = isPsAiFace
+    ? 'calm composed gaze and neutral closed lips (zero visible teeth)'
+    : exprCleaned;
+  lines.push(`Pose: ${window.AfterglowRefPicker?.getInheritedFieldText('pose') || poseCleaned}. Expression: ${psExprFinal}. Hand / gesture detail: natural, relaxed hands with believable finger positions. Keep the body language open, believable and relaxed.`);
 } else if(hasMalePresence){
   if(isFemaleGroomingMen){
     lines.push('FEMALE MODEL PROTAGONIST & ACTIVE GROOMING ACTION');
-    lines.push('• Active Practitioner Role: The adult woman from the reference image is the primary protagonist and active practitioner (grooming stylist / therapist) standing cleanly over or seated attentively beside her male partner.');
+    const activePractitionerBullet = isPsAiFace
+      ? '• Active Practitioner Role: The newly synthesized adult female model is the primary protagonist and active practitioner (grooming stylist / therapist) standing cleanly over or seated attentively beside her male partner.'
+      : '• Active Practitioner Role: The adult woman from the reference image is the primary protagonist and active practitioner (grooming stylist / therapist) standing cleanly over or seated attentively beside her male partner.';
+    lines.push(activePractitionerBullet);
     lines.push(`• Action & Physical Connection: ${S(val('maleInteraction'))}. Believable finger placement, accurate tool grip, rich warm foam or soothing oil sheen, and authentic anatomy with zero floating hands.`);
     lines.push('• Receptive Male Subject: A handsome, sharply groomed adult male model/client (receptive partner), seated or reclining comfortably with calm, trusting posture.');
     lines.push('• Solitary Female Model Rule: The adult female model is strictly and exclusively the ONLY woman in the scene. Zero secondary women, zero female stylists, and zero female bystanders in the frame or background.');
@@ -7116,7 +7172,8 @@ if(isRefPose){
   }
 } else if(styleRef && transferToggles && transferToggles.hair){
   lines.push('POSE AND EXPRESSION');
-  lines.push(`Pose: ${poseCleaned}. Expression: ${exprCleaned}. Hand / gesture detail: ${val('gesture')}. Solo subject composition: The adult woman is completely alone in the frame with her finished hair resting naturally; strictly no hairdresser standing beside or behind her, no man in the background, and zero stylist hands touching, holding, or styling her hair.`);
+  const soloSoloSubjectDesc = isPsAiFace ? 'The newly synthesized female model' : 'The adult woman';
+  lines.push(`Pose: ${poseCleaned}. Expression: ${exprCleaned}. Hand / gesture detail: ${val('gesture')}. Solo subject composition: ${soloSoloSubjectDesc} is completely alone in the frame with her finished hair resting naturally; strictly no hairdresser standing beside or behind her, no man in the background, and zero stylist hands touching, holding, or styling her hair.`);
 } else {
   lines.push('POSE AND EXPRESSION');
   lines.push(`Pose: ${poseCleaned}. Expression: ${exprCleaned}. Hand / gesture detail: ${val('gesture')}. Keep the body language open, believable and relaxed; capture a specific spontaneous moment rather than a generic stock pose.`);

@@ -1761,7 +1761,9 @@ function buildPrompt(){
     }
   }
   const isExplicitWetTattooCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look/i.test((values.tattooHair?.label || '') + ' ' + hairVal);
-  lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+  if(!isAiFace){
+    lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+  }
   if(tattooHairMoisture === 'wet'){
     lines.push("• Mandatory Soaked Wet Hair Physics: The female model's hair is thoroughly water-soaked and dripping wet—heavy dark wet hair ribbons clinging flush against her scalp, temples, and collarbone with glistening aquatic water sheen and zero dry fluffy flyaways.");
   } else if(tattooHairMoisture === 'damp'){

@@ -247,6 +247,10 @@ def run_all_studio_tests(browser):
       ok('full_look_decoupled_accessories', pFull.includes("fitted naturally onto this new model"));
       ok('full_look_multimodal_directive_present', pFull.includes('[REFERENCE IMAGE USAGE DIRECTIVE:'));
       ok('full_look_decoupled_accessories_no_piercing', pFull.includes('strictly do not copy nose piercings'));
+      ok('full_look_no_nose_ring_leak', !pFull.includes('a nose ring'));
+      ok('full_look_pose_head_decoupled', pFull.includes('distinct head angle and independent jawline posture') && !pFull.includes('exact original body pose, shoulder orientation, head angle'));
+      ok('full_look_pose_expression_closed_lips', pFull.includes('neutral closed lips (zero visible teeth)') && !pFull.includes('Natural, confident facial expression and realistic gaze.'));
+      ok('full_look_body_proportions_decoupled', pFull.includes('proportions tailored to this newly synthesized model') && !pFull.includes('Preserve her natural body proportions'));
       ok('full_look_skin_tone_decoupled', !pFull.includes('Keep skin tone consistent with the reference image') && pFull.includes('rendered on this newly synthesized model'));
 
       // Test archetype switching
@@ -480,6 +484,7 @@ def run_all_studio_tests(browser):
       const pAi = document.getElementById('prompt').value;
       ok('tattoo_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · FINE-LINE TATTOO BEAUTY EDITORIAL'));
       ok('tattoo_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face'));
+      ok('tattoo_ai_face_no_her_authentic_indian_hair', !pAi.includes('Maintain her authentic natural Indian hair strand density'));
 
       rp.applyPreset('clear');
       rp.setFaceMode('reference');
@@ -606,6 +611,7 @@ def run_all_studio_tests(browser):
       const pAi = document.getElementById('prompt').value;
       ok('romance_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · ROMANTIC & COUPLE EDITORIAL'));
       ok('romance_ai_face_negatives', pAi.includes('cloned face') || pAi.includes('duplicate face'));
+      ok('romance_ai_face_no_smile_leak', !pAi.includes('spontaneous, uninhibited joyful laughter') && !pAi.includes('half-smile'));
 
       // Test reel mode with AI face
       api.setReelMode(true);

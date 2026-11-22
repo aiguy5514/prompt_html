@@ -1255,6 +1255,10 @@ function buildPrompt(){
 
   const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'romance' });
   const isAiFace = refDirectives?.isAiFace;
+  let cleanRomExpr = hideEyes ? sanitizeHiddenFaceText(exprRaw, true, veilTier, obfuscMode) : exprRaw;
+  if(isAiFace){
+    cleanRomExpr = cleanRomExpr.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+  }
 
   const lines = [];
 
@@ -1306,7 +1310,7 @@ function buildPrompt(){
     lines.push('');
     lines.push('CHRONOLOGICAL 2-SHOT ACTION TIMELINE:');
     lines.push(`• SHOT 1 (0s–3.5s · ESTABLISHING MOTION): Wide-to-medium camera tracking at matching speed alongside the scene; ${angleText}; ${touchText}; dynamic wind catching her hair in realistic flow.`);
-    lines.push(`• SHOT 2 (3.5s–7s · PEAK ROMANCE CLIMAX): Seamless cut into an intimate ${framingText}; ${exprText}; subtle speed deceleration into cinematic slow-motion; mutual eye contact or tender touch resolve.`);
+    lines.push(`• SHOT 2 (3.5s–7s · PEAK ROMANCE CLIMAX): Seamless cut into an intimate ${framingText}; ${cleanRomExpr}; subtle speed deceleration into cinematic slow-motion; mutual eye contact or tender touch resolve.`);
     lines.push('• AUDIO AMBIENCE: Throaty rumble of the motorcycle engine exhaust, coastal wind rush, distant soft ambient music.');
   } else {
     // Single editorial photograph format
@@ -1354,7 +1358,7 @@ function buildPrompt(){
     lines.push('COUPLE SCENE & INTIMACY COMPOSITION:');
     lines.push(`• Couple Interaction & Dynamic: ${dynamicText}.`);
     lines.push(`• Physical Touch & Proximity: ${touchText}.`);
-    lines.push(`• Shared Expression & Chemistry: ${exprText}.`);
+    lines.push(`• Shared Expression & Chemistry: ${cleanRomExpr}.`);
 
     lines.push('');
     lines.push('ENVIRONMENT, SETTING & LIGHTING:');
