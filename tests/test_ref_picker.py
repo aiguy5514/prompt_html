@@ -222,6 +222,8 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('ai_face_header_present', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · BOLD POST-MAKEOVER PHOTOSHOOT'));
+      ok('ai_face_multimodal_directive_present', pAi.includes('[REFERENCE IMAGE USAGE DIRECTIVE:'));
+      ok('ai_face_multimodal_anti_copy_mandate', pAi.includes('STRICTLY DO NOT copy, preserve, or replicate the face'));
       ok('ai_face_subject_bullet_present', pAi.includes('Synthesize a fresh, photorealistic, unique face autonomously'));
       ok('ai_face_negatives_present', pAi.includes('cloned face') || pAi.includes('duplicate face'));
       ok('identity_drift_removed_from_negs', !pAi.includes('• identity drift or a different face'));
@@ -243,6 +245,8 @@ def run_all_studio_tests(browser):
       ok('full_look_anti_resemblance_negs', pFull.includes('cloned face') && pFull.includes('duplicate face') && pFull.includes('twin likeness'));
       ok('full_look_decoupled_makeup', pFull.includes("without copying the reference subject's lips"));
       ok('full_look_decoupled_accessories', pFull.includes("fitted naturally onto this new model"));
+      ok('full_look_multimodal_directive_present', pFull.includes('[REFERENCE IMAGE USAGE DIRECTIVE:'));
+      ok('full_look_decoupled_accessories_no_piercing', pFull.includes('strictly do not copy nose piercings'));
       ok('full_look_skin_tone_decoupled', !pFull.includes('Keep skin tone consistent with the reference image') && pFull.includes('rendered on this newly synthesized model'));
 
       // Test archetype switching
@@ -357,6 +361,7 @@ def run_all_studio_tests(browser):
       ok('hair_only_has_decoupling_bullet', pHairOnly.includes('CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION'));
       ok('hair_only_has_portrait_safe_directive', pHairOnly.includes('PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE)'));
       ok('hair_only_has_hairline_boundary_directive', pHairOnly.includes('Isolated Hair Transfer Boundary'));
+      ok('hair_only_multimodal_directive_scope', pHairOnly.includes('provided EXCLUSIVELY for hairstyle, hair texture, and hair color'));
       ok('hair_only_no_preserve_adult_woman', !pHairOnly.includes('Strictly preserve the adult woman from the reference') && !pHairOnly.includes('Preserve the same adult woman'));
       ok('hair_only_no_recognizable_facial_identity', !pHairOnly.includes('recognizable facial identity'));
       ok('hair_only_no_ref_subject_hair_texture', !pHairOnly.includes("reference subject's natural organic hair texture"));
@@ -407,6 +412,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pAi = document.getElementById('prompt').value;
       ok('salon_ai_face_header', pAi.includes('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · AUTHENTIC SALON & BARBERSHOP SCENE'));
+      ok('salon_ai_face_multimodal_directive', pAi.includes('[REFERENCE IMAGE USAGE DIRECTIVE:'));
       ok('salon_ai_face_anti_clone_neg', pAi.includes('cloned face') || pAi.includes('duplicate face'));
       ok('salon_ai_face_skin_tone_decoupled', !pAi.includes('Consistent with the reference image') && pAi.includes('rendered on this newly synthesized model'));
 

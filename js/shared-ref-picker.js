@@ -462,11 +462,11 @@
         return 'Faithfully retain and replicate the exact original wardrobe, garments, tailoring, fabric weave, and color scheme worn in the reference photo (strictly do not substitute with custom garments).';
       case 'makeup':
         return isAi
-          ? 'Faithfully retain and apply the exact cosmetic makeup styling, lip color palette, eyeliner, and skin finish from the reference photo, adapted seamlessly onto this new model\'s distinct facial anatomy (without copying the reference subject\'s lips, eye shape, or facial structure).'
+          ? 'Apply elegant cosmetic makeup styling featuring neutral tones, subtle eyeliner, and natural satin lips tailored specifically to this newly synthesized model\'s unique facial anatomy, independent of the reference person\'s facial features (without copying the reference subject\'s lips, eye shape, or facial structure).'
           : 'Faithfully retain the exact original makeup styling, lip shade, eyeliner, and cosmetic skin finish from the reference photo.';
       case 'accessories':
         return isAi
-          ? 'Faithfully retain all signature jewelry, piercings, earrings, and accessories visible in the reference photo, fitted naturally onto this new model\'s distinct proportions.'
+          ? 'Style contemporary jewelry harmonized with the wardrobe (earrings and delicate accents), fitted naturally onto this new model\'s distinct proportions (strictly do not copy nose piercings, facial jewelry, or facial marks from the reference photo).'
           : 'Faithfully retain all signature jewelry, piercings, earrings, and accessories visible in the reference photo.';
       case 'pose':
         return 'Faithfully mirror the subject\'s exact original body pose, shoulder orientation, head angle, and stance from the reference photo.';
@@ -530,12 +530,19 @@
         ? ` Unique distinguishing facial details: ${state.customFaceTraits}.`
         : ` Distinct individual facial landmarks: ${DEFAULT_DISTINCT_TRAITS}.`;
 
+      // Multimodal natural-language instruction for vision models (addresses uploaded photo directly)
+      const multimodalScope = isHairOnlySelection
+        ? 'hairstyle, hair texture, and hair color'
+        : (hasAnyFeature ? `selected styling attributes (${activeFeats.map(k => FEATURES[k]?.label || k).join(', ')})` : 'non-facial styling and posture');
+
+      const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. The generated model must have an entirely distinct, newly synthesized facial identity with unique bone structure.]`;
+
       if (state.faceSynthesisMode === 'sibling') {
-        frontLoadedSubject = `((A completely distinct female model, biological sister with unique personal facial architecture:1.4)), ${arch.tokens}.`;
+        frontLoadedSubject = `${multimodalDirective}\n((A completely distinct female model, biological sister with unique personal facial architecture:1.4)), ${arch.tokens}.`;
       } else if (state.faceSynthesisMode === 'reimagined') {
-        frontLoadedSubject = `((High-fashion editorial facial remodeling, sculpted runway supermodel architecture:1.4)), ${arch.tokens}.`;
+        frontLoadedSubject = `${multimodalDirective}\n((High-fashion editorial facial remodeling, sculpted runway supermodel architecture:1.4)), ${arch.tokens}.`;
       } else {
-        frontLoadedSubject = `((An entirely new female model, completely distinct individual woman, independent facial architecture, fresh unique person:1.45)), ${arch.tokens}, ((closed mouth, neutral relaxed lips, calm composed gaze, zero visible teeth:1.35)).`;
+        frontLoadedSubject = `${multimodalDirective}\n((An entirely new female model, completely distinct individual woman, independent facial architecture, fresh unique person:1.45)), ${arch.tokens}, ((closed mouth, neutral relaxed lips, calm composed gaze, zero visible teeth:1.35)).`;
       }
 
       if (state.faceSynthesisMode === 'sibling') {
@@ -692,14 +699,14 @@
     if (state.features.makeup) {
       primaryBullets.push(
         isAiFace
-          ? '• Makeup Styling (On New Face): Replicate the reference image\'s cosmetic makeup styling, lip shade, and eyeliner onto this new model\'s distinct facial anatomy, without copying the reference subject\'s facial features, eye contour, or lip shape.'
+          ? '• Cosmetic Styling (Autonomous Face): Apply elegant makeup featuring neutral tones, subtle eyeliner, and natural satin lips tailored specifically to this newly synthesized model\'s unique facial anatomy, independent of the reference person\'s facial features (without copying the reference subject\'s lips, eye shape, or facial structure).'
           : '• Makeup Styling (From Reference Photo): Replicate the reference image\'s makeup styling, lip shade, eyeliner, and skin finish.'
       );
     }
     if (state.features.accessories) {
       primaryBullets.push(
         isAiFace
-          ? '• Accessories & Jewelry (On New Face): Preserve and transfer all signature jewelry, piercings, earrings, and accessories visible in the reference image, fitted cleanly to the new model\'s proportions.'
+          ? '• Accessories & Jewelry (Autonomous Face): Style contemporary jewelry harmonized with the wardrobe (earrings and delicate accents), fitted naturally onto this new model\'s distinct proportions (strictly do not copy nose piercings, facial jewelry, or facial marks from the reference photo).'
           : '• Accessories & Jewelry (From Reference Photo): Preserve and transfer all signature jewelry, piercings, earrings, and accessories visible in the reference image.'
       );
     }
@@ -843,6 +850,7 @@
                 • <strong>Image Prompt Conditioning:</strong> Keep reference conditioning weight moderate (0.40–0.50, stop around 0.70–0.75). <em>Never</em> use face-swapping or face-cloning modules when you want a new face.<br>
                 • <strong>Reference Parameter Tuning:</strong> When using character or style reference parameters in external image tools, use style conditioning or set character weight to zero (0) so the engine transfers styling without locking the face.<br>
                 • <strong>Pose &amp; Structure Guidance:</strong> Use pose/skeleton guidance or depth conditioning for posture and hair boundaries rather than facial identity transfer.<br>
+                • <strong>Multimodal &amp; Chat Vision Engines:</strong> Multimodal vision models prioritize natural-language directives over bracket weights. The studio automatically prepends a <code>[REFERENCE IMAGE USAGE DIRECTIVE]</code> at Line 1 instructing the vision system to decouple her face. If your generator still experiences stochastic fallback on certain seeds, download and upload the sanitized hair-only photo below for 100% deterministic fresh faces.<br>
                 • <strong>Prompt Security:</strong> The studio prompt automatically injects high-priority face decoupling tokens, negative face tokens, and autonomous bone structure directives.
               </div>
               <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
