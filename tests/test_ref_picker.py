@@ -359,8 +359,10 @@ def run_all_studio_tests(browser):
       ok('hair_only_no_preserve_adult_woman', !pHairOnly.includes('Strictly preserve the adult woman from the reference') && !pHairOnly.includes('Preserve the same adult woman'));
       ok('hair_only_no_recognizable_facial_identity', !pHairOnly.includes('recognizable facial identity'));
       ok('hair_only_no_ref_subject_hair_texture', !pHairOnly.includes("reference subject's natural organic hair texture"));
-      ok('hair_only_has_face_freedom_negs', pHairOnly.includes('original face from reference') && pHairOnly.includes('reference woman face'));
-      ok('hair_only_has_portrait_negs', pHairOnly.includes('reference portrait likeness') && pHairOnly.includes('face bleed from reference photo'));
+      ok('hair_only_has_face_freedom_negs', pHairOnly.includes('cloned face') && pHairOnly.includes('facial identity bleed'));
+      ok('hair_only_has_portrait_negs', pHairOnly.includes('digital face swap mask') || pHairOnly.includes('duplicate face'));
+      const hairNegBlock = pHairOnly.split('AVOID / NEGATIVE GUIDANCE')[1] || '';
+      ok('hair_only_zero_reference_affirming_negs', !hairNegBlock.includes('same face as reference') && !hairNegBlock.includes('face preservation'));
       ok('hair_only_auto_dramatic_intensity', pHairOnly.includes('Mandatory dramatic face swap: total anatomical decoupling'));
       const psPill = document.getElementById('afterglowFaceStatusPill');
       ok('hair_only_session_pill_text', psPill && psPill.textContent.includes('Hair-Only Transfer · Face Decoupled'));

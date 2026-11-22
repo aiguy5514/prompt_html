@@ -65,43 +65,43 @@
       id: 'auto',
       label: '✨ Auto Distinct',
       shortLabel: 'Auto Distinct',
-      tokens: 'distinct high-fashion bone structure with defined cheekbones, ((sculpted facial anatomy: wide-set luminous almond eyes with defined supratarsal double-eyelid crease:1.2)), ((slender straight nasal bridge with refined supratip break and sculpted gently upturned tip:1.15)), ((crisp pronounced Cupid\'s bow with defined vertical philtral columns and plush lower vermilion border:1.15)), ((high sculpted zygomatic cheekbones tapering cleanly to an elegant defined jawline and delicate tapered chin with a soft submental crease:1.25))'
+      tokens: 'distinct high-fashion bone structure with defined cheekbones, ((sculpted facial anatomy: wide-set bright almond eyes with arched dark eyebrows:1.25)), ((slender straight nose with softly defined tip:1.2)), ((natural full lips with defined Cupid\'s bow:1.2)), ((clean tapered jawline and softly rounded chin:1.25))'
     },
     chiseled: {
       id: 'chiseled',
       label: '💎 Chiseled / Editorial',
       shortLabel: 'Chiseled',
-      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones, haute-couture bone structure: ((elongated feline-angled piercing almond eyes with taut upper lid crease and wide intercanthal spacing:1.2)), ((razor-straight ultra-narrow nasal bridge with chiseled pinpoint-projected tip:1.2)), ((sculpted architectural lips with razor-delineated geometric Cupid\'s bow and flat vermilion contours:1.15)), ((deep sunken submalar hollows, razor-sharp 115-degree mandibular jawline, and a firm chiseled square-tapered chin:1.25))'
+      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones: ((elongated piercing almond eyes with lifted outer corners:1.25)), ((narrow straight razor-defined nose bridge:1.25)), ((sculpted architectural lips with sharp Cupid\'s bow:1.2)), ((deep defined hollow cheek contours, sharp angular jawline, and a firm chiseled square-tapered chin:1.25))'
     },
     soft_oval: {
       id: 'soft_oval',
       label: '🌸 Soft Oval / Almond Eyes',
       shortLabel: 'Soft Oval',
-      tokens: 'classic soft oval facial silhouette with a gentle rounded jawline, harmonious facial geometry: ((large warm luminous rounded-almond eyes with soft delicate double eyelid folds and balanced symmetrical spacing:1.2)), ((slender gently sloping nasal bridge with smooth continuous dorsal lines and soft naturally rounded petite tip:1.15)), ((petal-soft balanced lips with smooth curving Cupid\'s bow and even vermilion fullness:1.15)), ((seamless curved oval jawline with zero harsh angles, and a soft naturally rounded feminine chin:1.2))'
+      tokens: 'classic soft oval facial silhouette with a gentle rounded jawline, harmonious facial geometry: ((large warm luminous rounded-almond eyes with soft natural eyelids and balanced symmetrical spacing:1.2)), ((slender gently sloping nose bridge with smooth lines and soft naturally rounded petite tip:1.15)), ((petal-soft balanced lips with smooth curving Cupid\'s bow and even natural fullness:1.15)), ((seamless curved oval jawline with zero harsh angles, and a soft naturally rounded feminine chin:1.2))'
     },
     heart: {
       id: 'heart',
       label: '💖 Heart-Shaped',
       shortLabel: 'Heart-Shaped',
-      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, ((radiant expressive wide doe eyes with deep supratarsal crease and lifted outer corners:1.2)), ((delicate petite nose with narrow slightly scooped concave bridge and tiny perky upturned button tip:1.2)), ((plush doll-like pout with accentuated heart-peaked Cupid\'s bow:1.15)), ((wide prominent anterior cheekbones tapering steeply inward to a dainty pointed micro-chin:1.25))'
+      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, ((radiant expressive wide doe eyes with lifted outer corners:1.25)), ((delicate petite nose with narrow bridge and tiny perky upturned button tip:1.2)), ((plush doll-like pout with accentuated heart-peaked Cupid\'s bow:1.15)), ((wide prominent high cheekbones tapering steeply inward to a dainty pointed micro-chin:1.25))'
     },
     square: {
       id: 'square',
       label: '🏛️ Square Runway',
       shortLabel: 'Square Runway',
-      tokens: 'bold high-fashion square jawline with clean angular bone structure, commanding square facial architecture: ((intense deep-set horizontal eyes under a structured straight brow ridge with taut hooded upper eyelid crease:1.2)), ((strong broad straight nasal bridge with uniform width and firm squared-off tip profile:1.2)), ((wide horizontal lip span with crisp wide-peaked Cupid\'s bow:1.15)), ((flat structured cheek planes, sharp bilateral mandibular angles, and a wide flat chiseled square chin:1.25))'
+      tokens: 'bold high-fashion square jawline with clean angular bone structure, commanding square facial architecture: ((intense deep-set horizontal eyes under a structured straight brow ridge:1.25)), ((strong broad straight nose bridge with uniform width and firm squared-off tip:1.2)), ((wide horizontal lip span with crisp wide Cupid\'s bow:1.15)), ((flat structured cheek planes, sharp bilateral jaw angles, and a wide flat chiseled square chin:1.25))'
     },
     round: {
       id: 'round',
       label: '✨ Round Soft',
       shortLabel: 'Round Soft',
-      tokens: 'youthful soft rounded facial contours, gently curved jawline, ((large bright circular rounded eyes with wide-open aperture and prominent curved lower lid contour:1.2)), ((short petite nose with gentle low bridge and cute softly rounded fleshy button tip:1.2)), ((ultra-full plush cushion lips with pillowy lower lip volume and soft curving Cupid\'s bow:1.15)), ((supple rounded apple cheeks and a short rounded button chin:1.2))'
+      tokens: 'youthful soft rounded facial contours, gently curved jawline, ((large bright circular rounded eyes with wide-open aperture:1.25)), ((short petite nose with gentle low bridge and cute softly rounded button tip:1.2)), ((ultra-full plush cushion lips with pillowy lower lip volume and soft curving Cupid\'s bow:1.15)), ((supple rounded apple cheeks and a short rounded button chin:1.2))'
     },
     diamond: {
       id: 'diamond',
       label: '💠 Diamond Sculpted',
       shortLabel: 'Diamond',
-      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, ((dramatic slanted feline almond eyes with tight epicanthal taper and deep outer orbital recess:1.2)), ((slender high-contrast nasal bridge with sharp geometric facets and an acutely sculpted tapered tip:1.2)), ((sharply contoured angular lips with an ultra-defined sharp V-notch Cupid\'s bow:1.15)), ((ultra-wide high-projecting zygomatic arches and a sharp narrow triangular V-line chin:1.25))'
+      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, ((dramatic slanted feline almond eyes with winged outer corners:1.25)), ((slender high-contrast nose bridge with sculpted tapered tip:1.2)), ((sharply contoured angular lips with an ultra-defined sharp V-notch Cupid\'s bow:1.15)), ((ultra-wide high-projecting cheekbones and a sharp narrow triangular V-line chin:1.25))'
     }
   };
 
@@ -448,15 +448,15 @@
     switch (feat) {
       case 'haircut':
         return isAi
-          ? 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo, draped and styled naturally around this newly synthesized face (strictly do not substitute with custom haircuts, and do not copy the reference face).'
+          ? 'Faithfully replicate the exact haircut silhouette, length, parting, and cut from the source hair styling onto this newly synthesized model (hair strands and fiber boundaries only; strictly do not copy any facial features).'
           : 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo (strictly do not substitute with custom haircuts).';
       case 'hairTexture':
         return isAi
-          ? 'Faithfully retain the authentic natural hair strand texture, thickness, follicle density, and organic wave/curl pattern directly from the reference photo, rendered cleanly on this newly synthesized model.'
+          ? 'Faithfully replicate the natural hair strand texture, thickness, follicle density, and organic wave/curl pattern from the source hair, rendered cleanly on this newly synthesized model.'
           : 'Faithfully retain the authentic natural hair strand texture, thickness, follicle density, and organic wave/curl pattern directly from the reference photo.';
       case 'hairColor':
         return isAi
-          ? 'Match the exact original hair color, undertones, and highlights from the reference photo, applied to this newly synthesized model\'s hair.'
+          ? 'Match the exact hair color, undertones, and highlights from the source hair, applied to this newly synthesized model\'s hair.'
           : 'Match the exact original hair color, undertones, and highlights from the reference photo.';
       case 'wardrobe':
         return 'Faithfully retain and replicate the exact original wardrobe, garments, tailoring, fabric weave, and color scheme worn in the reference photo (strictly do not substitute with custom garments).';
@@ -531,11 +531,11 @@
         : ` Distinct individual facial landmarks: ${DEFAULT_DISTINCT_TRAITS}.`;
 
       if (state.faceSynthesisMode === 'sibling') {
-        frontLoadedSubject = `((A completely distinct female model, biological sister with unique facial architecture:1.35)), ${arch.tokens}.`;
+        frontLoadedSubject = `((A completely distinct female model, biological sister with unique personal facial architecture:1.4)), ${arch.tokens}.`;
       } else if (state.faceSynthesisMode === 'reimagined') {
-        frontLoadedSubject = `((High-fashion editorial facial remodeling, sculpted runway supermodel architecture:1.35)), ${arch.tokens}.`;
+        frontLoadedSubject = `((High-fashion editorial facial remodeling, sculpted runway supermodel architecture:1.4)), ${arch.tokens}.`;
       } else {
-        frontLoadedSubject = `((A completely different female model, entirely new face, independent facial architecture, different person from any reference photo:1.4)), ${arch.tokens}.`;
+        frontLoadedSubject = `((An entirely new female model, completely distinct individual woman, independent facial architecture, fresh unique person:1.45)), ${arch.tokens}.`;
       }
 
       if (state.faceSynthesisMode === 'sibling') {
@@ -595,10 +595,10 @@
         }
 
         primaryBullets.push(
-          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): ((A completely different female model, entirely new face:1.35)) featuring ${arch.tokens}.${customTraits}${intensityClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
+          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): ((An entirely new female model, distinct unique face:1.4)) featuring ${arch.tokens}.${customTraits}${intensityClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
         );
         negativeAdditions.push(
-          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, same face as reference, reference facial likeness, duplicate facial features of reference, reference face clone, identical twin to reference, same person as reference, duplicate woman face, matching reference face, facial identity bleed'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed'
         );
       }
 
@@ -623,16 +623,16 @@
 
       if (isHairOnlySelection) {
         primaryBullets.push(
-          '• CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION: Only the specified hair attributes (haircut silhouette, strand texture, and hair color) are transferred from the reference photo onto this newly synthesized AI face. The woman\'s face visible in the reference photo must NOT be used: completely replace her eyes, eye shape, nose bridge, nostrils, lips, mouth, jawline, chin, and bone structure with an entirely new, independent adult woman\'s face possessing unique facial architecture. Strictly zero facial identity retention from the reference photo.'
+          '• CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION: Only the specified hair attributes (haircut silhouette, strand texture, and hair color) are transferred from the source hair styling onto this newly synthesized AI face. Completely synthesize her eyes, eye shape, nose bridge, nostrils, lips, mouth, jawline, chin, and bone structure as an entirely new, independent adult woman\'s face possessing unique facial architecture. Strictly zero facial identity retention.'
         );
         primaryBullets.push(
-          '• PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE): Even if the supplied reference photo is a tight close-up portrait, high-detail selfie, or beauty headshot with prominent facial features, you MUST aggressively decouple the face from the hair. Purge and discard all facial likeness from the reference image in the latent space; generate an unmistakably distinct woman with completely independent facial anatomy and authentic photographic skin micro-pores.'
+          '• PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE): Even if the supplied reference photo is a tight close-up portrait, high-detail selfie, or beauty headshot with prominent facial features, you MUST aggressively decouple the face from the hair. Purge and discard all facial likeness in the latent space; generate an unmistakably distinct woman with completely independent facial anatomy and authentic photographic skin micro-pores.'
         );
         primaryBullets.push(
           '• Isolated Hair Transfer Boundary: Treat the hairline as a strict anatomical boundary. Hair strands, roots, and edges transfer with precision, while skin, forehead curvature, brow ridges, temples, and cheekbones underneath must be synthesized entirely fresh for this new model.'
         );
         negativeAdditions.push(
-          'original face from reference, reference photo face, reference image face, reference woman face, identical face to reference, face from reference photo, face from reference image, face likeness of reference woman, facial resemblance to reference subject, facial feature transfer from reference, reference facial bone structure, face preservation, identity retention, reference portrait likeness, same face as reference image, face bleed from reference photo, copying reference facial features, duplicate subject face, identical facial anatomy to reference'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed'
         );
       }
     } else {
@@ -661,21 +661,21 @@
     if (state.features.haircut) {
       primaryBullets.push(
         isAiFace
-          ? '• Hairstyle & Silhouette: Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image onto the new face (draped naturally around her new, independent facial anatomy; do not copy the reference face).'
+          ? '• Hairstyle & Silhouette: Replicate the exact hairstyle, haircut, length, and parting seen in the source styling (hair strands only, draped naturally around this newly synthesized model\'s unique facial anatomy; zero face transfer).'
           : '• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image.'
       );
     }
     if (state.features.hairTexture) {
       primaryBullets.push(
         isAiFace
-          ? '• Hair Texture & Density: Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image (rendered on this newly synthesized model).'
+          ? '• Hair Texture & Density: Render authentic natural hair strand texture, strand thickness, follicle density, and organic finish from the source hair styling on this newly synthesized model.'
           : '• Hair Texture & Density (From Reference Photo): Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image.'
       );
     }
     if (state.features.hairColor) {
       primaryBullets.push(
         isAiFace
-          ? '• Hair Color: Match the exact natural hair color, undertones, and highlights shown in the reference image (applied to this new model\'s hair).'
+          ? '• Hair Color: Match the exact natural hair color, undertones, and highlights from the source hair styling on this new model\'s hair.'
           : '• Hair Color (From Reference Photo): Match the exact natural hair color, undertones, and highlights shown in the reference image.'
       );
     }
@@ -836,6 +836,10 @@
                 • <strong>Pose &amp; Structure Guidance:</strong> Use pose/skeleton guidance or depth conditioning for posture and hair boundaries rather than facial identity transfer.<br>
                 • <strong>Prompt Security:</strong> The studio prompt automatically injects high-priority face decoupling tokens, negative face tokens, and autonomous bone structure directives.
               </div>
+              <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+                <button type="button" class="ref-preset-btn" id="btnRefCopyPositive" style="background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.4); color: #fff;">📋 Copy Clean Positive Only</button>
+                <button type="button" class="ref-preset-btn" id="btnRefCopyNegative" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5;">🚫 Copy Negative Exclusions</button>
+              </div>
             </div>
           </div>
           ` : ''}
@@ -934,6 +938,35 @@
           if (typeof onChangeCallback === 'function') onChangeCallback();
         });
       });
+
+      const btnRefPos = card.querySelector('#btnRefCopyPositive');
+      if (btnRefPos) {
+        btnRefPos.addEventListener('click', () => {
+          const btnPage = document.getElementById('copyPositive');
+          if (btnPage) {
+            btnPage.click();
+          } else {
+            const promptEl = document.getElementById('prompt');
+            if (promptEl) {
+              const text = promptEl.value.split(/AVOID \/ NEGATIVE GUIDANCE/i)[0].trim();
+              if (navigator.clipboard) navigator.clipboard.writeText(text);
+            }
+          }
+        });
+      }
+
+      const btnRefNeg = card.querySelector('#btnRefCopyNegative');
+      if (btnRefNeg) {
+        btnRefNeg.addEventListener('click', () => {
+          const btnPage = document.getElementById('copyNegative');
+          if (btnPage) {
+            btnPage.click();
+          } else {
+            const negPrompt = getPromptDirectives().standaloneNegativePrompt;
+            if (navigator.clipboard) navigator.clipboard.writeText(negPrompt);
+          }
+        });
+      }
     }
 
     renderContent();
