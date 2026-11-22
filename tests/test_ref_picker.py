@@ -242,6 +242,7 @@ def run_all_studio_tests(browser):
       ok('full_look_radical_face_replacement', pFull.includes('FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY)'));
       ok('full_look_discard_reference_face', pFull.includes('unique, photorealistic facial architecture') && pFull.includes('completely independent facial anatomy'));
       ok('full_look_archetype_tokens', pFull.includes('distinct high-fashion bone structure with defined cheekbones'));
+      ok('full_look_zero_sd_colon_weights', !/:\\d\\.\\d+/.test(pFull));
       ok('full_look_anti_resemblance_negs', pFull.includes('cloned face') && pFull.includes('duplicate face') && pFull.includes('twin likeness'));
       ok('full_look_decoupled_makeup', pFull.includes("without copying the reference subject's lips"));
       ok('full_look_decoupled_accessories', pFull.includes("fitted naturally onto this new model"));
@@ -375,6 +376,7 @@ def run_all_studio_tests(browser):
       ok('hair_only_zero_reference_affirming_negs', !hairNegBlock.includes('same face as reference') && !hairNegBlock.includes('face preservation'));
       ok('hair_only_auto_dramatic_intensity', pHairOnly.includes('Mandatory dramatic face swap: total anatomical decoupling'));
       ok('hair_only_has_closed_mouth_expression', pHairOnly.includes('zero visible teeth') && pHairOnly.includes('neutral relaxed lips'));
+      ok('hair_only_zero_sd_colon_weights', !/:\\d\\.\\d+/.test(pHairOnly));
       ok('hair_only_has_smile_exclusions_in_negs', hairNegBlock.includes('open mouth smile') && hairNegBlock.includes('visible teeth'));
       api.renderFields();
       ok('ref_sanitizer_canvas_present', !!document.getElementById('refSanitizerCanvas'));

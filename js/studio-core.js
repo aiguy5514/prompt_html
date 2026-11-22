@@ -7137,7 +7137,7 @@ if(isRefWardrobe){
 lines.push('');
 let exprCleaned = sanitizeHiddenFaceText(S(val('expression')), hideEyes, psTier);
 if(isPsAiFace && (!psRefDirectives?.faceSynthesisMode || psRefDirectives.faceSynthesisMode === 'unrelated')){
-  exprCleaned = exprCleaned.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+  exprCleaned = exprCleaned.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughter|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
 }
 const poseCleaned = sanitizeHiddenFaceText(S(val('pose')), hideEyes, psTier);
 if(isRefPose){

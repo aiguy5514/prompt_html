@@ -65,43 +65,43 @@
       id: 'auto',
       label: '✨ Auto Distinct',
       shortLabel: 'Auto Distinct',
-      tokens: 'distinct high-fashion bone structure with defined cheekbones, ((sculpted facial anatomy: piercing horizontal eyes with refined eyelids:1.25)), ((slender straight nose bridge with crisp defined tip:1.2)), ((sculpted neutral lips with sharp Cupid\'s bow and firm closed mouth:1.3)), ((clean tapered architectural jawline and softly sculpted chin:1.25))'
+      tokens: 'distinct high-fashion bone structure with defined cheekbones, sculpted facial anatomy with piercing almond eyes and refined eyelids, slender straight nose bridge with crisp defined tip, sculpted neutral lips with sharp Cupid\'s bow, and a clean tapered architectural jawline'
     },
     chiseled: {
       id: 'chiseled',
       label: '💎 Chiseled / Editorial',
       shortLabel: 'Chiseled',
-      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones: ((elongated piercing almond eyes with lifted outer corners:1.25)), ((narrow straight razor-defined nose bridge:1.25)), ((sculpted architectural lips with sharp Cupid\'s bow:1.2)), ((deep defined hollow cheek contours, sharp angular jawline, and a firm chiseled square-tapered chin:1.25))'
+      tokens: 'chiseled architectural bone structure with sharp prominent high cheekbones, elongated piercing almond eyes with lifted outer corners, narrow straight razor-defined nose bridge, sculpted architectural lips with sharp Cupid\'s bow, deep defined hollow cheek contours, and a razor-sharp editorial jawline'
     },
     soft_oval: {
       id: 'soft_oval',
       label: '🌸 Soft Oval / Almond Eyes',
       shortLabel: 'Soft Oval',
-      tokens: 'classic soft oval facial silhouette with a gentle rounded jawline, harmonious facial geometry: ((large warm luminous rounded-almond eyes with soft natural eyelids and balanced symmetrical spacing:1.2)), ((slender gently sloping nose bridge with smooth lines and soft naturally rounded petite tip:1.15)), ((petal-soft balanced lips with smooth curving Cupid\'s bow and even natural fullness:1.15)), ((seamless curved oval jawline with zero harsh angles, and a soft naturally rounded feminine chin:1.2))'
+      tokens: 'classic soft oval facial silhouette with a gentle rounded jawline, harmonious facial geometry, luminous almond eyes with soft natural eyelids, slender gently sloping nose bridge with petite tip, petal-soft balanced lips with defined Cupid\'s bow, and a soft naturally rounded feminine chin'
     },
     heart: {
       id: 'heart',
       label: '💖 Heart-Shaped',
       shortLabel: 'Heart-Shaped',
-      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, ((radiant expressive wide doe eyes with lifted outer corners:1.25)), ((delicate petite nose with narrow bridge and tiny perky upturned button tip:1.2)), ((plush doll-like pout with accentuated heart-peaked Cupid\'s bow:1.15)), ((wide prominent high cheekbones tapering steeply inward to a dainty pointed micro-chin:1.25))'
+      tokens: 'distinct heart-shaped face with a delicate tapered chin, high arched brows, radiant expressive wide doe eyes with lifted outer corners, delicate petite nose with narrow bridge and small refined tip, plush lips with heart-peaked Cupid\'s bow, and wide prominent high cheekbones tapering to a dainty chin'
     },
     square: {
       id: 'square',
       label: '🏛️ Square Runway',
       shortLabel: 'Square Runway',
-      tokens: 'bold high-fashion square jawline with clean angular bone structure, commanding square facial architecture: ((intense deep-set horizontal eyes under a structured straight brow ridge:1.25)), ((strong broad straight nose bridge with uniform width and firm squared-off tip:1.2)), ((wide horizontal lip span with crisp wide Cupid\'s bow:1.15)), ((flat structured cheek planes, sharp bilateral jaw angles, and a wide flat chiseled square chin:1.25))'
+      tokens: 'bold high-fashion square jawline with clean angular bone structure, commanding architectural geometry, intense deep-set almond eyes, strong straight nose bridge with uniform width, crisp defined lips, and structured flat cheek planes with clean bilateral jaw angles'
     },
     round: {
       id: 'round',
       label: '✨ Round Soft',
       shortLabel: 'Round Soft',
-      tokens: 'youthful soft rounded facial contours, gently curved jawline, ((large bright circular rounded eyes with wide-open aperture:1.25)), ((short petite nose with gentle low bridge and cute softly rounded button tip:1.2)), ((ultra-full plush cushion lips with pillowy lower lip volume and soft curving Cupid\'s bow:1.15)), ((supple rounded apple cheeks and a short rounded button chin:1.2))'
+      tokens: 'youthful soft rounded facial contours, gently curved jawline, bright expressive eyes, short petite nose with gentle low bridge and soft rounded tip, natural plush lips with soft curving Cupid\'s bow, and supple rounded cheek planes'
     },
     diamond: {
       id: 'diamond',
       label: '💠 Diamond Sculpted',
       shortLabel: 'Diamond',
-      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, ((dramatic slanted feline almond eyes with winged outer corners:1.25)), ((slender high-contrast nose bridge with sculpted tapered tip:1.2)), ((sharply contoured angular lips with an ultra-defined sharp V-notch Cupid\'s bow:1.15)), ((ultra-wide high-projecting cheekbones and a sharp narrow triangular V-line chin:1.25))'
+      tokens: 'diamond-shaped facial contour with narrow forehead, prominent wide cheekbones, dramatic slanted feline almond eyes with winged outer corners, slender high-contrast nose bridge with sculpted tapered tip, sharply contoured lips with sharp Cupid\'s bow, and a sharp narrow triangular V-line chin'
     }
   };
 
@@ -527,7 +527,7 @@
     if (isAiFace) {
       const arch = FACE_ARCHETYPES[state.faceArchetype] || FACE_ARCHETYPES.auto;
       const isDramatic = (state.divergenceIntensity === 'dramatic');
-      const DEFAULT_DISTINCT_TRAITS = 'a sharply defined vertical philtrum column groove, photorealistic subtle facial asymmetry between brow arches, refined infraorbital contour depth, and a clean distinct submental chin crease';
+      const DEFAULT_DISTINCT_TRAITS = 'refined facial contours, natural subtle brow asymmetry, sculpted cheek depth, and clean jawline definition';
       const customTraits = state.customFaceTraits
         ? ` Unique distinguishing facial details: ${state.customFaceTraits}.`
         : ` Distinct individual facial landmarks: ${DEFAULT_DISTINCT_TRAITS}.`;
@@ -540,11 +540,11 @@
       const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: ASSET ROLE: INANIMATE STYLING SWATCH ONLY. The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. Synthesize a COMPLETELY DIFFERENT woman with an independent facial phenotype: high cheekbones, almond eyes, sculpted jawline, neutral closed lips (zero visible teeth), and zero nose jewelry. A side-by-side comparison must unmistakably show two entirely different people.]`;
 
       if (state.faceSynthesisMode === 'sibling') {
-        frontLoadedSubject = `${multimodalDirective}\n((A completely distinct female model, biological sister with unique personal facial architecture:1.4)), ${arch.tokens}.`;
+        frontLoadedSubject = `${multimodalDirective}\nA completely distinct female model, biological sister with unique personal facial architecture, ${arch.tokens}, neutral closed lips, calm composed gaze, zero visible teeth.`;
       } else if (state.faceSynthesisMode === 'reimagined') {
-        frontLoadedSubject = `${multimodalDirective}\n((High-fashion editorial facial remodeling, sculpted runway supermodel architecture:1.4)), ${arch.tokens}.`;
+        frontLoadedSubject = `${multimodalDirective}\nHigh-fashion editorial facial remodeling, sculpted runway supermodel architecture, ${arch.tokens}, neutral closed lips, calm composed gaze, zero visible teeth.`;
       } else {
-        frontLoadedSubject = `${multimodalDirective}\n((An entirely new female model, completely distinct individual woman, independent facial architecture, fresh unique person:1.45)), ${arch.tokens}, ((closed mouth, neutral relaxed lips, calm composed gaze, zero visible teeth:1.35)).`;
+        frontLoadedSubject = `${multimodalDirective}\nAn entirely new female model, completely distinct individual woman, independent facial architecture, fresh unique person, ${arch.tokens}, closed mouth, neutral relaxed lips, calm composed gaze, zero visible teeth.`;
       }
 
       if (state.faceSynthesisMode === 'sibling') {
@@ -557,7 +557,7 @@
           `• MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE): The subject is her biological sister, NOT the same woman. While sharing her natural Indian heritage, eye coloration, and warm skin undertones, you MUST visibly and noticeably differentiate her facial anatomy: alter the jawline width and chin contour, reshape the eye contour and eyelid fold, sculpt a noticeably different nasal bridge and tip, and modify the lip fullness featuring ${arch.tokens}.${customTraits}${intensityClause}`
         );
         negativeAdditions.push(
-          'cloned face, duplicate face, identical face structure, 100% clone, identical twin copy, facial identity clone, twin likeness, duplicate facial geometry, digital clone face, twin copy, identical eye shape, identical nose bridge, identical jawline, identical facial proportions'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate facial geometry, artificial face twin, digital face swap mask, facial identity bleed, open mouth smile, visible teeth'
         );
       } else if (state.faceSynthesisMode === 'reimagined') {
         // Editorial Re-imagination: Haute couture runway remodeling & sculpted elevation (zero "preserve eye shape" blockers)
@@ -603,10 +603,10 @@
         }
 
         primaryBullets.push(
-          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): ((An entirely new female model, distinct unique face:1.4)) featuring ${arch.tokens}.${customTraits}${intensityClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
+          `• FULL AUTONOMOUS FACIAL ANATOMY (MANDATORY 100% INDEPENDENT IDENTITY): An entirely new female model, distinct unique face featuring ${arch.tokens}.${customTraits}${intensityClause} Authentic photographic skin rendering: natural micro-pores, realistic facial asymmetry, and dermal depth.`
         );
         negativeAdditions.push(
-          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed, open mouth smile, visible teeth, smiling teeth, grinning, parted lips revealing teeth'
+          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate facial geometry, artificial face twin, digital face swap mask, facial identity bleed, open mouth smile, visible teeth'
         );
       }
 
@@ -634,16 +634,13 @@
           '• CRITICAL FACE DECOUPLING & ZERO IDENTITY RETENTION: Only the specified hair attributes (haircut silhouette, strand texture, and hair color) are transferred from the source hair styling onto this newly synthesized AI face. Completely synthesize her eyes, eye shape, nose bridge, nostrils, lips, mouth, jawline, chin, and bone structure as an entirely new, independent adult woman\'s face possessing unique facial architecture. Strictly zero facial identity retention.'
         );
         primaryBullets.push(
-          '• PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE): Generate an unmistakably distinct woman with completely independent facial anatomy: ((sculpted bone structure, unique eye aperture, custom nose bridge, and firm closed mouth:1.35)) with authentic photographic skin micro-pores and realistic facial asymmetry.'
+          '• PORTRAIT-SAFE FACIAL DIVERGENCE (CLOSE-UP REFERENCE OVERRIDE): Generate an unmistakably distinct woman with completely independent facial anatomy: sculpted bone structure, unique eye aperture, custom nose bridge, and firm closed mouth with authentic photographic skin micro-pores and realistic facial asymmetry.'
         );
         primaryBullets.push(
           '• Isolated Hair Transfer Boundary: Treat the hairline as a strict anatomical boundary. Hair strands, roots, and edges transfer with precision, while skin, forehead curvature, brow ridges, temples, and cheekbones underneath must be synthesized entirely fresh for this new model.'
         );
         primaryBullets.push(
-          '• Autonomous Facial Expression: ((closed mouth, neutral relaxed lips, calm focused gaze, zero visible teeth:1.35)).'
-        );
-        negativeAdditions.push(
-          'cloned face, duplicate face, twin likeness, identical facial structure, duplicate person, facial replica, repeated facial features, lookalike, digital face mask, identity clone, duplicate facial geometry, identical bone structure, artificial face twin, digital face swap mask, face clone, duplicate model face, generic face clone, identical facial symmetry copy, facial morphing, facial identity bleed, open mouth smile, visible teeth, smiling teeth, grinning, parted lips revealing teeth'
+          '• Autonomous Facial Expression: Closed mouth, neutral relaxed lips, calm focused gaze, zero visible teeth.'
         );
       }
     } else {
