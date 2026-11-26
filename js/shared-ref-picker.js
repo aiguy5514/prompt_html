@@ -1233,16 +1233,48 @@
     updateHeaderSessionPill
   };
 
-  // Enable mouse-wheel horizontal scrolling on horizontal chip/tab strips
+  // Enable mouse-wheel & click-drag horizontal scrolling on horizontal chip/tab strips
   if (typeof document !== 'undefined') {
+    const STRIP_SEL = '.select-category-bar, .section-tabs, .summary, .suite-nav, .preset-grid';
     document.addEventListener('wheel', (e) => {
-      if (!e.deltaY || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      const strip = e.target && e.target.closest && e.target.closest('.select-category-bar, .section-tabs, .summary, .suite-nav, .preset-grid');
-      if (strip && strip.scrollWidth > strip.clientWidth) {
-        strip.scrollLeft += e.deltaY;
+      const el = (e.target && e.target.nodeType === 3) ? e.target.parentElement : e.target;
+      const strip = el && el.closest && el.closest(STRIP_SEL);
+      if (!strip || strip.scrollWidth <= strip.clientWidth) return;
+      const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      if (delta) {
+        strip.scrollLeft += delta;
         e.preventDefault();
       }
-    }, { passive: false });
+    }, { passive: false, capture: true });
+
+    let dragStrip = null, dragStartX = 0, dragScrollLeft = 0, didDrag = false;
+    document.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      const el = (e.target && e.target.nodeType === 3) ? e.target.parentElement : e.target;
+      const strip = el && el.closest && el.closest(STRIP_SEL);
+      if (strip && strip.scrollWidth > strip.clientWidth) {
+        dragStrip = strip;
+        dragStartX = e.clientX;
+        dragScrollLeft = strip.scrollLeft;
+        didDrag = false;
+      }
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (!dragStrip) return;
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 5) didDrag = true;
+      if (didDrag) {
+        dragStrip.scrollLeft = dragScrollLeft - dx;
+      }
+    });
+    document.addEventListener('mouseup', () => { dragStrip = null; });
+    document.addEventListener('click', (e) => {
+      if (didDrag) {
+        e.preventDefault();
+        e.stopPropagation();
+        didDrag = false;
+      }
+    }, true);
   }
 
 })(typeof window !== 'undefined' ? window : this);

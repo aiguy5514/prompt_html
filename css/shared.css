@@ -1040,6 +1040,7 @@
   min-height: 30px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 156, 189, .45) transparent;
+  cursor: grab;
 }
 .select-category-bar::-webkit-scrollbar {
   height: 4px;
