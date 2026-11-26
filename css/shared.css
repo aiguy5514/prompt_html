@@ -1067,6 +1067,154 @@
   font-weight: 850;
 }
 
+/* ==========================================================================
+   DECLUTTERED STUDIO WORKSPACE LAYOUT (applies to studio pages with .layout)
+   ========================================================================== */
+body:has(.layout) .shell {
+  padding-top: 14px;
+}
+body:has(.layout) .topbar {
+  gap: 10px 14px;
+  margin-bottom: 12px;
+}
+body:has(.layout) .top-meta .pill:first-child,
+body:has(.layout) .top-meta .pill:last-child {
+  display: none;
+}
+body:has(.layout) .hero {
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 16px 22px;
+  margin-bottom: 14px;
+  border-radius: 18px;
+}
+body:has(.layout) .hero:after,
+body:has(.layout) .hero-note {
+  display: none;
+}
+body:has(.layout) .hero h1 {
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.08;
+  margin: 4px 0 6px;
+  max-width: none;
+}
+body:has(.layout) .hero p {
+  font-size: 13px;
+  max-width: 72ch;
+}
+body:has(.layout) .hero-actions {
+  margin-top: 12px;
+  gap: 8px;
+}
+body:has(.layout) .hero-actions .btn {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+body:has(.layout) #copyTop,
+body:has(.layout) #shareLookTop {
+  display: none;
+}
+body:has(.layout) .preset-strip {
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+}
+body:has(.layout) .strip-head {
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+body:has(.layout) .strip-head p {
+  display: none;
+}
+body:has(.layout) .preset {
+  min-height: 60px;
+  padding: 9px 10px;
+}
+body:has(.layout) .preview-head {
+  padding: 14px 16px 12px;
+}
+body:has(.layout) .preview-head p {
+  display: none;
+}
+body:has(.layout) .summary {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-top: 10px;
+  padding-bottom: 2px;
+}
+body:has(.layout) .summary::-webkit-scrollbar {
+  display: none;
+}
+body:has(.layout) .summary-tag {
+  flex: 0 0 auto;
+}
+body:has(.layout) .preview-help {
+  font-size: 10.5px;
+  padding: 0 15px 12px;
+  opacity: 0.8;
+}
+
+/* Ref Picker collapsible details */
+.ref-tip-details summary,
+.ref-more-presets summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #e2d8f0;
+  user-select: none;
+}
+.ref-tip-details summary::-webkit-details-marker,
+.ref-more-presets summary::-webkit-details-marker {
+  display: none;
+}
+.ref-more-presets {
+  width: 100%;
+  margin-top: 4px;
+}
+.ref-more-presets summary {
+  display: inline-flex;
+  color: #b8adbd;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.ref-more-presets[open] summary {
+  margin-bottom: 6px;
+}
+
+@media (max-width: 850px) {
+  body:has(.layout):has(.mobile-bar) .fab {
+    display: none !important;
+  }
+  body:has(.layout) .hero {
+    padding: 13px 15px;
+  }
+  body:has(.layout) .hero p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  body:has(.layout) .preset-grid {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(165px, 68%);
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+}
+
+
 
 
 

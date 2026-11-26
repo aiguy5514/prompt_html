@@ -865,20 +865,18 @@
             <input type="text" class="ref-custom-input" id="refCustomFaceTraits" placeholder="Optional specific facial features (e.g. sharp jawline, beauty mark, deep hazel eyes)" value="${escapeHtml(state.customFaceTraits || '')}">
 
             <div class="ref-tip-box">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
-                <div style="display: flex; align-items: center; gap: 6px;">
-                  <strong>💡 External Image Generator Setup Guide:</strong>
-                  <span style="font-size: 9.5px; color: #a855f7; background: rgba(168,85,247,0.15); padding: 1px 6px; border-radius: 4px;">Prevent Face Bleed</span>
+              <details class="ref-tip-details">
+                <summary>
+                  <span>💡 External Image Generator Setup Guide</span>
+                  <span style="font-size: 9.5px; color: #a855f7; background: rgba(168,85,247,0.15); padding: 1px 6px; border-radius: 4px;">Prevent Face Bleed ▾</span>
+                </summary>
+                <div style="font-size: 10px; line-height: 1.45; color: #cbd5e1; margin-top: 8px;">
+                  • <strong>Why Close-Up Photos Bleed:</strong> Tight close-up portraits dominate latent embeddings. Keep reference weight moderate (0.40–0.50) and never use face-swap modules.<br>
+                  • <strong>Reference Parameter Tuning:</strong> Use style conditioning or set character weight to 0 so styling transfers without locking the face.<br>
+                  • <strong>Pose &amp; Structure Guidance:</strong> Use pose/depth guidance for posture and hair boundaries rather than facial identity.<br>
+                  • <strong>Vision Models:</strong> The prompt prepends a <code>[REFERENCE IMAGE USAGE DIRECTIVE]</code> at Line 1. If a seed still bleeds, use the Hair-Only Sanitizer below.
                 </div>
-              </div>
-              <div style="font-size: 10px; line-height: 1.45; color: #cbd5e1;">
-                • <strong>Why Close-Up Photos Bleed:</strong> If your reference photo is a tight close-up portrait, the face dominates the latent image embedding. In addition to our built-in portrait-override directives, apply these tool settings:<br>
-                • <strong>Image Prompt Conditioning:</strong> Keep reference conditioning weight moderate (0.40–0.50, stop around 0.70–0.75). <em>Never</em> use face-swapping or face-cloning modules when you want a new face.<br>
-                • <strong>Reference Parameter Tuning:</strong> When using character or style reference parameters in external image tools, use style conditioning or set character weight to zero (0) so the engine transfers styling without locking the face.<br>
-                • <strong>Pose &amp; Structure Guidance:</strong> Use pose/skeleton guidance or depth conditioning for posture and hair boundaries rather than facial identity transfer.<br>
-                • <strong>Multimodal &amp; Chat Vision Engines:</strong> Multimodal vision models prioritize natural-language directives over bracket weights. The studio automatically prepends a <code>[REFERENCE IMAGE USAGE DIRECTIVE]</code> at Line 1 instructing the vision system to decouple her face. If your generator still experiences stochastic fallback on certain seeds, download and upload the sanitized hair-only photo below for 100% deterministic fresh faces.<br>
-                • <strong>Prompt Security:</strong> The studio prompt automatically injects high-priority face decoupling tokens, negative face tokens, and autonomous bone structure directives.
-              </div>
+              </details>
               <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
                 <button type="button" class="ref-preset-btn" id="btnRefCopyPositive" style="background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.4); color: #fff;">📋 Copy Clean Positive Only</button>
                 <button type="button" class="ref-preset-btn" id="btnRefCopyNegative" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5;">🚫 Copy Negative Exclusions</button>
@@ -890,12 +888,12 @@
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
                   <div style="display: flex; align-items: center; gap: 6px;">
                     <span style="font-size: 14px;">🎭</span>
-                    <strong style="font-size: 11px; color: #6ee7b7;">Hair-Only Reference Sanitizer: 100% Guaranteed Face Bleed Fix</strong>
+                    <strong style="font-size: 11px; color: #6ee7b7;">Hair-Only Reference Sanitizer</strong>
                   </div>
-                  <span style="font-size: 9px; background: rgba(52,211,153,0.18); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.35); padding: 1px 6px; border-radius: 4px; font-weight: 600;">PURE HAIR REFERENCE</span>
+                  <span style="font-size: 9px; background: rgba(52,211,153,0.18); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.35); padding: 1px 6px; border-radius: 4px; font-weight: 600;">FACE BLEED FIX</span>
                 </div>
                 <div style="font-size: 10px; color: #cbd5e1; margin-top: 3px; line-height: 1.4;">
-                  If your generator preserves her face despite the prompt, mask her face here. The external tool's vision encoder will see <strong>ONLY</strong> her hair, strand texture, and hair color, making it impossible to clone her face.
+                  Mask her face here so external tools see <strong>ONLY</strong> her hair, texture, and color.
                 </div>
               </div>
               <div class="ref-sanitizer-body" style="margin-top: 8px;">
@@ -941,16 +939,21 @@
             <span class="ref-presets-label">Quick Presets:</span>
             <div class="ref-presets-buttons">
               <button type="button" class="ref-preset-btn" data-preset="original_look_fresh_face">✨ Original Look + Fresh AI Face</button>
-              <button type="button" class="ref-preset-btn" data-preset="ai_face_hair_only">✨ New Face + Hair Only (Cut, Texture &amp; Color)</button>
+              <button type="button" class="ref-preset-btn" data-preset="ai_face_hair_only">✨ New Face + Hair Only</button>
               <button type="button" class="ref-preset-btn" data-preset="retain_full_reference">📷 Full Original Look + Ref Face</button>
               <button type="button" class="ref-preset-btn" data-preset="reset">✦ Default (Face only)</button>
-              <button type="button" class="ref-preset-btn" data-preset="keep_hair">💇‍♀️ Keep Hair</button>
-              <button type="button" class="ref-preset-btn" data-preset="keep_clothes">👗 Keep Clothes</button>
-              <button type="button" class="ref-preset-btn" data-preset="keep_hair_clothes">✨ Keep Hair + Clothes</button>
-              <button type="button" class="ref-preset-btn" data-preset="ai_face_hair">✨ New Face + Ref Hair</button>
-              <button type="button" class="ref-preset-btn" data-preset="ai_face_clothes">✨ New Face + Ref Clothes</button>
-              <button type="button" class="ref-preset-btn" data-preset="ai_face_hair_clothes">✨ New Face + Hair &amp; Clothes</button>
             </div>
+            <details class="ref-more-presets">
+              <summary>More presets ▾</summary>
+              <div class="ref-presets-buttons">
+                <button type="button" class="ref-preset-btn" data-preset="keep_hair">💇‍♀️ Keep Hair</button>
+                <button type="button" class="ref-preset-btn" data-preset="keep_clothes">👗 Keep Clothes</button>
+                <button type="button" class="ref-preset-btn" data-preset="keep_hair_clothes">✨ Keep Hair + Clothes</button>
+                <button type="button" class="ref-preset-btn" data-preset="ai_face_hair">✨ New Face + Ref Hair</button>
+                <button type="button" class="ref-preset-btn" data-preset="ai_face_clothes">✨ New Face + Ref Clothes</button>
+                <button type="button" class="ref-preset-btn" data-preset="ai_face_hair_clothes">✨ New Face + Hair &amp; Clothes</button>
+              </div>
+            </details>
           </div>
         </div>
       `;
