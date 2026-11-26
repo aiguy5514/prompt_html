@@ -198,6 +198,9 @@
   O("💎 Diamond · Sculpted diamond silhouette", "sculpt a high-fashion diamond facial geometry with wide dramatic cheekbones and tapered jawline", "", "sculpted"),
   O("🏛️ Runway · Structured square runway jaw", "sculpt a commanding structured jawline with crisp bilateral mandibular angles and strong horizontal symmetry", "", "structured"),
   O("🌸 Soft · Youthful soft rounded silhouette", "sculpt a youthful soft rounded facial contour with gentle curves, supple cheeks, and zero harsh angles", "", "soft"),
+  O("📐 Oblong · Elongated sculptural editorial oval", "sculpt a poised elongated editorial oval contour with clean vertical proportions and graceful chin taper", "", "sculpted"),
+  O("👑 Pear · Soft balanced lower-cheek contour", "refine facial silhouette with gentle lower-cheek fullness tapering smoothly into a relaxed jawline", "", "soft"),
+  O("⚡ Angular · Sharp high-contrast editorial planes", "carve crisp high-contrast facial planes with defined cheekbones and clean architectural jaw geometry", "", "structured"),
 
   ];
 
@@ -211,6 +214,9 @@
   O("✨ Laminated · Brushed-up laminated fluffy brows", "style eyebrows with modern brushed-up laminated texture, visible upward strand separation, and soft natural fullness", "", "editorial"),
   O("⚡ High-Arch · Dramatic high-arched editorial brows", "shape into dramatic high-arched editorial eyebrows with clean, confident lines and lifted outer tails", "", "editorial"),
   O("📐 Retro · Slim sculpted 90s retro arches", "reshape into slim, precisely defined 90s-inspired sculpted arches with clean brow bone highlight", "", "editorial"),
+  O("🌿 Bushy · Untamed organic editorial thick brows", "cultivate lush, thick organic eyebrows with natural untamed inner-brow hairs and rich dark texture", "", "natural"),
+  O("✨ Tapered · Soft arched & cleanly tapered classic brows", "shape eyebrows into timeless balanced arches with soft inner density and crisp tapered outer tails", "", "defined"),
+  O("🔥 Bold · Strong straight-angled power brows", "sculpt bold, confident straight-angled power eyebrows that frame the upper eye socket with authority", "", "editorial"),
 
   ];
 
@@ -222,6 +228,9 @@
   O("📐 Double Fold · Crisp defined double eyelid fold", "sculpt clean, crisp double eyelid supratarsal creases with balanced upper lid exposure and clear eyelid crease definition", "", "sculpted"),
   O("✨ Canthal Tilt · Upturned youthful outer canthal tilt", "gently lift the lateral canthal angle for a youthful, confident upturned eye tilt with smooth symmetry", "", "sculpted"),
   O("🔥 Hooded · Intense hooded smoldering eyes", "refine upper eyelids with a subtle deep-set hooded contour for an intense, smoldering editorial gaze", "", "smoldering"),
+  O("🌙 Almond · Classic balanced soft almond eyes", "sculpt balanced classic almond eyes with smooth upper lid curvature and natural outer-corner symmetry", "", "elongated"),
+  O("✨ Siren · Sleek narrow horizontal siren eyes", "elongate eyes into sleek, narrow horizontal siren eyes with sharp inner canthus and lifted outer wings", "", "elongated"),
+  O("💫 Round · Bright expressive rounded eyes", "shape eyes into bright, open rounded contours with warm lower-lid softness and luminous catchlights", "", "expressive"),
 
   ];
 
@@ -233,6 +242,10 @@
   O("🍯 Amber · Warm golden-amber hazel irises", "warm hazel irises with rich honey and golden-amber radial undertones catching directional light", "", "warm"),
   O("✨ Caramel · Caramel topaz warmth", "clear warm caramel topaz brown irises with bright reflective catchlights and golden highlights", "", "warm"),
   O("🌿 Olive · Olive green with amber flecks", "deep olive-green irises with subtle amber flecks surrounding the pupil and dark limbal ring", "", "rare"),
+  O("💎 Emerald · Deep emerald forest-green irises", "luminous deep emerald-green irises with crisp dark limbal rings and subtle golden central bursts", "", "rare"),
+  O("🌊 Grey-Hazel · Cool smoky grey-hazel irises", "smoky cool grey-hazel irises shifting subtly between slate grey and warm hazel near the pupil", "", "rare"),
+  O("🍫 Mahogany · Warm mahogany-reddish brown irises", "rich warm mahogany-brown irises with sunlit reddish-amber depth and crisp corneal highlights", "", "warm"),
+  O("🌌 Midnight · Cool slate-blue steel irises", "deep cool slate-blue irises with subtle silver radial fibers and dark outer limbal definition", "", "rare"),
 
   ];
 
@@ -245,6 +258,9 @@
   O("👃 Button · Petite upturned button nose", "sculpt a petite nose with a gently scooped concave dorsal bridge and cute rounded button tip", "", "petite"),
   O("👃 Soft Slope · Subtle natural soft slope", "smooth the nasal profile with an organic, natural soft slope and balanced nostril proportion", "", "natural"),
   O("👃 Straight · Aristocratic defined straight profile", "sculpt a noble, defined straight nasal profile with commanding architectural precision and clean columella support", "", "architectural"),
+  O("👃 Ski-Slope · Delicate scooped ski-slope profile", "refine the nasal bridge with a delicate subtle concave curve leading to a softly lifted refined tip", "", "petite"),
+  O("👃 Sculpted Tip · Refined triangular tip & crisp bridge", "sharpen the nasal tip definition with clean tip-defining points and balanced narrow nostril flares", "", "refined"),
+  O("👃 Natural Classic · Balanced organic Indian-classic bridge", "preserve organic natural character with a smooth medium bridge and soft harmonious nostril proportions", "", "natural"),
 
   ];
 
@@ -257,6 +273,9 @@
   O("💋 Elegant · Subtle elegant lip volume", "gently enhance lip borders with restrained, natural fullness and soft healthy hydration", "", "natural"),
   O("💋 French Matte · Understated French natural lip", "refine lips into an understated Parisian natural aesthetic with soft matte edges and balanced fullness", "", "natural"),
   O("💋 Berry Pout · Soft natural berry-tinted pout", "tint and plump lips with a soft natural berry flush and gentle rested parting", "", "tinted"),
+  O("💋 Rose Satin · Soft rosewood satin-hydrated lips", "enhance lips with a natural rosewood undertone, smooth vertical creases, and healthy satin hydration", "", "tinted"),
+  O("💋 Defined Border · Crisp vermilion border & balanced fullness", "sharpen the outer vermilion lip border cleanly with balanced upper-to-lower lip symmetry", "", "sculpted"),
+  O("💋 Soft Matte · Plush velvet-matte nude-rose lips", "render plush, balanced lips with a soft velvet-matte nude-rose finish and natural skin texture", "", "natural"),
 
   ];
 
@@ -269,6 +288,9 @@
   O("🌸 Pointed · Dainty pointed micro-chin", "refine the lower face with a dainty tapered micro-chin and smooth submental transition", "", "soft"),
   O("🏛️ Runway Square · Defined square runway chin", "sculpt a firm, slightly squared-off runway chin profile with clean horizontal symmetry", "", "structural"),
   O("✨ Cleft Chin · Subtle cleft chin indentation", "add a faint, elegant central cleft chin indentation with realistic natural skin shadowing", "", "structural"),
+  O("💎 V-Line · Sleek V-line tapered chin & jaw", "sculpt a sleek, slender V-line jawline tapering smoothly from ear to a refined centered chin", "", "sharp"),
+  O("🏛️ Contoured · Crisp clean submental neck-to-jaw shadow", "tighten and define the submental transition with a clean shadow line separating jawline from neck", "", "sharp"),
+  O("🌸 Soft Oval · Balanced gentle curved jaw & chin", "shape a harmonious, softly curved jawline and balanced chin with natural unforced softness", "", "soft"),
 
   ];
 
@@ -278,6 +300,9 @@
   O("💎 Zygomatic · High sculpted zygomatic cheekbones", "sculpt high, pronounced zygomatic cheekbones with elegant angular definition and luminous light catch", "", "sculpted"),
   O("💎 Submalar · Subtle editorial hollows beneath cheekbones", "sculpt subtle submalar cheek hollows that accentuate facial bone structure with soft gradient shading", "", "sculpted"),
   O("🌸 Apple Cheeks · Soft youthful apple cheeks", "enhance cheeks with gentle, supple apple cheek volume and radiant youthful fullness", "", "soft"),
+  O("💎 Runway Lift · Lifted lateral cheekbones with crisp light catch", "elevate the lateral cheekbones cleanly toward the temples for a lifted, sculpted editorial profile", "", "sculpted"),
+  O("✨ Dimples · Subtle natural cheek dimples", "add delicate, natural subtle cheek dimples with authentic soft skin creasing", "", "soft"),
+  O("🌿 Balanced · Smooth natural mid-face fullness", "preserve healthy, balanced mid-face cheek contour with natural transition from lower eyelid to jaw", "", "soft"),
 
   ];
 
@@ -289,6 +314,9 @@
   O("☁️ Soft Matte · Velvety soft-focus matte finish", "render a smooth, soft-focus velvet matte complexion with clean oil-free texture and visible pores", "", "matte"),
   O("☀️ Golden · Sun-kissed warm golden radiance", "impart a healthy, sun-kissed golden radiance with warm natural dermal flush on cheeks and nose bridge", "", "warm"),
   O("🔍 Raw Realism · Raw unfiltered natural realism", "keep raw unfiltered authentic skin with natural skin grain, subtle tone variations, and fine facial micro-details", "", "natural"),
+  O("✨ Freckles · Sun-kissed light natural freckles across nose & cheeks", "render realistic light natural freckles scattered organically across the nose bridge and upper cheeks with visible pores", "", "warm"),
+  O("💧 Satin Glow · Balanced editorial satin skin finish", "render a refined satin skin finish with soft specular highlights on cheekbones and natural micro-texture", "", "dewy"),
+  O("🌿 Clear · Smooth blemish-balanced skin keeping real pores", "even out temporary blemishes gently while strictly retaining authentic dermal pores, fine lines, and real texture", "", "natural"),
 
   ];
 
@@ -300,7 +328,11 @@
     O("✂️ Reshape · Subtle trim & ends reshaping", "subtly reshape the existing haircut, evening out the hemline and dusting split ends while maintaining current length", '', "trim"),
     O("✂️ Curtain Layers · Face-framing layers & curtain bangs", "carve soft face-framing layers and wispy curtain bangs into the existing hair, blending seamlessly", '', "layers"),
     O("✂️ Blunt Fringe · Full eyebrow-grazing blunt fringe", "add crisp, precisely cut eyebrow-grazing blunt bangs onto the forehead while keeping the rest of the hair length intact", '', "fringe"),
-    O("💨 Salon Blowout · Voluminous salon blowout restyling", "restyle the existing haircut with soaring root lift, bouncy barrel-waved volume, and airy salon movement", '', "styling")
+    O("💨 Salon Blowout · Voluminous salon blowout restyling", "restyle the existing haircut with soaring root lift, bouncy barrel-waved volume, and airy salon movement", '', "styling"),
+    O("⚡ Undercut · Hidden nape undercut buzz beneath existing hair", "buzz a crisp, clean triangular undercut at the lower nape beneath the existing upper hair canopy", '', "clipper"),
+    O("🪒 Razor Feather · Airy razor-feathered ends & piecey texture", "carve airy, piecey razor-feathered texture through the ends and face-framing perimeter without losing overall length", '', "razor"),
+    O("💧 Wet Slick · Glossy wet-look slicked-back restyling", "restyle the hair into a sleek, glossy wet-look finish combed cleanly back from the forehead", '', "styling"),
+    O("✂️ Big Chop · Dramatic long-to-short bob transformation", "perform a dramatic big-chop transformation converting long hair into the selected crisp short bob or pixie silhouette", '', "haircut")
   ];
 
       const hairColorOpts = [
@@ -317,6 +349,12 @@
   O("🍷 Burgundy · Deep burgundy wine tint", "deep burgundy-tinted brunette hair with luminous jewel-toned highlights", "", "fashion"),
   O("🌸 Rose Gold · Rose gold brown tint", "subtle rose gold brown tint with delicate warm shimmer", "", "fashion"),
   O("❄️ Platinum · Champagne platinum blonde", "cool champagne platinum blonde with realistic shadow root depth", "", "blonde"),
+  O("🌌 Midnight · Glossy midnight blue-black", "deep obsidian black hair with subtle cool midnight-blue specular undertones in direct light", "", "black"),
+  O("☕ Mocha · Rich dark roasted mocha", "deep roasted mocha-brown hair with silky dimensional neutral undertones", "", "brunette"),
+  O("🍒 Mahogany · Deep mahogany auburn", "rich dark mahogany-auburn hair with warm cherry-wood depth in sunlight", "", "red"),
+  O("🌹 Rosewood · Subtle rosewood-tinted brunette", "dark brunette hair infused with a restrained, sophisticated rosewood-berry sheen", "", "fashion"),
+  O("🩶 Silver Ash · Smokey silver-ash balayage", "cool smokey silver-ash ribbons blended seamlessly from natural dark roots", "", "balayage"),
+  O("☀️ Bronze · Sun-lit warm bronze highlights", "warm sun-kissed bronze micro-highlights woven organically through dark brown lengths", "", "balayage"),
 
   ];
 
