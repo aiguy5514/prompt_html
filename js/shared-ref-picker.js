@@ -1233,4 +1233,16 @@
     updateHeaderSessionPill
   };
 
+  // Enable mouse-wheel horizontal scrolling on horizontal chip/tab strips
+  if (typeof document !== 'undefined') {
+    document.addEventListener('wheel', (e) => {
+      if (!e.deltaY || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      const strip = e.target && e.target.closest && e.target.closest('.select-category-bar, .section-tabs, .summary, .suite-nav, .preset-grid');
+      if (strip && strip.scrollWidth > strip.clientWidth) {
+        strip.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
+  }
+
 })(typeof window !== 'undefined' ? window : this);
