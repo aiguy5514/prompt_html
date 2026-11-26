@@ -1284,7 +1284,7 @@ function buildPrompt(){
     // 2-Shot Couple Video Clip Reel format
     if(isAiFace){
       if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
-      lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · HIGHWAY & INTIMACY SEQUENCE');
+      lines.push(`${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · HIGHWAY & INTIMACY SEQUENCE`);
     } else {
       lines.push('CINEMATIC 2-SHOT COUPLE VIDEO REEL · HIGHWAY & INTIMACY SEQUENCE');
     }
@@ -1293,6 +1293,7 @@ function buildPrompt(){
     lines.push('• Format: 2-shot continuous narrative video reel (6–8s total duration).');
     if(isAiFace){
       lines.push(`• Female Model & AI-Generated Face: Fresh autonomous face with selective transfer: ${refDirectives.summaryText}. Wearing ${effRomWardrobe}; haircut: ${effRomHair}${covVal ? ' (' + covVal + ')' : ''}.`);
+      refDirectives.primaryBullets.forEach(b => lines.push(b));
     } else {
       lines.push(`• Female Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${effRomWardrobe}; haircut: ${effRomHair}${covVal ? ' (' + covVal + ')' : ''}.`);
     }
@@ -1316,7 +1317,7 @@ function buildPrompt(){
     // Single editorial photograph format
     if(isAiFace){
       if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
-      lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · ROMANTIC & COUPLE EDITORIAL');
+      lines.push(`${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · ROMANTIC & COUPLE EDITORIAL`);
     } else {
       lines.push('CINEMATIC DUO PORTRAIT · ROMANTIC & COUPLE EDITORIAL');
     }
@@ -1362,7 +1363,7 @@ function buildPrompt(){
 
     lines.push('');
     lines.push('ENVIRONMENT, SETTING & LIGHTING:');
-    lines.push(`• Location & Backdrop: ${settingText}.`);
+    lines.push(`• Location & Backdrop: ${effRomSetting}.`);
     lines.push(`• Lighting Mood: ${lightingText}.`);
 
     lines.push('');
@@ -1425,6 +1426,10 @@ function buildPrompt(){
 
   const dedupedNegs = dedupeNegatives(negs);
 
+  if(isAiFace && refDirectives?.closingMandate){
+    lines.push('');
+    lines.push(refDirectives.closingMandate);
+  }
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
   dedupedNegs.forEach(n => lines.push('• ' + n));
@@ -2009,6 +2014,8 @@ function save(){
       romanceHairMoisture,
       wardrobeMode,
       reelMode,
+      checkState,
+      activeSection,
       customPresets,
       customDirection,
       extraNegative
@@ -2034,6 +2041,8 @@ function load(){
       if(d.romanceHairMoisture) romanceHairMoisture = d.romanceHairMoisture;
       if(d.wardrobeMode) wardrobeMode = d.wardrobeMode;
       if(typeof d.reelMode === 'boolean') reelMode = d.reelMode;
+      if(d.checkState && typeof d.checkState === 'object') Object.assign(checkState, d.checkState);
+      if(d.activeSection && typeof d.activeSection === 'string') activeSection = d.activeSection;
       if(Array.isArray(d.customPresets)) customPresets = d.customPresets;
       if(typeof d.customDirection === 'string') customDirection = d.customDirection;
       if(typeof d.extraNegative === 'string') extraNegative = d.extraNegative;

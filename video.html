@@ -1393,17 +1393,21 @@ function renderPresets(){
   if(!host) return;
   host.innerHTML = '';
   customPresets.forEach(p => {
-    const b = document.createElement('button');
-    b.type = 'button';
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const b = document.createElement('div');
+    b.setAttribute('role', 'button');
+    b.setAttribute('tabindex', '0');
     b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
-    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon||'⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" data-del="${p.id}">✕</button></div><small>${p.sub||'Custom'}</small>`;
-    b.addEventListener('click', e => {
-      if(e.target.closest('.preset-del')){
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${esc(p.icon||'⭐')}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title)}</strong><button type="button" class="preset-del" data-del="${esc(p.id)}">✕</button></div><small>${esc(p.sub||'Custom')}</small>`;
+    const activate = e => {
+      if(e.target && e.target.closest('.preset-del')){
         customPresets = customPresets.filter(x => x.id !== p.id);
         save(); renderPresets(); return;
       }
       applyPresetObj(p);
-    });
+    };
+    b.addEventListener('click', activate);
+    b.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(e); } });
     host.appendChild(b);
   });
   starterPresets.forEach(p => {
@@ -1459,10 +1463,16 @@ function buildPrompt(){
   const isConcealed = /shield\w*.*face|conceal\w*.*face|facing.*away|turned.*away|profile/i.test(beatMid + ' ' + beatEnd) || ['65_70','80_85','95_100'].includes(veilTier) || hasVidObfusc;
   const vidObfuscClause = buildObfuscClause(vidObfuscMode, hairArch);
 
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'video' });
+  const isAiFace = refDirectives?.isAiFace;
+
   const rawMicro = val('vidFacialMicroMotion');
-  const microSafe = (['65_70','80_85','95_100'].includes(veilTier) || /shield|conceal/i.test(beatMid))
+  let microSafe = (['65_70','80_85','95_100'].includes(veilTier) || /shield|conceal/i.test(beatMid))
     ? sanitizeHiddenFaceText(rawMicro, true, veilTier)
     : rawMicro;
+  if(isAiFace && microSafe){
+    microSafe = microSafe.replace(/laughter|half-smile|half-smirk|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+  }
 
   const wardrobeText = (wardrobeMode === 'separates')
     ? `a modern separates outfit featuring ${val('topPiece')} paired with ${val('bottomPiece')} (${val('midriffStyling')})`
@@ -1473,9 +1483,6 @@ function buildPrompt(){
     : (vidHairMoisture === 'damp'
       ? 'Damp Misted Hair Physics: Lightly spray-misted strands move with cohesive slightly clumped inertia and fine catching droplet sheen.'
       : 'Dry Blown-Out Motion Physics: Lightweight airy dry hair layers catch soft air currents with bouncy volume and delicate shimmering flyaways.');
-
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'video' });
-  const isAiFace = refDirectives?.isAiFace;
 
   const isVidRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
   const isVidRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
@@ -1493,6 +1500,7 @@ function buildPrompt(){
 
   const lines = [];
   if(compactMotionMode){
+    if(isAiFace && refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
     lines.push(`${val('vidPipelineMode')}. Duration: ${val('vidDuration')}, ${val('vidFramerate')}, ${val('vidFocalLens')}, aspect ${val('aspect')}.`);
     if(isAiFace){
       lines.push(`Subject: Synthesize a fresh, autonomous AI-generated face; selectively transfer from reference photo: ${refDirectives.summaryText || 'selected features'}. Wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
@@ -1508,7 +1516,7 @@ function buildPrompt(){
   } else {
     if(isAiFace){
       if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
-      lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · CINEMA MOTION DIRECTOR');
+      lines.push(`${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · CINEMA MOTION DIRECTOR`);
     } else {
       lines.push('REFERENCE-GUIDED LIVE-ACTION VIDEO PROMPT · CINEMA MOTION DIRECTOR');
     }
@@ -1602,6 +1610,10 @@ function buildPrompt(){
 
   const dedupedNegs = dedupeNegatives(negs);
 
+  if(isAiFace && refDirectives?.closingMandate){
+    lines.push('');
+    lines.push(refDirectives.closingMandate);
+  }
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
   dedupedNegs.forEach(n => lines.push('• ' + n));

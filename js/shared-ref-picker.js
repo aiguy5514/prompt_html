@@ -362,21 +362,31 @@
         break;
       case 'ai_face_hair':
         state.faceMode = 'ai_generated';
+        state.faceSynthesisMode = 'unrelated';
+        state.faceArchetype = 'auto';
+        state.divergenceIntensity = 'distinct';
         Object.keys(state.features).forEach(k => { state.features[k] = (k === 'haircut'); });
         break;
       case 'ai_face_hair_only':
       case 'ai_face_hair_bundle':
         state.faceMode = 'ai_generated';
         state.faceSynthesisMode = 'unrelated';
+        state.faceArchetype = 'auto';
         state.divergenceIntensity = 'dramatic';
         Object.keys(state.features).forEach(k => { state.features[k] = (k === 'haircut' || k === 'hairTexture' || k === 'hairColor'); });
         break;
       case 'ai_face_clothes':
         state.faceMode = 'ai_generated';
+        state.faceSynthesisMode = 'unrelated';
+        state.faceArchetype = 'auto';
+        state.divergenceIntensity = 'distinct';
         Object.keys(state.features).forEach(k => { state.features[k] = (k === 'wardrobe'); });
         break;
       case 'ai_face_hair_clothes':
         state.faceMode = 'ai_generated';
+        state.faceSynthesisMode = 'unrelated';
+        state.faceArchetype = 'auto';
+        state.divergenceIntensity = 'distinct';
         Object.keys(state.features).forEach(k => { state.features[k] = (k === 'haircut' || k === 'wardrobe'); });
         break;
       case 'reset':
@@ -426,6 +436,7 @@
               if (feat in d.features) state.features[feat] = !!d.features[feat];
             });
           }
+          notify();
         }
       }
     } catch (e) {}
@@ -448,15 +459,15 @@
     switch (feat) {
       case 'haircut':
         return isAi
-          ? 'Faithfully replicate the exact haircut silhouette, length, parting, and cut from the source hair styling onto this newly synthesized model (hair strands and fiber boundaries only; strictly do not copy any facial features).'
+          ? 'Recreate the same haircut silhouette, length, parting, and cut as a fresh hairstyle on this newly synthesized model, using the source only as a hairstyle guide (hair strands and fiber boundaries only; never copy the head, face, skin, or facial features).'
           : 'Faithfully retain and replicate the exact original haircut silhouette, length, parting, and cut directly from the reference photo (strictly do not substitute with custom haircuts).';
       case 'hairTexture':
         return isAi
-          ? 'Faithfully replicate the natural hair strand texture, thickness, follicle density, and organic wave/curl pattern from the source hair, rendered cleanly on this newly synthesized model.'
+          ? 'Recreate the natural hair strand texture, thickness, follicle density, and organic wave/curl pattern as fresh hair on this newly synthesized model, using the source only as a texture guide (never copy the head, face, or skin).'
           : 'Faithfully retain the authentic natural hair strand texture, thickness, follicle density, and organic wave/curl pattern directly from the reference photo.';
       case 'hairColor':
         return isAi
-          ? 'Match the exact hair color, undertones, and highlights from the source hair, applied to this newly synthesized model\'s hair.'
+          ? 'Recreate the hair color, undertones, and highlights as fresh hair color on this newly synthesized model, using the source only as a color guide (never copy the head, face, or skin).'
           : 'Match the exact original hair color, undertones, and highlights from the reference photo.';
       case 'wardrobe':
         return 'Faithfully retain and replicate the exact original wardrobe, garments, tailoring, fabric weave, and color scheme worn in the reference photo (strictly do not substitute with custom garments).';
@@ -538,7 +549,16 @@
         ? 'hairstyle, hair texture, and hair color'
         : (hasAnyFeature ? `selected styling attributes (${scopeLabels.join(', ')}) — and body pose geometry only if Pose & Stance is selected` : 'non-facial styling and posture');
 
-      const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: ASSET ROLE: INANIMATE STYLING SWATCH ONLY. The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. Treat her face as fully redacted: do not use her facial pixels, facial identity embedding, character-reference lock, or face crop as a starting point. Synthesize a COMPLETELY DIFFERENT woman with an independent facial phenotype: high cheekbones, almond eyes, sculpted jawline, neutral closed lips (zero visible teeth), and zero nose jewelry. Build the new face from an independent anatomical specification so no eye spacing, nose length or width, lip shape, jaw angle, cheekbone placement, face width, or skin-tone pattern matches the reference. A side-by-side comparison must unmistakably show two entirely different people.]`;
+      // The single most important instruction in the whole app. Image models are
+      // trained to treat an uploaded portrait as an identity reference, so this has
+      // to outrank every styling instruction and be repeated at the end of prompts.
+      const faceNoveltyPriority = state.faceSynthesisMode === 'sibling'
+        ? `HARD PRIORITY #1 — DISTINCT SISTER FACE: The finished image must show a visibly distinct biological sister, NOT an identical twin or clone of the reference. Alter her jawline, eye contour, nose bridge, and lip proportions.`
+        : state.faceSynthesisMode === 'reimagined'
+          ? `HARD PRIORITY #1 — HIGH-FASHION FACIAL REMODELING: Structurally remodel the face into a sculpted runway supermodel with elevated cheekbones, chiseled jawline, and editorial proportions rather than copying a casual snapshot.`
+          : `HARD PRIORITY #1 — NEW FACE OVERRIDES ALL: The finished image must show a brand-new person who is NOT recognizable as the reference. This is not an image edit, face swap, character-reference, or identity-transfer task. If applying the reference hairstyle would cause the reference face to reappear, ignore the reference image entirely and synthesize the subject from this text alone; facial novelty outranks exact hair, wardrobe, pose, and scene fidelity.`;
+
+      const multimodalDirective = `[REFERENCE IMAGE USAGE DIRECTIVE: ${faceNoveltyPriority} ASSET ROLE: INANIMATE STYLING SWATCH ONLY. The uploaded photo is provided EXCLUSIVELY for ${multimodalScope}. STRICTLY DO NOT copy, preserve, or replicate the face, facial features, expression, or facial identity of the person in the photo. Treat her face as fully redacted: do not use her facial pixels, facial identity embedding, character-reference lock, or face crop as a starting point. Synthesize a ${state.faceSynthesisMode === 'sibling' ? 'visibly distinct biological sister' : 'COMPLETELY DIFFERENT woman'} with an independent facial phenotype: ${arch.tokens}, neutral closed lips (zero visible teeth), and zero nose jewelry. Build the new face from an independent anatomical specification so no eye spacing, nose length or width, lip shape, jaw angle, cheekbone placement, face width, or skin-tone pattern matches the reference.]`;
 
       if (state.faceSynthesisMode === 'sibling') {
         frontLoadedSubject = `${multimodalDirective}\nA completely distinct female model, biological sister with unique personal facial architecture, ${arch.tokens}, neutral closed lips, calm composed gaze, zero visible teeth.`;
@@ -555,7 +575,7 @@
           : ' A side-by-side comparison must unmistakably reveal two distinct sisters with unique facial structures, NEVER an identical twin, digital clone, or duplicate face.';
 
         primaryBullets.push(
-          `• MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE): The subject is her biological sister, NOT the same woman. While sharing her natural Indian heritage, eye coloration, and warm skin undertones, you MUST visibly and noticeably differentiate her facial anatomy: alter the jawline width and chin contour, reshape the eye contour and eyelid fold, sculpt a noticeably different nasal bridge and tip, and modify the lip fullness featuring ${arch.tokens}.${customTraits}${intensityClause}`
+          `• MANDATORY SIBLING DIFFERENTIATION (BIOLOGICAL SISTER, NOT A CLONE): The subject is her biological sister, NOT the same woman. While sharing her natural heritage, eye coloration, and warm skin undertones, you MUST visibly and noticeably differentiate her facial anatomy: alter the jawline width and chin contour, reshape the eye contour and eyelid fold, sculpt a noticeably different nasal bridge and tip, and modify the lip fullness featuring ${arch.tokens}.${customTraits}${intensityClause}`
         );
         negativeAdditions.push(
           'cloned face, duplicate face, twin likeness, identical facial structure, duplicate facial geometry, artificial face twin, digital face swap mask, facial identity bleed, open mouth smile, visible teeth'
@@ -576,7 +596,7 @@
         // Unrelated Person (Default): 100% Face Swap, affirmative independent anatomy
         let intensityClause = '';
         const prefix = (isDramatic || isHairOnlySelection)
-          ? ' Mandatory dramatic face swap: total anatomical decoupling'
+          ? ' Mandatory dramatic identity replacement: total anatomical decoupling'
           : ' Distinct autonomous facial architecture: complete anatomical decoupling';
         switch (state.faceArchetype) {
           case 'soft_oval':
@@ -674,21 +694,21 @@
     if (state.features.haircut) {
       primaryBullets.push(
         isAiFace
-          ? '• Hairstyle & Silhouette: Replicate the exact hairstyle, haircut, length, and parting seen in the source styling (hair strands only, draped naturally around this newly synthesized model\'s unique facial anatomy; zero face transfer).'
+          ? '• Hairstyle & Silhouette: Recreate the same hairstyle, haircut, length, and parting as fresh hair on this newly synthesized model (hair strands only, draped naturally around this newly synthesized model\'s unique facial anatomy; never copy the head, face, or skin).'
           : '• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, parting, and silhouette from the reference image.'
       );
     }
     if (state.features.hairTexture) {
       primaryBullets.push(
         isAiFace
-          ? '• Hair Texture & Density: Render authentic natural hair strand texture, strand thickness, follicle density, and organic finish from the source hair styling on this newly synthesized model.'
+          ? '• Hair Texture & Density: Recreate authentic natural hair strand texture, strand thickness, follicle density, and organic finish as fresh hair on this newly synthesized model (never copy the head, face, or skin).'
           : '• Hair Texture & Density (From Reference Photo): Faithfully preserve the natural hair strand texture, thickness, follicle density, and organic finish visible in the reference image.'
       );
     }
     if (state.features.hairColor) {
       primaryBullets.push(
         isAiFace
-          ? '• Hair Color: Match the exact natural hair color, undertones, and highlights from the source hair styling on this new model\'s hair.'
+          ? '• Hair Color: Recreate the natural hair color, undertones, and highlights as fresh hair color on this new model (never copy the head, face, or skin).'
           : '• Hair Color (From Reference Photo): Match the exact natural hair color, undertones, and highlights shown in the reference image.'
       );
     }
@@ -747,6 +767,9 @@
       summaryText,
       headerPrefix,
       frontLoadedSubject: isAiFace ? (frontLoadedSubject || '') : '',
+      closingMandate: isAiFace
+        ? 'FINAL FACE-NOVELTY CHECK: The finished face must be a brand-new person who fails facial recognition against the reference. If the reference face is still recognizable, discard the reference image and regenerate the subject from this text alone. A new face outranks exact hair, wardrobe, pose, and scene fidelity.'
+        : '',
       primaryBullets,
       negativeAdditions,
       standaloneNegativePrompt,
@@ -756,17 +779,17 @@
     };
   }
 
+  // Hair-Only Reference Sanitizer state (module-scoped so re-renders preserve uploaded photo & mask)
+  let sanitizerImg = null;
+  let sanitizerMaskCenter = { x: 0.5, y: 0.44 };
+  let sanitizerMaskRadius = { rx: 0.22, ry: 0.30 };
+  let sanitizerIsMasked = true;
+
   // Create UI card element
   function createRefPickerCard(onChangeCallback) {
     const card = document.createElement('div');
     card.className = 'ref-picker-card';
     card.id = 'refPickerCard';
-
-    // Hair-Only Reference Sanitizer state
-    let sanitizerImg = null;
-    let sanitizerMaskCenter = { x: 0.5, y: 0.44 };
-    let sanitizerMaskRadius = { rx: 0.22, ry: 0.30 };
-    let sanitizerIsMasked = true;
 
     function renderContent() {
       const isAi = (state.faceMode === 'ai_generated');
@@ -968,9 +991,17 @@
       const customInput = card.querySelector('#refCustomFaceTraits');
       if (customInput) {
         customInput.addEventListener('input', (e) => {
+          const selStart = e.target.selectionStart;
+          const selEnd = e.target.selectionEnd;
           state.customFaceTraits = e.target.value;
           save();
           if (typeof onChangeCallback === 'function') onChangeCallback();
+          // Restore focus if onChangeCallback re-rendered the DOM
+          const nextInput = document.getElementById('refCustomFaceTraits');
+          if (nextInput && document.activeElement !== nextInput) {
+            nextInput.focus();
+            try { nextInput.setSelectionRange(selStart, selEnd); } catch (_) {}
+          }
         });
       }
 
@@ -999,8 +1030,10 @@
           } else {
             const promptEl = document.getElementById('prompt');
             if (promptEl) {
-              const text = promptEl.value.split(/AVOID \/ NEGATIVE GUIDANCE/i)[0].trim();
-              if (navigator.clipboard) navigator.clipboard.writeText(text);
+              const text = window.AfterglowVeil?.extractPositivePrompt
+                ? window.AfterglowVeil.extractPositivePrompt(promptEl.value)
+                : promptEl.value.split(/AVOID \/ NEGATIVE GUIDANCE/i)[0].trim();
+              if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
             }
           }
         });
@@ -1013,8 +1046,11 @@
           if (btnPage) {
             btnPage.click();
           } else {
-            const negPrompt = getPromptDirectives().standaloneNegativePrompt;
-            if (navigator.clipboard) navigator.clipboard.writeText(negPrompt);
+            const promptEl = document.getElementById('prompt');
+            const negPrompt = (promptEl && window.AfterglowVeil?.extractNegativePrompt)
+              ? (window.AfterglowVeil.extractNegativePrompt(promptEl.value) || getPromptDirectives().standaloneNegativePrompt)
+              : getPromptDirectives().standaloneNegativePrompt;
+            if (navigator.clipboard) navigator.clipboard.writeText(negPrompt).catch(() => {});
           }
         });
       }
@@ -1028,7 +1064,7 @@
       const canvasContainer = card.querySelector('#refCanvasContainer');
       const canvas = card.querySelector('#refSanitizerCanvas');
 
-      function drawSanitizer() {
+      function drawSanitizer(forExport = false) {
         if (!canvas || !sanitizerImg) return;
         const ctx = canvas.getContext('2d');
         canvas.width = sanitizerImg.width;
@@ -1052,10 +1088,12 @@
           ctx.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
           ctx.fill();
 
-          ctx.strokeStyle = 'rgba(52, 211, 153, 0.8)';
-          ctx.lineWidth = Math.max(2, canvas.width * 0.005);
-          ctx.setLineDash([8, 8]);
-          ctx.stroke();
+          if (!forExport) {
+            ctx.strokeStyle = 'rgba(52, 211, 153, 0.8)';
+            ctx.lineWidth = Math.max(2, canvas.width * 0.005);
+            ctx.setLineDash([8, 8]);
+            ctx.stroke();
+          }
           ctx.restore();
         }
 
@@ -1069,10 +1107,12 @@
       if (fileInput) {
         fileInput.addEventListener('change', (e) => {
           const file = e.target.files && e.target.files[0];
-          if (!file) return;
+          if (!file || (file.type && !file.type.startsWith('image/'))) return;
           const reader = new FileReader();
+          reader.onerror = () => {};
           reader.onload = (revt) => {
             const img = new Image();
+            img.onerror = () => {};
             img.onload = () => {
               sanitizerImg = img;
               sanitizerIsMasked = true;
@@ -1122,11 +1162,16 @@
 
       if (btnDownloadSanitized) {
         btnDownloadSanitized.addEventListener('click', () => {
-          if (!canvas) return;
-          const link = document.createElement('a');
-          link.download = 'sanitized_hair_reference.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
+          if (!canvas || !sanitizerImg) return;
+          try {
+            drawSanitizer(true);
+            const link = document.createElement('a');
+            link.download = 'sanitized_hair_reference.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+          } catch (e) {} finally {
+            drawSanitizer(false);
+          }
         });
       }
 

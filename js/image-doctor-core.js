@@ -640,21 +640,23 @@
     const hasHairLength = !isKeepRef(values.hairLength);
     const hasHairTexture = !isKeepRef(values.hairTexture);
     const hasHairFinish = !isKeepRef(values.hairFinish);
+    const hasHairVeil = !isKeepRef(values.hairFaceCoverage) && values.hairFaceCoverage?.label !== hairFaceCoverageOpts[0]?.label;
     if (hasHaircut) edits.push({ zone: 'hair', key: 'haircut', label: 'Haircut', val: values.haircut });
     if (hasHairColor) edits.push({ zone: 'hair', key: 'hairColor', label: 'Hair Color', val: values.hairColor });
     if (hasHairLength) edits.push({ zone: 'hair', key: 'hairLength', label: 'Hair Length', val: values.hairLength });
     if (hasHairTexture) edits.push({ zone: 'hair', key: 'hairTexture', label: 'Hair Texture', val: values.hairTexture });
     if (hasHairFinish) edits.push({ zone: 'hair', key: 'hairFinish', label: 'Hair Finish', val: values.hairFinish });
+    if (hasHairVeil) edits.push({ zone: 'hair', key: 'hairFaceCoverage', label: 'Face-Behind-Hair Veil', val: values.hairFaceCoverage });
 
-    // Wardrobe
+    // Wardrobe (clothing) & Beauty (makeup / accessories)
     if (wardrobeMode === 'outfit') {
       if (!isKeepRef(values.outfit)) edits.push({ zone: 'wardrobe', key: 'outfit', label: 'Full Outfit', val: values.outfit });
     } else {
       if (!isKeepRef(values.topPiece)) edits.push({ zone: 'wardrobe', key: 'topPiece', label: 'Top Piece', val: values.topPiece });
       if (!isKeepRef(values.bottomPiece)) edits.push({ zone: 'wardrobe', key: 'bottomPiece', label: 'Bottom Piece', val: values.bottomPiece });
     }
-    if (!isKeepRef(values.makeup)) edits.push({ zone: 'wardrobe', key: 'makeup', label: 'Makeup', val: values.makeup });
-    if (!isKeepRef(values.accessories)) edits.push({ zone: 'wardrobe', key: 'accessories', label: 'Accessories', val: values.accessories });
+    if (!isKeepRef(values.makeup)) edits.push({ zone: 'beauty', key: 'makeup', label: 'Makeup', val: values.makeup });
+    if (!isKeepRef(values.accessories)) edits.push({ zone: 'beauty', key: 'accessories', label: 'Accessories', val: values.accessories });
 
     return edits;
   }
@@ -684,6 +686,7 @@
     const hasFaceEdits = edits.some(e => e.zone === 'face');
     const hasHairEdits = edits.some(e => e.zone === 'hair');
     const hasWardrobeEdits = edits.some(e => e.zone === 'wardrobe');
+    const hasBeautyEdits = edits.some(e => e.zone === 'beauty');
     const mode = values.editMode?.text || editMode;
 
     const lines = [];
@@ -740,6 +743,8 @@
       const faceEdits = edits.filter(e => e.zone === 'face');
       const hairEdits = edits.filter(e => e.zone === 'hair');
       const wardrobeEdits = edits.filter(e => e.zone === 'wardrobe');
+      const beautyEdits = edits.filter(e => e.zone === 'beauty');
+      let hairVeilRule = null;
 
       if (faceEdits.length > 0) {
         lines.push('▶ [TARGET ZONE: FACIAL ANATOMY SURGERY]');
@@ -752,8 +757,11 @@
 
       if (hairEdits.length > 0) {
         lines.push('▶ [TARGET ZONE: HAIR TRANSFORMATION]');
-        lines.push(`  - Action Scope: ${values.hairCutAction?.text || 'Complete haircut replacement'}`);
+        if (!isKeepRef(values.haircut) || (values.hairCutAction && !isKeepRef(values.hairCutAction) && values.hairCutAction !== fields.hairCutAction?.opts?.[0])) {
+          lines.push(`  - Action Scope: ${values.hairCutAction?.text || 'Complete haircut replacement'}`);
+        }
         hairEdits.forEach(e => {
+          if (e.key === 'hairFaceCoverage') return;
           const optLabel = (e.val.label && e.val.label !== e.val.text) ? ` (${e.val.label})` : '';
           lines.push(`  - ${e.label}${optLabel}: ${e.val.text}`);
         });
@@ -770,26 +778,32 @@
         // Veil coverage
         const veilTier = parseVeilTier(values.hairFaceCoverage?.label || '');
         if (veilTier && veilTier !== '0') {
-          const rule = getVeilRule(veilTier);
-          if (rule && rule.veilDirective) {
-            lines.push(`  - Face-Behind-Hair Veil (${values.hairFaceCoverage.label}): ${rule.veilDirective}`);
+          const hairArch = detectHairArchitecture(values.haircut);
+          hairVeilRule = getVeilRule(veilTier, hairArch);
+          if (hairVeilRule) {
+            const directive = hairVeilRule.primary || hairVeilRule.strict;
+            if (directive) {
+              lines.push(`  - Face-Behind-Hair Veil (${values.hairFaceCoverage.label}): ${directive}`);
+            }
           }
         }
         lines.push('');
       }
 
-      if (wardrobeEdits.length > 0) {
+      if (wardrobeEdits.length > 0 || beautyEdits.length > 0) {
         lines.push('▶ [TARGET ZONE: WARDROBE & STYLING]');
-        if (wardrobeMode === 'separates') {
-          lines.push('  - Styling Format: Two-Piece Separates Ensemble');
-          if (!isKeepRef(values.topPiece)) lines.push(`  - Top Piece: ${values.topPiece.text}`);
-          if (!isKeepRef(values.bottomPiece)) lines.push(`  - Bottom Piece: ${values.bottomPiece.text}`);
-          lines.push(`  - Midriff / Hemline Coverage: ${values.midriffStyling?.text || 'natural waistline transition'}`);
-        } else {
-          lines.push('  - Styling Format: Full-Look Single Outfit');
-          if (!isKeepRef(values.outfit)) lines.push(`  - Full Outfit: ${values.outfit.text}`);
+        if (wardrobeEdits.length > 0) {
+          if (wardrobeMode === 'separates') {
+            lines.push('  - Styling Format: Two-Piece Separates Ensemble');
+            if (!isKeepRef(values.topPiece)) lines.push(`  - Top Piece: ${values.topPiece.text}`);
+            if (!isKeepRef(values.bottomPiece)) lines.push(`  - Bottom Piece: ${values.bottomPiece.text}`);
+            lines.push(`  - Midriff / Hemline Coverage: ${values.midriffStyling?.text || 'natural waistline transition'}`);
+          } else {
+            lines.push('  - Styling Format: Full-Look Single Outfit');
+            if (!isKeepRef(values.outfit)) lines.push(`  - Full Outfit: ${values.outfit.text}`);
+          }
+          lines.push(`  - Garment Fit: ${values.outfitFit?.text || 'natural tailored fit'}`);
         }
-        lines.push(`  - Garment Fit: ${values.outfitFit?.text || 'natural tailored fit'}`);
         if (!isKeepRef(values.makeup)) lines.push(`  - Makeup Styling: ${values.makeup.text}`);
         if (!isKeepRef(values.accessories)) lines.push(`  - Accessories: ${values.accessories.text}`);
         lines.push('');
@@ -817,6 +831,10 @@
       else maskZone = 'Global Edit Frame';
     }
     lines.push(`• Recommended Inpaint Mask Zone: ${maskZone}`);
+    const selectedRatio = document.querySelector('#ratioChips .ratio-chip.active')?.dataset?.ratio || 'match';
+    if (selectedRatio && selectedRatio !== 'match') {
+      lines.push(`• Aspect Ratio Override: Reframe output to ${selectedRatio} aspect ratio while preserving subject proportions.`);
+    }
     lines.push('• Pixel Bleed & Perimeter Feathering: Feather inpaint mask by 4–8px; do not introduce harsh cutouts or halo edges.');
     lines.push('• Optical Match Requirement: Match the source image\'s exact lens focal length, aperture depth-of-field, film grain density, and color grading.');
     lines.push('');
@@ -848,12 +866,17 @@
       negs.push('altered lighting', 'harsh studio flash when reference is natural', 'changed color temperature', 'inconsistent shadows');
     }
 
-    // Hair moisture negative
+    // Hair moisture negative & veil negative
     if (hasHairEdits) {
       if (activeHairMoisture === 'wet') {
         negs.push('dry hair', 'fluffy blown-out hair', 'frizzy dry strands', 'merely lightly misted dry-looking hair');
       } else if (activeHairMoisture === 'dry') {
         negs.push('wet hair', 'damp hair', 'soaked hair clumping', 'greasy oily hair sheen');
+      }
+      const veilTierNeg = parseVeilTier(values.hairFaceCoverage?.label || '');
+      if (veilTierNeg && veilTierNeg !== '0') {
+        const vRule = getVeilRule(veilTierNeg, detectHairArchitecture(values.haircut));
+        if (vRule?.neg) negs.push(vRule.neg);
       }
     }
 
@@ -863,7 +886,7 @@
     }
 
     const deduped = dedupeNegatives(negs);
-    lines.push(deduped);
+    lines.push(Array.isArray(deduped) ? deduped.join(', ') : deduped);
 
     const fullPrompt = lines.join('\n');
     const promptArea = el('prompt');
@@ -876,6 +899,7 @@
 
     // Update live summary
     updateSummary(edits, activeLocks);
+    save();
 
     return fullPrompt;
   }
@@ -996,6 +1020,9 @@
       const isLocked = !!lockState[lock.id];
       const card = document.createElement('div');
       card.className = `doc-lock-card doctor-lock-card ${isLocked ? 'locked' : 'unlocked'}`;
+      card.setAttribute('role', 'checkbox');
+      card.setAttribute('aria-checked', String(isLocked));
+      card.setAttribute('tabindex', '0');
 
       card.innerHTML = `
         <div class="doc-lock-header">
@@ -1010,10 +1037,17 @@
         </p>
       `;
 
-      card.addEventListener('click', () => {
+      const toggleLock = () => {
         lockState[lock.id] = !lockState[lock.id];
         renderSectionContents('doctorPreserveSec');
         buildPrompt();
+      };
+      card.addEventListener('click', toggleLock);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleLock();
+        }
       });
 
       lockGrid.appendChild(card);
@@ -1047,6 +1081,13 @@
               values[k] = fields[k].opts[0];
             }
           });
+          values.customFaceNote = '';
+          values.customDirection = '';
+          values.extraNegative = '';
+          wardrobeMode = 'outfit';
+          activeHairMoisture = 'dry';
+          activePreset = null;
+          renderPresets();
           renderSectionContents('doctorPreserveSec');
           buildPrompt();
         });
@@ -1077,7 +1118,7 @@
             <label for="customFaceNoteInput">🔬 Specific Facial Notes (Moles, Freckles, Scars, Custom Tweaks)</label>
             <span class="option-count">Optional</span>
           </div>
-          <input type="text" id="customFaceNoteInput" placeholder="e.g. add faint freckles across nose bridge, remove small mole on left cheek, deep hazel eyes..." value="${values.customFaceNote || ''}">
+          <input type="text" id="customFaceNoteInput" placeholder="e.g. add faint freckles across nose bridge, remove small mole on left cheek, deep hazel eyes..." value="${escapeHtml(values.customFaceNote || '')}">
         </div>
       `;
 
@@ -1114,13 +1155,15 @@
 
   function renderHairCategoryBar(container) {
     const cats = [
-      { id: 'all', label: 'All Cuts (276)' },
+      { id: 'all', label: `All Cuts (${hair.length})` },
       { id: 'bob', label: 'Bobs' },
+      { id: 'layer', label: 'Layered & Long' },
       { id: 'pixie', label: 'Pixies' },
       { id: 'fade', label: 'Fades' },
-      { id: 'long', label: 'Long & Layered' },
-      { id: 'updo', label: 'Updos' },
-      { id: 'bangs', label: 'Bangs' }
+      { id: 'pony', label: 'Ponytails & Updos' },
+      { id: 'braid', label: 'Braids' },
+      { id: 'shag', label: 'Shags' },
+      { id: 'curl', label: 'Curls' }
     ];
 
     const bar = document.createElement('div');
@@ -1245,14 +1288,14 @@
               <label for="customDirInput">✦ Custom Inpaint Guidance / Specific Notes</label>
               <span class="option-count">Optional</span>
             </div>
-            <textarea id="customDirInput" rows="3" placeholder="Add specific inpaint instructions (e.g. blend hair smoothly over left shoulder, keep earring visible)...">${values.customDirection || ''}</textarea>
+            <textarea id="customDirInput" rows="3" placeholder="Add specific inpaint instructions (e.g. blend hair smoothly over left shoulder, keep earring visible)...">${escapeHtml(values.customDirection || '')}</textarea>
           </div>
           <div class="field">
             <div class="label-row">
               <label for="extraNegInput">🚫 Additional Surgical Exclusions (Negative Guidance)</label>
               <span class="option-count">Optional</span>
             </div>
-            <textarea id="extraNegInput" rows="3" placeholder="Exclude specific defects (e.g. flyaways on forehead, high neckline, heavy mascara)...">${values.extraNegative || ''}</textarea>
+            <textarea id="extraNegInput" rows="3" placeholder="Exclude specific defects (e.g. flyaways on forehead, high neckline, heavy mascara)...">${escapeHtml(values.extraNegative || '')}</textarea>
           </div>
         </div>
       `;
@@ -1353,18 +1396,26 @@
 
     // Custom saved presets
     customPresets.forEach(p => {
-      const b = document.createElement('button');
-      b.type = 'button';
+      const b = document.createElement('div');
+      b.setAttribute('role', 'button');
+      b.setAttribute('tabindex', '0');
       b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
       b.dataset.preset = p.id;
-      b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon || '⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${p.id}">✕</button></div><small>${p.sub || 'Custom look'}</small>`;
-      b.addEventListener('click', (e) => {
-        if (e.target.closest('.preset-del')) {
+      b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${escapeHtml(p.icon || '⭐')}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(p.title)}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${escapeHtml(p.id)}">✕</button></div><small>${escapeHtml(p.sub || 'Custom look')}</small>`;
+      const activate = (e) => {
+        if (e.target && e.target.closest('.preset-del')) {
           deleteCustomPreset(p.id);
         } else {
           activePreset = p.id;
           container.querySelectorAll('.preset').forEach(el => el.classList.toggle('active', el.dataset.preset === p.id));
           applyPreset(p);
+        }
+      };
+      b.addEventListener('click', activate);
+      b.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activate(e);
         }
       });
       container.appendChild(b);
@@ -1472,12 +1523,13 @@
     banner.className = 'applied-preset-diff';
     const displayItems = itemsToShow.slice(0, 8);
     const remainingCount = itemsToShow.length - displayItems.length;
-    const listHtml = displayItems.map(item => `<span>${item}</span>`).join(' &nbsp;·&nbsp; ') +
+    const listHtml = displayItems.map(item => `<span>${escapeHtml(item)}</span>`).join(' &nbsp;·&nbsp; ') +
       (remainingCount > 0 ? ` &nbsp;·&nbsp; <em>(+${remainingCount} more)</em>` : '');
 
+    const safeTitle = escapeHtml(presetTitle || 'Surgical Look');
     const titleHtml = isMatching
-      ? `Applied: ${presetTitle || 'Surgical Look'} (All settings match current studio configuration)`
-      : `Applied: ${presetTitle || 'Surgical Look'} (${changes.length} setting${changes.length === 1 ? '' : 's'} updated)`;
+      ? `Applied: ${safeTitle} (All settings match current studio configuration)`
+      : `Applied: ${safeTitle} (${changes.length} setting${changes.length === 1 ? '' : 's'} updated)`;
 
     banner.innerHTML = `
       <span class="diff-icon">✦</span>
@@ -1814,6 +1866,7 @@
         currentSection,
         wardrobeMode,
         activeHairMoisture,
+        activeRatio: document.querySelector('#ratioChips .ratio-chip.active')?.dataset?.ratio || 'match',
         lockState,
         values: {},
         customPresets
@@ -1834,8 +1887,17 @@
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const state = JSON.parse(raw);
+      if (state.currentSection && sections.some(s => s.id === state.currentSection)) currentSection = state.currentSection;
       if (state.wardrobeMode) wardrobeMode = state.wardrobeMode;
       if (state.activeHairMoisture) activeHairMoisture = state.activeHairMoisture;
+      if (state.activeRatio) {
+        const chips = el('ratioChips');
+        if (chips) {
+          chips.querySelectorAll('.ratio-chip').forEach(c => {
+            c.classList.toggle('active', c.dataset.ratio === state.activeRatio);
+          });
+        }
+      }
       if (state.lockState) Object.assign(lockState, state.lockState);
       if (Array.isArray(state.customPresets)) customPresets = state.customPresets;
 
@@ -1855,27 +1917,40 @@
   // =========================================================================
   // CLIPBOARD & EXPORT HELPERS
   // =========================================================================
+  function fallbackTextareaCopy(text, msg) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    showToast(msg || 'Copied to clipboard!');
+  }
+
   function copyToClipboard(text, msg) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => showToast(msg || 'Copied to clipboard!'));
+      navigator.clipboard.writeText(text)
+        .then(() => showToast(msg || 'Copied to clipboard!'))
+        .catch(() => fallbackTextareaCopy(text, msg));
     } else {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      showToast(msg || 'Copied to clipboard!');
+      fallbackTextareaCopy(text, msg);
     }
     pushHistory(text);
   }
 
+  let toastTimer = null;
   function showToast(msg) {
     const t = el('toast');
     if (!t) return;
     t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
+    t.classList.remove('flash');
+    void t.offsetWidth;
+    t.classList.add('flash');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      t.classList.remove('flash');
+      t.textContent = '';
+    }, 2200);
   }
 
   function pushHistory(promptText) {
@@ -1956,6 +2031,11 @@
         copyToClipboard(el('prompt')?.value || '', '✓ Prompt copied to clipboard');
       });
     }
+    if (el('topQuickCopy')) {
+      el('topQuickCopy').addEventListener('click', () => {
+        copyToClipboard(el('prompt')?.value || '', '✓ Prompt copied to clipboard');
+      });
+    }
     if (el('mobileCopyBtn')) {
       el('mobileCopyBtn').addEventListener('click', () => {
         copyToClipboard(el('prompt')?.value || '', '✓ Prompt copied');
@@ -2020,6 +2100,14 @@
         values.customFaceNote = '';
         values.customDirection = '';
         values.extraNegative = '';
+        wardrobeMode = 'outfit';
+        activeHairMoisture = 'dry';
+        const chips = el('ratioChips');
+        if (chips) {
+          chips.querySelectorAll('.ratio-chip').forEach(c => {
+            c.classList.toggle('active', c.dataset.ratio === 'match');
+          });
+        }
         activePreset = null;
         renderPresets();
         renderSectionContents(currentSection);
@@ -2098,25 +2186,28 @@
     }
 
     // History modal
+    const closeHistoryModal = () => {
+      el('historyModal')?.classList.remove('active');
+      el('historyBackdrop')?.classList.remove('active');
+    };
     if (el('openHistoryBtn')) {
       el('openHistoryBtn').addEventListener('click', () => {
         renderHistoryModal();
-        el('historyModal')?.classList.add('open');
+        el('historyModal')?.classList.add('active');
         el('historyBackdrop')?.classList.add('active');
       });
     }
     if (el('closeHistoryBtn')) {
-      el('closeHistoryBtn').addEventListener('click', () => {
-        el('historyModal')?.classList.remove('open');
-        el('historyBackdrop')?.classList.remove('active');
-      });
+      el('closeHistoryBtn').addEventListener('click', closeHistoryModal);
     }
     if (el('historyBackdrop')) {
-      el('historyBackdrop').addEventListener('click', () => {
-        el('historyModal')?.classList.remove('open');
-        el('historyBackdrop')?.classList.remove('active');
-      });
+      el('historyBackdrop').addEventListener('click', closeHistoryModal);
     }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && el('historyModal')?.classList.contains('active')) {
+        closeHistoryModal();
+      }
+    });
     if (el('clearHistoryBtn')) {
       el('clearHistoryBtn').addEventListener('click', () => {
         promptHistory = [];

@@ -4246,19 +4246,29 @@ if(currentStudioMode==='salon' && outputType==='collage'){
   const randKey = presetKeys[Math.floor(Math.random()*presetKeys.length)];
   applyCollagePreset(randKey);
 }
-if(values.malePresence && fields.maleInteraction){
+if(values.malePresence && fields.maleInteraction && !lockedFields.has('maleInteraction')){
   const pres = values.malePresence.text;
   if(pres === 'solo'){
     values.maleInteraction = fields.maleInteraction.opts.find(opt => opt.text === 'none') || fields.maleInteraction.opts[0];
   } else {
-    const match = fields.maleInteraction.opts.find(opt => opt.cat === pres && opt.text !== 'none');
-    if(match) values.maleInteraction = match;
+    const matches = fields.maleInteraction.opts.filter(opt => opt.cat === pres && opt.text !== 'none');
+    if(matches.length) values.maleInteraction = matches[Math.floor(Math.random()*matches.length)];
   }
 }
 if(!lockedFields.has('hairCategory') && values.hair){
   const hCat = getItemCategory('hair', values.hair);
   const match = fields.hairCategory.opts.find(c => c.text === hCat);
   if(match) values.hairCategory = match;
+}
+if(!lockedFields.has('topCategory') && values.topPiece && fields.topCategory){
+  const tCat = getItemCategory('topPiece', values.topPiece);
+  const match = fields.topCategory.opts.find(c => c.text === tCat);
+  if(match) values.topCategory = match;
+}
+if(!lockedFields.has('bottomCategory') && values.bottomPiece && fields.bottomCategory){
+  const bCat = getItemCategory('bottomPiece', values.bottomPiece);
+  const match = fields.bottomCategory.opts.find(c => c.text === bCat);
+  if(match) values.bottomCategory = match;
 }
 if(!lockedFields.has('salonVenueCategory') && values.salonVenue && fields.salonVenueCategory){
   const vCat = getItemCategory('salonVenue', values.salonVenue);
@@ -5217,16 +5227,19 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
 
   const finalizeLbRes = (resObj) => {
     if(isAiFace){
+      const lbClosing = lbRefDirectives?.closingMandate || '';
       Object.keys(resObj).forEach(k => {
         resObj[k] = (lbFaceDirective ? lbFaceDirective + '\n\n' : '') + resObj[k]
           .replace(/the same adult woman/g, 'this newly synthesized adult model')
           .replace(/Identical identity from reference/g, 'Consistent newly synthesized model identity across all frames')
           .replace(/Exact same identity/g, 'Consistent newly synthesized model identity')
+          .replace(/Identical identity/g, 'Consistent newly synthesized model identity')
           .replace(/exact same woman/g, 'exact same newly synthesized model')
           .replace(/same woman/g, 'same newly synthesized model')
           .replace(/same adult woman/g, 'newly synthesized adult model')
           .replace(/Maintain exact facial identity/g, 'Maintain consistent facial continuity of this newly synthesized model')
-          .replace(/Exact facial identity/g, 'Consistent newly synthesized facial identity');
+          .replace(/Exact facial identity/g, 'Consistent newly synthesized facial identity')
+          + (lbClosing ? '\n\n' + lbClosing : '');
       });
     }
     return resObj;
@@ -6234,7 +6247,6 @@ function buildSalonPrompt(){
     }
   } else {
     lines.push('HAIRSTYLE BEING CUT');
-    const isSalonRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
     const isSalonRefTexture = window.AfterglowRefPicker?.isFeatureInherited('hairTexture');
     const effCutText = isSalonRefHaircut
       ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
@@ -6659,7 +6671,9 @@ function buildSalonPrompt(){
   }
 
   lines.push('REALISM, IDENTITY & PHYSICAL SAFEGUARDS');
-  if(salonChecks.length){
+  if(detailLevel === 'compact'){
+    lines.push('• Maintain natural salon realism, consistent identity, and believable physical haircut behavior.');
+  } else if(salonChecks.length){
     lines.push(salonChecks.join('\n'));
   } else {
     lines.push('• Maintain natural salon realism, consistent identity, and believable physical haircut behavior.');
@@ -6669,6 +6683,11 @@ function buildSalonPrompt(){
   if(customDirection.trim()){
     lines.push('ADDITIONAL CREATIVE DIRECTION');
     lines.push(customDirection.trim());
+    lines.push('');
+  }
+
+  if(isAiFace && refDirectives?.closingMandate){
+    lines.push(refDirectives.closingMandate);
     lines.push('');
   }
 
@@ -6742,6 +6761,8 @@ function buildSalonPrompt(){
   const words = text.trim().split(/\s+/).length;
   const tokens = estimateTokens(text);
   el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ~${tokens.toLocaleString()} tokens · Salon Mode`;
+  if(el('mobileWordCount')) el('mobileWordCount').textContent = `${words} words`;
+  if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent = `${values.salonHaircut?.label||''} · ${values.salonVenue?.label||''}`;
 
   const summaryIds = isFemaleModelBarber
     ? ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonBarberPose', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']
@@ -7258,6 +7279,10 @@ if(customDirection.trim()){
   lines.push('ADDITIONAL CREATIVE DIRECTION');
   lines.push(customDirection.trim());
 }
+if(isPsAiFace && psRefDirectives?.closingMandate){
+  lines.push('');
+  lines.push(psRefDirectives.closingMandate);
+}
 lines.push('');
 lines.push('AVOID / NEGATIVE GUIDANCE');
 let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
@@ -7328,14 +7353,16 @@ if(harmonizePalette && extractedPalette.length > 0){
   lines.push(`Subtly harmonize environmental lighting, backdrop tones, and wardrobe accents to complement the reference photo\'s extracted palette (${extractedPalette.join(', ')}).`);
 }
 
-lookbookShots = buildLookbookSeries(checks, negatives, extraLines, {
-  isFaceHidden,
-  isFullVeil,
-  veilTier: psTier,
-  isFemaleGroomingMen,
-  outfitDesc: outfitSummary,
-  isAiFace: isPsAiFace
-});
+if(lookbookMode){
+  lookbookShots = buildLookbookSeries(checks, negatives, extraLines, {
+    isFaceHidden,
+    isFullVeil,
+    veilTier: psTier,
+    isFemaleGroomingMen,
+    outfitDesc: outfitSummary,
+    isAiFace: isPsAiFace
+  });
+}
 
 save();
 let text = '';
@@ -7347,16 +7374,22 @@ if(lookbookMode){
 el('prompt').value = text; el('prompt').textContent = text;
 const words = text.trim().split(/\s+/).length;
 const tokens = estimateTokens(text);
-const shotSuffix = lookbookMode ? ` · Lookbook (${activeShot === 'all' ? 'All 4 Shots' : 'Shot ' + activeShot})` : '';
+const lbShotCounts = { triptych_3: 3, lookbook_4: 4, feature_5: 5, contact_6: 6 };
+const lbTotalShots = lbShotCounts[lookbookFormat] || 4;
+const shotSuffix = lookbookMode ? ` · Lookbook (${activeShot === 'all' ? `All ${lbTotalShots} Shots` : 'Shot ' + activeShot})` : '';
 el('wordCount').textContent = `${words.toLocaleString()} words · ${text.length.toLocaleString()} chars · ~${tokens.toLocaleString()} tokens${shotSuffix}`;
 syncRatioChips();
 
+const psWardrobeSummary = (wardrobeMode === 'separates')
+  ? `${values.topPiece?.label||''} + ${values.bottomPiece?.label||''}`
+  : (values.outfit?.label||'');
 if(el('mobileWordCount')) el('mobileWordCount').textContent=`${words} words`;
-if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent=`${values.hair?.label||''} · ${values.outfit?.label||''}`;
+if(el('mobileSummaryMini')) el('mobileSummaryMini').textContent=`${values.hair?.label||''} · ${psWardrobeSummary}`;
 
+const wardrobeIds = (wardrobeMode === 'separates') ? ['topPiece', 'bottomPiece'] : ['outfit'];
 const summaryIds = hasMalePresence
-  ? ['hair', 'hairFaceCoverage', 'outfit', 'malePresence', 'maleInteraction', 'background', 'placeDetail']
-  : ['hair', 'hairFaceCoverage', 'outfit', 'pose', 'expression', 'background', 'placeDetail'];
+  ? ['hair', 'hairFaceCoverage', ...wardrobeIds, 'malePresence', 'maleInteraction', 'background', 'placeDetail']
+  : ['hair', 'hairFaceCoverage', ...wardrobeIds, 'pose', 'expression', 'background', 'placeDetail'];
 if(hasPsObfusc){
   const covIdx = summaryIds.indexOf('hairFaceCoverage');
   if(covIdx >= 0) summaryIds.splice(covIdx + 1, 0, 'faceObfuscMode');

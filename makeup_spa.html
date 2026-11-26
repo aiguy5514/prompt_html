@@ -1522,17 +1522,23 @@ function renderPresets(){
   if(!host) return;
   host.innerHTML = '';
   customPresets.forEach(p => {
-    const b = document.createElement('button');
-    b.type = 'button';
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const b = document.createElement('div');
+    b.setAttribute('role', 'button');
+    b.setAttribute('tabindex', '0');
     b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
     b.dataset.preset = p.id;
-    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon || '⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${p.id}">✕</button></div><small>${p.sub || 'Custom Prep'}</small>`;
-    b.addEventListener('click', (e) => {
-      if(e.target.closest('.preset-del')){
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${esc(p.icon || '⭐')}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title)}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${esc(p.id)}">✕</button></div><small>${esc(p.sub || 'Custom Prep')}</small>`;
+    const activate = (e) => {
+      if(e.target && e.target.closest('.preset-del')){
         deleteCustomPreset(p.id, e);
         return;
       }
       applyPresetObj(p);
+    };
+    b.addEventListener('click', activate);
+    b.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(e); }
     });
     host.appendChild(b);
   });
@@ -1616,8 +1622,14 @@ function buildPrompt(){
   const isDeepOrHeavyVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
   const hideEyes = isFaceHidden || isDeepOrHeavyVeil || hasPrepObfusc;
 
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'makeup_spa' });
+  const isAiFace = refDirectives?.isAiFace;
+
   const rawExpr = val('prepExpression');
-  const exprText = hideEyes ? '' : sanitizeHiddenFaceText(rawExpr, false, veilTier);
+  let exprText = hideEyes ? '' : sanitizeHiddenFaceText(rawExpr, false, veilTier);
+  if(isAiFace && exprText){
+    exprText = exprText.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+  }
   const skinFinishText = val('prepSkinFinish');
   const lipText = val('prepLipLook');
   const eyeText = sanitizeMakeupForVeil(val('prepEyeDetail'), veilTier);
@@ -1638,12 +1650,9 @@ function buildPrompt(){
 
   const isExplicitWetCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look/i.test((values.prepHair?.label || '') + ' ' + hairText);
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'makeup_spa' });
-  const isAiFace = refDirectives?.isAiFace;
-
   if(isAiFace){
     if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
-    lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · MAKEUP CHAIR & FACIAL SPA PREP');
+    lines.push(`${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · MAKEUP CHAIR & FACIAL SPA PREP`);
   } else {
     lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · MAKEUP CHAIR & FACIAL SPA PREP');
   }
@@ -1706,10 +1715,14 @@ function buildPrompt(){
     lines.push('');
   }
 
+  const panelApparel = window.AfterglowRefPicker?.isFeatureInherited('wardrobe')
+    ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
+    : apparelText;
+
   if(numMode === 'collage'){
     lines.push('2×2 EDITORIAL PREP COLLAGE PROGRESSION:');
     lines.push('Create one unified 2×2 four-panel photography collage documenting four chronological prep moments with strict identity and room continuity:');
-    lines.push('• PANEL 1 (TOP-LEFT): Hair restraint prep — model seated calmly wearing ' + apparelText + ' with ' + hairHold + '.');
+    lines.push('• PANEL 1 (TOP-LEFT): Hair restraint prep — model seated calmly wearing ' + panelApparel + ' with ' + hairHold + '.');
     lines.push('• PANEL 2 (TOP-RIGHT): Skincare & serum glaze — 100mm close-up showing ' + skinFinishText + ' with visible pores and tactile preparation.');
     lines.push('• PANEL 3 (BOTTOM-LEFT): Active moment — ' + actionText + '.');
     lines.push(hideEyes
@@ -1818,6 +1831,10 @@ function buildPrompt(){
 
   const dedupedNegs = dedupeNegatives(negs);
 
+  if(isAiFace && refDirectives?.closingMandate){
+    lines.push('');
+    lines.push(refDirectives.closingMandate);
+  }
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
   dedupedNegs.forEach(n => lines.push('• ' + n));

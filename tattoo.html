@@ -1617,17 +1617,23 @@ function renderPresets(){
   if(!host) return;
   host.innerHTML = '';
   customPresets.forEach(p => {
-    const b = document.createElement('button');
-    b.type = 'button';
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const b = document.createElement('div');
+    b.setAttribute('role', 'button');
+    b.setAttribute('tabindex', '0');
     b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
     b.dataset.preset = p.id;
-    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon || '⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${p.id}">✕</button></div><small>${p.sub || 'Custom Ink'}</small>`;
-    b.addEventListener('click', (e) => {
-      if(e.target.closest('.preset-del')){
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${esc(p.icon || '⭐')}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title)}</strong><button type="button" class="preset-del" title="Delete custom look" data-del="${esc(p.id)}">✕</button></div><small>${esc(p.sub || 'Custom Ink')}</small>`;
+    const activate = (e) => {
+      if(e.target && e.target.closest('.preset-del')){
         deleteCustomPreset(p.id, e);
         return;
       }
       applyPresetObj(p);
+    };
+    b.addEventListener('click', activate);
+    b.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(e); }
     });
     host.appendChild(b);
   });
@@ -1695,11 +1701,17 @@ function buildPrompt(){
   const hasTattooObfusc = (tattooObfuscMode !== 'none' && tattooObfuscMode !== 'hair_veil');
   const hideEyes = isFaceHidden || isTattooHeavyVeil || isTattoo65_70 || hasTattooObfusc;
 
-  const expr = hideEyes
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'tattoo' });
+  const isAiFace = refDirectives?.isAiFace;
+
+  let expr = hideEyes
     ? ''
     : (['40_45', '50'].includes(tattooTier)
         ? rawExpr.replace(/both eyes/gi, 'her single uncovered eye').replace(/symmetrical/gi, 'asymmetric veiled').replace(/eye contact/gi, 'one-eyed gaze from behind the heavy hair curtain')
         : rawExpr);
+  if(isAiFace && expr){
+    expr = expr.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+  }
 
   const light = val('tattooLighting');
   const film = val('tattooFilm');
@@ -1709,13 +1721,10 @@ function buildPrompt(){
   const scale = val('tattooScale');
   const numMode = val('numImages');
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'tattoo' });
-  const isAiFace = refDirectives?.isAiFace;
-
   // Header / Reference Subject preservation
   if(isAiFace){
     if(refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
-    lines.push('AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER · FINE-LINE TATTOO BEAUTY EDITORIAL');
+    lines.push(`${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} · FINE-LINE TATTOO BEAUTY EDITORIAL`);
   } else {
     lines.push('REFERENCE-IMAGE GUIDED PORTRAIT · FINE-LINE TATTOO BEAUTY EDITORIAL');
   }
@@ -1875,6 +1884,10 @@ function buildPrompt(){
   lines.push('TECHNICAL & REALISM PRESERVATIONS:');
   checks.forEach(c => lines.push(`• ${c}`));
 
+  if(isAiFace && refDirectives?.closingMandate){
+    lines.push('');
+    lines.push(refDirectives.closingMandate);
+  }
   lines.push('');
   lines.push('AVOID / NEGATIVE GUIDANCE:');
   const negs = [

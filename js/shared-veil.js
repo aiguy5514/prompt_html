@@ -21,8 +21,9 @@ function detectHairArchitecture(hairObj, hairText){
   if(cat === 'pony' || cat === 'braid' || /ponytail|\bpony\b|\bbun\b|chignon|\bbraid|updo|french twist|topknot|claw clip|slicked[- ]back|comb[- ]back/i.test(blob)){
     return 'tied_slick';
   }
-  const isLongCut = cat === 'shag' || cat === 'layer' || cat === 'wave' || /long|collarbone|shoulder|clavicle|flowing|cascading|chest|mid-back/i.test(blob);
-  if((cat === 'pixie' || cat === 'fade' || /\bpixie\b|\bbixie\b|\bmixie\b|\bbuzz\b|\bfade\b|\bcrop\b|garçonne|short textured crop|short side-part crop/i.test(blob)) && !isLongCut){
+  const isShortCrop = cat === 'pixie' || cat === 'fade' || /\bpixie\b|\bbixie\b|\bmixie\b|\bbuzz\b|\bfade\b|garçonne|short textured crop|short side-part crop/i.test(blob);
+  const isLongCut = cat === 'shag' || cat === 'layer' || cat === 'wave' || /\blong layered\b|\bwaist-length\b|\bmid-back\b|\bcascading\b|\bcollarbone\b|\bclavicle\b|\bchest-length\b/i.test(blob);
+  if(isShortCrop && !isLongCut){
     return 'pixie_crop';
   }
   if(/\bmicro bob\b|french bob|\bchin-length\b|\bchin-grazing\b|\bchin bob\b|\bbox bob\b|\bpageboy\b|\bwedge bob\b|\bear-length\b/i.test(blob) || (cat === 'bob' && !/lob|shoulder|collarbone|clavicle|waterfall|long|midi/i.test(blob))){
@@ -94,9 +95,8 @@ function sanitizeMakeupForVeil(makeupText, tier){
   if(!makeupText) return makeupText;
   if(['65_70', '80_85', '95_100'].includes(tier)){
     return makeupText
-      .replace(/\b(?:winged black eyeliner|winged eyeliner|dramatic eyeliner|smoky eye shadow|smoky eyes|kohl-rimmed eyes|kohl-lined eyes|mascara|defined dark eyebrows|sculpted brows|fluttery false eyelashes|false eyelashes|eyelashes)\b/gi, 'subtle skin-matched finish')
-      .replace(/\beyes?\b/gi, 'skin')
-      .replace(/\beyelids?\b/gi, 'skin');
+      .replace(/\b(?:winged black eyeliner|winged eyeliner|dramatic eyeliner|smoky eye shadow|smoky eyeshadow|smoky eyes|kohl-rimmed eyes|kohl-lined eyes|mascara|defined dark eyebrows|sculpted brows|feathered brow emphasis|fluttery false eyelashes|false eyelashes|eyelashes)\b/gi, 'subtle skin-matched finish')
+      .replace(/\b(?:[\w-]+\s+)?(?:eyeshadow|eyeliner|eyelids?|eye\s+makeup|eye\s+accent|cat-eye|eyebrows?)\b/gi, 'subtle skin-matched finish');
   } else if(['40_45', '50'].includes(tier)){
     return makeupText + ' (makeup applied and visible exclusively on her single uncovered eye, with covered eye fully veiled)';
   }
@@ -133,8 +133,14 @@ function sanitizeHiddenFaceText(text, hideEyes, veilTier, obfuscMode){
       .replace(/\bfocused eyes\b/gi, 'focused composure')
       .replace(/\brelaxed eyes\b/gi, 'relaxed composure')
       .replace(/\bquiet satisfaction, relaxed eyes, and a subtle self-assured smile\b/gi, 'quiet satisfaction and a subtle self-assured smile')
-      .replace(/\beyes\b/gi, 'facial composure')
+      .replace(/\beye\s+crinkles\b/gi, 'serene poise')
+      .replace(/\bside-eye\b/gi, 'poised composure')
+      .replace(/\b(?:one\s+)?eyes?\b/gi, 'facial composure')
+      .replace(/\b(?:eyebrows?|brows?)\b/gi, 'upper-face veil')
       .replace(/\bgaze\b/gi, 'poise');
+    if(veilTier === '95_100'){
+      out = out.replace(/\b(?:lips|mouth|toothy laugh|smile)\b/gi, 'veiled stillness');
+    }
   } else if(partialVeil){
     out = out
       .replace(/both eyes/gi, 'her single uncovered eye')
@@ -199,14 +205,14 @@ function estimateTokens(text){
 function extractPositivePrompt(fullText){
   if(!fullText) return '';
   return fullText
-    .replace(/\n*(?:AVOID \/ NEGATIVE GUIDANCE:?|Avoid:)\s*[\s\S]*?(?=\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY)\b|\n*(?:REFERENCE-IMAGE EDIT|Shot \d+|------------------------------------------------)|$)/g, '')
+    .replace(/\n*(?:AVOID \/ NEGATIVE GUIDANCE:?|Avoid:)\s*[\s\S]*?(?=\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY|FINAL FACE-NOVELTY CHECK:)\b|\n*(?:REFERENCE-IMAGE EDIT|Shot \d+|------------------------------------------------)|$)/g, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
 
 function extractNegativePrompt(fullText){
   if(!fullText) return '';
-  const m = fullText.match(/(?:AVOID \/ NEGATIVE GUIDANCE:?|Avoid:)\s*[\s\S]*?(?=\n\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY)\b|\n*(?:REFERENCE-IMAGE EDIT|------------------------------------------------)|$)/);
+  const m = fullText.match(/(?:AVOID \/ NEGATIVE GUIDANCE:?|Avoid:)\s*[\s\S]*?(?=\n(?:OUTPUT INSTRUCTIONS|OUTPUT|COLOR HARMONY|FINAL FACE-NOVELTY CHECK:)\b|\n*(?:REFERENCE-IMAGE EDIT|Shot \d+|------------------------------------------------)|$)/);
   return m ? m[0].trim() : '';
 }
 

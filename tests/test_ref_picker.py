@@ -311,7 +311,7 @@ def run_all_studio_tests(browser):
       api.buildPrompt();
       const pUserConfig = document.getElementById('prompt').value;
 
-      ok('unrelated_dramatic_mandate', pUserConfig.includes('Mandatory dramatic face swap: total anatomical decoupling'));
+      ok('unrelated_dramatic_mandate', pUserConfig.includes('Mandatory dramatic identity replacement: total anatomical decoupling'));
       ok('unrelated_anti_bleed_negs', pUserConfig.includes('identical facial structure') && pUserConfig.includes('duplicate facial geometry'));
       ok('unrelated_no_ref_makeup_leak', !pUserConfig.includes('makeup consistent with the reference image'));
       ok('unrelated_no_ref_acc_leak', !pUserConfig.includes('retain any signature jewelry or nose ring visible in the reference'));
@@ -379,7 +379,7 @@ def run_all_studio_tests(browser):
       ok('hair_only_has_portrait_negs', pHairOnly.includes('digital face swap mask') || pHairOnly.includes('duplicate face'));
       const hairNegBlock = pHairOnly.split('AVOID / NEGATIVE GUIDANCE')[1] || '';
       ok('hair_only_zero_reference_affirming_negs', !hairNegBlock.includes('same face as reference') && !hairNegBlock.includes('face preservation'));
-      ok('hair_only_auto_dramatic_intensity', pHairOnly.includes('Mandatory dramatic face swap: total anatomical decoupling'));
+      ok('hair_only_auto_dramatic_intensity', pHairOnly.includes('Mandatory dramatic identity replacement: total anatomical decoupling'));
       ok('hair_only_has_closed_mouth_expression', pHairOnly.includes('zero visible teeth') && pHairOnly.includes('neutral relaxed lips'));
       ok('hair_only_zero_sd_colon_weights', !/:\\d\\.\\d+/.test(pHairOnly));
       ok('hair_only_has_smile_exclusions_in_negs', hairNegBlock.includes('open mouth smile') && hairNegBlock.includes('visible teeth'));

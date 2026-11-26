@@ -1397,13 +1397,16 @@ function renderPresets(){
   const host = el('presets'); if(!host) return;
   host.innerHTML = '';
   customPresets.forEach(p => {
-    const b = document.createElement('button'); b.type = 'button';
+    const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const b = document.createElement('div'); b.setAttribute('role', 'button'); b.setAttribute('tabindex', '0');
     b.className = 'preset custom-preset' + (p.id === activePreset ? ' active' : '');
-    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${p.icon||'⭐'}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</strong><button type="button" class="preset-del" data-del="${p.id}">✕</button></div><small>${p.sub||'Custom Story'}</small>`;
-    b.addEventListener('click', e => {
-      if(e.target.closest('.preset-del')){ customPresets = customPresets.filter(x => x.id !== p.id); save(); renderPresets(); return; }
+    b.innerHTML = `<div style="display:flex;align-items:center;width:100%"><span class="preset-icon">${esc(p.icon||'⭐')}</span><strong style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title)}</strong><button type="button" class="preset-del" data-del="${esc(p.id)}">✕</button></div><small>${esc(p.sub||'Custom Story')}</small>`;
+    const activate = e => {
+      if(e.target && e.target.closest('.preset-del')){ customPresets = customPresets.filter(x => x.id !== p.id); save(); renderPresets(); return; }
       applyStoryPreset(p);
-    });
+    };
+    b.addEventListener('click', activate);
+    b.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(e); } });
     host.appendChild(b);
   });
   storyArcPresets.forEach(p => {
@@ -1462,7 +1465,7 @@ function resolveFrameDetails(idx){
   const moistOverride = sbFrameMoistureOverrides[fr.moistIdx] || sbFrameMoistureOverrides[0];
   const lightTwist = sbFrameLightTwists[fr.lightIdx] || sbFrameLightTwists[0];
   const lensOverride = sbFrameLenses[fr.lensIdx || 0] || sbFrameLenses[0];
-  const lensText = (lensOverride && lensOverride.text !== 'inherit') ? lensOverride.text : val('sbLens');
+  const lensText = (lensOverride && lensOverride.text !== 'inherit') ? lensOverride.text : (val('sbGlobalLens') || val('sbFocalLens') || 'natural 50mm editorial lens');
 
   const hairText = val('sbHair');
   const hairArch = detectHairArchitecture(values.sbHair, hairText);
@@ -1501,11 +1504,11 @@ function buildShotPrompt(det, globalCtx){
   const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'storyboard' });
   const isAiFace = refDirectives?.isAiFace;
   const shotHeader = isAiFace
-    ? `AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`
+    ? `${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`
     : `REFERENCE-IMAGE EDIT — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`;
   const subjectLine = isAiFace
-    ? `• AI-Generated Protagonist: Fresh autonomous face with selective transfer: ${refDirectives.summaryText} (${globalCtx.hairCol}, haircut: ${globalCtx.hairLabel} — ${globalCtx.hairText}).`
-    : `• Reference Subject: Preserve identical adult Indian woman from reference (${globalCtx.hairCol}, haircut: ${globalCtx.hairLabel} — ${globalCtx.hairText}).`;
+    ? `• AI-Generated Protagonist: Fresh autonomous face with selective transfer: ${refDirectives.summaryText} (${globalCtx.hairCol}, haircut: ${globalCtx.hairStr}).`
+    : `• Reference Subject: Preserve identical adult Indian woman from reference (${globalCtx.hairCol}, haircut: ${globalCtx.hairStr}).`;
 
   const lines = [
     (isAiFace && refDirectives?.frontLoadedSubject) ? refDirectives.frontLoadedSubject : '',
@@ -1513,6 +1516,7 @@ function buildShotPrompt(det, globalCtx){
     '',
     'LOCKED SUBJECT & WORLD CONTINUITY:',
     subjectLine,
+    ...(isAiFace && refDirectives?.primaryBullets?.length ? refDirectives.primaryBullets : []),
     `• Locked Apparel: ${globalCtx.wardrobeFull}.`,
     `• Setting: ${globalCtx.venue}. Color grade: ${globalCtx.grade}.`,
     '',
@@ -1529,6 +1533,7 @@ function buildShotPrompt(det, globalCtx){
     '',
     'CONTINUITY & REALISM SAFEGUARDS:',
     globalCtx.checks.map(c => '• ' + c).join('\n'),
+    (isAiFace && refDirectives?.closingMandate) ? `\n${refDirectives.closingMandate}` : '',
     '',
     'AVOID / NEGATIVE GUIDANCE:',
     dedupeNegatives(globalCtx.getNegatives(det)).map(n => '• ' + n).join('\n')
@@ -1631,13 +1636,6 @@ function buildPrompt(){
     return negs;
   };
 
-  const globalCtx = { hairText, hairLabel, hairCol, venue, grade, aspect: aspectText, wardrobeFull, checks, customDir: customDirection.trim(), getNegatives };
-  const resolved = [];
-  for(let i = 0; i < frameCount; i++) resolved.push(resolveFrameDetails(i));
-
-  const perShotPrompts = {};
-  resolved.forEach(d => { perShotPrompts[String(d.idx)] = buildShotPrompt(d, globalCtx); });
-
   const isSbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
   const isSbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
   const isSbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
@@ -1652,11 +1650,18 @@ function buildPrompt(){
     ? window.AfterglowRefPicker.getInheritedFieldText('background')
     : venue;
 
+  const globalCtx = { hairText, hairLabel, hairStr: effSbHair, hairCol, venue: effSbVenue, grade, aspect: aspectText, wardrobeFull: effSbWardrobe, checks, customDir: customDirection.trim(), getNegatives };
+  const resolved = [];
+  for(let i = 0; i < frameCount; i++) resolved.push(resolveFrameDetails(i));
+
+  const perShotPrompts = {};
+  resolved.forEach(d => { perShotPrompts[String(d.idx)] = buildShotPrompt(d, globalCtx); });
+
   let masterText = '';
   if(outputMode === 'grid'){
     const layoutName = frameCount === 3 ? '3-PANEL HORIZONTAL TRIPTYCH' : (frameCount === 4 ? '2×2 FOUR-PANEL EDITORIAL COLLAGE' : '6-FRAME 35MM CONTACT SHEET GRID');
     const gridTitle = isAiFace
-      ? `AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`
+      ? `${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`
       : `REFERENCE-IMAGE EDIT — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`;
     const protagonistBullet = isAiFace
       ? `• Protagonist: ${refDirectives.primaryBullets[0]} (${hairCol}; cut: ${effSbHair}).`
@@ -1668,6 +1673,7 @@ function buildPrompt(){
       'GLOBAL CAST & CONTINUITY SPINE (ALL PANELS):',
       `Generate ONE high-definition composite sheet divided cleanly into ${frameCount} distinct narrative panels with ZERO borders/labels:`,
       protagonistBullet,
+      ...(isAiFace && refDirectives?.primaryBullets?.length > 1 ? refDirectives.primaryBullets.slice(1) : []),
       `• Wardrobe & Venue: ${effSbWardrobe} inside ${effSbVenue}. Color science: ${grade}. Ratio: ${aspectText}.`,
       '',
       'PANEL-BY-PANEL PROGRESSION:'
@@ -1677,6 +1683,7 @@ function buildPrompt(){
     });
     gLines.push('', 'CONTINUITY & REALISM SAFEGUARDS:', checks.map(c => '• ' + c).join('\n'));
     if(customDirection.trim()) gLines.push('', 'SERIES DIRECTION:', customDirection.trim());
+    if(isAiFace && refDirectives?.closingMandate) gLines.push('', refDirectives.closingMandate);
     const combinedNegs = dedupeNegatives(resolved.flatMap(d => getNegatives(d)));
     gLines.push('', 'AVOID / NEGATIVE GUIDANCE:', combinedNegs.map(n => '• ' + n).join('\n'));
     masterText = gLines.join('\n').replace(/\n{3,}/g, '\n\n');
