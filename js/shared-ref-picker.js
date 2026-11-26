@@ -508,6 +508,9 @@
     const isHairOnlySelection = isAiFace && hasAnyFeature && activeFeats.every(f => ['haircut', 'hairTexture', 'hairColor'].includes(f));
     const studio = opts.studio || 'photoshoot';
     const isFemaleModelBarber = !!opts.isFemaleModelBarber;
+    const veilTier = opts.veilTier || '0';
+    const obfuscMode = opts.obfuscMode || 'none';
+    const shouldHideFaceDetails = !!opts.hideEyes || ['65_70', '80_85', '95_100'].includes(veilTier) || (obfuscMode && obfuscMode !== 'none' && obfuscMode !== 'hair_veil');
 
     // Header prefix
     let headerPrefix = '';
@@ -753,6 +756,14 @@
     const allNegs = Array.from(new Set(negativeAdditions.flatMap(n => n.split(',').map(s => s.trim())).filter(Boolean)));
     const standaloneNegativePrompt = allNegs.join(', ');
 
+    let finalFrontLoaded = isAiFace ? (frontLoadedSubject || '') : '';
+    let finalPrimaryBullets = primaryBullets;
+    if (shouldHideFaceDetails && typeof window !== 'undefined' && window.AfterglowVeil?.sanitizeHiddenFaceText) {
+      const san = (s) => window.AfterglowVeil.sanitizeHiddenFaceText(s, true, veilTier, obfuscMode);
+      if (finalFrontLoaded) finalFrontLoaded = san(finalFrontLoaded);
+      finalPrimaryBullets = primaryBullets.map(b => san(b));
+    }
+
     return {
       faceMode: state.faceMode,
       isAiFace,
@@ -766,11 +777,11 @@
       isHairOnlySelection,
       summaryText,
       headerPrefix,
-      frontLoadedSubject: isAiFace ? (frontLoadedSubject || '') : '',
+      frontLoadedSubject: finalFrontLoaded,
       closingMandate: isAiFace
         ? 'FINAL FACE-NOVELTY CHECK: The finished face must be a brand-new person who fails facial recognition against the reference. If the reference face is still recognizable, discard the reference image and regenerate the subject from this text alone. A new face outranks exact hair, wardrobe, pose, and scene fidelity.'
         : '',
-      primaryBullets,
+      primaryBullets: finalPrimaryBullets,
       negativeAdditions,
       standaloneNegativePrompt,
       isLocked: isFieldLocked,

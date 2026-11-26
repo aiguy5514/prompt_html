@@ -17,6 +17,7 @@ const {
 const {
   parseVeilTier, detectHairArchitecture, getVeilRule,
   sanitizeHairForVeil, sanitizeMakeupForVeil, sanitizeHiddenFaceText,
+  sanitizeForAiFace, neutralizeHeritageForAiFace,
   dedupeNegatives, estimateTokens,
   extractPositivePrompt, extractNegativePrompt,
   buildObfuscClause, getObfuscNegatives
@@ -5289,11 +5290,13 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const veilTier = opts.veilTier || (isFullVeil ? '95_100' : 'auto');
   const isDeepOrFullVeil = isFullVeil || ['65_70', '80_85', '95_100'].includes(veilTier);
   const isFemaleGroomingMen = !!opts.isFemaleGroomingMen;
-  const hideEyes = isFaceHidden || isDeepOrFullVeil;
+  const obfuscMode = opts.obfuscMode || 'none';
+  const hasObfusc = (obfuscMode !== 'none' && obfuscMode !== 'hair_veil');
+  const hideEyes = isFaceHidden || isDeepOrFullVeil || hasObfusc;
   const S = t => (checkState.noMirror && typeof sanitizeMirrorProse === 'function') ? sanitizeMirrorProse(t) : t;
 
   const isAiFace = !!opts.isAiFace || window.AfterglowRefPicker?.getFaceMode() === 'ai_generated';
-  const lbRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot' });
+  const lbRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot', veilTier, hideEyes, obfuscMode });
   const lbFaceDirective = isAiFace ? (lbRefDirectives?.frontLoadedSubject || '') : '';
   const lbFaceBullet = isAiFace ? (lbRefDirectives?.primaryBullets?.[0] || '').replace(/^•\s*/, '') : '';
   // The lookbook/contact-sheet formats build their own shot bodies, so inject the
@@ -5342,13 +5345,15 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
     : (isAiFace && /reference/i.test(rawAccDesc)
         ? "tasteful contemporary accessories chosen to complement the outfit (strictly zero reference jewelry or nose ring)"
         : rawAccDesc);
-  const poseDesc = isLbRefPose
+  const poseRaw = isLbRefPose
     ? window.AfterglowRefPicker.getInheritedFieldText('pose')
-    : sanitizeHiddenFaceText(S(val('pose')), hideEyes, veilTier);
-  let exprDesc = sanitizeHiddenFaceText(S(val('expression')), hideEyes, veilTier);
-  if(isAiFace && (!lbRefDirectives?.faceSynthesisMode || lbRefDirectives.faceSynthesisMode === 'unrelated')){
-    exprDesc = exprDesc.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughter|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
-  }
+    : S(val('pose'));
+  const poseDesc = sanitizeHiddenFaceText(isAiFace ? sanitizeForAiFace(poseRaw) : poseRaw, hideEyes, veilTier, obfuscMode);
+  const exprRaw = S(val('expression'));
+  let exprDesc = isAiFace
+    ? sanitizeForAiFace(exprRaw)
+    : exprRaw;
+  exprDesc = sanitizeHiddenFaceText(exprDesc, hideEyes, veilTier, obfuscMode);
   const gestDesc = val('gesture');
   const bgDesc = isLbRefBg
     ? window.AfterglowRefPicker.getInheritedFieldText('background')
@@ -5361,7 +5366,10 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
   const aspDesc = val('aspect');
 
   const hasMalePresence = values.malePresence && values.malePresence.text !== 'solo' && values.maleInteraction && values.maleInteraction.text !== 'none';
-  const maleInterDesc = hasMalePresence ? S(val('maleInteraction')) : '';
+  const rawMaleInter = hasMalePresence ? S(val('maleInteraction')) : '';
+  const maleInterDesc = rawMaleInter
+    ? sanitizeHiddenFaceText(isAiFace ? sanitizeForAiFace(rawMaleInter) : rawMaleInter, hideEyes, veilTier, obfuscMode)
+    : '';
 
   let palNote = '';
   if(harmonizePalette && extractedPalette.length > 0){
@@ -5757,14 +5765,19 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
       negsText
     ].filter(Boolean).join('\n');
 
+    const cFrame6Expr = (isAiFace || hideEyes)
+      ? 'Calm composed expression with relaxed shoulders and natural post-shot poise. Hair settling naturally. Garment folds in relaxed state.'
+      : 'Spontaneous candid laughter with relaxed facial muscles. Hair settling naturally. Garment folds in relaxed state.';
     const cFrame6 = [
-      `${lbPrefix} — FRAME 6: CANDID POST-SHOT LAUGH & NATURAL RESET`,
+      `${lbPrefix} — FRAME 6: ${(isAiFace || hideEyes) ? 'CANDID POST-SHOT POISE & NATURAL RESET' : 'CANDID POST-SHOT LAUGH & NATURAL RESET'}`,
       '',
       'CREATIVE INTENT',
-      `Authentic in-between candid frame capturing a genuine laugh and natural shoulder drop between formal takes.`,
+      (isAiFace || hideEyes)
+        ? `Authentic in-between candid frame capturing natural composure and relaxed shoulder drop between formal takes.`
+        : `Authentic in-between candid frame capturing a genuine laugh and natural shoulder drop between formal takes.`,
       '',
       'EXPRESSION & TEXTURE',
-      `Spontaneous candid laughter with relaxed facial muscles. Hair settling naturally. Garment folds in relaxed state.`,
+      cFrame6Expr,
       '',
       'CAMERA & LIGHTING',
       `Lighting: ${lightDesc}. Color grade: ${gradeDesc}.${palNote}`,
@@ -5784,7 +5797,9 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
       `Medium-wide establishing composition in ${bgDesc}. Outfit: ${outfitDesc}.`,
       '',
       '=== FRAME 2: MACRO BEAUTY HEADSHOT & GAZE ===',
-      `Tight macro headshot. Razor-sharp iris detail, skin texture, and hair finish: ${hairFin}. Makeup: ${makeupDesc}.`,
+      hideEyes
+        ? `Tight macro headshot. Razor-sharp hair veil texture, skin micro-pores, and hair finish: ${hairFin}. Makeup: ${makeupDesc}.`
+        : `Tight macro headshot. Razor-sharp iris detail, skin texture, and hair finish: ${hairFin}. Makeup: ${makeupDesc}.`,
       '',
       '=== FRAME 3: MEDIUM POSED LOOK & GARMENT SILHOUETTE ===',
       `Three-quarter fashion crop. Garment: ${outfitDesc} (${outfitFitDesc}). Pose: ${poseDesc}. Expression: ${exprDesc}.`,
@@ -5795,8 +5810,10 @@ function buildLookbookSeries(checks = [], negatives = [], extraLines = [], opts 
       '=== FRAME 5: LOW-ANGLE FULL ENVIRONMENTAL SWEEP ===',
       `Low-angle full-length composition in ${bgDesc}. Complete silhouette and footwear.`,
       '',
-      '=== FRAME 6: CANDID POST-SHOT LAUGH & NATURAL RESET ===',
-      `Spontaneous candid outtake. Authentic laughter, relaxed shoulders, and natural post-shot composure.`,
+      `=== FRAME 6: ${(isAiFace || hideEyes) ? 'CANDID POST-SHOT POISE & NATURAL RESET' : 'CANDID POST-SHOT LAUGH & NATURAL RESET'} ===`,
+      (isAiFace || hideEyes)
+        ? `Spontaneous candid outtake. Relaxed shoulders and natural post-shot composure.`
+        : `Spontaneous candid outtake. Authentic laughter, relaxed shoulders, and natural post-shot composure.`,
       '',
       'LIGHTING, CAMERA & FINISH',
       `Lighting: ${lightDesc}. Camera angle & lens: ${val('angle')}, ${val('lens')}. Photography style: ${val('style')}. Color grade: ${gradeDesc}. Quality: ${qualDesc}. Aspect ratio: ${aspDesc}.`,
@@ -6117,7 +6134,7 @@ function buildSalonPrompt(){
           : '';
 
   // Header / Subject preservation
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'salon', isFemaleModelBarber });
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'salon', isFemaleModelBarber, veilTier: salonVeilTier, hideEyes, obfuscMode: salonObfuscMode });
   const isAiFace = refDirectives?.isAiFace;
 
   if(isAiFace){
@@ -6317,19 +6334,21 @@ function buildSalonPrompt(){
   const stylistText = S(val('salonStylist'));
   const lightingText = S(val('salonLighting'));
   const qualityText = S(val('salonQuality'));
-  let cleanSalonExpr = sanitizeHiddenFaceText(S(val('salonExpression')), hideEyes, salonVeilTier);
-  if(isAiFace){
-    cleanSalonExpr = cleanSalonExpr.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughter|laughing|giggle/gi, 'calm focused concentration and neutral closed lips (zero visible teeth)');
-  }
+  const rawSalonExpr = S(val('salonExpression'));
+  let cleanSalonExpr = sanitizeHiddenFaceText(isAiFace ? sanitizeForAiFace(rawSalonExpr) : rawSalonExpr, hideEyes, salonVeilTier, salonObfuscMode);
 
   if(isFemaleModelBarber){
     lines.push('GROOMING SERVICE & BARBER ARTISAN ACTION');
-    lines.push(`Active grooming moment: ${stageText}.`);
-    const barberPoseText = sanitizeHiddenFaceText(
-      val('salonBarberPose') ? S(val('salonBarberPose')) : 'the adult female model acts as the skilled barber standing tightly beside the hydraulic chair, executing the grooming service with authentic posture, artisan hand positioning, and attentive focus',
-      hideEyes,
-      salonVeilTier
-    );
+    lines.push(`Active grooming moment: ${isAiFace ? sanitizeForAiFace(stageText) : stageText}.`);
+    const isSalonRefPoseBarber = window.AfterglowRefPicker?.isFeatureInherited('pose');
+    const barberPoseText = isSalonRefPoseBarber
+      ? window.AfterglowRefPicker.getInheritedFieldText('pose')
+      : sanitizeHiddenFaceText(
+          val('salonBarberPose') ? S(val('salonBarberPose')) : 'the adult female model acts as the skilled barber standing tightly beside the hydraulic chair, executing the grooming service with authentic posture, artisan hand positioning, and attentive focus',
+          hideEyes,
+          salonVeilTier,
+          salonObfuscMode
+        );
     lines.push(`Female model artisan posture: ${barberPoseText}.`);
     let maleReactionText = cleanSalonExpr
       ? cleanSalonExpr
@@ -6337,6 +6356,7 @@ function buildSalonPrompt(){
           .replace(/watching her hair transformation/gi, 'enjoying the relaxing treatment')
           .replace(/her hair transformation/gi, 'the grooming treatment')
           .replace(/\bher\b/gi, 'his')
+          .replace(/\bshe\b/gi, 'he')
       : 'reclining calmly with eyes closed or head tilted comfortably, enjoying the soothing grooming service';
     lines.push(`Male client reaction & composure: The seated male client responds with calm relaxation (${maleReactionText}).`);
     lines.push('');
@@ -6394,10 +6414,12 @@ function buildSalonPrompt(){
 
   if(isFemaleModelBarber){
     lines.push('GROOMING SERVICE & MODEL STYLING');
-    lines.push(`Grooming service on male client: authentic gentlemen's grooming and hair care—${stageText}. The seated male client has a classic clean gentlemen's taper haircut with natural hair texture.`);
+    lines.push(`Grooming service on male client: authentic gentlemen's grooming and hair care—${isAiFace ? sanitizeForAiFace(stageText) : stageText}. The seated male client has a classic clean gentlemen's taper haircut with natural hair texture.`);
+    const isBarberRefTexture = window.AfterglowRefPicker?.isFeatureInherited('hairTexture');
+    const effBarberTex = isBarberRefTexture ? window.AfterglowRefPicker.getInheritedFieldText('hairTexture') : hairTextureText;
     const modelPersonalBase = isAiFace
-      ? `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain natural, realistic hair strand density and shine sculpted cleanly into this exact haircut silhouette.`
-      : `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${hairTextureText}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain her authentic natural Indian hair strand density and shine sculpted cleanly into this exact haircut silhouette.`;
+      ? `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${effBarberTex}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain natural, realistic hair strand density and shine sculpted cleanly into this exact haircut silhouette.`
+      : `Her hair is freshly cut and styled into ${haircutDisplay}. Hair texture: ${effBarberTex}. Moisture state: ${moistureDescriptions[salonHairMoisture] || moistureDescriptions.damp}. Maintain her authentic natural Indian hair strand density and shine sculpted cleanly into this exact haircut silhouette.`;
     lines.push(`Female model's personal hair: ${modelPersonalBase}${salonFaceCovVal ? ' Face-behind-hair veil on female model: ' + salonFaceCovVal + '.' : ''}`);
     if(moistureEnforceDirective) lines.push(moistureEnforceDirective);
     if(salonFaceCovVal && salonVeilTier !== 'auto'){
@@ -6407,7 +6429,7 @@ function buildSalonPrompt(){
       lines.push(`• Selected Tier: ${salonFaceCovLabel}`);
       lines.push(`• Drape & Coverage: ${salonFaceCovVal}`);
       lines.push(`• Strict Enforcement: ${strictEnforce}`);
-      lines.push(`• Silhouette Integrity: Strictly keep her chosen haircut (${values.salonHaircut?.label || 'selected cut'}) 100% authentic in length, parting, and back structure while styling this cohesive facial framing.`);
+      lines.push(`• Silhouette Integrity: Strictly keep her chosen haircut (${isSalonRefHaircut ? 'the reference haircut' : (values.salonHaircut?.label || 'selected cut')}) 100% authentic in length, parting, and back structure while styling this cohesive facial framing.`);
     }
   } else {
     lines.push('HAIRSTYLE BEING CUT');
@@ -6422,13 +6444,13 @@ function buildSalonPrompt(){
     if(moistureEnforceDirective) lines.push(moistureEnforceDirective);
     if(salonFaceCovVal && salonVeilTier !== 'auto'){
       const strictEnforce = salonVeilRuleObj?.strict || '';
-      lines.push(`Face-behind-hair veil: ${salonFaceCovVal}. Keep the base haircut silhouette (${values.salonHaircut?.label || 'selected cut'}) intact while applying this exact percentage of facial hair coverage.`);
+      lines.push(`Face-behind-hair veil: ${salonFaceCovVal}. Keep the base haircut silhouette (${isSalonRefHaircut ? 'the reference haircut' : (values.salonHaircut?.label || 'selected cut')}) intact while applying this exact percentage of facial hair coverage.`);
       lines.push('');
       lines.push('HAIR VEIL DIRECTIVE (MANDATORY — STRICT FACIAL COVERAGE ENFORCEMENT):');
       lines.push(`• Selected Tier: ${salonFaceCovLabel}`);
       lines.push(`• Drape & Coverage: ${salonFaceCovVal}`);
       lines.push(`• Strict Enforcement: ${strictEnforce}`);
-      lines.push(`• Silhouette Integrity: Strictly keep the chosen haircut (${values.salonHaircut?.label || 'selected cut'}) authentic in length, crown, and shape—integrate this cohesive veil cleanly without spawning mismatched loose strings.`);
+      lines.push(`• Silhouette Integrity: Strictly keep the chosen haircut (${isSalonRefHaircut ? 'the reference haircut' : (values.salonHaircut?.label || 'selected cut')}) authentic in length, crown, and shape—integrate this cohesive veil cleanly without spawning mismatched loose strings.`);
     }
   }
   lines.push('');
@@ -6981,7 +7003,7 @@ const isDeepOrHeavyVeil = isPs65_70 || isHeavyVeil;
 const hideEyes = isFaceHidden || isDeepOrHeavyVeil || hasPsObfusc;
 
 const checks=[];
-const psRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot', hasMalePresence, isFemaleGroomingMen });
+const psRefDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'photoshoot', hasMalePresence, isFemaleGroomingMen, veilTier: psTier, hideEyes, obfuscMode: psObfuscMode });
 const isPsAiFace = psRefDirectives?.isAiFace;
 
 if(hasPsObfusc){
@@ -7114,7 +7136,9 @@ if(wardrobeMode === 'separates'){
 }
 
 const rawHairBlueprint = (styleRef && transferToggles && transferToggles.hair)
-  ? "authentic salon-styled mid-height ponytail with softly rounded crown and natural scalp volume; delicate arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands curving gracefully outward around the temples to frame the cheekbones with piecey separation; side hair combed smoothly back and tucked behind the ears; ponytail anchored at the mid-occipital back of the head into a relaxed mid ponytail with a straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders with soft tousled ends; 100% authentic natural silky-fine Indian hair texture with organic strand separation and healthy sheen"
+  ? (isPsAiFace
+      ? "authentic salon-styled mid-height ponytail with softly rounded crown and natural scalp volume; delicate arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands curving gracefully outward around the temples to frame the cheekbones with piecey separation; side hair combed smoothly back and tucked behind the ears; ponytail anchored at the mid-occipital back of the head into a relaxed mid ponytail with a straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders with soft tousled ends; 100% authentic natural silky-fine hair texture with organic strand separation and healthy sheen"
+      : "authentic salon-styled mid-height ponytail with softly rounded crown and natural scalp volume; delicate arched bottleneck curtain bangs parted at the center hairline with brow-grazing wispy strands curving gracefully outward around the temples to frame the cheekbones with piecey separation; side hair combed smoothly back and tucked behind the ears; ponytail anchored at the mid-occipital back of the head into a relaxed mid ponytail with a straight-to-softly-tapered tail falling flush against the nape of the neck just above the shoulders with soft tousled ends; 100% authentic natural silky-fine Indian hair texture with organic strand separation and healthy sheen")
   : psFullHairDesc;
 const hairBlueprint = sanitizeHairForVeil(rawHairBlueprint, psTier);
 const psMakeupSafe = sanitizeMakeupForVeil(val('makeup'), psTier);
@@ -7156,9 +7180,12 @@ if(isPsAiFace){
   if(psObfuscClause) lines.push('• ' + psObfuscClause);
   if(psVeilRuleObj?.primary) lines.push(psVeilRuleObj.primary);
 } else {
-  let outfitLine = `• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${outfitSummary}; makeup: ${psMakeupSafe || val('makeup') || 'natural editorial makeup'}.`;
+  const psEffectiveMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup')
+    ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
+    : (psMakeupSafe || val('makeup') || 'natural editorial makeup');
+  let outfitLine = `• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing ${outfitSummary}; makeup: ${psEffectiveMakeup}.`;
   if(window.AfterglowRefPicker?.isFeatureInherited('wardrobe')){
-    outfitLine = `• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing exact wardrobe & garment construction from reference photo; makeup: ${psMakeupSafe || val('makeup') || 'natural editorial makeup'}.`;
+    outfitLine = `• Model (Reference Subject): Identical adult South Asian woman from reference photo wearing exact wardrobe & garment construction from reference photo; makeup: ${psEffectiveMakeup}.`;
   }
   lines.push(outfitLine);
 
@@ -7262,7 +7289,9 @@ const isRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
 const textureDirective = isRefHairTexture
   ? window.AfterglowRefPicker.getInheritedFieldText('hairTexture')
   : ((preserveHairTexture || (values.hairTexture && values.hairTexture.label.includes('Preserve original')))
-      ? "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)"
+      ? (isPsAiFace
+          ? "freshly synthesized natural hair texture, realistic strand thickness, strand density, and authentic hair fiber behavior (no artificial curls, synthetic straightener, or texture distortion)"
+          : "strictly preserve the subject's authentic natural organic hair texture, natural strand thickness, strand density, realistic straight-to-softly-tapered blowout curve, and authentic hair fiber behavior from the reference image (no artificial curls, synthetic straightener, perm, or texture alteration)")
       : (val('hairTexture') || "natural hair texture with realistic strand separation"));
 
 const rawHairColorVal = val('hairColor');
@@ -7311,7 +7340,7 @@ if(psFaceCovVal && psTier !== 'auto' && (!(styleRef && transferToggles && transf
   lines.push(`• Selected Tier: ${psFaceCovLabel}`);
   lines.push(`• Drape & Coverage: ${psFaceCovVal}`);
   lines.push(`• Strict Enforcement: ${strictEnforce}`);
-  lines.push(`• Silhouette Integrity: Strictly keep the chosen haircut (${values.hair?.label || 'selected style'}) authentic in length, crown, and shape—integrate this cohesive veil cleanly without spawning mismatched loose strings.`);
+  lines.push(`• Silhouette Integrity: Strictly keep the chosen haircut (${isRefHaircut ? 'the reference haircut' : (values.hair?.label || 'selected style')}) authentic in length, crown, and shape—integrate this cohesive veil cleanly without spawning mismatched loose strings.`);
   lines.push('');
 }
 lines.push('');
@@ -7332,11 +7361,11 @@ if(isRefWardrobe){
   lines.push(`Outfit: ${outfitSummary}. Garment fit: ${val('outfitFit')}. Accessories: ${accDirective}. Let the wardrobe feel bold, fashion-forward, sophisticated and adult without looking costume-like. Preserve realistic garment construction and fabric behavior.`);
 }
 lines.push('');
-let exprCleaned = sanitizeHiddenFaceText(S(val('expression')), hideEyes, psTier);
-if(isPsAiFace && (!psRefDirectives?.faceSynthesisMode || psRefDirectives.faceSynthesisMode === 'unrelated')){
-  exprCleaned = exprCleaned.replace(/subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughter|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
-}
-const poseCleaned = sanitizeHiddenFaceText(S(val('pose')), hideEyes, psTier);
+const exprRawPs = S(val('expression'));
+let exprCleaned = sanitizeHiddenFaceText(isPsAiFace ? sanitizeForAiFace(exprRawPs) : exprRawPs, hideEyes, psTier, psObfuscMode);
+const poseRawPs = S(val('pose'));
+const poseCleaned = sanitizeHiddenFaceText(isPsAiFace ? sanitizeForAiFace(poseRawPs) : poseRawPs, hideEyes, psTier, psObfuscMode);
+const maleInterSafe = sanitizeHiddenFaceText(isPsAiFace ? sanitizeForAiFace(S(val('maleInteraction'))) : S(val('maleInteraction')), hideEyes, psTier, psObfuscMode);
 if(isRefPose){
   lines.push('POSE AND EXPRESSION');
   const psExprFinal = isPsAiFace
@@ -7350,21 +7379,21 @@ if(isRefPose){
       ? '• Active Practitioner Role: The newly synthesized adult female model is the primary protagonist and active practitioner (grooming stylist / therapist) standing cleanly over or seated attentively beside her male partner.'
       : '• Active Practitioner Role: The adult woman from the reference image is the primary protagonist and active practitioner (grooming stylist / therapist) standing cleanly over or seated attentively beside her male partner.';
     lines.push(activePractitionerBullet);
-    lines.push(`• Action & Physical Connection: ${S(val('maleInteraction'))}. Believable finger placement, accurate tool grip, rich warm foam or soothing oil sheen, and authentic anatomy with zero floating hands.`);
+    lines.push(`• Action & Physical Connection: ${maleInterSafe}. Believable finger placement, accurate tool grip, rich warm foam or soothing oil sheen, and authentic anatomy with zero floating hands.`);
     lines.push('• Receptive Male Subject: A handsome, sharply groomed adult male model/client (receptive partner), seated or reclining comfortably with calm, trusting posture.');
     lines.push('• Solitary Female Model Rule: The adult female model is strictly and exclusively the ONLY woman in the scene. Zero secondary women, zero female stylists, and zero female bystanders in the frame or background.');
     lines.push('');
     lines.push('POSE AND EXPRESSION');
-    lines.push(`Active grooming posture: ${S(val('maleInteraction'))}. Keep her body language focused, caring, natural, and authentic to the moment.`);
+    lines.push(`Active grooming posture: ${maleInterSafe}. Keep her body language focused, caring, natural, and authentic to the moment.`);
     lines.push(`Expression: ${exprCleaned}. Overall attitude: ${val('mood')}.`);
   } else {
     lines.push('MALE PRESENCE & EDITORIAL CO-STAR / CREW INTERACTION');
     lines.push(`Setup category: ${values.malePresence.label}.`);
-    lines.push(`Action & body posture: ${S(val('maleInteraction'))}. The interaction directly dictates her physical positioning, body contact, and hand placement, with our model as the clear visual protagonist.`);
+    lines.push(`Action & body posture: ${maleInterSafe}. The interaction directly dictates her physical positioning, body contact, and hand placement, with our model as the clear visual protagonist.`);
     lines.push('Solitary Female Model Rule: The adult female model is strictly and exclusively the ONLY woman in the scene. All colleagues, co-models, hair stylists, makeup artists, wardrobe assistants, and groomers interacting with her must strictly be male (completely exclude any secondary women, female stylists, or female background subjects).');
     lines.push('');
     lines.push('POSE AND EXPRESSION');
-    lines.push(`Interaction-driven body posture: ${S(val('maleInteraction'))}. Keep her body language responsive, natural, and authentic to the moment.`);
+    lines.push(`Interaction-driven body posture: ${maleInterSafe}. Keep her body language responsive, natural, and authentic to the moment.`);
     lines.push(`Expression: ${exprCleaned}. Overall attitude: ${val('mood')}.`);
   }
 } else if(styleRef && transferToggles && transferToggles.hair){
@@ -7519,9 +7548,10 @@ if(harmonizePalette && extractedPalette.length > 0){
 
 if(lookbookMode){
   lookbookShots = buildLookbookSeries(checks, negatives, extraLines, {
-    isFaceHidden,
+    isFaceHidden: hideEyes,
     isFullVeil,
     veilTier: psTier,
+    obfuscMode: psObfuscMode,
     isFemaleGroomingMen,
     outfitDesc: outfitSummary,
     isAiFace: isPsAiFace

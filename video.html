@@ -1463,16 +1463,34 @@ function buildPrompt(){
   const isConcealed = /shield\w*.*face|conceal\w*.*face|facing.*away|turned.*away|profile/i.test(beatMid + ' ' + beatEnd) || ['65_70','80_85','95_100'].includes(veilTier) || hasVidObfusc;
   const vidObfuscClause = buildObfuscClause(vidObfuscMode, hairArch);
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'video' });
+  const isVidDeepVeil = ['65_70','80_85','95_100'].includes(veilTier);
+  const isVidHideEyes = isVidDeepVeil || hasVidObfusc || /shield|conceal/i.test(beatMid);
+
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'video', veilTier, hideEyes: isVidHideEyes, obfuscMode: vidObfuscMode });
   const isAiFace = refDirectives?.isAiFace;
 
-  const rawMicro = val('vidFacialMicroMotion');
-  let microSafe = (['65_70','80_85','95_100'].includes(veilTier) || /shield|conceal/i.test(beatMid))
-    ? sanitizeHiddenFaceText(rawMicro, true, veilTier)
-    : rawMicro;
-  if(isAiFace && microSafe){
-    microSafe = microSafe.replace(/laughter|half-smile|half-smirk|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
-  }
+  const cleanVidText = (t) => {
+    let s = t || '';
+    if(isAiFace && typeof sanitizeForAiFace === 'function') s = sanitizeForAiFace(s);
+    if(isVidHideEyes && typeof sanitizeHiddenFaceText === 'function') s = sanitizeHiddenFaceText(s, true, veilTier, vidObfuscMode);
+    return s;
+  };
+  const safeVidPipeline = isAiFace
+    ? (typeof neutralizeHeritageForAiFace === 'function' ? neutralizeHeritageForAiFace(val('vidPipelineMode')) : val('vidPipelineMode'))
+        .replace(/preserving the exact facial identity/gi, 'synthesizing a completely distinct autonomous facial identity')
+    : val('vidPipelineMode');
+  const safeVidLens = isAiFace && typeof neutralizeHeritageForAiFace === 'function' ? neutralizeHeritageForAiFace(val('vidFocalLens')) : val('vidFocalLens');
+  const safeVidStyle = isAiFace && typeof neutralizeHeritageForAiFace === 'function' ? neutralizeHeritageForAiFace(val('vidStyleLook')) : val('vidStyleLook');
+
+  const camMoveSafe = cleanVidText(camMove);
+  const beatStartSafe = cleanVidText(beatStart);
+  const beatMidSafe = cleanVidText(beatMid);
+  const beatEndSafe = cleanVidText(beatEnd);
+
+  const rawMicro = window.AfterglowRefPicker?.isFeatureInherited('pose')
+    ? window.AfterglowRefPicker.getInheritedFieldText('pose')
+    : val('vidFacialMicroMotion');
+  const microSafe = cleanVidText(rawMicro);
 
   const wardrobeText = (wardrobeMode === 'separates')
     ? `a modern separates outfit featuring ${val('topPiece')} paired with ${val('bottomPiece')} (${val('midriffStyling')})`
@@ -1501,15 +1519,15 @@ function buildPrompt(){
   const lines = [];
   if(compactMotionMode){
     if(isAiFace && refDirectives?.frontLoadedSubject) lines.push(refDirectives.frontLoadedSubject);
-    lines.push(`${val('vidPipelineMode')}. Duration: ${val('vidDuration')}, ${val('vidFramerate')}, ${val('vidFocalLens')}, aspect ${val('aspect')}.`);
+    lines.push(`${safeVidPipeline}. Duration: ${val('vidDuration')}, ${val('vidFramerate')}, ${safeVidLens}, aspect ${val('aspect')}.`);
     if(isAiFace){
       lines.push(`Subject: Synthesize a fresh, autonomous AI-generated face; selectively transfer from reference photo: ${refDirectives.summaryText || 'selected features'}. Wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
     } else {
       lines.push(`Subject: Preserve reference adult woman's Indian heritage identity seamlessly wearing ${effVidWardrobe}; haircut: ${effVidHair}${covVal ? ' with veil coverage: ' + covVal : ''}. ${moistMotionClause}`);
     }
-    lines.push(`Camera Choreography: ${camMove}.`);
-    lines.push(`Action Sequence: (0–2s) ${beatStart}. (2–4s) ${beatMid}. (4–6s+) ${beatEnd}. Facial rhythm: ${microSafe}.`);
-    lines.push(`Environment & Physics: ${effVidEnv}. Ambient movement: ${val('vidEnvPhysics')}. Lighting: ${val('vidLightingShift')}. Film look: ${val('vidStyleLook')}. Amplitude: ${val('vidAmplitude')}.`);
+    lines.push(`Camera Choreography: ${camMoveSafe}.`);
+    lines.push(`Action Sequence: (0–2s) ${beatStartSafe}. (2–4s) ${beatMidSafe}. (4–6s+) ${beatEndSafe}. Facial rhythm: ${microSafe}.`);
+    lines.push(`Environment & Physics: ${effVidEnv}. Ambient movement: ${val('vidEnvPhysics')}. Lighting: ${val('vidLightingShift')}. Film look: ${safeVidStyle}. Amplitude: ${val('vidAmplitude')}.`);
     if(veilRuleObj?.strict) lines.push(`HAIR VEIL LOCK: ${veilRuleObj.strict}`);
     if(vidObfuscClause) lines.push(`FACE PRIVACY: ${vidObfuscClause}`);
     if(customDirection.trim()) lines.push(`Direction: ${customDirection.trim()}`);
@@ -1522,7 +1540,7 @@ function buildPrompt(){
     }
     lines.push('');
     lines.push('WORKFLOW & SUBJECT CONTINUITY:');
-    lines.push(`• Input Mode: ${val('vidPipelineMode')}.`);
+    lines.push(`• Input Mode: ${safeVidPipeline}.`);
     if(isAiFace){
       refDirectives.primaryBullets.forEach(b => lines.push(b));
     } else {
@@ -1545,24 +1563,24 @@ function buildPrompt(){
     lines.push(`• ${moistMotionClause}`);
     lines.push('');
     lines.push('CAMERA CHOREOGRAPHY & OPTICS:');
-    lines.push(`• Camera Path: ${camMove}.`);
-    lines.push(`• Speed & Capture: ${val('vidFramerate')}. Optics: ${val('vidFocalLens')}. Speed curve: ${val('vidSpeedCurve')}.`);
+    lines.push(`• Camera Path: ${camMoveSafe}.`);
+    lines.push(`• Speed & Capture: ${val('vidFramerate')}. Optics: ${safeVidLens}. Speed curve: ${val('vidSpeedCurve')}.`);
     lines.push(`• Motion Amplitude: ${val('vidAmplitude')}. Clip Target: ${val('vidDuration')}. Aspect Ratio: ${val('aspect')}.`);
     lines.push('');
     lines.push('CHRONOLOGICAL 3-BEAT ACTION TIMELINE:');
-    lines.push(`• BEAT 1 (0s–2s · OPENING FRAME): ${beatStart}.`);
-    lines.push(`• BEAT 2 (2s–4s · PEAK ACTION & MOTION): ${beatMid}.`);
+    lines.push(`• BEAT 1 (0s–2s · OPENING FRAME): ${beatStartSafe}.`);
+    lines.push(`• BEAT 2 (2s–4s · PEAK ACTION & MOTION): ${beatMidSafe}.`);
     if(checkState.seamlessLoop){
-      lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & SEAMLESS LOOP CLOSURE): ${beatEnd}. Seamless loop requirement: body motion decelerates smoothly into the exact opening starting frame pose and head orientation of Beat 1, forming an infinite seamless cycle with zero jump cut.`);
+      lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & SEAMLESS LOOP CLOSURE): ${beatEndSafe}. Seamless loop requirement: body motion decelerates smoothly into the exact opening starting frame pose and head orientation of Beat 1, forming an infinite seamless cycle with zero jump cut.`);
     } else {
-      lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & POISE): ${beatEnd}.`);
+      lines.push(`• BEAT 3 (4s–6s+ · RESOLVE & POISE): ${beatEndSafe}.`);
     }
     lines.push(`• Micro-Expression & Breathing: ${microSafe}.`);
     lines.push('');
     lines.push('ENVIRONMENT, AMBIENT WIND & DYNAMIC LIGHTING:');
     lines.push(`• Setting: ${effVidEnv}.`);
     lines.push(`• Secondary Ambient Motion: ${val('vidEnvPhysics')}.`);
-    lines.push(`• Light & Color Grade: ${val('vidLightingShift')}. Film stock: ${val('vidStyleLook')}.`);
+    lines.push(`• Light & Color Grade: ${val('vidLightingShift')}. Film stock: ${safeVidStyle}.`);
     if(veilRuleObj?.strict){
       lines.push('');
       lines.push('HAIR VEIL CONTINUITY LOCK (ALL FRAMES):');
@@ -1581,11 +1599,11 @@ function buildPrompt(){
     } else if(checkState.noMorph){
       lines.push('• Zero Facial Morphing: Facial bone structure, skin tone, and micro-pores remain 100% locked cleanly across head rotation.');
     }
-    if(checkState.hairLock) lines.push(`• Exact Hair Geometry Lock: Keep selected haircut (${values.vidHair?.label || 'style'}) length and crown constant without morphing length mid-clip.`);
+    if(checkState.hairLock) lines.push(`• Exact Hair Geometry Lock: Keep selected haircut (${isVidRefHaircut ? 'the reference haircut' : (values.vidHair?.label || 'style')}) length and crown constant without morphing length mid-clip.`);
     if(checkState.fingerLock) lines.push('• Smooth Hand & Limb Continuity: Five anatomically coherent fingers per hand with realistic joint inertia and zero extra floating hands.');
     if(checkState.solitaryRule) lines.push('• Solitary Female Subject: Strictly zero secondary women appearing dynamically anywhere in background crowds or passing extras.');
     if(checkState.bgLock) lines.push('• Fixed Environmental Geometry: Walls, mirrors, furniture, and chair legs stay solid and non-warping during camera motion.');
-    if(checkState.seamlessLoop) lines.push('• Seamless Loop Continuity: The concluding frame matches the opening frame in head tilt, gaze vector, and hair drape for seamless endless looping.');
+    if(checkState.seamlessLoop) lines.push(`• Seamless Loop Continuity: The concluding frame matches the opening frame in ${isVidHideEyes ? 'head tilt and hair drape' : 'head tilt, gaze vector, and hair drape'} for seamless endless looping.`);
   }
 
   const negs = [

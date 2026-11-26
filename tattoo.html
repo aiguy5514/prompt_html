@@ -1701,7 +1701,7 @@ function buildPrompt(){
   const hasTattooObfusc = (tattooObfuscMode !== 'none' && tattooObfuscMode !== 'hair_veil');
   const hideEyes = isFaceHidden || isTattooHeavyVeil || isTattoo65_70 || hasTattooObfusc;
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'tattoo' });
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'tattoo', veilTier: tattooTier, hideEyes, obfuscMode: tattooObfuscMode });
   const isAiFace = refDirectives?.isAiFace;
 
   let expr = hideEyes
@@ -1710,7 +1710,9 @@ function buildPrompt(){
         ? rawExpr.replace(/both eyes/gi, 'her single uncovered eye').replace(/symmetrical/gi, 'asymmetric veiled').replace(/eye contact/gi, 'one-eyed gaze from behind the heavy hair curtain')
         : rawExpr);
   if(isAiFace && expr){
-    expr = expr.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+    expr = typeof sanitizeForAiFace === 'function'
+      ? sanitizeForAiFace(expr)
+      : expr.replace(/laughter|half-laugh|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
   }
 
   const light = val('tattooLighting');
@@ -1821,7 +1823,9 @@ function buildPrompt(){
   const isTatRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
   const isTatRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
 
-  const effPose = isTatRefPose ? window.AfterglowRefPicker.getInheritedFieldText('pose') : pose;
+  const rawEffPose = isTatRefPose ? window.AfterglowRefPicker.getInheritedFieldText('pose') : pose;
+  const effPose = sanitizeHiddenFaceText(isAiFace && !isTatRefPose && typeof sanitizeForAiFace === 'function' ? sanitizeForAiFace(rawEffPose) : rawEffPose, hideEyes, tattooTier, tattooObfuscMode);
+  const safeCam = hideEyes ? sanitizeHiddenFaceText(cam, true, tattooTier, tattooObfuscMode) : cam;
   const effWardrobe = isTatRefWardrobe ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe') : `wearing ${w}`;
   const effHaircut = isTatRefHaircut ? window.AfterglowRefPicker.getInheritedFieldText('haircut') : hairVal;
   const effLoc = isTatRefBg ? window.AfterglowRefPicker.getInheritedFieldText('background') : loc;
@@ -1837,12 +1841,12 @@ function buildPrompt(){
     lines.push(`• Selected Tier: ${tattooFaceCovLabel}`);
     lines.push(`• Drape & Coverage: ${tattooFaceCovVal}`);
     lines.push(`• Strict Enforcement: ${strictEnforce}`);
-    lines.push(`• Silhouette Integrity: Strictly keep the chosen haircut (${values.tattooHair?.label || 'selected style'}) authentic in length, crown, and shape—integrate this cohesive veil cleanly without spawning mismatched loose strings.`);
+    lines.push(`• Silhouette Integrity: Strictly keep the chosen haircut (${isTatRefHaircut ? 'the reference haircut' : (values.tattooHair?.label || 'selected style')}) authentic in length, crown, and shape—integrate this cohesive veil cleanly without spawning mismatched loose strings.`);
     lines.push('');
   }
 
   lines.push(`Session moment: ${act}. Shoot location & environment: ${effLoc}.`);
-  lines.push(`Camera direction & optics: ${cam}. Color grade & film feel: ${film}.`);
+  lines.push(`Camera direction & optics: ${safeCam}. Color grade & film feel: ${film}.`);
   lines.push(`Lighting & ambiance: ${light}.${asp ? ' Aspect ratio: ' + asp + '.' : ''}`);
   if(isFaceHidden){
     lines.push('Face Concealment & Occlusion: The model is turned sideways looking away from the camera with her face not visible to the lens (head turned away into the setting / shielded from view); zero direct facial features or front facial profile are visible. Retain her authentic natural hair and focus the photographic composition entirely on her silhouette, posture, bare skin canvas, and fine-line tattoo artistry.');

@@ -135,11 +135,14 @@ function sanitizeHiddenFaceText(text, hideEyes, veilTier, obfuscMode){
       .replace(/\bquiet satisfaction, relaxed eyes, and a subtle self-assured smile\b/gi, 'quiet satisfaction and a subtle self-assured smile')
       .replace(/\beye\s+crinkles\b/gi, 'serene poise')
       .replace(/\bside-eye\b/gi, 'poised composure')
+      .replace(/\b(?:heavy-lidded|wide-eyed|misty-eyed)\b/gi, 'serene')
+      .replace(/\b(?:eyelids?|wink(?:ing)?)\b/gi, 'serene poise')
+      .replace(/\b(?:peeking|glancing|gazing|eyeing)\b/gi, 'angled calmly')
       .replace(/\b(?:one\s+)?eyes?\b/gi, 'facial composure')
       .replace(/\b(?:eyebrows?|brows?)\b/gi, 'upper-face veil')
       .replace(/\bgaze\b/gi, 'poise');
-    if(veilTier === '95_100'){
-      out = out.replace(/\b(?:lips|mouth|toothy laugh|smile)\b/gi, 'veiled stillness');
+    if(veilTier === '95_100' || obfuscMode === 'turned_away' || obfuscMode === 'chiaroscuro_shadow'){
+      out = out.replace(/\b(?:neutral\s+closed\s+lips|closed\s+mouth|lips|mouth|toothy\s+laugh|smile|smirk)\b/gi, 'veiled stillness');
     }
   } else if(partialVeil){
     out = out
@@ -272,6 +275,27 @@ function getObfuscNegatives(mode){
   }
 }
 
+function sanitizeForAiFace(text){
+  if(!text) return text;
+  return String(text)
+    .replace(/\b(?:spontaneous\s+)?(?:candid\s+)?(?:genuine\s+)?(?:open,?\s+relaxed\s+smile\s+with\s+naturally\s+rendered\s+teeth|half-laugh|half-smile|half-smirk|subtle\s+self-assured\s+smile|subtle\s+candid\s+smile|subtle\s+smile|self-assured\s+smile|playful\s+lip-bite|lip-bite|parted\s+lips|smiling|smile|smirk|grin|laughter|laughing|laugh|giggle|gasp|beaming\s+happiness|beaming|wink)\b/gi, 'calm composed poise with neutral closed lips')
+    .replace(/\b(?:with\s+)?(?:naturally\s+rendered\s+|visible\s+)?teeth\b/gi, 'neutral closed lips')
+    .replace(/ {2,}/g, ' ')
+    .trim();
+}
+
+function neutralizeHeritageForAiFace(text){
+  if(!text) return text;
+  return String(text)
+    .replace(/\b(?:authentic\s+|natural\s+|warm\s+|golden\s+)*(?:South Asian|Indian)\s+(?:heritage|skin\s+undertones?|skin\s+tones?|dermal\s+undertones?|hair\s+texture|hair\s+color|features?)\b/gi, 'natural photorealistic features')
+    .replace(/\bIndian\b/gi, 'natural')
+    .replace(/ {2,}/g, ' ')
+    .trim();
+}
+
+global.sanitizeForAiFace = sanitizeForAiFace;
+global.neutralizeHeritageForAiFace = neutralizeHeritageForAiFace;
+
 global.AfterglowVeil = {
   parseVeilTier,
   detectHairArchitecture,
@@ -279,6 +303,8 @@ global.AfterglowVeil = {
   sanitizeHairForVeil,
   sanitizeMakeupForVeil,
   sanitizeHiddenFaceText,
+  sanitizeForAiFace,
+  neutralizeHeritageForAiFace,
   cleanClause,
   capFirst,
   stripBuzzwords,

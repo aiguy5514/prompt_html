@@ -1860,12 +1860,11 @@ function buildPrompt(){
   const isDeepVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
   const hideEyes = isDeepVeil || hasObfusc;
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'gym' });
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'gym', veilTier, hideEyes, obfuscMode });
   const isAiFace = refDirectives?.isAiFace;
-  let exprText = hideEyes ? '' : sanitizeHiddenFaceText(rawExpr, false, veilTier);
-  if(isAiFace && exprText){
-    exprText = exprText.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
-  }
+  let exprText = hideEyes ? '' : (isAiFace && typeof sanitizeForAiFace === 'function' ? sanitizeForAiFace(rawExpr) : rawExpr);
+  if(exprText) exprText = sanitizeHiddenFaceText(exprText, false, veilTier, obfuscMode);
+  const isExplicitWetGymCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look|sweat-soaked/i.test((values.gymHair?.label || '') + ' ' + hairText);
 
   let apparelText = '';
   if(wardrobeMode === 'separates'){
@@ -1938,7 +1937,7 @@ function buildPrompt(){
     lines.push("• Mandatory Soaked Wet Hair Physics: The model's hair is thoroughly sweat-soaked or post-workout shower damp—heavy dark wet hair strands clinging flush against her scalp, temples, and neck with glistening moisture sheen and zero dry flyaways.");
   } else if(gymHairMoisture === 'damp'){
     lines.push('• Damp Athletic Hair Physics: Evenly misted post-warmup damp hair texture with delicate perspiration beads and subtle organic strand clumping at the temples.');
-  } else {
+  } else if(!isExplicitWetGymCut){
     lines.push('• Dry Athletic Hair Physics: Clean, dry, breathable hair strands styled securely for training with natural bounce and zero oily saturation.');
   }
   lines.push('');
@@ -1947,30 +1946,37 @@ function buildPrompt(){
   lines.push('• The solitary female athlete is the sole human subject in the frame. Strictly zero secondary women, trainers, gym spotters, or background bystanders anywhere in the scene.');
   lines.push('');
 
-  const panelApparel = window.AfterglowRefPicker?.isFeatureInherited('wardrobe')
+  const isGymRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+  const isGymRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isGymRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isGymRefPose = window.AfterglowRefPicker?.isFeatureInherited('pose');
+  const isGymRefAcc = window.AfterglowRefPicker?.isFeatureInherited('accessories');
+  const isGymRefMakeup = window.AfterglowRefPicker?.isFeatureInherited('makeup');
+
+  const panelApparel = isGymRefWardrobe
     ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
     : apparelText;
+  const panelRestraint = isGymRefHaircut ? '' : (' with ' + restraint);
+  const effGymMove = isGymRefPose ? window.AfterglowRefPicker.getInheritedFieldText('pose') : `${disc}. Executing ${move}. Moment in set: ${phase}`;
+  const effGymSweat = isGymRefMakeup ? window.AfterglowRefPicker.getInheritedFieldText('makeup') : (hideEyes ? sanitizeHiddenFaceText(sweat, true, veilTier, obfuscMode) : sweat);
 
   if(numMode === 'collage'){
     lines.push('2×2 EDITORIAL WORKOUT SERIES COLLAGE:');
     lines.push('Create one unified 2×2 four-panel fitness photo collage documenting four chronological training moments with strict subject, outfit, and gym continuity:');
-    lines.push('• PANEL 1 (TOP-LEFT): Pre-workout prep & warmup focus — model seated on bench adjusting gear in ' + panelApparel + ' with ' + restraint + '.');
-    lines.push('• PANEL 2 (TOP-RIGHT): Power execution — dynamic athletic action capturing ' + move + ' with intense muscular tension and ' + sweat + '.');
-    lines.push('• PANEL 3 (BOTTOM-LEFT): Mid-set pause — caught in ' + phase + ' under ' + light + '.');
+    lines.push('• PANEL 1 (TOP-LEFT): Pre-workout prep & warmup focus — model seated on bench adjusting gear in ' + panelApparel + panelRestraint + '.');
+    lines.push('• PANEL 2 (TOP-RIGHT): Power execution — dynamic athletic action capturing ' + (isGymRefPose ? effGymMove : move) + ' with intense muscular tension and ' + effGymSweat + '.');
+    lines.push('• PANEL 3 (BOTTOM-LEFT): Mid-set pause — caught in ' + (isGymRefPose ? effGymMove : phase) + ' under ' + light + '.');
     lines.push(hideEyes
       ? '• PANEL 4 (BOTTOM-RIGHT): Serene post-workout recovery pause in tranquil concealed athletic poise.'
       : '• PANEL 4 (BOTTOM-RIGHT): Accomplished recovery moment showing ' + exprText + ' and natural hydration sheen.');
   } else if(numMode === 'triptych'){
-    lines.push('Create one three-frame horizontal fitness triptych tracing pre-lift focus, explosive execution (' + move + '), and finished post-set recovery across three panels.');
+    lines.push('Create one three-frame horizontal fitness triptych tracing pre-lift focus, explosive execution (' + (isGymRefPose ? effGymMove : move) + '), and finished post-set recovery across three panels.');
   } else {
     lines.push('Create one finished photorealistic athletic fitness photograph.');
   }
   lines.push('');
 
   lines.push('GYM ENVIRONMENT & SETTING:');
-  const isGymRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
-  const isGymRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
-  const isGymRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
 
   const effGymLoc = isGymRefBg ? window.AfterglowRefPicker.getInheritedFieldText('background') : `Facility: ${loc}. Setting & Time: ${setTime}. Atmosphere: ${atmo}. Architecture: ${archi}.`;
   let effGymHair = '';
@@ -1989,15 +1995,19 @@ function buildPrompt(){
   const effGymWardrobe = isGymRefWardrobe ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe') : `Wearing ${apparelText}`;
 
   lines.push(`• ${effGymLoc}`);
-  lines.push(`• Athletic Discipline & Movement: ${disc}. Executing ${move}. Moment in set: ${phase}.`);
+  lines.push(`• Athletic Discipline & Movement: ${effGymMove}.`);
   if(exprText) lines.push(`• Facial Focus & Attitude: ${exprText}.`);
   lines.push(`• Hairstyle & Restraint: ${effGymHair}.`);
   lines.push(`• Activewear Apparel: ${effGymWardrobe}.`);
-  lines.push(`• Footwear: ${footText}.`);
-  if(propText && propText !== 'none'){
-    lines.push(`• Equipment Props: ${propText}.`);
+  if(isGymRefAcc){
+    lines.push(`• Accessories & Gear: ${window.AfterglowRefPicker.getInheritedFieldText('accessories')}.`);
+  } else {
+    lines.push(`• Footwear: ${footText}.`);
+    if(propText && propText !== 'none'){
+      lines.push(`• Equipment Props: ${propText}.`);
+    }
   }
-  lines.push(`• Physique & Dermal Exertion: ${muscle}. Exertion sheen: ${sweat}. Vascular state: ${vasc}.`);
+  lines.push(`• Physique & Dermal Exertion: ${muscle}. Exertion sheen: ${effGymSweat}. Vascular state: ${vasc}.`);
   lines.push('');
 
   if(covVal && veilTier !== 'auto'){
@@ -2005,12 +2015,13 @@ function buildPrompt(){
     lines.push(`• Selected Tier: ${covLabel}`);
     lines.push(`• Drape & Coverage: ${covVal}`);
     lines.push(`• Strict Enforcement: ${veilRuleObj?.strict || ''}`);
-    lines.push(`• Silhouette Integrity: Preserve chosen haircut (${values.gymHair?.label || 'cut'}) architecture cleanly.`);
+    lines.push(`• Silhouette Integrity: Preserve chosen haircut (${isGymRefHaircut ? 'the reference haircut' : (values.gymHair?.label || 'cut')}) architecture cleanly.`);
     lines.push('');
   }
 
   lines.push('CAMERA, LIGHTING & FILM OPTICS:');
-  lines.push(`• Camera Framing & Distance: ${camAngle}, positioned at ${camDist}.`);
+  const safeCamAngle = hideEyes ? sanitizeHiddenFaceText(camAngle, true, veilTier, obfuscMode) : camAngle;
+  lines.push(`• Camera Framing & Distance: ${safeCamAngle}, positioned at ${camDist}.`);
   lines.push(`• Lighting Rig: ${light}.`);
   lines.push(`• Optical Character: ${optics}. Color & Grade: ${film}.`);
   if(aspText){

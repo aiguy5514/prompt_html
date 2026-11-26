@@ -1622,21 +1622,28 @@ function buildPrompt(){
   const isDeepOrHeavyVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
   const hideEyes = isFaceHidden || isDeepOrHeavyVeil || hasPrepObfusc;
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'makeup_spa' });
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'makeup_spa', veilTier, hideEyes, obfuscMode: prepObfuscMode });
   const isAiFace = refDirectives?.isAiFace;
 
   const rawExpr = val('prepExpression');
-  let exprText = hideEyes ? '' : sanitizeHiddenFaceText(rawExpr, false, veilTier);
-  if(isAiFace && exprText){
-    exprText = exprText.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
-  }
+  let exprText = hideEyes ? '' : (isAiFace && typeof sanitizeForAiFace === 'function' ? sanitizeForAiFace(rawExpr) : rawExpr);
+  if(exprText) exprText = sanitizeHiddenFaceText(exprText, false, veilTier, prepObfuscMode);
   const skinFinishText = val('prepSkinFinish');
-  const lipText = val('prepLipLook');
+  const rawLipText = val('prepLipLook');
+  const lipText = (veilTier === '95_100' || prepObfuscMode === 'turned_away' || prepObfuscMode === 'chiaroscuro_shadow')
+    ? ''
+    : (hideEyes ? sanitizeHiddenFaceText(rawLipText, true, veilTier, prepObfuscMode) : rawLipText);
   const eyeText = sanitizeMakeupForVeil(val('prepEyeDetail'), veilTier);
   const lightText = S(val('prepLighting'));
-  const filmText = val('prepFilmFeel');
+  const rawFilmText = val('prepFilmFeel');
+  const filmText = (isAiFace && typeof neutralizeHeritageForAiFace === 'function') ? neutralizeHeritageForAiFace(rawFilmText) : rawFilmText;
   const aspText = val('aspect');
   const numMode = val('numImages');
+  const safeActionText = hideEyes ? sanitizeHiddenFaceText(actionText, true, veilTier, prepObfuscMode) : actionText;
+  const effActionText = (isSoloPrep && /male makeup artist|makeup artist|\bmua\b/i.test(safeActionText))
+    ? 'calm self-directed solo skincare and beauty prep moment'
+    : safeActionText;
+  const safePoseText = hideEyes ? sanitizeHiddenFaceText(poseText, true, veilTier, prepObfuscMode) : poseText;
 
   let apparelText = '';
   if(wardrobeMode === 'separates'){
@@ -1646,6 +1653,9 @@ function buildPrompt(){
     apparelText = `a casual getting-ready two-piece separates pairing featuring ${topT} with ${botT}, with ${midT}`;
   } else {
     apparelText = val('prepOutfit') || 'a fluid champagne silk kimono robe loosely belted at the waist';
+  }
+  if(isAiFace && typeof neutralizeHeritageForAiFace === 'function'){
+    apparelText = neutralizeHeritageForAiFace(apparelText);
   }
 
   const isExplicitWetCut = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched|post-swim|wet-look/i.test((values.prepHair?.label || '') + ' ' + hairText);
@@ -1718,18 +1728,24 @@ function buildPrompt(){
   const panelApparel = window.AfterglowRefPicker?.isFeatureInherited('wardrobe')
     ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
     : apparelText;
+  const panelHair = window.AfterglowRefPicker?.isFeatureInherited('haircut')
+    ? window.AfterglowRefPicker.getInheritedFieldText('haircut')
+    : hairHold;
+  const panelSkin = window.AfterglowRefPicker?.isFeatureInherited('makeup')
+    ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
+    : skinFinishText;
 
   if(numMode === 'collage'){
     lines.push('2×2 EDITORIAL PREP COLLAGE PROGRESSION:');
     lines.push('Create one unified 2×2 four-panel photography collage documenting four chronological prep moments with strict identity and room continuity:');
-    lines.push('• PANEL 1 (TOP-LEFT): Hair restraint prep — model seated calmly wearing ' + panelApparel + ' with ' + hairHold + '.');
-    lines.push('• PANEL 2 (TOP-RIGHT): Skincare & serum glaze — 100mm close-up showing ' + skinFinishText + ' with visible pores and tactile preparation.');
-    lines.push('• PANEL 3 (BOTTOM-LEFT): Active moment — ' + actionText + '.');
+    lines.push('• PANEL 1 (TOP-LEFT): Hair restraint prep — model seated calmly wearing ' + panelApparel + ' with ' + panelHair + '.');
+    lines.push('• PANEL 2 (TOP-RIGHT): Skincare & serum glaze — 100mm close-up showing ' + panelSkin + ' with visible pores and tactile preparation.');
+    lines.push('• PANEL 3 (BOTTOM-LEFT): Active moment — ' + effActionText + '.');
     lines.push(hideEyes
       ? '• PANEL 4 (BOTTOM-RIGHT): Radiant prep pause in tranquil concealed poise beneath ' + lightText + '.'
-      : '• PANEL 4 (BOTTOM-RIGHT): Quiet candid vanity reveal showing ' + lipText + ' and ' + eyeText + ' beneath ' + lightText + '.');
+      : '• PANEL 4 (BOTTOM-RIGHT): Quiet candid vanity reveal showing ' + (window.AfterglowRefPicker?.isFeatureInherited('makeup') ? panelSkin : (lipText + ' and ' + eyeText)) + ' beneath ' + lightText + '.');
   } else if(numMode === 'triptych'){
-    lines.push('Create one three-frame horizontal triptych tracing hair clip prep, active serum/makeup stroke (' + actionText + '), and finished luminous skin glow across panels.');
+    lines.push('Create one three-frame horizontal triptych tracing hair clip prep, active serum/makeup stroke (' + effActionText + '), and finished luminous skin glow across panels.');
   } else if(numMode === 'contact'){
     lines.push('Create a classic six-frame 35mm behind-the-scenes contact sheet capturing unscripted prep gestures, skincare misting, and vanity pauses.');
   } else {
@@ -1747,11 +1763,11 @@ function buildPrompt(){
   const effPrepLoc = isPrepRefBg ? window.AfterglowRefPicker.getInheritedFieldText('background') : `Environment: ${loc}. Atmosphere: ${atmo}. Room humidity: ${steamDensityText}.`;
   const effPrepHair = isPrepRefHaircut ? window.AfterglowRefPicker.getInheritedFieldText('haircut') : `${hairText}; styled with ${hairHold}`;
   const effPrepWardrobe = isPrepRefWardrobe ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe') : `Wearing ${apparelText}`;
-  const effPrepMakeup = isPrepRefMakeup ? window.AfterglowRefPicker.getInheritedFieldText('makeup') : `${skinFinishText}. Lip finish: ${lipText}.${!hideEyes ? ' Eye detail: ' + eyeText + '.' : ''}`;
-  const effPrepPose = isPrepRefPose ? window.AfterglowRefPicker.getInheritedFieldText('pose') : poseText;
+  const effPrepMakeup = isPrepRefMakeup ? window.AfterglowRefPicker.getInheritedFieldText('makeup') : `${skinFinishText}.${lipText ? ' Lip finish: ' + lipText + '.' : ''}${!hideEyes ? ' Eye detail: ' + eyeText + '.' : ''}`;
+  const effPrepPose = isPrepRefPose ? window.AfterglowRefPicker.getInheritedFieldText('pose') : safePoseText;
 
   lines.push(isPrepRefBg ? `Environment: ${effPrepLoc}` : `Environment: ${loc}. Atmosphere: ${atmo}. Room humidity: ${steamDensityText}.`);
-  lines.push(`Treatment Phase: ${phaseText}. Active Prep Moment: ${actionText}.`);
+  lines.push(`Treatment Phase: ${phaseText}. Active Prep Moment: ${effActionText}.`);
   lines.push('');
 
   lines.push('HAIR, APPAREL & GLAM PREPARATION');
@@ -1772,7 +1788,7 @@ function buildPrompt(){
     lines.push(`• Selected Tier: ${covLabel}`);
     lines.push(`• Drape & Coverage: ${covVal}`);
     lines.push(`• Strict Enforcement: ${veilRuleObj?.strict || ''}`);
-    lines.push(`• Silhouette Integrity: Preserve chosen haircut (${values.prepHair?.label || 'cut'}) architecture cleanly.`);
+    lines.push(`• Silhouette Integrity: Preserve chosen haircut (${isPrepRefHaircut ? 'the reference haircut' : (values.prepHair?.label || 'cut')}) architecture cleanly.`);
     lines.push('');
   }
 

@@ -1253,11 +1253,21 @@ function buildPrompt(){
   const aspectText = val('aspect');
   const makeupText = val('romanceMakeup');
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'romance' });
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'romance', veilTier, hideEyes, obfuscMode });
   const isAiFace = refDirectives?.isAiFace;
-  let cleanRomExpr = hideEyes ? sanitizeHiddenFaceText(exprRaw, true, veilTier, obfuscMode) : exprRaw;
-  if(isAiFace){
-    cleanRomExpr = cleanRomExpr.replace(/laughter|half-smile|subtle self-assured smile|subtle smile|self-assured smile|smiling|smile|smirk|grin|laughing|giggle/gi, 'calm composed gaze and neutral closed lips (zero visible teeth)');
+  let cleanRomExpr = exprRaw;
+  if(isAiFace && typeof sanitizeForAiFace === 'function'){
+    cleanRomExpr = sanitizeForAiFace(cleanRomExpr);
+  }
+  if(hideEyes){
+    cleanRomExpr = sanitizeHiddenFaceText(cleanRomExpr, true, veilTier, obfuscMode);
+  }
+  let cleanTouchText = touchText;
+  if(isAiFace && typeof sanitizeForAiFace === 'function'){
+    cleanTouchText = sanitizeForAiFace(cleanTouchText);
+  }
+  if(hideEyes){
+    cleanTouchText = sanitizeHiddenFaceText(cleanTouchText, true, veilTier, obfuscMode);
   }
 
   const lines = [];
@@ -1278,7 +1288,7 @@ function buildPrompt(){
     : settingText;
   const effRomMakeup = isRomRefMakeup
     ? window.AfterglowRefPicker.getInheritedFieldText('makeup')
-    : makeupText;
+    : sanitizeMakeupForVeil(makeupText, veilTier);
 
   if(reelMode){
     // 2-Shot Couple Video Clip Reel format
@@ -1301,7 +1311,7 @@ function buildPrompt(){
     lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
     lines.push(`• ${helmetClause}`);
     lines.push(`• ${moistClause}`);
-    lines.push(`• Intimacy Dynamic: ${dynamicText}. Proximity: ${touchText}.`);
+    lines.push(`• Intimacy Dynamic: ${dynamicText}. Proximity: ${cleanTouchText}.`);
     lines.push(`• Setting & Light: ${effRomSetting} under ${lightingText}. Lens: ${lensText}. Aspect ratio: ${aspectText}.`);
 
     const obfuscClause = buildObfuscClause(obfuscMode, hairArch, { isRomance: true });
@@ -1310,8 +1320,8 @@ function buildPrompt(){
 
     lines.push('');
     lines.push('CHRONOLOGICAL 2-SHOT ACTION TIMELINE:');
-    lines.push(`• SHOT 1 (0s–3.5s · ESTABLISHING MOTION): Wide-to-medium camera tracking at matching speed alongside the scene; ${angleText}; ${touchText}; dynamic wind catching her hair in realistic flow.`);
-    lines.push(`• SHOT 2 (3.5s–7s · PEAK ROMANCE CLIMAX): Seamless cut into an intimate ${framingText}; ${cleanRomExpr}; subtle speed deceleration into cinematic slow-motion; mutual eye contact or tender touch resolve.`);
+    lines.push(`• SHOT 1 (0s–3.5s · ESTABLISHING MOTION): Wide-to-medium camera tracking at matching speed alongside the scene; ${angleText}; ${cleanTouchText}; dynamic wind catching her hair in realistic flow.`);
+    lines.push(`• SHOT 2 (3.5s–7s · PEAK ROMANCE CLIMAX): Seamless cut into an intimate ${framingText}; ${cleanRomExpr}; subtle speed deceleration into cinematic slow-motion; ${hideEyes ? 'serene quiet closeness or tender touch resolve.' : 'mutual eye contact or tender touch resolve.'}`);
     lines.push('• AUDIO AMBIENCE: Throaty rumble of the motorcycle engine exhaust, coastal wind rush, distant soft ambient music.');
   } else {
     // Single editorial photograph format
@@ -1326,6 +1336,7 @@ function buildPrompt(){
     const obfuscClause = buildObfuscClause(obfuscMode, hairArch, { isRomance: true });
     if(isAiFace){
       refDirectives.primaryBullets.forEach(b => lines.push(b));
+      lines.push(`• Styling & Wardrobe: Wearing ${effRomWardrobe}; haircut: ${effRomHair}; makeup: ${effRomMakeup}.`);
       lines.push(`• Male Partner: ${partnerText}.`);
       lines.push('• Duo Composition Rule: Exactly one woman and one man in frame; strictly zero secondary women, female bystanders, or additional people. Both subjects are distinct, fully formed individuals with natural anatomical boundaries and zero body fusion.');
       lines.push(`• ${helmetClause}`);
@@ -1358,7 +1369,7 @@ function buildPrompt(){
     lines.push('');
     lines.push('COUPLE SCENE & INTIMACY COMPOSITION:');
     lines.push(`• Couple Interaction & Dynamic: ${dynamicText}.`);
-    lines.push(`• Physical Touch & Proximity: ${touchText}.`);
+    lines.push(`• Physical Touch & Proximity: ${cleanTouchText}.`);
     lines.push(`• Shared Expression & Chemistry: ${cleanRomExpr}.`);
 
     lines.push('');

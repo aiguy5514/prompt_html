@@ -1501,7 +1501,7 @@ function resolveFrameDetails(idx){
 }
 
 function buildShotPrompt(det, globalCtx){
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'storyboard' });
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'storyboard', veilTier: det.veilTier, hideEyes: det.isConcealed, obfuscMode: values.sbFaceObfuscMode?.text || 'none' });
   const isAiFace = refDirectives?.isAiFace;
   const shotHeader = isAiFace
     ? `${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} — STORYBOARD SHOT 0${det.idx}: ${det.action.label.toUpperCase()}`
@@ -1509,6 +1509,15 @@ function buildShotPrompt(det, globalCtx){
   const subjectLine = isAiFace
     ? `• AI-Generated Protagonist: Fresh autonomous face with selective transfer: ${refDirectives.summaryText} (${globalCtx.hairCol}, haircut: ${globalCtx.hairStr}).`
     : `• Reference Subject: Preserve identical adult Indian woman from reference (${globalCtx.hairCol}, haircut: ${globalCtx.hairStr}).`;
+  const cleanSbText = (t) => {
+    let s = t || '';
+    if(isAiFace && typeof sanitizeForAiFace === 'function') s = sanitizeForAiFace(s);
+    if(det.isConcealed && typeof sanitizeHiddenFaceText === 'function') s = sanitizeHiddenFaceText(s, true, det.veilTier, values.sbFaceObfuscMode?.text || 'none');
+    return s;
+  };
+  const extraRefBullets = (!isAiFace && refDirectives?.hasAnyFeature)
+    ? ['hairTexture', 'hairColor', 'makeup', 'accessories', 'pose'].map(fKey => window.AfterglowRefPicker?.isFeatureInherited(fKey) ? refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label)) : '').filter(Boolean)
+    : [];
 
   const lines = [
     (isAiFace && refDirectives?.frontLoadedSubject) ? refDirectives.frontLoadedSubject : '',
@@ -1516,19 +1525,19 @@ function buildShotPrompt(det, globalCtx){
     '',
     'LOCKED SUBJECT & WORLD CONTINUITY:',
     subjectLine,
-    ...(isAiFace && refDirectives?.primaryBullets?.length ? refDirectives.primaryBullets : []),
+    ...(isAiFace && refDirectives?.primaryBullets?.length ? refDirectives.primaryBullets : extraRefBullets),
     `• Locked Apparel: ${globalCtx.wardrobeFull}.`,
     `• Setting: ${globalCtx.venue}. Color grade: ${globalCtx.grade}.`,
     '',
     `FRAME 0${det.idx} CHOREOGRAPHY & STATE:`,
-    `• Framing & Optics: ${det.crop.text} captured from ${det.angle.text} with ${det.lensText}.`,
-    `• Moment & Action: ${det.cleanAct}.`,
+    `• Framing & Optics: ${cleanSbText(det.crop.text)} captured from ${cleanSbText(det.angle.text)} with ${det.lensText}.`,
+    `• Moment & Action: ${cleanSbText(det.cleanAct)}.`,
     `• Active Hair Moisture: ${det.moistStr}.`,
     det.sbObfuscClause ? `• Face Privacy: ${det.sbObfuscClause}` : '',
     det.effVeilOpt?.text ? `• Facial Veil Coverage: ${det.effVeilOpt.text}.` : '',
     det.veilRuleObj?.strict ? `• STRICT VEIL ENFORCEMENT: ${det.veilRuleObj.strict}` : '',
-    `• Lighting & Ratio: ${det.lightText}. Aspect ratio: ${globalCtx.aspect}.`,
-    det.note ? `• Director Note: ${det.note}` : '',
+    `• Lighting & Ratio: ${cleanSbText(det.lightText)}. Aspect ratio: ${globalCtx.aspect}.`,
+    det.note ? `• Director Note: ${cleanSbText(det.note)}` : '',
     globalCtx.customDir ? `• Series Note: ${globalCtx.customDir}` : '',
     '',
     'CONTINUITY & REALISM SAFEGUARDS:',
@@ -1602,19 +1611,33 @@ function buildPrompt(){
     : val('sbOutfit');
   const wardrobeFull = capeWrap ? `${baseWardrobe}, layered with ${capeWrap}` : baseWardrobe;
 
-  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'storyboard' });
-  const isAiFace = refDirectives?.isAiFace;
-
-  const checks = [];
+  const sbGlobalVeilTier = parseVeilTier(values.sbVeil?.label || '');
   const sbGlobalObfuscMode = values.sbFaceObfuscMode?.text || 'none';
   const hasSbGlobalObfusc = (sbGlobalObfuscMode !== 'none' && sbGlobalObfuscMode !== 'hair_veil');
+  const isSbGlobalHideEyes = ['65_70', '80_85', '95_100'].includes(sbGlobalVeilTier) || hasSbGlobalObfusc;
+  const refDirectives = window.AfterglowRefPicker?.getPromptDirectives({ studio: 'storyboard', veilTier: sbGlobalVeilTier, hideEyes: isSbGlobalHideEyes, obfuscMode: sbGlobalObfuscMode });
+  const isAiFace = refDirectives?.isAiFace;
+
+  const isSbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
+  const isSbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
+  const isSbRefHairColor = window.AfterglowRefPicker?.isFeatureInherited('hairColor');
+  const isSbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
+
+  const effSbHairCol = isSbRefHairColor
+    ? window.AfterglowRefPicker.getInheritedFieldText('hairColor')
+    : (isAiFace && typeof neutralizeHeritageForAiFace === 'function' ? neutralizeHeritageForAiFace(hairCol) : hairCol);
+  const effSbGrade = (isAiFace && typeof neutralizeHeritageForAiFace === 'function')
+    ? neutralizeHeritageForAiFace(grade)
+    : grade;
+
+  const checks = [];
   if(hasSbGlobalObfusc) checks.push(`Apply strict face privacy (${values.sbFaceObfuscMode?.label || sbGlobalObfuscMode}): facial features must remain concealed per chosen obfuscation method across all panels.`);
   if(isAiFace){
     checks.push('Synthesize a fresh, photorealistic, unique face autonomously with natural skin texture, visible pores, and authentic facial proportions across all panels, completely decoupled from reference facial identity.');
   } else if(checkState.strictIdentity){
     checks.push('Strictly preserve identical facial features, Indian skin tone, and bone structure from the reference image.');
   }
-  if(checkState.strictWardrobe) checks.push(`Keep the exact same haircut (${hairLabel}) and core wardrobe unbroken across all frames.`);
+  if(checkState.strictWardrobe) checks.push(`Keep the exact same haircut (${isSbRefHaircut ? 'from reference' : hairLabel}) and core wardrobe unbroken across all frames.`);
   if(checkState.solitarySubject) checks.push('Solitary female subject: strictly zero secondary women anywhere in frame or background.');
   if(checkState.naturalSkin) checks.push('Visible natural skin micro-pores, natural crease detail, zero waxy plastic airbrushing.');
 
@@ -1636,10 +1659,6 @@ function buildPrompt(){
     return negs;
   };
 
-  const isSbRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
-  const isSbRefHaircut = window.AfterglowRefPicker?.isFeatureInherited('haircut');
-  const isSbRefBg = window.AfterglowRefPicker?.isFeatureInherited('background');
-
   const effSbWardrobe = isSbRefWardrobe
     ? window.AfterglowRefPicker.getInheritedFieldText('wardrobe')
     : wardrobeFull;
@@ -1650,7 +1669,7 @@ function buildPrompt(){
     ? window.AfterglowRefPicker.getInheritedFieldText('background')
     : venue;
 
-  const globalCtx = { hairText, hairLabel, hairStr: effSbHair, hairCol, venue: effSbVenue, grade, aspect: aspectText, wardrobeFull: effSbWardrobe, checks, customDir: customDirection.trim(), getNegatives };
+  const globalCtx = { hairText, hairLabel, hairStr: effSbHair, hairCol: effSbHairCol, venue: effSbVenue, grade: effSbGrade, aspect: aspectText, wardrobeFull: effSbWardrobe, checks, customDir: customDirection.trim(), getNegatives };
   const resolved = [];
   for(let i = 0; i < frameCount; i++) resolved.push(resolveFrameDetails(i));
 
@@ -1664,8 +1683,11 @@ function buildPrompt(){
       ? `${refDirectives?.headerPrefix || 'AI-GENERATED FACE WITH SELECTIVE REFERENCE TRANSFER'} — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`
       : `REFERENCE-IMAGE EDIT — UNIFIED ${layoutName} (${frameCount} CONTINUOUS SHOTS)`;
     const protagonistBullet = isAiFace
-      ? `• Protagonist: ${refDirectives.primaryBullets[0]} (${hairCol}; cut: ${effSbHair}).`
-      : `• Protagonist: Identical adult Indian woman from supplied reference image (${hairCol}; cut: ${effSbHair}).`;
+      ? `• Protagonist: ${refDirectives.primaryBullets[0]} (${effSbHairCol}; cut: ${effSbHair}).`
+      : `• Protagonist: Identical adult Indian woman from supplied reference image (${effSbHairCol}; cut: ${effSbHair}).`;
+    const gExtraBullets = (!isAiFace && refDirectives?.hasAnyFeature)
+      ? ['hairTexture', 'hairColor', 'makeup', 'accessories', 'pose'].map(fKey => window.AfterglowRefPicker?.isFeatureInherited(fKey) ? refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label)) : '').filter(Boolean)
+      : [];
     const gLines = [
       (isAiFace && refDirectives?.frontLoadedSubject) ? refDirectives.frontLoadedSubject : '',
       gridTitle,
@@ -1673,13 +1695,18 @@ function buildPrompt(){
       'GLOBAL CAST & CONTINUITY SPINE (ALL PANELS):',
       `Generate ONE high-definition composite sheet divided cleanly into ${frameCount} distinct narrative panels with ZERO borders/labels:`,
       protagonistBullet,
-      ...(isAiFace && refDirectives?.primaryBullets?.length > 1 ? refDirectives.primaryBullets.slice(1) : []),
-      `• Wardrobe & Venue: ${effSbWardrobe} inside ${effSbVenue}. Color science: ${grade}. Ratio: ${aspectText}.`,
+      ...(isAiFace && refDirectives?.primaryBullets?.length > 1 ? refDirectives.primaryBullets.slice(1) : gExtraBullets),
+      `• Wardrobe & Venue: ${effSbWardrobe} inside ${effSbVenue}. Color science: ${effSbGrade}. Ratio: ${aspectText}.`,
       '',
       'PANEL-BY-PANEL PROGRESSION:'
     ];
     resolved.forEach(d => {
-      gLines.push(`• PANEL 0${d.idx} (${d.action.label.split(':')[0]}): ${d.crop.text}, ${d.angle.text}. ${d.cleanAct}. Moisture: ${d.moistStr}.${d.veilRuleObj?.strict ? ' VEIL LOCK: ' + d.veilRuleObj.strict : ''} Lighting: ${d.lightText}.${d.note ? ' Note: ' + d.note : ''}`);
+      const pAct = isAiFace && typeof sanitizeForAiFace === 'function' ? sanitizeForAiFace(d.cleanAct) : d.cleanAct;
+      const pCrop = d.isConcealed && typeof sanitizeHiddenFaceText === 'function' ? sanitizeHiddenFaceText(d.crop.text, true, d.veilTier, sbGlobalObfuscMode) : d.crop.text;
+      const pAngle = d.isConcealed && typeof sanitizeHiddenFaceText === 'function' ? sanitizeHiddenFaceText(d.angle.text, true, d.veilTier, sbGlobalObfuscMode) : d.angle.text;
+      const pLight = d.isConcealed && typeof sanitizeHiddenFaceText === 'function' ? sanitizeHiddenFaceText(d.lightText, true, d.veilTier, sbGlobalObfuscMode) : d.lightText;
+      const pNote = d.note ? (isAiFace && typeof sanitizeForAiFace === 'function' ? sanitizeForAiFace(d.note) : d.note) : '';
+      gLines.push(`• PANEL 0${d.idx} (${d.action.label.split(':')[0]}): ${pCrop}, ${pAngle}. ${pAct}. Moisture: ${d.moistStr}.${d.veilRuleObj?.strict ? ' VEIL LOCK: ' + d.veilRuleObj.strict : ''} Lighting: ${pLight}.${pNote ? ' Note: ' + pNote : ''}`);
     });
     gLines.push('', 'CONTINUITY & REALISM SAFEGUARDS:', checks.map(c => '• ' + c).join('\n'));
     if(customDirection.trim()) gLines.push('', 'SERIES DIRECTION:', customDirection.trim());
@@ -1690,7 +1717,7 @@ function buildPrompt(){
   } else {
     const packLines = [
       `AFTERGLOW STORYBOARD SHOOT PACK · ${frameCount} LINKED CONSECUTIVE PROMPTS`,
-      `GLOBAL ANCHOR: ${isAiFace ? 'Autonomous AI Face' : 'Reference Identity'} + Cut (${hairLabel}) + Wardrobe (${wardrobeFull}) + Venue (${venue}) + Grade (${grade}).`,
+      `GLOBAL ANCHOR: ${isAiFace ? 'Autonomous AI Face' : 'Reference Identity'} + Cut (${effSbHair}) + Wardrobe (${effSbWardrobe}) + Venue (${effSbVenue}) + Grade (${effSbGrade}).`,
       '='.repeat(60)
     ];
     resolved.forEach(d => {

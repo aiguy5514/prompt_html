@@ -110,15 +110,15 @@
       desc: 'Preserves model bone structure and recognizable facial traits unless surgical face edits are picked below',
       icon: '👤',
       defaultVal: true,
-      preserveText: 'Strictly preserve the same adult woman\'s recognizable facial identity, skull geometry, eye spacing, nose root position, and lip contours from the reference image without replacing her face or introducing identity drift.'
+      preserveText: 'Strictly preserve the subject\'s recognizable facial identity, skull geometry, eye spacing, nose root position, and lip contours from the reference image without replacing the face or introducing identity drift.'
     },
     {
       id: 'skinTone',
       label: 'Skin Pigmentation & Pore Micro-Texture',
-      desc: 'Preserves exact skin tone, authentic warm dermal undertones, visible micro-pores, and natural skin grain',
+      desc: 'Preserves exact skin tone, authentic natural dermal undertones, visible micro-pores, and natural skin grain',
       icon: '✨',
       defaultVal: true,
-      preserveText: 'Maintain exact skin tone, authentic warm Indian dermal undertones, visible micro-pores, and natural cellular skin texture without airbrushing, beauty filters, or waxy smoothing.'
+      preserveText: 'Maintain exact skin tone, authentic natural dermal undertones, visible micro-pores, and natural cellular skin texture without airbrushing, beauty filters, or waxy smoothing.'
     },
     {
       id: 'hair',
@@ -142,7 +142,7 @@
       desc: 'Locks shoulder width, neck length, collarbone contours, and authentic natural body silhouette',
       icon: '🧍‍♀️',
       defaultVal: true,
-      preserveText: 'Preserve her authentic natural body proportions, collarbone definition, shoulder width, and silhouette without slimming, reshaping, or anatomical exaggeration.'
+      preserveText: 'Preserve authentic natural body proportions, collarbone definition, shoulder width, and silhouette without slimming, reshaping, or anatomical exaggeration.'
     },
     {
       id: 'pose',
@@ -634,8 +634,8 @@
     bottomPiece: { label: 'Target Bottom Piece', opts: [O('Keep reference bottom', 'keep_ref'), ...bottomPieces], cat: 'wardrobe' },
     outfitFit: { label: 'Garment Tailoring Fit', opts: outfitFitOpts, cat: 'wardrobe' },
     midriffStyling: { label: 'Midriff & Hemline Coverage', opts: midriffStylings, cat: 'wardrobe' },
-    makeup: { label: 'Makeup Styling Direction', opts: makeupOpts, cat: 'wardrobe' },
-    accessories: { label: 'Jewelry & Accessories', opts: accessoriesOpts, cat: 'wardrobe' },
+    makeup: { label: 'Makeup Styling Direction', opts: makeupOpts, cat: 'beauty' },
+    accessories: { label: 'Jewelry & Accessories', opts: accessoriesOpts, cat: 'beauty' },
 
     editMode: { label: 'Prompt Engine Mode', opts: editModeOpts, cat: 'finish' },
     inpaintMaskTarget: { label: 'Target Inpaint Mask Zone', opts: inpaintMaskTargetOpts, cat: 'finish' }
@@ -704,15 +704,18 @@
     const edits = getActiveEdits();
     const hasHairEdit = edits.some(e => e.zone === 'hair');
     const hasWardrobeEdit = edits.some(e => e.zone === 'wardrobe');
+    const hasAccEdit = edits.some(e => e.key === 'accessories');
+    const hasExprEdit = edits.some(e => ['lips', 'eyeShape', 'eyebrows'].includes(e.key));
+    const hasSkinEdit = edits.some(e => e.key === 'skinFinish');
+    const veilTier = parseVeilTier(values.hairFaceCoverage?.label || '');
+    const hasTiltVeil = ['65_70', '80_85', '95_100'].includes(veilTier);
 
-    // If hair edit active, auto-uncheck hair lock
-    if (hasHairEdit && lockState.hair) {
-      lockState.hair = false;
-    }
-    // If wardrobe edit active, auto-uncheck wardrobe lock
-    if (hasWardrobeEdit && lockState.wardrobe) {
-      lockState.wardrobe = false;
-    }
+    if (hasHairEdit && lockState.hair) lockState.hair = false;
+    if (hasWardrobeEdit && lockState.wardrobe) lockState.wardrobe = false;
+    if (hasAccEdit && lockState.accessories) lockState.accessories = false;
+    if (hasExprEdit && lockState.expression) lockState.expression = false;
+    if (hasSkinEdit && lockState.skinTone) lockState.skinTone = false;
+    if (hasTiltVeil && lockState.pose) lockState.pose = false;
   }
 
   // =========================================================================
@@ -762,7 +765,10 @@
         let text = l.preserveText;
         // If face edits are active but identity lock is on, refine instruction to surgical rather than total lock
         if (l.id === 'identity' && hasFaceEdits) {
-          text = 'Preserve the same adult woman\'s baseline skull structure, recognizable ethnic heritage, natural eye socket placement, and underlying bone anatomy—modifying only the surgically designated facial features listed below while preventing total face replacement.';
+          const hasBoneEdits = edits.some(e => ['faceShape', 'jawline', 'cheeks'].includes(e.key));
+          text = hasBoneEdits
+            ? 'Preserve the subject\'s recognizable facial identity, eye spacing, and natural proportions while sculpting only the designated structural contours listed below.'
+            : 'Preserve the subject\'s baseline skull structure, natural eye socket placement, and underlying bone anatomy—modifying only the surgically designated facial features listed below while preventing total face replacement.';
         }
         lines.push(`• [LOCK: ${l.label.toUpperCase()}]: ${text}`);
       });
@@ -804,13 +810,17 @@
           lines.push(`  - ${e.label}${optLabel}: ${e.val.text}`);
         });
 
-        // Hair Moisture & Physics
-        if (activeHairMoisture === 'wet') {
-          lines.push('  - Mandatory Soaked Wet Hair Physics: hair is visibly saturated with water, sleek damp strand clumping, water droplets clinging to dark ends, authentic wet sheen without dry flyaways');
-        } else if (activeHairMoisture === 'damp') {
-          lines.push('  - Damp Hair Physics: hair is towel-dried and damp, soft moisture weight, restrained clumped texture with subtle natural sheen');
-        } else {
-          lines.push('  - Dry Blown-Out Hair Physics: hair is completely dry, airy root lift, soft silky strand separation, and natural micro-flyaways catching light');
+        // Hair Moisture & Physics (only when structure/style/finish is edited, and respect explicit wet styles)
+        const hasMoistureRelevantHairEdit = hairEdits.some(e => ['haircut', 'hairLength', 'hairTexture', 'hairFinish'].includes(e.key));
+        const isExplicitWetDocHair = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched/i.test(`${values.haircut?.label || ''} ${values.hairFinish?.label || ''} ${values.hairCutAction?.label || ''}`);
+        if (hasMoistureRelevantHairEdit) {
+          if (activeHairMoisture === 'wet') {
+            lines.push('  - Mandatory Soaked Wet Hair Physics: hair is visibly saturated with water, sleek damp strand clumping, water droplets clinging to dark ends, authentic wet sheen without dry flyaways');
+          } else if (activeHairMoisture === 'damp') {
+            lines.push('  - Damp Hair Physics: hair is towel-dried and damp, soft moisture weight, restrained clumped texture with subtle natural sheen');
+          } else if (!isExplicitWetDocHair) {
+            lines.push('  - Dry Blown-Out Hair Physics: hair is completely dry, airy root lift, soft silky strand separation, and natural micro-flyaways catching light');
+          }
         }
 
         // Veil coverage
@@ -835,7 +845,9 @@
             lines.push('  - Styling Format: Two-Piece Separates Ensemble');
             if (!isKeepRef(values.topPiece)) lines.push(`  - Top Piece: ${values.topPiece.text}`);
             if (!isKeepRef(values.bottomPiece)) lines.push(`  - Bottom Piece: ${values.bottomPiece.text}`);
-            lines.push(`  - Midriff / Hemline Coverage: ${values.midriffStyling?.text || 'natural waistline transition'}`);
+            if (values.midriffStyling && values.midriffStyling !== midriffStylings[0]) {
+              lines.push(`  - Midriff / Hemline Coverage: ${values.midriffStyling.text}`);
+            }
           } else {
             lines.push('  - Styling Format: Full-Look Single Outfit');
             if (!isKeepRef(values.outfit)) lines.push(`  - Full Outfit: ${values.outfit.text}`);
@@ -860,13 +872,22 @@
     lines.push('INPAINT MASKING & COMPOSITING RULES:');
     lines.push('--------------------------------------------------------------------------------');
     let maskZone = values.inpaintMaskTarget?.text || inpaintMaskTarget;
+    const MASK_LABELS = {
+      face_features: 'Facial Features Mask (Eyes, Nose, Mouth, Cheeks)',
+      hair_scalp: 'Hair & Scalp Area Mask',
+      wardrobe_only: 'Wardrobe & Apparel Mask',
+      face_hair: 'Face & Hair Combined Mask (Head Region)',
+      full_subject: 'Full Subject Mask (Everything except Background)'
+    };
     if (maskZone === 'auto') {
-      if (hasFaceEdits && hasHairEdits && hasWardrobeEdits) maskZone = 'Full Model Anatomy Mask';
+      if (hasFaceEdits && hasHairEdits && (hasWardrobeEdits || hasBeautyEdits)) maskZone = 'Full Model Anatomy Mask';
       else if (hasFaceEdits && hasHairEdits) maskZone = 'Face & Hair Combined Mask (Head Region)';
-      else if (hasFaceEdits) maskZone = 'Facial Features Mask (Eyes, Nose, Mouth, Cheeks)';
+      else if (hasFaceEdits || hasBeautyEdits) maskZone = 'Facial Features & Beauty Mask (Eyes, Nose, Mouth, Makeup, Accessories)';
       else if (hasHairEdits) maskZone = 'Hair & Scalp Area Mask';
       else if (hasWardrobeEdits) maskZone = 'Wardrobe & Apparel Mask';
       else maskZone = 'Global Edit Frame';
+    } else if (MASK_LABELS[maskZone]) {
+      maskZone = MASK_LABELS[maskZone];
     }
     lines.push(`• Recommended Inpaint Mask Zone: ${maskZone}`);
     const selectedRatio = document.querySelector('#ratioChips .ratio-chip.active')?.dataset?.ratio || 'match';
@@ -906,10 +927,14 @@
 
     // Hair moisture negative & veil negative
     if (hasHairEdits) {
-      if (activeHairMoisture === 'wet') {
-        negs.push('dry hair', 'fluffy blown-out hair', 'frizzy dry strands', 'merely lightly misted dry-looking hair');
-      } else if (activeHairMoisture === 'dry') {
-        negs.push('wet hair', 'damp hair', 'soaked hair clumping', 'greasy oily hair sheen');
+      const hasMoistureRelevantHairNeg = edits.some(e => ['haircut', 'hairLength', 'hairTexture', 'hairFinish'].includes(e.key));
+      const isExplicitWetDocNeg = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched/i.test(`${values.haircut?.label || ''} ${values.hairFinish?.label || ''} ${values.hairCutAction?.label || ''}`);
+      if (hasMoistureRelevantHairNeg) {
+        if (activeHairMoisture === 'wet') {
+          negs.push('dry hair', 'fluffy blown-out hair', 'frizzy dry strands', 'merely lightly misted dry-looking hair');
+        } else if (activeHairMoisture === 'dry' && !isExplicitWetDocNeg) {
+          negs.push('wet hair', 'damp hair', 'soaked hair clumping', 'greasy oily hair sheen');
+        }
       }
       const veilTierNeg = parseVeilTier(values.hairFaceCoverage?.label || '');
       if (veilTierNeg && veilTierNeg !== '0') {
