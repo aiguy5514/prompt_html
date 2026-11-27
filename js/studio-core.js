@@ -69,12 +69,12 @@ const angle=[O('Eye-level candid angle','an eye-level candid camera angle'),O('S
   O('Sideways wide environmental profile capturing full setting', 'a wide-angle environmental side-profile composition placing the model in lateral silhouette across the frame, balancing her side posture with rich architectural and environmental depth'),
   O('Sideways high-angle 45-degree downward profile crop', 'a high 45-degree angle looking down onto the model\'s side profile, tracing the cheekbone slope, temple, and shoulders in clean diagonal geometry'),
   O('Sideways cinematic walking-by tracking profile mid-turn', 'a cinematic lateral tracking camera angle capturing the model sideways in natural walking motion, side silhouette caught mid-turn with organic movement and realistic depth'),
-  O('Simple straight-on eye-level camera','a simple, straight-on eye-level camera angle facing the subject squarely with zero tilt and natural proportions'),
-  O('Straight-on waist-up front camera','a clean straight-on front-facing camera angle from waist-up height with a level horizon and natural perspective'),
-  O('Straight-on full-body front camera','a simple straight-on full-body front camera angle positioned at chest height with zero distortion or tilt'),
-  O('Straight-on close-up front camera','a direct straight-on close-up camera facing the subject squarely at eye level'),
-  O('Straight-on slightly stepped-back camera','a simple straight-on eye-level camera stepped slightly back so head-to-hip framing stays clean and centered'),
-  O('Clean level chest-height front camera','a level chest-height front camera capturing the subject straight-on with relaxed natural symmetry')];
+  O('Simple straight-on eye-level camera','a simple, straight-on eye-level camera angle facing the subject squarely from the front (shoulders, torso, and face oriented directly toward the lens, NOT sideways or 3/4 profile) with zero tilt'),
+  O('Straight-on waist-up front camera','a clean straight-on front-facing camera angle from waist-up height with shoulders and torso facing squarely toward the camera, level horizon, and natural perspective'),
+  O('Straight-on full-body front camera','a simple straight-on full-body front camera angle positioned at chest height facing the subject squarely from the front with zero distortion or tilt'),
+  O('Straight-on close-up front camera','a direct straight-on close-up camera facing the subject squarely at eye level (direct frontal alignment, NOT side profile)'),
+  O('Straight-on slightly stepped-back camera','a simple straight-on eye-level camera stepped slightly back facing the subject squarely from the front so head-to-hip framing stays clean and centered'),
+  O('Clean level chest-height front camera','a level chest-height front camera capturing the subject squarely straight-on from the front with relaxed natural symmetry')];
 const lens=[O('Natural 50mm DSLR look','a natural 50mm DSLR lens perspective'),O('85mm portrait look','an 85mm portrait lens look with soft background separation'),O('35mm environmental look','a 35mm environmental portrait look with a lived-in sense of space'),O('Smartphone candid look','a high-quality smartphone camera look with realistic computational detail'),O('Classic 70mm fashion look','a classic 70mm fashion portrait perspective'),O('Natural uncompressed perspective','a natural perspective without exaggerated wide-angle distortion'),O('Classic 105mm telephoto look','a classic 105mm telephoto portrait perspective with natural background compression'),O('Wide 24mm environmental look','a wide 24mm environmental perspective with realistic foreground context'),O('Crisp editorial detail','crisp editorial detail with natural optical falloff'),
   O('Hasselblad 100mm f/2.2 medium-format prime','a Hasselblad 100mm f/2.2 medium-format portrait prime look with ultra-creamy background melt and 3D subject pop'),
   O('105mm f/1.4 Art prime (tack-sharp eyes & creamy bokeh)','a 105mm f/1.4 prime lens perspective with razor-sharp focus on the iris and dreamlike buttery background falloff'),
@@ -1213,11 +1213,11 @@ const salonCamera = makeOpts([
   ['👤 Portrait · 50mm Intimate Conversational Eye-Line', 'a natural 50mm conversational eye-line portrait capturing relaxed facial expression and genuine client rapport with the stylist', '', 'portrait'],
   ['👤 Portrait · Low Armrest Rake Framing Cape Drapes', 'a low camera angle placed near footrest height looking upward, emphasizing the cascading drape of the cutting cape and the model\'s poised jawline', '', 'portrait'],
   ['👤 Portrait · Sideways Turn with Model Looking Away', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape', '', 'portrait'],
-  ['👤 Portrait · Simple Straight-On Front Camera (Eye-Level)', 'a simple, straight-on eye-level camera facing the seated client squarely in the salon chair with zero tilt or dramatic angle', '', 'portrait'],
-  ['👤 Portrait · Straight-On Front Mirror View (Centered)', 'a clean straight-on centered camera looking squarely at the client and stylist in the salon mirror at eye level', '', 'portrait'],
-  ['👤 Portrait · Simple Straight-On Medium Shot (Cape & Chair)', 'a simple straight-on level medium camera capturing the client squarely from waist-up in the draped cape and styling chair', '', 'portrait'],
-  ['👤 Portrait · Straight-On Rear Camera (Back of Head & Nape)', 'a simple straight-on rear camera positioned directly behind the chair at head height, capturing the back of the haircut, nape, and shoulders squarely', '', 'portrait'],
-  ['👤 Portrait · Clean Level Front Close-Up (Face & Bangs)', 'a clean straight-on eye-level close-up camera facing the client squarely to capture her face, curtain bangs, and hairline cleanly', '', 'portrait'],
+  ['👤 Portrait · Simple Straight-On Front Camera (Eye-Level)', 'a simple, straight-on eye-level camera facing the seated client squarely from the front (her shoulders, torso, and face oriented directly toward the lens, NOT sideways or 3/4 profile) with zero tilt', '', 'portrait'],
+  ['👤 Portrait · Straight-On Front Mirror View (Centered)', 'a clean straight-on centered camera looking squarely at the client and stylist in the salon mirror at eye level with direct frontal alignment', '', 'portrait'],
+  ['👤 Portrait · Simple Straight-On Medium Shot (Cape & Chair)', 'a simple straight-on level medium camera capturing the client squarely from waist-up in the draped cape and styling chair, torso and shoulders facing directly forward toward the lens', '', 'portrait'],
+  ['👤 Portrait · Straight-On Rear Camera (Back of Head & Nape)', 'a simple straight-on rear camera positioned directly behind the chair at head height, capturing the back of the haircut, nape, and shoulders squarely from directly behind', '', 'portrait'],
+  ['👤 Portrait · Clean Level Front Close-Up (Face & Bangs)', 'a clean straight-on eye-level close-up camera facing the client squarely from the front to capture her face, curtain bangs, and hairline directly (NOT side profile)', '', 'portrait'],
 
   // 📐 Dynamic Low & High Angles (8)
   ['📐 Low Angle · Hydraulic Footrest Rake Looking Up', 'a dramatic low-angle perspective looking slightly upward from chair armrest height, emphasizing confident posture and facial reflection in the glass', '', 'angle'],
@@ -6156,6 +6156,10 @@ function buildSalonPrompt(){
   } else {
     lines.push(mode.startsWith('Edit') ? 'REFERENCE-IMAGE EDIT · AUTHENTIC SALON & BARBERSHOP SCENE' : 'REFERENCE-GUIDED PORTRAIT · AUTHENTIC SALON & BARBERSHOP SCENE');
   }
+  const salonCamPreview = sanitizeHiddenFaceText(S(val('salonCamera')), hideEyes, salonVeilTier, salonObfuscMode);
+  if(salonCamPreview){
+    lines.push(`[CAMERA & COMPOSITION OVERRIDE: Re-shoot this scene from a brand-new camera position: ${salonCamPreview}. Strictly IGNORE and DISCARD the reference photo's original camera angle, framing, crop, and sideways body/shoulder orientation; extract only the requested identity/styling attributes and compose the subject squarely in this new camera perspective.]`);
+  }
   lines.push('');
 
   const buildSalonSubjectIdentityBullet = (barberSuffix) => {
@@ -6199,7 +6203,8 @@ function buildSalonPrompt(){
     if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
     if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   } else if(isStool){
-    lines.push(`• Strictly preserve the adult woman from the reference image as the client seated on the ${stoolTypeVal}.`);
+    const cleanStoolDesc = stoolTypeVal.replace(/^(?:a|an|the)\s+/i, '');
+    lines.push(`• Strictly preserve the adult woman from the reference image as the client seated on a ${cleanStoolDesc}.`);
     lines.push(buildSalonSubjectIdentityBullet(false));
     if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
     if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
@@ -6218,10 +6223,14 @@ function buildSalonPrompt(){
     if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   }
   if(!isAiFace && refDirectives?.hasAnyFeature){
+    const pushedBullets = new Set();
     ['hairTexture', 'hairColor', 'wardrobe', 'makeup', 'accessories', 'pose', 'background'].forEach(fKey => {
       if(window.AfterglowRefPicker?.isFeatureInherited(fKey)){
         const bullet = refDirectives.primaryBullets.find(b => b.includes(window.AfterglowRefPicker.FEATURES[fKey]?.label));
-        if(bullet) lines.push(bullet);
+        if(bullet && !pushedBullets.has(bullet)){
+          pushedBullets.add(bullet);
+          lines.push(bullet);
+        }
       }
     });
   }
@@ -6372,8 +6381,9 @@ function buildSalonPrompt(){
     lines.push(`Male client reaction & composure: The seated male client responds with calm relaxation (${maleReactionText}).`);
     lines.push('');
   } else if(isStool){
+    const cleanStoolDesc2 = stoolTypeVal.replace(/^(?:a|an|the)\s+/i, '');
     lines.push('CLIENT SEATING & INTIMATE BARBER PROXIMITY');
-    lines.push(`Seating setup: The female client is seated on a low ${stoolTypeVal}, completely backless with zero headrest, leaving her upper body, neck, and hair completely open in the space.`);
+    lines.push(`Seating setup: The female client is seated on a low ${cleanStoolDesc2}, completely backless with zero headrest, leaving her upper body, neck, and hair completely open in the space.`);
     lines.push(`Barber proximity & body contact: The male barber stands directly behind her, ${stoolProxVal}. His physical presence is intimately close, authentic, and attentively focused on her hair.`);
     lines.push(`Active hair work: He is actively working on her hair: ${stoolActVal}.`);
     const exprText = cleanSalonExpr ? ` Client facial reaction: ${cleanSalonExpr}.` : '';
@@ -6948,6 +6958,9 @@ function buildSalonPrompt(){
   if(isAiFace && refDirectives?.negativeAdditions?.length){
     salonNegatives.push(...refDirectives.negativeAdditions);
   }
+  if(/straight-on|frontal|centered/i.test(cameraText)){
+    salonNegatives.push('copying reference photo camera angle, sideways body orientation from reference photo, 3/4 side profile crop from reference');
+  }
 
   const dedupedNegs = dedupeNegatives(salonNegatives);
   lines.push(dedupedNegs.map(x=>'• '+x).join('\n'));
@@ -7177,6 +7190,10 @@ if(isPsAiFace && psRefDirectives?.frontLoadedSubject){
   lines.push(psRefDirectives.frontLoadedSubject);
 }
 lines.push(dynamicHeader);
+const psCamFront = [val('framing'), val('angle')].filter(Boolean).join(', ');
+if(psCamFront){
+  lines.push(`[CAMERA & COMPOSITION OVERRIDE: Re-shoot this scene from a brand-new camera position: ${psCamFront}. Strictly IGNORE and DISCARD the reference photo's original camera angle, framing, crop, and sideways body/shoulder orientation; extract only the requested identity/styling attributes and compose the subject squarely in this new camera perspective.]`);
+}
 lines.push('');
 
 const psHairArch = detectHairArchitecture(values.hair, S(getFullHairDescription()));
@@ -7527,6 +7544,9 @@ if(checkState.hairTexturePreserve || preserveHairTexture)negatives.push('altered
 if(checkState.noMirror)negatives.push('mirrors and incorrect reflections');
 if(checkState.noText)negatives.push('text overlays, logos and watermarks');
 if(extraNegative.trim())negatives.push(extraNegative.trim());
+if(/straight-on|frontal|centered/i.test(val('angle') || '')){
+  negatives.push('copying reference photo camera angle, sideways body orientation from reference photo, 3/4 side profile crop from reference');
+}
 const dedupedNegs = dedupeNegatives(negatives);
 lines.push((Array.isArray(dedupedNegs) && dedupedNegs.length) ? dedupedNegs.map(x=>'• '+x).join('\n') : '');
 
