@@ -1846,7 +1846,7 @@ function buildPrompt(){
   }
 
   lines.push(`Session moment: ${act}. Shoot location & environment: ${effLoc}.`);
-  lines.push(`Camera direction & optics: ${safeCam}. Color grade & film feel: ${film}.`);
+  lines.push(`Camera direction & optics (MANDATORY CAMERA OVERRIDE — ignore reference photo's camera angle & crop; re-shoot from this exact position): ${safeCam}. Color grade & film feel: ${film}.`);
   lines.push(`Lighting & ambiance: ${light}.${asp ? ' Aspect ratio: ' + asp + '.' : ''}`);
   if(isFaceHidden){
     lines.push('Face Concealment & Occlusion: The model is turned sideways looking away from the camera with her face not visible to the lens (head turned away into the setting / shielded from view); zero direct facial features or front facial profile are visible. Retain her authentic natural hair and focus the photographic composition entirely on her silhouette, posture, bare skin canvas, and fine-line tattoo artistry.');

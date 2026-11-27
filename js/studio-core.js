@@ -6479,7 +6479,7 @@ function buildSalonPrompt(){
   lines.push('');
 
   lines.push(checkState.noMirror ? 'CAMERA PERSPECTIVE & LIGHTING' : 'CAMERA, MIRROR PERSPECTIVE & LIGHTING');
-  lines.push(`Camera angle: ${cameraText}. Lighting: ${lightingText}. Quality: ${qualityText}.`);
+  lines.push(`MANDATORY CAMERA OVERRIDE (ignore the reference photo's original camera angle, crop, and framing; re-shoot from this exact new camera position): Camera angle: ${cameraText}. Lighting: ${lightingText}. Quality: ${qualityText}.`);
   lines.push('');
   lines.push(isFemaleModelBarber ? 'MODEL BARBER WARDROBE & STYLING' : 'CLIENT UNDER-CAPE WARDROBE & STYLING');
   const isSalonRefWardrobe = window.AfterglowRefPicker?.isFeatureInherited('wardrobe');
@@ -7422,8 +7422,8 @@ const angleImpliedByFraming = (
 if (isTightFraming && angleText.includes('behind and beside the subject')) {
   angleText = 'an intimate three-quarter angle focusing closely on her facial profile and hair from just beside her shoulder';
 }
-const cameraAnglePart = angleImpliedByFraming ? '' : ` Camera angle: ${angleText}.`;
-lines.push(`Framing: ${val('framing')}.${cameraAnglePart} Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements cleanly without awkward cropping or distorted perspective.`);
+const cameraAnglePart = angleText ? ` Camera angle: ${angleText}.` : '';
+lines.push(`MANDATORY CAMERA & FRAMING OVERRIDE (ignore the reference photo's original camera angle, crop, and perspective; re-shoot from this exact new camera position): Framing: ${val('framing')}.${cameraAnglePart} Lens / perspective: ${val('lens')}. Composition: ${val('composition')}. Aspect ratio: ${val('aspect')}. Ensure the chosen crop shows the most important elements cleanly without awkward cropping or distorted perspective.`);
 lines.push('');
 lines.push('SCENE, LIGHT AND FINISH');
 if(isRefBg){

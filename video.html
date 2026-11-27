@@ -1563,7 +1563,7 @@ function buildPrompt(){
     lines.push(`• ${moistMotionClause}`);
     lines.push('');
     lines.push('CAMERA CHOREOGRAPHY & OPTICS:');
-    lines.push(`• Camera Path: ${camMoveSafe}.`);
+    lines.push(`• MANDATORY CAMERA OVERRIDE (ignore reference photo's camera angle & crop; re-shoot from this exact position): Camera Path: ${camMoveSafe}.`);
     lines.push(`• Speed & Capture: ${val('vidFramerate')}. Optics: ${safeVidLens}. Speed curve: ${val('vidSpeedCurve')}.`);
     lines.push(`• Motion Amplitude: ${val('vidAmplitude')}. Clip Target: ${val('vidDuration')}. Aspect Ratio: ${val('aspect')}.`);
     lines.push('');

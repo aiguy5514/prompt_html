@@ -1793,7 +1793,7 @@ function buildPrompt(){
   }
 
   lines.push('CAMERA, OPTICS & LIGHTING');
-  lines.push(`Camera: ${camText}. Lighting: ${lightText}. Film character: ${filmText}. Aspect ratio: ${aspText}.`);
+  lines.push(`MANDATORY CAMERA OVERRIDE (ignore reference photo's camera angle & crop; re-shoot from this exact position): Camera: ${camText}. Lighting: ${lightText}. Film character: ${filmText}. Aspect ratio: ${aspText}.`);
 
   if(customDirection.trim()){
     lines.push('');
