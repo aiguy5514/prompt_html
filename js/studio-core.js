@@ -1193,7 +1193,7 @@ const salonCamera = makeOpts([
   ['🪞 Mirror POV · Symmetrical Hollywood Vanity Frame', 'a centered symmetrical portrait looking square into the illuminated vanity mirror, framing the client evenly between warm bulb fixtures', '', 'mirror'],
   ['🪞 Mirror POV · Handheld Rear Brass Mirror Check', 'a candid medium shot capturing the barber holding an ornate handheld mirror showing the client her rear neckline from a flattering 45-degree angle', '', 'mirror'],
   ['🪞 Mirror POV · Split-Diopter Dual Focus (Shears + Reflection)', 'a split-diopter optical shot keeping both the barber\'s shears in extreme foreground and the client\'s expressive eyes in the background mirror tack-sharp', '', 'mirror'],
-  ['🪞 Mirror POV · Blurred Barber Shoulder Framing Model', 'portrait focused sharply on client\'s face and bangs in the mirror, with blurred male barber shoulder in the foreground framing the composition', '', 'mirror'],
+  ['🪞 Mirror POV · Blurred Barber Shoulder Framing Model', 'portrait focused sharply on client\'s face and front haircut in the mirror, with blurred male barber shoulder in the foreground framing the composition', '', 'mirror'],
   ['🪞 Mirror POV · 45° Angle Capturing Side Profile in Glass', 'a dynamic 45-degree angled perspective capturing the client\'s profile both directly and reflected in the illuminated salon mirror', '', 'mirror'],
 
   // 🔍 Macro & Tactile Details (8)
@@ -1207,7 +1207,7 @@ const salonCamera = makeOpts([
   ['🔍 Macro · Talcum Powder Cloud Swept Off Collarbone', 'a backlit high-speed macro freeze capturing a translucent fragrant cloud of barbershop talcum powder swept off the collarbone with a horsehair duster', '', 'macro'],
 
   // 👤 Eye-Level & Portraits (4)
-  ['👤 Portrait · 85mm f/1.4 Candid Styling Chair (Chest-Up)', 'an 85mm f/1.4 prime portrait isolating the client\'s eyes and glistening wet fringe with creamy optical background bokeh', '', 'portrait'],
+  ['👤 Portrait · 85mm f/1.4 Candid Styling Chair (Chest-Up)', 'an 85mm f/1.4 prime portrait isolating the client\'s eyes and freshly cut hair with creamy optical background bokeh', '', 'portrait'],
   ['👤 Portrait · 35mm Natural Documentary Salon Snapshot', 'a candid 35mm photojournalistic perspective capturing authentic motion blur, barber\'s comb movement, and unposed salon realism', '', 'portrait'],
   ['👤 Portrait · 50mm Intimate Conversational Eye-Line', 'a natural 50mm conversational eye-line portrait capturing relaxed facial expression and genuine client rapport with the stylist', '', 'portrait'],
   ['👤 Portrait · Low Armrest Rake Framing Cape Drapes', 'a low camera angle placed near footrest height looking upward, emphasizing the cascading drape of the cutting cape and the model\'s poised jawline', '', 'portrait'],
@@ -1216,12 +1216,12 @@ const salonCamera = makeOpts([
   ['📷 Front · Simple Straight-On Front Camera (Eye-Level)', 'a simple, straight-on eye-level camera facing the seated client squarely from the front (her shoulders, torso, and face oriented directly toward the lens, NOT sideways or 3/4 profile) with zero tilt', '', 'front'],
   ['📷 Front · Straight-On Front Mirror View (Centered)', 'a clean straight-on centered camera looking squarely at the client and stylist in the salon mirror at eye level with direct frontal alignment', '', 'front'],
   ['📷 Front · Simple Straight-On Medium Shot (Cape & Chair)', 'a simple straight-on level medium camera capturing the client squarely from waist-up in the draped cape and styling chair, torso and shoulders facing directly forward toward the lens', '', 'front'],
-  ['📷 Front · Clean Level Front Close-Up (Face & Bangs)', 'a clean straight-on eye-level close-up camera facing the client squarely from the front to capture her face, curtain bangs, and hairline directly (NOT side profile)', '', 'front'],
+  ['📷 Front · Clean Level Front Close-Up (Face & Hairline)', 'a clean straight-on eye-level close-up camera facing the client squarely from the front to capture her face, hairline, and front haircut silhouette directly (NOT side profile)', '', 'front'],
   ['📷 Front · Frontal Client Smile at Final Haircut Reveal', 'a frontal portrait of client in chair smiling candidly at the finished haircut reveal with soft studio background bokeh', '', 'front'],
 
   // 👤 Side & Profile Cameras (3)
   ['👤 Side · 3/4 Angle Framing Draped Cape & Silhouette', 'an eye-level 3/4 candid portrait from the side, framing the client in the black leather chair with the draped cape and ponytail profile', '', 'side'],
-  ['👤 Side · 90° Clean Side Profile & Neckline Arc', 'a razor-sharp side profile angle showcasing the neck curve, clean ear tuck, and ponytail base against the salon backdrop', '', 'side'],
+  ['👤 Side · 90° Clean Side Profile & Neckline Arc', 'a razor-sharp side profile angle showcasing the neck curve, clean ear tuck, and haircut outline against the salon backdrop', '', 'side'],
   ['👤 Side · Sideways Turn with Model Looking Away', 'a side-angle camera perspective where the client in the salon is turned sideways looking away from the camera, with one hand raised to her temple/forehead lightly shielding her face so her facial features remain completely concealed, highlighting her haircut silhouette, hair texture, and draped cape', '', 'side'],
 
   // 🔙 Back & Rear Cameras (3)
@@ -6173,7 +6173,8 @@ function buildSalonPrompt(){
   }
   const salonCamPreview = sanitizeHiddenFaceText(S(val('salonCamera')), hideEyes, salonVeilTier, salonObfuscMode);
   if(salonCamPreview){
-    lines.push(`[CAMERA & COMPOSITION OVERRIDE: Re-shoot this scene from a brand-new camera position: ${salonCamPreview}. Strictly IGNORE and DISCARD the reference photo's original camera angle, framing, crop, and sideways body/shoulder orientation; extract only the requested identity/styling attributes and compose the subject squarely in this new camera perspective.]`);
+    const salonCamHairNote = isSalonRefHaircut ? 'from reference photo' : (values.salonHaircut?.label || haircutText);
+    lines.push(`[CAMERA & COMPOSITION OVERRIDE: Re-shoot this scene from a brand-new camera position: ${salonCamPreview}. Strictly IGNORE and DISCARD the reference photo's original camera angle, crop, and sideways body/shoulder orientation, while strictly applying the selected haircut (${salonCamHairNote}) and requested styling in this new camera perspective.]`);
   }
   lines.push('');
 
@@ -6224,8 +6225,10 @@ function buildSalonPrompt(){
     if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
     if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
       lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
+      lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+    } else {
+      lines.push(`• Selected Haircut (Override Reference Hair): Transform her hair into her chosen haircut—${haircutText} (${values.salonHaircut?.label || 'selected cut'})—while maintaining her authentic natural Indian hair strand density and texture.`);
     }
-    lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
     if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   } else {
     lines.push('• Strictly preserve the adult woman from the reference image as the client in the barber chair.');
@@ -6233,8 +6236,10 @@ function buildSalonPrompt(){
     if(salonVeilPrimaryBullet) lines.push(salonVeilPrimaryBullet);
     if(window.AfterglowRefPicker?.isFeatureInherited('haircut')){
       lines.push('• Hairstyle & Silhouette (From Reference Photo): Strictly replicate and sculpt the exact hairstyle, haircut, length, and silhouette from the reference image.');
+      lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
+    } else {
+      lines.push(`• Selected Haircut (Override Reference Hair): Transform her hair into her chosen haircut—${haircutText} (${values.salonHaircut?.label || 'selected cut'})—while maintaining her authentic natural Indian hair strand density and texture.`);
     }
-    lines.push('• Maintain her authentic natural Indian hair strand density and texture.');
     if(moisturePrimaryBullet) lines.push(moisturePrimaryBullet);
   }
   if(!isAiFace && refDirectives?.hasAnyFeature){
@@ -7207,7 +7212,8 @@ if(isPsAiFace && psRefDirectives?.frontLoadedSubject){
 lines.push(dynamicHeader);
 const psCamFront = [val('framing'), val('angle')].filter(Boolean).join(', ');
 if(psCamFront){
-  lines.push(`[CAMERA & COMPOSITION OVERRIDE: Re-shoot this scene from a brand-new camera position: ${psCamFront}. Strictly IGNORE and DISCARD the reference photo's original camera angle, framing, crop, and sideways body/shoulder orientation; extract only the requested identity/styling attributes and compose the subject squarely in this new camera perspective.]`);
+  const psCamHairNote = window.AfterglowRefPicker?.isFeatureInherited('haircut') ? 'from reference photo' : (values.hair?.label || 'selected hairstyle');
+  lines.push(`[CAMERA & COMPOSITION OVERRIDE: Re-shoot this scene from a brand-new camera position: ${psCamFront}. Strictly IGNORE and DISCARD the reference photo's original camera angle, crop, and sideways body/shoulder orientation, while strictly applying the selected hairstyle (${psCamHairNote}) and requested styling in this new camera perspective.]`);
 }
 lines.push('');
 
