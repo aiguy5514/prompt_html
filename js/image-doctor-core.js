@@ -328,11 +328,11 @@
     O("✂️ Reshape · Subtle trim & ends reshaping", "subtly reshape the existing haircut, evening out the hemline and dusting split ends while maintaining current length", '', "trim"),
     O("✂️ Curtain Layers · Face-framing layers & curtain bangs", "carve soft face-framing layers and wispy curtain bangs into the existing hair, blending seamlessly", '', "layers"),
     O("✂️ Blunt Fringe · Full eyebrow-grazing blunt fringe", "add crisp, precisely cut eyebrow-grazing blunt bangs onto the forehead while keeping the rest of the hair length intact", '', "fringe"),
-    O("💨 Salon Blowout · Voluminous salon blowout restyling", "restyle the existing haircut with soaring root lift, bouncy barrel-waved volume, and airy salon movement", '', "styling"),
+    O("💨 Salon Blowout · Voluminous salon blowout restyling", "restyle the existing haircut with soaring root lift and airy salon blowout movement", '', "styling"),
     O("⚡ Undercut · Hidden nape undercut buzz beneath existing hair", "buzz a crisp, clean triangular undercut at the lower nape beneath the existing upper hair canopy", '', "clipper"),
     O("🪒 Razor Feather · Airy razor-feathered ends & piecey texture", "carve airy, piecey razor-feathered texture through the ends and face-framing perimeter without losing overall length", '', "razor"),
-    O("💧 Wet Slick · Glossy wet-look slicked-back restyling", "restyle the hair into a sleek, glossy wet-look finish combed cleanly back from the forehead", '', "styling"),
-    O("✂️ Big Chop · Dramatic long-to-short bob transformation", "perform a dramatic big-chop transformation converting long hair into the selected crisp short bob or pixie silhouette", '', "haircut")
+    O("💧 Wet Slick · Glossy wet-look slicked-back restyling", "restyle the hair into a sleek, glossy wet-look finish", '', "styling"),
+    O("✂️ Big Chop · Dramatic long-to-short transformation", "perform a dramatic big-chop transformation converting long hair into the selected shorter silhouette", '', "haircut")
   ];
 
       const hairColorOpts = [
@@ -406,14 +406,14 @@
       const makeupOpts = [
     
   O("✦ Preserve · Keep reference makeup", "keep_ref", "", "keep"),
-  O("🌸 Bare · Clean bare-faced no-makeup makeup", "clean no-makeup makeup look with fresh bare skin, natural lip tint, and groomed brows", "", "natural"),
-  O("✨ Soft Glam · Soft glam with defined lashes", "soft glam makeup with warm neutral eyeshadow, defined lashes, and soft satin nude lips", "", "glam"),
-  O("🔥 Smoky Eyes · Smoky charcoal eyes + nude satin lip", "smoky charcoal eyeshadow with blended pencil liner paired with an understated nude lip", "", "glam"),
-  O("👁️ Winged Liner · Classic sharp black winged liner", "sharp black winged liquid eyeliner with clean feline flick and natural satin lips", "", "defined"),
-  O("💋 Crimson Lip · Statement bold matte crimson red lip", "statement velvety matte crimson red lip with clean restrained eye makeup", "", "statement"),
+  O("🌸 Bare · Clean bare-faced no-makeup makeup", "clean no-makeup makeup look with natural minimal finish", "", "natural"),
+  O("✨ Soft Glam · Soft glam with defined lashes", "soft glam makeup with warm neutral eyeshadow and defined lashes", "", "glam"),
+  O("🔥 Smoky Eyes · Smoky charcoal eyes", "smoky charcoal eyeshadow with blended pencil liner", "", "glam"),
+  O("👁️ Winged Liner · Classic sharp black winged liner", "sharp black winged liquid eyeliner with clean feline flick", "", "defined"),
+  O("💋 Crimson Lip · Statement bold matte crimson accent", "statement velvety matte crimson lip accent with clean restrained eye makeup", "", "statement"),
   O("☀️ Bronzed · Warm bronzed goddess makeup", "warm bronzed makeup with sun-kissed terracotta tones and soft golden highlights", "", "warm"),
-  O("🌸 Rose Monochrome · Fresh rose-petal monochrome makeup", "fresh rose-petal monochrome flush across cheeks, lips, and eyelids with soft dewy finish", "", "monochrome"),
-  O("💧 Glass-Skin · Dewy glass-skin highlight makeup", "dewy glass-skin beauty makeup with radiant high points and glossy hydrated lips", "", "glow"),
+  O("🌸 Rose Monochrome · Fresh rose-petal monochrome makeup", "fresh rose-petal monochrome flush across cheeks and eyelids", "", "monochrome"),
+  O("💧 Glass-Skin · Dewy beauty highlight makeup", "dewy beauty highlight makeup with radiant high points", "", "glow"),
 
   ];
 
@@ -2179,16 +2179,21 @@
       });
     }
 
-    if (el('randomTop') || el('shuffleLooks')) {
-      const handler = () => {
+    if (el('randomTop')) {
+      el('randomTop').addEventListener('click', () => {
         const p = STARTER_PRESETS[Math.floor(Math.random() * STARTER_PRESETS.length)];
         activePreset = p.id;
         renderPresets();
         applyPreset(p);
         showToast(`Loaded preset: ${p.title}`);
-      };
-      if (el('randomTop')) el('randomTop').addEventListener('click', handler);
-      if (el('shuffleLooks')) el('shuffleLooks').addEventListener('click', handler);
+      });
+    }
+    if (el('shuffleLooks')) {
+      el('shuffleLooks').addEventListener('click', () => {
+        STARTER_PRESETS.sort(() => Math.random() - 0.5);
+        renderPresets();
+        showToast('Shuffled surgical preset cards');
+      });
     }
 
     if (el('saveCustomLook')) {

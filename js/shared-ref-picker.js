@@ -117,7 +117,7 @@
       'hairTexture', 'salonHairTexture', 'prepHairTexture'
     ],
     hairColor: [
-      'hairColor', 'hairColorTechnique', 'hairFinish', 'prepColorTechnique'
+      'hairColor', 'hairColorTechnique', 'prepColorTechnique'
     ],
     wardrobe: [
       'outfit', 'outfitCategory', 'topCategory', 'topPiece', 'bottomCategory', 'bottomPiece',
@@ -129,16 +129,14 @@
     ],
     makeup: [
       'makeup', 'lipLook', 'eyeLook', 'browStyle', 'complexion',
-      'prepMakeupStage', 'prepLipStyle', 'prepEyeStyle', 'prepSkinFinish', 'prepFacialMask',
-      'gymSweatLevel'
+      'prepMakeupStage', 'prepLipStyle', 'prepEyeStyle', 'prepSkinFinish', 'prepFacialMask'
     ],
     accessories: [
-      'accessories', 'eyewear', 'bag', 'footwear', 'nailStyle', 'hairAccessories',
-      'gymFootwear', 'gymGearProp'
+      'accessories', 'eyewear', 'bag'
     ],
     pose: [
-      'pose', 'poseCategory', 'tattooPose', 'romancePose', 'gesture', 'mood',
-      'salonChairPose', 'salonBarberPose', 'salonIntimateHairAction', 'salonStoolModelPosture',
+      'pose', 'poseCategory', 'tattooPose', 'romancePose', 'gesture',
+      'salonChairPose', 'salonBarberPose', 'salonStoolModelPosture',
       'prepPose', 'vidFacialMicroMotion',
       'gymMovement', 'gymPhase'
     ],
@@ -149,7 +147,7 @@
       'prepVenue', 'prepVenueCategory',
       'vidEnvironment', 'sbVenue', 'sbVenueCategory',
       'romanceScene', 'romanceDateVenue',
-      'gymVenue', 'gymVenueCategory', 'gymSettingTime', 'gymAtmosphere', 'gymArchitecture'
+      'gymVenue', 'gymVenueCategory', 'gymAtmosphere', 'gymArchitecture'
     ]
   };
 

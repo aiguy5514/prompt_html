@@ -811,11 +811,12 @@ function hydratePresetSet(rawSet){
 
 function resetAll(){
   Object.keys(fields).forEach(k => {
+    if(lockedFields.has(k)) return;
     const f = fields[k];
     values[k] = (typeof f.default === 'number') ? f.opts[f.default] : f.opts.find(o => o.text === f.default) || f.opts[0];
   });
-  wardrobeMode = 'ensemble';
-  gymHairMoisture = 'dry';
+  if(!lockedFields.has('gymOutfit')) wardrobeMode = 'ensemble';
+  if(!lockedFields.has('gymSweatLevel')) gymHairMoisture = 'dry';
   customDirection = '';
   extraNegative = '';
   activePreset = '';
@@ -1934,7 +1935,7 @@ function buildPrompt(){
     ? '• Maintain natural hair strand density and athletic movement dynamics (rendered on this newly synthesized model).'
     : '• Maintain her authentic natural Indian hair strand density and athletic movement dynamics.');
   if(gymHairMoisture === 'wet'){
-    lines.push("• Mandatory Soaked Wet Hair Physics: The model's hair is thoroughly sweat-soaked or post-workout shower damp—heavy dark wet hair strands clinging flush against her scalp, temples, and neck with glistening moisture sheen and zero dry flyaways.");
+    lines.push("• Mandatory Soaked Wet Hair Physics: The model's hair is thoroughly sweat-soaked or post-workout shower damp—heavy wet hair strands clinging flush against her scalp, temples, and neck with glistening moisture sheen and zero dry flyaways.");
   } else if(gymHairMoisture === 'damp'){
     lines.push('• Damp Athletic Hair Physics: Evenly misted post-warmup damp hair texture with delicate perspiration beads and subtle organic strand clumping at the temples.');
   } else if(!isExplicitWetGymCut){
@@ -1984,7 +1985,7 @@ function buildPrompt(){
     effGymHair = window.AfterglowRefPicker.getInheritedFieldText('haircut');
   } else {
     const restraintLabel = values.gymHairRestraint?.label || '';
-    if(!restraintLabel || restraintLabel.startsWith('Natural')){
+    if(!restraintLabel || restraintLabel.includes('Natural')){
       effGymHair = hairText;
     } else if(restraintLabel.includes('headband') || restraintLabel.includes('sweatband')){
       effGymHair = `${hairText}, secured cleanly away from the brow with ${restraint}`;
@@ -2237,6 +2238,8 @@ function randomizeAll(){
   if(!lockedFields.has('gymSweatLevel')){
     gymHairMoisture = ['dry', 'damp', 'wet'][Math.floor(Math.random() * 3)];
   }
+  activePreset = '';
+  renderPresets();
   renderFields();
   buildPrompt();
   toast('✦ Surprised you with a fresh workout direction!');
@@ -2273,7 +2276,11 @@ el('selectPrompt')?.addEventListener('click', () => {
 });
 
 el('saveCustomLook')?.addEventListener('click', () => saveCustomGymPreset());
-el('shuffleLooks')?.addEventListener('click', randomizeAll);
+el('shuffleLooks')?.addEventListener('click', () => {
+  STARTER_PRESETS.sort(() => Math.random() - 0.5);
+  renderPresets();
+  toast('Shuffled workout preset cards.');
+});
 el('exportPresetsBtn')?.addEventListener('click', () => exportGymPresets());
 
 if(el('importPresetsBtn') && el('importPresetsInput')){

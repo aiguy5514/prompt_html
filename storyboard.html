@@ -1465,7 +1465,7 @@ function resolveFrameDetails(idx){
   const moistOverride = sbFrameMoistureOverrides[fr.moistIdx] || sbFrameMoistureOverrides[0];
   const lightTwist = sbFrameLightTwists[fr.lightIdx] || sbFrameLightTwists[0];
   const lensOverride = sbFrameLenses[fr.lensIdx || 0] || sbFrameLenses[0];
-  const lensText = (lensOverride && lensOverride.text !== 'inherit') ? lensOverride.text : (val('sbGlobalLens') || val('sbFocalLens') || 'natural 50mm editorial lens');
+  const lensText = (lensOverride && lensOverride.text !== 'inherit') ? lensOverride.text : (val('sbLens') || val('sbGlobalLens') || val('sbFocalLens') || 'natural 50mm editorial lens');
 
   const hairText = val('sbHair');
   const hairArch = detectHairArchitecture(values.sbHair, hairText);
@@ -1475,7 +1475,7 @@ function resolveFrameDetails(idx){
 
   const effMoist = (moistOverride.text === 'inherit') ? globalHairMoisture : moistOverride.text;
   const moistStr = effMoist === 'wet'
-    ? 'thoroughly soaked wet hair hanging in heavy dark ribbons clinging cleanly to temples and nape'
+    ? 'thoroughly soaked wet hair hanging in heavy ribbons clinging cleanly to temples and nape'
     : (effMoist === 'damp'
       ? 'freshly spray-misted damp strands with fine droplets and cool sheen'
       : 'completely dry blown-out hair with natural bounce and airy movement');
@@ -1706,7 +1706,7 @@ function buildPrompt(){
       const pAngle = d.isConcealed && typeof sanitizeHiddenFaceText === 'function' ? sanitizeHiddenFaceText(d.angle.text, true, d.veilTier, sbGlobalObfuscMode) : d.angle.text;
       const pLight = d.isConcealed && typeof sanitizeHiddenFaceText === 'function' ? sanitizeHiddenFaceText(d.lightText, true, d.veilTier, sbGlobalObfuscMode) : d.lightText;
       const pNote = d.note ? (isAiFace && typeof sanitizeForAiFace === 'function' ? sanitizeForAiFace(d.note) : d.note) : '';
-      gLines.push(`• PANEL 0${d.idx} (${d.action.label.split(':')[0]}): ${pCrop}, ${pAngle}. ${pAct}. Moisture: ${d.moistStr}.${d.veilRuleObj?.strict ? ' VEIL LOCK: ' + d.veilRuleObj.strict : ''} Lighting: ${pLight}.${pNote ? ' Note: ' + pNote : ''}`);
+      gLines.push(`• PANEL 0${d.idx} (${d.action.label.split(':')[0]}): ${pCrop}, ${pAngle}, ${d.lensText}. ${pAct}. Moisture: ${d.moistStr}.${d.veilRuleObj?.strict ? ' VEIL LOCK: ' + d.veilRuleObj.strict : ''} Lighting: ${pLight}.${pNote ? ' Note: ' + pNote : ''}`);
     });
     gLines.push('', 'CONTINUITY & REALISM SAFEGUARDS:', checks.map(c => '• ' + c).join('\n'));
     if(customDirection.trim()) gLines.push('', 'SERIES DIRECTION:', customDirection.trim());

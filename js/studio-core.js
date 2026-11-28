@@ -237,8 +237,8 @@ const hairAccessories=makeOpts([['No added hair accessories','no added hair acce
 const neckline=makeOpts([['Deep plunging V-neckline','a dramatic plunging deep V-neckline with sharp clean architectural lines'],['Sculpted architectural V-wire notch','a structured V-wire notch neckline providing dramatic shape and support'],['Keyhole front cutout neckline','a sleek keyhole cutout neckline revealing the upper sternum'],['Geometric slash cutout neckline','an asymmetric slash cutout neckline across the collarbone and decolletage'],['Halter deep-V with open back','a halter neckline plunging into a deep V with an open back'],['Asymmetric neckline','an asymmetric neckline'],['One-shoulder neckline','a one-shoulder neckline'],['Off-shoulder neckline','an off-shoulder neckline'],['Square neckline','a square neckline'],['Structured sweetheart neckline','a structured sweetheart neckline'],['High sculptural neckline','a high sculptural neckline'],['Clean crew neckline','a clean crew neckline'],['Soft cowl neckline','a soft cowl neckline'],['Boat neckline','a boat neckline'],['Halter neckline','a halter neckline'],['V neckline, tasteful depth','a tasteful V neckline'],['Folded draped neckline','a folded draped neckline'],['Collared button-up neckline','a crisp collared button-up neckline'],['Wide bateau neckline','a wide bateau neckline'],['Wrap neckline','a wrap neckline'],['Mock-neck silhouette','a modern mock-neck silhouette'],['Strapless structured neckline','a structured strapless neckline'],['Notched blazer lapel','a sharp notched blazer lapel'],['Sharp peak lapel','a sharp peak lapel'],['Soft tie-neck detail','a softly tied neckline detail']]);
 const sleeves=makeOpts([['Sleeveless clean armhole','a sleeveless silhouette with a clean armhole'],['Cap sleeves','short cap sleeves'],['Fitted long sleeves','fitted long sleeves'],['Three-quarter sleeves','three-quarter-length sleeves'],['One long sleeve, one bare shoulder','one long sleeve paired with one bare shoulder'],['Off-shoulder sleeves','off-shoulder sleeves'],['Sculptural puff sleeves','sculptural puff sleeves'],['Cape sleeves','flowing cape sleeves'],['Structured shoulder line','a structured shoulder line'],['Rolled blazer sleeves','rolled blazer sleeves with natural folds'],['Sheer overlay sleeves','subtle sheer overlay sleeves'],['Bell sleeves','bell sleeves with controlled volume'],['Asymmetric sleeve design','an asymmetric sleeve design'],['Wide cuffs','wide cuffs with visible tailoring'],['Strap detail','clean shoulder straps with restrained detail'],['Sleeveless with broad shoulders','a sleeveless cut with broad, structured shoulders']]);
 const fabric=makeOpts([['Matte crepe','matte crepe with fine, realistic texture'],['Liquid satin','liquid satin with controlled natural highlights'],['Structured suiting','structured suiting fabric with visible tailoring'],['Velvet pile','velvet with realistic pile and soft light absorption'],['Silk twill','silk twill with a refined soft sheen'],['Textured jacquard','textured jacquard with subtle woven detail'],['Soft ribbed knit','soft ribbed knit with natural stretch and folds'],['Heavy ponte knit','heavy ponte knit with a clean, structured drape'],['Fine georgette layers','fine georgette layers with believable movement'],['Linen blend','a linen blend with natural creasing'],['Soft chiffon overlay','a soft chiffon overlay with realistic transparency'],['Matte leather-look texture','a matte leather-look texture without plastic shine'],['Denim twill','denim twill with believable seams and weight'],['Sequin embellishment','tasteful sequin embellishment with realistic reflections'],['Metallic woven fabric','metallic woven fabric with restrained highlights'],['Crepe-backed satin','crepe-backed satin with polished draping'],['Brushed cotton poplin','brushed cotton poplin with natural folds'],['Fine wool tailoring','fine wool tailoring with rich but understated texture'],['Satin piping accents','subtle satin piping accents'],['Soft tulle accent layer','a restrained tulle accent layer'],['Embroidered silk','embroidered silk with carefully rendered stitch detail'],['Velour texture','velour texture with soft directional highlights'],['Structured organza accents','structured organza accents with believable stiffness'],['Textured knit ribbing','textured knit ribbing with natural stretch marks']]);
-const palette=makeOpts([['Black and silver','a black-and-silver palette'],['Red and black','a red-and-black palette'],['Oxblood and champagne','an oxblood-and-champagne palette'],['Ivory and gold','an ivory-and-gold palette'],['Emerald and black','an emerald-and-black palette'],['Cobalt and charcoal','a cobalt-and-charcoal palette'],['Plum and rose gold','a plum-and-rose-gold palette'],['Chocolate and cream','a chocolate-and-cream palette'],['Monochrome white','a monochrome-white palette'],['All-black tonal layers','all-black tonal layers'],['Burgundy monochrome','a burgundy monochrome palette'],['Ruby and warm gold','a ruby-red and warm-gold palette'],['Navy and ivory','a navy-and-ivory palette'],['Forest green and brass','a forest-green and brass palette'],['Teal and black','a teal-and-black palette'],['Charcoal and pewter','a charcoal-and-pewter palette'],['Rose and cocoa','a rose-and-cocoa palette'],['Burnt orange and espresso','a burnt-orange and espresso palette'],['Silver and midnight blue','a silver-and-midnight-blue palette'],['Lavender and charcoal','a lavender-and-charcoal palette'],['Pearl and deep plum','a pearl-and-deep-plum palette'],['Copper and black','a copper-and-black palette'],['Fuchsia and burgundy','a fuchsia-and-burgundy palette'],['Warm neutrals','warm neutral tones with a bold silhouette'],['Jewel-tone mix','a coordinated jewel-tone palette'],['Red statement accent','a restrained red statement accent against neutrals']]);
-const footwear=makeOpts([['Pointed-toe pumps','pointed-toe pumps'],['Strappy evening heels','strappy evening heels'],['Sculptural block heels','sculptural block heels'],['Ankle boots','sleek ankle boots'],['Knee-high boots','knee-high fashion boots'],['Loafers with tailoring','polished loafers with tailored clothing'],['Minimal heeled sandals','minimal heeled sandals'],['Metallic heels','metallic statement heels'],['Classic black pumps','classic black pumps'],['Modern ballet flats','modern ballet flats'],['Clean white sneakers','clean white sneakers for a street-style look'],['Chunky fashion boots','chunky fashion boots'],['Satin evening sandals','satin evening sandals'],['Traditional juttis','traditional juttis styled to match the outfit'],['Minimal pointed flats','minimal pointed flats'],['Platform sandals','platform sandals with balanced proportions'],['Ankle-strap heels','ankle-strap heels'],['No footwear emphasis','keep footwear outside the frame or visually understated']]);
+const palette=makeOpts([['Black and silver','a black-and-silver palette'],['Red and black','a red-and-black palette'],['Oxblood and champagne','an oxblood-and-champagne palette'],['Ivory and gold','an ivory-and-gold palette'],['Emerald and black','an emerald-and-black palette'],['Cobalt and charcoal','a cobalt-and-charcoal palette'],['Plum and rose gold','a plum-and-rose-gold palette'],['Chocolate and cream','a chocolate-and-cream palette'],['Monochrome white','a monochrome-white palette'],['All-black tonal layers','all-black tonal layers'],['Burgundy monochrome','a burgundy monochrome palette'],['Ruby and warm gold','a ruby-red and warm-gold palette'],['Navy and ivory','a navy-and-ivory palette'],['Forest green and brass','a forest-green and brass palette'],['Teal and black','a teal-and-black palette'],['Charcoal and pewter','a charcoal-and-pewter palette'],['Rose and cocoa','a rose-and-cocoa palette'],['Burnt orange and espresso','a burnt-orange and espresso palette'],['Silver and midnight blue','a silver-and-midnight-blue palette'],['Lavender and charcoal','a lavender-and-charcoal palette'],['Pearl and deep plum','a pearl-and-deep-plum palette'],['Copper and black','a copper-and-black palette'],['Fuchsia and burgundy','a fuchsia-and-burgundy palette'],['Warm neutrals','warm neutral tones'],['Jewel-tone mix','a coordinated jewel-tone palette'],['Red statement accent','a restrained red statement accent against neutrals']]);
+const footwear=makeOpts([['Pointed-toe pumps','pointed-toe pumps'],['Strappy evening heels','strappy evening heels'],['Sculptural block heels','sculptural block heels'],['Ankle boots','sleek ankle boots'],['Knee-high boots','knee-high fashion boots'],['Loafers with tailoring','polished loafers'],['Minimal heeled sandals','minimal heeled sandals'],['Metallic heels','metallic statement heels'],['Classic black pumps','classic black pumps'],['Modern ballet flats','modern ballet flats'],['Clean white sneakers','clean white sneakers'],['Chunky fashion boots','chunky fashion boots'],['Satin evening sandals','satin evening sandals'],['Traditional juttis','traditional juttis styled to match the outfit'],['Minimal pointed flats','minimal pointed flats'],['Platform sandals','platform sandals with balanced proportions'],['Ankle-strap heels','ankle-strap heels'],['No footwear emphasis','keep footwear outside the frame or visually understated']]);
 const layering=makeOpts([['No extra layer','no extra layer; let the main outfit read clearly'],['Oversized blazer layer','an oversized blazer layer with realistic sleeve folds'],['Cropped structured jacket','a cropped structured jacket as a sharp outer layer'],['Longline waistcoat','a longline waistcoat layered over the main outfit'],['Light trench worn open','a light trench worn open with natural movement'],['Tailored coat draped over shoulders','a tailored coat draped naturally over the shoulders'],['Soft shawl accent','a soft shawl accent with believable draping'],['Satin evening jacket','a satin evening jacket with controlled highlights'],['Leather-look jacket layer','a leather-look jacket layered without excessive shine'],['Sheer outer layer','a restrained sheer outer layer with realistic transparency'],['Statement scarf layer','a statement scarf as a fashion accent'],['Structured cape layer','a structured cape layer with a clean silhouette'],['Unbuttoned shirt layer','an unbuttoned shirt layer over a simple base'],['Short evening bolero','a short evening bolero with tailored edges'],['No competing layers','avoid competing layers; keep the outfit silhouette uncluttered']]);
 const nailStyle=makeOpts([['Short natural manicure','short natural nails with a clean finish'],['Deep red manicure','a deep red manicure'],['Glossy black manicure','a glossy black manicure'],['Classic French manicure','a classic French manicure'],['Neutral taupe manicure','a neutral taupe manicure'],['Burgundy manicure','a burgundy manicure'],['Metallic chrome accent','a restrained metallic chrome nail accent'],['Deep plum manicure','a deep plum manicure'],['Soft rose manicure','a soft rose manicure'],['Short dark espresso nails','short dark espresso nails'],['Minimal nail art','minimal nail art with fine detail'],['Muted olive nails','muted olive nails'],['Pearl shimmer manicure','a subtle pearl-shimmer manicure'],['Natural nails, no emphasis','natural nails with no special emphasis'],['Coordinated jewel-tone manicure','a coordinated jewel-tone manicure'],['Classic nude glossy manicure','a classic nude glossy manicure']]);
 const lipLook=makeOpts([['Natural rose lip','a natural rose lip'],['Classic red lip','a classic red lip'],['Berry satin lip','a berry satin lip'],['Deep wine lip','a deep wine lip'],['Warm nude lip','a warm nude lip'],['Rosewood lip','a rosewood lip'],['Soft terracotta lip','a soft terracotta lip'],['Muted mauve lip','a muted mauve lip'],['Glossy neutral lip','a glossy neutral lip with restrained shine'],['Soft brick-red lip','a soft brick-red lip'],['Brown-rose lip','a brown-rose lip'],['Velvet matte berry lip','a velvet-matte berry lip'],['Bare lip with balm','a bare lip with a natural balm finish'],['Classic pink-red lip','a classic pink-red lip'],['Cocoa nude lip','a cocoa-nude lip'],['Plum stain','a plum lip stain'],['Soft coral lip','a soft coral lip'],['Neutral lip with crisp liner','a neutral lip with carefully blended liner']]);
@@ -246,7 +246,7 @@ const eyeLook=makeOpts([['Soft brown wing','a soft brown winged eyeliner'],['Bla
 const stance=makeOpts([['Relaxed offset stance','a relaxed offset stance with one shoulder slightly forward'],['Balanced planted stance','a balanced, planted stance with natural alignment'],['Asymmetric shoulder line','an asymmetric shoulder line that feels effortless'],['One knee softly bent','one knee softly bent without exaggerating posture'],['Weight shifted naturally','weight shifted naturally onto one leg'],['Long relaxed posture','a long, relaxed posture with shoulders down'],['Compact seated posture','a compact seated posture with relaxed hands'],['Open confident posture','an open, confident posture without forced arching'],['Casual lean','a casual lean with natural weight support'],['In-motion stance','a natural in-motion stance caught between steps'],['Shoulders angled to camera','shoulders angled slightly toward the camera'],['Torso turned, face to lens','torso turned slightly while the face returns to the lens'],['Soft diagonal posture','a soft diagonal posture for editorial energy'],['Arms close to body','arms held naturally close to the body'],['Relaxed arms with space','relaxed arms with a little natural space from the body']]);
 const gaze=makeOpts([['Direct lens contact','direct eye contact with the lens'],['Just beside the lens','looking just beside the lens'],['Over photographer shoulder','looking over the photographer’s shoulder'],['Off-frame to camera left','looking off-frame to camera left'],['Off-frame to camera right','looking off-frame to camera right'],['Down toward hands','looking down briefly toward her hands'],['Up toward soft light','looking slightly upward toward the soft light'],['Side glance mid-turn','a side glance captured mid-turn'],['Looking toward a person off-frame','looking toward someone just outside the frame'],['Eyes following movement','eyes following movement outside the frame'],['Looking at hairstyle in hand','glancing at the new hairstyle as she lightly touches it'],['Looking past camera with confidence','looking past the camera with quiet confidence'],['Closed-eye laugh moment','eyes softly closed in a genuine laugh'],['Downward reflective glance','a reflective downward glance'],['Direct gaze with head turned','direct lens contact while her head remains turned three-quarter'],
 ['Turned away into background (face hidden)','head turned away into the background with face completely hidden from camera view']]);
-const motion=makeOpts([['Almost-still candid','an almost-still candid moment with subtle natural movement'],['Hair moving from a turn','hair moving naturally from a recent turn'],['Caught mid-step','a clear but natural mid-step moment'],['Jacket moving slightly','a jacket moving slightly with her body movement'],['Hand gesture frozen in motion','a hand gesture frozen at a natural point in motion'],['Fabric moving at the hem','the fabric moving gently at the hem'],['Loose strands in motion','a few loose strands moving independently'],['Turning into the light','turning naturally into a patch of light'],['Settling after a laugh','settling after a laugh with shoulders dropping naturally'],['Reaching for a styling prop','reaching for a styling prop between takes'],['Tiny hair adjustment','a tiny hair adjustment captured in motion'],['Movement-free polished frame','a nearly still frame that emphasizes the finished look'],['Walking with natural stride','walking with a natural stride and believable limb positions'],['Mid-turn fabric sweep','a small fabric sweep captured during a turn'],['Candid hand movement','a candid hand movement rather than a posed gesture'],['Soft wind movement','subtle environmental movement in hair and fabric']]);
+const motion=makeOpts([['Almost-still candid','an almost-still candid moment with subtle natural movement'],['Hair moving from a turn','hair moving naturally from a recent turn'],['Caught mid-step','a clear but natural mid-step moment'],['Subtle torso shift','subtle body movement captured mid-frame'],['Hand gesture frozen in motion','a hand gesture frozen at a natural point in motion'],['Fabric moving at the hem','the fabric moving gently at the hem'],['Loose strands in motion','a few loose strands moving independently'],['Turning slightly','turning naturally mid-movement'],['Settling posture','settling into a relaxed posture with shoulders dropping naturally'],['Reaching mid-motion','a subtle reaching motion captured between takes'],['Tiny hair adjustment','a tiny hair adjustment captured in motion'],['Movement-free polished frame','a nearly still frame that emphasizes the finished look'],['Walking with natural stride','walking with a natural stride and believable limb positions'],['Mid-turn fabric sweep','a small fabric sweep captured during a turn'],['Candid hand movement','a candid hand movement rather than a posed gesture'],['Soft wind movement','subtle environmental movement in hair and fabric']]);
 const interaction=makeOpts([
   ['Photographer gives a cue','responding to a photographer’s cue between shots'],
   ['Quick hair adjustment between takes', 'a quick natural hair adjustment between takes before settling into pose'],
@@ -273,8 +273,8 @@ const setProps=makeOpts([['No extra props','no extra props; keep focus on her ma
   ['High-density foam roller on gym mat', 'a sleek black high-density foam roller and textured fitness mat placed naturally in the background'],
   ['Matte kettlebell beside subject', 'a single cast-iron matte-black competition kettlebell resting on the rubber gym flooring'],
 ]);
-const timeOfDay=makeOpts([['Mid-morning daylight','mid-morning daylight with neutral color temperature'],['Bright noon studio light','bright noon daylight balanced naturally'],['Late afternoon glow','late-afternoon glow with restrained warmth'],['Golden hour','golden-hour light with natural skin-tone fidelity'],['Blue hour city mood','blue-hour city ambience with realistic cool background tones'],['Early evening interior','early-evening interior light with practical lamps'],['Nighttime studio session','a nighttime studio session with controlled lighting'],['Overcast afternoon','overcast afternoon daylight with soft shadows'],['Morning studio buzz with soft dawn daylight','morning studio atmosphere with fresh dawn daylight'],['Quiet late-night editorial set','a quiet late-night editorial set with moody but realistic illumination']]);
-const weather=makeOpts([['No weather emphasis','no visible weather effects; keep the scene neutral'],['Soft overcast outdoors','soft overcast outdoor conditions'],['Light breeze','a light breeze creating subtle hair and fabric movement'],['After-rain city ambience','subtle after-rain city ambience with no dramatic wetness'],['Clear dry evening','a clear, dry evening environment'],['Warm summer air','warm summer air with natural outdoor light'],['Cool crisp air','cool crisp air with restrained environmental cues'],['Light mist in distance','a very light distant mist that does not obscure the subject'],['Cloud-filtered sunlight','cloud-filtered sunlight with natural contrast'],['Sheltered indoor setting','a sheltered indoor setting unaffected by weather']]);
+const timeOfDay=makeOpts([['Mid-morning daylight','mid-morning time of day'],['Bright noon daylight','bright midday time of day'],['Late afternoon glow','late-afternoon time of day'],['Golden hour','golden-hour time of day'],['Blue hour','blue-hour twilight'],['Early evening','early-evening time of day'],['Nighttime','nighttime hours'],['Overcast afternoon','afternoon hours'],['Early morning dawn','early morning dawn hours'],['Quiet late-night','late-night hours']]);
+const weather=makeOpts([['No weather emphasis','no visible weather effects; keep the scene neutral'],['Soft overcast outdoors','soft overcast outdoor conditions'],['Light breeze','a light breeze creating subtle natural movement'],['After-rain ambience','subtle after-rain ambience with no dramatic wetness'],['Clear dry evening','clear, dry atmospheric conditions'],['Warm summer air','warm dry air'],['Cool crisp air','cool crisp air'],['Light mist in distance','a very light distant mist that does not obscure the subject'],['Cloud-filtered sunlight','cloud-filtered outdoor conditions'],['Calm still air','calm still air unaffected by weather']]);
 const depth=makeOpts([['Softly separated background','a softly separated background while keeping the scene readable'],['Room details remain visible','room details remain visible without competing with the subject'],['Strong background bokeh','strong background bokeh with natural optical falloff'],['Deep focus editorial','deeper focus so clothing and environment details remain clear'],['Moderate shallow depth','moderately shallow depth of field with face and hair sharply focused'],['Subtle foreground layer','a subtle foreground layer that adds depth without blocking the subject'],['Clean uncluttered background','a clean uncluttered background with gentle tonal depth'],['Layered architectural depth','layered architectural depth with realistic distance cues'],['Soft background movement','very subtle background movement while the subject remains clear'],['Crisp edge separation','clear subject separation without artificial cutout halos']]);
 const focusDetail=makeOpts([['Eyes tack sharp','critical focus on the eyes with realistic skin detail'],['Face and haircut equally sharp','face and haircut equally sharp, including the outer hair silhouette'],['Haircut silhouette prioritized','the haircut silhouette prioritized while keeping facial detail clear'],['Outfit construction in focus','outfit construction and fabric detail clearly in focus'],['Face sharp, hands natural','the face sharply focused while hands remain naturally detailed'],['Full subject in balanced focus','balanced focus across the visible subject'],['Eye focus with soft falloff','precise eye focus with a gentle optical falloff'],['No artificial sharpening halos','fine detail without artificial sharpening halos'],['Natural motion in ends only','a hint of motion in hair ends while face remains sharp'],['Photographic, not hyper-sharpened','photographic detail without hyper-sharpening'],['Shallow depth of field','shallow depth of field with the face and hairstyle sharp against a softly blurred background'],['Moderate depth of field','moderate depth of field with the outfit and scene details readable alongside the face']]);
 const filmFeel=makeOpts([['Clean contemporary digital','clean contemporary digital photography'],['Subtle 35mm grain','subtle 35mm film grain'],['Fine analog texture','fine analog texture with natural tonal roll-off'],['Soft halation restrained','very restrained highlight halation'],['Classic magazine print','classic magazine-print tonal response'],['Natural smartphone computational look','natural smartphone computational photography without plastic smoothing'],['DSLR optical falloff','DSLR-style optical falloff and realistic depth'],['Crisp documentary texture','crisp documentary texture with natural imperfections'],['Warm negative film look','a subtle warm negative-film look'],['Neutral color science','neutral color science with accurate skin tone'],['Fine-grain monochrome option','a fine-grain monochrome photographic character'],['Soft highlight roll-off','soft highlight roll-off with protected detail']]);
@@ -588,21 +588,21 @@ const salonDesign = makeOpts([
   ["🏛️ Heritage · Classic Traditional (Teal oil paint & chrome fans)", "classic traditional aesthetic with light turquoise oil-painted plaster walls, vintage black ceiling fan, stainless steel trays, and retro Bollywood film wall art", "", "heritage"],
   ["🏛️ Heritage · Vintage Retro (Faux-wood laminates & checkerboard floor)", "warm vintage retro aesthetic with 1970s woodgrain laminate wall panels, black-and-white checkerboard floor tiles, and chrome trim", "", "heritage"],
   ["🏛️ Heritage · Distressed Rustic (Aged plaster walls & weathered wood)", "authentic lived-in rustic atmosphere with weathered plaster walls showing aged patina, reclaimed wood countertops, and antique mirrors", "", "heritage"],
-  ["✨ Modern · Modern Minimalist (Matte black & frameless LED mirrors)", "sleek modern minimalist interior with clean white and charcoal walls, frameless backlit LED halo mirrors, and matte-black steel accents", "", "modern"],
-  ["✨ Modern · Upscale Luxury (White marble, gold trim & cove lighting)", "luxurious high-end interior with polished white Calacatta marble counters, brushed brass architectural mirror trim, and warm recessed cove lighting", "", "modern"],
-  ["✨ Modern · Cozy Boutique (Warm painted brick & indoor plants)", "intimate boutique atmosphere with warm painted brick, lush potted indoor ficus and palm plants, brass vanity sconces, and pale oak flooring", "", "modern"],
-  ["✨ Modern · High-Tech Contemporary (Polished granite & cool daylight LEDs)", "high-tech contemporary interior with polished dark granite surfaces, frosted glass partition screens, and cool daylight vanity light bars", "", "modern"],
-  ["⚙️ Industrial · Industrial Raw (Exposed brick, steel pipes & concrete)", "gritty industrial aesthetic with exposed red brick walls, overhead steel ductwork, polished concrete floor, and warm amber Edison bulb pendants", "", "industrial"],
-  ["⚙️ Industrial · Clean Commercial (White subway tiles & bright studio lights)", "crisp commercial aesthetic with glossy white subway tile walls, dark grout lines, bright 5000K balanced daylight tubes, and organized product shelves", "", "industrial"]
+  ["✨ Modern · Modern Minimalist (Matte black & frameless mirrors)", "sleek modern minimalist interior with clean white and charcoal walls, frameless mirrors, and matte-black steel accents", "", "modern"],
+  ["✨ Modern · Upscale Luxury (White marble & gold trim)", "luxurious high-end interior with polished white Calacatta marble counters and brushed brass architectural mirror trim", "", "modern"],
+  ["✨ Modern · Cozy Boutique (Warm painted brick & indoor plants)", "intimate boutique atmosphere with warm painted brick, lush potted indoor ficus and palm plants, and pale oak flooring", "", "modern"],
+  ["✨ Modern · High-Tech Contemporary (Polished granite & frosted glass)", "high-tech contemporary interior with polished dark granite surfaces and frosted glass partition screens", "", "modern"],
+  ["⚙️ Industrial · Industrial Raw (Exposed brick, steel pipes & concrete)", "gritty industrial aesthetic with exposed red brick walls, overhead steel ductwork, and polished concrete floor", "", "industrial"],
+  ["⚙️ Industrial · Clean Commercial (White subway tiles & clean stations)", "crisp commercial aesthetic with glossy white subway tile walls, dark grout lines, and organized styling stations", "", "industrial"]
 ]);
 
 const salonBarberStaff = makeOpts([
-  ["\ud83d\udc64 Solo \u00b7 Solo male barber only (Private 1-on-1 focus)", "strictly one solo male barber in the shop giving complete, undivided professional attention to the female client in the chair with zero other staff", "", "solo"],
-  ["\ud83d\udc65 Pair \u00b7 Lead male barber with junior male apprentice standing by", "two male barbers present: an experienced lead male barber actively cutting the female client's hair, while a junior male apprentice stands nearby observing attentively and holding clean styling tools", "", "pair"],
-  ["\ud83d\udc65 Pair \u00b7 Two active male barbers working at adjacent chairs", "two male barbers actively working in the shop: one male barber cutting our female client, and a second male barber cutting another male patron's hair at the neighboring station", "", "pair"],
-  ["\ud83d\udc88 Team \u00b7 Three active male barbers in a bustling shop", "three male barbers working simultaneously along the mirrored counter: the lead male barber detailing our female client's haircut, while two other male barbers attend to male clients in adjacent chairs", "", "team"],
-  ["\ud83d\udc88 Team \u00b7 Full multi-station floor with 4\u20135 male barbers working", "a full commercial shop floor with four to five male barbers actively working across multiple stations, executing haircuts, beard trims, and blowouts for male clients in the background", "", "team"],
-  ["\ud83d\udc88 Team \u00b7 Lead master barber with waiting male patrons watching", "one skilled master male barber actively styling the female client in the central chair, while several male patrons wait patiently on the wooden bench watching the haircut progression", "", "team"]
+  ["\ud83d\udc64 Solo \u00b7 Solo male barber only (Private 1-on-1 focus)", "strictly one solo male barber in the shop giving complete, undivided professional attention to the female client with zero other staff", "", "solo"],
+  ["\ud83d\udc65 Pair \u00b7 Lead male barber with junior male apprentice standing by", "two male barbers present: an experienced lead male barber attending the female client, while a junior male apprentice stands nearby observing attentively", "", "pair"],
+  ["\ud83d\udc65 Pair \u00b7 Two active male barbers working at adjacent chairs", "two male barbers present in the shop: one lead male barber attending our female client, and a second male barber working at the neighboring station with a male patron", "", "pair"],
+  ["\ud83d\udc88 Team \u00b7 Three active male barbers in a bustling shop", "three male barbers working simultaneously along the mirrored counter: the lead male barber attending our female client, while two other male barbers attend to male clients in adjacent chairs", "", "team"],
+  ["\ud83d\udc88 Team \u00b7 Full multi-station floor with 4\u20135 male barbers working", "a full commercial shop floor with four to five male barbers working across multiple stations for male clients in the background", "", "team"],
+  ["\ud83d\udc88 Team \u00b7 Lead master barber with senior assistant", "one skilled master male barber attending the female client in the central station with quiet support staff in the background", "", "team"]
 ]);
 
 const salonTime = makeOpts([
@@ -677,7 +677,7 @@ const salonStage = makeOpts([
   ["✂️ Precision Cut · Active scissor work — mid-haircut", "in-progress haircut action: the male barber holds a taut section of hair between his index and middle fingers while sharp stainless steel shears execute a clean precision snip, with freshly cut hair strands falling onto the draped cape", "", "cutting"],
   ["✂️ Precision Cut · Thinning shears & texture feathering", "texturizing stage: the male barber works with notched thinning shears across the ends of the hair, softening weight and creating piecey feathering with light hair dust on the cape shoulders", "", "cutting"],
   ["✂️ Precision Cut · Final snip & perimeter check", "final precision stage: the haircut is nearly complete as the male barber steps back slightly, evaluating balance in the mirror before making one final deliberate micro-snip at the bangs", "", "cutting"],
-  ["✂️ Precision Cut · Vertical point-cutting texture into bang tips", "styling texture work: the male barber vertically point-cuts scissor tips into the curtain bang ends to soften weight and create organic piecey separation", "", "cutting"],
+  ["✂️ Precision Cut · Vertical point-cutting texture into front tips", "styling texture work: the male barber vertically point-cuts scissor tips into the front ends to soften weight and create organic piecey separation", "", "cutting"],
   ["✂️ Precision Cut · Scissor-over-comb blending motion", "active layering: the male barber rapidly works cutting shears over a flat barber comb to sculpt clean graduated layers along the hair perimeter", "", "cutting"],
   ["✂️ Precision Cut · Slide cutting along face-framing angles", "precision shaping: the male barber slides open scissor blades smoothly down the front curtain strands to create a seamless tapered face frame", "", "cutting"],
   ["✂️ Precision Cut · Client head tilted down for nape trimming", "precision neckline detailing: client with head tilted gently down toward her chest, exposing the cervical spine and nape while the barber combs and shears the baseline", "", "cutting"],
@@ -691,9 +691,9 @@ const salonStage = makeOpts([
   ["✂️ Precision Cut · Curl-by-curl dry sculpting cut in natural organic spring bounce", "dry curl carving: holding individual natural wave ribbons softly without stretching them taut, snipping clean diagonal points directly beneath the curl bend to calibrate effortless spring-back volume", "", "cutting"],
   ["✂️ Precision Cut · Testing wet-vs-dry tension elasticity by pulling crown ribbon smoothly", "tension & spring test: clamping a glossy wet crown strand lightly between thumb and forefinger and drawing it gracefully toward the shoulder to check healthy elastic weight before texturizing", "", "cutting"],
   ["✂️ Precision Cut · Micro-shears point-cutting fine temple baby hairs", "microscopic shear work: the male barber holds miniature Japanese detailing shears right beside her temple, delicately point-cutting soft wispy baby hairs into an effortless organic frame", "", "cutting"],
-  ["✂️ Precision Cut · Micro-bangs texturizing grazing brow bone with Japanese swivel shears", "precision fringe artistry: the barber holds damp micro-fringe flat against the brow bone with a carbon comb and vertically point-cuts feather-light separation into the tips with miniature Japanese swivel shears", "", "cutting"],
+  ["✂️ Precision Cut · Front fringe texturizing grazing brow bone with Japanese swivel shears", "precision fringe artistry: the barber holds front hair flat against the brow bone with a carbon comb and vertically point-cuts feather-light separation into the tips with miniature Japanese swivel shears", "", "cutting"],
   ["✂️ Precision Cut · Deliberate scissor pivot and deep breath before final crown snip", "intense artisan focus: the barber pauses with shears positioned at the apex of the crown, taking a slow deliberate breath while evaluating three-dimensional balance before executing the defining final snip", "", "cutting"],
-  ["✂️ Precision Cut · Vertical dry-cutting slice texturizing through curtain bangs", "active dry-cutting precision: the barber holds dry arched curtain bangs between finger pads at eyebrow level, vertically slicing micro-snips with sharp Japanese shears to create weightless separation and movement", "", "cutting"],
+  ["✂️ Precision Cut · Vertical dry-cutting slice texturizing through front layers", "active dry-cutting precision: the barber holds front face-framing layers between finger pads at eyebrow level, vertically slicing micro-snips with sharp Japanese shears to create weightless separation and movement", "", "cutting"],
   ["✂️ Precision Cut · Slide-cutting sheer tapered layers along jawline with chin tilted up", "sculpting face-framing angles: the barber gently slides open shear blades downward along damp cheekbone strands as client tilts chin slightly upward, carving an organic tapered contour", "", "cutting"],
   ["✂️ Precision Cut · Scissor-over-comb micro-tapering along baby hair temple perimeter", "micro-tapering detail: the barber angles a thin carbon barber comb flat against her temple and skims miniature detailing shears rapidly across the comb spine, shaping delicate wispy hairline contours", "", "cutting"],
   ["✂️ Precision Cut · Female model (barber) detailing male client's mustache and beard perimeter with shears", "precision styling: the adult female model leans in close with fine barber shears and a pocket comb to detail and sculpt the male client's mustache and sideburn perimeter in the vanity mirror", "", "cutting"],
@@ -710,7 +710,7 @@ const salonStage = makeOpts([
   ["✂️ Precision Cut · Female model (barber) freehand-carving textured messy fringe on male client", "modern crop styling: on dry styled hair, the adult female model delicately point-cuts vertical notches into the male client's front fringe to create effortless textured separation", "", "cutting"],
   ["🧰 Prep & Sectioning · Dutch boxer braid parting with metal tail comb carving clean scalp lines", "artisan braid prep: the barber uses the needle point of a stainless tail comb to carve a razor-straight geometric parting line down the center of the scalp before weaving tight, raised three-strand Dutch braids", "", "prep"],
   ["🧰 Prep & Sectioning · Female model (barber) misting aluminum spray bottle & carving crisp side part on male client's crown", "pre-cut barber prep: the adult female model spritzes glistening fine water mist across the male client's hair before drawing a crisp razor-straight side parting using a sleek carbon tail comb", "", "prep"],
-  ["🧰 Prep & Sectioning · Precision fringe & curtain bangs trimming", "active precision detailing: the male barber carefully point-cuts soft arched bottleneck curtain bangs at eyebrow level, using a carbon cutting comb to hold light tension as tiny hair clippings scatter onto the cape", "", "prep"],
+  ["🧰 Prep & Sectioning · Precision front & face-frame detailing", "active precision detailing: the male barber carefully point-cuts soft face-framing front strands, using a carbon cutting comb to hold light tension as tiny hair clippings scatter onto the cape", "", "prep"],
   ["🧰 Prep & Sectioning · Sectioning with butterfly clips & prep", "haircut preparation stage: the client is draped in a cape with upper hair divided into neat sections secured by colorful salon butterfly clips, while lower layers are combed flat ready to be cut", "", "prep"],
   ["🧰 Prep & Sectioning · Wetting with spray bottle & combing flat", "pre-cut wetting stage: fine water mist from an aluminum spray bottle glistens across the hair strands, as the male barber uses a fine-tooth cutting comb to create a crisp center parting", "", "prep"],
   ["🧰 Prep & Sectioning · Haircut consultation & initial comb-through", "consultation stage: client seated comfortably in the barber chair, cape fastened around neck, male barber lightly combing through dry hair while discussing desired length in the mirror", "", "prep"],
@@ -718,7 +718,7 @@ const salonStage = makeOpts([
   ["🧰 Prep & Sectioning · Final mirror tilt & profile check", "evaluation stage: the male barber tilts the vanity lamp and asks the client to turn her head gently to inspect the cheekbone-framing angle in the mirror", "", "prep"],
   ["🧰 Prep & Sectioning · Cross-checking vertical sections across the crown", "balance check: the male barber lifts vertical sections of hair perpendicular to the scalp between his fingers, checking uniform layer lengths across the crown", "", "prep"],
   ["🧰 Prep & Sectioning · Spray bottle misting during haircut", "active cut maintenance: the male barber spritzes water mist directly onto crown strands as water droplets glisten and hair settles into clean cutting tension", "", "prep"],
-  ["🧰 Prep & Sectioning · Combing curtain bangs into crisp center part", "parting precision: the male barber uses a black tail comb to carve a clean center parting and drape wispy arched curtain bangs symmetrically over brows", "", "prep"],
+  ["🧰 Prep & Sectioning · Combing front hair into crisp center part", "parting precision: the male barber uses a black tail comb to carve a clean center parting and comb front layers symmetrically", "", "prep"],
   ["🧰 Prep & Sectioning · Twisting and point-cutting ponytail tail ends", "tail detailing: the male barber gathers the ponytail tail, twisting the ends lightly and point-cutting into the tips to give soft natural movement", "", "prep"],
   ["🧰 Prep & Sectioning · Hands cupping and checking hair bounce", "final tactile check: the male barber gently cups the finished ends with his hands, letting the silky hair fall and bounce into place naturally in the mirror", "", "prep"],
   ["🧰 Prep & Sectioning · Client leaning forward evaluating bangs in mirror", "in-chair posture: client leaning slightly forward with torso angled toward the vanity mirror, head tilted down softly to check fringe length", "", "prep"],
@@ -768,12 +768,12 @@ const salonStage = makeOpts([
   ["🚿 Wash Basin · Cool-water cuticle-sealing final rinse cascading over glossy dark hair at basin", "finishing basin rinse: pouring a slow stream of cool clear water from the handheld sprayer across her freshly conditioned hair at the wash bowl to seal cuticles into mirror-like shine", "", "wash"],
   ["🧖 Spa & Steam · Post-shave hot towel & soothing balm on underarms & chest", "post-shave soothing treatment: the male barber gently presses a steaming aromatic hot towel to the client's freshly shaved underarms and chest, followed by a gentle soothing after-shave balm application", "", "steam"],
   ["🧖 Spa & Steam · Barber briskly snapping warm waffle towel across shoulders", "rhythmic barber hospitality: the barber snaps a freshly warmed white waffle-weave cotton towel with a crisp acoustic pop before gently pressing it across the client's shoulders and neck to clear every last hair fragment", "", "steam"],
-  ["🧖 Spa & Steam · Cold water splash & splash-slap citrus kolonya finish on temples", "revitalizing barber finale: the barber mists ice-cold rosewater across the face and follows with a splash of 80-degree citrus kolonya briskly patted across the temples with a satisfying rhythmic palm clap", "", "steam"],
-  ["🧖 Spa & Steam · Steaming herbal towel turban wrap infusing deep Ayurvedic hair oiling", "thermal oil wrap: client reclines in styling chair with a thick steaming white waffle-weave towel wrapped snugly like a turban around her oiled hair, aromatic steam curling gently into studio lighting while heat locks moisture into roots", "", "steam"],
+  ["🧖 Spa & Steam · Refreshing cold-water splash & brisk temple palm pat", "revitalizing barber finale: the barber splashes refreshing cool water across the face and briskly pats the temples with a satisfying rhythmic palm clap", "", "steam"],
+  ["🧖 Spa & Steam · Steaming herbal towel turban wrap", "thermal wrap: client reclines in styling chair with a thick steaming white waffle-weave towel wrapped snugly like a turban around her hair, aromatic steam curling gently into studio lighting", "", "steam"],
   ["🧖 Spa & Steam · Female model (barber) applying hot towel wrap & shoulder massage on male client", "spa treatment: the adult female model drapes a steaming hot towel around the male client's neck and shoulders, using firm caring palm pressure to massage his neck muscles after his shave", "", "steam"],
   ["🧖 Spa & Steam · Female model (barber) whisking rich badger-brush lather onto male client’s jaw", "luxury prep ritual: the adult female model whisks warm, fragrant foamy shaving lather across the male client's cheeks, throat, and jawline using a classic badger-bristle brush while he reclines serenely under a striped cape", "", "steam"],
   ["🧖 Spa & Steam · Female model (barber) wrapping hot-steam facial towel & temple acupressure on male client", "spa grooming ritual: the adult female model tucks a steaming white barbershop towel snugly around the male client’s jawline and cheeks while applying soothing rhythmic temple pressure", "", "steam"],
-  ["💆 Champi · Authentic Indian champi head massage with rhythmic thapki drumming", "traditional head massage ritual: the barber works warm herbal mustard or coconut oil deeply into the client's scalp, performing firm rhythmic acupressure, knuckle rolls, and resonant thapki cupped-palm percussion across the crown and temples while the client relaxes serenely with eyes closed", "", "champi"],
+  ["💆 Champi · Authentic Indian champi head massage with rhythmic thapki drumming", "traditional head massage ritual: the barber performs firm rhythmic acupressure, knuckle rolls, and resonant thapki cupped-palm percussion across the crown and temples", "", "champi"],
   ["💆 Champi · Vibrating Oster shoulder massage wand relaxing client after haircut", "vintage barbershop post-cut comfort: the barber straps a chrome-plated vibrating hand-held massage wand to the back of his palm, working rhythmic vibrating waves across the client's neck and shoulders over the draped cape", "", "champi"],
   ["💆 Champi · Warm Brahmi & Bhringraj oil crown pour with slow thumb-spiral acupressure", "traditional scalp massage ritual: warm herbal Brahmi and Bhringraj oil is slowly poured from a brass lota onto the client's crown parting, followed by slow rhythmic circular thumb acupressure along the sagittal suture as golden oil glistens through dark hair lengths", "", "champi"],
   ["💆 Champi · Kansa wand bronze bowl scalp massage with cooling botanical oils", "Ayurvedic kansa ritual: the barber glides a rounded bronze kansa scalp wand in soothing circular motions across her temples and crown over botanical herbal oil, releasing deep cranial tension while client rests serenely", "", "champi"],
@@ -882,13 +882,13 @@ const salonStoolType = makeOpts([
 
 const salonBarberProximity = makeOpts([
   ["🫂 Behind · Directly pressed against her back — chest touching shoulders", "standing directly behind her back with his chest practically touching her upper shoulders, leaning forward attentively as his arms bracket her frame", "", "behind"],
-  ["🫂 Behind · Torso grazing her shoulder blades closely", "leaning in close over her shoulders with his dark canvas apron and shirt lightly grazing her back as his hands work forward", "", "behind"],
-  ["🫂 Behind · Intimately hovering over crown from behind", "hovering closely over her crown from behind, chest gently resting against her upper back, completely absorbed in shaping her hair", "", "behind"],
-  ["🫂 Behind · Legs lightly bracketing the small stool", "standing closely behind with his stance lightly bracketing the backless stool, towering gently over her from behind", "", "behind"],
+  ["🫂 Behind · Torso grazing her shoulder blades closely", "leaning in close over her shoulders, his torso lightly grazing her back as his hands work forward", "", "behind"],
+  ["🫂 Behind · Intimately hovering over crown from behind", "hovering closely over her crown from behind, chest gently resting against her upper back, completely absorbed in his work", "", "behind"],
+  ["🫂 Behind · Legs lightly bracketing the seating", "standing closely behind with his stance lightly bracketing the seat, towering gently over her from behind", "", "behind"],
   ["🤝 Contact · Standing millimeters behind with arms wrapping forward", "positioned millimeters behind her back, body intimately close to hers, reaching both forearms forward around her head", "", "contact"],
-  ["🤝 Contact · One hand resting firmly on her bare shoulder", "standing pressed intimately close behind her with one warm hand resting reassuringly on her shoulder and collarbone while his other hand cuts", "", "contact"],
+  ["🤝 Contact · One hand resting firmly on her shoulder", "standing pressed intimately close behind her with one warm hand resting reassuringly on her shoulder while his other hand works", "", "contact"],
   ["🤝 Contact · Gentle hands guiding her head tilt", "standing right against her back, using both hands to softly guide and tilt her head as his body moves in harmony with hers", "", "contact"],
-  ["👂 Beside · Bending down close beside her ear", "leaning his head down close beside her cheek and ear, face inches away as his skilled hands detail her front hair", "", "beside"]
+  ["👂 Beside · Bending down close beside her ear", "leaning his head down close beside her cheek and ear, face inches away as his skilled hands work attentively", "", "beside"]
 ]);
 
 const salonIntimateHairAction = makeOpts([
@@ -899,7 +899,7 @@ const salonIntimateHairAction = makeOpts([
   ["🪒 Razor · Toothed styling razor-comb debulking heavy crown density downward", "drawing a guarded single-edge styling razor comb softly downward through wet mid-lengths from directly behind the stool to remove internal bulk without sacrificing baseline length", "", "razor"],
   ["🪒 Razor · Guarded feathering razor carving collarbone ends while clipped dust falls", "leaning over her right shoulder holding tense collarbone hair outward with his comb hand while slicing fluid wispy tips with a guarded folding feathering razor", "", "razor"],
   ["🪒 Razor · Guarded razor scraping downward along temple edge with artisan tension", "holding her brow gently steady with one palm while drawing a guarded Japanese feathering razor downward along her temple edge with deliberate artisan tension and satisfying raspy clicks", "", "razor"],
-  ["🪒 Razor · Natural fitkari (alum) crystal glide across freshly shaved nape hairline on stool", "standing inches behind her bare neck, dipping a smooth crystal block of fitkari (potash alum) in cold water and gliding it deliberately across the freshly cleaned nape hairline and temple points", "", "razor"],
+  ["🪒 Razor · Soothing crystal glide finish across freshly cleaned nape hairline on stool", "standing inches behind her bare neck, completing a soothing cold-water compress and smoothing the freshly cleaned nape hairline and temple points", "", "razor"],
   ["🪒 Razor · Stropping straight razor on hanging Russian leather strop beside stool", "standing beside the backless stool briskly stropping a gleaming carbon steel folding straight razor back and forth along a hanging Russian leather strop with a crisp rhythmic snap before detailing her hairline", "", "razor"],
   ["🪒 Razor · Turkish flame singeing technique for temple and ear peach fuzz on stool", "leaning close beside her cheek, quickly gliding a burning alcohol-soaked cotton wand around the perimeter of her ear and temples, safely singeing away fine peach fuzz with artisan mastery", "", "razor"],
   ["🪒 Razor · Precision shavette lineup along forehead arch and sideburns on stool", "pulling forehead and temple skin taut with dry fingertips, gliding a disposable-blade stainless steel shavette with millimeter precision to carve a crisp architectural hairline perimeter inches from her eyes", "", "razor"],
@@ -910,7 +910,7 @@ const salonIntimateHairAction = makeOpts([
   ["⚡ Clipper · Buffing double-foil shaver along bare skin beneath the temple", "standing intimately close beside her cheek, stretching her temple skin taut with his thumb while buffing a titanium double-foil shaver back and forth across bare skin for a mirror-smooth fade", "", "clipper"],
   ["⚡ Clipper · Cordless fade clipper flicking up the temple curve on stool", "using a light upward C-scoop wrist flick with cordless magnetic clippers along her temple and sideburn edge, blending high-density crown hair into an ultra-clean micro-taper inches from her cheek", "", "clipper"],
   ["✂️ Shear Cut · Precision scissor work right in front of her face", "holding a taut section of hair between his index and middle fingers right beside her cheek while sharp stainless steel shears execute precision point-snips, with fine hair fragments fluttering down", "", "cutting"],
-  ["✂️ Shear Cut · Point-cutting curtain bangs reaching over forehead", "leaning forward over her shoulders from behind, his hands reaching across her forehead to point-cut soft arched bottleneck bangs at eyebrow level", "", "cutting"],
+  ["✂️ Shear Cut · Point-cutting front layers reaching over forehead", "leaning forward over her shoulders from behind, his hands reaching across her forehead to point-cut soft face-framing layers", "", "cutting"],
   ["✂️ Shear Cut · Thinning shears texturizing weight from ends", "working notched texturizing shears through hair ends while cut hair clippings flutter down onto her draped lap and stool base", "", "cutting"],
   ["✂️ Shear Cut · Scissor-over-finger jawline perimeter sculpting inches from cheek", "sandwiching damp jawline ends cleanly between two braced fingers right beside her ear and cheek while mirror-bright shears snip an ultra-sharp architectural edge", "", "cutting"],
   ["✂️ Shear Cut · Channel carving airy internal texture while clipped ribbons dust cape", "elevating narrow crown locks gently overhead from behind on the stool and sliding open carving blades cleanly downward to lighten heavy natural density", "", "cutting"],
@@ -918,13 +918,13 @@ const salonIntimateHairAction = makeOpts([
   ["✂️ Shear Cut · Deep 45° forward slide-cutting cheekbone cascades on stool", "combing damp side locks sharply forward beside her face at a 45-degree angle and gliding semi-open shear blades smoothly downward to carve fluid cheekbone-framing layers", "", "cutting"],
   ["✂️ Shear Cut · Scissor-over-comb stacked nape graduation along lower occipital bone", "pressing a narrow white flat-top barber comb snugly into the lower nape curve and clicking cutting shears rapidly up the comb spine for tight architectural bob stacking", "", "cutting"],
   ["✂️ Shear Cut · Dry freehand visual carving along jawline perimeter ends", "working on completely dry blown-out hair from beside the low stool, opening shear tips softly to freehand-carve delicate airy movement along the crisp jaw edge", "", "cutting"],
-  ["✂️ Shear Cut · Micro-bangs notched texturizing over slim carbon comb spine", "anchoring short front fringe flat against the teeth of a fine black carbon comb resting gently at brow height while vertical shear points notch airy piecey separation", "", "cutting"],
+  ["✂️ Shear Cut · Front fringe notched texturizing over slim carbon comb spine", "anchoring front hair flat against the teeth of a fine black carbon comb resting gently at brow height while vertical shear points notch airy piecey separation", "", "cutting"],
   ["✂️ Shear Cut · Twisting damp perimeter ribbons & V-notching textured tips", "twisting damp shoulder-skimming hair bundles loosely along the collarbone between thumb and finger, snipping tiny angled V-notches directly into the twisted ends", "", "cutting"],
   ["✂️ Shear Cut · Slicing subtle internal ghost-layers beneath untouched glossy top canopy", "holding the intact outer hair canopy lifted smoothly upwards in one hand while cleanly sliding notched shears underneath to carve weightless internal buoyancy", "", "cutting"],
   ["✂️ Shear Cut · Holding temple strand taut between finger pads for micro-shear detailing", "clamping a fine temple strand delicately between his finger pads millimeters from her temple skin, leaning close over her collarbone while precision micro-shears snip wispy ends", "", "cutting"],
-  ["✂️ Shear Cut · Micro-bangs texturizing grazing brow bone with Japanese swivel shears on stool", "reaching over her forehead from behind the low stool, holding damp micro-fringe flat against the brow bone with a carbon comb and vertically point-cuts feather-light separation into the tips with Japanese swivel shears", "", "cutting"],
+  ["✂️ Shear Cut · Front fringe texturizing grazing brow bone with Japanese swivel shears on stool", "reaching over her forehead from behind the low stool, holding front hair flat against the brow bone with a carbon comb and vertically point-cutting feather-light separation into the tips with Japanese swivel shears", "", "cutting"],
   ["✂️ Shear Cut · Deliberate scissor pivot and deep breath before final crown snip on stool", "pausing with shears positioned at the apex of her crown from behind the stool, taking a slow deliberate breath while evaluating three-dimensional balance before executing the defining final snip", "", "cutting"],
-  ["✂️ Shear Cut · Slide-cutting front curtain bangs with fingers near cheekbones", "standing beside the low stool with fingers resting gently near her cheekbone, sliding open shears cleanly down front curtain strands to sculpt face-framing layers", "", "cutting"],
+  ["✂️ Shear Cut · Slide-cutting front layers with fingers near cheekbones", "standing beside the low stool with fingers resting gently near her cheekbone, sliding open shears cleanly down front strands to sculpt face-framing layers", "", "cutting"],
   ["🧰 Wet Prep · Fine-tooth combing & razor-sharp center part", "standing directly behind her crown, gently gliding a fine-tooth carbon tail comb across her scalp to sculpt a razor-sharp center parting with calm focused breath", "", "prep"],
   ["🧰 Wet Prep · Measuring symmetrical left-right jaw lengths between thumb & forefinger", "stepping slightly in front of the low stool to pull down corresponding cheek strands on both sides between thumb and forefinger, verifying razor-accurate millimeter symmetry", "", "prep"],
   ["🧰 Wet Prep · Continuous spray-bottle soak until dark strands drip along nape", "pumping continuous fine cooling water mist from an aluminum salon spritzer around her crown and front fringe until dark glossy strands cling smoothly against cheeks and collar", "", "prep"],
@@ -958,10 +958,10 @@ const salonIntimateHairAction = makeOpts([
   ["🧖 Steam & Spa · Warm shaving lather brushed onto temple hairline with badger brush", "dipping a soft badger-hair brush into warm aromatic shaving bowl and gently painting rich foamy lather across her temple hairline and sideburn points, his body leaning warmly behind her", "", "steam"],
   ["🧖 Steam & Spa · Cooling menthol aftershave balm smoothed into freshly faded temples", "smoothing soothing menthol aftershave balm into her freshly faded temples and neckline with warm, gentle circular finger-pad massage as she closes her eyes in relaxed bliss", "", "steam"],
   ["🧖 Steam & Spa · Barber briskly snapping warm waffle towel across shoulders on stool", "snapping a freshly warmed white waffle-weave cotton towel with a crisp acoustic pop before gently pressing it across her shoulders and neck to clear every last hair fragment on the stool", "", "steam"],
-  ["🧖 Steam & Spa · Cold water splash & splash-slap citrus kolonya finish on temples on stool", "misting ice-cold rosewater across her face and following with a splash of 80-degree citrus kolonya briskly patted across her temples with a satisfying rhythmic palm clap beside the stool", "", "steam"],
-  ["🧖 Steam & Spa · Steaming herbal towel turban wrap leaning over stool shoulders", "tucking a thick steaming white towel snugly around her oiled hair like a turban from behind on the stool, resting warm hands reassuringly on her draped cape shoulders", "", "steam"],
-  ["🧖 Steam & Spa · Jade Gua Sha comb tracing meridians bent close behind crown", "leaning intimately close behind the stool, gliding the polished teeth of a green jade Gua Sha comb along her central scalp meridian from forehead to nape over botanical serum", "", "steam"],
-  ["💆 Champi · Authentic Indian champi head massage with rhythmic thapki drumming on stool", "leaning over her from directly behind the low stool, working warm herbal mustard or coconut oil deeply into her scalp with rhythmic acupressure, knuckle rolls, and resonant thapki cupped-palm percussion while she relaxes with eyes closed", "", "champi"],
+  ["🧖 Steam & Spa · Cold water splash & brisk temple palm pat on stool", "splashing refreshing cool water across her face and briskly patting her temples with a satisfying rhythmic palm clap beside the stool", "", "steam"],
+  ["🧖 Steam & Spa · Steaming herbal towel turban wrap leaning over stool shoulders", "tucking a thick steaming white towel snugly around her hair like a turban from behind on the stool, resting warm hands reassuringly on her draped cape shoulders", "", "steam"],
+  ["🧖 Steam & Spa · Jade Gua Sha comb tracing meridians bent close behind crown", "leaning intimately close behind the stool, gliding the polished teeth of a green jade Gua Sha comb along her central scalp meridian from forehead to nape", "", "steam"],
+  ["💆 Champi · Authentic Indian champi head massage with rhythmic thapki drumming on stool", "leaning over her from directly behind the low stool, performing rhythmic acupressure, knuckle rolls, and resonant thapki cupped-palm percussion across her crown and temples", "", "champi"],
   ["💆 Champi · Vibrating Oster shoulder massage wand relaxing client after haircut on stool", "strapping a chrome-plated vibrating hand-held massage wand to the back of his palm, working rhythmic vibrating waves across her neck and shoulders over the draped cape on the low stool", "", "champi"],
   ["💆 Champi · Close-contact Brahmi crown oil pour & thumb spirals on stool", "standing closely behind her on the backless stool, slowly pouring warm Brahmi oil across her crown parting and kneading pressure points with rhythmic thumb spirals as she closes her eyes", "", "champi"],
   ["🧹 Cleanup · Swiping loose hair snippets off cape collar & collarbone with warm palms", "brushing clinging freshly cut hair strands lightly off the upper cape folds and bare lower neck skin while evaluating clean symmetry from behind the stool", "", "cleanup"],
@@ -985,7 +985,7 @@ const salonIntimateHairAction = makeOpts([
   ["💨 Heat Styling · Chase-comb titanium flat-iron silk press pass beside cheek on stool", "gliding a fine-tooth carbon comb directly ahead of heated titanium flat-iron plates down sleek sections inches from her cheek for mirror-smooth glass shine", "", "styling"],
   ["💨 Heat Styling · Cool-shot blow-dry hair flip & cape unclipping reveal on stool", "aiming cool dryer airflow upward through her freshly cut layers while unfastening the cape snap so loose cut hair clears cleanly", "", "styling"],
   ["✂️ Shear Cut · Holding thick damp ponytail taut behind stool for decisive first big chop", "clamping her thick damp ponytail firmly in one hand behind the low stool and opening heavy 7-inch barber shears for the bold first horizontal chop", "", "cutting"],
-  ["✂️ Shear Cut · Vertical point-cutting airy curtain bangs inches from her brow on stool", "standing beside the low stool holding damp curtain fringe taut between fingers at eyebrow height while vertically point-cutting soft feathered separation", "", "cutting"],
+  ["✂️ Shear Cut · Vertical point-cutting airy front layers inches from her brow on stool", "standing beside the low stool holding front hair taut between fingers at eyebrow height while vertically point-cutting soft feathered separation", "", "cutting"],
   ["✂️ Shear Cut · Lifting 90° crown panels overhead for layered shag graduation on stool", "pulling narrow damp crown sections straight upward above her head from behind the backless stool and snipping clean layered graduation", "", "cutting"],
   ["✂️ Shear Cut · Channel-carving thick mid-lengths with open shear blades on stool", "sliding semi-open stainless shear blades smoothly downward through damp mid-lengths beside her shoulder to release weight without shortening the hemline", "", "cutting"],
   ["⚡ Clipper · Buzzing clean undercut up bare nape beneath clipped canopy on stool", "pinning her upper hair high and gliding cordless clippers smoothly upward across her bare lower nape while her chin dips forward", "", "clipper"],
@@ -1264,7 +1264,7 @@ const salonCamera = makeOpts([
 
 const salonLighting = makeOpts([
   ["☀️ Natural Daylight · Daylight pouring through front shop glass window", "bright natural street daylight flooding through the front salon window, mixed with ambient indoor practicals", "", "daylight"],
-  ["☀️ Natural Daylight · Golden late-afternoon sunbeam shaft through room haze", "a visible diagonal sunbeam of warm late-afternoon sunlight cutting through ambient salon dust and hair spray haze, illuminating the chair", "", "daylight"],
+  ["☀️ Natural Daylight · Warm angled sunbeam shaft", "a visible diagonal shaft of warm natural sunlight illuminating the styling station", "", "daylight"],
   ["☀️ Natural Daylight · Soft diffuse north-facing window light", "gentle, flattering natural north-facing window light creating smooth tonal roll-off, soft shadows, and painterly hair sheen", "", "daylight"],
   ["💡 Warm Tungsten · Overhead salon fluorescent tubes & mirror practicals", "authentic salon lighting with cool fluorescent ceiling tubes balanced by warm vanity mirror practical lights, rendering realistic highlights on hair", "", "warm"],
   ["💡 Warm Tungsten · Warm vanity mirror bulb glow", "flattering soft warm light emitted by round LED vanity bulbs framing the mirror, casting gentle fill onto the face", "", "warm"],
@@ -1279,11 +1279,11 @@ const salonLighting = makeOpts([
 
 const salonBustle = makeOpts([
   ["🧘 Private · Empty shop — completely quiet, serene & private", "an empty shop with zero other customers; serene, peaceful atmosphere where the female model is the sole client in the room", "", "private"],
-  ["🧘 Private · Sparse — 1 other male customer waiting quietly on bench", "a calm, quiet shop atmosphere with only one other male customer seated on the wooden waiting bench reading a newspaper", "", "private"],
-  ["🧘 Private · Quiet closing time — last appointment with street darkening", "a quiet late-evening atmosphere near closing time with the outdoor street darkening, shop shutters half-drawn, and warm interior lights focused on the final client", "", "private"],
-  ["👥 Lively · Moderate — 2–3 male customers in background", "a typical calm afternoon with two to three male customers in the shop—one paying at the counter and two seated on the waiting bench", "", "bustle"],
-  ["👥 Lively · Bustling — all neighboring chairs occupied by male clients", "a lively, bustling salon atmosphere with all neighboring hydraulic chairs occupied by male clients receiving cuts and shaves from male barbers", "", "bustle"],
-  ["👥 Lively · Heavily crowded / Packed — waiting bench full of male patrons", "a packed rush-hour shop with a full bench of waiting male patrons engaged in lively banter, clippers buzzing, and energetic neighborhood buzz", "", "bustle"]
+  ["🧘 Private · Sparse — 1 other male customer waiting quietly", "a calm, quiet shop atmosphere with only one other male customer seated quietly in the waiting area", "", "private"],
+  ["🧘 Private · Quiet last-appointment ambiance", "a quiet, unhurried atmosphere with shutters half-drawn and calm focus on the final client", "", "private"],
+  ["👥 Lively · Moderate — 2–3 male customers in background", "a calm shop atmosphere with two to three male customers in the background waiting area", "", "bustle"],
+  ["👥 Lively · Bustling — all neighboring chairs occupied by male clients", "a lively, bustling salon atmosphere with neighboring hydraulic chairs occupied by male clients", "", "bustle"],
+  ["👥 Lively · Heavily crowded / Packed — waiting area full of male patrons", "a packed rush-hour shop with a full waiting area of male patrons and energetic neighborhood buzz", "", "bustle"]
 ]);
 
 const salonQuality = makeOpts([
@@ -1331,7 +1331,7 @@ const salonLotions = makeOpts([
   ["✂️ Dry Cut · None / Dry Cut Focus (No lotions or treatments applied)", "no lotions, tonics, or pre-shave balms applied; strictly dry cut and styling focus", "", "dry"],
   ["❄️ Cooling Balm · Cooling menthol aftershave balm patted into temples & nape", "cooling eucalyptus and menthol aftershave balm gently patted and massaged into the freshly faded temples, sideburns, and nape skin, leaving a soothing semi-matte finish", "", "cooling"],
   ["❄️ Cooling Balm · Soothing aloe vera & witch hazel lotion patted over freshly clipped skin", "calming organic aloe vera and alcohol-free witch hazel lotion patted over freshly clipped temples and nape to eliminate redness and hydrate skin", "", "cooling"],
-  ["❄️ Cooling Balm · Steaming eucalyptus & peppermint towel cocoon wrap", "a thick steaming white barber towel infused with pure eucalyptus and peppermint essential oils wrapped snugly around the face, temples, and neck, opening pores before final detailing", "", "cooling"],
+  ["❄️ Cooling Balm · Cooling eucalyptus & peppermint lotion on temples & neck", "cooling eucalyptus and peppermint botanical lotion smoothed gently across the temples and neck skin", "", "cooling"],
   ["💈 Barbershop · Pre-shave lubricating gel massaged into temple hairline before razor work", "clear botanical pre-shave gel smoothed along the temple arches and sideburns to soften stubble and protect skin during precision razor detailing", "", "barbershop"],
   ["💈 Barbershop · Warm lather application with badger-hair shaving brush on temples & neckline", "rich, warm, steaming lather whisked from a classic shaving mug and painted across the temples and neckline with an authentic badger-bristle brush", "", "barbershop"],
   ["💈 Barbershop · Astringent splash & barber talc dusting away clippings from temples and collarbone", "brisk refreshing citrus astringent splash followed by a soft dusting of barbershop talcum powder to sweep micro-clippings cleanly off temples, neck, and collarbones", "", "barbershop"],
@@ -1340,12 +1340,12 @@ const salonLotions = makeOpts([
   ["💈 Barbershop · Spiced bay rum & clove barbershop aftershave splash", "a splash of classic Caribbean spiced bay rum with notes of clove, cedar, and orange peel smoothed into freshly clipped temple points and sideburns with a refreshing tingling finish", "", "barbershop"],
   ["💈 Barbershop · Ceramic scuttle badger-bristle hot lather foaming beard & nape prep", "steaming hot shaving lather whisked to stiff peaks in a heavy ceramic scuttle and painted generously across the neckline with a silver-tipped badger-hair brush", "", "barbershop"],
   ["🌿 Ayurvedic · Herbal hair & scalp oil treatment massaged with warm towel wrap", "traditional warm ayurvedic herbal oil droplets worked into the scalp, temples, and hair strands, accompanied by a steaming rolled white towel wrap", "", "ayurvedic"],
-  ["🌿 Ayurvedic · Mustard oil (Sarson tel) thermal scalp rub & temple massage", "traditional pure warm mustard oil (sarson tel) massaged deeply into the scalp and temples with firm rhythmic thapki palm pats, infusing roots with a rich golden organic sheen and authentic herbal thermal warmth", "", "ayurvedic"],
+  ["🌿 Ayurvedic · Mustard oil (Sarson tel) scalp & temple application", "traditional pure warm mustard oil (sarson tel) applied to the scalp and temples, infusing roots with natural thermal warmth and luster", "", "ayurvedic"],
   ["🌿 Ayurvedic · Virgin coconut & fresh curry leaf champi oil infusion", "fragrant warm virgin coconut oil infused with crushed fresh curry leaves, worked gently through scalp partings and smoothed into hair lengths for deep gloss and cuticle nourishment", "", "ayurvedic"],
   ["🌿 Ayurvedic · Sandalwood (Chandan) & rosewater cooling paste along forehead hairline", "cooling golden sandalwood (chandan) paste whipped with pure Kannauj rosewater lightly applied along the forehead margin and temples, leaving a soothing aromatic matte finish", "", "ayurvedic"],
-  ["🌿 Ayurvedic · Warm Brahmi & Bhringraj herbal hair oil drops with slow crown acupressure", "warm herbal Brahmi and Bhringraj oil drops released along the crown parting and massaged deeply into roots with rhythmic circular acupressure for rich follicle luster", "", "ayurvedic"],
-  ["🌿 Ayurvedic · Virgin coconut & ruby hibiscus flower oil infusion combed from roots to tips", "aromatic virgin coconut oil infused with crushed hibiscus petals, combed evenly through lengths with a neem wood comb for a radiant botanical gloss", "", "ayurvedic"],
-  ["🌿 Ayurvedic · Cooling kansa bronze wand botanical scalp elixir with camphor notes", "cooling kansa botanical scalp elixir with notes of camphor and vetiver, worked smoothly into the temples and scalp with a bronze massage wand", "", "ayurvedic"],
+  ["🌿 Ayurvedic · Warm Brahmi & Bhringraj herbal hair oil drops", "warm herbal Brahmi and Bhringraj oil drops applied along the crown parting for rich follicle luster", "", "ayurvedic"],
+  ["🌿 Ayurvedic · Virgin coconut & ruby hibiscus flower oil infusion", "aromatic virgin coconut oil infused with crushed hibiscus petals smoothed evenly through hair lengths for a radiant botanical gloss", "", "ayurvedic"],
+  ["🌿 Ayurvedic · Cooling botanical scalp elixir with camphor notes", "cooling botanical scalp elixir with notes of camphor and vetiver applied smoothly to the temples and scalp", "", "ayurvedic"],
   ["🌿 Ayurvedic · Crushed damask rose petal & coconut milk scalp exfoliation glaze", "delicate damask rose petal and coconut milk scrub gently polished along the scalp and hairline to purify and hydrate follicles", "", "ayurvedic"],
   ["✨ Modern Tonic · Invigorating botanical scalp tonic drops with firm fingertip massage", "cooling amber glass dropper bottles dispensing invigorating rosemary and tea tree scalp tonic directly to the parted crown and temples, worked in with firm rhythmic fingertip acupressure", "", "modern"],
   ["✨ Modern Tonic · Sea salt texturizing lotion & cutting lotion combed through damp crown", "lightweight mineral sea salt and botanical cutting lotion combed smoothly through damp hair to provide clean scissor tension and effortless piecey separation", "", "modern"],
@@ -1748,6 +1748,7 @@ function sanitizeMirrorProse(text){
     .replace(/drape in the mirror/gi, 'drape from the front chair angle')
     .replace(/eyes meeting in the mirror/gi, 'eyes meeting through direct gaze')
     .replace(/eyes (?:reflected )?in (?:the )?mirror/gi, 'eyes in direct gaze')
+    .replace(/in the floor-to-ceiling mirror/gi, 'in the studio')
     .replace(/in the station mirror/gi, 'at the styling station')
     .replace(/in the mirror/gi, 'from the styling chair')
 
@@ -3379,46 +3380,46 @@ Object.entries(p.set).forEach(([id,o])=>{
   if(lockedFields.has(id))return;
   if(fields[id])values[id]=o;
 });
-if(values.hair){
+if(!lockedFields.has('hairCategory') && values.hair){
   const hCat = getItemCategory('hair', values.hair);
   const match = fields.hairCategory.opts.find(c => c.text === hCat);
   if(match) values.hairCategory = match;
 }
-if(preserveHairTexture && fields.hairTexture){
+if((checkState.hairTexturePreserve || preserveHairTexture) && !lockedFields.has('hairTexture') && fields.hairTexture){
   const pOpt = fields.hairTexture.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture.opts[0];
   values.hairTexture = pOpt;
 }
-if(values.outfit){
+if(!lockedFields.has('outfitCategory') && values.outfit){
   const oCat = getItemCategory('outfit', values.outfit);
   const match = fields.outfitCategory.opts.find(c => c.text === oCat);
   if(match) values.outfitCategory = match;
 }
-if(values.pose){
+if(!lockedFields.has('poseCategory') && values.pose){
   const pCat = getItemCategory('pose', values.pose);
   const match = fields.poseCategory.opts.find(c => c.text === pCat);
   if(match) values.poseCategory = match;
 }
-if(values.framing){
+if(!lockedFields.has('shotCategory') && values.framing){
   const sCat = getItemCategory('framing', values.framing);
   const match = fields.shotCategory.opts.find(c => c.text === sCat);
   if(match) values.shotCategory = match;
 }
-if(values.background){
+if(!lockedFields.has('sceneCategory') && values.background){
   const bCat = getItemCategory('background', values.background);
   const match = fields.sceneCategory.opts.find(c => c.text === bCat);
   if(match) values.sceneCategory = match;
 }
-if(values.lighting){
+if(!lockedFields.has('lightingCategory') && values.lighting){
   const lCat = getItemCategory('lighting', values.lighting);
   const match = fields.lightingCategory.opts.find(c => c.text === lCat);
   if(match) values.lightingCategory = match;
 }
-if(values.salonHaircut && fields.salonHairCategory){
+if(!lockedFields.has('salonHairCategory') && values.salonHaircut && fields.salonHairCategory){
   const sCat = values.salonHaircut.cat || getItemCategory('hair', values.salonHaircut);
   const match = fields.salonHairCategory.opts.find(c => c.text === sCat);
   if(match) values.salonHairCategory = match;
 }
-if(values.salonVenue && fields.salonVenueCategory){
+if(!lockedFields.has('salonVenueCategory') && values.salonVenue && fields.salonVenueCategory){
   const vCat = values.salonVenue.cat || getItemCategory('salonVenue', values.salonVenue);
   const match = fields.salonVenueCategory.opts.find(c => c.text === vCat);
   if(match) values.salonVenueCategory = match;
@@ -4356,7 +4357,18 @@ el('numImages').addEventListener('change',e=>{
   buildPrompt();
 });
 el('detailLevel').addEventListener('change',e=>{detailLevel=e.target.value;buildPrompt()});
-el('finishChecks').querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{checkState[i.dataset.check]=i.checked;buildPrompt()}));
+el('finishChecks').querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{
+  checkState[i.dataset.check]=i.checked;
+  if(i.dataset.check==='hairTexturePreserve'){
+    preserveHairTexture = i.checked;
+    const pBtn = el('preserveTextureToggleBtn');
+    if(pBtn){
+      pBtn.classList.toggle('active', preserveHairTexture);
+      pBtn.textContent = preserveHairTexture ? '🔒 Keep Natural Hair Texture: ON' : '🔓 Keep Natural Hair Texture: OFF';
+    }
+  }
+  buildPrompt();
+}));
 }
 
 function goSection(id,shouldScroll=true){
@@ -4389,10 +4401,11 @@ updateModeButtons();
 activePreset=id;
 document.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active',b.dataset.preset===id));
 
+recordHistory();
 // Snapshot previous values for diff
 const prevValues = Object.assign({}, values);
 rollTheme(p);
-goSection('look');
+goSection(currentStudioMode==='salon'?'salonVenueSec':'look');
 buildPrompt();
 
 const diffResult = summarizePresetChanges(p, prevValues, fields);
@@ -4462,8 +4475,8 @@ if(!lockedFields.has('salonVenueCategory') && values.salonVenue && fields.salonV
   const match = fields.salonVenueCategory.opts.find(c => c.text === vCat);
   if(match) values.salonVenueCategory = match;
 }
-if(values.framing && values.composition && fields.composition){
-  const tightFramings = ['close-up beauty portrait', 'detail crop: hair + face', 'tight side-profile portrait'];
+if(!lockedFields.has('composition') && values.framing && values.composition && fields.composition){
+  const tightFramings = ['close-up beauty portrait', 'detail crop: upper portrait', 'detail crop: hair + face', 'tight side-profile portrait'];
   const fLabel = (values.framing.label || '').toLowerCase();
   if(tightFramings.some(tf => fLabel.includes(tf))){
     const incompatible = ['hair silhouette visible', 'outfit silhouette emphasized', 'environmental storytelling'];
@@ -4478,7 +4491,7 @@ if(!lockedFields.has('salonHairCategory') && values.salonHaircut && fields.salon
   const match = fields.salonHairCategory.opts.find(c => c.text === hCat);
   if(match) values.salonHairCategory = match;
 }
-if(preserveHairTexture && fields.hairTexture){
+if((checkState.hairTexturePreserve || preserveHairTexture) && !lockedFields.has('hairTexture') && fields.hairTexture){
   const pOpt = fields.hairTexture.opts.find(o => o.label.includes('Preserve original')) || fields.hairTexture.opts[0];
   values.hairTexture = pOpt;
 }
@@ -4812,6 +4825,12 @@ function createCollageDirectorCard(){
           <option value="dual_mirror" ${curPreset==='dual_mirror'?'selected':''}>Dual-Mirror Reveal & Aftercare (Face Framing → Duster → Rear Mirror → Admire)</option>
           <option value="precision_craft" ${curPreset==='precision_craft'?'selected':''}>Close-Up Precision Craft (Parting → Macro Fingers → Thinning → POV)</option>
           <option value="grooming_shave" ${curPreset==='grooming_shave'?'selected':''}>Barber Grooming & Body Shave (Consultation → Armpit Shave → Chest Shave → Reveal)</option>
+          <option value="barber_ritual" ${curPreset==='barber_ritual'?'selected':''}>Authentic Barber Ritual (Wash → Razor → Alum → Duster)</option>
+          <option value="indian_champi_flow" ${curPreset==='indian_champi_flow'?'selected':''}>Indian Champi & Oil Flow (Oil Pour → Thapki → Herbal Wrap → Rinse)</option>
+          <option value="glass_bob_transformation" ${curPreset==='glass_bob_transformation'?'selected':''}>Sleek Cut & Blowout Arc (Big Chop → Blunt Perimeter → Flat Iron → Reveal)</option>
+          <option value="razor_sculpt_flow" ${curPreset==='razor_sculpt_flow'?'selected':''}>Razor Sculpting Arc (Strop → Feathering → Temple Lineup → Nape Finish)</option>
+          <option value="backstage_editorial_flow" ${curPreset==='backstage_editorial_flow'?'selected':''}>Editorial Backstage Arc (Wave Set → Clips Drop → Diffuser → Mirror)</option>
+          <option value="close_sensory_macro" ${curPreset==='close_sensory_macro'?'selected':''}>Close Sensory Macro Arc (Misting → Macro Shears → Clippings → Talc Cloud)</option>
           <option value="custom" ${curPreset==='custom'?'selected':''}>✦ Custom 4-Panel Selection (Individually Chosen Below)</option>
         </select>
       </div>
@@ -6365,7 +6384,7 @@ function buildSalonPrompt(){
   } else if(isSoloClient){
     cameraText = sanitizeSoloClientCamera(cameraText);
   }
-  cameraText = sanitizeHiddenFaceText(cameraText, hideEyes, salonVeilTier);
+  cameraText = sanitizeHiddenFaceText(cameraText, hideEyes, salonVeilTier, salonObfuscMode);
 
   const stylistText = S(val('salonStylist'));
   const lightingText = S(val('salonLighting'));
@@ -6849,7 +6868,7 @@ function buildSalonPrompt(){
         : 'realistic specular highlights on damp hair strands and scissor blades';
     salonChecks.push(`• Believable Salon Lighting Physics: Coherent illumination from ${bulbSource}, ${hairLightSpec}, soft authentic shadow falloff under chin and cape.`);
   }
-  if(checkState.livedIn) {
+  if(checkState.backgroundReal || checkState.livedIn) {
     if(isFemaleModelBarber){
       salonChecks.push("• Authentic Lived-in Barbershop Atmosphere: Fine cut hair clippings scattered across the male client's draped cape and vinyl floor around the chair base, Barbicide jars, and authentic background depth.");
     } else {
@@ -7144,15 +7163,15 @@ const outputText={
         ? 'Create one 2×2 collage with four clearly distinct poses and interaction moments. Keep the newly synthesized female model, her haircut, outfit, color grade and male colleague / crew consistent across all four panels (she is strictly the solitary woman in all frames, zero secondary women).'
         : 'Create one 2×2 collage with four clearly distinct poses and interaction moments. Keep the same female model, her haircut, outfit, color grade and male colleague / crew consistent across all four panels (she is strictly the solitary woman in all frames, zero secondary women).')
     : (isPsAiFace
-        ? 'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the newly synthesized female model, haircut, outfit, color grade and overall scene consistent across all four panels (strictly solo female subject in all frames, no secondary person or stylist).'
-        : 'Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same single woman, haircut, outfit, color grade and overall scene consistent across all four panels (strictly solo female subject in all frames, no secondary person or stylist).'),
+        ? `Create one 2×2 collage with four clearly distinct poses and expressions. Keep the newly synthesized female model, haircut, outfit, color grade and overall scene consistent across all four panels${(checkState.soloSubject || styleRef) ? ' (strictly solo female subject in all frames, no secondary person or stylist)' : ''}.`
+        : `Create one 2×2 collage with four clearly distinct poses and expressions. Keep the same single woman, haircut, outfit, color grade and overall scene consistent across all four panels${(checkState.soloSubject || styleRef) ? ' (strictly solo female subject in all frames, no secondary person or stylist)' : ''}.`),
   set: hasMalePresence
     ? (isPsAiFace
         ? 'Create four separate photorealistic images with different poses and interaction angles. Keep the newly synthesized female model, haircut, outfit and male co-star / crew styling consistent across the set (solitary female model rule: zero secondary women).'
         : 'Create four separate photorealistic images with different poses and interaction angles. Keep the same female model, haircut, outfit and male co-star / crew styling consistent across the set (solitary female model rule: zero secondary women).')
     : (isPsAiFace
-        ? 'Create four separate photorealistic images with different poses and expressions. Keep the newly synthesized female model, haircut, outfit and overall visual styling consistent across the set (solo female subject only).'
-        : 'Create four separate photorealistic images with different poses and expressions. Keep the same single woman, haircut, outfit and overall visual styling consistent across the set (solo female subject only).'),
+        ? `Create four separate photorealistic images with different poses and expressions. Keep the newly synthesized female model, haircut, outfit and overall visual styling consistent across the set${(checkState.soloSubject || styleRef) ? ' (solo female subject only)' : ''}.`
+        : `Create four separate photorealistic images with different poses and expressions. Keep the same single woman, haircut, outfit and overall visual styling consistent across the set${(checkState.soloSubject || styleRef) ? ' (solo female subject only)' : ''}.`),
   triptych: hasMalePresence
     ? (isPsAiFace
         ? 'Create one three-panel editorial triptych with three distinct candid interaction moments; maintain facial continuity of the newly synthesized model, hairstyle, outfit and male colleague / crew presence across panels (solitary female model rule: zero secondary women).'
@@ -7319,7 +7338,7 @@ if(hasMalePresence && (values.malePresence.text === 'crew_prep' || values.malePr
 } else if(isFemaleGroomingMen){
   moVal = 'the adult female model is captured in an intimate, artisan grooming and pampering session as the active practitioner shaving, detailing, or performing soothing massage on her seated male partner';
 } else if(!hasMalePresence && ((styleRef && transferToggles && transferToggles.hair) || checkState.soloSubject)){
-  if(moVal.includes('stylist') || moVal.includes('styling chair') || moVal.includes('barber detailing') || moVal.includes('straight razor')){
+  if(/stylist|styling chair|barber detailing|straight[- ]razor/i.test(moVal)){
     moVal = 'the sleek post-makeover haircut has just been completed, showcasing her finished salon styling with a confident, candid reaction as a solo subject';
   }
   if(checkState.soloSubject){
@@ -7505,13 +7524,15 @@ const extraLines=detail==='compact'?[]:Object.entries(extraFields).filter(([id])
   if(hasMalePresence && (id === 'stance' || id === 'gesture' || id === 'motion')) return false;
   if(isTightFraming && id === 'footwear') return false;
   if(hideEyes && (id === 'eyewear' || id === 'eyeLook' || id === 'gaze' || id === 'browStyle')) return false;
+  if((psTier === '95_100' || psObfuscMode === 'turned_away' || psObfuscMode === 'chiaroscuro_shadow') && id === 'lipLook') return false;
+  if(checkState.soloSubject && id === 'sceneActivity' && /crew|production activity|someone|stylist|assistant/i.test(val(id))) return false;
   if(isRefWardrobe && (id === 'outfitFit' || id === 'fabric' || id === 'neckline' || id === 'sleeves' || id === 'layering' || id === 'palette')) return false;
   if(isRefAccessories && (id === 'accessories' || id === 'eyewear' || id === 'bag' || id === 'footwear' || id === 'nailStyle' || id === 'hairAccessories')) return false;
   if(isRefMakeup && (id === 'makeup' || id === 'lipLook' || id === 'eyeLook' || id === 'browStyle' || id === 'complexion')) return false;
   if(isRefPose && (id === 'pose' || id === 'stance' || id === 'gesture' || id === 'motion')) return false;
   if(isRefBg && (id === 'background' || id === 'placeDetail' || id === 'sceneCategory')) return false;
   return val(id);
-}).map(([id,f])=>`${f.label}: ${sanitizeHiddenFaceText(S(val(id)), hideEyes, psTier)}.`);
+}).map(([id,f])=>`${f.label}: ${sanitizeHiddenFaceText(S(val(id)), hideEyes, psTier, psObfuscMode)}.`);
 if(extraLines.length){
   lines.push('ADDITIONAL CREATIVE DETAILS');
   lines.push(extraLines.join('\n'));
@@ -7996,8 +8017,8 @@ function resetAll(){
 Object.entries(fields).forEach(([id,f])=>{
   if(!lockedFields.has(id)) values[id]=f.opts[f.def];
 });
-applyCollagePreset('journey');
 finishChecks.forEach(c=>checkState[c.id]=c.checked);
+preserveHairTexture=true;
 customDirection='';
 extraNegative='';
 outputType='single';
@@ -8006,6 +8027,7 @@ salonHairMoisture='damp';
 photoHairMoisture='dry';
 salonSeatingMode='chair';
 wardrobeMode='ensemble';
+if(!lockedFields.has('salonCollageFlow')) applyCollagePreset('journey');
 syncSalonStageWithSeatingMode();
 lookbookMode=false;
 activeShot='all';

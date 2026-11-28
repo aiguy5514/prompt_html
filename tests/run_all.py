@@ -178,7 +178,7 @@ const cuts = [
   { key: 'pony', cut: api.getHair().find(h => h.label.includes('Sleek high ponytail')), arch: 'Keep the ponytail, bun, braid, or slicked back crown 100% neatly secured' },
   { key: 'chin', cut: api.getHair().find(h => h.label.includes('Chin-length French bob')), arch: 'Strictly keep the bob hem ending crisply at chin/jawline level' },
   { key: 'pixie', cut: api.getHair().find(h => h.label.includes('Short side-part crop')), arch: 'Keep the crisp cropped pixie crown & nape true to cut' },
-  { key: 'long', cut: api.getHair().find(h => h.label.includes('tucked behind ears')), arch: 'Veronica-Lake satin sweep' },
+  { key: 'long', cut: api.getHair().find(h => h.label.includes('tucked behind ears')), arch: 'continuous, combed front/side cascade stopping cleanly at the cut perimeter' },
 ];
 for (const tc of cuts) {
   vals.salonHaircut = tc.cut;

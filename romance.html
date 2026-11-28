@@ -1229,23 +1229,25 @@ function buildPrompt(){
     apparelText = val('romanceOutfit') || 'a cropped black leather moto jacket worn over a ribbed tank and denim';
   }
 
+  const settingText = val('romanceSetting');
+  const isBikeScene = /bike|motorcycle|pillion|highway|helmet|roadster|cafe racer|scooter/i.test((values.romanceSceneType?.text || '') + ' ' + settingText + ' ' + val('romanceInteraction'));
   const helmetOpt = values.romanceHelmetMode || helmetModeOpts[0];
   let helmetClause = '';
-  if(helmetOpt.id === 'resting'){
-    helmetClause = 'Motorcycle Helmet Continuity: Both riders are completely bareheaded enjoying the view; classic vintage helmets rest securely hung on the motorcycle\'s chrome handlebar mirrors, leaving her hair completely unencumbered in the natural breeze with zero helmet distortion.';
-  } else if(helmetOpt.id === 'open_face'){
-    helmetClause = 'Motorcycle Helmet Continuity: She wears a classic cream open-face 3/4 retro motorcycle helmet with an authentic leather chin strap, keeping her full facial expression open and visible; delicate front fringe bangs and side wisps frame her cheekbones cleanly outside the helmet edge with crisp boundary separation between helmet shell and hair fibers.';
-  } else {
-    helmetClause = 'Motorcycle Headwear & Physics: Bareheaded with zero helmet on her head; her hair catches the natural wind currents in dynamic buoyant motion with authentic aerodynamic flow and zero plastic helmet distortion.';
+  if(isBikeScene){
+    if(helmetOpt.id === 'resting'){
+      helmetClause = 'Motorcycle Helmet Continuity: Both riders are completely bareheaded enjoying the view; classic vintage helmets rest securely hung on the motorcycle\'s chrome handlebar mirrors, leaving her hair completely unencumbered in the natural breeze with zero helmet distortion.';
+    } else if(helmetOpt.id === 'open_face'){
+      helmetClause = 'Motorcycle Helmet Continuity: She wears a classic cream open-face 3/4 retro motorcycle helmet with an authentic leather chin strap, keeping her full facial expression open and visible; delicate front fringe bangs and side wisps frame her cheekbones cleanly outside the helmet edge with crisp boundary separation between helmet shell and hair fibers.';
+    } else {
+      helmetClause = 'Motorcycle Headwear & Physics: Bareheaded with zero helmet on her head; her hair catches the natural wind currents in dynamic buoyant motion with authentic aerodynamic flow and zero plastic helmet distortion.';
+    }
   }
 
   const moistClause = romanceHairMoisture === 'wet'
     ? 'Mandatory Wet Hair Physics: Thoroughly water-soaked, dripping strands clumping in heavy glossy ribbons against her temples, neck, and collar with authentic aquatic luster.'
     : (romanceHairMoisture === 'damp'
-      ? 'Damp Hair Physics: Cleanly misted damp strands holding soft road-spray moisture and fine droplet sheen.'
-      : 'Dry Blown-Out Hair Physics: Fresh, lightweight dry hair catching wind currents with voluminous bounce, natural strand separation, and fine organic flyaways.');
-
-  const settingText = val('romanceSetting');
+      ? 'Damp Hair Physics: Cleanly misted damp strands holding soft moisture and fine droplet sheen.'
+      : 'Dry Blown-Out Hair Physics: Fresh, lightweight dry hair with voluminous bounce, natural strand separation, and fine organic flyaways.');
   const lightingText = val('romanceLighting');
   const framingText = val('romanceFraming');
   const angleText = val('romanceAngle');
@@ -2068,7 +2070,11 @@ function load(){
 
 // UI Wire-up
 el('randomTop')?.addEventListener('click', randomizeAll);
-el('shuffleLooks')?.addEventListener('click', randomizeAll);
+el('shuffleLooks')?.addEventListener('click', () => {
+  STARTER_PRESETS.sort(() => Math.random() - 0.5);
+  renderPresets();
+  toast('Shuffled romance preset cards.');
+});
 el('copyTop')?.addEventListener('click', () => copy(el('prompt').value));
 el('copy')?.addEventListener('click', () => copy(el('prompt').value));
 el('resetTop')?.addEventListener('click', resetAll);
