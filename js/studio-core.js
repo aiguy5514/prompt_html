@@ -2784,8 +2784,7 @@ const GROUPS=[
 ['salonVenueSec','Staffing, Crowd & Atmosphere',['salonBarberStaff','salonBustle','salonTime','salonStationProps']],
 ['salonStageSec','Haircut Progress & Barber',['salonStage','salonStylist']],
 ['salonStageSec','Client Pose, Expression & Reaction',['salonChairPose','salonBarberPose','salonExpression']],
-['salonStageSec','Stool & Intimate Barber Setup',['salonStoolType','salonBarberProximity']],
-['salonStageSec','Hair Work & Model Posture',['salonIntimateHairAction','salonStoolModelPosture']],
+['salonStageSec','Stool & Intimate Barber Setup',['salonStoolType','salonBarberProximity','salonStoolModelPosture']],
 ['salonStageSec','Barber Lotions, Tonics & Scalp Care',['salonLotion']],
 ['salonHairSec','Haircut Blueprint & State',['salonHairCategory','salonHaircut','salonFaceHairCoverage','salonFaceObfuscMode','salonHairTexture','salonClipperGuard']],
 ['salonCameraSec','Cutting Cape & Realism',['salonCape']],
@@ -4216,16 +4215,17 @@ allOrdered.forEach(([id,f])=>{
   }
 
   if(currentStudioMode === 'salon' && activeSection === 'salonStageSec'){
+    if(id === 'salonIntimateHairAction') return;
     const isStool = (salonSeatingMode === 'stool');
     const isGrooming = (salonSeatingMode === 'grooming_men');
     if(!isStool){
-      if(id === 'salonStoolType' || id === 'salonBarberProximity' || id === 'salonIntimateHairAction' || id === 'salonStoolModelPosture') return;
+      if(id === 'salonStoolType' || id === 'salonBarberProximity' || id === 'salonStoolModelPosture') return;
       if(isGrooming && (id === 'salonStylist' || id === 'salonChairPose')) return;
       if(!isGrooming && id === 'salonBarberPose') return;
       if(coreSet.has(id)) primaryFields.push([id,f]);
       else secondaryFields.push([id,f]);
     } else {
-      if(id === 'salonStage' || id === 'salonStylist' || id === 'salonChairPose' || id === 'salonBarberPose') return;
+      if(id === 'salonStylist' || id === 'salonChairPose' || id === 'salonBarberPose') return;
       if(coreSet.has(id)) primaryFields.push([id,f]);
       else secondaryFields.push([id,f]);
     }
@@ -6143,13 +6143,12 @@ function buildSalonPrompt(){
 
   const stoolTypeVal = S(val('salonStoolType'));
   const stoolProxVal = S(val('salonBarberProximity'));
-  const rawStoolActVal = S(val('salonIntimateHairAction'));
   const stoolPostRaw = S(val('salonStoolModelPosture'));
   const salonCamStr = ((values.salonCamera?.label || '') + ' ' + (val('salonCamera') || '')).toLowerCase();
   const salonPoseStageStr = (isFemaleModelBarber
     ? ((values.salonStage?.label || '') + ' ' + (val('salonStage') || '') + ' ' + (values.salonBarberPose?.label || '') + ' ' + (val('salonBarberPose') || ''))
     : (isStool
-      ? ((values.salonStoolModelPosture?.label || '') + ' ' + (val('salonStoolModelPosture') || '') + ' ' + (values.salonIntimateHairAction?.label || '') + ' ' + (val('salonIntimateHairAction') || ''))
+      ? ((values.salonStoolModelPosture?.label || '') + ' ' + (val('salonStoolModelPosture') || '') + ' ' + (values.salonStage?.label || '') + ' ' + (val('salonStage') || ''))
       : ((values.salonStage?.label || '') + ' ' + (val('salonStage') || '') + ' ' + (values.salonChairPose?.label || '') + ' ' + (val('salonChairPose') || '')))
   ).toLowerCase();
   const salonObfuscMode = values.salonFaceObfuscMode?.text || 'none';
@@ -6166,7 +6165,6 @@ function buildSalonPrompt(){
   const isSalonHeavyVeil = isSalon80_85 || isSalon95_100;
   const isSalonDeepVeil = isSalon65_70 || isSalonHeavyVeil;
   const hideEyes = isFaceHidden || isSalonDeepVeil || hasSalonObfusc;
-  const stoolActVal = sanitizeHiddenFaceText(rawStoolActVal, hideEyes, salonVeilTier, salonObfuscMode);
   const stoolPostVal = sanitizeHiddenFaceText(stoolPostRaw, hideEyes, salonVeilTier, salonObfuscMode);
 
   const salonHairLower = (values.salonHaircut?.label || '').toLowerCase();
@@ -6206,10 +6204,11 @@ function buildSalonPrompt(){
       .replace(/ponytail tail ends/gi, 'tapered hair ends')
       .replace(/gathers the ponytail tail, twisting the ends/gi, 'gathers the damp ends gently, twisting the tips');
   }
-  const stageText = sanitizeHiddenFaceText(sanitizeGrooming(sanitizeStool(rawStageText)), hideEyes, salonVeilTier);
+  const stageText = sanitizeHiddenFaceText(sanitizeGrooming(sanitizeStool(rawStageText)), hideEyes, salonVeilTier, salonObfuscMode);
+  const stoolActVal = stageText;
 
   // Moisture vs Stage / Haircut compatibility awareness
-  const stageCheckBlob = (isStool ? ((values.salonIntimateHairAction?.label || '') + ' ' + stoolActVal) : (stageLabelVal + ' ' + stageText)).toLowerCase();
+  const stageCheckBlob = (stageLabelVal + ' ' + stageText).toLowerCase();
   const hairCheckBlob = (salonHairLower + ' ' + haircutText).toLowerCase();
   const isExplicitWetStage = /spray bottle|water mist|mist soak|spray-soak|water-mist soak|towel blotting damp|towel-squeezing|towel-scrubbing|shampoo basin|shampoo bowl|conditioning mask|comb-down veil/i.test(stageCheckBlob);
   const isExplicitDryStage = /blowout|hairdryer|flat-iron|c-curve beveling|round-brush|curling wand|dry visual carving|dry freehand|dry sculpting|curl-by-curl dry|loose hair blast/i.test(stageCheckBlob);
@@ -6761,8 +6760,8 @@ function buildSalonPrompt(){
     lines.push('');
   } else if(outputType === 'triptych'){
     lines.push('THREE-PANEL EDITORIAL TRIPTYCH PROGRESSION (DYNAMIC 3-FRAME SEQUENCE)');
-    const activeClientStageLabel = isStool ? S(values['salonIntimateHairAction']?.label || 'Active hair work') : stageLabel;
-    const activeClientStageText = isStool ? stoolActVal : stageText;
+    const activeClientStageLabel = stageLabel;
+    const activeClientStageText = stageText;
     if(isFemaleModelBarber){
       lines.push('Generate a continuous 3-panel horizontal triptych depicting the grooming service progression from left to right, maintaining strict identity and scene consistency across all 3 panels:');
       lines.push(`• PANEL 1 (LEFT) — PRE-SERVICE PREP: Male client draped in ${capeText} at ${venueText}; female model (barber) preparing tools and consulting with her client.`);
@@ -7083,7 +7082,7 @@ function buildSalonPrompt(){
   const summaryIds = isFemaleModelBarber
     ? ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonBarberPose', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']
     : (isStool
-      ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonIntimateHairAction', 'salonStoolModelPosture', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']
+      ? ['mode', 'salonVenue', 'salonTime', 'salonStoolType', 'salonBarberProximity', 'salonStage', 'salonStoolModelPosture', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']
       : ['mode', 'salonVenue', 'salonTime', 'salonStage', 'salonChairPose', 'salonStylist', 'salonExpression', 'salonHaircut', 'salonFaceHairCoverage', 'salonClipperGuard', 'salonCape', 'salonCamera']);
   if(hasSalonObfusc){
     const covIdx = summaryIds.indexOf('salonFaceHairCoverage');
