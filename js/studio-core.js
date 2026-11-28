@@ -69,6 +69,10 @@ const angle=[O('Eye-level candid angle','an eye-level candid camera angle','','a
   O('Sideways wide environmental profile capturing full setting', 'a wide-angle environmental side-profile composition placing the model in lateral silhouette across the frame, balancing her side posture with rich architectural and environmental depth', '', 'side'),
   O('Sideways high-angle 45-degree downward profile crop', 'a high 45-degree angle looking down onto the model\'s side profile, tracing the cheekbone slope, temple, and shoulders in clean diagonal geometry', '', 'side'),
   O('Sideways cinematic tracking profile angle', 'a cinematic lateral tracking camera angle capturing the model from a clean sideways perspective with organic movement and realistic depth', '', 'side'),
+  O('Left side 90-degree clean profile camera','a clean 90-degree straight-on left-side profile camera positioned directly to the subject\'s left at eye level, capturing her left lateral silhouette squarely from the left','','side'),
+  O('Right side 90-degree clean profile camera','a clean 90-degree straight-on right-side profile camera positioned directly to the subject\'s right at eye level, capturing her right lateral silhouette squarely from the right','','side'),
+  O('Left 3/4 side camera (45° left angle)','a clean eye-level 3/4 side camera positioned 45 degrees to the subject\'s left, framing her left-side silhouette and profile','','side'),
+  O('Right 3/4 side camera (45° right angle)','a clean eye-level 3/4 side camera positioned 45 degrees to the subject\'s right, framing her right-side silhouette and profile','','side'),
   O('Simple straight-on eye-level camera','a simple, straight-on eye-level camera angle facing the subject squarely from the front (shoulders, torso, and face oriented directly toward the lens, NOT sideways or 3/4 profile) with zero tilt','','front'),
   O('Straight-on waist-up front camera','a clean straight-on front-facing camera angle from waist-up height with shoulders and torso facing squarely toward the camera, level horizon, and natural perspective','','front'),
   O('Straight-on full-body front camera','a simple straight-on full-body front camera angle positioned at chest height facing the subject squarely from the front with zero distortion or tilt','','front'),
@@ -1215,7 +1219,13 @@ const salonCamera = makeOpts([
   ['📷 Front · Clean Level Front Close-Up (Face & Hairline)', 'a clean straight-on eye-level close-up camera facing the client squarely from the front to capture her face, hairline, and front haircut silhouette directly (NOT side profile)', '', 'front'],
   ['📷 Front · Frontal Client Straight-On Portrait', 'a straight-on frontal portrait camera framing the seated client squarely at eye level with soft studio background bokeh', '', 'front'],
 
-  // 👤 Side & Profile Cameras (3)
+  // 👤 Side & Profile Cameras (9)
+  ['👤 Side · Left Side 90° Clean Profile (Eye-Level)', 'a clean 90-degree straight-on left-side profile camera positioned directly to the client\'s left at eye level, capturing her left lateral silhouette, ear contour, and left-side haircut outline squarely from the left', '', 'side'],
+  ['👤 Side · Right Side 90° Clean Profile (Eye-Level)', 'a clean 90-degree straight-on right-side profile camera positioned directly to the client\'s right at eye level, capturing her right lateral silhouette, ear contour, and right-side haircut outline squarely from the right', '', 'side'],
+  ['👤 Side · Left 3/4 Side Camera (45° Left Angle)', 'a clean eye-level 3/4 side camera positioned 45 degrees to the client\'s left, framing her left-side silhouette and haircut profile', '', 'side'],
+  ['👤 Side · Right 3/4 Side Camera (45° Right Angle)', 'a clean eye-level 3/4 side camera positioned 45 degrees to the client\'s right, framing her right-side silhouette and haircut profile', '', 'side'],
+  ['👤 Side · Left Side Medium Shot (Waist-Up Profile)', 'a level medium camera positioned squarely on the client\'s left side, capturing her left lateral posture, draped cape, and side haircut silhouette from waist-up', '', 'side'],
+  ['👤 Side · Right Side Medium Shot (Waist-Up Profile)', 'a level medium camera positioned squarely on the client\'s right side, capturing her right lateral posture, draped cape, and side haircut silhouette from waist-up', '', 'side'],
   ['👤 Side · 3/4 Angle Framing Draped Cape & Silhouette', 'an eye-level 3/4 candid side camera framing the client\'s side silhouette, draped cape, and haircut profile', '', 'side'],
   ['👤 Side · 90° Clean Side Profile & Neckline Arc', 'a clean 90-degree side profile camera angle showcasing the client\'s lateral silhouette, neck curve, and haircut outline against the salon backdrop', '', 'side'],
   ['👤 Side · Sideways Turn with Model Looking Away', 'a pure side-angle camera perspective capturing the client turned sideways facing away from the camera, highlighting her lateral haircut silhouette and draped cape', '', 'side'],
