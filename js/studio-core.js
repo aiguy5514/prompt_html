@@ -838,7 +838,39 @@ const salonStage = makeOpts([
   ["⚡ Clipper · Female model (barber) detailing male client's beard-to-fade cheek transition with trimmers", "beard-fade detailing: the adult female model stands closely beside the reclined male client, blending his temple fade seamlessly into his sculpted beard with precision trimmers", "", "clipper"],
   ["🪒 Razor · Female model (barber) straight-razor cleaning male client's nape & behind-ear hairline", "nape razor precision: the adult female model tilts the male client's head gently forward, stretching neck skin taut with one hand while gliding a straight razor along his bare nape", "", "razor"],
   ["🧰 Prep & Sectioning · Female model (barber) misting & parting male client's hair before scissor cut", "barber prep moment: the adult female model spritzes fine water mist over the male client's crown and carves a crisp side parting with a carbon tail comb", "", "prep"],
-  ["🧹 Cleanup · Female model (barber) brushing cut hair off male client's face & neck with talc duster", "barber cleanup moment: the adult female model sweeps a soft talc-dusted horsehair neck brush gently across the male client's temples, ears, and collar after his haircut", "", "cleanup"]
+  ["🧹 Cleanup · Female model (barber) brushing cut hair off male client's face & neck with talc duster", "barber cleanup moment: the adult female model sweeps a soft talc-dusted horsehair neck brush gently across the male client's temples, ears, and collar after his haircut", "", "cleanup"],
+  ["🧰 Prep & Sectioning · Detangling hair gently from ends upward with wide-tooth comb", "patient pre-cut prep: the barber anchors mid-lengths with one palm and gently detangles from the bottom ends upward using a wide-tooth comb without pulling", "", "prep"],
+  ["🧰 Prep & Sectioning · Misting stubborn crown cowlick and combing flat", "cowlick control: the barber spritzes a targeted mist onto a natural crown cowlick and combs it flat against the scalp to calibrate accurate cutting tension", "", "prep"],
+  ["🧰 Prep & Sectioning · Checking natural dry fall and parting balance after head shake", "natural fall check: pausing briefly as the client gives a gentle head shake so the barber can inspect how her hair settles into its organic parting", "", "prep"],
+  ["🧰 Prep & Sectioning · Parting wet crown with fingertips and matte section clips", "clean quadrant prep: the barber parts hair cleanly with fingertips and pins upper tiers out of the way with matte sectioning clips", "", "prep"],
+  ["🧰 Prep & Sectioning · Measuring shoulder-level parity with twin comb spines", "parity measurement: sliding twin cutting combs down both sides of the shoulders to verify even left-right baseline length before trimming", "", "prep"],
+  ["✂️ Precision Cut · Point-cutting dry ends lightly over open fingers", "subtle dry detailing: the barber lifts dry perimeter ends lightly over open fingers and point-cuts soft micro-notches for natural movement", "", "cutting"],
+  ["✂️ Precision Cut · Checking left-right collarbone length parity with twin finger-holds", "symmetry check: holding corresponding left and right front strands between thumb and forefinger at collarbone level to confirm exact even length", "", "cutting"],
+  ["✂️ Precision Cut · Horizontal baseline trim straight across back of shoulders", "clean back trim: the barber combs back hair straight down against the cape and executes a steady horizontal baseline trim across the shoulders", "", "cutting"],
+  ["✂️ Precision Cut · Freehand feathering wispy nape hairs with shear tips", "soft nape detailing: lifting the back hairline lightly with a narrow comb and freehand-feathering wispy nape hairs with shear tips", "", "cutting"],
+  ["✂️ Precision Cut · Diagonal cheek-frame slide-cut along front perimeter", "face-framing pass: sliding semi-open shear blades gently downward along front cheekbone strands for natural tapered framing", "", "cutting"],
+  ["✂️ Precision Cut · Slicing internal weight beneath untouched top canopy", "internal debulking: holding the top canopy lifted in one hand while carving light internal weight from the underlayer", "", "cutting"],
+  ["✂️ Precision Cut · Trimming stray ear-tuck wisps cleanly behind ear", "ear-line cleanup: combing side hair lightly behind the ear and snipping stray uneven wisps cleanly with detailing shears", "", "cutting"],
+  ["✂️ Precision Cut · Aligning front fringe cleanly across brow bone", "front fringe alignment: combing front hair flat over the forehead and aligning a clean, level snip across the brow bone", "", "cutting"],
+  ["✂️ Precision Cut · Elevating 45-degree back layers for soft graduation", "soft graduation: elevating back panels at a 45-degree angle between braced fingers and snipping smooth, blended layers", "", "cutting"],
+  ["⚡ Clipper & Fade · Quietly tapering lower nape hairline with trimmer-over-comb", "clean nape taper: angling a slim comb against the lower nape and skimming detail trimmers smoothly across the comb edge", "", "clipper"],
+  ["⚡ Clipper & Fade · Blending sideburn taper into natural cheek wisps", "sideburn blend: gently tapering the sideburn edge with precision trimmers so it blends naturally into soft temple wisps", "", "clipper"],
+  ["⚡ Clipper & Fade · Detail-trimming stray neck hairs below hemline", "clean hairline pass: guiding zero-gap trimmers lightly along the bare lower neck below the finished hemline", "", "clipper"],
+  ["🧹 Cleanup · Brushing tiny clipped hair needles off forehead and nose with soft brush", "gentle face cleanup: sweeping a soft clean brush lightly across the client's forehead, bridge of nose, and cheekbones to clear tiny clipped hairs", "", "cleanup"],
+  ["🧹 Cleanup · Towel-blotting excess water and checking natural air-dry bounce", "post-wash check: gently blotting excess moisture with a folded white towel and cupping the ends lightly to inspect natural bounce", "", "cleanup"],
+  ["🧹 Cleanup · Combing finished cut into natural parting for final inspection", "final comb-out: drawing a wide-tooth comb smoothly through the finished haircut into its natural parting", "", "cleanup"],
+  ["✂️ Precision Cut · Female model (barber) scissor-over-comb blending male client's crown cowlick", "barber crown blending: the adult female model uses a flat barber comb and stainless shears to smoothly blend the male client's stubborn crown cowlick", "", "cutting"],
+  ["✂️ Precision Cut · Female model (barber) detailing male client's mustache & upper lip line with mini shears", "mustache detailing: the adult female model leans in beside the male client with miniature detailing shears to crisp up his mustache and upper lip line", "", "cutting"],
+  ["✂️ Precision Cut · Female model (barber) checking left-right fade symmetry in mirror from behind", "fade symmetry check: the adult female model steps behind the hydraulic chair, sighting across the mirror reflection to verify balanced left-right temple fade height on her male client", "", "cutting"],
+  ["✂️ Precision Cut · Female model (barber) tapering sideburn points with pocket comb & shears", "sideburn tailoring: the adult female model lifts the male client's sideburn hair with a pocket comb and snips crisp tapered points with precision shears", "", "cutting"],
+  ["⚡ Clipper & Fade · Female model (barber) blending beard into temple fade with guard-lever flick", "beard-to-fade blend: the adult female model adjusts the clipper taper lever and flicks smoothly upward to seamlessly blend the male client's beard into his temple fade", "", "clipper"],
+  ["⚡ Clipper & Fade · Female model (barber) cleaning stray neck & ear-line hairs with T-blade detailer", "clean edge-up: the adult female model gently holds the male client's ear forward and traces clean stray neck and ear-line hairs with a T-blade detailer", "", "clipper"],
+  ["⚡ Clipper & Fade · Female model (barber) checking nape neckline straightness from behind", "nape check: the adult female model stands directly behind the male client's chair, sighting down the lower nape hairline to verify a clean straight finish", "", "clipper"],
+  ["🪒 Razor Craft · Female model (barber) straight-razor sculpting crisp cheek-line & sideburn edge on male client", "cheek-line razor craft: the adult female model stretches the male client's cheek skin taut and pulls a gleaming straight razor cleanly along his upper beard cheek-line", "", "razor"],
+  ["🧰 Prep & Sectioning · Female model (barber) parting & misting male client's thick crown before scissor cut", "crown prep: the adult female model mists the male client's thick crown with water and parts clean cutting sections with a carbon comb", "", "prep"],
+  ["🧖 Spa & Steam · Female model (barber) pressing hot eucalyptus towel & soothing temple acupressure on male client", "barber spa finish: the adult female model wraps a steaming hot towel around the male client's face and applies soothing temple acupressure", "", "steam"],
+  ["💆 Champi · Female model (barber) performing rhythmic scalp & neck-shoulder acupressure on male client", "champi & shoulder relief: the adult female model stands behind the male client performing rhythmic scalp kneading and firm trapezius acupressure", "", "champi"],
+  ["🧹 Cleanup · Female model (barber) brushing clipped hair dust off male client's neck & collar with duster", "collar cleanup: the adult female model sweeps a soft horsehair neck duster gently around the male client's neck and collar to clear clipped hair dust", "", "cleanup"]
 ]);
 
 const salonStylist = makeOpts([
@@ -998,7 +1030,21 @@ const salonIntimateHairAction = makeOpts([
   ["🪒 Razor · Straight-razor cleaning fine nape baby hairs beneath finished cut on stool", "pulling an exposed folding straight razor cleanly downward across her bare nape beneath the finished haircut hemline", "", "razor"],
   ["🧰 Wet Prep · Continuous mist-bottle soak & flat comb-down before blunt chop on stool", "pumping fine cooling water mist steadily across her hair while combing straight down from crown to ends until hair hangs sleek and heavy", "", "prep"],
   ["🧰 Wet Prep · Unclipping upper butterfly clamps layer-by-layer as cut progresses on stool", "unfastening matte salon clamps systematically from her upper crown so heavy glossy wet hair cascades down over freshly cut lower tiers", "", "prep"],
-  ["🧹 Cleanup · Shaking out cutting cape & brushing stray clippings off collarbone on stool", "unclipping the neck clasp behind her on the low stool, sweeping the cutting cape cleanly off her shoulders, and brushing stray clippings off her collarbone", "", "cleanup"]
+  ["🧹 Cleanup · Shaking out cutting cape & brushing stray clippings off collarbone on stool", "unclipping the neck clasp behind her on the low stool, sweeping the cutting cape cleanly off her shoulders, and brushing stray clippings off her collarbone", "", "cleanup"],
+  ["🧰 Wet Prep · Detangling hair gently from ends upward on stool", "anchoring mid-lengths behind the low stool with one palm and gently detangling from ends upward with a wide-tooth comb", "", "prep"],
+  ["🧰 Wet Prep · Misting stubborn crown cowlick flat on stool", "spritzing targeted water mist onto her crown cowlick from behind the stool and combing it flat to calibrate cutting tension", "", "prep"],
+  ["🧰 Wet Prep · Checking natural hair fall after gentle head shake on stool", "pausing behind the low stool while she gives a light head shake so the barber can inspect natural parting and fall", "", "prep"],
+  ["✂️ Shear Cut · Point-cutting dry ends lightly over open fingers on stool", "lifting dry perimeter ends lightly over open fingers beside her shoulder on the stool and point-cutting soft micro-notches", "", "cutting"],
+  ["✂️ Shear Cut · Checking left-right collarbone parity with twin finger-holds on stool", "stepping beside the low stool to hold matching left and right front strands at collarbone level to confirm exact even length", "", "cutting"],
+  ["✂️ Shear Cut · Horizontal baseline trim straight across back of shoulders on stool", "combing back hair flat against the draped cape from behind the stool and executing a steady horizontal baseline trim", "", "cutting"],
+  ["✂️ Shear Cut · Freehand feathering wispy nape hairs with shear tips on stool", "lifting the back hairline lightly with a narrow comb from behind the stool and freehand-feathering wispy nape hairs", "", "cutting"],
+  ["✂️ Shear Cut · Trimming stray ear-tuck wisps cleanly behind ear on stool", "combing side hair lightly behind her ear beside the stool and snipping stray uneven wisps cleanly with detailing shears", "", "cutting"],
+  ["✂️ Shear Cut · Elevating 45-degree back layers for soft graduation on stool", "elevating back panels at a 45-degree angle from behind the stool and snipping smooth, blended layers", "", "cutting"],
+  ["⚡ Clipper · Quietly tapering lower nape hairline with trimmer-over-comb on stool", "angling a slim comb against her lower nape from behind the stool and skimming detail trimmers smoothly across the comb edge", "", "clipper"],
+  ["⚡ Clipper · Blending sideburn taper into natural cheek wisps on stool", "gently tapering her sideburn edge beside her cheek on the stool so it blends naturally into soft temple wisps", "", "clipper"],
+  ["🧹 Cleanup · Brushing tiny clipped hair needles off forehead and nose on stool", "sweeping a soft clean brush lightly across her forehead, bridge of nose, and cheekbones beside the stool to clear tiny clipped hairs", "", "cleanup"],
+  ["🧹 Cleanup · Towel-blotting excess water and checking bounce on stool", "gently blotting excess moisture with a folded white towel behind the stool and cupping ends lightly to inspect natural bounce", "", "cleanup"],
+  ["🧹 Cleanup · Combing finished cut into natural parting on stool", "drawing a wide-tooth comb smoothly through her finished haircut into its natural parting from behind the stool", "", "cleanup"]
 ]);
 
 const salonStoolModelPosture = makeOpts([
@@ -1075,7 +1121,15 @@ const salonBarberPose = makeOpts([
   ["👤 Profile · Leaning closely over reclined headrest for straight-razor throat & neckline pass", "the adult female model hinges smoothly over the reclined chair headrest, stretching the male client's neck skin taut with one hand while pulling a clean straight-razor stroke", "", "profile"],
   ["🔍 Evaluation · Crouched eye-level beside temple detailing crisp burst-fade crescent", "the adult female model bends smoothly to temple height beside the chair armrest, holding the male client's ear tip forward while carving a tight semicircular burst fade", "", "evaluation"],
   ["🫂 Behind · Cradling male client's head gently at porcelain wash basin during scalp scrub", "the adult female model stands at the head of the reclined wash basin, cradling the male client's wet crown gently in her palms while massaging foaming shampoo into his scalp", "", "behind"],
-  ["👤 Profile · Resting one hand warmly on male client's shoulder while sighting mirror fade symmetry", "the adult female model rests one reassuring hand on the male client's draped shoulder, tilting her head beside his reflection in the mirror to check left-right fade balance", "", "profile"]
+  ["👤 Profile · Resting one hand warmly on male client's shoulder while sighting mirror fade symmetry", "the adult female model rests one reassuring hand on the male client's draped shoulder, tilting her head beside his reflection in the mirror to check left-right fade balance", "", "profile"],
+  ["🔍 Evaluation · Standing at 3/4 front checking male client's beard & hairline symmetry", "the adult female model stands at a 3/4 front angle beside the chair, sighting across the male client's brow and jawline to check beard and hairline symmetry", "", "evaluation"],
+  ["🫂 Behind · Leaning over headrest bracing male client's head gently against her forearm", "the adult female model leans closely over the chair headrest, bracing the male client's head gently and steadily against her forearm as she works", "", "behind"],
+  ["👂 Beside · Crouched beside armrest at ear level for crisp temple taper", "the adult female model crouches smoothly beside the hydraulic armrest at ear level, focusing intently on the male client's temple taper", "", "beside"],
+  ["👤 Profile · Leaning casually against station counter mid-consultation with comb in hand", "the adult female model leans lightly against the styling counter in relaxed profile with a carbon comb in hand during a friendly consultation", "", "profile"],
+  ["🫂 Behind · Standing directly behind chair sighting crown parting downward", "the adult female model stands upright directly behind the chair, looking straight down at the male client's crown parting to check balance", "", "behind"],
+  ["🤝 Contact · Resting one hand steadily on male client's shoulder while reaching forward with shears", "the adult female model rests one steady hand on the male client's draped shoulder while reaching forward beside his cheek with shears", "", "contact"],
+  ["👤 Profile · Stepping to side profile to sight jawline blend", "the adult female model steps cleanly into side profile beside the chair, tilting her head slightly to sight the male client's jawline blend", "", "profile"],
+  ["👂 Beside · Kneeling beside footrest for low nape edge-up", "the adult female model kneels lightly beside the chair footrest at nape height to cleanly detail the male client's lower hairline", "", "beside"]
 ]);
 
 const salonClientExpressions = makeOpts([
@@ -6817,11 +6871,11 @@ function buildSalonPrompt(){
   }
   if(checkState.hairStrands) {
     if(salonHairMoisture === 'wet' && !isExplicitDryStage) {
-      salonChecks.push('• Soaked Hair Strand Physics: Heavy saturated wet strand separation, glossy water-clumped hair ribbons clinging smoothly around temples and hairline, and zero fluffy flyaways.');
+      salonChecks.push('• Soaked Hair Strand Physics: Heavy saturated wet strand separation, water-clumped hair ribbons clinging smoothly around temples and natural scalp root emergence, with realistic wet weight and zero fluffy flyaways.');
     } else if(salonHairMoisture === 'damp' && !isExplicitDryStage) {
-      salonChecks.push('• Damp Hair Strand Physics: Cleanly aligned damp hair strands held taut, subtle translucent moisture luster along temples and parting line, controlled natural density.');
+      salonChecks.push('• Damp Hair Strand Physics: Cleanly aligned damp hair strands held taut with organic follicle root emergence at the parting, subtle translucent moisture luster along temples, and natural non-uniform light catch.');
     } else {
-      salonChecks.push('• Fine Hair Strand Physics: Distinct individual hair strands, natural parting line, delicate micro-flyaways at the temples and hairline, airy organic volume.');
+      salonChecks.push('• Fine Hair Strand Physics: Distinct individual hair strands emerging organically from the scalp parting, fine natural baby hairs along temples and nape, subtle micro-flyaways catching ambient light, and non-uniform natural sheen (zero plastic or wig-like uniformity).');
     }
   }
   if(checkState.hairTexturePreserve || preserveHairTexture) {
@@ -6987,7 +7041,7 @@ function buildSalonPrompt(){
   }
   if(checkState.noMirror) salonNegatives.push('mirrors, mirror reflections, duplicated faces, reflective glass distortion');
   if(checkState.retouch) salonNegatives.push('airbrushed skin, waxy skin, heavy beauty filters, CGI plastic sheen');
-  if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair');
+  if(checkState.hairTexturePreserve || preserveHairTexture) salonNegatives.push('altered ethnic hair texture, synthetic straightener sheen, doll-like artificial hair, wig-like hairline, painted-on scalp part, plastic mannequin hair, uniform CGI hair sheen, fused solid hair helmet');
   if(checkState.hands) salonNegatives.push('extra fingers, malformed hands, floating scissors, distorted barber grip, disembodied hands');
   if(salonHairMoisture === 'dry') {
     if(hasWashOrSprayPanel || isExplicitWetStage || isExplicitWetCut) {
@@ -7125,11 +7179,11 @@ if(checkState.hairStrands){
   if(isDeepOrHeavyVeil){
     checks.push('Render a continuous, smooth, fine-tooth-combed glossy satin sheet over the covered facial zone with zero thin patchy skin gaps and zero separated wet spaghetti strings over the mouth.');
   } else if(photoHairMoisture === 'wet'){
-    checks.push('Soaked Hair Strand Physics: Heavy saturated wet strand separation, glossy water-clumped hair ribbons clinging smoothly around temples and hairline, and zero fluffy flyaways.');
+    checks.push('Soaked Hair Strand Physics: Heavy saturated wet strand separation, water-clumped hair ribbons clinging smoothly around temples and organic scalp root emergence, with realistic wet weight and zero fluffy flyaways.');
   } else if(photoHairMoisture === 'damp'){
-    checks.push('Damp Hair Strand Physics: Cleanly aligned damp hair strands with subtle translucent moisture luster along temples and parting line.');
+    checks.push('Damp Hair Strand Physics: Cleanly aligned damp hair strands with organic follicle root emergence at the parting, subtle translucent moisture luster along temples, and natural non-uniform light catch.');
   } else {
-    checks.push('Render individual hair strands, believable volume, natural movement and subtle flyaways.');
+    checks.push('Render individual hair strands emerging organically from the scalp parting, fine natural baby hairs along temples and nape, subtle micro-flyaways catching ambient light, believable volume, and non-uniform natural sheen (zero plastic or wig-like uniformity).');
   }
 }
 if(checkState.hairTexturePreserve || preserveHairTexture){
@@ -7561,7 +7615,7 @@ if(isPsAiFace && psRefDirectives?.closingMandate){
 }
 lines.push('');
 lines.push('AVOID / NEGATIVE GUIDANCE');
-let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
+let negatives=['identity drift or a different face','unrequested facial feature changes or body reshaping','over-smoothed, waxy or plastic skin','synthetic hair clumps, wig-like hairline, painted-on scalp part, plastic mannequin hair, uniform CGI hair sheen, or helmet-like hair','distorted hands, fingers or anatomy','unrealistic fabric, impossible folds or wardrobe artifacts','stiff posing, vacant expressions or generic AI-stock-photo styling','excessive saturation, oversharpening or fake-looking lighting','duplicate accessories, visual glitches or obvious AI artifacts'];
 if(isPsAiFace){
   negatives = negatives.filter(n => !n.includes('identity drift') && !n.includes('unrequested facial feature'));
   if(psRefDirectives?.negativeAdditions?.length){

@@ -1646,7 +1646,7 @@ function buildPrompt(){
       isAiFace
         ? 'temporal face jitter across shots, inconsistent haircut length, swapped wardrobe colors'
         : 'identity drift, different face across shots, inconsistent haircut length, swapped wardrobe colors',
-      'secondary women, multiple women in background, plastic CGI airbrushed skin, deformed extra fingers'
+      'secondary women, multiple women in background, plastic CGI airbrushed skin, wig-like hairline, plastic mannequin hair, uniform CGI hair sheen, deformed extra fingers'
     ];
     if(isAiFace && refDirectives?.negativeAdditions?.length) negs.push(...refDirectives.negativeAdditions);
     const sbObfuscNegs = getObfuscNegatives(sbGlobalObfuscMode);

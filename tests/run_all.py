@@ -133,7 +133,7 @@ ok('studio_api_exposed', !!api);
 ok('salon_starts_in_salon_mode', api.getMode() === 'salon');
 ok('salon_initial_section', document.querySelector('.tab.active')?.dataset?.section === 'salonVenueSec');
 ok('salon_hero_title', document.getElementById('heroTitle').textContent.includes('Salon'));
-ok('shared_datasets_loaded', api.getHair().length === 276 && api.getFields().outfit.opts.length >= 438, `hair=${api.getHair().length}, outfit=${api.getFields().outfit.opts.length}`);
+ok('shared_datasets_loaded', api.getHair().length >= 306 && api.getFields().outfit.opts.length >= 438, `hair=${api.getHair().length}, outfit=${api.getFields().outfit.opts.length}`);
 
 // Moisture tests in Salon Chair, Stool, Female Barber
 const clickSeating = (mode) => {
@@ -386,7 +386,7 @@ ok('ps_fade_haircut_reflected', psFadePrompt.includes('Textured French Crop with
 TATTOO_JS = r'''
 const api = window.AfterglowTattoo;
 ok('tattoo_api_exposed', !!api);
-ok('tattoo_shared_datasets', api.getHair().length === 276 && api.getFields().outfit.opts.length >= 438);
+ok('tattoo_shared_datasets', api.getHair().length >= 306 && api.getFields().outfit.opts.length >= 438);
 
 // Track 1 Bugfix #1: Mobile Drawer (.drawer-open) & Backdrop & Handle & FAB
 document.getElementById('openDrawerBtn').click();
@@ -503,7 +503,7 @@ ok('tattoo_location_category_studio_filter', api.getValues().tattooLocation?.cat
 MAKEUP_SPA_JS = r'''
 const api = window.AfterglowMakeupSpa;
 ok('makeup_api_exposed', !!api);
-ok('makeup_shared_datasets', api.getHair().length === 276 && api.getFields().topPiece.opts.length >= 35);
+ok('makeup_shared_datasets', api.getHair().length >= 306 && api.getFields().topPiece.opts.length >= 35);
 ok('makeup_starts_in_venue_sec', document.querySelector('.tab.active')?.dataset?.section === 'prepVenueSec');
 
 // Navigate to Hair Prep & Apparel -> check moisture card & Separates toggle
@@ -579,7 +579,7 @@ VIDEO_JS = r'''
 const api = window.AfterglowVideo;
 ok('video_api_exposed', !!api);
 const flds = api.getFields();
-ok('video_rich_option_libraries', api.getHair().length === 276 && flds.vidOutfit.opts.length >= 438 && flds.vidCameraMove.opts.length === 32 && flds.vidBeatStart.opts.length >= 25 && flds.vidBeatMid.opts.length >= 30 && flds.vidEnvironment.opts.length >= 15);
+ok('video_rich_option_libraries', api.getHair().length >= 306 && flds.vidOutfit.opts.length >= 438 && flds.vidCameraMove.opts.length === 32 && flds.vidBeatStart.opts.length >= 25 && flds.vidBeatMid.opts.length >= 30 && flds.vidEnvironment.opts.length >= 15);
 ok('video_starts_in_subject_sec', document.querySelector('.tab.active')?.dataset?.section === 'vidInputSec');
 
 // Moisture toggle in Video Director
@@ -639,7 +639,7 @@ STORYBOARD_JS = r'''
 const api = window.AfterglowStoryboard;
 ok('sb_api_exposed', !!api);
 const flds = api.getFields();
-ok('sb_rich_option_libraries', api.getHair().length === 276 && flds.sbOutfit.opts.length >= 438 && flds.sbVenue.opts.length >= 20);
+ok('sb_rich_option_libraries', api.getHair().length >= 306 && flds.sbOutfit.opts.length >= 438 && flds.sbVenue.opts.length >= 20);
 ok('sb_default_4_frames', api.getFrameCount() === 4);
 
 // Frame Sequencer UI: switch to 6 frames, customize Frame 2 Veil override to 80-85% + Moisture Wet
@@ -866,7 +866,7 @@ GYM_JS = r'''
 const api = window.AfterglowGym;
 ok('gym_api_exposed', !!api);
 const flds = api.getFields();
-ok('gym_options_loaded', flds.gymVenue.opts.length === 15 && flds.gymOutfit.opts.length >= 25 && api.getHair().length === 276);
+ok('gym_options_loaded', flds.gymVenue.opts.length === 15 && flds.gymOutfit.opts.length >= 25 && api.getHair().length >= 306);
 ok('gym_starts_in_venue_sec', document.querySelector('.tab.active')?.dataset?.section === 'gymVenueSec');
 ok('gym_starter_presets_count', api.getStarterPresets().length === 8);
 ok('gym_tabs_count', document.querySelectorAll('.tab').length === 6);

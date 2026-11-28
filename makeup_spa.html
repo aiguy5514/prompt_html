@@ -1813,7 +1813,7 @@ function buildPrompt(){
   if(checkState.skin) checks.push('Authentic dermal micro-pores, natural skin sheen from serums/steam, and delicate fine vellus texture.');
   if(checkState.retouch) checks.push('Zero waxy plastic airbrushing, zero digital doll smoothing, and zero fake glamour glow.');
   if(checkState.hands) checks.push('All artist/model hands naturally articulated with zero floating limbs or disembodied fingers.');
-  if(checkState.hairStrands) checks.push(prepHairMoisture === 'wet' ? 'Glistening wet hair strand ribbons with zero dry fluffy frizz.' : 'Natural individual hair strands and realistic sectioning clip tension.');
+  if(checkState.hairStrands) checks.push(prepHairMoisture === 'wet' ? 'Glistening wet hair strand ribbons with natural scalp root emergence and zero dry fluffy frizz.' : 'Natural individual hair strands emerging organically from the scalp parting, fine temple baby hairs, and realistic clip tension.');
   if(checkState.noMirror) checks.push('Direct un-reflected vanity perspective with zero reflective glass panels or duplicated subjects.');
   if(checkState.noText) checks.push('Strictly zero brand logos, watermarks, cosmetic typography, or text overlays.');
 
@@ -1824,8 +1824,8 @@ function buildPrompt(){
   const negs = [
     'secondary women, multiple women in background, female makeup artist, female aesthetician',
     isAiFace
-      ? 'plastic waxy skin, heavy Photoshop retouching, artificial CGI smoothness'
-      : 'identity drift, plastic waxy skin, heavy Photoshop retouching, artificial CGI smoothness',
+      ? 'plastic waxy skin, heavy Photoshop retouching, artificial CGI smoothness, wig-like hairline, plastic mannequin hair, uniform CGI hair sheen'
+      : 'identity drift, plastic waxy skin, heavy Photoshop retouching, artificial CGI smoothness, wig-like hairline, plastic mannequin hair, uniform CGI hair sheen',
     'floating disembodied hands, malformed fingers, warped brushes, distorted dropper bottles'
   ];
   if(isAiFace && refDirectives?.negativeAdditions?.length){

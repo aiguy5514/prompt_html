@@ -1620,8 +1620,8 @@ function buildPrompt(){
   const vidObfuscNegs = getObfuscNegatives(vidObfuscMode);
   if(vidObfuscNegs.length) negs.push(...vidObfuscNegs);
   if(veilRuleObj?.neg) negs.push(veilRuleObj.neg);
-  if(vidHairMoisture === 'wet') negs.push('hair magically drying out mid-shot, dry fluffy frizz');
-  else if(vidHairMoisture === 'dry') negs.push('sudden unexplained wet slicked clumps');
+  if(vidHairMoisture === 'wet') negs.push('hair magically drying out mid-shot, dry fluffy frizz, wig-like hairline, plastic mannequin hair');
+  else if(vidHairMoisture === 'dry') negs.push('sudden unexplained wet slicked clumps, wig-like hairline, plastic mannequin hair, uniform CGI hair sheen');
   if(checkState.seamlessLoop) negs.push('jump cut at loop point, jarring pose mismatch between final and first frame');
   if(checkState.noText) negs.push('subtitles, corner watermarks, UI overlays, weird text glyphs');
   if(extraNegative.trim()) negs.push(extraNegative.trim());

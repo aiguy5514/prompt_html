@@ -815,11 +815,11 @@
         const isExplicitWetDocHair = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched/i.test(`${values.haircut?.label || ''} ${values.hairFinish?.label || ''} ${values.hairCutAction?.label || ''}`);
         if (hasMoistureRelevantHairEdit) {
           if (activeHairMoisture === 'wet') {
-            lines.push('  - Mandatory Soaked Wet Hair Physics: hair is visibly saturated with water, sleek damp strand clumping, water droplets clinging to dark ends, authentic wet sheen without dry flyaways');
+            lines.push('  - Mandatory Soaked Wet Hair Physics: hair is visibly saturated with water, sleek damp strand clumping, water droplets clinging to ends, authentic wet sheen and natural scalp root emergence without dry flyaways');
           } else if (activeHairMoisture === 'damp') {
-            lines.push('  - Damp Hair Physics: hair is towel-dried and damp, soft moisture weight, restrained clumped texture with subtle natural sheen');
+            lines.push('  - Damp Hair Physics: hair is towel-dried and damp, soft moisture weight, organic scalp root emergence, and natural non-uniform sheen');
           } else if (!isExplicitWetDocHair) {
-            lines.push('  - Dry Blown-Out Hair Physics: hair is completely dry, airy root lift, soft silky strand separation, and natural micro-flyaways catching light');
+            lines.push('  - Dry Blown-Out Hair Physics: hair is completely dry, airy root lift with natural scalp parting, fine temple/nape baby hairs, natural micro-flyaways catching light, and non-uniform natural sheen');
           }
         }
 
@@ -927,6 +927,7 @@
 
     // Hair moisture negative & veil negative
     if (hasHairEdits) {
+      negs.push('wig-like hairline', 'painted-on scalp part', 'plastic mannequin hair', 'uniform CGI hair sheen', 'fused solid hair helmet');
       const hasMoistureRelevantHairNeg = edits.some(e => ['haircut', 'hairLength', 'hairTexture', 'hairFinish'].includes(e.key));
       const isExplicitWetDocNeg = /\bwet\b|\bdamp\b|hydro|ocean-soaked|drenched/i.test(`${values.haircut?.label || ''} ${values.hairFinish?.label || ''} ${values.hairCutAction?.label || ''}`);
       if (hasMoistureRelevantHairNeg) {

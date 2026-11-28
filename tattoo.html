@@ -1896,8 +1896,8 @@ function buildPrompt(){
   lines.push('AVOID / NEGATIVE GUIDANCE:');
   const negs = [
     isAiFace
-      ? 'secondary women, multiple women, plastic waxy airbrushed skin, blurry distorted tattoo lines, misspelled lettering'
-      : 'secondary women, multiple women, identity drift, plastic waxy airbrushed skin, blurry distorted tattoo lines, misspelled lettering',
+      ? 'secondary women, multiple women, plastic waxy airbrushed skin, wig-like hairline, plastic mannequin hair, uniform CGI hair sheen, blurry distorted tattoo lines, misspelled lettering'
+      : 'secondary women, multiple women, identity drift, plastic waxy airbrushed skin, wig-like hairline, plastic mannequin hair, uniform CGI hair sheen, blurry distorted tattoo lines, misspelled lettering',
     isHealedMatte ? 'fresh red inflammation, shiny oily bandage ointment gloss' : 'faded chalky washed-out ink when fresh ink requested'
   ];
   if(isAiFace && refDirectives?.negativeAdditions?.length){

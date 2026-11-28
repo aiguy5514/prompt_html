@@ -44,7 +44,7 @@ function getVeilRule(tier, hairArch){
     chin_bob: ' HAIRCUT ARCHITECTURE RULE: Strictly keep the bob hem ending crisply at chin/jawline level—achieve coverage via a continuous, combed bob front/side sheet ending cleanly at the jawline (never sprout stray chest-length strings below the chin).',
     long_layered: ' HAIRCUT ARCHITECTURE RULE: Integrate coverage seamlessly into the layered/long cut using a continuous, combed front/side cascade stopping cleanly at the cut perimeter.'
   };
-  const ribbonCohesion = ' RIBBON COHESION RULE: Hair covering the face MUST read as a continuous, cohesive, combed hair veil with clean alignment and zero thin patchy skin gaps—NEVER separated scraggly strands dangling over mouth and chin.';
+  const ribbonCohesion = ' RIBBON COHESION RULE: Hair covering the face MUST read as a continuous, cohesive, combed natural hair veil with organic scalp root emergence, fine temple micro-strands, and clean alignment—zero thin patchy skin gaps and NEVER separated scraggly strands dangling over mouth and chin.';
   const aNote = (archNotes[hairArch] || '') + ribbonCohesion;
   const RULES = {
     '0': {
